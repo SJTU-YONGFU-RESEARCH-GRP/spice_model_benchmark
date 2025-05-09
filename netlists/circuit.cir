@@ -1,0 +1,124 @@
+* MOSFET IV and CV Characteristics Simulation with Temperature Analysis
+.option temp=27 tnom=27
+.option gmin=1e-15
+.option reltol=1e-8
+.option abstol=1e-12
+.option chgtol=1e-15
+.option method=gear
+.option TEMP=27
+.option TNOM=27
+.option TEMPSCALE=1.0
+
+* Include FreePDK45 model
+.inc ../models/ngspice-cmos/FreePDK45/nom.inc
+
+* IV Characteristics Circuit
+Vds d 0 DC 0
+Vgs g 0 DC 0
+* Reduced width for better thermal behavior
+M1 d g s b NMOS_VTG L=0.045u W=10u
+Vs s 0 DC 0
+Vb b 0 DC 0
+
+* CV Characteristics Circuit
+Vg_cv g_cv 0 DC 0 AC 1
+Vd_cv d_cv 0 DC 1.2
+Vs_cv s_cv 0 DC 0
+Vb_cv b_cv 0 DC 0
+M2_cv d_cv g_cv s_cv b_cv NMOS_VTG L=0.045u W=10u
+
+* Control block
+.control
+set filetype=ascii
+set wr_vecnames
+set wr_singlescale
+set wr_singleprecision
+set wr_formatted
+
+* Run DC analysis with temperature sweep
+echo "Starting temperature sweep"
+
+* Temperature -40°C
+option temp=-40
+echo "Running simulation at temperature: -40 °C"
+dc Vds 0 1.2 0.01 Vgs 0 1.2 0.2
+let id = i(Vds)
+let is = i(Vs)
+let ig = i(Vgs)
+let ib = i(Vb)
+let kcl = abs(id + is + ig + ib)
+* Write data in the order expected by data_reader: v(d) v(g) i(vds) i(vs) i(vb) i(vgs) kcl
+wrdata ./iv_data_-40.txt v(d) v(g) id is ib ig kcl
+
+* Temperature 0°C
+option temp=0
+echo "Running simulation at temperature: 0 °C"
+dc Vds 0 1.2 0.01 Vgs 0 1.2 0.2
+let id = i(Vds)
+let is = i(Vs)
+let ig = i(Vgs)
+let ib = i(Vb)
+let kcl = abs(id + is + ig + ib)
+wrdata ./iv_data_0.txt v(d) v(g) id is ib ig kcl
+
+* Temperature 25°C
+option temp=25
+echo "Running simulation at temperature: 25 °C"
+dc Vds 0 1.2 0.01 Vgs 0 1.2 0.2
+let id = i(Vds)
+let is = i(Vs)
+let ig = i(Vgs)
+let ib = i(Vb)
+let kcl = abs(id + is + ig + ib)
+wrdata ./iv_data_25.txt v(d) v(g) id is ib ig kcl
+
+* Temperature 50°C
+option temp=50
+echo "Running simulation at temperature: 50 °C"
+dc Vds 0 1.2 0.01 Vgs 0 1.2 0.2
+let id = i(Vds)
+let is = i(Vs)
+let ig = i(Vgs)
+let ib = i(Vb)
+let kcl = abs(id + is + ig + ib)
+wrdata ./iv_data_50.txt v(d) v(g) id is ib ig kcl
+
+* Temperature 100°C
+option temp=100
+echo "Running simulation at temperature: 100 °C"
+dc Vds 0 1.2 0.01 Vgs 0 1.2 0.2
+let id = i(Vds)
+let is = i(Vs)
+let ig = i(Vgs)
+let ib = i(Vb)
+let kcl = abs(id + is + ig + ib)
+wrdata ./iv_data_100.txt v(d) v(g) id is ib ig kcl
+
+* Temperature 150°C
+option temp=150
+echo "Running simulation at temperature: 150 °C"
+dc Vds 0 1.2 0.01 Vgs 0 1.2 0.2
+let id = i(Vds)
+let is = i(Vs)
+let ig = i(Vgs)
+let ib = i(Vb)
+let kcl = abs(id + is + ig + ib)
+wrdata ./iv_data_150.txt v(d) v(g) id is ib ig kcl
+
+* Run CV analysis
+* First set DC bias
+dc Vg_cv 0 1.2 0.01
+* Then run AC analysis at each bias point
+ac dec 10 1 1e9
+* Calculate gate capacitance directly from current
+let ig_cv = i(Vg_cv)
+let is_cv = i(Vs_cv)
+let ib_cv = i(Vb_cv)
+let cgg = -imag(ig_cv)/(2*pi*frequency)
+* Save Vg directly from DC sweep
+wrdata ./cv_data.txt v(g_cv) cgg ig_cv is_cv ib_cv
+
+quit
+.endc
+
+.end

@@ -1,0 +1,23 @@
+title: NGSPICE CMOS
+author: Wuqiong Zhao
+
+markdown: kramdown
+kramdown:
+  input: GFM
+
+plugins:
+  - jekyll-redirect-from
+whitelist:
+  - jekyll-redirect-from
+
+exclude:
+  - FreePDK45
+  - LICENSE
+  - "*.cir"
+  - "*.inc"
+  - "*.tex"
+  - .spiceinit
+  - .github
+  - .gitignore
+  - .gitattributes
+  - .vscode
