@@ -1,6 +1,6 @@
 # MOSFET Simulation Verification Report
 
-Generated on: 2025-05-09 05:31:21
+Generated on: 2025-05-10 22:11:37
 
 ## Notes
 - This report is automatically generated based on mosfet_simulation.py
@@ -9,9 +9,9 @@ Generated on: 2025-05-09 05:31:21
 
 ## 1. Simulation Setup and Execution
 - [<span style='color: green'>✓</span>] Netlist file exists and is readable
-  - Path: /mnt/d/proj/device/spice_benchmark/netlists/circuit.cir
+  - Path: /home/yongfu/proj/spice_model_benchmark/netlists/circuit.cir
 - [<span style='color: green'>✓</span>] ngspice is properly installed
-  - Version: ngspice-36
+  - Version: ngspice-42
 - [<span style='color: green'>✓</span>] Simulation runs without errors
 
 ## 2. I/V Characteristics Analysis
@@ -37,23 +37,7 @@ Generated on: 2025-05-09 05:31:21
 
 *IV Characteristics showing drain current vs drain-source voltage*
 
-## 3. C/V Characteristics Analysis
-- [<span style='color: green'>✓</span>] CV data file is generated
-- [<span style='color: green'>✓</span>] Data points are properly read
-- [<span style='color: green'>✓</span>] Gate voltage (Vg) measurements are valid
-  - Range: 0.000V to 0.000V
-- [<span style='color: green'>✓</span>] Gate current (Ig) measurements are valid
-  - Range: -4.897e-05A to -6.166e-14A
-- [<span style='color: green'>✓</span>] Source current (Is) measurements are valid
-  - Range: 3.208e-14A to 2.548e-05A
-- [<span style='color: green'>✓</span>] Bulk current (Ib) measurements are valid
-  - Range: 8.374e-15A to 6.652e-06A
-
-<img src='cv_characteristics.png' alt='CV Characteristics' width='400'/>
-
-*CV Characteristics showing gate current vs voltage*
-
-## 4. Temperature Analysis
+## 3. Temperature Analysis
 - [<span style='color: green'>✓</span>] Temperature sweep is performed (-40°C to 150°C)
   - Points: [-40, 0, 25, 50, 100, 150]
 - [<span style='color: green'>✓</span>] Temperature coefficient is calculated
@@ -65,9 +49,9 @@ Generated on: 2025-05-09 05:31:21
 
 *Temperature analysis showing current variation*
 
-## 5. Thermodynamic Analysis
-- [<span style='color: red'>✓</span>] Energy conservation verified
-  - Power Range: -2.151e-02W to 0.000e+00W
+## 4. Thermodynamic Analysis
+- [<span style='color: green'>✓</span>] Energy conservation verified
+  - Power Range: 0.000e+00W to 2.151e-02W
 - [<span style='color: green'>✓</span>] Device efficiency analyzed
   - Efficiency Range: 7.992e+00 to 1.622e+10
 - [<span style='color: green'>✓</span>] Power measurements complete

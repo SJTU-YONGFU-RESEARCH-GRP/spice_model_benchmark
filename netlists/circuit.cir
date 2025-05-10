@@ -13,19 +13,22 @@
 .inc ../models/ngspice-cmos/FreePDK45/nom.inc
 
 * IV Characteristics Circuit
-Vds d 0 DC 0
-Vgs g 0 DC 0
-* Reduced width for better thermal behavior
-M1 d g s b NMOS_VTG L=0.045u W=10u
-Vs s 0 DC 0
-Vb b 0 DC 0
+Vds_iv drain_iv 0 DC 0
+Vgs_iv gate_iv 0 DC 0
+Vs_iv source_iv 0 DC 0
+Vb_iv bulk_iv 0 DC 0
 
-* CV Characteristics Circuit
-Vg_cv g_cv 0 DC 0 AC 1
-Vd_cv d_cv 0 DC 1.2
-Vs_cv s_cv 0 DC 0
-Vb_cv b_cv 0 DC 0
-M2_cv d_cv g_cv s_cv b_cv NMOS_VTG L=0.045u W=10u
+* MOSFET device under test - standard 45nm transistor
+M1 drain_iv gate_iv source_iv bulk_iv NMOS_VTG L=0.045u W=10u
+
+* CV Characteristics Circuit - Enhanced for realistic operation in all regions
+Vg_cv gate_cv 0 DC 0 AC 1
+Vd_cv drain_cv 0 DC 1.0
+Vs_cv source_cv 0 DC 0 
+Vb_cv bulk_cv 0 DC 0
+
+* MOSFET device under test - standard 45nm transistor
+M2 drain_cv gate_cv source_cv bulk_cv NMOS_VTG L=0.045u W=10u
 
 * Control block
 .control
@@ -41,82 +44,112 @@ echo "Starting temperature sweep"
 * Temperature -40°C
 option temp=-40
 echo "Running simulation at temperature: -40 °C"
-dc Vds 0 1.2 0.01 Vgs 0 1.2 0.2
-let id = i(Vds)
-let is = i(Vs)
-let ig = i(Vgs)
-let ib = i(Vb)
+dc Vds_iv 0 1.2 0.01 Vgs_iv 0 1.2 0.2
+let id = i(Vds_iv)
+let is = i(Vs_iv)
+let ig = i(Vgs_iv)
+let ib = i(Vb_iv)
 let kcl = abs(id + is + ig + ib)
 * Write data in the order expected by data_reader: v(d) v(g) i(vds) i(vs) i(vb) i(vgs) kcl
-wrdata ./iv_data_-40.txt v(d) v(g) id is ib ig kcl
+wrdata ./iv_data_-40.txt v(drain_iv) v(gate_iv) id is ib ig kcl
 
 * Temperature 0°C
 option temp=0
 echo "Running simulation at temperature: 0 °C"
-dc Vds 0 1.2 0.01 Vgs 0 1.2 0.2
-let id = i(Vds)
-let is = i(Vs)
-let ig = i(Vgs)
-let ib = i(Vb)
+dc Vds_iv 0 1.2 0.01 Vgs_iv 0 1.2 0.2
+let id = i(Vds_iv)
+let is = i(Vs_iv)
+let ig = i(Vgs_iv)
+let ib = i(Vb_iv)
 let kcl = abs(id + is + ig + ib)
-wrdata ./iv_data_0.txt v(d) v(g) id is ib ig kcl
+wrdata ./iv_data_0.txt v(drain_iv) v(gate_iv) id is ib ig kcl
 
 * Temperature 25°C
 option temp=25
 echo "Running simulation at temperature: 25 °C"
-dc Vds 0 1.2 0.01 Vgs 0 1.2 0.2
-let id = i(Vds)
-let is = i(Vs)
-let ig = i(Vgs)
-let ib = i(Vb)
+dc Vds_iv 0 1.2 0.01 Vgs_iv 0 1.2 0.2
+let id = i(Vds_iv)
+let is = i(Vs_iv)
+let ig = i(Vgs_iv)
+let ib = i(Vb_iv)
 let kcl = abs(id + is + ig + ib)
-wrdata ./iv_data_25.txt v(d) v(g) id is ib ig kcl
+wrdata ./iv_data_25.txt v(drain_iv) v(gate_iv) id is ib ig kcl
 
 * Temperature 50°C
 option temp=50
 echo "Running simulation at temperature: 50 °C"
-dc Vds 0 1.2 0.01 Vgs 0 1.2 0.2
-let id = i(Vds)
-let is = i(Vs)
-let ig = i(Vgs)
-let ib = i(Vb)
+dc Vds_iv 0 1.2 0.01 Vgs_iv 0 1.2 0.2
+let id = i(Vds_iv)
+let is = i(Vs_iv)
+let ig = i(Vgs_iv)
+let ib = i(Vb_iv)
 let kcl = abs(id + is + ig + ib)
-wrdata ./iv_data_50.txt v(d) v(g) id is ib ig kcl
+wrdata ./iv_data_50.txt v(drain_iv) v(gate_iv) id is ib ig kcl
 
 * Temperature 100°C
 option temp=100
 echo "Running simulation at temperature: 100 °C"
-dc Vds 0 1.2 0.01 Vgs 0 1.2 0.2
-let id = i(Vds)
-let is = i(Vs)
-let ig = i(Vgs)
-let ib = i(Vb)
+dc Vds_iv 0 1.2 0.01 Vgs_iv 0 1.2 0.2
+let id = i(Vds_iv)
+let is = i(Vs_iv)
+let ig = i(Vgs_iv)
+let ib = i(Vb_iv)
 let kcl = abs(id + is + ig + ib)
-wrdata ./iv_data_100.txt v(d) v(g) id is ib ig kcl
+wrdata ./iv_data_100.txt v(drain_iv) v(gate_iv) id is ib ig kcl
 
 * Temperature 150°C
 option temp=150
 echo "Running simulation at temperature: 150 °C"
-dc Vds 0 1.2 0.01 Vgs 0 1.2 0.2
-let id = i(Vds)
-let is = i(Vs)
-let ig = i(Vgs)
-let ib = i(Vb)
+dc Vds_iv 0 1.2 0.01 Vgs_iv 0 1.2 0.2
+let id = i(Vds_iv)
+let is = i(Vs_iv)
+let ig = i(Vgs_iv)
+let ib = i(Vb_iv)
 let kcl = abs(id + is + ig + ib)
-wrdata ./iv_data_150.txt v(d) v(g) id is ib ig kcl
+wrdata ./iv_data_150.txt v(drain_iv) v(gate_iv) id is ib ig kcl
 
-* Run CV analysis
-* First set DC bias
-dc Vg_cv 0 1.2 0.01
-* Then run AC analysis at each bias point
-ac dec 10 1 1e9
-* Calculate gate capacitance directly from current
-let ig_cv = i(Vg_cv)
-let is_cv = i(Vs_cv)
-let ib_cv = i(Vb_cv)
-let cgg = -imag(ig_cv)/(2*pi*frequency)
-* Save Vg directly from DC sweep
-wrdata ./cv_data.txt v(g_cv) cgg ig_cv is_cv ib_cv
+* Enhanced CV simulation section - runs at multiple frequencies
+
+* Set up gate voltage sweep parameters
+let vg_start = -0.8   ; Start accumulation region
+let vg_stop = 1.2     ; End strong inversion
+let vg_step = 0.05    ; Small step size for smooth curve
+let num_points = floor((vg_stop - vg_start)/vg_step) + 1
+
+* Perform gate voltage sweep with measurements at each bias point
+let vg_bias = vg_start
+while vg_bias <= vg_stop
+    * Set gate bias
+    alter Vg_cv = vg_bias
+    
+    * Run AC analysis at multiple frequencies
+    * 1kHz (low frequency response)
+    ac lin 1 1k 1k
+    let cgg_1k = -imag(i(Vg_cv))/(2*3.14159*1e3)
+    
+    * 10kHz
+    ac lin 1 10k 10k
+    let cgg_10k = -imag(i(Vg_cv))/(2*3.14159*1e4)
+    
+    * 100kHz
+    ac lin 1 100k 100k
+    let cgg_100k = -imag(i(Vg_cv))/(2*3.14159*1e5)
+    
+    * 1MHz (standard frequency for CV measurements)
+    ac lin 1 1meg 1meg
+    let cgg_1m = -imag(i(Vg_cv))/(2*3.14159*1e6)
+    
+    * Calculate individual capacitance components at 1MHz
+    * These help identify the behavior in different regions
+    let cgb_1m = abs(imag(v(gate_cv,bulk_cv)/i(Vg_cv)))/(2*3.14159*1e6)
+    let cgs_1m = abs(imag(v(gate_cv,source_cv)/i(Vg_cv)))/(2*3.14159*1e6)
+    let cgd_1m = abs(imag(v(gate_cv,drain_cv)/i(Vg_cv)))/(2*3.14159*1e6)
+        
+    * Increment gate voltage
+    let vg_bias = vg_bias + vg_step
+end
+
+echo "CV simulation completed."
 
 quit
 .endc

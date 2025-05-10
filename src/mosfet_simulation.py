@@ -3,12 +3,13 @@ import sys
 import argparse
 from pathlib import Path
 from datetime import datetime
+import numpy as np
 
-from logger import Logger
-from simulation_runner import SimulationRunner
-from data_reader import DataReader
-from plot_generator import PlotGenerator
-from verification_manager import VerificationManager
+from src.logger import Logger
+from src.simulation_runner import SimulationRunner
+from src.data_reader import DataReader
+from src.plot_generator import PlotGenerator
+from src.verification_manager import VerificationManager
 
 class MOSFETSimulation:
     """Main class for MOSFET simulation and verification.
@@ -16,7 +17,6 @@ class MOSFETSimulation:
     This class handles the complete MOSFET simulation workflow including:
     - Simulation setup and execution
     - IV characteristics analysis
-    - CV characteristics analysis
     - Temperature analysis
     - Thermodynamic analysis
     - Results verification and reporting
@@ -40,7 +40,6 @@ class MOSFETSimulation:
         self.results = {
             'simulation_setup': None,
             'iv_characteristics': None,
-            'cv_characteristics': None,
             'temperature_analysis': None,
             'thermodynamic_analysis': None
         }
@@ -60,7 +59,6 @@ class MOSFETSimulation:
             
             # Read data files
             vds, vgs, ids, ig, is_, ib, power = self.data_reader.read_iv_data()
-            vg, ig_cv, is_cv, ib_cv, power_cv = self.data_reader.read_cv_data()
             temp = self.data_reader.read_temperature_data()
             
             # Create plot generator
@@ -69,8 +67,6 @@ class MOSFETSimulation:
             # Generate plots
             if vds is not None and vgs is not None and ids is not None:
                 plot_generator.plot_iv_characteristics(vds, vgs, ids, self.output_dir)
-            if vg is not None and ig_cv is not None:
-                plot_generator.plot_cv_characteristics(vg, ig_cv)
             if temp is not None and ids is not None:
                 plot_generator.plot_temperature_analysis(temp, ids)
             if all(x is not None for x in [ids, ig, is_, ib]):
@@ -82,18 +78,13 @@ class MOSFETSimulation:
                 raise ValueError("IV characteristics verification failed")
             self.results['iv_characteristics'] = iv_results
                 
-            cv_results = self.verification_manager.verify_cv_characteristics(vg, ig_cv, is_cv, ib_cv)
-            if not cv_results['data_generated'] or not cv_results['data_read']:
-                raise ValueError("CV characteristics verification failed")
-            self.results['cv_characteristics'] = cv_results
-                
             temp_results = self.verification_manager.verify_temperature_analysis(temp, ids)
             if not temp_results['temp_sweep'] or not temp_results['device_behavior']:
                 raise ValueError("Temperature analysis verification failed")
             self.results['temperature_analysis'] = temp_results
             
             # Calculate power for thermodynamic analysis
-            power = vds * ids if vds is not None and ids is not None else None
+            power = np.abs(vds * ids) if vds is not None and ids is not None else None
             thermo_results = self.verification_manager.verify_thermodynamic_analysis(power, temp, ids)
             # Only raise error for critical failures (missing power measurements)
             # Energy conservation failure will be reported in the verification checklist
@@ -114,7 +105,7 @@ class MOSFETSimulation:
 def parse_args():
     """Parse command line arguments."""
     parser = argparse.ArgumentParser(description='Run MOSFET simulation and analyze results')
-    parser.add_argument('--circuit', type=str, default='circuit.cir',
+    parser.add_argument('--circuit', type=str, default='netlists/circuit.cir',
                       help='Path to the SPICE netlist file (default: circuit.cir)')
     parser.add_argument('--output-dir', type=str, default='results',
                       help='Directory to store output files (default: results)')

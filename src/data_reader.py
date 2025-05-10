@@ -41,8 +41,8 @@ class DataReader:
                     if len(data) > 0:
                         # Map columns based on header names
                         col_map = {name: i for i, name in enumerate(header)}
-                        vds_list.extend(data[:, col_map['v(d)']])
-                        vgs_list.extend(data[:, col_map['v(g)']])
+                        vds_list.extend(data[:, col_map['v(drain_iv)']])
+                        vgs_list.extend(data[:, col_map['v(gate_iv)']])
                         ids_list.extend(data[:, col_map['id']])
                         is_list.extend(data[:, col_map['is']])
                         ib_list.extend(data[:, col_map['ib']])
@@ -83,7 +83,7 @@ class DataReader:
                 
             # Map columns based on header names
             col_map = {name: i for i, name in enumerate(header)}
-            vg = data[:, col_map['v(g_cv)']]
+            vg = data[:, col_map['v(gate_cv)']]
             cgg = data[:, col_map['cgg']]
             ig = data[:, col_map['ig_cv']]
             is_ = data[:, col_map['is_cv']]
