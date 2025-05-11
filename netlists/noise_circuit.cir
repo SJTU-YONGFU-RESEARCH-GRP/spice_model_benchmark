@@ -1,0 +1,207 @@
+* MOSFET Noise Analysis Simulation
+.option temp=27 tnom=27
+.option gmin=1e-15
+.option reltol=1e-8
+.option abstol=1e-12
+.option chgtol=1e-15
+.option method=gear
+.option TEMP=27
+.option TNOM=27
+.option TEMPSCALE=1.0
+
+* Include FreePDK45 model
+.inc ../models/ngspice-cmos/FreePDK45/nom.inc
+
+* Thermal Noise Analysis Circuit - Common source amplifier configuration
+* Supply voltage
+Vdd_noise vdd_noise 0 DC 1.2
+
+* Biasing setup for thermal noise
+Vin_noise in_noise 0 DC 0.6 AC 1
+Rb_noise in_noise gate_noise 1k       ; Bias resistor (blocks DC)
+Cb_noise in_noise gate_noise 1u       ; Coupling capacitor (passes AC)
+Rs_noise source_noise 0 100           ; Source resistor for stability
+
+* Drain and gate bias
+Rd_noise vdd_noise drain_noise 10k    ; Drain resistor - load
+Vgs_noise gate_noise source_noise DC 0 ; Initial gate-source voltage (will be altered)
+Vds_noise drain_noise source_noise DC 0 ; Initial drain-source voltage (will be altered)
+Vbulk_noise bulk_noise 0 DC 0         ; Bulk/substrate connection
+
+* MOSFET device under test
+M_noise drain_noise gate_noise source_noise bulk_noise NMOS_VTG L=0.045u W=10u
+
+* Flicker Noise Source Circuit - Separate circuit for flicker noise characterization
+* Voltage and current sources for AC analysis
+Vin_f flicker_in 0 DC 0 AC 1
+* Input stage for analysis
+Rin_f flicker_in flicker_gate 1k
+Vbias_f flicker_vdd 0 DC 1.2
+Vgs_flicker flicker_gate_bias 0 DC 0.6
+
+* MOSFET for flicker noise analysis
+M_flicker flicker_drain flicker_gate flicker_source flicker_bulk NMOS_VTG L=0.045u W=10u
+Vgs_inp_f flicker_gate flicker_gate_bias DC 0
+Rout_f flicker_drain flicker_vdd 10k
+Vbulk_f flicker_bulk 0 DC 0
+Vsrc_f flicker_source 0 DC 0
+
+* Shot Noise Test Circuit - Configured for shot noise observation
+Vdd_shot shot_vdd 0 DC 1.2 AC 1
+Vgs_shot shot_gate 0 DC 0.9
+Rload_shot shot_vdd shot_drain 10k
+
+* MOSFET for shot noise analysis
+M_shot shot_drain shot_gate shot_source shot_bulk NMOS_VTG L=0.045u W=10u
+Vbulk_shot shot_bulk 0 DC 0
+Vsrc_shot shot_source 0 DC 0
+
+* Control block
+.control
+set filetype=ascii
+set wr_vecnames
+set wr_singlescale
+set wr_singleprecision
+set wr_formatted
+
+echo "Starting noise analysis simulations"
+
+* Thermal Noise Analysis
+echo "Thermal Noise Analysis"
+* Setup bias conditions for thermal noise analysis
+
+* First bias point (0.3, 0.3)
+alter Vgs_noise = 0.3
+alter Vds_noise = 0.3
+noise v(drain_noise) Vin_noise dec 20 1 1G
+setplot noise1
+let thermal_noise = inoise_spectrum
+let freq = frequency
+write ./thermal_noise_vgs0.3_vds0.3.txt freq thermal_noise
+
+* Second bias point (0.3, 0.6)
+alter Vgs_noise = 0.3
+alter Vds_noise = 0.6
+noise v(drain_noise) Vin_noise dec 20 1 1G
+setplot noise1
+let thermal_noise = inoise_spectrum
+let freq = frequency
+write ./thermal_noise_vgs0.3_vds0.6.txt freq thermal_noise
+
+* Third bias point (0.3, 0.9)
+alter Vgs_noise = 0.3
+alter Vds_noise = 0.9
+noise v(drain_noise) Vin_noise dec 20 1 1G
+setplot noise1
+let thermal_noise = inoise_spectrum
+let freq = frequency
+write ./thermal_noise_vgs0.3_vds0.9.txt freq thermal_noise
+
+* Fourth bias point (0.3, 1.2)
+alter Vgs_noise = 0.3
+alter Vds_noise = 1.2
+noise v(drain_noise) Vin_noise dec 20 1 1G
+setplot noise1
+let thermal_noise = inoise_spectrum
+let freq = frequency
+write ./thermal_noise_vgs0.3_vds1.2.txt freq thermal_noise
+
+* Fifth bias point (0.6, 0.3)
+alter Vgs_noise = 0.6
+alter Vds_noise = 0.3
+noise v(drain_noise) Vin_noise dec 20 1 1G
+setplot noise1
+let thermal_noise = inoise_spectrum
+let freq = frequency
+write ./thermal_noise_vgs0.6_vds0.3.txt freq thermal_noise
+
+* Sixth bias point (0.6, 0.6)
+alter Vgs_noise = 0.6
+alter Vds_noise = 0.6
+noise v(drain_noise) Vin_noise dec 20 1 1G
+setplot noise1
+let thermal_noise = inoise_spectrum
+let freq = frequency
+write ./thermal_noise_vgs0.6_vds0.6.txt freq thermal_noise
+
+* Flicker (1/f) Noise Analysis
+echo "Flicker (1/f) Noise Analysis"
+* Set bias for flicker noise analysis (typically more visible at lower frequencies)
+alter Vgs_flicker = 0.6
+alter Vbias_f = 1.2
+
+* Run noise analysis with focus on lower frequencies where flicker noise dominates
+noise v(flicker_drain) Vin_f dec 20 0.1 1MEG
+setplot noise1
+let flicker_noise = inoise_spectrum
+let freq = frequency
+write ./flicker_noise.txt freq flicker_noise
+
+* Shot Noise Analysis
+echo "Shot Noise Analysis"
+* Set bias for shot noise observation
+alter Vgs_shot = 0.9
+* Run noise analysis - Ensure AC is set correctly on Vdd_shot
+noise v(shot_drain) Vdd_shot dec 20 1 1G
+setplot noise1
+let shot_noise = inoise_spectrum
+let freq = frequency
+write ./shot_noise.txt freq shot_noise
+
+* Temperature-Dependent Noise Analysis
+echo "Temperature-Dependent Noise Analysis"
+* Run noise analysis at different temperatures
+
+* First temperature -40°C
+option temp = -40
+noise v(drain_noise) Vin_noise dec 20 1 1G
+setplot noise1
+let temp_noise = inoise_spectrum
+let freq = frequency
+write ./noise_temp-40.txt freq temp_noise
+
+* Second temperature 0°C
+option temp = 0
+noise v(drain_noise) Vin_noise dec 20 1 1G
+setplot noise1
+let temp_noise = inoise_spectrum
+let freq = frequency
+write ./noise_temp0.txt freq temp_noise
+
+* Third temperature 27°C
+option temp = 27
+noise v(drain_noise) Vin_noise dec 20 1 1G
+setplot noise1
+let temp_noise = inoise_spectrum
+let freq = frequency
+write ./noise_temp27.txt freq temp_noise
+
+* Fourth temperature 50°C
+option temp = 50
+noise v(drain_noise) Vin_noise dec 20 1 1G
+setplot noise1
+let temp_noise = inoise_spectrum
+let freq = frequency
+write ./noise_temp50.txt freq temp_noise
+
+* Fifth temperature 100°C
+option temp = 100
+noise v(drain_noise) Vin_noise dec 20 1 1G
+setplot noise1
+let temp_noise = inoise_spectrum
+let freq = frequency
+write ./noise_temp100.txt freq temp_noise
+
+* Sixth temperature 150°C
+option temp = 150
+noise v(drain_noise) Vin_noise dec 20 1 1G
+setplot noise1
+let temp_noise = inoise_spectrum
+let freq = frequency
+write ./noise_temp150.txt freq temp_noise
+
+echo "Noise analysis simulations completed"
+quit
+.endc
+
+.end 

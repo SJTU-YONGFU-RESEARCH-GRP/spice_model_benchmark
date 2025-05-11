@@ -7,16 +7,28 @@ class PlotGenerator:
     """Handles generation of plots from simulation data."""
     def __init__(self, output_dir, dpi=300, logger=None):
         self.output_dir = output_dir
+        self.plots_dir = os.path.join(output_dir, 'plots')
+        # Create plots directory if it doesn't exist
+        os.makedirs(self.plots_dir, exist_ok=True)
         self.dpi = dpi
         self.logger = logger
         
-        # Define a simplified color palette with just 5 basic colors
+        # Define a minimal color palette with just 5 colors
         self.colors = {
-            'primary': 'blue',      # Main signal (gate, input)
-            'secondary': 'red',     # Secondary signal (drain, output)
-            'tertiary': 'green',    # Third signal (source)
-            'quaternary': 'purple', # Fourth signal (bulk, mid)
-            'total': 'black'        # Total/reference signals
+            'blue': '#1f77b4',    # Primary color (gates, inputs)
+            'red': '#d62728',     # Secondary color (drains, outputs)
+            'green': '#2ca02c',   # Tertiary color (sources, other signals)
+            'purple': '#9467bd',  # Quaternary color (for bulk, bias points)
+            'orange': '#ff7f0e'   # For total/reference values
+        }
+        
+        # Create alias mappings for semantic use
+        self.color_map = {
+            'primary': self.colors['blue'],
+            'secondary': self.colors['red'],
+            'tertiary': self.colors['green'],
+            'quaternary': self.colors['purple'],
+            'total': self.colors['orange']
         }
         
         # Set consistent figure width for all plots
@@ -53,14 +65,16 @@ class PlotGenerator:
             print(f"Selected Vgs values: {selected_vgs}")
             
             # Plot IV curves for selected Vgs values
+            color_keys = list(self.color_map.keys())
             for i, vg in enumerate(selected_vgs):
                 mask = np.isclose(vgs, vg)
                 if np.any(mask):
                     vds_curve = vds[mask]
                     ids_curve = ids[mask]
                     print(f"Vgs={vg:.3f}V: Ids range {np.min(ids_curve):.3e}A to {np.max(ids_curve):.3e}A")
-                    # Let matplotlib handle color cycling
-                    plt.plot(vds_curve, ids_curve, label=f'Vgs={vg:.1f}V')
+                    # Use color from our limited palette, cycling as needed
+                    color_key = color_keys[i % len(color_keys)]
+                    plt.plot(vds_curve, ids_curve, color=self.color_map[color_key], label=f'Vgs={vg:.1f}V')
             
             plt.xlabel('Drain-Source Voltage (V)')
             plt.ylabel('Drain Current (A)')
@@ -81,15 +95,17 @@ class PlotGenerator:
                 if np.any(mask):
                     vds_curve = vds[mask]
                     ids_curve = ids[mask]
-                    ax_inset.semilogy(vds_curve, np.abs(ids_curve), label=f'Vgs={vg:.1f}V')
+                    # Use same color as main plot for consistency
+                    color_key = color_keys[i % len(color_keys)]
+                    ax_inset.semilogy(vds_curve, np.abs(ids_curve), color=self.color_map[color_key], label=f'Vgs={vg:.1f}V')
             
             ax_inset.set_xlabel('Vds (V)')
             ax_inset.set_ylabel('|Ids| (A)')
             ax_inset.set_title('Subthreshold Region')
             ax_inset.grid(True)
             
-            # Use self.output_dir instead of the passed output_dir
-            output_file = Path(self.output_dir) / 'iv_characteristics.png'
+            # Save to plots subdirectory
+            output_file = Path(self.plots_dir) / 'iv_characteristics.png'
             plt.savefig(output_file, dpi=self.dpi, bbox_inches='tight')
             plt.close()
             
@@ -196,10 +212,10 @@ class PlotGenerator:
             plt.figure(figsize=(12, 8))
             
             # Plot capacitance components
-            plt.plot(vg, cgg, 'k-', linewidth=2.5, label='Total Gate Cap (Cgg)')
-            plt.plot(vg, cgb, 'b--', linewidth=2, label='Gate-Bulk Cap (Cgb)')
-            plt.plot(vg, cgs, 'g--', linewidth=2, label='Gate-Source Cap (Cgs)')
-            plt.plot(vg, cgd, 'r--', linewidth=2, label='Gate-Drain Cap (Cgd)')
+            plt.plot(vg, cgg, '-', linewidth=2.5, color=self.color_map['total'], label='Total Gate Cap (Cgg)')
+            plt.plot(vg, cgb, '--', linewidth=2, color=self.color_map['primary'], label='Gate-Bulk Cap (Cgb)')
+            plt.plot(vg, cgs, '--', linewidth=2, color=self.color_map['secondary'], label='Gate-Source Cap (Cgs)')
+            plt.plot(vg, cgd, '--', linewidth=2, color=self.color_map['tertiary'], label='Gate-Drain Cap (Cgd)')
             
             # Add threshold voltage line
             vth = 0.4  # Approximate Vth from the model
@@ -242,7 +258,7 @@ class PlotGenerator:
             
             # Save the figure
             plt.tight_layout()
-            comp_file = Path(self.output_dir) / 'plots' / 'cv_components.png'
+            comp_file = Path(self.plots_dir) / 'cv_components.png'
             plt.savefig(comp_file, dpi=self.dpi)
             plt.close()
             
@@ -312,10 +328,10 @@ class PlotGenerator:
             plt.figure(figsize=(12, 8))
             
             # Plot for each frequency
-            plt.plot(vg, cgg_1k, 'g-', linewidth=2.5, label='1 kHz')
-            plt.plot(vg, cgg_10k, 'r-', linewidth=2, label='10 kHz')
-            plt.plot(vg, cgg_100k, 'b-', linewidth=2, label='100 kHz')
-            plt.plot(vg, cgg_1m, 'k-', linewidth=2, label='1 MHz')
+            plt.plot(vg, cgg_1k, '-', linewidth=2.5, color=self.color_map['primary'], label='1 kHz')
+            plt.plot(vg, cgg_10k, '-', linewidth=2, color=self.color_map['secondary'], label='10 kHz')
+            plt.plot(vg, cgg_100k, '-', linewidth=2, color=self.color_map['tertiary'], label='100 kHz')
+            plt.plot(vg, cgg_1m, '-', linewidth=2, color=self.color_map['quaternary'], label='1 MHz')
             
             # Add threshold voltage line
             plt.axvline(x=vth, color='gray', linestyle='--', linewidth=1.5, label=f'Vth ≈ {vth}V')
@@ -347,7 +363,7 @@ class PlotGenerator:
             
             # Save the figure
             plt.tight_layout()
-            freq_file = Path(self.output_dir) / 'plots' / 'cv_multifreq_characteristics.png'
+            freq_file = Path(self.plots_dir) / 'cv_multifreq_characteristics.png'
             plt.savefig(freq_file, dpi=self.dpi)
             plt.close()
             
@@ -357,7 +373,7 @@ class PlotGenerator:
             
             # Also generate the standard CV plot that the other code is expecting
             plt.figure(figsize=(12, 8))
-            plt.plot(vg, cgg_1m, 'b-', linewidth=2, label='Gate Capacitance (1MHz)')
+            plt.plot(vg, cgg_1m, '-', linewidth=2, color=self.color_map['primary'], label='Gate Capacitance (1MHz)')
             plt.xlabel('Gate Voltage (V)', fontsize=12)
             plt.ylabel('Capacitance (fF)', fontsize=12)
             plt.title('CV Characteristics', fontsize=14)
@@ -366,7 +382,7 @@ class PlotGenerator:
             plt.legend()
             
             # Save standard plot for compatibility
-            std_file = Path(self.output_dir) / 'cv_characteristics.png'
+            std_file = Path(self.plots_dir) / 'cv_characteristics.png'
             plt.savefig(std_file, dpi=self.dpi, bbox_inches='tight')
             plt.close()
             
@@ -392,12 +408,12 @@ class PlotGenerator:
             plt.figure(figsize=(self.figure_width, self.single_plot_height))
             
             # Plot temperature dependence
-            plt.plot(temp, ids, 'o-', color=self.colors['primary'], label='Ids')
+            plt.plot(temp, ids, 'o-', color=self.color_map['primary'], label='Ids')
             
             # Add trend line
             z = np.polyfit(temp, ids, 1)
             p = np.poly1d(z)
-            plt.plot(temp, p(temp), '--', color=self.colors['total'], label=f'Trend (slope: {z[0]:.2e}A/°C)')
+            plt.plot(temp, p(temp), '--', color=self.color_map['total'], label=f'Trend (slope: {z[0]:.2e}A/°C)')
             
             plt.xlabel('Temperature (°C)')
             plt.ylabel('Ids (A)')
@@ -406,7 +422,7 @@ class PlotGenerator:
             plt.legend()
             
             # Save plot
-            output_file = Path(self.output_dir) / 'temperature_analysis.png'
+            output_file = Path(self.plots_dir) / 'temperature_analysis.png'
             plt.savefig(output_file, dpi=self.dpi, bbox_inches='tight')
             plt.close()
             
@@ -432,11 +448,11 @@ class PlotGenerator:
             total = ids + ig + is_ + ib
             
             # Plot individual currents with consistent colors
-            plt.plot(ids, color=self.colors['secondary'], label='Ids')
-            plt.plot(ig, color=self.colors['primary'], label='Ig')
-            plt.plot(is_, color=self.colors['tertiary'], label='Is')
-            plt.plot(ib, color=self.colors['quaternary'], label='Ib')
-            plt.plot(total, '--', color=self.colors['total'], label='Total (KCL)')
+            plt.plot(ids, color=self.color_map['secondary'], label='Ids')
+            plt.plot(ig, color=self.color_map['primary'], label='Ig')
+            plt.plot(is_, color=self.color_map['tertiary'], label='Is')
+            plt.plot(ib, color=self.color_map['quaternary'], label='Ib')
+            plt.plot(total, '--', color=self.color_map['total'], label='Total (KCL)')
             
             plt.xlabel('Measurement Point')
             plt.ylabel('Current (A)')
@@ -445,7 +461,7 @@ class PlotGenerator:
             plt.legend()
             
             # Save plot
-            output_file = Path(self.output_dir) / 'kcl_verification.png'
+            output_file = Path(self.plots_dir) / 'kcl_verification.png'
             plt.savefig(output_file, dpi=self.dpi, bbox_inches='tight')
             plt.close()
             
@@ -465,8 +481,8 @@ class PlotGenerator:
         try:
             plt.figure(figsize=(self.figure_width, self.two_panel_height))
             plt.subplot(2, 1, 1)
-            plt.plot(time*1e9, gate_voltage, color=self.colors['primary'], label='Gate Voltage (V)')
-            plt.plot(time*1e9, drain_voltage, color=self.colors['secondary'], label='Drain Voltage (V)')
+            plt.plot(time*1e9, gate_voltage, color=self.color_map['primary'], label='Gate Voltage (V)')
+            plt.plot(time*1e9, drain_voltage, color=self.color_map['secondary'], label='Drain Voltage (V)')
             plt.xlabel('Time (ns)')
             plt.ylabel('Voltage (V)')
             plt.legend()
@@ -474,7 +490,7 @@ class PlotGenerator:
             plt.title('Large-Signal Transient Analysis - Voltages')
             
             plt.subplot(2, 1, 2)
-            plt.plot(time*1e9, drain_current*1e3, color=self.colors['secondary'], label='Drain Current (mA)')
+            plt.plot(time*1e9, drain_current*1e3, color=self.color_map['secondary'], label='Drain Current (mA)')
             plt.xlabel('Time (ns)')
             plt.ylabel('Current (mA)')
             plt.legend()
@@ -482,7 +498,7 @@ class PlotGenerator:
             
             plt.tight_layout()
             
-            output_file = Path(self.output_dir) / 'large_signal_transient.png'
+            output_file = Path(self.plots_dir) / 'large_signal_transient.png'
             plt.savefig(output_file, dpi=self.dpi)
             plt.close()
             
@@ -503,8 +519,8 @@ class PlotGenerator:
             
             # Plot voltages
             plt.subplot(3, 1, 1)
-            plt.plot(time*1e9, input_voltage, color=self.colors['primary'], label='Input Voltage (V)')
-            plt.plot(time*1e9, output_voltage, color=self.colors['secondary'], label='Output Voltage (V)')
+            plt.plot(time*1e9, input_voltage, color=self.color_map['primary'], label='Input Voltage (V)')
+            plt.plot(time*1e9, output_voltage, color=self.color_map['secondary'], label='Output Voltage (V)')
             plt.xlabel('Time (ns)')
             plt.ylabel('Voltage (V)')
             plt.legend()
@@ -513,7 +529,7 @@ class PlotGenerator:
             
             # Plot current
             plt.subplot(3, 1, 2)
-            plt.plot(time*1e9, supply_current*1e3, color=self.colors['tertiary'], label='Supply Current (mA)')
+            plt.plot(time*1e9, supply_current*1e3, color=self.color_map['tertiary'], label='Supply Current (mA)')
             plt.xlabel('Time (ns)')
             plt.ylabel('Current (mA)')
             plt.legend()
@@ -522,7 +538,7 @@ class PlotGenerator:
             # Plot power if available
             if switching_power is not None:
                 plt.subplot(3, 1, 3)
-                plt.plot(time*1e9, switching_power*1e3, color=self.colors['quaternary'], label='Power Dissipation (mW)')
+                plt.plot(time*1e9, switching_power*1e3, color=self.color_map['quaternary'], label='Power Dissipation (mW)')
                 plt.xlabel('Time (ns)')
                 plt.ylabel('Power (mW)')
                 plt.legend()
@@ -530,7 +546,7 @@ class PlotGenerator:
             
             plt.tight_layout()
             
-            output_file = Path(self.output_dir) / 'switching_response.png'
+            output_file = Path(self.plots_dir) / 'switching_response.png'
             plt.savefig(output_file, dpi=self.dpi)
             plt.close()
             
@@ -548,17 +564,17 @@ class PlotGenerator:
         """Plot delay effects in inverter chain."""
         try:
             plt.figure(figsize=(self.figure_width, self.single_plot_height))
-            plt.plot(time*1e12, input_voltage, color=self.colors['primary'], label='Input')
-            plt.plot(time*1e12, mid1_voltage, color=self.colors['tertiary'], label='Mid1')
-            plt.plot(time*1e12, mid2_voltage, color=self.colors['quaternary'], label='Mid2')
-            plt.plot(time*1e12, output_voltage, color=self.colors['secondary'], label='Output')
+            plt.plot(time*1e12, input_voltage, color=self.color_map['primary'], label='Input')
+            plt.plot(time*1e12, mid1_voltage, color=self.color_map['tertiary'], label='Mid1')
+            plt.plot(time*1e12, mid2_voltage, color=self.color_map['quaternary'], label='Mid2')
+            plt.plot(time*1e12, output_voltage, color=self.color_map['secondary'], label='Output')
             plt.xlabel('Time (ps)')
             plt.ylabel('Voltage (V)')
             plt.legend()
             plt.grid(True)
             plt.title('Delay Effect Analysis - Inverter Chain')
             
-            output_file = Path(self.output_dir) / 'delay_effect.png'
+            output_file = Path(self.plots_dir) / 'delay_effect.png'
             plt.savefig(output_file, dpi=self.dpi)
             plt.close()
             
@@ -576,15 +592,15 @@ class PlotGenerator:
         """Plot power dissipation at different temperatures."""
         try:
             plt.figure(figsize=(self.figure_width, self.single_plot_height))
-            plt.plot(time_27c*1e9, power_27c*1e3, color=self.colors['primary'], label='27°C')
-            plt.plot(time_100c*1e9, power_100c*1e3, color=self.colors['secondary'], label='100°C')
+            plt.plot(time_27c*1e9, power_27c*1e3, color=self.color_map['primary'], label='27°C')
+            plt.plot(time_100c*1e9, power_100c*1e3, color=self.color_map['secondary'], label='100°C')
             plt.xlabel('Time (ns)')
             plt.ylabel('Power (mW)')
             plt.legend()
             plt.grid(True)
             plt.title('Power Dissipation at Different Temperatures')
             
-            output_file = Path(self.output_dir) / 'power_dissipation.png'
+            output_file = Path(self.plots_dir) / 'power_dissipation.png'
             plt.savefig(output_file, dpi=self.dpi)
             plt.close()
             
@@ -602,15 +618,15 @@ class PlotGenerator:
         """Plot energy consumption at different temperatures."""
         try:
             plt.figure(figsize=(self.figure_width, self.single_plot_height))
-            plt.plot(time_27c*1e9, energy_27c*1e12, color=self.colors['primary'], label='27°C')
-            plt.plot(time_100c*1e9, energy_100c*1e12, color=self.colors['secondary'], label='100°C')
+            plt.plot(time_27c*1e9, energy_27c*1e12, color=self.color_map['primary'], label='27°C')
+            plt.plot(time_100c*1e9, energy_100c*1e12, color=self.color_map['secondary'], label='100°C')
             plt.xlabel('Time (ns)')
             plt.ylabel('Energy (pJ)')
             plt.legend()
             plt.grid(True)
             plt.title('Energy Consumption at Different Temperatures')
             
-            output_file = Path(self.output_dir) / 'energy_consumption.png'
+            output_file = Path(self.plots_dir) / 'energy_consumption.png'
             plt.savefig(output_file, dpi=self.dpi)
             plt.close()
             
@@ -632,8 +648,8 @@ class PlotGenerator:
             
             # Plot voltages
             plt.subplot(2, 1, 1)
-            plt.plot(time*1e9, gate_voltage, color=self.colors['primary'], label='Gate Voltage (V)')
-            plt.plot(time*1e9, drain_voltage, color=self.colors['secondary'], label='Drain Voltage (V)')
+            plt.plot(time*1e9, gate_voltage, color=self.color_map['primary'], label='Gate Voltage (V)')
+            plt.plot(time*1e9, drain_voltage, color=self.color_map['secondary'], label='Drain Voltage (V)')
             plt.xlabel('Time (ns)')
             plt.ylabel('Voltage (V)')
             plt.legend()
@@ -642,7 +658,7 @@ class PlotGenerator:
             
             # Plot drain current
             plt.subplot(2, 1, 2)
-            plt.plot(time*1e9, drain_current*1e3, color=self.colors['secondary'], label='Drain Current (mA)')
+            plt.plot(time*1e9, drain_current*1e3, color=self.color_map['secondary'], label='Drain Current (mA)')
             plt.xlabel('Time (ns)')
             plt.ylabel('Current (mA)')
             plt.legend()
@@ -650,19 +666,19 @@ class PlotGenerator:
             
             plt.tight_layout()
             
-            time_plot_file = Path(self.output_dir) / 'quasi_static.png'
+            time_plot_file = Path(self.plots_dir) / 'quasi_static.png'
             plt.savefig(time_plot_file, dpi=self.dpi)
             plt.close()
             
             # I-V characteristic plot
             plt.figure(figsize=(self.figure_width, self.single_plot_height))
-            plt.plot(gate_voltage, drain_current*1e3, color=self.colors['secondary'])
+            plt.plot(gate_voltage, drain_current*1e3, color=self.color_map['secondary'])
             plt.xlabel('Gate Voltage (V)')
             plt.ylabel('Drain Current (mA)')
             plt.grid(True)
             plt.title('Quasi-Static I-V Characteristic')
             
-            iv_plot_file = Path(self.output_dir) / 'quasi_static_iv.png'
+            iv_plot_file = Path(self.plots_dir) / 'quasi_static_iv.png'
             plt.savefig(iv_plot_file, dpi=self.dpi)
             plt.close()
             
@@ -684,10 +700,10 @@ class PlotGenerator:
             
             # Plot currents
             plt.subplot(3, 1, 1)
-            plt.plot(time*1e9, ig*1e6, color=self.colors['primary'], label='Gate Current (µA)')
-            plt.plot(time*1e9, id*1e6, color=self.colors['secondary'], label='Drain Current (µA)')
-            plt.plot(time*1e9, is_*1e6, color=self.colors['tertiary'], label='Source Current (µA)')
-            plt.plot(time*1e9, ib*1e6, color=self.colors['quaternary'], label='Bulk Current (µA)')
+            plt.plot(time*1e9, ig*1e6, color=self.color_map['primary'], label='Gate Current (µA)')
+            plt.plot(time*1e9, id*1e6, color=self.color_map['secondary'], label='Drain Current (µA)')
+            plt.plot(time*1e9, is_*1e6, color=self.color_map['tertiary'], label='Source Current (µA)')
+            plt.plot(time*1e9, ib*1e6, color=self.color_map['quaternary'], label='Bulk Current (µA)')
             plt.xlabel('Time (ns)')
             plt.ylabel('Current (µA)')
             plt.legend()
@@ -696,7 +712,7 @@ class PlotGenerator:
             
             # Plot total current
             plt.subplot(3, 1, 2)
-            plt.plot(time*1e9, i_total*1e6, color=self.colors['total'], label='Total Current (µA)')
+            plt.plot(time*1e9, i_total*1e6, color=self.color_map['total'], label='Total Current (µA)')
             plt.xlabel('Time (ns)')
             plt.ylabel('Total Current (µA)')
             plt.axhline(y=0, color='r', linestyle='--', alpha=0.3)  # Zero reference line
@@ -705,11 +721,11 @@ class PlotGenerator:
             
             # Plot charges
             plt.subplot(3, 1, 3)
-            plt.plot(time*1e9, q_gate*1e15, color=self.colors['primary'], label='Gate Charge (fC)')
-            plt.plot(time*1e9, q_drain*1e15, color=self.colors['secondary'], label='Drain Charge (fC)')
-            plt.plot(time*1e9, q_source*1e15, color=self.colors['tertiary'], label='Source Charge (fC)')
-            plt.plot(time*1e9, q_bulk*1e15, color=self.colors['quaternary'], label='Bulk Charge (fC)')
-            plt.plot(time*1e9, q_total*1e15, color=self.colors['total'], label='Total Charge (fC)', linestyle='--')
+            plt.plot(time*1e9, q_gate*1e15, color=self.color_map['primary'], label='Gate Charge (fC)')
+            plt.plot(time*1e9, q_drain*1e15, color=self.color_map['secondary'], label='Drain Charge (fC)')
+            plt.plot(time*1e9, q_source*1e15, color=self.color_map['tertiary'], label='Source Charge (fC)')
+            plt.plot(time*1e9, q_bulk*1e15, color=self.color_map['quaternary'], label='Bulk Charge (fC)')
+            plt.plot(time*1e9, q_total*1e15, color=self.color_map['total'], label='Total Charge (fC)', linestyle='--')
             plt.xlabel('Time (ns)')
             plt.ylabel('Charge (fC)')
             plt.legend()
@@ -717,13 +733,13 @@ class PlotGenerator:
             
             plt.tight_layout()
             
-            currents_plot_file = Path(self.output_dir) / 'charge_conservation.png'
+            currents_plot_file = Path(self.plots_dir) / 'charge_conservation.png'
             plt.savefig(currents_plot_file, dpi=self.dpi)
             plt.close()
             
             # Total charge plot
             plt.figure(figsize=(self.figure_width, self.single_plot_height))
-            plt.plot(time*1e9, q_total*1e15, color=self.colors['total'], label='Total Charge (fC)')
+            plt.plot(time*1e9, q_total*1e15, color=self.color_map['total'], label='Total Charge (fC)')
             plt.axhline(y=q_total[0]*1e15, color='r', linestyle='--', alpha=0.3, label='Initial Value')
             plt.xlabel('Time (ns)')
             plt.ylabel('Total Charge (fC)')
@@ -731,7 +747,7 @@ class PlotGenerator:
             plt.legend()
             plt.grid(True)
             
-            total_charge_file = Path(self.output_dir) / 'total_charge.png'
+            total_charge_file = Path(self.plots_dir) / 'total_charge.png'
             plt.savefig(total_charge_file, dpi=self.dpi)
             plt.close()
             
@@ -743,6 +759,192 @@ class PlotGenerator:
         except Exception as e:
             if self.logger:
                 self.logger.logger.error(f"Error creating charge conservation plots: {e}")
+            return None
+    
+    # Noise Analysis plotting methods
+    def plot_noise_spectrum(self, freq, noise, title, filename, 
+                           log_x=True, log_y=True, additional_data=None):
+        """Plot noise spectrum.
+        
+        Args:
+            freq: Frequency array
+            noise: Noise power spectral density array
+            title: Plot title
+            filename: Output filename (without extension)
+            log_x: Use logarithmic scale for x-axis
+            log_y: Use logarithmic scale for y-axis
+            additional_data: Optional dictionary with additional data to plot
+        
+        Returns:
+            str: Path to the saved plot file
+        """
+        try:
+            plt.figure(figsize=(self.figure_width, self.single_plot_height))
+            
+            # Main noise data
+            plt.plot(freq, noise, color=self.color_map['primary'], label='Noise PSD')
+            
+            # Additional data if provided
+            if additional_data:
+                for i, (label, (x_data, y_data)) in enumerate(additional_data.items()):
+                    color_key = list(self.color_map.keys())[min(i+1, len(self.color_map)-1)]
+                    plt.plot(x_data, y_data, color=self.color_map[color_key], label=label)
+            
+            # Set axis scales
+            if log_x:
+                plt.xscale('log')
+            if log_y:
+                plt.yscale('log')
+                
+            plt.xlabel('Frequency (Hz)')
+            plt.ylabel('Noise Power Spectral Density (V²/Hz)')
+            plt.title(title)
+            plt.grid(True, which='both', linestyle='--', alpha=0.6)
+            plt.legend()
+            
+            output_file = Path(self.plots_dir) / f'{filename}.png'
+            plt.savefig(output_file, dpi=self.dpi)
+            plt.close()
+            
+            if self.logger:
+                self.logger.logger.info(f"Noise spectrum plot saved to {output_file}")
+                
+            return output_file
+            
+        except Exception as e:
+            if self.logger:
+                self.logger.logger.error(f"Error creating noise spectrum plot: {e}")
+            return None
+    
+    def plot_multiple_noise_spectra(self, data_dict, title, filename):
+        """Plot multiple noise spectra on the same figure.
+        
+        Args:
+            data_dict: Dictionary with keys as labels and values as (freq, noise) tuples
+            title: Plot title
+            filename: Output filename (without extension)
+        
+        Returns:
+            str: Path to the saved plot file
+        """
+        try:
+            plt.figure(figsize=(self.figure_width, self.single_plot_height))
+            
+            # Use our limited color set instead of a colormap
+            color_keys = list(self.color_map.keys())
+            
+            for i, (label, (freq, noise)) in enumerate(data_dict.items()):
+                # Cycle through our color set
+                color_key = color_keys[i % len(color_keys)]
+                plt.plot(freq, noise, label=label, color=self.color_map[color_key])
+            
+            plt.xscale('log')
+            plt.yscale('log')
+            plt.xlabel('Frequency (Hz)')
+            plt.ylabel('Noise Power Spectral Density (V²/Hz)')
+            plt.title(title)
+            plt.grid(True, which='both', linestyle='--', alpha=0.6)
+            plt.legend()
+            
+            output_file = Path(self.plots_dir) / f'{filename}.png'
+            plt.savefig(output_file, dpi=self.dpi)
+            plt.close()
+            
+            if self.logger:
+                self.logger.logger.info(f"Multiple noise spectra plot saved to {output_file}")
+                
+            return output_file
+            
+        except Exception as e:
+            if self.logger:
+                self.logger.logger.error(f"Error creating multiple noise spectra plot: {e}")
+            return None
+    
+    def plot_noise_vs_temperature(self, temps, noise_levels, title="Noise vs Temperature"):
+        """Plot noise level variation with temperature.
+        
+        Args:
+            temps: List of temperature values
+            noise_levels: List of corresponding noise levels
+            title: Plot title
+        
+        Returns:
+            str: Path to the saved plot file
+        """
+        try:
+            plt.figure(figsize=(self.figure_width, self.single_plot_height))
+            
+            plt.plot(temps, noise_levels, 'o-', color=self.color_map['primary'])
+            
+            # Linear fit
+            if len(temps) > 1:
+                z = np.polyfit(temps, noise_levels, 1)
+                p = np.poly1d(z)
+                plt.plot(temps, p(temps), '--', color=self.color_map['secondary'], 
+                         label=f'Slope: {z[0]:.2e} V²/Hz/°C')
+            
+            plt.xlabel('Temperature (°C)')
+            plt.ylabel('Noise Power Spectral Density (V²/Hz)')
+            plt.title(title)
+            plt.grid(True)
+            plt.legend()
+            
+            output_file = Path(self.plots_dir) / 'noise_vs_temperature.png'
+            plt.savefig(output_file, dpi=self.dpi)
+            plt.close()
+            
+            if self.logger:
+                self.logger.logger.info(f"Noise vs temperature plot saved to {output_file}")
+                
+            return output_file
+            
+        except Exception as e:
+            if self.logger:
+                self.logger.logger.error(f"Error creating noise vs temperature plot: {e}")
+            return None
+    
+    def plot_noise_components(self, freq, thermal_noise, flicker_noise, shot_noise):
+        """Plot different noise components on the same figure.
+        
+        Args:
+            freq: Frequency array
+            thermal_noise: Thermal noise array
+            flicker_noise: Flicker noise array
+            shot_noise: Shot noise array
+        
+        Returns:
+            str: Path to the saved plot file
+        """
+        try:
+            plt.figure(figsize=(self.figure_width, self.single_plot_height))
+            
+            plt.loglog(freq, thermal_noise, label='Thermal Noise', color=self.color_map['primary'])
+            plt.loglog(freq, flicker_noise, label='Flicker Noise', color=self.color_map['secondary'])
+            plt.loglog(freq, shot_noise, label='Shot Noise', color=self.color_map['tertiary'])
+            
+            # Calculate and plot total noise
+            total_noise = thermal_noise + flicker_noise + shot_noise
+            plt.loglog(freq, total_noise, label='Total Noise', color=self.color_map['total'], 
+                      linestyle='--', linewidth=2)
+            
+            plt.xlabel('Frequency (Hz)')
+            plt.ylabel('Noise Power Spectral Density (V²/Hz)')
+            plt.title('Noise Components Analysis')
+            plt.grid(True, which='both', linestyle='--', alpha=0.6)
+            plt.legend()
+            
+            output_file = Path(self.plots_dir) / 'noise_components.png'
+            plt.savefig(output_file, dpi=self.dpi)
+            plt.close()
+            
+            if self.logger:
+                self.logger.logger.info(f"Noise components plot saved to {output_file}")
+                
+            return output_file
+            
+        except Exception as e:
+            if self.logger:
+                self.logger.logger.error(f"Error creating noise components plot: {e}")
             return None
 
     def calculate_rise_time(self, time, signal, low_threshold=0.1, high_threshold=0.9):
@@ -759,30 +961,80 @@ class PlotGenerator:
         
         return rise_time
 
-    def calculate_propagation_delay(self, time, input_signal, output_signal):
-        """Calculate propagation delay between input and output signals."""
-        # Find the middle points (50% threshold)
-        input_threshold = (np.max(input_signal) + np.min(input_signal)) / 2
-        output_threshold = (np.max(output_signal) + np.min(output_signal)) / 2
+    def plot_noise_vs_parameter(self, parameter, noise, parameter_name, title, filename):
+        """
+        Plot noise level against a parameter (temperature, width, length, etc.)
         
-        # Find the first rising edge of input that crosses the threshold
-        input_crossings = np.where(np.diff(input_signal > input_threshold) > 0)[0]
-        if len(input_crossings) == 0:
-            return float('nan')
-        input_idx = input_crossings[0]
+        Args:
+            parameter: Parameter values array
+            noise: Noise values array
+            parameter_name: Name of the parameter (for X axis label)
+            title: Plot title
+            filename: Output filename (without extension)
+        """
+        try:
+            plt.figure(figsize=(self.figure_width, self.single_plot_height))
+            
+            # Plot noise vs parameter
+            plt.plot(parameter, noise, 'o-', linewidth=2, markersize=6, color=self.color_map['primary'])
+            
+            # Set labels and title
+            plt.xlabel(parameter_name)
+            plt.ylabel('Noise Level (V²/Hz)')
+            plt.title(title)
+            plt.grid(True, linestyle='--', alpha=0.6)
+            
+            # Save figure
+            output_path = Path(self.plots_dir) / f"{filename}.png"
+            plt.tight_layout()
+            plt.savefig(output_path, dpi=self.dpi)
+            plt.close()
+            
+            if self.logger:
+                self.logger.logger.info(f"Parameter analysis plot saved to {output_path}")
+            return output_path
+        except Exception as e:
+            if self.logger:
+                self.logger.logger.error(f"Error creating parameter analysis plot: {e}")
+            return None
+
+    def plot_noise_contrib_components(self, freq, thermal, flicker, total, title, filename):
+        """
+        Plot noise contribution components (thermal, flicker, total)
         
-        # Find the corresponding output response
-        output_crossings = np.where(np.diff(output_signal < output_threshold) > 0)[0]
-        if len(output_crossings) == 0:
-            return float('nan')
-        
-        # Find the output crossing that happens after the input
-        valid_crossings = output_crossings[output_crossings > input_idx]
-        if len(valid_crossings) == 0:
-            return float('nan')
-        output_idx = valid_crossings[0]
-        
-        # Calculate propagation delay in ps
-        prop_delay = (time[output_idx] - time[input_idx]) * 1e12
-        
-        return prop_delay 
+        Args:
+            freq: Frequency data array
+            thermal: Thermal noise component data
+            flicker: Flicker noise component data
+            total: Total noise data
+            title: Plot title
+            filename: Output filename (without extension)
+        """
+        try:
+            plt.figure(figsize=(self.figure_width, self.single_plot_height))
+            
+            # Plot each component
+            plt.loglog(freq, total, color=self.color_map['total'], linewidth=2, label='Total Noise')
+            plt.loglog(freq, thermal, color=self.color_map['primary'], linewidth=1.5, label='Thermal Noise')
+            plt.loglog(freq, flicker, color=self.color_map['secondary'], linewidth=1.5, label='Flicker (1/f) Noise')
+            
+            # Set labels and title
+            plt.xlabel('Frequency (Hz)')
+            plt.ylabel('Noise Spectral Density (V²/Hz)')
+            plt.title(title)
+            plt.grid(True, which='both', linestyle='--', alpha=0.6)
+            plt.legend()
+            
+            # Save figure
+            output_path = Path(self.plots_dir) / f"{filename}.png"
+            plt.tight_layout()
+            plt.savefig(output_path, dpi=self.dpi)
+            plt.close()
+            
+            if self.logger:
+                self.logger.logger.info(f"Noise components plot saved to {output_path}")
+            return output_path
+        except Exception as e:
+            if self.logger:
+                self.logger.logger.error(f"Error creating noise components plot: {e}")
+            return None 

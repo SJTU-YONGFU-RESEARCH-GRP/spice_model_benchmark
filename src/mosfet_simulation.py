@@ -5,11 +5,11 @@ from pathlib import Path
 from datetime import datetime
 import numpy as np
 
-from src.logger import Logger
-from src.simulation_runner import SimulationRunner
-from src.data_reader import DataReader
-from src.plot_generator import PlotGenerator
-from src.verification_manager import VerificationManager
+from logger import Logger
+from simulation_runner import SimulationRunner
+from data_reader import DataReader
+from plot_generator import PlotGenerator
+from verification_manager import VerificationManager
 
 class MOSFETSimulation:
     """Main class for MOSFET simulation and verification.
@@ -21,8 +21,16 @@ class MOSFETSimulation:
     - Thermodynamic analysis
     - Results verification and reporting
     """
-    def __init__(self, circuit_file, output_dir='results', dpi=300, log_level='INFO'):
-        self.circuit_file = circuit_file
+    def __init__(self, dc_circuit_file, transient_circuit_file, noise_circuit_file, 
+                 output_dir='results', dpi=300, log_level='INFO'):
+        # Store the circuit file paths directly
+        self.dc_circuit_file = dc_circuit_file
+        self.transient_circuit_file = transient_circuit_file
+        self.noise_circuit_file = noise_circuit_file
+        
+        # Use the DC circuit as the reference circuit for directory paths
+        self.circuit_dir = os.path.dirname(dc_circuit_file)
+        
         self.output_dir = output_dir
         self.dpi = dpi
         
@@ -31,7 +39,13 @@ class MOSFETSimulation:
         
         # Initialize components
         self.logger = Logger(log_level=log_level)
-        self.simulation_runner = SimulationRunner(circuit_file, self.logger, output_dir)
+        self.simulation_runner = SimulationRunner(
+            self.logger, 
+            output_dir,
+            dc_circuit_file=self.dc_circuit_file,
+            transient_circuit_file=self.transient_circuit_file,
+            noise_circuit_file=self.noise_circuit_file
+        )
         self.data_reader = DataReader(self.logger, output_dir)
         self.plot_generator = PlotGenerator(output_dir, dpi, self.logger)
         self.verification_manager = VerificationManager(self.logger, output_dir)
@@ -49,21 +63,61 @@ class MOSFETSimulation:
             'delay_effect': None,
             'power_dissipation': None,
             'quasi_static': None,
-            'charge_conservation': None
+            'charge_conservation': None,
+            # Add noise analysis results
+            'noise_analysis': None
         }
 
     def run(self):
-        """Run the MOSFET simulation and verification."""
+        """Run the MOSFET simulation and analysis."""
         try:
-            # Verify circuit file
-            setup_results = self.verification_manager.verify_simulation_setup(self.circuit_file)
-            if not setup_results['netlist_exists'] or not setup_results['ngspice_installed']:
-                raise ValueError("Circuit file verification failed")
-            self.results['simulation_setup'] = setup_results
+            self.logger.logger.info("Starting MOSFET simulation and analysis")
             
-            # Run SPICE simulation
-            if not self.simulation_runner.run_simulation():
-                raise RuntimeError("SPICE simulation failed")
+            # Create plot generator and data reader
+            plot_generator = PlotGenerator(self.output_dir, self.dpi, self.logger)
+            self.data_reader = DataReader(self.logger, self.output_dir)
+            self.verification_manager = VerificationManager(self.logger, self.output_dir)
+            
+            # Initialize simulation runner with the circuit files
+            self.simulation_runner = SimulationRunner(
+                self.logger, 
+                self.output_dir,
+                dc_circuit_file=self.dc_circuit_file,
+                transient_circuit_file=self.transient_circuit_file,
+                noise_circuit_file=self.noise_circuit_file
+            )
+            
+            # Verify circuit files exist
+            for circ_file, circ_type in [
+                (self.dc_circuit_file, "DC"),
+                (self.transient_circuit_file, "Transient"),
+                (self.noise_circuit_file, "Noise")
+            ]:
+                if not os.path.exists(circ_file):
+                    self.logger.logger.error(f"{circ_type} circuit file not found: {circ_file}")
+                    return False
+                    
+            # Run all simulations (DC, transient, and noise) sequentially
+            if not self.simulation_runner.run_all_simulations():
+                self.logger.logger.error("SPICE simulation failed")
+                return False
+            
+            # Verify circuit files
+            setup_results = {}
+            for circ_file, circ_type in [
+                (self.dc_circuit_file, "DC"),
+                (self.transient_circuit_file, "Transient"),
+                (self.noise_circuit_file, "Noise")
+            ]:
+                result = self.verification_manager.verify_simulation_setup(circ_file)
+                setup_results[f"{circ_type.lower()}_netlist_exists"] = result['netlist_exists']
+                setup_results[f"{circ_type.lower()}_details"] = result['details']
+            
+            # Store common ngspice verification
+            setup_results["ngspice_installed"] = self.verification_manager.verify_simulation_setup(
+                self.dc_circuit_file)['ngspice_installed']
+            setup_results["details"] = {"netlist_path": "multiple files"} 
+            self.results['simulation_setup'] = setup_results
             
             # Read data files
             vds, vgs, ids, ig, is_, ib, power = self.data_reader.read_iv_data()
@@ -220,6 +274,117 @@ class MOSFETSimulation:
             else:
                 self.logger.logger.warning("Charge conservation data not available for verification")
             
+            # 7. Noise analysis
+            self.logger.logger.info("Performing noise analysis")
+            
+            # Get thermal noise data for different bias points
+            thermal_noise_data = {}
+            thermal_noise_data_dict = self.data_reader.read_all_thermal_noise_data()
+            for bias_key, (freq, noise) in thermal_noise_data_dict.items():
+                if freq is not None and noise is not None:
+                    thermal_noise_data[bias_key] = noise
+            
+            # Get flicker noise data
+            freq_flicker, flicker_noise = self.data_reader.read_flicker_noise_data()
+            
+            # Get shot noise data
+            freq_shot, shot_noise = self.data_reader.read_shot_noise_data()
+            
+            # Get temperature noise data
+            temps, temp_noise_data = self.data_reader.read_temperature_noise_data()
+            
+            # Process noise data for temperature dependence
+            temp_noise = {}
+            if temps is not None and temp_noise_data is not None:
+                for temp in temps:
+                    freq_temp, noise_temp = temp_noise_data[temp]
+                    temp_noise[temp] = noise_temp
+            
+            # Plot noise data if available
+            if thermal_noise_data:
+                # Generate plot of thermal noise at different bias points
+                bias_data = {}
+                for key, (freq, noise) in thermal_noise_data_dict.items():
+                    bias_data[key] = (freq, noise)
+                
+                plot_generator.plot_multiple_noise_spectra(
+                    bias_data, 
+                    "Thermal Noise vs Bias Conditions", 
+                    "thermal_noise_vds_comparison"
+                )
+            
+            if freq_flicker is not None and flicker_noise is not None:
+                # Generate flicker noise plot
+                plot_generator.plot_noise_spectrum(
+                    freq_flicker, 
+                    flicker_noise, 
+                    "Flicker (1/f) Noise Analysis", 
+                    "flicker_noise"
+                )
+            
+            if freq_shot is not None and shot_noise is not None:
+                # Generate shot noise plot
+                plot_generator.plot_noise_spectrum(
+                    freq_shot, 
+                    shot_noise, 
+                    "Shot Noise Analysis", 
+                    "shot_noise"
+                )
+            
+            if temps is not None and temp_noise_data is not None:
+                # Extract average noise level at each temperature for plotting
+                avg_noise_levels = []
+                for temp in temps:
+                    freq_temp, noise_temp = temp_noise_data[temp]
+                    avg_noise_levels.append(np.mean(noise_temp))
+                
+                # Generate temperature dependence plot
+                plot_generator.plot_noise_vs_temperature(
+                    temps, 
+                    avg_noise_levels, 
+                    "Noise vs Temperature"
+                )
+            
+            # Generate composite noise components plot if all components are available
+            if (freq_flicker is not None and flicker_noise is not None and
+                freq_shot is not None and shot_noise is not None and
+                thermal_noise_data_dict):
+                # Take the thermal noise from one bias point as reference
+                first_bias = list(thermal_noise_data_dict.keys())[0]
+                freq_thermal, thermal_noise_sample = thermal_noise_data_dict[first_bias]
+                
+                # Only create plot if frequencies match
+                if (len(freq_thermal) == len(freq_flicker) == len(freq_shot) and
+                    np.allclose(freq_thermal, freq_flicker) and np.allclose(freq_thermal, freq_shot)):
+                    plot_generator.plot_noise_components(
+                        freq_thermal, 
+                        thermal_noise_sample, 
+                        flicker_noise, 
+                        shot_noise
+                    )
+            
+            # Verify noise analysis data
+            freq_to_use = None
+            if freq_flicker is not None:
+                freq_to_use = freq_flicker
+            elif freq_shot is not None:
+                freq_to_use = freq_shot
+            elif thermal_noise_data_dict:
+                # Take frequency array from the first thermal noise dataset
+                first_bias = list(thermal_noise_data_dict.keys())[0]
+                freq_to_use, _ = thermal_noise_data_dict[first_bias]
+            
+            # Call verification manager to verify noise analysis
+            noise_results = self.verification_manager.verify_noise_analysis(
+                freq=freq_to_use,
+                thermal_noise=thermal_noise_data if thermal_noise_data else None,
+                flicker_noise=flicker_noise if freq_flicker is not None else None,
+                shot_noise=shot_noise if freq_shot is not None else None,
+                temp_noise=temp_noise if temps is not None else None,
+                temperatures=temps
+            )
+            self.results['noise_analysis'] = noise_results
+            
             # Update verification checklist with all results
             self.verification_manager.update_verification_checklist(self.results)
             
@@ -233,8 +398,17 @@ class MOSFETSimulation:
 def parse_args():
     """Parse command line arguments."""
     parser = argparse.ArgumentParser(description='Run MOSFET simulation and analyze results')
-    parser.add_argument('--circuit', type=str, default='netlists/circuit.cir',
-                      help='Path to the SPICE netlist file (default: circuit.cir)')
+    
+    # Circuit file options
+    circuit_group = parser.add_argument_group('Circuit Files')
+    circuit_group.add_argument('--dc-circuit', type=str, default='netlists/dc_circuit.cir',
+                      help='Path to the DC analysis circuit file (default: netlists/dc_circuit.cir)')
+    circuit_group.add_argument('--transient-circuit', type=str, default='netlists/transient_circuit.cir',
+                      help='Path to the transient analysis circuit file (default: netlists/transient_circuit.cir)')
+    circuit_group.add_argument('--noise-circuit', type=str, default='netlists/noise_circuit.cir',
+                      help='Path to the noise analysis circuit file (default: netlists/noise_circuit.cir)')
+    
+    # Other options
     parser.add_argument('--output-dir', type=str, default='results',
                       help='Directory to store output files (default: results)')
     parser.add_argument('--log-level', type=str, default='DEBUG',
@@ -247,8 +421,11 @@ def parse_args():
 def main():
     """Main entry point for the MOSFET simulation tool."""
     args = parse_args()
+    
     simulation = MOSFETSimulation(
-        circuit_file=args.circuit,
+        dc_circuit_file=args.dc_circuit,
+        transient_circuit_file=args.transient_circuit,
+        noise_circuit_file=args.noise_circuit,
         output_dir=args.output_dir,
         dpi=args.dpi,
         log_level=args.log_level

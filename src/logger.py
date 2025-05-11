@@ -23,7 +23,7 @@ class Logger:
             '%(asctime)s - [%(levelname)s] - [%(filename)s:%(lineno)d] - %(message)s'
         )
         simple_formatter = logging.Formatter(
-            '%(asctime)s - [%(levelname)s]: %(message)s'
+            '[%(levelname)s]: %(message)s'
         )
         
         # Create handlers

@@ -110,6 +110,40 @@ Vb_qs bulk_qs 0 DC 0
 M_qs drain_qs gate_qs source_qs bulk_qs NMOS_VTG L=0.045u W=10u
 Cload_qs drain_qs 0 10f
 
+* Noise Analysis Circuits
+* Thermal Noise Analysis Circuit - Common source amplifier configuration
+Vdd_noise vdd_noise 0 DC 1.2
+Vin_noise in_noise 0 DC 0.6 AC 1
+Rb_noise in_noise gate_noise 1k       ; Bias resistor (blocks DC)
+Cb_noise in_noise gate_noise 1u       ; Coupling capacitor (passes AC)
+Rs_noise source_noise 0 100           ; Source resistor for stability
+Rd_noise vdd_noise drain_noise 10k    ; Drain resistor - load
+Vgs_noise gate_noise source_noise DC 0 ; Gate-source voltage (will be altered)
+Vds_noise drain_noise source_noise DC 0 ; Drain-source voltage (will be altered)
+Vbulk_noise bulk_noise 0 DC 0         ; Bulk/substrate connection
+M_noise drain_noise gate_noise source_noise bulk_noise NMOS_VTG L=0.045u W=10u
+
+* Flicker Noise Source Circuit - Separate circuit for flicker noise characterization
+* Voltage and current sources for AC analysis
+Vin_f flicker_in 0 DC 0 AC 1
+* Input stage for analysis
+Rin_f flicker_in flicker_gate 1k
+Vbias_f flicker_vdd 0 DC 1.2
+Vgs_flicker flicker_gate_bias 0 DC 0.6
+M_flicker flicker_drain flicker_gate flicker_source flicker_bulk NMOS_VTG L=0.045u W=10u
+Vgs_inp_f flicker_gate flicker_gate_bias DC 0
+Rout_f flicker_drain flicker_vdd 10k
+Vbulk_f flicker_bulk 0 DC 0
+Vsrc_f flicker_source 0 DC 0
+
+* Shot Noise Test Circuit - Configured for shot noise observation
+Vdd_shot shot_vdd 0 DC 1.2 AC 1
+Vgs_shot shot_gate 0 DC 0.9
+Rload_shot shot_vdd shot_drain 10k
+M_shot shot_drain shot_gate shot_source shot_bulk NMOS_VTG L=0.045u W=10u
+Vbulk_shot shot_bulk 0 DC 0
+Vsrc_shot shot_source 0 DC 0
+
 * Control block
 .control
 set filetype=ascii
@@ -338,6 +372,108 @@ let qb_approx = integ(ib_charge)
 let q_total = qg_approx + qd_approx + qs_approx + qb_approx
 * Save the results
 wrdata ./tran_charge.txt time v(gate_charge) ig_charge id_charge is_charge ib_charge i_total qg_approx qd_approx qs_approx qb_approx q_total
+
+* Noise Analysis Simulations
+echo "Starting noise analysis simulations"
+
+* First, make sure we can switch to the noise plots
+set filetype=ascii
+set wr_vecnames
+set wr_singlescale
+
+* Thermal Noise Analysis
+echo "Thermal Noise Analysis"
+* Setup bias conditions for thermal noise analysis
+
+* First bias point (0.3, 0.3)
+alter Vgs_noise = 0.3
+alter Vds_noise = 0.3
+noise v(drain_noise) Vin_noise dec 20 1 1G
+eprvcd ./thermal_noise_vgs0.3_vds0.3.raw all
+
+* Second bias point (0.3, 0.6)
+alter Vgs_noise = 0.3
+alter Vds_noise = 0.6
+noise v(drain_noise) Vin_noise dec 20 1 1G
+eprvcd ./thermal_noise_vgs0.3_vds0.6.raw all
+
+* Third bias point (0.3, 0.9)
+alter Vgs_noise = 0.3
+alter Vds_noise = 0.9
+noise v(drain_noise) Vin_noise dec 20 1 1G
+eprvcd ./thermal_noise_vgs0.3_vds0.9.raw all
+
+* Fourth bias point (0.3, 1.2)
+alter Vgs_noise = 0.3
+alter Vds_noise = 1.2
+noise v(drain_noise) Vin_noise dec 20 1 1G
+eprvcd ./thermal_noise_vgs0.3_vds1.2.raw all
+
+* Fifth bias point (0.6, 0.3)
+alter Vgs_noise = 0.6
+alter Vds_noise = 0.3
+noise v(drain_noise) Vin_noise dec 20 1 1G
+eprvcd ./thermal_noise_vgs0.6_vds0.3.raw all
+
+* Sixth bias point (0.6, 0.6)
+alter Vgs_noise = 0.6
+alter Vds_noise = 0.6
+noise v(drain_noise) Vin_noise dec 20 1 1G
+eprvcd ./thermal_noise_vgs0.6_vds0.6.raw all
+
+* Flicker (1/f) Noise Analysis
+echo "Flicker (1/f) Noise Analysis"
+* Set bias for flicker noise analysis (typically more visible at lower frequencies)
+alter Vgs_flicker = 0.6
+alter Vbias_f = 1.2
+
+* Run noise analysis with focus on lower frequencies where flicker noise dominates
+noise v(flicker_drain) Vin_f dec 20 0.1 1MEG
+eprvcd ./flicker_noise.raw all
+
+* Shot Noise Analysis
+echo "Shot Noise Analysis"
+* Set bias for shot noise observation
+alter Vgs_shot = 0.9
+* Run noise analysis - Ensure AC is set correctly on Vdd_shot
+noise v(shot_drain) Vdd_shot dec 20 1 1G
+eprvcd ./shot_noise.raw all
+
+* Temperature-Dependent Noise Analysis
+echo "Temperature-Dependent Noise Analysis"
+* Run noise analysis at different temperatures
+
+* First temperature -40°C
+option temp = -40
+noise v(drain_noise) Vin_noise dec 20 1 1G
+eprvcd ./noise_temp-40.raw all
+
+* Second temperature 0°C
+option temp = 0
+noise v(drain_noise) Vin_noise dec 20 1 1G
+eprvcd ./noise_temp0.raw all
+
+* Third temperature 27°C
+option temp = 27
+noise v(drain_noise) Vin_noise dec 20 1 1G
+eprvcd ./noise_temp27.raw all
+
+* Fourth temperature 50°C
+option temp = 50
+noise v(drain_noise) Vin_noise dec 20 1 1G
+eprvcd ./noise_temp50.raw all
+
+* Fifth temperature 100°C
+option temp = 100
+noise v(drain_noise) Vin_noise dec 20 1 1G
+eprvcd ./noise_temp100.raw all
+
+* Sixth temperature 150°C
+option temp = 150
+noise v(drain_noise) Vin_noise dec 20 1 1G
+eprvcd ./noise_temp150.raw all
+
+echo "Noise analysis simulations completed"
 
 quit
 .endc

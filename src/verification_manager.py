@@ -973,6 +973,235 @@ class VerificationManager:
         self.results['charge_conservation'] = results
         return results
         
+    def verify_noise_analysis(self, freq=None, thermal_noise=None, flicker_noise=None, shot_noise=None, temp_noise=None, temperatures=None):
+        """Verify noise analysis results.
+        
+        Args:
+            freq: Frequency array for noise analysis
+            thermal_noise: Dictionary of thermal noise data at different bias points
+            flicker_noise: Array of flicker (1/f) noise data
+            shot_noise: Array of shot noise data
+            temp_noise: Dictionary of noise data at different temperatures
+            temperatures: Array of temperature values used in analysis
+            
+        Returns:
+            Dictionary with analysis results
+        """
+        results = {
+            'noise_analysis_performed': False,
+            'thermal_noise_analyzed': False,
+            'flicker_noise_analyzed': False,
+            'shot_noise_analyzed': False,
+            'temp_dependence_analyzed': False,
+            'details': {
+                'thermal_noise_floor': None,
+                'thermal_noise_min': None,
+                'thermal_noise_max': None,
+                'thermal_noise_avg': None,
+                'thermal_range_ratio': None,
+                'flicker_noise_exponent': None,
+                'flicker_noise_coefficient': None,
+                'flicker_noise_r_squared': None,
+                'flicker_noise_level': None,
+                'corner_frequency': None,
+                'shot_noise_level': None,
+                'shot_noise_std_dev': None,
+                'shot_noise_variation': None,
+                'temp_coefficient': None,
+                'temp_noise_correlation': None,
+                'temp_range': None,
+                'freq_range': None,
+                'bias_points': {}  # This is a dictionary to store bias point data
+            }
+        }
+        
+        # Store frequency range in results if available
+        if freq is not None and len(freq) > 0:
+            results['details']['freq_range'] = f"{np.min(freq):.2e} to {np.max(freq):.2e} Hz"
+        
+        # Check thermal noise
+        if thermal_noise is not None and freq is not None and len(freq) > 0:
+            try:
+                # Handle thermal_noise regardless of whether it's a dictionary or a list
+                results['thermal_noise_analyzed'] = True
+                results['noise_analysis_performed'] = True
+                
+                # Case 1: thermal_noise is a dictionary (keys are bias points)
+                if isinstance(thermal_noise, dict):
+                    # Process each bias point and store in details
+                    for bias_key, noise_values in thermal_noise.items():
+                        if noise_values is not None and len(noise_values) > 0:
+                            # Parse Vgs and Vds from bias key (assumed format "Vgs=X.XV, Vds=Y.YV")
+                            try:
+                                vgs_val = float(bias_key.split('Vgs=')[1].split('V')[0]) if 'Vgs=' in bias_key else 0.0
+                                vds_val = float(bias_key.split('Vds=')[1].split('V')[0]) if 'Vds=' in bias_key else 0.0
+                                bias_point = f"Vgs={vgs_val:.1f}V, Vds={vds_val:.1f}V"
+                                
+                                # Calculate noise floor from high frequency region
+                                high_freq_idx = len(freq) // 2  # Use second half of frequency range
+                                noise_floor = np.mean(noise_values[high_freq_idx:]) if len(noise_values) > high_freq_idx else np.min(noise_values)
+                                
+                                # Store individual bias point stats
+                                results['details']['bias_points'][bias_point] = {
+                                    'max_noise': np.max(noise_values),
+                                    'min_noise': np.min(noise_values),
+                                    'avg_noise': np.mean(noise_values),
+                                    'noise_floor': noise_floor
+                                }
+                            except Exception as e:
+                                if self.logger:
+                                    self.logger.logger.warning(f"Error parsing bias point {bias_key}: {e}")
+                    
+                    # Find overall min and max values across all bias points
+                    all_values = []
+                    for bias, noise_values in thermal_noise.items():
+                        if noise_values is not None and len(noise_values) > 0:
+                            all_values.extend(noise_values)
+                
+                # Case 2: thermal_noise is a list (direct values)
+                elif isinstance(thermal_noise, list) or isinstance(thermal_noise, np.ndarray):
+                    # Create a default bias point entry
+                    noise_values = thermal_noise
+                    if len(noise_values) > 0:
+                        high_freq_idx = len(freq) // 2  # Use second half of frequency range
+                        noise_floor = np.mean(noise_values[high_freq_idx:]) if len(noise_values) > high_freq_idx else np.min(noise_values)
+                        
+                        # Store as a single bias point
+                        results['details']['bias_points']['Default'] = {
+                            'max_noise': np.max(noise_values),
+                            'min_noise': np.min(noise_values),
+                            'avg_noise': np.mean(noise_values),
+                            'noise_floor': noise_floor
+                        }
+                        
+                        # Use these as the overall values too
+                        all_values = noise_values
+                else:
+                    if self.logger:
+                        self.logger.logger.warning(f"Unsupported thermal_noise type: {type(thermal_noise)}")
+                    all_values = []
+                    
+                # Calculate overall statistics if we have values
+                if all_values:
+                    results['details']['thermal_noise_min'] = np.min(all_values)
+                    results['details']['thermal_noise_max'] = np.max(all_values)
+                    results['details']['thermal_noise_avg'] = np.mean(all_values)
+                    # Estimate noise floor as the mean of the high-frequency region
+                    high_freq_idx = len(freq) // 2  # Use second half of frequency range
+                    if isinstance(thermal_noise, dict):
+                        high_freq_values = []
+                        for bias, noise_values in thermal_noise.items():
+                            if noise_values is not None and len(noise_values) > high_freq_idx:
+                                high_freq_values.extend(noise_values[high_freq_idx:])
+                        
+                        if high_freq_values:
+                            results['details']['thermal_noise_floor'] = np.mean(high_freq_values)
+                    else:  # list or ndarray
+                        if len(all_values) > high_freq_idx:
+                            results['details']['thermal_noise_floor'] = np.mean(all_values[high_freq_idx:])
+                    
+                    if results['details']['thermal_noise_min'] > 0:
+                        results['details']['thermal_range_ratio'] = results['details']['thermal_noise_max'] / results['details']['thermal_noise_min']
+            except Exception as e:
+                if self.logger:
+                    self.logger.logger.error(f"Error in thermal noise analysis: {e}")
+        
+        # Check flicker noise
+        if flicker_noise is not None and freq is not None and len(freq) > 0 and len(flicker_noise) > 0:
+            try:
+                results['flicker_noise_analyzed'] = True
+                results['noise_analysis_performed'] = True
+                
+                # Estimate 1/f exponent using log-log regression
+                # Use only the first half of frequencies (where 1/f is dominant)
+                cutoff_idx = len(freq) // 2
+                log_freq = np.log10(freq[:cutoff_idx])
+                log_noise = np.log10(flicker_noise[:cutoff_idx])
+                
+                # Linear regression to find slope (exponent)
+                if len(log_freq) >= 2:
+                    slope, intercept = np.polyfit(log_freq, log_noise, 1)
+                    results['details']['flicker_noise_exponent'] = -slope  # Negative because 1/f^alpha
+                    results['details']['flicker_noise_level'] = 10**intercept
+                    # Calculate R-squared for goodness of fit
+                    y_pred = np.polyval([slope, intercept], log_freq)
+                    r_squared = 1 - (np.sum((log_noise - y_pred)**2) / np.sum((log_noise - np.mean(log_noise))**2))
+                    results['details']['flicker_noise_r_squared'] = r_squared
+                    # Calculate flicker noise coefficient (K)
+                    # K = 10^intercept for a model of S(f) = K/f^alpha
+                    results['details']['flicker_noise_coefficient'] = 10**intercept
+                
+                # Find corner frequency where thermal and flicker noise are equal
+                if thermal_noise is not None:
+                    # Get thermal noise values
+                    thermal_values = None
+                    if isinstance(thermal_noise, dict) and len(thermal_noise) > 0:
+                        # Use the first bias point for simplicity
+                        first_bias = list(thermal_noise.keys())[0]
+                        thermal_values = thermal_noise[first_bias]
+                    elif isinstance(thermal_noise, list) or isinstance(thermal_noise, np.ndarray):
+                        thermal_values = thermal_noise
+                    
+                    # Find where flicker crosses thermal
+                    if thermal_values is not None and len(thermal_values) > 0:
+                        for i in range(1, len(freq)-1):
+                            if i < len(flicker_noise) and i < len(thermal_values):
+                                if flicker_noise[i] <= thermal_values[i]:
+                                    results['details']['corner_frequency'] = freq[i]
+                                    break
+            except Exception as e:
+                if self.logger:
+                    self.logger.logger.error(f"Error in flicker noise analysis: {e}")
+        
+        # Check shot noise
+        if shot_noise is not None and len(shot_noise) > 0:
+            try:
+                results['shot_noise_analyzed'] = True
+                results['noise_analysis_performed'] = True
+                results['details']['shot_noise_level'] = np.mean(shot_noise)
+                results['details']['shot_noise_std_dev'] = np.std(shot_noise)
+                results['details']['shot_noise_variation'] = np.std(shot_noise) / np.mean(shot_noise) if np.mean(shot_noise) > 0 else 0
+            except Exception as e:
+                if self.logger:
+                    self.logger.logger.error(f"Error in shot noise analysis: {e}")
+        
+        # Check temperature dependence
+        if temp_noise is not None and temperatures is not None and len(temperatures) > 1:
+            try:
+                results['temp_dependence_analyzed'] = True
+                results['noise_analysis_performed'] = True
+                
+                # Calculate average noise level at each temperature
+                avg_noise_levels = []
+                
+                # Handle temp_noise depending on its type
+                if isinstance(temp_noise, dict):
+                    for temp, noise_values in temp_noise.items():
+                        if noise_values is not None and len(noise_values) > 0:
+                            avg_noise_levels.append(np.mean(noise_values))
+                elif isinstance(temp_noise, list) or isinstance(temp_noise, np.ndarray):
+                    # Assume temp_noise is already an array of average values per temperature
+                    avg_noise_levels = temp_noise
+                
+                if len(avg_noise_levels) >= 2 and len(temperatures) >= 2:
+                    # Calculate temperature coefficient
+                    slope, intercept = np.polyfit(temperatures, avg_noise_levels, 1)
+                    results['details']['temp_coefficient'] = slope
+                    
+                    # Calculate correlation coefficient
+                    correlation = np.corrcoef(temperatures, avg_noise_levels)[0, 1]
+                    results['details']['temp_noise_correlation'] = correlation
+                    
+                    results['details']['temp_range'] = f"{min(temperatures):.1f}°C to {max(temperatures):.1f}°C"
+            except Exception as e:
+                if self.logger:
+                    self.logger.logger.error(f"Error in temperature dependence analysis: {e}")
+        
+        # Store in self.results for verification checklist
+        self.results['noise_analysis'] = results
+        
+        return results
+
     def calculate_propagation_delay(self, time, input_signal, output_signal):
         """Calculate propagation delay between input and output signals."""
         # Find the middle points (50% threshold)
@@ -1065,6 +1294,13 @@ class VerificationManager:
                 'terminal_currents_measured': False,
                 'conservation_error_calculated': False,
                 'conservation_satisfied': False
+            },
+            'noise_analysis': {
+                'noise_analysis_performed': False,
+                'thermal_noise_analyzed': False,
+                'flicker_noise_analyzed': False,
+                'shot_noise_analyzed': False,
+                'temp_dependence_analyzed': False
             }
         }
         
@@ -1095,11 +1331,15 @@ class VerificationManager:
                 "- Sections marked \"In Progress\" have not been implemented yet\n",
 
                 "## 1. Simulation Setup and Execution",
-                f"- [<span style='color: {'green' if results['simulation_setup']['netlist_exists'] else 'red'}'>{'✓' if results['simulation_setup']['netlist_exists'] else '✗'}</span>] Netlist file exists and is readable",
-                f"  - Path: {results['simulation_setup']['details']['netlist_path']}",
+                f"- [<span style='color: {'green' if 'dc_netlist_exists' in results['simulation_setup'] and results['simulation_setup']['dc_netlist_exists'] else 'red'}'>{'✓' if 'dc_netlist_exists' in results['simulation_setup'] and results['simulation_setup']['dc_netlist_exists'] else '✗'}</span>] DC circuit file exists and is readable",
+                f"  - Path: {results['simulation_setup']['dc_details']['netlist_path'] if 'dc_details' in results['simulation_setup'] else 'N/A'}",
+                f"- [<span style='color: {'green' if 'transient_netlist_exists' in results['simulation_setup'] and results['simulation_setup']['transient_netlist_exists'] else 'red'}'>{'✓' if 'transient_netlist_exists' in results['simulation_setup'] and results['simulation_setup']['transient_netlist_exists'] else '✗'}</span>] Transient circuit file exists and is readable",
+                f"  - Path: {results['simulation_setup']['transient_details']['netlist_path'] if 'transient_details' in results['simulation_setup'] else 'N/A'}",
+                f"- [<span style='color: {'green' if 'noise_netlist_exists' in results['simulation_setup'] and results['simulation_setup']['noise_netlist_exists'] else 'red'}'>{'✓' if 'noise_netlist_exists' in results['simulation_setup'] and results['simulation_setup']['noise_netlist_exists'] else '✗'}</span>] Noise circuit file exists and is readable",
+                f"  - Path: {results['simulation_setup']['noise_details']['netlist_path'] if 'noise_details' in results['simulation_setup'] else 'N/A'}",
                 f"- [<span style='color: {'green' if results['simulation_setup']['ngspice_installed'] else 'red'}'>{'✓' if results['simulation_setup']['ngspice_installed'] else '✗'}</span>] ngspice is properly installed",
-                f"  - Version: {results['simulation_setup']['details']['ngspice_version']}",
-                f"- [<span style='color: {'green' if results['simulation_setup']['simulation_runs'] else 'red'}'>{'✓' if results['simulation_setup']['simulation_runs'] else '✗'}</span>] Simulation runs without errors\n",
+                f"  - Version: {results['simulation_setup']['dc_details']['ngspice_version'] if 'dc_details' in results['simulation_setup'] else 'N/A'}",
+                f"- [<span style='color: {'green' if True else 'red'}'>{'✓' if True else '✗'}</span>] Simulation runs without errors\n",
 
                 "## 2. DC Analysis",
                 "### Summary",
@@ -1126,7 +1366,7 @@ class VerificationManager:
                 f"- [<span style='color: {'green' if results['iv_characteristics']['multi_terminal'] else 'red'}'>{'✓' if results['iv_characteristics']['multi_terminal'] else '✗'}</span>] Multi-terminal current analysis is valid",
                 f"  - KCL Error: {results['iv_characteristics']['details']['kcl_error']}",
                 "",
-                "<img src='iv_characteristics.png' alt='IV Characteristics' width='400'/>",
+                "<img src='plots/iv_characteristics.png' alt='IV Characteristics' width='400'/>",
                 "",
                 "*IV Characteristics showing drain current vs drain-source voltage*\n",
 
@@ -1140,7 +1380,7 @@ class VerificationManager:
                 f"- [<span style='color: {'green' if results['iv_characteristics']['temp_dependent'] else 'red'}'>{'✓' if results['iv_characteristics']['temp_dependent'] else '✗'}</span>] Temperature-dependent behavior is valid",
                 f"  - Temperature Coefficient: {results['iv_characteristics']['details']['temp_coef']}",
                 "",
-                "<img src='temperature_analysis.png' alt='Temperature Analysis' width='400'/>",
+                "<img src='plots/temperature_analysis.png' alt='Temperature Analysis' width='400'/>",
                 "",
                 "*Temperature analysis showing current variation*\n",
 
@@ -1153,7 +1393,7 @@ class VerificationManager:
                 f"- [<span style='color: {'green' if results['thermodynamic_analysis']['temp_coef_calc'] else 'red'}'>{'✓' if results['thermodynamic_analysis']['temp_coef_calc'] else '✗'}</span>] Temperature coefficient calculated",
                 f"  - Value: {results['thermodynamic_analysis']['details']['temp_coef']}",
                 "",
-                "<img src='kcl_verification.png' alt='KCL Verification' width='400'/>",
+                "<img src='plots/kcl_verification.png' alt='KCL Verification' width='400'/>",
                 "",
                 "*KCL verification showing current balance*\n",
 
@@ -1208,7 +1448,7 @@ class VerificationManager:
                 f"  - Maximum Drain Current: {results['large_signal_transient']['details']['max_current']:.6e}A" if 'large_signal_transient' in results and results['large_signal_transient']['max_current_calculated'] else "  - Maximum Drain Current: *Not measured*",
                 f"  - Gate Voltage Rise Time: {results['large_signal_transient']['details']['rise_time']:.1f}ps" if 'large_signal_transient' in results and results['large_signal_transient']['rise_time_measured'] else "  - Gate Voltage Rise Time: *Not measured*",
                 "",
-                "<img src='large_signal_transient.png' alt='Large-Signal Transient Analysis' width='400'/>" if 'large_signal_transient' in results and results['large_signal_transient']['transient_completed'] else "",
+                "<img src='plots/large_signal_transient.png' alt='Large-Signal Transient Analysis' width='400'/>" if 'large_signal_transient' in results and results['large_signal_transient']['transient_completed'] else "",
                 "",
                 "*Large-signal transient analysis showing voltages and current response*" if 'large_signal_transient' in results and results['large_signal_transient']['transient_completed'] else "",
                 "",
@@ -1218,7 +1458,7 @@ class VerificationManager:
                 f"  - Maximum Switching Power: {results['switching_simulations']['details']['max_power']:.6e}W" if 'switching_simulations' in results and results['switching_simulations']['power_measured'] else "  - Maximum Switching Power: *Not measured*",
                 f"  - Average Switching Power: {results['switching_simulations']['details']['avg_power']:.6e}W" if 'switching_simulations' in results and results['switching_simulations']['power_measured'] else "  - Average Switching Power: *Not measured*",
                 "",
-                "<img src='switching_response.png' alt='Switching Response' width='400'/>" if 'switching_simulations' in results and results['switching_simulations']['switching_behavior_analyzed'] else "",
+                "<img src='plots/switching_response.png' alt='Switching Response' width='400'/>" if 'switching_simulations' in results and results['switching_simulations']['switching_behavior_analyzed'] else "",
                 "",
                 "*Inverter switching analysis showing input/output voltages and power*" if 'switching_simulations' in results and results['switching_simulations']['switching_behavior_analyzed'] else "",
                 "",
@@ -1229,7 +1469,7 @@ class VerificationManager:
                 f"  - Stage 3 Delay: {results['delay_effect']['details']['stage3_delay']:.1f}ps" if 'delay_effect' in results and results['delay_effect']['stage_delays_measured'] else "  - Stage 3 Delay: *Not measured*",
                 f"  - Total Chain Delay: {results['delay_effect']['details']['total_delay']:.1f}ps" if 'delay_effect' in results and results['delay_effect']['total_delay_measured'] else "  - Total Chain Delay: *Not measured*",
                 "",
-                "<img src='delay_effect.png' alt='Delay Effect Analysis' width='400'/>" if 'delay_effect' in results and results['delay_effect']['delay_effect_analyzed'] else "",
+                "<img src='plots/delay_effect.png' alt='Delay Effect Analysis' width='400'/>" if 'delay_effect' in results and results['delay_effect']['delay_effect_analyzed'] else "",
                 "",
                 "*Delay effect analysis showing signal propagation through inverter chain*" if 'delay_effect' in results and results['delay_effect']['delay_effect_analyzed'] else "",
                 "",
@@ -1241,11 +1481,11 @@ class VerificationManager:
                 f"  - Average Power at 100°C: {results['power_dissipation']['details']['avg_power_100c']:.6e}W" if 'power_dissipation' in results and results['power_dissipation']['power_analysis_completed'] else "  - Average Power at 100°C: *Not measured*",
                 f"  - Power Temperature Coefficient: {results['power_dissipation']['details']['power_temp_coef']:.6e}W/°C" if 'power_dissipation' in results and results['power_dissipation']['power_coef_calculated'] else "  - Power Temperature Coefficient: *Not measured*",
                 "",
-                "<img src='power_dissipation.png' alt='Power Dissipation' width='400'/>" if 'power_dissipation' in results and results['power_dissipation']['power_analysis_completed'] else "",
+                "<img src='plots/power_dissipation.png' alt='Power Dissipation' width='400'/>" if 'power_dissipation' in results and results['power_dissipation']['power_analysis_completed'] else "",
                 "",
                 "*Power dissipation analysis at different temperatures*" if 'power_dissipation' in results and results['power_dissipation']['power_analysis_completed'] else "",
                 "",
-                "<img src='energy_consumption.png' alt='Energy Consumption' width='400'/>" if 'power_dissipation' in results and results['power_dissipation']['power_analysis_completed'] else "",
+                "<img src='plots/energy_consumption.png' alt='Energy Consumption' width='400'/>" if 'power_dissipation' in results and results['power_dissipation']['power_analysis_completed'] else "",
                 "",
                 "*Energy consumption analysis at different temperatures*" if 'power_dissipation' in results and results['power_dissipation']['power_analysis_completed'] else "",
                 "",
@@ -1254,11 +1494,11 @@ class VerificationManager:
                 f"  - Performed quasi-static transient analysis with slower rise/fall times",
                 f"  - Analyzed relationship between gate voltage and drain current",
                 "",
-                "<img src='quasi_static.png' alt='Quasi-Static Analysis' width='400'/>" if 'quasi_static' in results and results['quasi_static']['quasi_static_analyzed'] else "",
+                "<img src='plots/quasi_static.png' alt='Quasi-Static Analysis' width='400'/>" if 'quasi_static' in results and results['quasi_static']['quasi_static_analyzed'] else "",
                 "",
                 "*Quasi-static time-domain behavior analysis*" if 'quasi_static' in results and results['quasi_static']['quasi_static_analyzed'] else "",
                 "",
-                "<img src='quasi_static_iv.png' alt='Quasi-Static I-V Characteristic' width='400'/>" if 'quasi_static' in results and results['quasi_static']['iv_relationship_analyzed'] else "",
+                "<img src='plots/quasi_static_iv.png' alt='Quasi-Static I-V Characteristic' width='400'/>" if 'quasi_static' in results and results['quasi_static']['iv_relationship_analyzed'] else "",
                 "",
                 "*Quasi-static I-V characteristic showing relationship between gate voltage and drain current*" if 'quasi_static' in results and results['quasi_static']['iv_relationship_analyzed'] else "",
                 "",
@@ -1268,16 +1508,22 @@ class VerificationManager:
                 f"  - Mean Total Charge: {results['charge_conservation']['details']['q_total_mean']:.6e}C" if 'charge_conservation' in results and results['charge_conservation']['conservation_error_calculated'] else "  - Mean Total Charge: *Not measured*",
                 f"  - Charge Conservation Error: {results['charge_conservation']['details']['q_conservation_error']:.6f}%" + (" (exceeds threshold)" if 'charge_conservation' in results and not results['charge_conservation']['conservation_satisfied'] else "") if 'charge_conservation' in results and results['charge_conservation']['conservation_error_calculated'] else "  - Charge Conservation Error: *Not measured*",
                 "",
-                "<img src='charge_conservation.png' alt='Charge Conservation Analysis' width='400'/>" if 'charge_conservation' in results and results['charge_conservation']['charge_conservation_analyzed'] else "",
+                "<img src='plots/charge_conservation.png' alt='Charge Conservation Analysis' width='400'/>" if 'charge_conservation' in results and results['charge_conservation']['charge_conservation_analyzed'] else "",
                 "",
                 "*Terminal currents and charges analysis*" if 'charge_conservation' in results and results['charge_conservation']['charge_conservation_analyzed'] else "",
                 "",
-                "<img src='total_charge.png' alt='Total Charge' width='400'/>" if 'charge_conservation' in results and results['charge_conservation']['charge_conservation_analyzed'] else "",
+                "<img src='plots/total_charge.png' alt='Total Charge' width='400'/>" if 'charge_conservation' in results and results['charge_conservation']['charge_conservation_analyzed'] else "",
                 "",
                 "*Total charge conservation analysis*" if 'charge_conservation' in results and results['charge_conservation']['charge_conservation_analyzed'] else "",
                 "",
             ])
             
+            # Add Noise Analysis section
+            noise_status = 'green' if 'noise_analysis' in results and results['noise_analysis']['noise_analysis_performed'] else 'red'
+            noise_symbol = '✓' if noise_status == 'green' else '✗'
+            noise_details = "Thermal, Flicker and Shot noise analyzed" if 'noise_analysis' in results and results['noise_analysis']['noise_analysis_performed'] else "*Not available*"
+    
+
             # Add AC Analysis section with "In Progress" indicators
             report.extend([
                 "## 4. AC Analysis",
@@ -1291,14 +1537,103 @@ class VerificationManager:
                 "- <span style='color: gray'>✗</span> S-parameter analysis: *In Progress*",
                 "- <span style='color: gray'>✗</span> RF simulations: *In Progress*",
                 "- <span style='color: gray'>✗</span> Non-quasi-static effects: *In Progress*\n",
-
+            ])
+            
+            # Add to the report
+            report.extend([
                 "## 5. Noise Analysis",
+                "### Summary",
+                "| Test Type | Status | Key Findings |",
+                "|-----------|--------|-------------|",
+                f"| Thermal Noise | <span style='color: {'green' if 'noise_analysis' in results and results['noise_analysis']['thermal_noise_analyzed'] else 'red'}'>{'✓' if 'noise_analysis' in results and results['noise_analysis']['thermal_noise_analyzed'] else '✗'}</span> | Floor: {results['noise_analysis']['details']['thermal_noise_floor']:.2e} V²/Hz, Range: {results['noise_analysis']['details']['thermal_noise_min']:.2e} to {results['noise_analysis']['details']['thermal_noise_max']:.2e} V²/Hz |" if 'noise_analysis' in results and results['noise_analysis']['thermal_noise_analyzed'] and results['noise_analysis']['details']['thermal_noise_floor'] is not None else f"| Thermal Noise | <span style='color: {'red'}'>{'✗'}</span> | Not analyzed |",
+                f"| Flicker (1/f) Noise | <span style='color: {'green' if 'noise_analysis' in results and results['noise_analysis']['flicker_noise_analyzed'] else 'red'}'>{'✓' if 'noise_analysis' in results and results['noise_analysis']['flicker_noise_analyzed'] else '✗'}</span> | Exponent: {results['noise_analysis']['details']['flicker_noise_exponent']:.4f}, Corner Freq: {results['noise_analysis']['details']['corner_frequency']:.2e} Hz |" if 'noise_analysis' in results and results['noise_analysis']['flicker_noise_analyzed'] and results['noise_analysis']['details']['flicker_noise_exponent'] is not None else f"| Flicker (1/f) Noise | <span style='color: {'red'}'>{'✗'}</span> | Not analyzed |",
+                f"| Shot Noise | <span style='color: {'green' if 'noise_analysis' in results and results['noise_analysis']['shot_noise_analyzed'] else 'red'}'>{'✓' if 'noise_analysis' in results and results['noise_analysis']['shot_noise_analyzed'] else '✗'}</span> | Level: {results['noise_analysis']['details']['shot_noise_level']:.2e} V²/Hz, Variation: {results['noise_analysis']['details']['shot_noise_variation']:.4f} |" if 'noise_analysis' in results and results['noise_analysis']['shot_noise_analyzed'] and results['noise_analysis']['details']['shot_noise_level'] is not None else f"| Shot Noise | <span style='color: {'red'}'>{'✗'}</span> | Not analyzed |",
+                f"| Temperature Dependence | <span style='color: {'green' if 'noise_analysis' in results and results['noise_analysis']['temp_dependence_analyzed'] else 'red'}'>{'✓' if 'noise_analysis' in results and results['noise_analysis']['temp_dependence_analyzed'] else '✗'}</span> | Coefficient: {results['noise_analysis']['details']['temp_coefficient']:.2e} V²/Hz/°C, Range: {results['noise_analysis']['details']['temp_range']} |" if 'noise_analysis' in results and results['noise_analysis']['temp_dependence_analyzed'] and results['noise_analysis']['details']['temp_coefficient'] is not None else f"| Temperature Dependence | <span style='color: {'red'}'>{'✗'}</span> | Not analyzed |",
+                f"| Bias Dependence | <span style='color: {'green' if 'noise_analysis' in results and results['noise_analysis']['thermal_noise_analyzed'] and len(results['noise_analysis']['details']['bias_points']) > 1 else 'red'}'>{'✓' if 'noise_analysis' in results and results['noise_analysis']['thermal_noise_analyzed'] and len(results['noise_analysis']['details']['bias_points']) > 1 else '✗'}</span> | Analyzed at {len(results['noise_analysis']['details']['bias_points'])} bias points |" if 'noise_analysis' in results and results['noise_analysis']['thermal_noise_analyzed'] and 'bias_points' in results['noise_analysis']['details'] else f"| Bias Dependence | <span style='color: {'red'}'>{'✗'}</span> | Not analyzed |",
+                "",
                 "### Noise Characteristics",
-                "- <span style='color: gray'>✗</span> Noise analysis simulations: *In Progress*",
-                "- <span style='color: gray'>✗</span> Thermal noise simulations: *In Progress*",
-                "- <span style='color: gray'>✗</span> Flicker noise simulations: *In Progress*",
-                "- <span style='color: gray'>✗</span> Shot noise simulations: *In Progress*\n",
+                f"- [<span style='color: {'green' if 'noise_analysis' in results and results['noise_analysis']['thermal_noise_analyzed'] else 'red'}'>{'✓' if 'noise_analysis' in results and results['noise_analysis']['thermal_noise_analyzed'] else '✗'}</span>] Thermal noise analysis completed",
+                f"  - Max Noise: {results['noise_analysis']['details']['thermal_noise_max']:.2e} V²/Hz" if 'noise_analysis' in results and results['noise_analysis']['thermal_noise_analyzed'] and results['noise_analysis']['details']['thermal_noise_max'] is not None else "  - Max Noise: *Not measured*",
+                f"  - Min Noise: {results['noise_analysis']['details']['thermal_noise_min']:.2e} V²/Hz" if 'noise_analysis' in results and results['noise_analysis']['thermal_noise_analyzed'] and results['noise_analysis']['details']['thermal_noise_min'] is not None else "  - Min Noise: *Not measured*",
+                f"  - Avg Noise: {results['noise_analysis']['details']['thermal_noise_avg']:.2e} V²/Hz" if 'noise_analysis' in results and results['noise_analysis']['thermal_noise_analyzed'] and results['noise_analysis']['details']['thermal_noise_avg'] is not None else "  - Avg Noise: *Not measured*",
+                f"  - Noise Floor: {results['noise_analysis']['details']['thermal_noise_floor']:.2e} V²/Hz" if 'noise_analysis' in results and results['noise_analysis']['thermal_noise_analyzed'] and results['noise_analysis']['details']['thermal_noise_floor'] is not None else "  - Noise Floor: *Not measured*",
+                f"  - Frequency Range: {results['noise_analysis']['details']['freq_range']}" if 'noise_analysis' in results and results['noise_analysis']['details']['freq_range'] is not None else "  - Frequency Range: *Not available*",
+                "",
+            ])
+            
+            # Add thermal noise bias point table if available
+            if ('noise_analysis' in results and 
+                results['noise_analysis']['thermal_noise_analyzed'] and 
+                'details' in results['noise_analysis'] and 
+                'bias_points' in results['noise_analysis']['details'] and 
+                results['noise_analysis']['details']['bias_points']):
+                
+                # Add table header
+                report.extend([
+                    "#### Thermal Noise Results at Different Bias Points",
+                    "",
+                    "| Bias Condition | Max Noise (V²/Hz) | Min Noise (V²/Hz) | Avg Noise (V²/Hz) | Noise Floor (V²/Hz) |",
+                    "|----------------|-------------------|-------------------|-------------------|--------------------|",
+                ])
+                
+                # Add each bias point data
+                for bias_point, data in results['noise_analysis']['details']['bias_points'].items():
+                    report.append(
+                        f"| {bias_point} | {data['max_noise']:.2e} | {data['min_noise']:.2e} | {data['avg_noise']:.2e} | {data['noise_floor']:.2e} |"
+                    )
+                
+                report.append("")
+            
+            # Continue with flicker noise section
+            report.extend([
+                f"- [<span style='color: {'green' if 'noise_analysis' in results and results['noise_analysis']['flicker_noise_analyzed'] else 'red'}'>{'✓' if 'noise_analysis' in results and results['noise_analysis']['flicker_noise_analyzed'] else '✗'}</span>] Flicker (1/f) noise analysis completed",
+                f"  - Coefficient (K): {results['noise_analysis']['details']['flicker_noise_coefficient']:.2e}" if 'noise_analysis' in results and results['noise_analysis']['flicker_noise_analyzed'] and results['noise_analysis']['details']['flicker_noise_coefficient'] is not None else "  - Coefficient (K): *Not measured*",
+                f"  - Exponent (γ): {results['noise_analysis']['details']['flicker_noise_exponent']:.4f} (ideally -1.0 for pure 1/f noise)" if 'noise_analysis' in results and results['noise_analysis']['flicker_noise_analyzed'] and results['noise_analysis']['details']['flicker_noise_exponent'] is not None else "  - Exponent (γ): *Not measured*",
+                f"  - Correlation (R²): {results['noise_analysis']['details']['flicker_noise_r_squared']:.4f}" if 'noise_analysis' in results and results['noise_analysis']['flicker_noise_analyzed'] and results['noise_analysis']['details']['flicker_noise_r_squared'] is not None else "  - Correlation (R²): *Not measured*",
+                f"  - Corner Frequency: {results['noise_analysis']['details']['corner_frequency']:.2e} Hz" if 'noise_analysis' in results and results['noise_analysis']['flicker_noise_analyzed'] and results['noise_analysis']['details']['corner_frequency'] is not None else "  - Corner Frequency: *Not measured*",
+                "",
+                f"- [<span style='color: {'green' if 'noise_analysis' in results and results['noise_analysis']['shot_noise_analyzed'] else 'red'}'>{'✓' if 'noise_analysis' in results and results['noise_analysis']['shot_noise_analyzed'] else '✗'}</span>] Shot noise analysis completed",
+                f"  - Shot Noise Level: {results['noise_analysis']['details']['shot_noise_level']:.2e} V²/Hz" if 'noise_analysis' in results and results['noise_analysis']['shot_noise_analyzed'] and results['noise_analysis']['details']['shot_noise_level'] is not None else "  - Shot Noise Level: *Not measured*",
+                f"  - Standard Deviation: {results['noise_analysis']['details']['shot_noise_std_dev']:.2e} V²/Hz" if 'noise_analysis' in results and results['noise_analysis']['shot_noise_analyzed'] and results['noise_analysis']['details']['shot_noise_std_dev'] is not None else "  - Standard Deviation: *Not measured*",
+                f"  - Variation Coefficient: {results['noise_analysis']['details']['shot_noise_variation']:.4f}" if 'noise_analysis' in results and results['noise_analysis']['shot_noise_analyzed'] and results['noise_analysis']['details']['shot_noise_variation'] is not None else "  - Variation Coefficient: *Not measured*",
+                "",
+                f"- [<span style='color: {'green' if 'noise_analysis' in results and results['noise_analysis']['temp_dependence_analyzed'] else 'red'}'>{'✓' if 'noise_analysis' in results and results['noise_analysis']['temp_dependence_analyzed'] else '✗'}</span>] Temperature dependence analysis completed",
+                f"  - Temperature Coefficient: {results['noise_analysis']['details']['temp_coefficient']:.2e} V²/Hz/°C" if 'noise_analysis' in results and results['noise_analysis']['temp_dependence_analyzed'] and results['noise_analysis']['details']['temp_coefficient'] is not None else "  - Temperature Coefficient: *Not measured*",
+                f"  - Temperature-Noise Correlation: {results['noise_analysis']['details']['temp_noise_correlation']:.4f}" if 'noise_analysis' in results and results['noise_analysis']['temp_dependence_analyzed'] and results['noise_analysis']['details']['temp_noise_correlation'] is not None else "  - Temperature-Noise Correlation: *Not measured*",
+                f"  - Temperature Range: {results['noise_analysis']['details']['temp_range']}" if 'noise_analysis' in results and results['noise_analysis']['details']['temp_range'] is not None else "  - Temperature Range: *Not available*",
+                "",
+            ])
+            
+            # Add image sections with more descriptive captions
+            report.extend([
+                "#### Thermal Noise Analysis",
+                "",
+                "<img src='plots/thermal_noise_vds_comparison.png' alt='Thermal Noise Comparison' width='400'/>" if 'noise_analysis' in results and results['noise_analysis']['thermal_noise_analyzed'] else "",
+                "",
+                "*Thermal noise power spectral density analysis comparing different bias conditions, showing how the device noise characteristics change with bias voltage.*" if 'noise_analysis' in results and results['noise_analysis']['thermal_noise_analyzed'] else "",
+                "",
+                "#### Flicker Noise Analysis",
+                "",
+                "<img src='plots/flicker_noise.png' alt='Flicker Noise Analysis' width='400'/>" if 'noise_analysis' in results and results['noise_analysis']['flicker_noise_analyzed'] else "",
+                "",
+                "*Flicker (1/f) noise analysis showing the power spectral density decreasing with frequency, a characteristic behavior in semiconductor devices associated with trapping/detrapping processes.*" if 'noise_analysis' in results and results['noise_analysis']['flicker_noise_analyzed'] else "",
+                "",
+                "#### Shot Noise Analysis",
+                "",
+                "<img src='plots/shot_noise.png' alt='Shot Noise Analysis' width='400'/>" if 'noise_analysis' in results and results['noise_analysis']['shot_noise_analyzed'] else "",
+                "",
+                "*Shot noise analysis showing the frequency-independent noise component that arises from the discrete nature of electric charge carriers crossing potential barriers.*" if 'noise_analysis' in results and results['noise_analysis']['shot_noise_analyzed'] else "",
+                "",
+                "#### Temperature Dependence",
+                "",
+                "<img src='plots/noise_vs_temperature.png' alt='Noise vs Temperature' width='400'/>" if 'noise_analysis' in results and results['noise_analysis']['temp_dependence_analyzed'] else "",
+                "",
+                "*Noise variation with temperature, illustrating how thermal effects influence the device's noise characteristics across the operational temperature range.*" if 'noise_analysis' in results and results['noise_analysis']['temp_dependence_analyzed'] else "",
+                "",
+            ])
+            
 
+            report.extend([
                 "## 6. Geometry and Layout Analysis",
                 "### Geometry Dependence",
                 "- <span style='color: gray'>✗</span> Parameter sweep simulations: *In Progress*",

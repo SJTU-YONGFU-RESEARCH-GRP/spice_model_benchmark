@@ -1,6 +1,6 @@
 # MOSFET Simulation Verification Report
 
-Generated on: 2025-05-11 22:41:39
+Generated on: 2025-05-12 06:12:58
 
 ## Table of Contents
 1. [Simulation Setup and Execution](#1-simulation-setup-and-execution)
@@ -18,8 +18,12 @@ Generated on: 2025-05-11 22:41:39
 - Sections marked "In Progress" have not been implemented yet
 
 ## 1. Simulation Setup and Execution
-- [<span style='color: green'>✓</span>] Netlist file exists and is readable
-  - Path: /home/yongfu/proj/spice_model_benchmark/netlists/circuit.cir
+- [<span style='color: green'>✓</span>] DC circuit file exists and is readable
+  - Path: /home/yongfu/proj/spice_model_benchmark/netlists/dc_circuit.cir
+- [<span style='color: green'>✓</span>] Transient circuit file exists and is readable
+  - Path: /home/yongfu/proj/spice_model_benchmark/netlists/transient_circuit.cir
+- [<span style='color: green'>✓</span>] Noise circuit file exists and is readable
+  - Path: /home/yongfu/proj/spice_model_benchmark/netlists/noise_circuit.cir
 - [<span style='color: green'>✓</span>] ngspice is properly installed
   - Version: ngspice-42
 - [<span style='color: green'>✓</span>] Simulation runs without errors
@@ -49,7 +53,7 @@ Generated on: 2025-05-11 22:41:39
 - [<span style='color: green'>✓</span>] Multi-terminal current analysis is valid
   - KCL Error: 0.00%
 
-<img src='iv_characteristics.png' alt='IV Characteristics' width='400'/>
+<img src='plots/iv_characteristics.png' alt='IV Characteristics' width='400'/>
 
 *IV Characteristics showing drain current vs drain-source voltage*
 
@@ -63,7 +67,7 @@ Generated on: 2025-05-11 22:41:39
 - [<span style='color: green'>✓</span>] Temperature-dependent behavior is valid
   - Temperature Coefficient: 1.48e-05A/°C
 
-<img src='temperature_analysis.png' alt='Temperature Analysis' width='400'/>
+<img src='plots/temperature_analysis.png' alt='Temperature Analysis' width='400'/>
 
 *Temperature analysis showing current variation*
 
@@ -76,7 +80,7 @@ Generated on: 2025-05-11 22:41:39
 - [<span style='color: green'>✓</span>] Temperature coefficient calculated
   - Value: 8.34e-04/°C
 
-<img src='kcl_verification.png' alt='KCL Verification' width='400'/>
+<img src='plots/kcl_verification.png' alt='KCL Verification' width='400'/>
 
 *KCL verification showing current balance*
 
@@ -96,14 +100,14 @@ Generated on: 2025-05-11 22:41:39
 | Delay Effect | <span style='color: green'>✓</span> | Total Chain Delay: 25.0ps |
 | Power Dissipation | <span style='color: green'>✓</span> | Temp Coeff: -1.718433e-05W/°C |
 | Quasi-Static Analysis | <span style='color: green'>✓</span> | I-V characteristics analyzed |
-| Charge Conservation | <span style='color: green'>✓</span> | Error: 193.589708% |
+| Charge Conservation | <span style='color: red'>✗</span> | Error: 856.693961% (exceeds threshold) |
 
 ### Large-Signal Transient
 - [<span style='color: green'>✓</span>] Time-domain transient analysis completed
-  - Maximum Drain Current: 2.934347e-05A
+  - Maximum Drain Current: 2.934381e-05A
   - Gate Voltage Rise Time: 0.1ps
 
-<img src='large_signal_transient.png' alt='Large-Signal Transient Analysis' width='400'/>
+<img src='plots/large_signal_transient.png' alt='Large-Signal Transient Analysis' width='400'/>
 
 *Large-signal transient analysis showing voltages and current response*
 
@@ -111,9 +115,9 @@ Generated on: 2025-05-11 22:41:39
 - [<span style='color: green'>✓</span>] Inverter switching behavior analyzed
   - Propagation Delay: 10.7ps
   - Maximum Switching Power: 5.659051e-03W
-  - Average Switching Power: 1.469232e-03W
+  - Average Switching Power: 1.470466e-03W
 
-<img src='switching_response.png' alt='Switching Response' width='400'/>
+<img src='plots/switching_response.png' alt='Switching Response' width='400'/>
 
 *Inverter switching analysis showing input/output voltages and power*
 
@@ -124,7 +128,7 @@ Generated on: 2025-05-11 22:41:39
   - Stage 3 Delay: 5.1ps
   - Total Chain Delay: 25.0ps
 
-<img src='delay_effect.png' alt='Delay Effect Analysis' width='400'/>
+<img src='plots/delay_effect.png' alt='Delay Effect Analysis' width='400'/>
 
 *Delay effect analysis showing signal propagation through inverter chain*
 
@@ -132,15 +136,15 @@ Generated on: 2025-05-11 22:41:39
 - [<span style='color: green'>✓</span>] Temperature-dependent power analysis completed
   - Maximum Power at 27°C: 5.659051e-03W
   - Maximum Power at 100°C: 4.404595e-03W
-  - Average Power at 27°C: 1.469232e-03W
-  - Average Power at 100°C: 1.014993e-03W
+  - Average Power at 27°C: 1.470466e-03W
+  - Average Power at 100°C: 1.017077e-03W
   - Power Temperature Coefficient: -1.718433e-05W/°C
 
-<img src='power_dissipation.png' alt='Power Dissipation' width='400'/>
+<img src='plots/power_dissipation.png' alt='Power Dissipation' width='400'/>
 
 *Power dissipation analysis at different temperatures*
 
-<img src='energy_consumption.png' alt='Energy Consumption' width='400'/>
+<img src='plots/energy_consumption.png' alt='Energy Consumption' width='400'/>
 
 *Energy consumption analysis at different temperatures*
 
@@ -149,25 +153,25 @@ Generated on: 2025-05-11 22:41:39
   - Performed quasi-static transient analysis with slower rise/fall times
   - Analyzed relationship between gate voltage and drain current
 
-<img src='quasi_static.png' alt='Quasi-Static Analysis' width='400'/>
+<img src='plots/quasi_static.png' alt='Quasi-Static Analysis' width='400'/>
 
 *Quasi-static time-domain behavior analysis*
 
-<img src='quasi_static_iv.png' alt='Quasi-Static I-V Characteristic' width='400'/>
+<img src='plots/quasi_static_iv.png' alt='Quasi-Static I-V Characteristic' width='400'/>
 
 *Quasi-static I-V characteristic showing relationship between gate voltage and drain current*
 
 ### Charge Conservation Tests
-- [<span style='color: green'>✓</span>] Charge conservation analyzed
-  - Total Charge Variation: 3.211763e-14C
-  - Mean Total Charge: 1.659057e-14C
-  - Charge Conservation Error: 193.589708%
+- [<span style='color: red'>✗</span>] Charge conservation analyzed
+  - Total Charge Variation: 3.185823e-18C
+  - Mean Total Charge: 3.718741e-19C
+  - Charge Conservation Error: 856.693961% (exceeds threshold)
 
-<img src='charge_conservation.png' alt='Charge Conservation Analysis' width='400'/>
+<img src='plots/charge_conservation.png' alt='Charge Conservation Analysis' width='400'/>
 
 *Terminal currents and charges analysis*
 
-<img src='total_charge.png' alt='Total Charge' width='400'/>
+<img src='plots/total_charge.png' alt='Total Charge' width='400'/>
 
 *Total charge conservation analysis*
 
@@ -184,11 +188,73 @@ Generated on: 2025-05-11 22:41:39
 - <span style='color: gray'>✗</span> Non-quasi-static effects: *In Progress*
 
 ## 5. Noise Analysis
+### Summary
+| Test Type | Status | Key Findings |
+|-----------|--------|-------------|
+| Thermal Noise | <span style='color: green'>✓</span> | Floor: 6.90e-12 V²/Hz, Range: 2.16e-15 to 1.36e-08 V²/Hz |
+| Flicker (1/f) Noise | <span style='color: green'>✓</span> | Exponent: 0.5075, Corner Freq: 1.12e+00 Hz |
+| Shot Noise | <span style='color: green'>✓</span> | Level: 3.79e-09 V²/Hz, Variation: 1.4676 |
+| Temperature Dependence | <span style='color: green'>✓</span> | Coefficient: -2.28e-27 V²/Hz/°C, Range: -40.0°C to 150.0°C |
+| Bias Dependence | <span style='color: green'>✓</span> | Analyzed at 6 bias points |
+
 ### Noise Characteristics
-- <span style='color: gray'>✗</span> Noise analysis simulations: *In Progress*
-- <span style='color: gray'>✗</span> Thermal noise simulations: *In Progress*
-- <span style='color: gray'>✗</span> Flicker noise simulations: *In Progress*
-- <span style='color: gray'>✗</span> Shot noise simulations: *In Progress*
+- [<span style='color: green'>✓</span>] Thermal noise analysis completed
+  - Max Noise: 1.36e-08 V²/Hz
+  - Min Noise: 2.16e-15 V²/Hz
+  - Avg Noise: 3.79e-09 V²/Hz
+  - Noise Floor: 6.90e-12 V²/Hz
+  - Frequency Range: 1.00e+00 to 1.00e+09 Hz
+
+#### Thermal Noise Results at Different Bias Points
+
+| Bias Condition | Max Noise (V²/Hz) | Min Noise (V²/Hz) | Avg Noise (V²/Hz) | Noise Floor (V²/Hz) |
+|----------------|-------------------|-------------------|-------------------|--------------------|
+| Vgs=0.3V, Vds=0.3V | 1.36e-08 | 2.16e-15 | 3.79e-09 | 6.90e-12 |
+| Vgs=0.3V, Vds=0.6V | 1.36e-08 | 2.16e-15 | 3.79e-09 | 6.90e-12 |
+| Vgs=0.3V, Vds=0.9V | 1.36e-08 | 2.16e-15 | 3.79e-09 | 6.90e-12 |
+| Vgs=0.3V, Vds=1.2V | 1.36e-08 | 2.16e-15 | 3.79e-09 | 6.90e-12 |
+| Vgs=0.6V, Vds=0.3V | 1.36e-08 | 2.16e-15 | 3.79e-09 | 6.90e-12 |
+| Vgs=0.6V, Vds=0.6V | 1.36e-08 | 2.16e-15 | 3.79e-09 | 6.90e-12 |
+
+- [<span style='color: green'>✓</span>] Flicker (1/f) noise analysis completed
+  - Coefficient (K): 4.68e-08
+  - Exponent (γ): 0.5075 (ideally -1.0 for pure 1/f noise)
+  - Correlation (R²): 0.8265
+  - Corner Frequency: 1.12e+00 Hz
+
+- [<span style='color: green'>✓</span>] Shot noise analysis completed
+  - Shot Noise Level: 3.79e-09 V²/Hz
+  - Standard Deviation: 5.56e-09 V²/Hz
+  - Variation Coefficient: 1.4676
+
+- [<span style='color: green'>✓</span>] Temperature dependence analysis completed
+  - Temperature Coefficient: -2.28e-27 V²/Hz/°C
+  - Temperature-Noise Correlation: nan
+  - Temperature Range: -40.0°C to 150.0°C
+
+#### Thermal Noise Analysis
+
+<img src='plots/thermal_noise_vds_comparison.png' alt='Thermal Noise Comparison' width='400'/>
+
+*Thermal noise power spectral density analysis comparing different bias conditions, showing how the device noise characteristics change with bias voltage.*
+
+#### Flicker Noise Analysis
+
+<img src='plots/flicker_noise.png' alt='Flicker Noise Analysis' width='400'/>
+
+*Flicker (1/f) noise analysis showing the power spectral density decreasing with frequency, a characteristic behavior in semiconductor devices associated with trapping/detrapping processes.*
+
+#### Shot Noise Analysis
+
+<img src='plots/shot_noise.png' alt='Shot Noise Analysis' width='400'/>
+
+*Shot noise analysis showing the frequency-independent noise component that arises from the discrete nature of electric charge carriers crossing potential barriers.*
+
+#### Temperature Dependence
+
+<img src='plots/noise_vs_temperature.png' alt='Noise vs Temperature' width='400'/>
+
+*Noise variation with temperature, illustrating how thermal effects influence the device's noise characteristics across the operational temperature range.*
 
 ## 6. Geometry and Layout Analysis
 ### Geometry Dependence

@@ -25,10 +25,14 @@ class DataReader:
             vds_list, vgs_list, ids_list, ig_list, is_list, ib_list, temp_list = [], [], [], [], [], [], []
             
             for temp, filename in temp_files.items():
-                file_path = os.path.join(self.output_dir, filename)
+                # First check in data directory
+                file_path = os.path.join(self.output_dir, 'data', filename)
                 if not os.path.exists(file_path):
-                    self.logger.logger.warning(f"IV data file not found at {file_path}")
-                    continue
+                    # If not there, check in main output directory as fallback
+                    file_path = os.path.join(self.output_dir, filename)
+                    if not os.path.exists(file_path):
+                        self.logger.logger.warning(f"IV data file not found at {file_path}")
+                        continue
                     
                 self.logger.logger.debug(f"Reading data for temperature {temp}°C from {filename}")
                 
@@ -67,10 +71,14 @@ class DataReader:
     def read_cv_data(self):
         """Read CV characteristics data from the output file."""
         try:
-            cv_file = os.path.join(self.output_dir, 'cv_data.txt')
+            # First check in data directory
+            cv_file = os.path.join(self.output_dir, 'data', 'cv_data.txt')
             if not os.path.exists(cv_file):
-                self.logger.logger.warning(f"CV data file not found: {cv_file}")
-                return None, None, None, None, None
+                # If not there, check in main output directory as fallback
+                cv_file = os.path.join(self.output_dir, 'cv_data.txt')
+                if not os.path.exists(cv_file):
+                    self.logger.logger.warning(f"CV data file not found: {cv_file}")
+                    return None, None, None, None, None
                 
             # Read data with column names
             with open(cv_file, 'r') as f:
@@ -113,10 +121,14 @@ class DataReader:
             temp_list = []
             
             for temp, filename in temp_files.items():
-                file_path = os.path.join(self.output_dir, filename)
+                # First check in data directory
+                file_path = os.path.join(self.output_dir, 'data', filename)
                 if not os.path.exists(file_path):
-                    self.logger.logger.warning(f"Temperature data file not found at {file_path}")
-                    continue
+                    # If not there, check in main output directory as fallback
+                    file_path = os.path.join(self.output_dir, filename)
+                    if not os.path.exists(file_path):
+                        self.logger.logger.warning(f"Temperature data file not found at {file_path}")
+                        continue
                     
                 try:
                     data = np.loadtxt(file_path, skiprows=2)  # Skip header and column names
@@ -146,10 +158,21 @@ class DataReader:
         try:
             # Find bias point data file
             bias_file = None
-            for filename in os.listdir(self.output_dir):
-                if filename.startswith('bias_point_data_'):
-                    bias_file = os.path.join(self.output_dir, filename)
-                    break
+            
+            # First check in data directory
+            data_dir_path = os.path.join(self.output_dir, 'data')
+            if os.path.exists(data_dir_path):
+                for filename in os.listdir(data_dir_path):
+                    if filename == 'bias_point_data.txt' or filename.startswith('bias_point_data_'):
+                        bias_file = os.path.join(data_dir_path, filename)
+                        break
+            
+            # If not found, check in output directory
+            if bias_file is None:
+                for filename in os.listdir(self.output_dir):
+                    if filename == 'bias_point_data.txt' or filename.startswith('bias_point_data_'):
+                        bias_file = os.path.join(self.output_dir, filename)
+                        break
             
             if bias_file is None:
                 self.logger.logger.warning("No bias point data file found")
@@ -181,15 +204,19 @@ class DataReader:
             tuple: (time, vgate, vdrain, idrain) arrays of large signal transient data
         """
         try:
-            # Try in output_dir first, then in netlists directory
-            file_path = os.path.join(self.output_dir, 'tran_large_signal.txt')
+            # First check in data directory
+            file_path = os.path.join(self.output_dir, 'data', 'tran_large_signal.txt')
             if not os.path.exists(file_path):
-                file_path = os.path.join('netlists', 'tran_large_signal.txt')
+                # If not there, check in main output directory
+                file_path = os.path.join(self.output_dir, 'tran_large_signal.txt')
                 if not os.path.exists(file_path):
-                    self.logger.logger.warning(f"Large signal transient data file not found in either {self.output_dir} or netlists directory")
-                    return None, None, None, None
-                else:
-                    self.logger.logger.info(f"Found large signal transient data in netlists directory")
+                    # As a last resort, try in netlists directory
+                    file_path = os.path.join('netlists', 'tran_large_signal.txt')
+                    if not os.path.exists(file_path):
+                        self.logger.logger.warning(f"Large signal transient data file not found in any location")
+                        return None, None, None, None
+                    else:
+                        self.logger.logger.info(f"Found large signal transient data in netlists directory")
                 
             # Read data directly with numpy
             try:
@@ -221,15 +248,19 @@ class DataReader:
             tuple: (time, vin, vout, idrain) arrays of switching response data
         """
         try:
-            # Try in output_dir first, then in netlists directory
-            file_path = os.path.join(self.output_dir, 'tran_switching.txt')
+            # First check in data directory
+            file_path = os.path.join(self.output_dir, 'data', 'tran_switching.txt')
             if not os.path.exists(file_path):
-                file_path = os.path.join('netlists', 'tran_switching.txt')
+                # If not there, check in main output directory
+                file_path = os.path.join(self.output_dir, 'tran_switching.txt')
                 if not os.path.exists(file_path):
-                    self.logger.logger.warning(f"Switching response data file not found in either {self.output_dir} or netlists directory")
-                    return None, None, None, None
-                else:
-                    self.logger.logger.info(f"Found switching response data in netlists directory")
+                    # As a last resort, try in netlists directory
+                    file_path = os.path.join('netlists', 'tran_switching.txt')
+                    if not os.path.exists(file_path):
+                        self.logger.logger.warning(f"Switching response data file not found in any location")
+                        return None, None, None, None
+                    else:
+                        self.logger.logger.info(f"Found switching response data in netlists directory")
                 
             # Read data directly with numpy
             try:
@@ -261,15 +292,19 @@ class DataReader:
             tuple: (time, power) arrays of switching power data
         """
         try:
-            # Try in output_dir first, then in netlists directory
-            file_path = os.path.join(self.output_dir, 'tran_switching_power.txt')
+            # First check in data directory
+            file_path = os.path.join(self.output_dir, 'data', 'tran_switching_power.txt')
             if not os.path.exists(file_path):
-                file_path = os.path.join('netlists', 'tran_switching_power.txt')
+                # If not there, check in main output directory
+                file_path = os.path.join(self.output_dir, 'tran_switching_power.txt')
                 if not os.path.exists(file_path):
-                    self.logger.logger.warning(f"Switching power data file not found in either {self.output_dir} or netlists directory")
-                    return None, None
-                else:
-                    self.logger.logger.info(f"Found switching power data in netlists directory")
+                    # As a last resort, try in netlists directory
+                    file_path = os.path.join('netlists', 'tran_switching_power.txt')
+                    if not os.path.exists(file_path):
+                        self.logger.logger.warning(f"Switching power data file not found in any location")
+                        return None, None
+                    else:
+                        self.logger.logger.info(f"Found switching power data in netlists directory")
                 
             # Read data directly with numpy
             try:
@@ -278,9 +313,9 @@ class DataReader:
                     self.logger.logger.warning("No switching power data found in file")
                     return None, None
                     
-                # Extract columns by position - this file only has time and power
+                # Extract columns by position rather than by name
                 time = data[:, 0]  # First time column
-                power = data[:, 2]  # Power column (power_switching)
+                power = data[:, 2]  # Power column
                 
                 self.logger.logger.info("Switching power data read successfully")
                 return time, power
@@ -296,18 +331,22 @@ class DataReader:
         """Read delay effect data from file.
         
         Returns:
-            tuple: (time, vin, v1, v2, vout) arrays of delay chain data
+            tuple: (time, vin, v_mid1, v_mid2, vout) arrays of delay effect data
         """
         try:
-            # Try in output_dir first, then in netlists directory
-            file_path = os.path.join(self.output_dir, 'tran_delay.txt')
+            # First check in data directory
+            file_path = os.path.join(self.output_dir, 'data', 'tran_delay.txt')
             if not os.path.exists(file_path):
-                file_path = os.path.join('netlists', 'tran_delay.txt')
+                # If not there, check in main output directory
+                file_path = os.path.join(self.output_dir, 'tran_delay.txt')
                 if not os.path.exists(file_path):
-                    self.logger.logger.warning(f"Delay effect data file not found in either {self.output_dir} or netlists directory")
-                    return None, None, None, None, None
-                else:
-                    self.logger.logger.info(f"Found delay effect data in netlists directory")
+                    # As a last resort, try in netlists directory
+                    file_path = os.path.join('netlists', 'tran_delay.txt')
+                    if not os.path.exists(file_path):
+                        self.logger.logger.warning(f"Delay effect data file not found in any location")
+                        return None, None, None, None, None
+                    else:
+                        self.logger.logger.info(f"Found delay effect data in netlists directory")
                 
             # Read data directly with numpy
             try:
@@ -316,12 +355,12 @@ class DataReader:
                     self.logger.logger.warning("No delay effect data found in file")
                     return None, None, None, None, None
                     
-                # Extract columns by position - based on actual file structure
-                time = data[:, 0]          # First time column
-                vin = data[:, 2]           # v(in_delay)
-                v_mid1 = data[:, 3]        # v(mid1_delay)
-                v_mid2 = data[:, 4]        # v(mid2_delay)
-                vout = data[:, 5]          # v(out_delay)
+                # Extract columns by position rather than by name
+                time = data[:, 0]  # First time column
+                vin = data[:, 2]   # v(in_delay)
+                v_mid1 = data[:, 3]  # v(mid1_delay)
+                v_mid2 = data[:, 4]  # v(mid2_delay)
+                vout = data[:, 5]  # v(out_delay)
                 
                 self.logger.logger.info("Delay effect data read successfully")
                 return time, vin, v_mid1, v_mid2, vout
@@ -337,49 +376,45 @@ class DataReader:
         """Read power dissipation data from file.
         
         Args:
-            temperature: Temperature in Celsius (27 or 100)
+            temperature: Temperature in degrees Celsius for the power data to read
             
         Returns:
             tuple: (time, power) arrays of power dissipation data
         """
         try:
-            if temperature == 27:
-                file_name = 'tran_power_27C.txt'
-            elif temperature == 100:
-                file_name = 'tran_power_100C.txt'
-            else:
-                self.logger.logger.warning(f"Invalid temperature: {temperature}. Using 27°C")
-                file_name = 'tran_power_27C.txt'
-            
-            # Try in output_dir first, then in netlists directory
-            file_path = os.path.join(self.output_dir, file_name)
+            # First check in data directory
+            file_path = os.path.join(self.output_dir, 'data', f'tran_power_{temperature}C.txt')
             if not os.path.exists(file_path):
-                file_path = os.path.join('netlists', file_name)
+                # If not there, check in main output directory
+                file_path = os.path.join(self.output_dir, f'tran_power_{temperature}C.txt')
                 if not os.path.exists(file_path):
-                    self.logger.logger.warning(f"Power dissipation data file not found in either {self.output_dir} or netlists directory")
-                    return None, None
-                else:
-                    self.logger.logger.info(f"Found power dissipation data in netlists directory")
+                    # As a last resort, try in netlists directory
+                    file_path = os.path.join('netlists', f'tran_power_{temperature}C.txt')
+                    if not os.path.exists(file_path):
+                        self.logger.logger.warning(f"Power dissipation data file at {temperature}°C not found in any location")
+                        return None, None
+                    else:
+                        self.logger.logger.info(f"Found power dissipation data for {temperature}°C in netlists directory")
                 
             # Read data directly with numpy
             try:
                 data = np.loadtxt(file_path, skiprows=2)
                 if len(data) == 0:
-                    self.logger.logger.warning("No power dissipation data found in file")
+                    self.logger.logger.warning(f"No power dissipation data at {temperature}°C found in file")
                     return None, None
                     
-                # Extract columns by position
+                # Extract columns by position rather than by name
                 time = data[:, 0]  # First time column
-                power = data[:, 4]  # Power column (power_diss)
+                power = data[:, 4]  # Power column (4th column, 0-indexed)
                 
-                self.logger.logger.info(f"Power dissipation data at {temperature}°C read successfully")
+                self.logger.logger.info(f"Power dissipation data for {temperature}°C read successfully")
                 return time, power
             except Exception as e:
-                self.logger.logger.error(f"Error parsing power dissipation data: {e}")
+                self.logger.logger.error(f"Error parsing power dissipation data at {temperature}°C: {e}")
                 return None, None
             
         except Exception as e:
-            self.logger.logger.error(f"Error reading power dissipation data: {e}")
+            self.logger.logger.error(f"Error reading power dissipation data at {temperature}°C: {e}")
             return None, None
             
     def read_quasi_static_data(self):
@@ -389,15 +424,19 @@ class DataReader:
             tuple: (time, vgate, vdrain, idrain) arrays of quasi-static data
         """
         try:
-            # Try in output_dir first, then in netlists directory
-            file_path = os.path.join(self.output_dir, 'tran_quasi_static.txt')
+            # First check in data directory
+            file_path = os.path.join(self.output_dir, 'data', 'tran_quasi_static.txt')
             if not os.path.exists(file_path):
-                file_path = os.path.join('netlists', 'tran_quasi_static.txt')
+                # If not there, check in main output directory
+                file_path = os.path.join(self.output_dir, 'tran_quasi_static.txt')
                 if not os.path.exists(file_path):
-                    self.logger.logger.warning(f"Quasi-static data file not found in either {self.output_dir} or netlists directory")
-                    return None, None, None, None
-                else:
-                    self.logger.logger.info(f"Found quasi-static data in netlists directory")
+                    # As a last resort, try in netlists directory
+                    file_path = os.path.join('netlists', 'tran_quasi_static.txt')
+                    if not os.path.exists(file_path):
+                        self.logger.logger.warning(f"Quasi-static data file not found in any location")
+                        return None, None, None, None
+                    else:
+                        self.logger.logger.info(f"Found quasi-static data in netlists directory")
                 
             # Read data directly with numpy
             try:
@@ -406,11 +445,11 @@ class DataReader:
                     self.logger.logger.warning("No quasi-static data found in file")
                     return None, None, None, None
                     
-                # Extract columns by position
-                time = data[:, 0]   # First time column
-                vgate = data[:, 2]  # Gate voltage
-                vdrain = data[:, 3] # Drain voltage
-                idrain = data[:, 4] # Drain current
+                # Extract columns by position rather than by name
+                time = data[:, 0]  # First time column
+                vgate = data[:, 2]  # v(gate_qs)
+                vdrain = data[:, 3]  # v(drain_qs)
+                idrain = data[:, 4]  # id_qs
                 
                 self.logger.logger.info("Quasi-static data read successfully")
                 return time, vgate, vdrain, idrain
@@ -423,21 +462,25 @@ class DataReader:
             return None, None, None, None
             
     def read_charge_conservation_data(self):
-        """Read charge conservation analysis data from file.
+        """Read charge conservation data from file.
         
         Returns:
-            tuple: (time, vgate, vdrain, id, ig, is, ib) arrays of charge conservation data
+            tuple: (time, vgate, vdrain, id, ig, is_, ib) arrays of charge conservation data
         """
         try:
-            # Try in output_dir first, then in netlists directory
-            file_path = os.path.join(self.output_dir, 'tran_charge.txt')
+            # First check in data directory
+            file_path = os.path.join(self.output_dir, 'data', 'tran_charge.txt')
             if not os.path.exists(file_path):
-                file_path = os.path.join('netlists', 'tran_charge.txt')
+                # If not there, check in main output directory
+                file_path = os.path.join(self.output_dir, 'tran_charge.txt')
                 if not os.path.exists(file_path):
-                    self.logger.logger.warning(f"Charge conservation data file not found in either {self.output_dir} or netlists directory")
-                    return None, None, None, None, None, None, None
-                else:
-                    self.logger.logger.info(f"Found charge conservation data in netlists directory")
+                    # As a last resort, try in netlists directory
+                    file_path = os.path.join('netlists', 'tran_charge.txt')
+                    if not os.path.exists(file_path):
+                        self.logger.logger.warning(f"Charge conservation data file not found in any location")
+                        return None, None, None, None, None, None, None
+                    else:
+                        self.logger.logger.info(f"Found charge conservation data in netlists directory")
                 
             # Read data directly with numpy
             try:
@@ -446,21 +489,386 @@ class DataReader:
                     self.logger.logger.warning("No charge conservation data found in file")
                     return None, None, None, None, None, None, None
                     
-                # Extract columns by position
-                time = data[:, 0]   # First time column
-                vgate = data[:, 2]  # Gate voltage
-                vdrain = data[:, 3] # Drain voltage
-                id = data[:, 4]     # Drain current
-                ig = data[:, 5]     # Gate current
-                is_ = data[:, 6]    # Source current
-                ib = data[:, 7]     # Bulk current
+                # Extract columns by position rather than by name
+                time = data[:, 0]  # First time column
+                vgate = data[:, 2]  # v(gate_charge)
+                vdrain = 1.2  # Fixed at 1.2V in the circuit
+                id_charge = data[:, 4]  # id_charge
+                ig_charge = data[:, 3]  # ig_charge
+                is_charge = data[:, 5]  # is_charge
+                ib_charge = data[:, 6]  # ib_charge
                 
                 self.logger.logger.info("Charge conservation data read successfully")
-                return time, vgate, vdrain, id, ig, is_, ib
+                return time, vgate, vdrain, id_charge, ig_charge, is_charge, ib_charge
             except Exception as e:
                 self.logger.logger.error(f"Error parsing charge conservation data: {e}")
                 return None, None, None, None, None, None, None
             
         except Exception as e:
             self.logger.logger.error(f"Error reading charge conservation data: {e}")
-            return None, None, None, None, None, None, None 
+            return None, None, None, None, None, None, None
+    
+    # Helper method to read NGSpice raw files
+    def _read_ngspice_raw(self, file_path):
+        """Read NGSpice raw files and extract data.
+        
+        Args:
+            file_path: Path to the raw file
+            
+        Returns:
+            tuple: (frequency, inoise_spectrum) if successful, else (None, None)
+        """
+        try:
+            if not os.path.exists(file_path):
+                self.logger.logger.warning(f"NGSpice raw file not found: {file_path}")
+                return None, None
+            
+            # Parse the raw file format - very simple parser since we need specific data
+            with open(file_path, 'r') as f:
+                lines = f.readlines()
+            
+            # Find where the data section starts
+            data_start = None
+            for i, line in enumerate(lines):
+                if line.strip() == 'Values:':
+                    data_start = i + 1
+                    break
+            
+            if data_start is None:
+                self.logger.logger.warning(f"Could not find data section in raw file: {file_path}")
+                return None, None
+            
+            # Extract the data
+            freq_data = []
+            noise_data = []
+            
+            for i in range(data_start, len(lines), 3):  # 3 lines per data point: index, frequency, noise
+                if i + 2 < len(lines):
+                    try:
+                        freq = float(lines[i+1].strip())
+                        noise = float(lines[i+2].strip())
+                        freq_data.append(freq)
+                        noise_data.append(noise)
+                    except (ValueError, IndexError):
+                        self.logger.logger.warning(f"Error parsing data at line {i+1} in file {file_path}")
+                        continue
+            
+            if not freq_data:
+                self.logger.logger.warning(f"No valid data extracted from {file_path}")
+                return None, None
+            
+            return np.array(freq_data), np.array(noise_data)
+            
+        except Exception as e:
+            self.logger.logger.error(f"Error reading NGSpice raw file {file_path}: {e}")
+            return None, None
+
+    # Helper method to read noise data files with robust parsing to handle text headers and complex formats
+    def _read_noise_data_file(self, file_path):
+        """Read noise data files with robust parsing to handle text headers and complex formats.
+        
+        Args:
+            file_path: Path to the noise data file
+            
+        Returns:
+            tuple: (frequency, noise) if successful, else (None, None)
+        """
+        try:
+            if not os.path.exists(file_path):
+                self.logger.logger.warning(f"Noise data file not found: {file_path}")
+                return None, None
+
+            # Try multiple parsing approaches
+            # 1. First try our custom triplet parser
+            with open(file_path, 'r') as f:
+                lines = f.readlines()
+            
+            # Find Values: section
+            values_index = None
+            for i, line in enumerate(lines):
+                if line.strip() == 'Values:':
+                    values_index = i
+                    break
+            
+            if values_index is not None:
+                # Process the data section using triplet format
+                freq_data = []
+                noise_data = []
+                i = values_index + 1
+                
+                while i < len(lines) - 2:  # Need at least 3 more lines for a complete triplet
+                    # Each triplet has: index, frequency, noise
+                    if lines[i].strip() and not lines[i].strip().startswith(' '):
+                        i += 1  # Skip index line
+                        
+                        # Read frequency
+                        if i < len(lines):
+                            try:
+                                freq = float(lines[i].strip())
+                                freq_data.append(freq)
+                                i += 1
+                                
+                                # Read noise
+                                if i < len(lines):
+                                    try:
+                                        noise = float(lines[i].strip())
+                                        noise_data.append(noise)
+                                    except ValueError:
+                                        # Skip this triplet if we can't parse the noise value
+                                        pass
+                            except ValueError:
+                                # Skip this triplet if we can't parse the frequency
+                                pass
+                    i += 1
+                
+                # Check if we have valid data
+                if len(freq_data) > 0 and len(noise_data) > 0:
+                    # Ensure the arrays have the same length
+                    min_len = min(len(freq_data), len(noise_data))
+                    freq_array = np.array(freq_data[:min_len])
+                    noise_array = np.array(noise_data[:min_len])
+                    return freq_array, noise_array
+            
+            # 2. Try numpy parsing with different skiprows values
+            for skiprows in [9, 10, 8, 11]:
+                try:
+                    data = np.loadtxt(file_path, skiprows=skiprows)
+                    if len(data) > 0 and data.shape[1] >= 3:
+                        freq = data[:, 0]  # First column is frequency
+                        noise = data[:, 2]  # Third column is noise
+                        return freq, noise
+                except Exception:
+                    continue
+            
+            # 3. Last resort - try a more flexible line-by-line parsing
+            freq_data = []
+            noise_data = []
+            data_started = False
+            
+            for line in lines:
+                line = line.strip()
+                if not line:
+                    continue
+                    
+                # If we see 'Values:', data will start soon
+                if line == 'Values:':
+                    data_started = True
+                    continue
+                    
+                if data_started:
+                    # Split by whitespace and try to extract values
+                    parts = line.split()
+                    if len(parts) == 1:
+                        try:
+                            # This might be a frequency or noise value
+                            value = float(parts[0])
+                            # If this is the first value we've seen, assume it's frequency
+                            if len(freq_data) > len(noise_data):
+                                noise_data.append(value)
+                            else:
+                                freq_data.append(value)
+                        except ValueError:
+                            # Not a numeric value, skip
+                            pass
+            
+            # Check if we have matching data
+            if len(freq_data) == len(noise_data) and len(freq_data) > 0:
+                return np.array(freq_data), np.array(noise_data)
+            
+            # No valid data found
+            self.logger.logger.warning(f"Could not extract valid data from {file_path}")
+            return None, None
+            
+        except Exception as e:
+            self.logger.logger.error(f"Error reading noise data file {file_path}: {e}")
+            return None, None
+
+    # Noise analysis data reading methods
+    def read_thermal_noise_data(self, vgs=0.3, vds=0.3):
+        """Read thermal noise data from file.
+        
+        Args:
+            vgs: Gate-source voltage for the specific thermal noise data file
+            vds: Drain-source voltage for the specific thermal noise data file
+            
+        Returns:
+            tuple: (freq, noise) arrays of thermal noise data
+        """
+        try:
+            # First try reading from .txt file in data directory
+            txt_file_path = os.path.join(self.output_dir, 'data', f'thermal_noise_vgs{vgs:.1f}_vds{vds:.1f}.txt')
+            if os.path.exists(txt_file_path):
+                # Use custom parser instead of np.loadtxt
+                freq, noise = self._read_noise_data_file(txt_file_path)
+                if freq is not None and noise is not None:
+                    self.logger.logger.info(f"Thermal noise data for Vgs={vgs}V, Vds={vds}V read successfully from txt file")
+                    return freq, noise
+            
+            # If txt file doesn't exist or couldn't be read, try raw file
+            raw_file_path = os.path.join(self.output_dir, 'data', f'thermal_noise_vgs{vgs:.1f}_vds{vds:.1f}.raw')
+            if not os.path.exists(raw_file_path):
+                # Try in netlists directory as fallback
+                raw_file_path = os.path.join('netlists', f'thermal_noise_vgs{vgs:.1f}_vds{vds:.1f}.raw')
+                if not os.path.exists(raw_file_path):
+                    self.logger.logger.warning(f"Thermal noise data file not found: {raw_file_path}")
+                    return None, None
+            
+            # Read the raw file
+            freq, noise = self._read_ngspice_raw(raw_file_path)
+            if freq is not None and noise is not None:
+                self.logger.logger.info(f"Thermal noise data for Vgs={vgs}V, Vds={vds}V read successfully from raw file")
+                return freq, noise
+            
+            return None, None
+                
+        except Exception as e:
+            self.logger.logger.error(f"Error reading thermal noise data: {e}")
+            return None, None
+    
+    def read_all_thermal_noise_data(self):
+        """Read all thermal noise data files for different bias points.
+        
+        Returns:
+            dict: Dictionary with keys as bias points and values as (freq, noise) tuples
+        """
+        # Common bias points used in the simulation
+        bias_points = [
+            (0.3, 0.3), (0.3, 0.6), (0.3, 0.9), (0.3, 1.2),
+            (0.6, 0.3), (0.6, 0.6)
+        ]
+        
+        thermal_noise_data = {}
+        
+        for vgs, vds in bias_points:
+            freq, noise = self.read_thermal_noise_data(vgs, vds)
+            if freq is not None and noise is not None:
+                key = f"Vgs={vgs}V,Vds={vds}V"
+                thermal_noise_data[key] = (freq, noise)
+        
+        return thermal_noise_data
+    
+    def read_flicker_noise_data(self):
+        """Read flicker noise data from file.
+        
+        Returns:
+            tuple: (freq, noise) arrays of flicker noise data
+        """
+        try:
+            # First try reading from .txt file in data directory
+            txt_file_path = os.path.join(self.output_dir, 'data', 'flicker_noise.txt')
+            if os.path.exists(txt_file_path):
+                # Use custom parser instead of np.loadtxt
+                freq, noise = self._read_noise_data_file(txt_file_path)
+                if freq is not None and noise is not None:
+                    self.logger.logger.info("Flicker noise data read successfully from txt file")
+                    return freq, noise
+            
+            # If txt file doesn't exist or couldn't be read, try raw file
+            raw_file_path = os.path.join(self.output_dir, 'data', 'flicker_noise.raw')
+            if not os.path.exists(raw_file_path):
+                # Try in netlists directory as fallback
+                raw_file_path = os.path.join('netlists', 'flicker_noise.raw')
+                if not os.path.exists(raw_file_path):
+                    self.logger.logger.warning(f"Flicker noise data file not found: {raw_file_path}")
+                    return None, None
+            
+            # Read the raw file
+            freq, noise = self._read_ngspice_raw(raw_file_path)
+            if freq is not None and noise is not None:
+                self.logger.logger.info("Flicker noise data read successfully from raw file")
+                return freq, noise
+            
+            return None, None
+            
+        except Exception as e:
+            self.logger.logger.error(f"Error reading flicker noise data: {e}")
+            return None, None
+    
+    def read_shot_noise_data(self):
+        """Read shot noise data from file.
+        
+        Returns:
+            tuple: (freq, noise) arrays of shot noise data
+        """
+        try:
+            # First try reading from .txt file in data directory
+            txt_file_path = os.path.join(self.output_dir, 'data', 'shot_noise.txt')
+            if os.path.exists(txt_file_path):
+                # Use custom parser instead of np.loadtxt
+                freq, noise = self._read_noise_data_file(txt_file_path)
+                if freq is not None and noise is not None:
+                    self.logger.logger.info("Shot noise data read successfully from txt file")
+                    return freq, noise
+            
+            # If txt file doesn't exist or couldn't be read, try raw file
+            raw_file_path = os.path.join(self.output_dir, 'data', 'shot_noise.raw')
+            if not os.path.exists(raw_file_path):
+                # Try in netlists directory as fallback
+                raw_file_path = os.path.join('netlists', 'shot_noise.raw')
+                if not os.path.exists(raw_file_path):
+                    self.logger.logger.warning(f"Shot noise data file not found: {raw_file_path}")
+                    return None, None
+            
+            # Read the raw file
+            freq, noise = self._read_ngspice_raw(raw_file_path)
+            if freq is not None and noise is not None:
+                self.logger.logger.info("Shot noise data read successfully from raw file")
+                return freq, noise
+            
+            return None, None
+            
+        except Exception as e:
+            self.logger.logger.error(f"Error reading shot noise data: {e}")
+            return None, None
+    
+    def read_temperature_noise_data(self):
+        """Read temperature-dependent noise data from files.
+        
+        Returns:
+            tuple: (temperatures, noise_data) where temperatures is a list and
+                  noise_data is a dictionary of temperature -> (freq, noise) mappings
+        """
+        try:
+            # Temperature points typically measured
+            temperatures = [-40, 0, 27, 50, 100, 150]
+            noise_data = {}
+            
+            for temp in temperatures:
+                # First try reading from .txt file in data directory
+                txt_file_path = os.path.join(self.output_dir, 'data', f'noise_temp{temp}.txt')
+                if os.path.exists(txt_file_path):
+                    # Use custom parser instead of np.loadtxt
+                    freq, noise = self._read_noise_data_file(txt_file_path)
+                    if freq is not None and noise is not None:
+                        noise_data[temp] = (freq, noise)
+                        self.logger.logger.debug(f"Temperature noise data at {temp}°C read successfully from txt file")
+                        continue
+                
+                # If txt file doesn't exist or couldn't be read, try raw file
+                raw_file_path = os.path.join(self.output_dir, 'data', f'noise_temp{temp}.raw')
+                if not os.path.exists(raw_file_path):
+                    # Try in netlists directory as fallback
+                    raw_file_path = os.path.join('netlists', f'noise_temp{temp}.raw')
+                    if not os.path.exists(raw_file_path):
+                        self.logger.logger.warning(f"Temperature noise data file not found for {temp}°C")
+                        continue
+                
+                # Read the raw file
+                freq, noise = self._read_ngspice_raw(raw_file_path)
+                if freq is not None and noise is not None:
+                    noise_data[temp] = (freq, noise)
+                    self.logger.logger.debug(f"Temperature noise data at {temp}°C read successfully from raw file")
+            
+            # Check if we have any data
+            if not noise_data:
+                self.logger.logger.warning("No temperature noise data found")
+                return None, None
+            
+            # Return only the temperatures for which we have data
+            valid_temps = list(noise_data.keys())
+            self.logger.logger.info(f"Temperature noise data read successfully for temperatures: {valid_temps}")
+            return valid_temps, noise_data
+            
+        except Exception as e:
+            self.logger.logger.error(f"Error reading temperature noise data: {e}")
+            return None, None 
