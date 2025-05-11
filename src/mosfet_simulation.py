@@ -4,6 +4,7 @@ import argparse
 from pathlib import Path
 from datetime import datetime
 import numpy as np
+from scipy import integrate
 
 from logger import Logger
 from simulation_runner import SimulationRunner
@@ -252,12 +253,14 @@ class MOSFETSimulation:
                 # Calculate total current and integrate to get charges
                 i_total = id_cc + ig_cc + is_cc + ib_cc
                 
-                # Calculate charges by integrating currents
-                dt = np.diff(time_cc, prepend=time_cc[0])
-                q_gate = np.cumsum(ig_cc * dt)
-                q_drain = np.cumsum(id_cc * dt)
-                q_source = np.cumsum(is_cc * dt)
-                q_bulk = np.cumsum(ib_cc * dt)
+                # Use scipy's cumulative integration function for more accurate integration
+                from scipy import integrate
+                
+                # Calculate charges by integration - using scipy for better numerical stability
+                q_gate = integrate.cumulative_trapezoid(ig_cc, time_cc, initial=0)
+                q_drain = integrate.cumulative_trapezoid(id_cc, time_cc, initial=0)
+                q_source = integrate.cumulative_trapezoid(is_cc, time_cc, initial=0)
+                q_bulk = integrate.cumulative_trapezoid(ib_cc, time_cc, initial=0)
                 q_total = q_gate + q_drain + q_source + q_bulk
                 
                 # Generate plot

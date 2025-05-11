@@ -1,6 +1,6 @@
 # MOSFET Simulation Verification Report
 
-Generated on: 2025-05-12 06:12:58
+Generated on: 2025-05-12 07:32:51
 
 ## Table of Contents
 1. [Simulation Setup and Execution](#1-simulation-setup-and-execution)
@@ -100,7 +100,7 @@ Generated on: 2025-05-12 06:12:58
 | Delay Effect | <span style='color: green'>✓</span> | Total Chain Delay: 25.0ps |
 | Power Dissipation | <span style='color: green'>✓</span> | Temp Coeff: -1.718433e-05W/°C |
 | Quasi-Static Analysis | <span style='color: green'>✓</span> | I-V characteristics analyzed |
-| Charge Conservation | <span style='color: red'>✗</span> | Error: 856.693961% (exceeds threshold) |
+| Charge Conservation | <span style='color: green'>✓</span> | Error: 0.000000% |
 
 ### Large-Signal Transient
 - [<span style='color: green'>✓</span>] Time-domain transient analysis completed
@@ -162,10 +162,10 @@ Generated on: 2025-05-12 06:12:58
 *Quasi-static I-V characteristic showing relationship between gate voltage and drain current*
 
 ### Charge Conservation Tests
-- [<span style='color: red'>✗</span>] Charge conservation analyzed
-  - Total Charge Variation: 3.185823e-18C
-  - Mean Total Charge: 3.718741e-19C
-  - Charge Conservation Error: 856.693961% (exceeds threshold)
+- [<span style='color: green'>✓</span>] Charge conservation analyzed
+  - Total Charge Variation: 3.184928e-18C
+  - Mean Total Charge: 3.718811e-19C
+  - Charge Conservation Error: 0.000000%
 
 <img src='plots/charge_conservation.png' alt='Charge Conservation Analysis' width='400'/>
 

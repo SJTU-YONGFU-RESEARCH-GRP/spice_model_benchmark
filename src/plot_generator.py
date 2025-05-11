@@ -15,11 +15,11 @@ class PlotGenerator:
         
         # Define a minimal color palette with just 5 colors
         self.colors = {
-            'blue': '#1f77b4',    # Primary color (gates, inputs)
-            'red': '#d62728',     # Secondary color (drains, outputs)
-            'green': '#2ca02c',   # Tertiary color (sources, other signals)
-            'purple': '#9467bd',  # Quaternary color (for bulk, bias points)
-            'orange': '#ff7f0e'   # For total/reference values
+            'blue': '#0000FF',    # Primary color (gates, inputs) - Pure blue
+            'red': '#FF0000',     # Secondary color (drains, outputs) - Pure red
+            'green': '#00AA00',   # Tertiary color (sources, other signals) - Pure green
+            'purple': '#AA00AA',  # Quaternary color (for bulk, bias points) - Rich purple
+            'orange': '#FF8000'   # For total/reference values - Rich orange
         }
         
         # Create alias mappings for semantic use
@@ -656,9 +656,9 @@ class PlotGenerator:
             plt.grid(True)
             plt.title('Quasi-Static Analysis')
             
-            # Plot drain current
+            # Plot drain current - Use tertiary color (green) for current in bottom panel
             plt.subplot(2, 1, 2)
-            plt.plot(time*1e9, drain_current*1e3, color=self.color_map['secondary'], label='Drain Current (mA)')
+            plt.plot(time*1e9, drain_current*1e3, color=self.color_map['tertiary'], label='Drain Current (mA)')
             plt.xlabel('Time (ns)')
             plt.ylabel('Current (mA)')
             plt.legend()
@@ -672,7 +672,7 @@ class PlotGenerator:
             
             # I-V characteristic plot
             plt.figure(figsize=(self.figure_width, self.single_plot_height))
-            plt.plot(gate_voltage, drain_current*1e3, color=self.color_map['secondary'])
+            plt.plot(gate_voltage, drain_current*1e3, color=self.color_map['tertiary'])
             plt.xlabel('Gate Voltage (V)')
             plt.ylabel('Drain Current (mA)')
             plt.grid(True)
