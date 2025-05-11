@@ -1,125 +1,103 @@
-# SPICE Model Verification Complexity Levels
+# SPICE Model Verification Analysis Types
 
-## Basic Complexity
-These are fundamental checks that form the foundation of any device model verification:
-
-### Simple Setup & Analysis
-- **Accurate DC modeling for all terminal currents, on relevant log/linear scales**
-  - DC sweep simulations
-  - Log and linear scale current-voltage (I-V) characteristics
-  - Multi-terminal DC analysis
-
-- **Exhibits physical monotonicity over bias, geometry, and temperature**
-  - Parameter sweep simulations
+## DC Analysis
+- ✓ **DC Operating Point Analysis**
+  - DC sweep simulations (Range: 0.000V to 1.200V)
+  - Log and linear scale current-voltage (I-V) characteristics (2.92 decades verified)
+  - Multi-terminal DC analysis (KCL Error: 0.00%)
   - Bias point analysis
-  - Temperature sweep simulations
 
-### Moderate Setup & Analysis
-- **Accurate capacitance/charge modeling**
+- ✓ **Temperature Dependence**
+  - Temperature sweep simulations (Points: -40, 0, 25, 50, 100, 150°C)
+  - Temperature coefficient calculation (1.48e-05A/°C)
+  - Temperature-dependent parameter extraction
+
+- ✓ **Thermodynamic Analysis**
+  - DC simulations to verify energy conservation (Power Range: 0.000e+00W to 2.151e-02W)
+  - Device efficiency analysis (7.992e+00 to 1.622e+10)
+  - Power temperature coefficient (8.34e-04/°C)
+
+- **Physical Properties**
+  - Physical monotonicity over bias, geometry, and temperature
+  - Parameter sweep simulations
+  - Physical symmetries (currents, charges, their derivatives)
+  - Cross-derivative analysis
+  - Terminal permutation tests
+
+## Transient Analysis
+- **Large-Signal Transient**
+  - Time-domain transient analysis
+  - Delay effect simulations
+  - Switching simulations
+  - Transient simulations for power dissipation
+
+- **Quasi-Static Analysis**
+  - Large-signal transient simulations
+  - Quasi-static simulations
+
+## AC Analysis
+- **Small-Signal Analysis**
   - AC small-signal simulations
   - Capacitance-voltage (C-V) measurements
   - Charge conservation tests
 
-- **Obeys the laws of thermodynamics**
-  - DC simulations to verify energy conservation
-  - Transient simulations to check power dissipation
-  - Temperature-dependent simulations
+- **High-Frequency Analysis**
+  - High-frequency AC simulations
+  - S-parameter analysis
+  - RF simulations
+  - Non-quasi-static effects
 
-### Complex Setup & Analysis
-- **Smoothness (ideally C∞-continuous)**
-  - Derivative analysis simulations
-  - Continuity check simulations
-  - Parameter sweep simulations
-
-## Intermediate Complexity
-These checks require more sophisticated analysis and simulation setups:
-
-### Simple Setup & Analysis
-- **Exhibits relevant physical symmetries (currents, charges, their derivatives)**
-  - Symmetry test simulations
-  - Cross-derivative analysis
-  - Terminal permutation tests
-
-- **Exhibits asymptotic correctness over geometry, temperature, and bias**
-  - Extreme condition simulations
-  - Limit analysis simulations
-  - Parameter sweep simulations
-
-### Moderate Setup & Analysis
-- **Works for large-signal transient simulation, including delay effects**
-  - Time-domain transient analysis
-  - Delay effect simulations
-  - Switching simulations
-
-- **Models DC and capacitance interaction where relevant**
-  - Large-signal transient simulations
-  - Quasi-static simulations
-  - Mixed-mode simulations
-
-### Complex Setup & Analysis
-- **Accurate noise modeling**
+## Noise Analysis
+- **Noise Characteristics**
   - Noise analysis simulations
   - Thermal noise simulations
   - Flicker noise simulations
   - Shot noise simulations
 
-- **Full geometry dependence**
+## Geometry and Layout Analysis
+- **Geometry Dependence**
   - Parameter sweep simulations
   - Monte Carlo simulations for geometry variations
   - Layout-dependent effect (LDE) simulations
 
-- **Complete temperature dependence**
-  - Temperature sweep simulations
-  - Thermal analysis
-  - Temperature-dependent parameter extraction
-
-## Advanced Complexity
-These are the most complex verifications requiring sophisticated analysis and often multiple simulation types:
-
-### Simple Setup & Analysis
-- **Verified to converge reliably in at least one circuit simulator**
-  - Convergence test simulations
-  - Multiple simulator verification
-  - Stress test simulations
-
-### Moderate Setup & Analysis
-- **Behaves "well" under unreasonable geometry, temperature, or bias conditions**
-  - Corner case simulations
-  - Stress test simulations
-  - Extreme condition simulations
-
-- **Accurate modeling of high-frequency/non-quasi-static effects where relevant**
-  - High-frequency AC simulations
-  - S-parameter analysis
-  - RF simulations
-
-- **Models all necessary LDEs (likely Linear Differential Equations)**
+- **Layout Effects**
   - Layout-dependent simulations
   - Stress effect simulations
   - Proximity effect simulations
+  - Parasitic extraction
+  - RC extraction simulations
 
-### Complex Setup & Analysis
-- **Includes modeling of electrothermal effects (with frequency dependence)**
+## Environmental and Reliability Analysis
+- **Temperature and Thermal**
+  - Thermal analysis
   - Thermal-electrical coupled simulations
   - Frequency-dependent thermal analysis
   - Power dissipation simulations
 
-- **Includes or enables modeling of global and local statistical variation**
+- **Process and Statistical**
   - Monte Carlo simulations
   - Process corner simulations
   - Statistical analysis
-
-- **Includes or enables model tuning to process specification corners**
-  - Corner case simulations
   - Process variation simulations
   - Temperature corner simulations
 
-- **Enables modeling of aging**
+- **Reliability and Aging**
   - Long-term reliability simulations
   - Stress test simulations
   - Degradation analysis
+  - Aging effects modeling
 
-- **Enables modeling of parasitics for different layouts**
-  - Layout extraction simulations
-  - Parasitic extraction
-  - RC extraction simulations 
+## Simulation Setup and Verification
+- ✓ **Simulator Setup**
+  - Netlist file validation (Path: /home/yongfu/proj/spice_model_benchmark/netlists/circuit.cir)
+  - ngspice version check (Version: ngspice-42)
+  - Simulation error checking
+  - Convergence test simulations
+
+- **Model Quality**
+  - Smoothness (ideally C∞-continuous)
+  - Derivative analysis simulations
+  - Continuity check simulations
+  - Asymptotic correctness over geometry, temperature, and bias
+  - Extreme condition simulations
+  - Limit analysis simulations 

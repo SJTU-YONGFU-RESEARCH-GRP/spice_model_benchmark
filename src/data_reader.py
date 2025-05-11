@@ -171,4 +171,296 @@ class DataReader:
             
         except Exception as e:
             self.logger.logger.error(f"Error reading bias point data: {e}")
-            return None, None, None, None, None, None 
+            return None, None, None, None, None, None
+
+    # Transient analysis data reading methods
+    def read_large_signal_transient_data(self):
+        """Read large signal transient analysis data from file.
+        
+        Returns:
+            tuple: (time, vgate, vdrain, idrain) arrays of large signal transient data
+        """
+        try:
+            # Try in output_dir first, then in netlists directory
+            file_path = os.path.join(self.output_dir, 'tran_large_signal.txt')
+            if not os.path.exists(file_path):
+                file_path = os.path.join('netlists', 'tran_large_signal.txt')
+                if not os.path.exists(file_path):
+                    self.logger.logger.warning(f"Large signal transient data file not found in either {self.output_dir} or netlists directory")
+                    return None, None, None, None
+                else:
+                    self.logger.logger.info(f"Found large signal transient data in netlists directory")
+                
+            # Read data directly with numpy
+            try:
+                data = np.loadtxt(file_path, skiprows=2)
+                if len(data) == 0:
+                    self.logger.logger.warning("No large signal transient data found in file")
+                    return None, None, None, None
+                    
+                # Extract columns by position rather than by name
+                time = data[:, 0]  # First time column
+                vgate = data[:, 2]  # v(gate_tran)
+                vdrain = data[:, 3]  # v(drain_tran)
+                idrain = data[:, 4]  # i(Vds_tran)
+                
+                self.logger.logger.info("Large signal transient data read successfully")
+                return time, vgate, vdrain, idrain
+            except Exception as e:
+                self.logger.logger.error(f"Error parsing large signal transient data: {e}")
+                return None, None, None, None
+            
+        except Exception as e:
+            self.logger.logger.error(f"Error reading large signal transient data: {e}")
+            return None, None, None, None
+            
+    def read_switching_response_data(self):
+        """Read switching response data from file.
+        
+        Returns:
+            tuple: (time, vin, vout, idrain) arrays of switching response data
+        """
+        try:
+            # Try in output_dir first, then in netlists directory
+            file_path = os.path.join(self.output_dir, 'tran_switching.txt')
+            if not os.path.exists(file_path):
+                file_path = os.path.join('netlists', 'tran_switching.txt')
+                if not os.path.exists(file_path):
+                    self.logger.logger.warning(f"Switching response data file not found in either {self.output_dir} or netlists directory")
+                    return None, None, None, None
+                else:
+                    self.logger.logger.info(f"Found switching response data in netlists directory")
+                
+            # Read data directly with numpy
+            try:
+                data = np.loadtxt(file_path, skiprows=2)
+                if len(data) == 0:
+                    self.logger.logger.warning("No switching response data found in file")
+                    return None, None, None, None
+                    
+                # Extract columns by position rather than by name
+                time = data[:, 0]  # First time column
+                vin = data[:, 2]   # v(in_inv)
+                vout = data[:, 3]  # v(out_inv)
+                idrain = data[:, 4]  # i(Vdd_inv)
+                
+                self.logger.logger.info("Switching response data read successfully")
+                return time, vin, vout, idrain
+            except Exception as e:
+                self.logger.logger.error(f"Error parsing switching response data: {e}")
+                return None, None, None, None
+            
+        except Exception as e:
+            self.logger.logger.error(f"Error reading switching response data: {e}")
+            return None, None, None, None
+            
+    def read_switching_power_data(self):
+        """Read switching power data from file.
+        
+        Returns:
+            tuple: (time, power) arrays of switching power data
+        """
+        try:
+            # Try in output_dir first, then in netlists directory
+            file_path = os.path.join(self.output_dir, 'tran_switching_power.txt')
+            if not os.path.exists(file_path):
+                file_path = os.path.join('netlists', 'tran_switching_power.txt')
+                if not os.path.exists(file_path):
+                    self.logger.logger.warning(f"Switching power data file not found in either {self.output_dir} or netlists directory")
+                    return None, None
+                else:
+                    self.logger.logger.info(f"Found switching power data in netlists directory")
+                
+            # Read data directly with numpy
+            try:
+                data = np.loadtxt(file_path, skiprows=2)
+                if len(data) == 0:
+                    self.logger.logger.warning("No switching power data found in file")
+                    return None, None
+                    
+                # Extract columns by position - this file only has time and power
+                time = data[:, 0]  # First time column
+                power = data[:, 2]  # Power column (power_switching)
+                
+                self.logger.logger.info("Switching power data read successfully")
+                return time, power
+            except Exception as e:
+                self.logger.logger.error(f"Error parsing switching power data: {e}")
+                return None, None
+            
+        except Exception as e:
+            self.logger.logger.error(f"Error reading switching power data: {e}")
+            return None, None
+
+    def read_delay_effect_data(self):
+        """Read delay effect data from file.
+        
+        Returns:
+            tuple: (time, vin, v1, v2, vout) arrays of delay chain data
+        """
+        try:
+            # Try in output_dir first, then in netlists directory
+            file_path = os.path.join(self.output_dir, 'tran_delay.txt')
+            if not os.path.exists(file_path):
+                file_path = os.path.join('netlists', 'tran_delay.txt')
+                if not os.path.exists(file_path):
+                    self.logger.logger.warning(f"Delay effect data file not found in either {self.output_dir} or netlists directory")
+                    return None, None, None, None, None
+                else:
+                    self.logger.logger.info(f"Found delay effect data in netlists directory")
+                
+            # Read data directly with numpy
+            try:
+                data = np.loadtxt(file_path, skiprows=2)
+                if len(data) == 0:
+                    self.logger.logger.warning("No delay effect data found in file")
+                    return None, None, None, None, None
+                    
+                # Extract columns by position - based on actual file structure
+                time = data[:, 0]          # First time column
+                vin = data[:, 2]           # v(in_delay)
+                v_mid1 = data[:, 3]        # v(mid1_delay)
+                v_mid2 = data[:, 4]        # v(mid2_delay)
+                vout = data[:, 5]          # v(out_delay)
+                
+                self.logger.logger.info("Delay effect data read successfully")
+                return time, vin, v_mid1, v_mid2, vout
+            except Exception as e:
+                self.logger.logger.error(f"Error parsing delay effect data: {e}")
+                return None, None, None, None, None
+            
+        except Exception as e:
+            self.logger.logger.error(f"Error reading delay effect data: {e}")
+            return None, None, None, None, None
+            
+    def read_power_dissipation_data(self, temperature=27):
+        """Read power dissipation data from file.
+        
+        Args:
+            temperature: Temperature in Celsius (27 or 100)
+            
+        Returns:
+            tuple: (time, power) arrays of power dissipation data
+        """
+        try:
+            if temperature == 27:
+                file_name = 'tran_power_27C.txt'
+            elif temperature == 100:
+                file_name = 'tran_power_100C.txt'
+            else:
+                self.logger.logger.warning(f"Invalid temperature: {temperature}. Using 27°C")
+                file_name = 'tran_power_27C.txt'
+            
+            # Try in output_dir first, then in netlists directory
+            file_path = os.path.join(self.output_dir, file_name)
+            if not os.path.exists(file_path):
+                file_path = os.path.join('netlists', file_name)
+                if not os.path.exists(file_path):
+                    self.logger.logger.warning(f"Power dissipation data file not found in either {self.output_dir} or netlists directory")
+                    return None, None
+                else:
+                    self.logger.logger.info(f"Found power dissipation data in netlists directory")
+                
+            # Read data directly with numpy
+            try:
+                data = np.loadtxt(file_path, skiprows=2)
+                if len(data) == 0:
+                    self.logger.logger.warning("No power dissipation data found in file")
+                    return None, None
+                    
+                # Extract columns by position
+                time = data[:, 0]  # First time column
+                power = data[:, 4]  # Power column (power_diss)
+                
+                self.logger.logger.info(f"Power dissipation data at {temperature}°C read successfully")
+                return time, power
+            except Exception as e:
+                self.logger.logger.error(f"Error parsing power dissipation data: {e}")
+                return None, None
+            
+        except Exception as e:
+            self.logger.logger.error(f"Error reading power dissipation data: {e}")
+            return None, None
+            
+    def read_quasi_static_data(self):
+        """Read quasi-static analysis data from file.
+        
+        Returns:
+            tuple: (time, vgate, vdrain, idrain) arrays of quasi-static data
+        """
+        try:
+            # Try in output_dir first, then in netlists directory
+            file_path = os.path.join(self.output_dir, 'tran_quasi_static.txt')
+            if not os.path.exists(file_path):
+                file_path = os.path.join('netlists', 'tran_quasi_static.txt')
+                if not os.path.exists(file_path):
+                    self.logger.logger.warning(f"Quasi-static data file not found in either {self.output_dir} or netlists directory")
+                    return None, None, None, None
+                else:
+                    self.logger.logger.info(f"Found quasi-static data in netlists directory")
+                
+            # Read data directly with numpy
+            try:
+                data = np.loadtxt(file_path, skiprows=2)
+                if len(data) == 0:
+                    self.logger.logger.warning("No quasi-static data found in file")
+                    return None, None, None, None
+                    
+                # Extract columns by position
+                time = data[:, 0]   # First time column
+                vgate = data[:, 2]  # Gate voltage
+                vdrain = data[:, 3] # Drain voltage
+                idrain = data[:, 4] # Drain current
+                
+                self.logger.logger.info("Quasi-static data read successfully")
+                return time, vgate, vdrain, idrain
+            except Exception as e:
+                self.logger.logger.error(f"Error parsing quasi-static data: {e}")
+                return None, None, None, None
+            
+        except Exception as e:
+            self.logger.logger.error(f"Error reading quasi-static data: {e}")
+            return None, None, None, None
+            
+    def read_charge_conservation_data(self):
+        """Read charge conservation analysis data from file.
+        
+        Returns:
+            tuple: (time, vgate, vdrain, id, ig, is, ib) arrays of charge conservation data
+        """
+        try:
+            # Try in output_dir first, then in netlists directory
+            file_path = os.path.join(self.output_dir, 'tran_charge.txt')
+            if not os.path.exists(file_path):
+                file_path = os.path.join('netlists', 'tran_charge.txt')
+                if not os.path.exists(file_path):
+                    self.logger.logger.warning(f"Charge conservation data file not found in either {self.output_dir} or netlists directory")
+                    return None, None, None, None, None, None, None
+                else:
+                    self.logger.logger.info(f"Found charge conservation data in netlists directory")
+                
+            # Read data directly with numpy
+            try:
+                data = np.loadtxt(file_path, skiprows=2)
+                if len(data) == 0:
+                    self.logger.logger.warning("No charge conservation data found in file")
+                    return None, None, None, None, None, None, None
+                    
+                # Extract columns by position
+                time = data[:, 0]   # First time column
+                vgate = data[:, 2]  # Gate voltage
+                vdrain = data[:, 3] # Drain voltage
+                id = data[:, 4]     # Drain current
+                ig = data[:, 5]     # Gate current
+                is_ = data[:, 6]    # Source current
+                ib = data[:, 7]     # Bulk current
+                
+                self.logger.logger.info("Charge conservation data read successfully")
+                return time, vgate, vdrain, id, ig, is_, ib
+            except Exception as e:
+                self.logger.logger.error(f"Error parsing charge conservation data: {e}")
+                return None, None, None, None, None, None, None
+            
+        except Exception as e:
+            self.logger.logger.error(f"Error reading charge conservation data: {e}")
+            return None, None, None, None, None, None, None 
