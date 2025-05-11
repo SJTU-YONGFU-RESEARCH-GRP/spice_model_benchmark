@@ -1,0 +1,167 @@
+* MOSFET Transient Analysis Simulation with Temperature Analysis
+.option temp=27 tnom=27
+.option gmin=1e-15
+.option reltol=1e-8
+.option abstol=1e-12
+.option chgtol=1e-15
+.option method=gear
+.option TEMPSCALE=1.0
+
+* Include FreePDK45 model
+.inc ./models/ngspice-cmos/FreePDK45/nom.inc
+
+* Large-Signal Transient Analysis Circuit
+* Pulse input source for gate
+Vgs_tran gate_tran 0 PULSE(0 1.2 0n 0.1n 0.1n 10n 20n)
+Vds_tran drain_tran 0 DC 1.2
+Vs_tran source_tran 0 DC 0
+Vb_tran bulk_tran 0 DC 0
+
+* Load capacitor to see switching behavior
+Cload drain_tran 0 1f
+
+* MOSFET device under test - standard 45nm transistor
+M1 drain_tran gate_tran source_tran bulk_tran NMOS_VTG L=0.045u W=10u
+
+* Switching Simulation Circuit (inverter)
+Vdd_inv vdd_inv 0 DC 1.2
+Vin_inv in_inv 0 PULSE(0 1.2 0n 0.1n 0.1n 10n 20n)
+M_inv_n out_inv in_inv 0 0 NMOS_VTG L=0.045u W=10u
+M_inv_p out_inv in_inv vdd_inv vdd_inv PMOS_VTG L=0.045u W=20u
+Cload_inv out_inv 0 1f
+
+* Delay Effect Circuit - Chain of inverters
+Vdd_delay vdd_delay 0 DC 1.2
+Vin_delay in_delay 0 PULSE(0 1.2 0n 0.1n 0.1n 10n 20n)
+
+* First inverter
+M_d1_n mid1_delay in_delay 0 0 NMOS_VTG L=0.045u W=10u
+M_d1_p mid1_delay in_delay vdd_delay vdd_delay PMOS_VTG L=0.045u W=20u
+Cload_d1 mid1_delay 0 1f
+
+* Second inverter
+M_d2_n mid2_delay mid1_delay 0 0 NMOS_VTG L=0.045u W=10u
+M_d2_p mid2_delay mid1_delay vdd_delay vdd_delay PMOS_VTG L=0.045u W=20u
+Cload_d2 mid2_delay 0 1f
+
+* Third inverter (output)
+M_d3_n out_delay mid2_delay 0 0 NMOS_VTG L=0.045u W=10u
+M_d3_p out_delay mid2_delay vdd_delay vdd_delay PMOS_VTG L=0.045u W=20u
+Cload_d3 out_delay 0 1f
+
+* Power Dissipation Circuit
+Vdd_power vdd_power 0 DC 1.2
+Vin_power in_power 0 PULSE(0 1.2 0n 0.1n 0.1n 10n 20n)
+M_power_n out_power in_power 0 0 NMOS_VTG L=0.045u W=10u
+M_power_p out_power in_power vdd_power vdd_power PMOS_VTG L=0.045u W=20u
+Cload_power out_power 0 1f
+
+* Charge Conservation Test Circuit using capacitance approach
+* Instead of direct charge extraction, we'll measure capacitances and integrate
+Vdd_charge vdd_charge 0 DC 1.2
+Vg_charge gate_charge 0 PULSE(0 1.2 0n 1n 1n 10n 20n)
+* MOS for charge conservation test
+M_charge drain_charge gate_charge source_charge bulk_charge NMOS_VTG L=0.045u W=10u
+Vd_charge drain_charge 0 DC 1.2
+Vs_charge source_charge 0 DC 0
+Vb_charge bulk_charge 0 DC 0
+* Capacitors to measure charges (small value to avoid affecting circuit)
+Cg gate_charge 0 1e-18
+Cd drain_charge 0 1e-18
+Cs source_charge 0 1e-18
+Cb bulk_charge 0 1e-18
+
+* Quasi-Static Analysis Circuit with improved convergence
+Vgs_qs gate_qs 0 PULSE(0 1.2 0n 20n 20n 100n 200n)
+Vds_qs drain_qs 0 DC 1.2
+Vs_qs source_qs 0 DC 0
+Vb_qs bulk_qs 0 DC 0
+M_qs drain_qs gate_qs source_qs bulk_qs NMOS_VTG L=0.045u W=10u
+Cload_qs drain_qs 0 10f
+
+* Control block
+.control
+set filetype=ascii
+set wr_vecnames
+set wr_singlescale
+set singleprecision
+set wr_formatted
+
+* Run Large-Signal Transient Analysis
+echo "Starting large-signal transient analysis"
+tran 0.01n 100n
+* Save current through drain, gate, source, and voltages
+wrdata ./tran_large_signal.txt time v(gate_tran) v(drain_tran) i(Vds_tran) i(Vgs_tran) i(Vs_tran) i(Vb_tran)
+
+* Run Switching Analysis (inverter)
+echo "Starting switching analysis"
+tran 0.01n 100n
+* Save input and output voltage, as well as current through power supply
+wrdata ./tran_switching.txt time v(in_inv) v(out_inv) i(Vdd_inv)
+
+* Calculate switching power
+let power_switching = -v(vdd_inv)*i(Vdd_inv)
+wrdata ./tran_switching_power.txt time power_switching
+
+* Run Delay Effect Analysis
+echo "Starting delay effect analysis"
+tran 0.01n 100n
+* Save input, intermediate, and output voltage waveforms
+wrdata ./tran_delay.txt time v(in_delay) v(mid1_delay) v(mid2_delay) v(out_delay)
+
+* Run Power Dissipation Analysis at different temperatures
+echo "Starting power dissipation analysis"
+
+* Temperature 27°C (room temperature)
+option temp=27
+tran 0.01n 100n
+let power_diss = -v(vdd_power)*i(Vdd_power)
+let energy = integ(power_diss)
+* Save time, input, output, power, and energy
+wrdata ./tran_power_27C.txt time v(in_power) v(out_power) power_diss energy
+
+* Temperature 100°C
+option temp=100
+tran 0.01n 100n
+let power_diss = -v(vdd_power)*i(Vdd_power)
+let energy = integ(power_diss)
+wrdata ./tran_power_100C.txt time v(in_power) v(out_power) power_diss energy
+
+* Run Quasi-Static Analysis with improved timestep control
+echo "Starting quasi-static analysis"
+option temp=27
+option minbreak=1e-15
+* Use slower rise/fall times to observe quasi-static behavior
+tran 0.1n 500n uic
+* Save gate voltage, drain voltage and drain current
+let id_qs = i(Vds_qs)
+wrdata ./tran_quasi_static.txt time v(gate_qs) v(drain_qs) id_qs
+
+* Run Charge Conservation Analysis using an alternative approach
+echo "Starting charge conservation analysis"
+option temp=27
+* Modified approach that doesn't rely on direct charge extraction
+tran 0.01n 100n
+* Calculate terminal currents
+let ig_charge = i(Vg_charge)
+let id_charge = i(Vd_charge)
+let is_charge = i(Vs_charge)
+let ib_charge = i(Vb_charge)
+* Calculate total current (should be close to zero for conservation)
+let i_total = ig_charge + id_charge + is_charge + ib_charge
+* Calculate charges by integrating currents
+let qg_approx = integ(ig_charge)
+let qd_approx = integ(id_charge)
+let qs_approx = integ(is_charge)
+let qb_approx = integ(ib_charge)
+let q_total = qg_approx + qd_approx + qs_approx + qb_approx
+* Save the results
+wrdata ./tran_charge.txt time v(gate_charge) ig_charge id_charge is_charge ib_charge i_total qg_approx qd_approx qs_approx qb_approx q_total
+
+quit
+.endc
+
+* Transient analysis
+.tran 0.01n 100n
+
+.end 

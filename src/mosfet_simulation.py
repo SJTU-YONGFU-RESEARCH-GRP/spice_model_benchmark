@@ -41,7 +41,8 @@ class MOSFETSimulation:
             'simulation_setup': None,
             'iv_characteristics': None,
             'temperature_analysis': None,
-            'thermodynamic_analysis': None
+            'thermodynamic_analysis': None,
+            'bias_point_analysis': None
         }
 
     def run(self):
@@ -57,9 +58,16 @@ class MOSFETSimulation:
             if not self.simulation_runner.run_simulation():
                 raise RuntimeError("SPICE simulation failed")
             
+            # Run bias point analysis
+            if not self.simulation_runner.run_bias_point_analysis():
+                raise RuntimeError("Bias point analysis failed")
+            
             # Read data files
             vds, vgs, ids, ig, is_, ib, power = self.data_reader.read_iv_data()
             temp = self.data_reader.read_temperature_data()
+            
+            # Read bias point data
+            bias_vds, bias_vgs, bias_ids, bias_ig, bias_is, bias_ib = self.data_reader.read_bias_point_data()
             
             # Create plot generator
             plot_generator = PlotGenerator(self.output_dir, logger=self.logger)
@@ -77,6 +85,12 @@ class MOSFETSimulation:
             if not iv_results['data_generated'] or not iv_results['data_read']:
                 raise ValueError("IV characteristics verification failed")
             self.results['iv_characteristics'] = iv_results
+            
+            # Verify bias point analysis
+            bias_results = self.verification_manager.verify_bias_point_analysis(
+                bias_vds, bias_vgs, bias_ids, bias_ig, bias_is, bias_ib, temp[0] if temp is not None else 27
+            )
+            self.results['bias_point_analysis'] = bias_results
                 
             temp_results = self.verification_manager.verify_temperature_analysis(temp, ids)
             if not temp_results['temp_sweep'] or not temp_results['device_behavior']:

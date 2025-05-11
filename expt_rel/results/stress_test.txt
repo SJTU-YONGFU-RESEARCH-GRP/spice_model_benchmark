@@ -1,0 +1,4 @@
+Stress_level Vgs Vds Temperature Stress_time Id_degradation
+1 1.0 1.0 25 1000 
+2 1.1 1.1 85 1000 
+3 1.2 1.2 125 1000 

@@ -547,6 +547,92 @@ class VerificationManager:
         self.results['thermodynamic_analysis'] = results
         return results
 
+    def verify_bias_point_analysis(self, vds_points, vgs_points, ids, ig, is_, ib, temp):
+        """Verify bias point analysis results.
+        
+        Args:
+            vds_points (list): List of VDS bias points
+            vgs_points (list): List of VGS bias points
+            ids (list): Drain current at each bias point
+            ig (list): Gate current at each bias point
+            is_ (list): Source current at each bias point
+            ib (list): Bulk current at each bias point
+            temp (float): Temperature of analysis
+            
+        Returns:
+            dict: Verification results
+        """
+        results = {
+            'bias_points_analyzed': False,
+            'currents_measured': False,
+            'kcl_satisfied': False,
+            'power_measured': False,
+            'details': {
+                'bias_points': None,
+                'current_ranges': None,
+                'kcl_error': None,
+                'power_range': None,
+                'temp': None
+            }
+        }
+        
+        try:
+            # Basic data validation
+            if not all(x is not None and len(x) > 0 for x in [vds_points, vgs_points, ids]):
+                return results
+                
+            # Check if bias points were analyzed
+            results['bias_points_analyzed'] = len(vds_points) > 0 and len(vgs_points) > 0
+            results['details']['bias_points'] = f"{len(vds_points)} VDS points, {len(vgs_points)} VGS points"
+            
+            # Check current measurements
+            results['currents_measured'] = np.all(~np.isnan(ids))
+            if ig is not None and len(ig) > 0:
+                results['currents_measured'] = results['currents_measured'] and np.all(~np.isnan(ig))
+            if is_ is not None and len(is_) > 0:
+                results['currents_measured'] = results['currents_measured'] and np.all(~np.isnan(is_))
+            if ib is not None and len(ib) > 0:
+                results['currents_measured'] = results['currents_measured'] and np.all(~np.isnan(ib))
+            
+            # Calculate current ranges
+            current_ranges = []
+            if len(ids) > 0:
+                current_ranges.append(f"IDS: {np.min(ids):.2e}A to {np.max(ids):.2e}A")
+            if ig is not None and len(ig) > 0:
+                current_ranges.append(f"IG: {np.min(ig):.2e}A to {np.max(ig):.2e}A")
+            if is_ is not None and len(is_) > 0:
+                current_ranges.append(f"IS: {np.min(is_):.2e}A to {np.max(is_):.2e}A")
+            if ib is not None and len(ib) > 0:
+                current_ranges.append(f"IB: {np.min(ib):.2e}A to {np.max(ib):.2e}A")
+            results['details']['current_ranges'] = ', '.join(current_ranges)
+            
+            # Check KCL
+            if all(x is not None and len(x) > 0 for x in [ids, ig, is_, ib]):
+                kcl_error = np.abs(ids + ig + is_ + ib)
+                max_current = np.max([np.max(np.abs(c)) for c in [ids, ig, is_, ib]])
+                valid_mask = max_current > 1e-12
+                if np.any(valid_mask):
+                    kcl_error_percent = np.max(kcl_error[valid_mask] / max_current) * 100
+                    results['kcl_satisfied'] = kcl_error_percent < 1.0  # 1% error threshold
+                    results['details']['kcl_error'] = f"{kcl_error_percent:.2f}%"
+                else:
+                    results['kcl_satisfied'] = True
+                    results['details']['kcl_error'] = "0.00%"
+            
+            # Calculate power
+            power = np.abs(vds_points * ids)
+            results['power_measured'] = np.all(~np.isnan(power))
+            if results['power_measured']:
+                results['details']['power_range'] = f"{np.min(power):.2e}W to {np.max(power):.2e}W"
+            
+            # Record temperature
+            results['details']['temp'] = f"{temp}°C"
+            
+        except Exception as e:
+            self.logger.logger.error(f"Error verifying bias point analysis: {e}")
+            
+        return results
+
     def update_verification_checklist(self, results):
         """Update verification checklist with results."""
         checklist = {

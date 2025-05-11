@@ -135,4 +135,40 @@ class DataReader:
             
         except Exception as e:
             self.logger.logger.error(f"Error reading temperature data: {e}")
-            return None 
+            return None
+
+    def read_bias_point_data(self):
+        """Read bias point analysis data from output files.
+        
+        Returns:
+            tuple: (vds_points, vgs_points, ids, ig, is_, ib) arrays of bias point data
+        """
+        try:
+            # Find bias point data file
+            bias_file = None
+            for filename in os.listdir(self.output_dir):
+                if filename.startswith('bias_point_data_'):
+                    bias_file = os.path.join(self.output_dir, filename)
+                    break
+            
+            if bias_file is None:
+                self.logger.logger.warning("No bias point data file found")
+                return None, None, None, None, None, None
+            
+            # Read data from file
+            data = np.loadtxt(bias_file, skiprows=1)
+            
+            # Extract columns
+            vds_points = data[:, 0]  # VDS column
+            vgs_points = data[:, 1]  # VGS column
+            ids = data[:, 2]         # Drain current
+            ig = data[:, 3]          # Gate current
+            is_ = data[:, 4]         # Source current
+            ib = data[:, 5]          # Bulk current
+            
+            self.logger.logger.info(f"Read bias point data from {bias_file}")
+            return vds_points, vgs_points, ids, ig, is_, ib
+            
+        except Exception as e:
+            self.logger.logger.error(f"Error reading bias point data: {e}")
+            return None, None, None, None, None, None 
