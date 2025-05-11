@@ -4,30 +4,16 @@
 
 ## Table of Contents
 
-1. [Introduction](#introduction)
-2. [Simulation Setup](#simulation-setup)
+
 3. [Noise Characteristics](#noise-characteristics)
    - [Thermal Noise](#thermal-noise)
    - [Flicker (1/f) Noise](#flicker-noise)
    - [Shot Noise](#shot-noise)
 4. [Frequency Analysis](#frequency-analysis)
 5. [Temperature Dependence](#temperature-dependence)
-6. [Geometry Dependence](#geometry-dependence)
-7. [Conclusions](#conclusions)
 
-## Introduction
 
-This report presents the results of noise analysis simulations performed on a 45nm NMOS transistor using the FreePDK45 model. The analysis covers various aspects of noise characterization including thermal noise, flicker noise, shot noise, and their dependence on frequency, temperature, and device geometry.
 
-## Simulation Setup
-
-The simulations were performed using ngspice with the following configuration:
-
-- **Model:** FreePDK45 NMOS_VTG
-- **Default Dimensions:** L=45nm, W=10µm
-- **Bias Conditions:** Various VGS and VDS combinations
-- **Temperature Range:** -40°C to 150°C
-- **Frequency Range:** 0.1Hz to 10GHz
 
 ## Noise Characteristics
 
@@ -117,38 +103,3 @@ Temperature dependence analysis was performed to study how noise characteristics
 
 ![Temperature Dependence Plot 2](plots/noise_temp_trend.png)
 
-
-## Geometry Dependence
-
-Geometry dependence analysis was performed to study how noise characteristics vary with device dimensions.
-
-**Note: The following errors were encountered during geometry dependence analysis:**
-
-- ⚠️ Length dependence analysis failed: Noise values don't vary with transistor length
-- ⚠️ Width dependence analysis failed: Noise values don't vary with transistor width
-
-### Channel Length Dependence
-
-- **Analysis Status:** Failed
-- **Error:** Length dependence analysis failed: Noise values don't vary with transistor length
-- **Data Variation:** 0.000000 (should be significantly > 1e-6)
-
-### Channel Width Dependence
-
-- **Analysis Status:** Failed
-- **Error:** Width dependence analysis failed: Noise values don't vary with transistor width
-- **Data Variation:** 0.000000 (should be significantly > 1e-6)
-
-## Conclusions
-
-Based on the noise analysis results, the following conclusions can be drawn:
-
-- Thermal noise characteristics were successfully analyzed at multiple bias points, showing expected behavior with frequency and bias conditions.
-
-- Flicker noise shows a non-ideal 1/f^-1.00 behavior, which deviates from the theoretical 1/f characteristic.
-
-- Noise increases with temperature (coefficient: 1.71e-27 V²/Hz/°C), which is consistent with thermally activated noise mechanisms.
-
----
-
-Report generated on 2025-05-11 using ngspice and the FreePDK45 model.
