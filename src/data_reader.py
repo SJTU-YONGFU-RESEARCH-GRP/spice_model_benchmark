@@ -1103,13 +1103,38 @@ class DataReader:
         """
         try:
             # First check in data directory
-            file_path = os.path.join(self.output_dir, 'data', 'sparams_data.txt')
+            filename = 'sparams_data.txt'
+            file_path = os.path.join(self.output_dir, 'data', filename)
+            
             if not os.path.exists(file_path):
                 # If not there, check in main output directory as fallback
-                file_path = os.path.join(self.output_dir, 'sparams_data.txt')
+                file_path = os.path.join(self.output_dir, filename)
                 if not os.path.exists(file_path):
-                    self.logger.logger.warning(f"S-parameter data file not found: {file_path}")
-                    return None, None, None, None, None
+                    # Check if the S-parameter raw files exist in the netlists directory
+                    s_params_p1_file = os.path.join('netlists', 's_params_p1.txt')
+                    s_params_p2_file = os.path.join('netlists', 's_params_p2.txt')
+                    
+                    if os.path.exists(s_params_p1_file) and os.path.exists(s_params_p2_file):
+                        # Create data directory if it doesn't exist
+                        data_dir = os.path.join(self.output_dir, 'data')
+                        os.makedirs(data_dir, exist_ok=True)
+                        
+                        # Copy files to results directory for processing
+                        import shutil
+                        dest_p1 = os.path.join(data_dir, 's_params_p1.txt')
+                        dest_p2 = os.path.join(data_dir, 's_params_p2.txt')
+                        shutil.copy(s_params_p1_file, dest_p1)
+                        shutil.copy(s_params_p2_file, dest_p2)
+                        self.logger.logger.info(f"Copied S-parameter data files from netlists to {data_dir}")
+                        
+                        # Also check for sparams_data.txt in netlists directory
+                        sparams_data_file = os.path.join('netlists', filename)
+                        if os.path.exists(sparams_data_file):
+                            shutil.copy(sparams_data_file, file_path)
+                            self.logger.logger.info(f"Copied S-parameter data file from netlists/{filename} to {file_path}")
+                    else:
+                        self.logger.logger.error(f"S-parameter data file {filename} not found")
+                        return None, None, None, None, None, None, None, None, None
             
             self.logger.logger.info(f"Reading S-parameter data from {file_path}")
             
@@ -1133,7 +1158,7 @@ class DataReader:
             
             if not data:
                 self.logger.logger.error("No valid S-parameter data could be parsed")
-                return None, None, None, None, None
+                return None, None, None, None, None, None, None, None, None
             
             data = np.array(data)
             
@@ -1149,13 +1174,11 @@ class DataReader:
             s22_phase = data[:, 8]  # S22 phase (degrees)
             
             self.logger.logger.info(f"S-parameter data read successfully: {len(freq)} frequency points")
-            return freq, s11_mag, s21_mag, s12_mag, s22_mag
+            return freq, s11_mag, s11_phase, s12_mag, s12_phase, s21_mag, s21_phase, s22_mag, s22_phase
             
         except Exception as e:
             self.logger.logger.error(f"Error reading S-parameter data: {e}")
-            import traceback
-            traceback.print_exc()
-            return None, None, None, None, None
+            return None, None, None, None, None, None, None, None, None
     
     def read_nqs_effects_data(self):
         """Read non-quasi-static effects data from output file.
@@ -1165,13 +1188,35 @@ class DataReader:
         """
         try:
             # First check in data directory
-            file_path = os.path.join(self.output_dir, 'data', 'nqs_effects.txt')
+            filename = 'nqs_effects.txt'
+            file_path = os.path.join(self.output_dir, 'data', filename)
+            
             if not os.path.exists(file_path):
                 # If not there, check in main output directory as fallback
-                file_path = os.path.join(self.output_dir, 'nqs_effects.txt')
+                file_path = os.path.join(self.output_dir, filename)
                 if not os.path.exists(file_path):
-                    self.logger.logger.warning(f"Non-quasi-static effects data file not found: {file_path}")
-                    return None, None, None, None
+                    # Check if the NQS effects raw file exists in the netlists directory
+                    nqs_raw_file = os.path.join('netlists', 'nqs_effects_raw.txt')
+                    
+                    if os.path.exists(nqs_raw_file):
+                        # Create data directory if it doesn't exist
+                        data_dir = os.path.join(self.output_dir, 'data')
+                        os.makedirs(data_dir, exist_ok=True)
+                        
+                        # Copy file to results directory for processing
+                        import shutil
+                        dest_raw = os.path.join(data_dir, 'nqs_effects_raw.txt')
+                        shutil.copy(nqs_raw_file, dest_raw)
+                        self.logger.logger.info(f"Copied NQS effects raw data file from netlists to {data_dir}")
+                        
+                        # Also check for nqs_effects.txt in netlists directory
+                        nqs_effects_file = os.path.join('netlists', filename)
+                        if os.path.exists(nqs_effects_file):
+                            shutil.copy(nqs_effects_file, file_path)
+                            self.logger.logger.info(f"Copied NQS effects data file from netlists/{filename} to {file_path}")
+                    else:
+                        self.logger.logger.warning(f"Non-quasi-static effects data file not found: {file_path}")
+                        return None, None, None, None
             
             self.logger.logger.info(f"Reading NQS effects data from {file_path}")
             
@@ -1209,6 +1254,4 @@ class DataReader:
             
         except Exception as e:
             self.logger.logger.error(f"Error reading NQS effects data: {e}")
-            import traceback
-            traceback.print_exc()
             return None, None, None, None 

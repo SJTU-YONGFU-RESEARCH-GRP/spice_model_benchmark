@@ -7,7 +7,7 @@ from datetime import datetime
 import numpy as np
 from scipy import integrate
 
-from  logger import Logger
+from logger import Logger
 from simulation_runner import SimulationRunner
 from data_reader import DataReader
 from plot_generator import PlotGenerator
@@ -42,17 +42,13 @@ class MOSFETSimulation:
         
         # Initialize components
         self.logger = Logger(log_level=log_level)
-        self.simulation_runner = SimulationRunner(
-            self.logger, 
-            output_dir,
-            dc_circuit_file=self.dc_circuit_file,
-            transient_circuit_file=self.transient_circuit_file,
-            noise_circuit_file=self.noise_circuit_file,
-            ac_circuit_file=self.ac_circuit_file
-        )
-        self.data_reader = DataReader(self.logger, output_dir)
-        self.plot_generator = PlotGenerator(output_dir, dpi, self.logger)
-        self.verification_manager = VerificationManager(self.logger, output_dir)
+        self.simulation_runner = SimulationRunner(self.logger, output_dir=output_dir)
+        self.data_reader = DataReader(self.logger, output_dir=output_dir)
+        self.plot_generator = PlotGenerator(output_dir, dpi=dpi, logger=self.logger)
+        self.verification_manager = VerificationManager(self.logger, output_dir=output_dir)
+        
+        # Set plot generator in verification manager to use for plots
+        self.verification_manager.plot_generator = self.plot_generator
         
         # Initialize results
         self.results = {
@@ -85,6 +81,9 @@ class MOSFETSimulation:
             plot_generator = PlotGenerator(self.output_dir, self.dpi, self.logger)
             self.data_reader = DataReader(self.logger, self.output_dir)
             self.verification_manager = VerificationManager(self.logger, self.output_dir)
+            
+            # Set the plot generator in the verification manager for proper plot generation
+            self.verification_manager.plot_generator = plot_generator
             
             # Initialize simulation runner with the circuit files
             self.simulation_runner = SimulationRunner(
@@ -149,10 +148,8 @@ class MOSFETSimulation:
             # Read CV data
             vg, cv_ig, cv_is, cv_ib, cgg = self.data_reader.read_cv_data()
             
-            # Read S-parameter data
-            freq, s11_mag, s21_mag, s12_mag, s22_mag = self.data_reader.read_sparameter_data()
-            
-            # Read NQS effects data
+            # Load high-frequency data
+            freq, s11_mag, s11_phase, s12_mag, s12_phase, s21_mag, s21_phase, s22_mag, s22_phase = self.data_reader.read_sparameter_data()
             nqs_freq, vg_phase, id_phase, phase_diff = self.data_reader.read_nqs_effects_data()
             
             # Read charge conservation data
@@ -160,6 +157,9 @@ class MOSFETSimulation:
             
             # Create plot generator
             plot_generator = PlotGenerator(self.output_dir, logger=self.logger)
+            
+            # Re-set the plot generator in the verification manager
+            self.verification_manager.plot_generator = plot_generator
             
             # Generate IV plots
             if vds is not None and vgs is not None and ids is not None:
@@ -237,7 +237,11 @@ class MOSFETSimulation:
                 }
             
             # Verify S-parameter and high-frequency behavior
-            if freq is not None and all(x is not None for x in [s11_mag, s21_mag, s12_mag, s22_mag]):
+            if freq is not None and s11_mag is not None and s21_mag is not None and s12_mag is not None and s22_mag is not None:
+                # Generate S-parameter plot
+                plot_generator.plot_sparameter_analysis(freq, s11_mag, s21_mag, s12_mag, s22_mag)
+                
+                # Verify S-parameter analysis
                 sparam_results = self.verification_manager.verify_sparameter_analysis(
                     freq, s11_mag, s21_mag, s12_mag, s22_mag
                 )
@@ -245,6 +249,10 @@ class MOSFETSimulation:
             
             # Verify non-quasi-static effects
             if nqs_freq is not None and vg_phase is not None and id_phase is not None:
+                # Generate NQS effects plot
+                plot_generator.plot_nqs_effects(nqs_freq, vg_phase, id_phase, phase_diff)
+                
+                # Verify NQS effects
                 nqs_results = self.verification_manager.verify_nqs_effects(
                     nqs_freq, vg_phase, id_phase, phase_diff
                 )

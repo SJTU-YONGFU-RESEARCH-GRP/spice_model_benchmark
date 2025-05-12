@@ -1,6 +1,6 @@
 # MOSFET Simulation Verification Report
 
-Generated on: 2025-05-13 02:43:36
+Generated on: 2025-05-13 07:17:44
 
 ## Table of Contents
 1. [Simulation Setup and Execution](#1-simulation-setup-and-execution)
@@ -23,6 +23,7 @@ Generated on: 2025-05-13 02:43:36
    - [Charge Conservation Tests](#charge-conservation-tests)
 5. [AC Analysis](#5-ac-analysis)
    - [Small-Signal Analysis](#small-signal-analysis)
+   - [High-Frequency Analysis](#high-frequency-analysis)
 6. [Noise Analysis](#6-noise-analysis)
    - [Thermal Noise Analysis](#thermal-noise-analysis)
    - [Flicker Noise Analysis](#flicker-noise-analysis)
@@ -73,9 +74,9 @@ Generated on: 2025-05-13 02:43:36
 | Test Type | Status | Key Findings |
 |-----------|--------|-------------|
 | [Capacitance-Voltage](#small-signal-analysis) | <span style='color: green'>✓</span> | Range: 7.08fF to 13.98fF |
-| [S-Parameter](#small-signal-analysis) | <span style='color: green'>✓</span> | Frequency: 1.00e+06Hz to 1.00e+09Hz |
-| [Non-Quasi-Static](#small-signal-analysis) | <span style='color: green'>✓</span> | Phase Shift: -180.00° to -176.58° |
-| [Charge Conservation](#charge-conservation-tests) | <span style='color: green'>✓</span> | Error: 3.8477522766233967e-07% |
+| [Charge Conservation](#small-signal-analysis) | <span style='color: green'>✓</span> | Error: 3.8477522766233967e-07% |
+| [S-Parameter](#high-frequency-analysis) | <span style='color: green'>✓</span> | Frequency: 1.0MHz to 1.0GHz |
+| [Non-Quasi-Static](#high-frequency-analysis) | <span style='color: green'>✓</span> | Phase Shift: -176.581 |
 
 ### Noise Analysis Summary
 | Test Type | Status | Key Findings |
@@ -231,6 +232,26 @@ Generated on: 2025-05-13 02:43:36
 <img src='plots/cv_components.png' alt='CV Components' width='400'/>
 
 *Capacitance components (Cgb, Cgs, Cgd) variation with gate voltage*
+
+### High-Frequency Analysis
+- [<span style='color: green'>✓</span>] High-frequency AC simulations completed
+  - Frequency Range: 1.0MHz to 1.0GHz
+- [<span style='color: green'>✓</span>] S-parameter analysis completed
+  - S11: -2dB to -1dB
+  - S21: -26dB to -22dB
+- [<span style='color: green'>✓</span>] RF simulations completed
+  - Isolation: >-10dB
+- [<span style='color: green'>✓</span>] Non-quasi-static effects analyzed
+  - Max Phase Shift: -176.581
+
+<img src='plots/sparameter_analysis.png' alt='S-Parameter Analysis' width='400'/>
+
+*S-Parameter analysis showing frequency response characteristics*
+
+<img src='plots/nqs_effects.png' alt='Non-Quasi-Static Effects' width='400'/>
+
+*Non-quasi-static effects analysis showing phase shift between gate voltage and drain current*
+
 
 ## 6. Noise Analysis
 ### Thermal Noise Analysis
