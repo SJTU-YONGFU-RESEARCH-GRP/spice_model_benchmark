@@ -120,7 +120,7 @@ class PlotGenerator:
 
     def plot_cv_characteristics(self, vg=None, ig=None, freq=None):
         """
-        Generate comprehensive CV plots based on data in results/cv_full_data.txt.
+        Generate comprehensive CV plots based on data in results/data/cv_data.txt.
         Creates both component analysis and frequency-dependent plots.
         """
         try:
@@ -130,13 +130,14 @@ class PlotGenerator:
             plots_dir.mkdir(exist_ok=True)
             
             # Check if file exists
-            data_file = 'results/cv_full_data.txt'
+            data_file = os.path.join(self.output_dir, 'data', 'cv_data.txt')
             if not os.path.exists(data_file):
                 if self.logger:
                     self.logger.logger.error(f"CV data file {data_file} not found")
                 return None
                 
-            print(f"Loading CV data from {data_file}")
+            if self.logger:
+                self.logger.logger.info(f"Loading CV data from {data_file}")
             
             # Read file and handle potential header lines
             with open(data_file, 'r') as f:
@@ -249,8 +250,11 @@ class PlotGenerator:
             plt.grid(True, alpha=0.3)
             plt.legend(loc='upper right')
             
-            # Set y-axis limits
-            plt.ylim(0, np.max(cgg)*1.2)
+            # Set y-axis limits - modified to include all components
+            # Find the maximum of all capacitance components to ensure all are visible
+            all_cap_values = np.concatenate((cgg, cgb, cgs, cgd))
+            max_cap = np.max(all_cap_values) if len(all_cap_values) > 0 else np.max(cgg)
+            plt.ylim(0, max_cap*1.2)  # Add 20% margin to ensure all components are visible
             
             # Add x and y axis lines at origin
             plt.axhline(y=0, color='k', linestyle='-', alpha=0.2)
@@ -865,7 +869,7 @@ class PlotGenerator:
         
         Args:
             temps: List of temperature values
-            noise_levels: List of corresponding noise levels
+            noise_levels: List of corresponding noise levels or dictionary of temp->noise pairs
             title: Plot title
         
         Returns:
@@ -873,6 +877,42 @@ class PlotGenerator:
         """
         try:
             plt.figure(figsize=(self.figure_width, self.single_plot_height))
+            
+            # Convert inputs to numpy arrays if they aren't already
+            temps = np.array(temps)
+            
+            # Check the type of noise_levels
+            if isinstance(noise_levels, dict):
+                # Extract values from dictionary for temperatures we have
+                noise_values = []
+                valid_temps = []
+                for temp in temps:
+                    if temp in noise_levels:
+                        valid_temps.append(temp)
+                        # Get average noise level if it's an array
+                        noise_data = noise_levels[temp]
+                        if isinstance(noise_data, tuple) and len(noise_data) == 2:
+                            # It's (freq, noise) tuple, calculate average
+                            noise_values.append(np.mean(noise_data[1]))
+                        else:
+                            noise_values.append(np.mean(noise_data))
+                temps = np.array(valid_temps)
+                noise_levels = np.array(noise_values)
+            else:
+                # It's already an array, just make sure both arrays have same length
+                noise_levels = np.array(noise_levels)
+                if len(temps) != len(noise_levels):
+                    if self.logger:
+                        self.logger.logger.warning(f"Mismatch in data dimensions: temps {temps.shape}, noise {noise_levels.shape}")
+                    # Use only the data points we have for both
+                    min_len = min(len(temps), len(noise_levels))
+                    temps = temps[:min_len]
+                    noise_levels = noise_levels[:min_len]
+            
+            if len(temps) == 0 or len(noise_levels) == 0:
+                if self.logger:
+                    self.logger.logger.error("No valid temperature-noise data pairs found")
+                return None
             
             plt.plot(temps, noise_levels, 'o-', color=self.color_map['primary'])
             

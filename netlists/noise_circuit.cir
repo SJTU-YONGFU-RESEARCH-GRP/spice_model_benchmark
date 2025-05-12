@@ -154,6 +154,9 @@ echo "Temperature-Dependent Noise Analysis"
 
 * First temperature -40°C
 option temp = -40
+* Set consistent bias point for temperature dependency analysis
+alter Vgs_noise = 0.6
+alter Vds_noise = 0.6
 noise v(drain_noise) Vin_noise dec 20 1 1G
 setplot noise1
 let temp_noise = inoise_spectrum
@@ -162,6 +165,9 @@ write ./noise_temp-40.txt freq temp_noise
 
 * Second temperature 0°C
 option temp = 0
+* Set consistent bias point for temperature dependency analysis
+alter Vgs_noise = 0.6
+alter Vds_noise = 0.6
 noise v(drain_noise) Vin_noise dec 20 1 1G
 setplot noise1
 let temp_noise = inoise_spectrum
@@ -170,6 +176,9 @@ write ./noise_temp0.txt freq temp_noise
 
 * Third temperature 27°C
 option temp = 27
+* Set consistent bias point for temperature dependency analysis
+alter Vgs_noise = 0.6
+alter Vds_noise = 0.6
 noise v(drain_noise) Vin_noise dec 20 1 1G
 setplot noise1
 let temp_noise = inoise_spectrum
@@ -178,6 +187,9 @@ write ./noise_temp27.txt freq temp_noise
 
 * Fourth temperature 50°C
 option temp = 50
+* Set consistent bias point for temperature dependency analysis
+alter Vgs_noise = 0.6
+alter Vds_noise = 0.6
 noise v(drain_noise) Vin_noise dec 20 1 1G
 setplot noise1
 let temp_noise = inoise_spectrum
@@ -186,6 +198,9 @@ write ./noise_temp50.txt freq temp_noise
 
 * Fifth temperature 100°C
 option temp = 100
+* Set consistent bias point for temperature dependency analysis
+alter Vgs_noise = 0.6
+alter Vds_noise = 0.6
 noise v(drain_noise) Vin_noise dec 20 1 1G
 setplot noise1
 let temp_noise = inoise_spectrum
@@ -194,6 +209,9 @@ write ./noise_temp100.txt freq temp_noise
 
 * Sixth temperature 150°C
 option temp = 150
+* Set consistent bias point for temperature dependency analysis
+alter Vgs_noise = 0.6
+alter Vds_noise = 0.6
 noise v(drain_noise) Vin_noise dec 20 1 1G
 setplot noise1
 let temp_noise = inoise_spectrum

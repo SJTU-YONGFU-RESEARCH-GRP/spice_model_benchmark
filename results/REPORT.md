@@ -1,14 +1,37 @@
 # MOSFET Simulation Verification Report
 
-Generated on: 2025-05-12 07:32:51
+Generated on: 2025-05-13 02:43:36
 
 ## Table of Contents
 1. [Simulation Setup and Execution](#1-simulation-setup-and-execution)
-2. [DC Analysis](#2-dc-analysis)
-3. [Transient Analysis](#3-transient-analysis)
-4. [AC Analysis](#4-ac-analysis)
-5. [Noise Analysis](#5-noise-analysis)
-6. [Geometry and Layout Analysis](#6-geometry-and-layout-analysis)
+2. [Summary](#2-summary)
+   - [DC Analysis Summary](#dc-analysis-summary)
+   - [Transient Analysis Summary](#transient-analysis-summary)
+   - [AC Analysis Summary](#ac-analysis-summary)
+   - [Noise Analysis Summary](#noise-analysis-summary)
+3. [DC Analysis](#3-dc-analysis)
+   - [DC Operating Point Analysis](#dc-operating-point-analysis)
+   - [Temperature Dependence](#temperature-dependence)
+   - [Thermodynamic Analysis](#thermodynamic-analysis)
+   - [Physical Properties](#physical-properties)
+4. [Transient Analysis](#4-transient-analysis)
+   - [Large-Signal Transient](#large-signal-transient)
+   - [Switching Simulations](#switching-simulations)
+   - [Delay Effect Simulations](#delay-effect-simulations)
+   - [Transient Simulations for Power Dissipation](#transient-simulations-for-power-dissipation)
+   - [Quasi-Static Analysis](#quasi-static-analysis)
+   - [Charge Conservation Tests](#charge-conservation-tests)
+5. [AC Analysis](#5-ac-analysis)
+   - [Small-Signal Analysis](#small-signal-analysis)
+6. [Noise Analysis](#6-noise-analysis)
+   - [Thermal Noise Analysis](#thermal-noise-analysis)
+   - [Flicker Noise Analysis](#flicker-noise-analysis)
+   - [Shot Noise Analysis](#shot-noise-analysis)
+   - [Temperature Dependence](#temperature-dependence-1)
+   - [Detailed Noise Characteristics](#detailed-noise-characteristics)
+7. [Geometry and Layout Analysis](#7-geometry-and-layout-analysis)
+   - [Geometry Dependence](#geometry-dependence)
+   - [Layout Effects](#layout-effects)
 
 
 ## Notes
@@ -28,30 +51,57 @@ Generated on: 2025-05-12 07:32:51
   - Version: ngspice-42
 - [<span style='color: green'>✓</span>] Simulation runs without errors
 
-## 2. DC Analysis
-### Summary
+## 2. Summary
+### DC Analysis Summary
 | Test Type | Status | Key Findings |
 |-----------|--------|-------------|
-| IV Characteristics | <span style='color: green'>✓</span> | Range: 0.000V to 1.200V, -1.793e-02A to 2.870e-08A |
-| Temperature Analysis | <span style='color: green'>✓</span> | Temp Coef: 0.000015 /°C |
-| Thermodynamic Analysis | <span style='color: green'>✓</span> | Power: 0.000e+00W to 2.151e-02W |
+| [IV Characteristics](#dc-operating-point-analysis) | <span style='color: green'>✓</span> | Range: 0.00V to 1.20V, -1.79e-02A to 2.87e-08A |
+| [Temperature Analysis](#temperature-dependence) | <span style='color: green'>✓</span> | Temp Coef: 0.000015 /°C |
+| [Thermodynamic Analysis](#thermodynamic-analysis) | <span style='color: green'>✓</span> | Power: 0.000e+00W to 2.151e-02W |
 
+### Transient Analysis Summary
+| Test Type | Status | Key Findings |
+|-----------|--------|-------------|
+| [Large-Signal Transient](#large-signal-transient) | <span style='color: green'>✓</span> | Max Current: 2.934e-05A, Rise Time: 0.1ps |
+| [Switching Simulations](#switching-simulations) | <span style='color: green'>✓</span> | Propagation Delay: 10.7ps |
+| [Delay Effect](#delay-effect-simulations) | <span style='color: green'>✓</span> | Total Chain Delay: 25.0ps |
+| [Power Dissipation](#transient-simulations-for-power-dissipation) | <span style='color: green'>✓</span> | Temp Coeff: -1.718433e-05W/°C |
+| [Quasi-Static Analysis](#quasi-static-analysis) | <span style='color: green'>✓</span> | I-V characteristics analyzed |
+| [Charge Conservation](#charge-conservation-tests) | <span style='color: green'>✓</span> | Error: 0.000000% |
+
+### AC Analysis Summary
+| Test Type | Status | Key Findings |
+|-----------|--------|-------------|
+| [Capacitance-Voltage](#small-signal-analysis) | <span style='color: green'>✓</span> | Range: 7.08fF to 13.98fF |
+| [S-Parameter](#small-signal-analysis) | <span style='color: green'>✓</span> | Frequency: 1.00e+06Hz to 1.00e+09Hz |
+| [Non-Quasi-Static](#small-signal-analysis) | <span style='color: green'>✓</span> | Phase Shift: -180.00° to -176.58° |
+| [Charge Conservation](#charge-conservation-tests) | <span style='color: green'>✓</span> | Error: 3.8477522766233967e-07% |
+
+### Noise Analysis Summary
+| Test Type | Status | Key Findings |
+|-----------|--------|-------------|
+| [Thermal Noise](#thermal-noise-analysis) | <span style='color: green'>✓</span> | Floor: 2.65e+07 V²/Hz, Range: 2.16e-15 to 1.00e+09 V²/Hz |
+| [Flicker (1/f) Noise](#flicker-noise-analysis) | <span style='color: green'>✓</span> | Exponent: 0.5075, Corner Freq: 1.12e+00 Hz |
+| [Shot Noise](#shot-noise-analysis) | <span style='color: green'>✓</span> | Level: 3.79e-09 V²/Hz, Variation: 1.4676 |
+| [Temperature Dependence](#temperature-dependence-1) | <span style='color: green'>✓</span> | Coefficient: 2.77e-11 V²/Hz/°C, Range: -40.0°C to 150.0°C |
+| [Bias Dependence](#detailed-noise-characteristics) | <span style='color: green'>✓</span> | Analyzed at 6 bias points |
+## 3. DC Analysis
 ### DC Operating Point Analysis
 - [<span style='color: green'>✓</span>] IV data file is generated
 - [<span style='color: green'>✓</span>] Data points are properly read
 - [<span style='color: green'>✓</span>] Vds values are within range (0-5V)
-  - Range: 0.000V to 1.200V
+  - Range: 0.00V to 1.20V
 - [<span style='color: green'>✓</span>] Vgs values are within range (0-5V)
-  - Range: 0.000V to 1.200V
+  - Range: 0.00V to 1.20V
 - [<span style='color: green'>✓</span>] Drain current (Ids) is properly measured
-  - Range: -1.793e-02A to 2.870e-08A
+  - Range: -1.79e-02A to 2.87e-08A
 - [<span style='color: green'>✓</span>] Log scale measurements are valid (2+ decades)
-  - Decades: 2.92
+  - Decades: 8.71
 - [<span style='color: green'>✓</span>] Linear scale measurements are valid
-  - Points: 1722
-  - Range: 0.100V to 0.500V
+  - Points: 432
+  - Range: 0.00V to 0.35V
 - [<span style='color: green'>✓</span>] Multi-terminal current analysis is valid
-  - KCL Error: 0.00%
+  - KCL Error: 6.39e-12A
 
 <img src='plots/iv_characteristics.png' alt='IV Characteristics' width='400'/>
 
@@ -91,17 +141,7 @@ Generated on: 2025-05-12 07:32:51
 - <span style='color: gray'>✗</span> Cross-derivative analysis: *In Progress*
 - <span style='color: gray'>✗</span> Terminal permutation tests: *In Progress*
 
-## 3. Transient Analysis
-### Summary
-| Test Type | Status | Key Findings |
-|-----------|--------|-------------|
-| Large-Signal Transient | <span style='color: green'>✓</span> | Max Current: 2.934e-05A, Rise Time: 0.1ps |
-| Switching Simulations | <span style='color: green'>✓</span> | Propagation Delay: 10.7ps |
-| Delay Effect | <span style='color: green'>✓</span> | Total Chain Delay: 25.0ps |
-| Power Dissipation | <span style='color: green'>✓</span> | Temp Coeff: -1.718433e-05W/°C |
-| Quasi-Static Analysis | <span style='color: green'>✓</span> | I-V characteristics analyzed |
-| Charge Conservation | <span style='color: green'>✓</span> | Error: 0.000000% |
-
+## 4. Transient Analysis
 ### Large-Signal Transient
 - [<span style='color: green'>✓</span>] Time-domain transient analysis completed
   - Maximum Drain Current: 2.934381e-05A
@@ -175,64 +215,25 @@ Generated on: 2025-05-12 07:32:51
 
 *Total charge conservation analysis*
 
-## 4. AC Analysis
+## 5. AC Analysis
 ### Small-Signal Analysis
-- <span style='color: gray'>✗</span> AC small-signal simulations: *In Progress*
-- <span style='color: gray'>✗</span> Capacitance-voltage (C-V) measurements: *In Progress*
-- <span style='color: gray'>✗</span> Charge conservation tests: *In Progress*
+- [<span style='color: green'>✓</span>] AC small-signal simulations completed
+  - Range: 7.08fF to 13.98fF
+- [<span style='color: green'>✓</span>] Capacitance-voltage (C-V) measurements analyzed
+  - Max Value at: 1.20V
+- [<span style='color: green'>✓</span>] Charge conservation tests completed
+  - Conservation Error: 3.8477522766233967e-07%
 
-### High-Frequency Analysis
-- <span style='color: gray'>✗</span> High-frequency AC simulations: *In Progress*
-- <span style='color: gray'>✗</span> S-parameter analysis: *In Progress*
-- <span style='color: gray'>✗</span> RF simulations: *In Progress*
-- <span style='color: gray'>✗</span> Non-quasi-static effects: *In Progress*
+<img src='plots/cv_characteristics.png' alt='CV Characteristics' width='400'/>
 
-## 5. Noise Analysis
-### Summary
-| Test Type | Status | Key Findings |
-|-----------|--------|-------------|
-| Thermal Noise | <span style='color: green'>✓</span> | Floor: 6.90e-12 V²/Hz, Range: 2.16e-15 to 1.36e-08 V²/Hz |
-| Flicker (1/f) Noise | <span style='color: green'>✓</span> | Exponent: 0.5075, Corner Freq: 1.12e+00 Hz |
-| Shot Noise | <span style='color: green'>✓</span> | Level: 3.79e-09 V²/Hz, Variation: 1.4676 |
-| Temperature Dependence | <span style='color: green'>✓</span> | Coefficient: -2.28e-27 V²/Hz/°C, Range: -40.0°C to 150.0°C |
-| Bias Dependence | <span style='color: green'>✓</span> | Analyzed at 6 bias points |
+*CV characteristics showing gate capacitance variation with gate voltage*
 
-### Noise Characteristics
-- [<span style='color: green'>✓</span>] Thermal noise analysis completed
-  - Max Noise: 1.36e-08 V²/Hz
-  - Min Noise: 2.16e-15 V²/Hz
-  - Avg Noise: 3.79e-09 V²/Hz
-  - Noise Floor: 6.90e-12 V²/Hz
-  - Frequency Range: 1.00e+00 to 1.00e+09 Hz
+<img src='plots/cv_components.png' alt='CV Components' width='400'/>
 
-#### Thermal Noise Results at Different Bias Points
+*Capacitance components (Cgb, Cgs, Cgd) variation with gate voltage*
 
-| Bias Condition | Max Noise (V²/Hz) | Min Noise (V²/Hz) | Avg Noise (V²/Hz) | Noise Floor (V²/Hz) |
-|----------------|-------------------|-------------------|-------------------|--------------------|
-| Vgs=0.3V, Vds=0.3V | 1.36e-08 | 2.16e-15 | 3.79e-09 | 6.90e-12 |
-| Vgs=0.3V, Vds=0.6V | 1.36e-08 | 2.16e-15 | 3.79e-09 | 6.90e-12 |
-| Vgs=0.3V, Vds=0.9V | 1.36e-08 | 2.16e-15 | 3.79e-09 | 6.90e-12 |
-| Vgs=0.3V, Vds=1.2V | 1.36e-08 | 2.16e-15 | 3.79e-09 | 6.90e-12 |
-| Vgs=0.6V, Vds=0.3V | 1.36e-08 | 2.16e-15 | 3.79e-09 | 6.90e-12 |
-| Vgs=0.6V, Vds=0.6V | 1.36e-08 | 2.16e-15 | 3.79e-09 | 6.90e-12 |
-
-- [<span style='color: green'>✓</span>] Flicker (1/f) noise analysis completed
-  - Coefficient (K): 4.68e-08
-  - Exponent (γ): 0.5075 (ideally -1.0 for pure 1/f noise)
-  - Correlation (R²): 0.8265
-  - Corner Frequency: 1.12e+00 Hz
-
-- [<span style='color: green'>✓</span>] Shot noise analysis completed
-  - Shot Noise Level: 3.79e-09 V²/Hz
-  - Standard Deviation: 5.56e-09 V²/Hz
-  - Variation Coefficient: 1.4676
-
-- [<span style='color: green'>✓</span>] Temperature dependence analysis completed
-  - Temperature Coefficient: -2.28e-27 V²/Hz/°C
-  - Temperature-Noise Correlation: nan
-  - Temperature Range: -40.0°C to 150.0°C
-
-#### Thermal Noise Analysis
+## 6. Noise Analysis
+### Thermal Noise Analysis
 
 <img src='plots/thermal_noise_vds_comparison.png' alt='Thermal Noise Comparison' width='400'/>
 
@@ -256,7 +257,42 @@ Generated on: 2025-05-12 07:32:51
 
 *Noise variation with temperature, illustrating how thermal effects influence the device's noise characteristics across the operational temperature range.*
 
-## 6. Geometry and Layout Analysis
+### Detailed Noise Characteristics
+- [<span style='color: green'>✓</span>] Thermal noise analysis completed
+  - Max Noise: 1.00e+09 V²/Hz
+  - Min Noise: 2.16e-15 V²/Hz
+  - Avg Noise: 2.54e+07 V²/Hz
+  - Noise Floor: 2.65e+07 V²/Hz
+  - Frequency Range: 1.00e+00 to 1.00e+09 Hz
+
+#### Thermal Noise Results at Different Bias Points
+
+| Bias Condition | Max Noise (V²/Hz) | Min Noise (V²/Hz) | Avg Noise (V²/Hz) | Noise Floor (V²/Hz) |
+|----------------|-------------------|-------------------|-------------------|--------------------|
+| Vgs=0.3V, Vds=0.3V | 1.00e+09 | 2.16e-15 | 2.54e+07 | 2.16e-15 |
+| Vgs=0.3V, Vds=0.6V | 1.00e+09 | 2.16e-15 | 2.54e+07 | 2.16e-15 |
+| Vgs=0.3V, Vds=0.9V | 1.00e+09 | 2.16e-15 | 2.54e+07 | 2.16e-15 |
+| Vgs=0.3V, Vds=1.2V | 1.00e+09 | 2.16e-15 | 2.54e+07 | 2.16e-15 |
+| Vgs=0.6V, Vds=0.3V | 1.00e+09 | 2.16e-15 | 2.54e+07 | 2.16e-15 |
+| Vgs=0.6V, Vds=0.6V | 1.00e+09 | 2.16e-15 | 2.54e+07 | 2.16e-15 |
+
+- [<span style='color: green'>✓</span>] Flicker (1/f) noise analysis completed
+  - Coefficient (K): 4.68e-08
+  - Exponent (γ): 0.5075 (ideally -1.0 for pure 1/f noise)
+  - Correlation (R²): 0.8265
+  - Corner Frequency: 1.12e+00 Hz
+
+- [<span style='color: green'>✓</span>] Shot noise analysis completed
+  - Shot Noise Level: 3.79e-09 V²/Hz
+  - Standard Deviation: 5.56e-09 V²/Hz
+  - Variation Coefficient: 1.4676
+
+- [<span style='color: green'>✓</span>] Temperature dependence analysis completed
+  - Temperature Coefficient: 2.77e-11 V²/Hz/°C
+  - Temperature-Noise Correlation: None
+  - Temperature Range: -40.0°C to 150.0°C
+
+## 7. Geometry and Layout Analysis
 ### Geometry Dependence
 - <span style='color: gray'>✗</span> Parameter sweep simulations: *In Progress*
 - <span style='color: gray'>✗</span> Monte Carlo simulations for geometry variations: *In Progress*

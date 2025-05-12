@@ -5,7 +5,8 @@ from pathlib import Path
 class SimulationRunner:
     """Handles running SPICE simulations and managing output files."""
     def __init__(self, logger, output_dir='results', 
-                 dc_circuit_file=None, transient_circuit_file=None, noise_circuit_file=None):
+                 dc_circuit_file=None, transient_circuit_file=None, 
+                 noise_circuit_file=None, ac_circuit_file=None):
         self.logger = logger
         self.output_dir = output_dir
         
@@ -13,6 +14,7 @@ class SimulationRunner:
         self.dc_circuit_file = dc_circuit_file
         self.transient_circuit_file = transient_circuit_file
         self.noise_circuit_file = noise_circuit_file
+        self.ac_circuit_file = ac_circuit_file
         
         # Create output directory if it doesn't exist
         os.makedirs(output_dir, exist_ok=True)
@@ -69,6 +71,9 @@ class SimulationRunner:
                     # Check if the file is a SPICE output file (text format)
                     if (filename.startswith('iv_data_') or 
                         filename == 'cv_data.txt' or 
+                        filename.startswith('charge_conservation') or
+                        filename.startswith('sparams_data') or
+                        filename.startswith('nqs_effects') or
                         filename == 'bias_point_data.txt' or
                         filename.startswith('tran_') or
                         filename.startswith('thermal_noise_') or
@@ -107,7 +112,7 @@ class SimulationRunner:
             return False
     
     def run_dc_simulation(self):
-        """Run DC analysis and CV simulations.
+        """Run DC analysis simulation.
         
         Returns:
             bool: True if successful, False otherwise
@@ -118,6 +123,19 @@ class SimulationRunner:
             
         self.logger.logger.info("Starting DC analysis simulation")
         return self.run_simulation(self.dc_circuit_file)
+    
+    def run_ac_simulation(self):
+        """Run AC analysis simulations including CV characteristics and S-parameters.
+        
+        Returns:
+            bool: True if successful, False otherwise
+        """
+        if not os.path.exists(self.ac_circuit_file):
+            self.logger.logger.error(f"AC circuit file not found: {self.ac_circuit_file}")
+            return False
+            
+        self.logger.logger.info("Starting AC analysis simulation")
+        return self.run_simulation(self.ac_circuit_file)
             
     def run_transient_simulation(self):
         """Run transient analysis simulations.
@@ -146,7 +164,7 @@ class SimulationRunner:
         return self.run_simulation(self.noise_circuit_file)
         
     def run_all_simulations(self):
-        """Run all simulations sequentially: DC, transient, and noise circuit files.
+        """Run all simulations sequentially: DC, AC, transient, and noise circuit files.
         
         Returns:
             bool: True if all simulations succeeded, False if any failed
@@ -155,6 +173,12 @@ class SimulationRunner:
         if not self.run_dc_simulation():
             self.logger.logger.error("DC circuit simulation failed")
             return False
+        
+        # Run the AC circuit simulation (CV characteristics, S-parameters)
+        if self.ac_circuit_file and os.path.exists(self.ac_circuit_file):
+            if not self.run_ac_simulation():
+                self.logger.logger.error("AC circuit simulation failed")
+                return False
             
         # Then run the transient circuit simulation
         if not self.run_transient_simulation():
