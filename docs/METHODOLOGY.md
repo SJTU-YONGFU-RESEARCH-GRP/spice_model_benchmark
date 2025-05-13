@@ -1,378 +1,586 @@
 # SPICE Simulation Verification Methodology
 
-This document explains the verification process used in the SPICE simulation checklist and how each check is performed.
+This document outlines the comprehensive verification methodology used to validate MOSFET model quality through a series of simulation-based tests. The methodology is implemented in the `verification_manager.py` and `plot_generator.py` files.
 
 ## Overview
 
-The verification process is implemented in `spice_simulation.py` and consists of several key components:
+The SPICE model verification framework follows a systematic approach to validate model quality across different simulation domains:
 
-1. Simulation Setup Verification
-2. IV Characteristics Analysis
-3. CV Characteristics Analysis
-4. Temperature Analysis
-5. Thermodynamic Analysis
+1. **Simulation Setup**: Verifies the basic simulation environment and prerequisites
+2. **DC Analysis**: Validates static current-voltage characteristics
+3. **Transient Analysis**: Examines time-domain behavior and dynamic response
+4. **AC Analysis**: Evaluates frequency-domain characteristics including small-signal behavior
+5. **Noise Analysis**: Characterizes various noise components across operating conditions
+6. **Geometry and Layout Analysis**: Tests scalability and layout-dependent effects
 
-## Core Verification Logic (Pseudocode)
+Each verification category contains multiple test cases designed to validate different aspects of the model's behavior.
 
-### 1. Simulation Setup
+## Verification Process
+
+### 1. Simulation Setup and Execution
+
+The simulation setup verification ensures that the environment is correctly configured before running tests:
+
 ```python
-# Verify basic simulation requirements
-def verify_simulation_setup(netlist_file, logger):
+def verify_simulation_setup(self, circuit_file=None):
+    """Verify that the simulation environment and circuit files are properly set up.
+    
+    This method performs critical pre-simulation checks to ensure the environment 
+    is correctly configured for SPICE simulation:
+    1. Verifies that the specified circuit file exists and is readable
+    2. Checks for proper ngspice installation and gets its version
+    3. Confirms that basic simulation preconditions are met
+    """
     results = {
-        "netlist_exists": False,
-        "ngspice_installed": False,
-        "simulation_success": False
+        'netlist_exists': False,
+        'ngspice_installed': False,
+        'simulation_runs': False,
+        'details': {
+            'netlist_path': str(circuit_file) if circuit_file else 'circuit.cir',
+            'ngspice_version': None,
+            'simulation_status': None
+        }
     }
     
     # Check netlist file
-    try:
-        if file_exists(netlist_file):
-            results["netlist_exists"] = True
-            logger.info("Netlist file exists and is readable")
-        else:
-            logger.error("Netlist file not found")
-    except Exception as e:
-        logger.error(f"Error checking netlist: {e}")
+    circuit_path = Path(circuit_file) if circuit_file else Path('circuit.cir')
+    results['netlist_exists'] = circuit_path.exists() and circuit_path.is_file()
     
     # Check ngspice installation
     try:
-        if command_exists("ngspice"):
-            results["ngspice_installed"] = True
-            logger.info("ngspice is properly installed")
-        else:
-            logger.error("ngspice not found in system path")
-    except Exception as e:
-        logger.error(f"Error checking ngspice: {e}")
-    
-    # Run simulation if setup is valid
-    if results["netlist_exists"] and results["ngspice_installed"]:
-        try:
-            run_ngspice_simulation(netlist_file)
-            results["simulation_success"] = True
-            logger.info("Simulation completed successfully")
-        except Exception as e:
-            logger.error(f"Simulation failed: {e}")
+        import subprocess
+        version_output = subprocess.run(['ngspice', '--version'], 
+                                     capture_output=True, 
+                                     text=True, 
+                                     check=True)
+        results['ngspice_installed'] = True
+        # Extract version number from the output
+        # ...
+    except (subprocess.SubprocessError, FileNotFoundError) as e:
+        results['details']['ngspice_version'] = f"Error: {str(e)}"
     
     return results
 ```
 
-### 2. IV Characteristics
+This verification confirms:
+- Existence and readability of SPICE circuit files
+- Proper installation of ngspice simulator
+- Ability to run simulation commands successfully
+
+### 2. DC Analysis
+
+DC analysis verification evaluates the model's static characteristics across various operating conditions:
+
+#### 2.1. IV Characteristics
+
+The IV characteristics verification examines the fundamental relationship between terminal voltages and currents:
+
 ```python
-# Verify IV measurements
-def verify_iv_characteristics(logger):
+def verify_iv_characteristics(self, vds, vgs, ids, ig, is_, ib, temp):
+    """Verify DC IV characteristics data for MOSFET correctness and completeness.
+    
+    This method performs extensive validation of IV characteristic curves, which are 
+    fundamental to MOSFET model quality. It verifies voltage ranges, current measurements,
+    and checks for critical behaviors like subthreshold operation and saturation.
+    """
     results = {
-        "iv_file_generated": False,
-        "data_points_valid": False,
-        "vds_range_valid": False,
-        "vgs_range_valid": False,
-        "ids_measured": False,
-        "power_measured": False
+        'data_generated': False,
+        'data_read': False,
+        'vds_range': False,
+        'vgs_range': False,
+        'ids_measured': False,
+        'ig_measured': False,
+        'is_measured': False,
+        'ib_measured': False,
+        'power_available': False,
+        'log_scale': False,
+        'linear_scale': False,
+        'multi_terminal': False,
+        'subthreshold': False,
+        'saturation': False,
+        'temp_dependent': False,
+        'details': {
+            # Various detailed metrics
+        }
     }
     
-    # Check IV data file
-    try:
-        if file_exists("iv_data.txt"):
-            results["iv_file_generated"] = True
-            logger.info("IV data file found")
-            
-            # Read and parse data
-            data = read_data_file("iv_data.txt")
-            vds = data[:, 0]  # Drain-source voltage
-            vgs = data[:, 1]  # Gate-source voltage
-            ids = data[:, 2]  # Drain current
-            power = data[:, 3]  # Power measurements
-            
-            # Validate data points
-            if len(data) > 0 and not contains_nan(data):
-                results["data_points_valid"] = True
-                logger.info("IV data points are properly read")
-            
-            # Verify voltage ranges
-            if all(0 <= v <= 5 for v in vds):
-                results["vds_range_valid"] = True
-                logger.info("Vds values are within range (0-5V)")
-            
-            if all(0 <= v <= 5 for v in vgs):
-                results["vgs_range_valid"] = True
-                logger.info("Vgs values are within range (0-5V)")
-            
-            # Verify current measurements
-            if not contains_nan(ids) and len(ids) > 0:
-                results["ids_measured"] = True
-                logger.info("Drain current (Ids) is properly measured")
-            
-            # Verify power measurements
-            if not contains_nan(power) and len(power) > 0:
-                results["power_measured"] = True
-                logger.info("Power measurements are available")
-        else:
-            logger.error("IV data file not found")
-    except Exception as e:
-        logger.error(f"Error verifying IV characteristics: {e}")
+    # Check if data was properly generated and read
+    # Verify voltage ranges
+    # Verify current measurements
+    # Check KCL (Kirchhoff's Current Law)
+    # Verify logarithmic behavior
+    # Verify linear behavior
+    # Verify subthreshold behavior
+    # Verify saturation behavior
+    # Temperature-dependent validation
     
     return results
 ```
 
-### 3. CV Characteristics
+Key verification points include:
+- Voltage ranges for Vds and Vgs
+- Current measurements at all terminals (drain, gate, source, bulk)
+- Kirchhoff's Current Law (KCL) verification
+- Log-scale behavior (spanning multiple decades of current)
+- Linear region operation
+- Subthreshold operation
+- Saturation region behavior
+- Temperature-dependent characteristics
+
+#### 2.2. Temperature Dependence
+
+Temperature analysis verifies the model's behavior across different operating temperatures:
+
 ```python
-# Verify CV measurements
-def verify_cv_characteristics(logger):
+def verify_temperature_analysis(self, temp, ids):
+    """Verify temperature analysis data."""
     results = {
-        "cv_file_generated": False,
-        "vg_measurements_valid": False,
-        "ig_measurements_valid": False,
-        "power_m2_measured": False,
-        "frequency_sweep_valid": False,
-        "frequency_range_valid": False
+        'temp_sweep': False,
+        'power_measurements': False,
+        'temp_coef': False,
+        'device_behavior': False,
+        'details': {
+            'temp_points': None,
+            'temp_coef_value': None,
+            'ids_range': None
+        }
     }
     
-    try:
-        if file_exists("cv_data.txt"):
-            results["cv_file_generated"] = True
-            logger.info("CV data file found")
-            
-            # Read and parse data
-            data = read_data_file("cv_data.txt")
-            vg = data[:, 0]   # Gate voltage
-            ig = data[:, 1]   # Gate current
-            p_m2 = data[:, 2] # Power in M2
-            
-            # Verify gate measurements
-            if not contains_nan(vg) and len(vg) > 0:
-                results["vg_measurements_valid"] = True
-                logger.info("Gate voltage measurements are valid")
-            
-            if not contains_nan(ig) and len(ig) > 0:
-                results["ig_measurements_valid"] = True
-                logger.info("Gate current measurements are valid")
-            
-            # Verify power measurements
-            if not contains_nan(p_m2) and len(p_m2) > 0:
-                results["power_m2_measured"] = True
-                logger.info("Power in M2 is measured")
-            
-            # Verify frequency sweep
-            if len(data) >= 10:  # Minimum points for sweep
-                results["frequency_sweep_valid"] = True
-                logger.info("Frequency sweep is performed")
-                
-                # Check frequency range
-                freq_points = len(data)
-                if freq_points >= 10:  # Decade sweep with at least 10 points
-                    results["frequency_range_valid"] = True
-                    logger.info("Frequency range is valid (1kHz to 1GHz)")
-        else:
-            logger.error("CV data file not found")
-    except Exception as e:
-        logger.error(f"Error verifying CV characteristics: {e}")
+    # Check temperature sweep
+    expected_temps = [-40, 0, 25, 50, 100, 150]
+    results['temp_sweep'] = all(t in temp for t in expected_temps)
+    
+    # Calculate temperature coefficient
+    # Check device behavior
     
     return results
 ```
 
-### 4. Temperature Analysis
+Temperature verification ensures:
+- Proper temperature sweep range (-40°C to 150°C)
+- Valid temperature coefficient calculation
+- Physically correct device behavior at different temperatures
+
+#### 2.3. Thermodynamic Analysis
+
+Thermodynamic analysis examines energy conservation and efficiency metrics:
+
 ```python
-# Verify temperature behavior
-def verify_temperature_analysis(logger):
+def verify_thermodynamic_analysis(self, power, temp, ids):
+    """Verify thermodynamic analysis data."""
     results = {
-        "temp_sweep_performed": False,
-        "power_measurements_valid": False,
-        "temp_coefficient_calculated": False,
-        "device_behavior_valid": False
+        'energy_conservation': False,
+        'temp_coef_calc': False,
+        'device_efficiency': False,
+        'power_measurements': False,
+        'efficiency_measurements': False,
+        'details': {
+            'power_range': None,
+            'efficiency_range': None,
+            'temp_coef': None
+        }
     }
     
-    try:
-        # Read temperature sweep data
-        data = read_data_file("iv_data.txt")
-        if data:
-            # Expected temperature points
-            expected_temps = [-40, 0, 50, 100, 125, 150]
-            points_per_temp = len(data) // len(expected_temps)
-            
-            if points_per_temp > 0:
-                results["temp_sweep_performed"] = True
-                logger.info("Temperature sweep is performed (-40°C to 150°C)")
-                
-                # Group measurements by temperature
-                power_by_temp = []
-                ids_by_temp = []
-                
-                for i in range(0, len(data), points_per_temp):
-                    temp_data = data[i:i+points_per_temp]
-                    if len(temp_data) == points_per_temp:
-                        power_by_temp.append(mean(temp_data[:, 3]))  # Power
-                        ids_by_temp.append(mean(temp_data[:, 2]))    # Current
-                
-                # Verify power measurements
-                if len(power_by_temp) == len(expected_temps):
-                    results["power_measurements_valid"] = True
-                    logger.info("Power measurements at different temperatures are valid")
-                
-                # Calculate temperature coefficient
-                if len(power_by_temp) == len(expected_temps):
-                    temp_coef = calculate_temperature_coefficient(expected_temps, power_by_temp)
-                    if not is_nan(temp_coef):
-                        results["temp_coefficient_calculated"] = True
-                        logger.info(f"Temperature coefficient calculated: {temp_coef:.3e}")
-                
-                # Verify device behavior
-                if len(ids_by_temp) == len(expected_temps):
-                    if all(diff(ids_by_temp) > 0):  # Current should increase with temperature
-                        results["device_behavior_valid"] = True
-                        logger.info("Device behavior is valid at each temperature point")
-        else:
-            logger.error("Temperature sweep data not found")
-    except Exception as e:
-        logger.error(f"Error verifying temperature analysis: {e}")
+    # Check energy conservation
+    # Calculate temperature coefficient
+    # Check device efficiency
     
     return results
 ```
 
-### 5. Thermodynamic Analysis
+This verification ensures:
+- Energy conservation principles are maintained
+- Temperature coefficient is correctly calculated from power dissipation
+- Device efficiency is appropriately characterized
+
+### 3. Transient Analysis
+
+Transient analysis verification examines time-domain behavior across different simulation types:
+
+#### 3.1. Large-Signal Transient
+
 ```python
-# Verify thermodynamic properties
-def analyze_thermodynamic_properties(vds, vgs, ids, p_m1, p_rds, p_rgs, vg, ig, p_m2, logger):
+def verify_large_signal_transient(self, time, gate_voltage, drain_voltage, drain_current):
+    """Verify large signal transient analysis results."""
     results = {
-        "energy_conservation": {},
-        "temperature_dependence": {},
-        "efficiency": {}
+        'transient_completed': False,
+        'rise_time_measured': False,
+        'max_current_calculated': False,
+        'details': {
+            'max_current': None,
+            'rise_time': None,
+            'time_points': None
+        }
     }
     
-    try:
-        # Energy conservation analysis
-        total_power = sum(p_m1) + sum(p_rds) + sum(p_rgs)
-        results["energy_conservation"]["total_power"] = total_power
-        results["energy_conservation"]["max_power"] = max(p_m1)
-        results["energy_conservation"]["avg_power"] = mean(p_m1)
-        
-        # Temperature dependence analysis
-        temp_range = [-40, 0, 50, 100, 125, 150]
-        power_at_temp = []
-        
-        # Calculate points per temperature
-        vds_steps = 51  # 0 to 5V with 0.1V step
-        vgs_steps = 6   # 0 to 5V with 1V step
-        points_per_temp = vds_steps * vgs_steps
-        
-        if len(p_m1) >= points_per_temp * len(temp_range):
-            for i in range(0, len(p_m1), points_per_temp):
-                temp_power = p_m1[i:i+points_per_temp]
-                if len(temp_power) == points_per_temp:
-                    power_at_temp.append(mean(temp_power))
-            
-            if len(power_at_temp) == len(temp_range):
-                temp_coef = calculate_temperature_coefficient(temp_range, power_at_temp)
-                if not is_nan(temp_coef):
-                    results["temperature_dependence"]["temp_coefficient"] = temp_coef
-                    logger.info(f"Temperature coefficient calculated: {temp_coef:.3e}")
-        
-        # Efficiency analysis
-        if len(vgs) == len(ig) and len(vds) == len(ids):
-            input_power = abs(vgs * ig)  # Gate power
-            output_power = abs(vds * ids)  # Drain power
-            efficiency = mean(output_power / (input_power + epsilon))  # Avoid division by zero
-            
-            results["efficiency"]["avg_efficiency"] = efficiency
-            results["efficiency"]["max_efficiency"] = max(output_power / (input_power + epsilon))
-            logger.info(f"Device efficiency analyzed: {efficiency*100:.2f}%")
-        
-        return results
-    except Exception as e:
-        logger.error(f"Error analyzing thermodynamic properties: {e}")
-        return None
+    # Calculate maximum drain current
+    # Calculate rise time of gate voltage (10% to 90%)
+    
+    return results
 ```
 
-## 1. Simulation Setup Verification
+This verification checks:
+- Time-domain response to large signal inputs
+- Rise/fall time characteristics
+- Maximum current measurements
 
-The setup verification checks three critical components:
+#### 3.2. Switching Simulations
 
-- **Netlist File Check**: Verifies that the SPICE netlist file exists and is readable
-- **ngspice Installation**: Confirms that ngspice is properly installed and accessible
-- **Simulation Execution**: Ensures the simulation runs without errors
+```python
+def verify_switching_simulations(self, time, input_voltage, output_voltage, supply_current, switching_power=None):
+    """Verify switching behavior of the inverter."""
+    results = {
+        'switching_behavior_analyzed': False,
+        'propagation_delay_measured': False,
+        'power_measured': False,
+        'details': {
+            'propagation_delay': None,
+            'max_power': None,
+            'avg_power': None
+        }
+    }
+    
+    # Calculate propagation delay
+    # Calculate power metrics
+    
+    return results
+```
 
-## 2. IV Characteristics Analysis
+Switching verification examines:
+- Propagation delay through inverter circuits
+- Power dissipation during switching events
+- Dynamic behavior characteristics
 
-The IV (Current-Voltage) characteristics verification includes:
+#### 3.3. Delay Effect Simulations
 
-- **Data File Generation**: Checks if the IV data file is created
-- **Data Point Validation**: Verifies that data points are properly read and formatted
-- **Voltage Range Checks**: 
-  - Vds values must be within 0-5V range
-  - Vgs values must be within 0-5V range
-- **Current Measurements**: Validates drain current (Ids) measurements
-- **Power Measurements**: Ensures power measurements are available
+```python
+def verify_delay_effect(self, time, input_voltage, mid1_voltage, mid2_voltage, output_voltage):
+    """Verify delay effects in inverter chain."""
+    results = {
+        'delay_effect_analyzed': False,
+        'stage_delays_measured': False,
+        'total_delay_measured': False,
+        'details': {
+            'stage1_delay': None,
+            'stage2_delay': None,
+            'stage3_delay': None,
+            'total_delay': None
+        }
+    }
+    
+    # Calculate delays for each stage and total
+    
+    return results
+```
 
-## 3. CV Characteristics Analysis
+This verification analyzes:
+- Signal propagation through multiple inverter stages
+- Individual stage delays and total chain delay
+- Delay consistency across stages
 
-The CV (Capacitance-Voltage) characteristics verification includes:
+#### 3.4. Power Dissipation
 
-- **Data File Generation**: Checks if the CV data file is created
-- **Gate Measurements**:
-  - Validates gate voltage (Vg) measurements
-  - Validates gate current (Ig) measurements
-- **Power Analysis**: Verifies power measurements in M2
-- **Frequency Sweep**: Confirms frequency sweep from 1kHz to 1GHz
+```python
+def verify_power_dissipation(self, time_27c, power_27c, time_100c, power_100c):
+    """Verify power dissipation at different temperatures."""
+    results = {
+        'power_analysis_completed': False,
+        'temp_dependence_analyzed': False,
+        'power_coef_calculated': False,
+        'details': {
+            'max_power_27c': None,
+            'max_power_100c': None,
+            'avg_power_27c': None,
+            'avg_power_100c': None,
+            'power_temp_coef': None
+        }
+    }
+    
+    # Calculate power metrics at different temperatures
+    # Calculate temperature coefficient
+    
+    return results
+```
 
-## 4. Temperature Analysis
+Power dissipation verification examines:
+- Power consumption at different temperatures
+- Maximum and average power measurements
+- Power temperature coefficient calculation
 
-The temperature analysis verification includes:
+#### 3.5. Quasi-Static Analysis
 
-- **Temperature Range**: Verifies temperature sweep from -40°C to 150°C
-- **Power Measurements**: Validates power measurements at different temperatures
-- **Temperature Coefficient**: Calculates and verifies temperature coefficient
-- **Device Behavior**: Checks device behavior at each temperature point
+```python
+def verify_quasi_static(self, time, gate_voltage, drain_voltage, drain_current):
+    """Verify quasi-static behavior analysis."""
+    results = {
+        'quasi_static_analyzed': False,
+        'iv_relationship_analyzed': False,
+        'details': {
+            'time_points': None,
+            'max_current': None
+        }
+    }
+    
+    # Check quasi-static behavior
+    # Analyze I-V relationships
+    
+    return results
+```
 
-## 5. Thermodynamic Analysis
+This verification ensures:
+- Quasi-static time-domain behavior is correctly modeled
+- I-V relationships are consistent with expected behavior
 
-The thermodynamic analysis verification includes:
+#### 3.6. Charge Conservation Tests
 
-- **Energy Conservation**: Verifies total power conservation
-- **Temperature Coefficient**: Calculates temperature coefficient from power dissipation
-- **Device Efficiency**: Analyzes device efficiency metrics
-- **Power Measurements**: Validates complete power measurements
-- **Efficiency Metrics**: Checks average and maximum efficiency measurements
+```python
+def verify_charge_conservation(self, time, gate_voltage, ig, id, is_, ib, i_total, q_gate, q_drain, q_source, q_bulk, q_total):
+    """Verify charge conservation in the device."""
+    results = {
+        'charge_conservation_analyzed': False,
+        'terminal_currents_measured': False,
+        'conservation_error_calculated': False,
+        'conservation_satisfied': False,
+        'details': {
+            'q_total_variation': None,
+            'q_total_mean': None,
+            'q_conservation_error': None,
+            'error_threshold': 1000.0
+        }
+    }
+    
+    # Calculate charge conservation metrics
+    # Check if conservation is satisfied
+    
+    return results
+```
 
-## Implementation Details
+Charge conservation tests verify:
+- Balance of charge across device terminals
+- Charge conservation error calculation and validation
+- Terminal currents and charges consistency
 
-The verification process is implemented through several key functions in `spice_simulation.py`:
+### 4. AC Analysis
 
-- `verify_simulation_setup()`: Handles setup verification
-- `verify_simulation_results()`: Checks overall simulation results
-- `verify_cv_characteristics()`: Validates CV characteristics
-- `verify_iv_characteristics()`: Validates IV characteristics
-- `verify_temperature_analysis()`: Performs temperature analysis
-- `analyze_thermodynamic_properties()`: Analyzes thermodynamic properties
+AC analysis verification examines frequency-domain characteristics for small-signal and high-frequency behavior:
 
-## Data Processing
+#### 4.1. Small-Signal Analysis
 
-The verification process involves several data processing steps:
+```python
+def verify_cv_characteristics(self, vg, cgg, freq, vg_phase, id_phase):
+    """Verify capacitance-voltage (CV) characteristics and small-signal behavior."""
+    results = {
+        'data_generated': False,
+        'data_read': False,
+        'capacitance_behavior': False,
+        'frequency_dependence': False,
+        'phase_behavior': False,
+        'details': {
+            'cgg_range': None,
+            'cgg_max_voltage': None,
+            'freq_dependence': None,
+            'phase_shift': None
+        }
+    }
+    
+    # Check capacitance behavior
+    # Check frequency dependence
+    # Check for phase shift between gate voltage and drain current
+    
+    return results
+```
 
-1. Reading simulation output files (IV and CV data)
-2. Processing and validating measurements
-3. Calculating derived metrics (efficiency, temperature coefficients)
-4. Generating verification reports and plots
+Small-signal verification examines:
+- Capacitance-voltage (CV) relationships
+- Gate capacitance components (Cgg, Cgd, Cgs, Cgb)
+- Frequency dependence of capacitance
+- Phase relationships between gate voltage and drain current
 
-## Output Generation
+#### 4.2. High-Frequency Analysis
 
-The verification process generates:
+High-frequency analysis comprises two main components:
 
-1. A checklist (CHECKLIST.md) with verification results
-2. IV and CV characteristic plots
-3. Detailed log files with verification steps
-4. Thermodynamic analysis reports
+##### S-Parameter Analysis
 
-## Error Handling
+```python
+def verify_sparameter_analysis(self, freq, s11_mag, s21_mag, s12_mag, s22_mag):
+    """Verify S-parameter analysis for RF/high-frequency behavior characterization."""
+    results = {
+        'data_generated': True if freq is not None and s11_mag is not None else False
+    }
+    
+    # Check for unilateral behavior (S12 << S21)
+    # Check input match at highest frequency
+    # Check gain at low frequency
+    # Verify RF operation capability
+    
+    return results
+```
 
-The verification process includes comprehensive error handling:
+S-parameter verification examines:
+- Input and output matching (S11, S22)
+- Forward gain (S21)
+- Reverse isolation (S12)
+- Unilateral behavior (S12 << S21)
+- Frequency response and cutoff frequency
 
-- File existence checks
-- Data format validation
-- Range validation for measurements
-- Error logging and reporting
-- Graceful failure handling
+##### Non-Quasi-Static Effects
 
-## Notes
+```python
+def verify_nqs_effects(self, freq, vg_phase, id_phase, phase_diff):
+    """Verify Non-Quasi-Static (NQS) effects critical for high-frequency behavior."""
+    results = {
+        'data_generated': True if vg_phase is not None and id_phase is not None and freq is not None else False
+    }
+    
+    # Calculate phase differences
+    # Check for significant phase shift
+    # Check for frequency dependence
+    # Check if NQS effects are present
+    
+    return results
+```
 
-- All verification steps are logged for traceability
-- Failed checks are clearly marked in the checklist
-- Detailed error messages are provided for failed verifications
-- The process is automated and repeatable 
+Non-quasi-static verification checks:
+- Phase differences between gate voltage and drain current
+- Frequency-dependent phase shift behavior
+- Maximum phase shift and its frequency
+- NQS effects presence and magnitude
+
+### 5. Noise Analysis
+
+Noise analysis verification characterizes various noise components and their dependencies:
+
+```python
+def verify_noise_analysis(self, freq=None, thermal_noise=None, flicker_noise=None, shot_noise=None, temp_noise=None, temperatures=None):
+    """Verify noise analysis results."""
+    results = {
+        'noise_analysis_performed': False,
+        'thermal_noise_analyzed': False,
+        'flicker_noise_analyzed': False,
+        'shot_noise_analyzed': False,
+        'temp_dependence_analyzed': False,
+        'details': {
+            # Various noise metrics
+        }
+    }
+    
+    # Check thermal noise
+    # Check flicker noise
+    # Check shot noise
+    # Check temperature dependence
+    
+    return results
+```
+
+Key noise verification components include:
+
+#### 5.1. Thermal Noise Analysis
+
+Verifies white noise floor characteristics:
+- Noise floor levels
+- Bias dependence of thermal noise
+- Frequency-independent behavior
+
+#### 5.2. Flicker Noise Analysis
+
+Analyzes 1/f noise properties:
+- Flicker noise exponent (ideally -1.0)
+- Flicker noise coefficient
+- Corner frequency where flicker and thermal noise intersect
+
+#### 5.3. Shot Noise Analysis
+
+Examines discrete charge carrier noise:
+- Shot noise level
+- Variation coefficient
+- Frequency independence
+
+#### 5.4. Temperature Dependence
+
+Analyzes how noise varies with temperature:
+- Temperature coefficient calculation
+- Noise-temperature correlation
+- Temperature range validation
+
+### 6. Visualization and Reporting
+
+The verification framework includes comprehensive plotting capabilities implemented in `plot_generator.py`:
+
+```python
+class PlotGenerator:
+    """Handles generation of plots from simulation data."""
+    def __init__(self, output_dir, dpi=300, logger=None):
+        # Initialize plot parameters
+        
+    def plot_iv_characteristics(self, vds, vgs, ids, output_dir, colors=None):
+        """Plot IV characteristics with subthreshold and saturation regions."""
+        
+    def plot_cv_characteristics(self, vg=None, ig=None, freq=None):
+        """Generate comprehensive CV plots based on data in results/data/cv_data.txt."""
+        
+    def plot_temperature_analysis(self, temp, ids):
+        """Plot temperature analysis with current variation."""
+        
+    # Additional plotting methods for other verification aspects
+```
+
+Key visualization components include:
+- IV characteristics plots with saturation and subthreshold regions
+- CV characteristics showing gate capacitance and its components
+- Temperature analysis plots
+- Transient response visualizations
+- S-parameter analysis plots
+- Noise spectrum visualizations
+- Power and energy consumption plots
+
+### 7. Verification Reporting
+
+The framework generates a comprehensive verification report with pass/fail indicators:
+
+```python
+def update_verification_checklist(self, results):
+    """Update verification checklist with simulation results and generate a comprehensive report.
+    
+    This method is responsible for compiling all verification results into a detailed
+    markdown report (REPORT.md). It processes verification results from various simulation
+    types and creates a structured, human-readable document.
+    """
+    checklist = {
+        'simulation_setup': {},
+        'iv_characteristics': {},
+        'temperature_analysis': {},
+        'thermodynamic_analysis': {},
+        'large_signal_transient': {},
+        'switching_simulations': {},
+        'delay_effect': {},
+        'power_dissipation': {},
+        'quasi_static': {},
+        'charge_conservation': {},
+        'noise_analysis': {}
+    }
+    
+    # Update checklist with results
+    # Generate report content
+    # Write report to file
+    
+    return checklist
+```
+
+The report includes:
+1. Overview of verification status for each test category
+2. Detailed measurement results with pass/fail indicators
+3. Visual indicators (colored checkmarks/crosses) for each test
+4. Embedded plots and visualizations
+5. Tabular data for complex result sets
+
+## Conclusion
+
+This comprehensive verification methodology provides a systematic approach to validate MOSFET model quality across DC, AC, transient, and noise domains. The framework automates the verification process, generates detailed reports, and produces visual representations of key model characteristics, enabling efficient assessment of model quality and suitability for specific applications.
+
+The methodology is designed to be:
+- Comprehensive: Covering all key aspects of model behavior
+- Systematic: Following a structured verification flow
+- Automated: Minimizing manual intervention
+- Visual: Providing clear graphical representations
+- Documented: Generating detailed reports for reference 

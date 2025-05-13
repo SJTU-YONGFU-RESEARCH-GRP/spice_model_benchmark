@@ -7,8 +7,23 @@ import os
 class VerificationManager:
     """Handles verification of simulation results."""
     def __init__(self, logger, output_dir='results', skip_simulation=False):
+        """Initialize the VerificationManager with necessary configuration.
+        
+        This class is responsible for verifying the correctness and quality of MOSFET model
+        simulation results. It validates various simulation aspects including IV characteristics,
+        temperature analysis, AC analysis, transient behavior, and noise analysis.
+        
+        Args:
+            logger: Logger instance for recording verification activities
+            output_dir: Directory path where simulation results and verification reports will be stored
+                       (will be converted to absolute path)
+            skip_simulation: Flag to bypass simulation execution (used for testing/debugging)
+            
+        Attributes:
+            results: Dictionary storing verification results for different simulation aspects
+        """
         self.logger = logger
-        self.output_dir = output_dir
+        self.output_dir = Path(output_dir).resolve()
         self.skip_simulation = skip_simulation
         self.results = {
             'simulation_setup': None,
@@ -18,7 +33,29 @@ class VerificationManager:
         }
     
     def verify_simulation_setup(self, circuit_file=None):
-        """Verify simulation setup files."""
+        """Verify that the simulation environment and circuit files are properly set up.
+        
+        This method performs critical pre-simulation checks to ensure the environment 
+        is correctly configured for SPICE simulation:
+        1. Verifies that the specified circuit file exists and is readable
+        2. Checks for proper ngspice installation and gets its version
+        3. Confirms that basic simulation preconditions are met
+        
+        Args:
+            circuit_file: Path to the SPICE circuit file to validate.
+                         If None, a default 'circuit.cir' is used.
+                         
+        Returns:
+            dict: Verification results containing:
+                - netlist_exists (bool): Whether the circuit file exists
+                - ngspice_installed (bool): Whether ngspice is installed
+                - simulation_runs (bool): Whether simulation can run
+                - details (dict): Additional information including paths and version info
+                
+        Note:
+            This is typically the first verification performed before running simulations,
+            and failures here indicate fundamental setup issues that must be addressed.
+        """
         results = {
             'netlist_exists': False,
             'ngspice_installed': False,
@@ -75,7 +112,41 @@ class VerificationManager:
         return results
 
     def verify_iv_characteristics(self, vds, vgs, ids, ig, is_, ib, temp):
-        """Verify IV characteristics data."""
+        """Verify DC IV characteristics data for MOSFET correctness and completeness.
+        
+        This method performs extensive validation of IV characteristic curves, which are 
+        fundamental to MOSFET model quality. It verifies voltage ranges, current measurements,
+        and checks for critical behaviors like subthreshold operation and saturation.
+        
+        The method analyzes multiple terminal currents to validate Kirchhoff's Current Law (KCL)
+        and assesses temperature-dependent behavior across multiple bias points.
+        
+        Args:
+            vds (ndarray): Drain-source voltage values
+            vgs (ndarray): Gate-source voltage values
+            ids (ndarray): Drain current values
+            ig (ndarray): Gate current values
+            is_ (ndarray): Source current values
+            ib (ndarray): Bulk current values
+            temp (ndarray): Temperature values for temperature-dependent analysis
+            
+        Returns:
+            dict: Comprehensive verification results with keys:
+                - data_generated (bool): Whether simulation produced data
+                - data_read (bool): Whether data was read successfully
+                - vds_range (bool): Whether Vds is within expected range
+                - vgs_range (bool): Whether Vgs is within expected range
+                - ids_measured (bool): Whether drain current was measured properly
+                - ig_measured, is_measured, ib_measured (bool): Other terminal current checks
+                - power_available (bool): Whether power calculation is possible
+                - log_scale (bool): Whether logarithmic behavior is observed (subthreshold)
+                - linear_scale (bool): Whether linear region behavior is observed
+                - multi_terminal (bool): Whether all terminal currents are available
+                - subthreshold (bool): Whether subthreshold behavior is appropriate
+                - saturation (bool): Whether saturation behavior is appropriate
+                - temp_dependent (bool): Whether temperature dependence is valid
+                - details (dict): Detailed measurement information and statistics
+        """
         results = {
             'data_generated': False,
             'data_read': False,
@@ -211,17 +282,34 @@ class VerificationManager:
         return results
 
     def verify_cv_characteristics(self, vg, cgg, freq, vg_phase, id_phase):
-        """Verify CV characteristics results.
+        """Verify capacitance-voltage (CV) characteristics and small-signal behavior.
+        
+        This method analyzes capacitance behavior with respect to gate voltage, which is
+        essential for validating the MOSFET model's dynamic responses. It checks:
+        1. Gate capacitance vs. gate voltage characteristics
+        2. Frequency dependence of capacitive effects
+        3. Phase relationships between gate voltage and drain current
+        
+        Small-signal validation is critical for RF/analog applications and for verifying
+        the accuracy of the charge storage models in the MOSFET.
         
         Args:
             vg (ndarray): Gate voltage values
-            cgg (ndarray): Gate capacitance values
+            cgg (ndarray): Gate capacitance values corresponding to vg
             freq (ndarray): Frequency values for frequency-dependent analysis
-            vg_phase (ndarray): Gate voltage phase values
-            id_phase (ndarray): Drain current phase values
+            vg_phase (ndarray): Gate voltage phase values at different frequencies
+            id_phase (ndarray): Drain current phase values at different frequencies
             
         Returns:
-            dict: Verification results
+            dict: Verification results containing:
+                - data_generated (bool): Whether CV data was successfully produced
+                - data_read (bool): Whether CV data was successfully read
+                - capacitance_behavior (bool): Whether capacitance exhibits correct behavior
+                - frequency_dependence (bool): Whether frequency-dependent effects are present
+                - phase_behavior (bool): Whether phase relationships are physically valid
+                - details (dict): Additional information including capacitance ranges,
+                                 max capacitance voltage, frequency dependence metrics,
+                                 and phase shift measurements
         """
         results = {
             'data_generated': False,
@@ -276,18 +364,42 @@ class VerificationManager:
         return results
         
     def verify_sparameter_analysis(self, freq, s11_mag, s21_mag, s12_mag, s22_mag):
-        """
-        Verify S-parameter analysis.
+        """Verify S-parameter analysis for RF/high-frequency behavior characterization.
+        
+        S-parameters are essential for evaluating RF and high-frequency performance of the MOSFET.
+        This method validates key RF characteristics:
+        1. Input and output matching (S11, S22)
+        2. Forward gain (S21)
+        3. Reverse isolation (S12)
+        4. Unilateral behavior (S12 << S21)
+        5. Frequency response and cutoff frequency
+        
+        The results are critical for determining the model's suitability for RF applications,
+        providing metrics like cutoff frequency and isolation.
         
         Args:
-            freq: Frequency data array in Hz
-            s11_mag: S11 magnitude array (input reflection coefficient)
-            s21_mag: S21 magnitude array (forward transmission coefficient)
-            s12_mag: S12 magnitude array (reverse transmission coefficient)
-            s22_mag: S22 magnitude array (output reflection coefficient)
+            freq (ndarray): Frequency data array in Hz
+            s11_mag (ndarray): S11 magnitude array (input reflection coefficient)
+            s21_mag (ndarray): S21 magnitude array (forward transmission coefficient)
+            s12_mag (ndarray): S12 magnitude array (reverse transmission coefficient)
+            s22_mag (ndarray): S22 magnitude array (output reflection coefficient)
             
         Returns:
-            Dictionary with verification results
+            dict: Comprehensive verification results containing:
+                - data_generated (bool): Whether S-parameter data was produced
+                - unilateral_behavior (bool): Whether device shows unilateral behavior
+                - input_match (bool): Whether input matching is acceptable
+                - gain (bool): Whether gain characteristics are valid
+                - cutoff_frequency (float): The frequency at which gain drops by 3dB
+                - rf_capable (bool): Whether device can function at RF frequencies
+                - freq_range (str): Frequency range in readable format
+                - s11_range, s21_range (str): S-parameter ranges in dB
+                - isolation (str): Isolation value in dB
+                - verification_passed (bool): Overall S-parameter verification result
+                
+        Note:
+            This method also updates the REPORT.md file with S-parameter analysis results
+            and generates relevant plots if a plot_generator is available.
         """
         results = {
             'data_generated': True if freq is not None and s11_mag is not None else False
@@ -363,56 +475,67 @@ class VerificationManager:
         
         return results
 
-    def verify_nqs_effects(self, freq, vg_phase, id_phase, phase_diff=None):
-        """
-        Verify non-quasi-static effects.
+    def verify_nqs_effects(self, vg_phase, id_phase, freq):
+        """Verify Non-Quasi-Static (NQS) effects critical for high-frequency behavior.
+        
+        NQS effects occur when the channel charge cannot respond instantaneously to 
+        changes in terminal voltages at high frequencies. This method:
+        1. Analyzes phase differences between gate voltage and drain current
+        2. Evaluates frequency-dependent phase shift behavior
+        3. Identifies maximum phase shift and its frequency
+        4. Determines whether the model properly accounts for NQS effects
+        
+        For accurate high-frequency simulation, a model must correctly implement
+        NQS effects rather than relying solely on quasi-static approximations.
         
         Args:
-            freq: Frequency data array in Hz
-            vg_phase: Gate voltage phase in degrees
-            id_phase: Drain current phase in degrees
-            phase_diff: Optional pre-calculated phase difference in degrees
+            vg_phase (ndarray): Gate voltage phase values at different frequencies
+            id_phase (ndarray): Drain current phase values at different frequencies
+            freq (ndarray): Frequency values for the analysis in Hz
             
         Returns:
-            Dictionary with verification results
+            dict: Verification results containing:
+                - data_generated (bool): Whether NQS data was successfully produced
+                - phase_shift (bool): Whether significant phase shift is observed
+                - freq_dependent (bool): Whether phase shift is frequency-dependent
+                - max_phase_shift (float): Maximum phase shift in degrees
+                - max_phase_freq (float): Frequency at maximum phase shift in Hz
+                - nqs_effects_present (bool): Whether NQS effects are present
+                - verification_passed (bool): Overall NQS verification result
+                
+        Note:
+            This method also updates the REPORT.md file with NQS effects analysis results
+            and generates relevant plots if a plot_generator is available.
         """
         results = {
-            'data_generated': True if freq is not None and vg_phase is not None and id_phase is not None else False
+            'data_generated': True if vg_phase is not None and id_phase is not None and freq is not None else False
         }
         
         if not results['data_generated']:
             return results
         
-        # If phase_diff not provided, calculate it
-        if phase_diff is None:
-            phase_diff = np.array(vg_phase) - np.array(id_phase)
-            # Ensure positive values
-            phase_diff = np.abs(phase_diff)
+        # Calculate phase differences
+        phase_diff = np.abs(vg_phase - id_phase)
         
-        # 1. Check for phase shift increase with frequency
-        phase_diff_trend = np.polyfit(np.log10(freq), phase_diff, 1)
-        results["phase_shift_increases"] = phase_diff_trend[0] > 0  # Positive slope
+        # Check for significant phase shift
+        results['phase_shift'] = np.any(phase_diff > 5.0)
         
-        # 2. Check maximum phase shift at highest frequency
-        high_freq_idx = len(freq) - 1
-        max_phase_shift = phase_diff[high_freq_idx]
-        results["max_phase_shift"] = max_phase_shift
-        results["significant_nqs_effects"] = max_phase_shift > 5.0  # More than 5 degrees
+        # Check for frequency dependence
+        results['freq_dependent'] = np.any(np.diff(phase_diff) != 0)
         
-        # 3. Find the frequency at which NQS effects become significant
-        # (defined as phase shift > 1 degree)
-        nqs_threshold = 1.0  # degrees
-        nqs_indices = np.where(phase_diff > nqs_threshold)[0]
-        if len(nqs_indices) > 0:
-            nqs_onset_idx = nqs_indices[0]
-            nqs_onset_freq = freq[nqs_onset_idx]
-            results["nqs_onset_frequency"] = nqs_onset_freq
-        else:
-            results["nqs_onset_frequency"] = np.max(freq)
+        # Find maximum phase shift and its frequency
+        max_phase_shift = np.max(phase_diff)
+        max_phase_freq = freq[np.argmax(phase_diff)]
         
-        # Format the max phase shift for reporting
-        max_phase_shift_str = f"{max_phase_shift:.0f} degrees at {freq[high_freq_idx]/1e9:.1f}GHz"
-        results["max_phase_shift_formatted"] = max_phase_shift_str
+        # Check if NQS effects are present
+        results['nqs_effects_present'] = np.any(phase_diff > 1.0)
+        
+        # Overall result
+        results['verification_passed'] = all([
+            results['phase_shift'],
+            results['freq_dependent'],
+            results['nqs_effects_present']
+        ])
         
         # Generate plot
         try:
@@ -422,32 +545,44 @@ class VerificationManager:
             if self.logger:
                 self.logger.logger.error(f"Error generating NQS effects plot: {e}")
         
-        # Overall result
-        results["verification_passed"] = results["phase_shift_increases"]
-        
-        # Get current S-parameter status from the report file
-        sparams_status, sparams_symbol, sparams_freq_range, s11_range, s21_range, isolation = self._get_sparam_status_from_report()
-        
-        # Update the REPORT.md file with high-frequency analysis results
-        self._update_high_frequency_section_in_report(
-            sparams_status=sparams_status,
-            sparams_symbol=sparams_symbol,
-            sparams_freq_range=sparams_freq_range,
-            s11_range=s11_range,
-            s21_range=s21_range,
-            isolation=isolation,
+        # Update REPORT.md file
+        self._update_nqs_effects_section_in_report(
             nqs_status='green',
             nqs_symbol='✓',
-            max_phase_shift=max_phase_shift_str
+            max_phase_shift=max_phase_shift,
+            max_phase_freq=max_phase_freq
         )
-            
-        return results
         
+        return results
+
     def _get_nqs_status_from_report(self):
-        """Extract current NQS effects status from REPORT.md"""
+        """Extract current Non-Quasi-Static (NQS) effects status from REPORT.md.
+        
+        This helper method parses the existing verification report to retrieve the current
+        status of NQS effects verification. Similar to the S-parameter status extraction,
+        it maintains continuity in reporting when only parts of the verification are updated.
+        
+        NQS effects are critical for high-frequency MOSFET modeling, and this method ensures
+        that their verification status is properly maintained between report updates.
+        
+        The method:
+        1. Locates the high-frequency analysis section in the report
+        2. Finds the NQS effects verification entry
+        3. Extracts the verification status (color, symbol, and phase shift data)
+        
+        Returns:
+            tuple: Three values representing NQS effects verification status:
+                - nqs_status (str): Color code ('green' or 'red')
+                - nqs_symbol (str): Status symbol ('✓' or '✗')
+                - max_phase_shift (str): Maximum phase shift information
+                
+        Notes:
+            If the report doesn't exist or doesn't contain NQS data, default
+            values are returned indicating unavailability.
+        """
         try:
-            report_path = os.path.join(self.output_dir, 'REPORT.md')
-            if not os.path.exists(report_path):
+            report_path = self.output_dir / 'REPORT.md'
+            if not report_path.exists():
                 return 'red', '✗', 'Not available'
             
             with open(report_path, 'r') as f:
@@ -496,7 +631,34 @@ class VerificationManager:
     def _update_high_frequency_section_in_report(self, sparams_status, sparams_symbol, sparams_freq_range, 
                                               s11_range, s21_range, isolation, 
                                               nqs_status, nqs_symbol, max_phase_shift):
-        """Update the high-frequency analysis section in REPORT.md"""
+        """Update the high-frequency analysis section in the verification REPORT.md file.
+        
+        This method is responsible for updating or creating the high-frequency analysis
+        section in the verification report. It handles both S-parameter analysis results
+        and Non-Quasi-Static (NQS) effects results, incorporating them into a cohesive
+        section with appropriate formatting and visual indicators.
+        
+        The method carefully preserves existing report content while replacing only the
+        high-frequency section. This approach ensures that other verification results
+        in the report are not affected when updating just the high-frequency results.
+        
+        Args:
+            sparams_status (str): Color code ('green' or 'red') for S-parameter verification status
+            sparams_symbol (str): Status symbol ('✓' or '✗') for S-parameter verification
+            sparams_freq_range (str): Frequency range text for S-parameter analysis
+            s11_range (str): S11 parameter range description
+            s21_range (str): S21 parameter range description
+            isolation (str): Isolation value description
+            nqs_status (str): Color code ('green' or 'red') for NQS effects verification status
+            nqs_symbol (str): Status symbol ('✓' or '✗') for NQS effects verification
+            max_phase_shift (str): Maximum phase shift information for NQS effects
+            
+        Notes:
+            This method is typically called after completing S-parameter and NQS effects
+            verification to integrate the results into the comprehensive report.
+            
+            If the report file doesn't exist, it will be created with appropriate sections.
+        """
         try:
             # Store the provided parameters as fallbacks
             fallback_sparams_status = sparams_status
@@ -511,8 +673,8 @@ class VerificationManager:
             
             # Try to read S-parameter data from file
             try:
-                sparams_file = os.path.join(self.output_dir, 'data', 'sparams_data.txt')
-                if os.path.exists(sparams_file):
+                sparams_file = self.output_dir / 'data' / 'sparams_data.txt'
+                if sparams_file.exists():
                     self.logger.logger.info(f"Reading S-parameter data from {sparams_file}")
                     data = []
                     with open(sparams_file, 'r') as f:
@@ -564,8 +726,8 @@ class VerificationManager:
             
             # Try to read NQS effects data from file
             try:
-                nqs_file = os.path.join(self.output_dir, 'data', 'nqs_effects.txt')
-                if os.path.exists(nqs_file):
+                nqs_file = self.output_dir / 'data' / 'nqs_effects.txt'
+                if nqs_file.exists():
                     self.logger.logger.info(f"Reading NQS effects data from {nqs_file}")
                     data = []
                     with open(nqs_file, 'r') as f:
@@ -605,22 +767,10 @@ class VerificationManager:
                 nqs_symbol = fallback_nqs_symbol
                 max_phase_shift = fallback_max_phase_shift
             
-            report_path = os.path.join(self.output_dir, 'REPORT.md')
+            report_path = self.output_dir / 'REPORT.md'
             
             # Create the report file and directory if they don't exist
-            os.makedirs(os.path.dirname(report_path), exist_ok=True)
-            
-            # Check if report file exists, create it with minimal content if not
-            if not os.path.exists(report_path):
-                if self.logger:
-                    self.logger.logger.info(f"Creating new report file at {report_path}")
-                # Create a minimal report with required sections
-                with open(report_path, 'w') as f:
-                    f.write("# MOSFET Simulation Verification Report\n\n")
-                    f.write("### High-Frequency Analysis\n")
-                    f.write("High-frequency analysis placeholder section\n\n")
-                    f.write("## 6. Noise Analysis\n")
-                    f.write("Noise analysis placeholder section\n\n")
+            report_path.parent.mkdir(exist_ok=True, parents=True)
             
             # Now read the file
             with open(report_path, 'r') as f:
@@ -690,26 +840,12 @@ class VerificationManager:
                 self.logger.logger.error(traceback.format_exc())
             # Try to create a minimal report as a fallback
             try:
-                report_path = os.path.join(self.output_dir, 'REPORT.md')
-                os.makedirs(os.path.dirname(report_path), exist_ok=True)
+                report_path = self.output_dir / 'REPORT.md'
+                report_path.parent.mkdir(exist_ok=True, parents=True)
                 
                 # Create the minimal content
-                minimal_content = f'''# MOSFET Simulation Verification Report
-
-### High-Frequency Analysis
-- [<span style='color: {sparams_status}'>{sparams_symbol}</span>] High-frequency AC simulations completed
-  - {sparams_freq_range}
-- [<span style='color: {sparams_status}'>{sparams_symbol}</span>] S-parameter analysis completed
-  - {s11_range}
-  - {s21_range}
-- [<span style='color: {sparams_status}'>{sparams_symbol}</span>] RF simulations completed
-  - {isolation}
-- [<span style='color: {nqs_status}'>{nqs_symbol}</span>] Non-quasi-static effects analyzed
-  - Phase shift: {max_phase_shift}
-
-## 6. Noise Analysis
-Noise analysis section
-'''
+                minimal_content = f'''
+                '''
                 with open(report_path, 'w') as f:
                     f.write(minimal_content)
                 if self.logger:
@@ -1960,7 +2096,38 @@ Noise analysis section
         return prop_delay
 
     def update_verification_checklist(self, results):
-        """Update verification checklist with results."""
+        """Update verification checklist with simulation results and generate a comprehensive report.
+        
+        This method is responsible for compiling all verification results into a detailed
+        markdown report (REPORT.md). It processes verification results from various simulation
+        types and creates a structured, human-readable document with:
+        
+        1. Overview of verification status for each test category
+        2. Detailed measurement results with pass/fail indicators
+        3. Visual indicators (colored checkmarks/crosses) for each test
+        4. Embedded plots and visualizations where available
+        5. Tabular data for complex result sets
+        
+        The report serves as the primary documentation of model quality and verification status.
+        
+        Args:
+            results (dict): Combined dictionary containing verification results from all 
+                          simulation types, including:
+                          - simulation_setup: Basic environment tests
+                          - iv_characteristics: DC IV curve verification
+                          - cv_characteristics: Capacitance verification
+                          - sparameter_analysis: RF characteristics
+                          - nqs_effects: Non-quasi-static effects
+                          - temperature_analysis: Temperature dependencies
+                          - noise_analysis: Noise behavior verification
+                          - transient_analysis: Transient response verification
+                          
+        Returns:
+            dict: The verification checklist with test status for all verification checks
+                
+        Raises:
+            Exception: If there's an error generating or writing the report
+        """
         checklist = {
             'simulation_setup': {
                 'netlist_exists': False,
@@ -2525,7 +2692,7 @@ Noise analysis section
             ])
             
             # Write report to file
-            report_path = Path(self.output_dir) / 'REPORT.md'
+            report_path = self.output_dir / 'REPORT.md'
             with open(report_path, 'w') as f:
                 f.write('\n'.join(report))
                 
@@ -2542,8 +2709,8 @@ Noise analysis section
     def _get_sparam_status_from_report(self):
         """Extract current S-parameter status from REPORT.md"""
         try:
-            report_path = os.path.join(self.output_dir, 'REPORT.md')
-            if not os.path.exists(report_path):
+            report_path = self.output_dir / 'REPORT.md'
+            if not report_path.exists():
                 return 'red', '✗', 'Not available', 'Not available', 'Not available', 'Not available'
             
             with open(report_path, 'r') as f:

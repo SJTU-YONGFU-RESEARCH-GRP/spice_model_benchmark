@@ -479,7 +479,6 @@ class PlotGenerator:
                 self.logger.logger.error(f"Error creating KCL verification plot: {e}")
             return None
 
-    # New transient analysis plotting methods
     def plot_large_signal_transient(self, time, gate_voltage, drain_voltage, drain_current):
         """Plot large signal transient analysis results."""
         try:
@@ -765,7 +764,6 @@ class PlotGenerator:
                 self.logger.logger.error(f"Error creating charge conservation plots: {e}")
             return None
     
-    # Noise Analysis plotting methods
     def plot_noise_spectrum(self, freq, noise, title, filename, 
                            log_x=True, log_y=True, additional_data=None):
         """Plot noise spectrum.

@@ -34,18 +34,19 @@ class MOSFETSimulation:
         # Use the DC circuit as the reference circuit for directory paths
         self.circuit_dir = os.path.dirname(dc_circuit_file)
         
-        self.output_dir = output_dir
+        # Convert output_dir to absolute path if it's not already
+        self.output_dir = Path(output_dir).resolve()
         self.dpi = dpi
         
         # Create output directory if it doesn't exist
-        os.makedirs(output_dir, exist_ok=True)
+        os.makedirs(self.output_dir, exist_ok=True)
         
         # Initialize components
         self.logger = Logger(log_level=log_level)
-        self.simulation_runner = SimulationRunner(self.logger, output_dir=output_dir)
-        self.data_reader = DataReader(self.logger, output_dir=output_dir)
-        self.plot_generator = PlotGenerator(output_dir, dpi=dpi, logger=self.logger)
-        self.verification_manager = VerificationManager(self.logger, output_dir=output_dir)
+        self.simulation_runner = SimulationRunner(self.logger, output_dir=str(self.output_dir))
+        self.data_reader = DataReader(self.logger, output_dir=str(self.output_dir))
+        self.plot_generator = PlotGenerator(str(self.output_dir), dpi=dpi, logger=self.logger)
+        self.verification_manager = VerificationManager(self.logger, output_dir=str(self.output_dir))
         
         # Set plot generator in verification manager to use for plots
         self.verification_manager.plot_generator = self.plot_generator
@@ -78,9 +79,9 @@ class MOSFETSimulation:
             self.logger.logger.info("Starting MOSFET simulation and analysis")
             
             # Create plot generator and data reader
-            plot_generator = PlotGenerator(self.output_dir, self.dpi, self.logger)
-            self.data_reader = DataReader(self.logger, self.output_dir)
-            self.verification_manager = VerificationManager(self.logger, self.output_dir)
+            plot_generator = PlotGenerator(str(self.output_dir), self.dpi, self.logger)
+            self.data_reader = DataReader(self.logger, str(self.output_dir))
+            self.verification_manager = VerificationManager(self.logger, str(self.output_dir))
             
             # Set the plot generator in the verification manager for proper plot generation
             self.verification_manager.plot_generator = plot_generator
@@ -88,7 +89,7 @@ class MOSFETSimulation:
             # Initialize simulation runner with the circuit files
             self.simulation_runner = SimulationRunner(
                 self.logger, 
-                self.output_dir,
+                str(self.output_dir),
                 dc_circuit_file=self.dc_circuit_file,
                 transient_circuit_file=self.transient_circuit_file,
                 noise_circuit_file=self.noise_circuit_file,
@@ -105,11 +106,6 @@ class MOSFETSimulation:
                     self.logger.logger.error(f"{circ_type} circuit file not found: {circ_file}")
                     return False
             
-            # Check AC circuit file separately since it's optional
-            if self.ac_circuit_file and not os.path.exists(self.ac_circuit_file):
-                self.logger.logger.error(f"AC circuit file not found: {self.ac_circuit_file}")
-                return False
-                    
             # Run all simulations (DC, AC, transient, and noise) sequentially
             if not self.simulation_runner.run_all_simulations():
                 self.logger.logger.error("SPICE simulation failed")
@@ -117,20 +113,15 @@ class MOSFETSimulation:
             
             # Verify circuit files
             setup_results = {}
-            for circ_file, circ_type in [
+            for circ_file, circ_type in [   
                 (self.dc_circuit_file, "DC"),
+                (self.ac_circuit_file, "AC"),
                 (self.transient_circuit_file, "Transient"),
                 (self.noise_circuit_file, "Noise")
             ]:
                 result = self.verification_manager.verify_simulation_setup(circ_file)
                 setup_results[f"{circ_type.lower()}_netlist_exists"] = result['netlist_exists']
                 setup_results[f"{circ_type.lower()}_details"] = result['details']
-            
-            # Verify AC circuit file separately
-            if self.ac_circuit_file:
-                result = self.verification_manager.verify_simulation_setup(self.ac_circuit_file)
-                setup_results[f"ac_netlist_exists"] = result['netlist_exists']
-                setup_results[f"ac_details"] = result['details']
             
             # Store common ngspice verification
             setup_results["ngspice_installed"] = self.verification_manager.verify_simulation_setup(
@@ -148,7 +139,7 @@ class MOSFETSimulation:
             # Read CV data
             vg, cv_ig, cv_is, cv_ib, cgg = self.data_reader.read_cv_data()
             
-            # Load high-frequency data
+            # Read high-frequency data
             freq, s11_mag, s11_phase, s12_mag, s12_phase, s21_mag, s21_phase, s22_mag, s22_phase = self.data_reader.read_sparameter_data()
             nqs_freq, vg_phase, id_phase, phase_diff = self.data_reader.read_nqs_effects_data()
             
@@ -156,7 +147,7 @@ class MOSFETSimulation:
             time_cc, vg_cc, ig_cc, id_cc, is_cc, ib_cc = self.data_reader.read_charge_conservation_data()
             
             # Create plot generator
-            plot_generator = PlotGenerator(self.output_dir, logger=self.logger)
+            plot_generator = PlotGenerator(str(self.output_dir), logger=self.logger)
             
             # Re-set the plot generator in the verification manager
             self.verification_manager.plot_generator = plot_generator
@@ -257,18 +248,13 @@ class MOSFETSimulation:
                     nqs_freq, vg_phase, id_phase, phase_diff
                 )
                 self.results['nqs_effects'] = nqs_results
-            
-            # Verify bias point analysis
-            bias_results = self.verification_manager.verify_bias_point_analysis(
-                bias_vds, bias_vgs, bias_ids, bias_ig, bias_is, bias_ib, temp[0] if temp is not None else 27
-            )
-            self.results['bias_point_analysis'] = bias_results
-                
+
+            # Verify temperature analysis
             temp_results = self.verification_manager.verify_temperature_analysis(temp, ids)
             if not temp_results['temp_sweep'] or not temp_results['device_behavior']:
                 raise ValueError("Temperature analysis verification failed")
             self.results['temperature_analysis'] = temp_results
-            
+
             # Calculate power for thermodynamic analysis
             power = np.abs(vds * ids) if vds is not None and ids is not None else None
             thermo_results = self.verification_manager.verify_thermodynamic_analysis(power, temp, ids)
@@ -277,7 +263,13 @@ class MOSFETSimulation:
             if not thermo_results['power_measurements']:
                 raise ValueError("Power measurements verification failed")
             self.results['thermodynamic_analysis'] = thermo_results
-            
+
+            # Verify bias point analysis
+            bias_results = self.verification_manager.verify_bias_point_analysis(
+                bias_vds, bias_vgs, bias_ids, bias_ig, bias_is, bias_ib, temp[0] if temp is not None else 27
+            )
+            self.results['bias_point_analysis'] = bias_results
+
             # Read and verify transient analysis data
             
             # 1. Large signal transient analysis

@@ -16,6 +16,9 @@
 * Include the device model file
 .inc ../models/ngspice-cmos/FreePDK45/nom.inc
 
+* MOSFET device under test
+M1 drain gate source bulk NMOS_VTG L=0.045u W=10u
+
 * Test circuit for capacitance and small-signal parameter measurements
 * Gate voltage source with AC component for small-signal analysis
 VG gate 0 DC 0 AC 1
@@ -24,9 +27,6 @@ VD drain 0 DC 1.0
 * Source and bulk connections tied to ground
 VS source 0 DC 0 
 VB bulk 0 DC 0
-
-* MOSFET device under test
-M1 drain gate source bulk NMOS_VTG L=0.045u W=10u
 
 * ------------------------------------------------------
 * Small signal S-parameter test circuit on separate nodes

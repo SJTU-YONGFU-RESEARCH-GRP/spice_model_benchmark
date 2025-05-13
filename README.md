@@ -1,21 +1,117 @@
 # SPICE Model Benchmark System
 
-This project provides a benchmarking system for SPICE models, allowing for the automated verification and validation of semiconductor device models.
+This project provides a comprehensive benchmarking system for SPICE models, allowing for the automated verification and validation of semiconductor device models with a focus on MOSFETs.
 
 ## Overview
 
-The system is designed to run various types of SPICE simulations on a semiconductor device model, analyze the results, and generate a comprehensive verification report. It supports:
+The system is designed to run various types of SPICE simulations on a semiconductor device model, analyze the results, and generate a comprehensive verification report. It implements a structured verification methodology to evaluate model quality across multiple domains:
 
-- DC analysis (IV characteristics)
-- Transient analysis
-- Noise analysis
-- Temperature sweep analysis
-- Thermodynamic analysis
+- DC analysis (IV characteristics, temperature dependence, thermodynamic analysis)
+- Transient analysis (large-signal response, switching performance, delay effects)
+- AC analysis (small-signal parameters, S-parameters, non-quasi-static effects)
+- Noise analysis (thermal, flicker, and shot noise)
+- Geometry and layout analysis
+
+## Quick Start Guide
+
+1. **Install prerequisites**:
+   ```bash
+   pip install numpy matplotlib
+   ```
+   
+2. **Ensure NGSPICE is installed and available on your system path**
+
+3. **Clone the repository**:
+   ```bash
+   git clone https://github.com/yourusername/spice_model_benchmark.git
+   cd spice_model_benchmark
+   ```
+
+4. **Run a simple benchmark**:
+   ```bash
+   cd src
+   python mosfet_simulation.py
+   ```
+
+5. **View the results**:
+   - The verification report is generated at `results/REPORT.md`
+   - Visualization plots are created in `results/plots/`
+   - Raw data is stored in `results/data/`
+
+## Detailed Instructions
+
+### Preparing Model Files
+
+1. Place your MOSFET model file in the `models/` directory
+2. Update the circuit netlists in `netlists/` to reference your model
+3. Ensure your model file includes the correct parameters for your device
+
+### Running Simulations
+
+The main simulation controller supports various options:
+
+```bash
+# Change to the src directory
+cd src
+
+# Run with default settings
+python mosfet_simulation.py
+
+# Run with custom circuit files
+python mosfet_simulation.py --dc-circuit ../netlists/custom_dc.cir --transient-circuit ../netlists/custom_trans.cir
+
+# Run specific verification tests only
+python mosfet_simulation.py --verify dc,transient
+
+# Run with increased verbosity
+python mosfet_simulation.py --verbose
+
+# Run with custom output directory
+python mosfet_simulation.py --output-dir ../my_results
+
+# Skip certain simulation types
+python mosfet_simulation.py --skip noise,ac
+
+# For more options
+python mosfet_simulation.py --help
+```
+
+### Interpreting Results
+
+The verification process produces:
+
+1. **Verification Report** (`results/REPORT.md`): A comprehensive document with pass/fail indicators for all verification tests
+2. **Raw Data** (`results/data/`): CSV files containing simulation data for further analysis
+3. **Visualization Plots** (`results/plots/`): PNG images showing various model characteristics
+
+Key metrics to check in the report:
+- ✓/✗ indicators showing pass/fail status for each test
+- Detailed measurements and operating point information
+- Temperature coefficients and scaling behavior
+
+### Customizing Verification Criteria
+
+1. Edit `src/verification_parameters.py` to modify thresholds for verification tests
+2. Create custom circuit netlists in the `netlists/` directory
+3. Modify plot settings in `src/plot_generator.py` for customized visualizations
+
+## Documentation
+
+For detailed information about the benchmark system, refer to the following documentation:
+
+- [METHODOLOGY.md](docs/METHODOLOGY.md): Comprehensive explanation of the verification methodology and implementation details
+- [CHECKLIST.md](docs/CHECKLIST.md): Verification checklist with detailed criteria for each test
+- [Benchmarks for SPICE Modeling and Parameter Extraction Based on AI/ML](docs/Benchmarks_for_SPICE_Modeling_and_Parameter_Extraction_Based_on_AI_ML.pdf): Research paper on benchmark methodology
 
 ## Directory Structure
 
 ```
 spice_model_benchmark/
+├── docs/                  # Documentation files
+│   ├── METHODOLOGY.md     # Detailed verification methodology
+│   ├── CHECKLIST.md       # Verification criteria checklist
+│   └── Benchmarks_for_SPICE_Modeling_and_Parameter_Extraction_Based_on_AI_ML.pdf 
+├── models/                # MOSFET model files
 ├── netlists/              # Circuit netlist files
 │   ├── dc_circuit.cir     # Circuit for DC analysis
 │   ├── transient_circuit.cir  # Circuit for transient analysis
@@ -25,54 +121,86 @@ spice_model_benchmark/
 │   ├── data_reader.py     # Read and parse simulation results
 │   ├── plot_generator.py  # Generate plots from simulation data
 │   ├── simulation_runner.py   # Execute SPICE simulations
-│   └── verification_manager.py    # Verify and report results
+│   ├── verification_manager.py # Verify and report results
+│   └── verification_parameters.py # Configurable verification parameters
 ├── results/               # Simulation results
 │   ├── data/              # Raw data files
-│   └── plots/             # Generated plots and visualizations
+│   ├── plots/             # Generated plots and visualizations
+│   └── REPORT.md          # Verification report
 └── README.md              # This file
 ```
 
-## Usage
+## Key Features
 
-```bash
-# Change to the src directory
-cd src
+### Comprehensive Verification
 
-# Run the simulation with default settings
-python mosfet_simulation.py
+- **DC Analysis**: Verifies IV characteristics, subthreshold behavior, saturation behavior, and KCL compliance
+- **Temperature Analysis**: Validates behavior across -40°C to 150°C range, temperature coefficients
+- **Transient Analysis**: Tests transient response, switching behavior, delay effects, power dissipation
+- **AC Analysis**: Examines CV characteristics, S-parameters, and non-quasi-static effects
+- **Noise Analysis**: Characterizes thermal, flicker (1/f), and shot noise across frequencies and bias points
 
-# Run with custom circuit files
-python mosfet_simulation.py --dc-circuit ../netlists/dc_circuit.cir --transient-circuit ../netlists/transient_circuit.cir --noise-circuit ../netlists/noise_circuit.cir
+### Visualization
 
-# For more options
-python mosfet_simulation.py --help
-```
+The system generates detailed plots for different aspects of the device behavior:
 
-## Output Files
+- IV characteristics curves with log-scale insets for subthreshold behavior
+- Capacitance-voltage plots showing gate capacitance components
+- S-parameter plots for RF/high-frequency performance
+- Noise spectra across different frequencies and temperatures
+- Transient analysis visualizations for timing and switching performance
+- Temperature-dependent behavior visualization
+- Charge conservation plots
 
-The simulation will generate several outputs:
+### Automated Reporting
 
-1. Raw simulation data in `results/data/`
-2. Visualization plots in `results/plots/`
-3. A verification report (REPORT.md) in the `results/` directory
-
-## Visualization
-
-The system generates plots for different aspects of the device behavior:
-
-- IV characteristics curves (`plots/iv_characteristics.png`)
-- Temperature analysis (`plots/temperature_analysis.png`) 
-- KCL verification (`plots/kcl_verification.png`)
-- Noise spectra (`plots/thermal_noise_vds_comparison.png`, `plots/flicker_noise.png`, etc.)
-- Transient analysis results (`plots/large_signal_transient.png`, `plots/switching_response.png`, etc.)
+The verification process generates a comprehensive Markdown report that includes:
+- Summary tables for each analysis domain
+- Detailed verification results with pass/fail indicators
+- Key metrics and parameters extracted from simulations
+- Embedded plots for visual verification
+- Tables of measured values for further analysis
 
 ## Requirements
 
 - Python 3.6+
 - NumPy
 - Matplotlib
-- NGSPICE (on system path)
+- NGSPICE (version 30 or newer recommended)
+
+## Troubleshooting
+
+### Common Issues
+
+1. **NGSPICE not found**: Ensure NGSPICE is installed and in your system path
+   ```bash
+   which ngspice  # Should return a path
+   ngspice --version  # Should display version information
+   ```
+
+2. **Missing simulation data**: Check that your model file is correctly referenced in the netlists
+
+3. **Failed verification tests**: Examine the specific test details in REPORT.md to understand which aspects of the model need improvement
+
+4. **Visualization errors**: Ensure your Python environment has matplotlib properly installed
+
+### Getting Help
+
+For additional issues, please file an issue on the GitHub repository or contact the repository maintainers.
 
 ## License
 
-This project is provided as open-source software. 
+This project is provided as open-source software under the MIT License. See LICENSE file for details.
+
+## Citation
+
+If you use this benchmark system in your research, please cite:
+
+```
+@software{spice_model_benchmark,
+  author = {Your Name},
+  title = {SPICE Model Benchmark System},
+  year = {2023},
+  url = {https://github.com/yourusername/spice_model_benchmark}
+}
+``` 

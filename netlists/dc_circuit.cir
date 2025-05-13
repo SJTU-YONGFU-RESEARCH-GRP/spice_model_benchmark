@@ -12,23 +12,23 @@
 * Include FreePDK45 model
 .inc ../models/ngspice-cmos/FreePDK45/nom.inc
 
+* MOSFET device under test 
+M1 drain_iv gate_iv source_iv bulk_iv NMOS_VTG L=0.045u W=10u
+
+* MOSFET device under test for bias point analysis
+M2 drain_bias gate_bias source_bias bulk_bias NMOS_VTG L=0.045u W=10u
+
 * IV Characteristics Circuit
 Vds_iv drain_iv 0 DC 0
 Vgs_iv gate_iv 0 DC 0
 Vs_iv source_iv 0 DC 0
 Vb_iv bulk_iv 0 DC 0
 
-* MOSFET device under test - standard 45nm transistor
-M1 drain_iv gate_iv source_iv bulk_iv NMOS_VTG L=0.045u W=10u
-
 * Bias Point Analysis Circuit
 Vds_bias drain_bias 0 DC 0
 Vgs_bias gate_bias 0 DC 0
 Vs_bias source_bias 0 DC 0
 Vb_bias bulk_bias 0 DC 0
-
-* MOSFET device under test for bias point analysis
-M3 drain_bias gate_bias source_bias bulk_bias NMOS_VTG L=0.045u W=10u
 
 * Control block
 .control
