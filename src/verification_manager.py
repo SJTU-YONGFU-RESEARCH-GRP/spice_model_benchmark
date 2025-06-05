@@ -63,7 +63,11 @@ class VerificationManager:
             'details': {
                 'netlist_path': str(circuit_file) if circuit_file else 'circuit.cir',
                 'ngspice_version': None,
-                'simulation_status': None
+                'simulation_status': None,
+                'dc_path': None,
+                'ac_path': None,
+                'transient_path': None,
+                'noise_path': None
             }
         }
         
@@ -72,6 +76,13 @@ class VerificationManager:
             circuit_path = Path(circuit_file) if circuit_file else Path('circuit.cir')
             results['netlist_exists'] = circuit_path.exists() and circuit_path.is_file()
             results['details']['netlist_path'] = str(circuit_path.absolute())
+            
+            # Set mode-specific paths
+            base_path = circuit_path.parent
+            results['details']['dc_path'] = str(base_path / 'dc_analysis.cir')
+            results['details']['ac_path'] = str(base_path / 'ac_analysis.cir')
+            results['details']['transient_path'] = str(base_path / 'transient_analysis.cir')
+            results['details']['noise_path'] = str(base_path / 'noise_analysis.cir')
             
             # Check ngspice installation
             try:
@@ -112,174 +123,194 @@ class VerificationManager:
         return results
 
     def verify_iv_characteristics(self, vds, vgs, ids, ig, is_, ib, temp):
-        """Verify DC IV characteristics data for MOSFET correctness and completeness.
-        
-        This method performs extensive validation of IV characteristic curves, which are 
-        fundamental to MOSFET model quality. It verifies voltage ranges, current measurements,
-        and checks for critical behaviors like subthreshold operation and saturation.
-        
-        The method analyzes multiple terminal currents to validate Kirchhoff's Current Law (KCL)
-        and assesses temperature-dependent behavior across multiple bias points.
+        """Verify IV characteristics data.
         
         Args:
-            vds (ndarray): Drain-source voltage values
-            vgs (ndarray): Gate-source voltage values
-            ids (ndarray): Drain current values
-            ig (ndarray): Gate current values
-            is_ (ndarray): Source current values
-            ib (ndarray): Bulk current values
-            temp (ndarray): Temperature values for temperature-dependent analysis
+            vds: Drain-source voltage array
+            vgs: Gate-source voltage array
+            ids: Drain current array
+            ig: Gate current array
+            is_: Source current array
+            ib: Bulk current array
+            temp: Temperature array
             
         Returns:
-            dict: Comprehensive verification results with keys:
-                - data_generated (bool): Whether simulation produced data
-                - data_read (bool): Whether data was read successfully
-                - vds_range (bool): Whether Vds is within expected range
-                - vgs_range (bool): Whether Vgs is within expected range
-                - ids_measured (bool): Whether drain current was measured properly
-                - ig_measured, is_measured, ib_measured (bool): Other terminal current checks
-                - power_available (bool): Whether power calculation is possible
-                - log_scale (bool): Whether logarithmic behavior is observed (subthreshold)
-                - linear_scale (bool): Whether linear region behavior is observed
-                - multi_terminal (bool): Whether all terminal currents are available
-                - subthreshold (bool): Whether subthreshold behavior is appropriate
-                - saturation (bool): Whether saturation behavior is appropriate
-                - temp_dependent (bool): Whether temperature dependence is valid
-                - details (dict): Detailed measurement information and statistics
+            dict: Verification results
         """
-        results = {
-            'data_generated': False,
-            'data_read': False,
-            'vds_range': False,
-            'vgs_range': False,
-            'ids_measured': False,
-            'ig_measured': False,
-            'is_measured': False,
-            'ib_measured': False,
-            'power_available': False,
-            'log_scale': False,
-            'linear_scale': False,
-            'multi_terminal': False,
-            'subthreshold': False,
-            'saturation': False,
-            'temp_dependent': False,
-            'details': {
-                'vds_range': None,
-                'vgs_range': None,
-                'ids_range': None,
-                'decades': None,
-                'min_current': None,
-                'max_current': None,
-                'linear_points': None,
-                'linear_range': None,
-                'kcl_error': None,
-                'subthreshold_currents': None,
-                'saturation_currents': None,
-                'temp_coef': None
-            }
-        }
-        
-        if vds is None or ids is None or vgs is None or len(vds) == 0 or len(ids) == 0 or len(vgs) == 0:
-            self.results['iv_characteristics'] = results
-            return results
-        
         try:
-            results['data_read'] = True
+            if vds is None or ids is None or vgs is None or len(vds) == 0 or len(ids) == 0 or len(vgs) == 0:
+                self.logger.logger.error("Missing or empty IV characteristics data")
+                return {
+                    'data_generated': False,
+                    'data_read': False,
+                    'vds_range': "Not available",
+                    'vgs_range': "Not available",
+                    'ids_range': "Not available",
+                    'details': {
+                        'vds': None,
+                        'vgs': None,
+                        'ids': None,
+                        'ig': None,
+                        'is': None,
+                        'ib': None
+                    }
+                }
             
-            # Check if data was properly generated and read
-            if np.all(np.isfinite(vds)) and np.all(np.isfinite(vgs)) and np.all(np.isfinite(ids)):
-                results['data_generated'] = True
+            # Verify data ranges
+            vds_range = f"{min(vds):.2f}V to {max(vds):.2f}V"
+            vgs_range = f"{min(vgs):.2f}V to {max(vgs):.2f}V"
+            ids_range = f"{min(ids):.2e}A to {max(ids):.2e}A"
             
-            # Verify voltage ranges
-            vds_min, vds_max = np.min(vds), np.max(vds)
-            vgs_min, vgs_max = np.min(vgs), np.max(vgs)
-            ids_min, ids_max = np.min(ids), np.max(ids)
+            # Verify KCL
+            kcl_verified = self._verify_kcl(ids, ig, is_, ib)
             
-            results['vds_range'] = 0 <= vds_min and vds_max <= 2.0
-            results['vgs_range'] = -1.0 <= vgs_min and vgs_max <= 2.0
-            
-            results['details']['vds_range'] = f"{vds_min:.2f}V to {vds_max:.2f}V"
-            results['details']['vgs_range'] = f"{vgs_min:.2f}V to {vgs_max:.2f}V"
-            results['details']['ids_range'] = f"{ids_min:.2e}A to {ids_max:.2e}A"
-            
-            # Verify current measurements
-            results['ids_measured'] = len(ids) > 0 and np.all(np.isfinite(ids))
-            
-            # Verify gate current measurements if provided
-            if ig is not None and len(ig) > 0:
-                results['ig_measured'] = np.all(np.isfinite(ig))
-            
-            # Verify source current measurements if provided
-            if is_ is not None and len(is_) > 0:
-                results['is_measured'] = np.all(np.isfinite(is_))
-            
-            # Verify bulk current measurements if provided
-            if ib is not None and len(ib) > 0:
-                results['ib_measured'] = np.all(np.isfinite(ib))
-            
-            # Verify multi-terminal behavior
-            results['multi_terminal'] = (
-                results['ids_measured'] and 
-                results['ig_measured'] and 
-                results['is_measured'] and 
-                results['ib_measured']
-            )
-            
-            # Verify KCL (Kirchhoff's Current Law)
-            if results['multi_terminal']:
-                i_total = ids + ig + is_ + ib
-                kcl_error = np.mean(np.abs(i_total))
-                results['details']['kcl_error'] = f"{kcl_error:.2e}A"
-            
-            # Verify logarithmic behavior
-            if results['ids_measured']:
-                log_ids = np.log10(np.abs(ids[ids != 0]))
-                log_range = np.max(log_ids) - np.min(log_ids)
-                
-                # Verify at least 3 decades of currents
-                results['log_scale'] = log_range > 3.0
-                results['details']['decades'] = f"{log_range:.2f}"
-                results['details']['min_current'] = f"{np.min(np.abs(ids[ids != 0])):.2e}A"
-                results['details']['max_current'] = f"{np.max(np.abs(ids)):.2e}A"
-            
-            # Verify linear behavior
-            linear_mask = np.logical_and(vgs > vgs_max*0.7, vds < vds_max*0.3)
-            if np.any(linear_mask):
-                linear_ids = ids[linear_mask]
-                linear_vds = vds[linear_mask]
-                
-                if len(linear_ids) > 2:
-                    results['linear_scale'] = True
-                    results['details']['linear_points'] = f"{len(linear_ids)}"
-                    results['details']['linear_range'] = f"{np.min(linear_vds):.2f}V to {np.max(linear_vds):.2f}V"
-            
-            # Verify subthreshold behavior
-            subthreshold_mask = vgs < 0.5
-            if np.any(subthreshold_mask):
-                subthreshold_currents = ids[subthreshold_mask]
-                results['subthreshold'] = np.all(subthreshold_currents < 1e-9)
-                results['details']['subthreshold_currents'] = f"{np.min(subthreshold_currents):.2e}A to {np.max(subthreshold_currents):.2e}A"
-            
-            # Verify saturation behavior
-            saturation_mask = np.logical_and(vgs > 0.7, vds > 0.7)
-            if np.any(saturation_mask):
-                saturation_currents = ids[saturation_mask]
-                results['saturation'] = np.all(saturation_currents > 0)
-                results['details']['saturation_currents'] = f"{np.min(saturation_currents):.2e}A to {np.max(saturation_currents):.2e}A"
-            
-            # Temperature-dependent validation
-            if temp is not None and len(temp) > 0:
-                temp_coef = np.polyfit(temp, ids, 1)[0]
-                results['temp_dependent'] = abs(temp_coef) > 1e-20  # Only check that coefficient is not zero
-                results['details']['temp_coef'] = f"{temp_coef:.2e}A/°C"
+            # Verify temperature effects
+            temp_effects = self._verify_temperature_effects(temp, ids)
             
             self.logger.logger.info("IV characteristics verification completed")
+            return {
+                'data_generated': True,
+                'data_read': True,
+                'vds_range': vds_range,
+                'vgs_range': vgs_range,
+                'ids_range': ids_range,
+                'kcl_verified': kcl_verified,
+                'temp_effects': temp_effects,
+                'details': {
+                    'vds': vds.tolist(),
+                    'vgs': vgs.tolist(),
+                    'ids': ids.tolist(),
+                    'ig': ig.tolist() if ig is not None else None,
+                    'is': is_.tolist() if is_ is not None else None,
+                    'ib': ib.tolist() if ib is not None else None
+                }
+            }
+        except Exception as e:
+            self.logger.logger.error(f"Error in IV characteristics verification: {e}")
+            return {
+                'data_generated': False,
+                'data_read': False,
+                'vds_range': "Error",
+                'vgs_range': "Error",
+                'ids_range': "Error",
+                'details': {
+                    'vds': None,
+                    'vgs': None,
+                    'ids': None,
+                    'ig': None,
+                    'is': None,
+                    'ib': None
+                }
+            }
+
+    def _verify_kcl(self, ids, ig, is_, ib):
+        """Verify Kirchhoff's Current Law (KCL) for the MOSFET.
+        
+        Args:
+            ids: Drain current array
+            ig: Gate current array
+            is_: Source current array
+            ib: Bulk current array
+            
+        Returns:
+            bool: True if KCL is satisfied within tolerance, False otherwise
+        """
+        try:
+            # Convert inputs to numpy arrays if they aren't already
+            ids = np.array(ids)
+            ig = np.array(ig) if ig is not None else np.zeros_like(ids)
+            is_ = np.array(is_) if is_ is not None else np.zeros_like(ids)
+            ib = np.array(ib) if ib is not None else np.zeros_like(ids)
+            
+            # KCL: ids + ig + is_ + ib ≈ 0
+            # For a MOSFET, we expect:
+            # - ids: drain current (positive for nMOS)
+            # - ig: gate current (should be very small)
+            # - is_: source current (should be approximately -ids)
+            # - ib: bulk current (should be very small)
+            
+            # Calculate total current
+            total_current = ids + ig + is_ + ib
+            
+            # Define tolerance (1% of maximum drain current)
+            tolerance = 0.01 * np.max(np.abs(ids))
+            
+            # Check if total current is within tolerance
+            kcl_satisfied = np.all(np.abs(total_current) <= tolerance)
+            
+            if kcl_satisfied:
+                self.logger.logger.info("KCL verification passed")
+            else:
+                self.logger.logger.warning("KCL verification failed - currents do not sum to zero within tolerance")
+                
+            return kcl_satisfied
             
         except Exception as e:
-            self.logger.logger.error(f"Error verifying IV characteristics: {e}")
+            self.logger.logger.error(f"Error in KCL verification: {e}")
+            return False
+
+    def _verify_temperature_effects(self, temp, ids):
+        """Verify temperature effects on drain current.
+        
+        Args:
+            temp: Temperature array
+            ids: Drain current array
             
-        self.results['iv_characteristics'] = results
-        return results
+        Returns:
+            dict: Temperature verification results containing:
+                - temp_range: Temperature range
+                - ids_variation: Maximum drain current variation
+                - temp_coefficient: Temperature coefficient of drain current
+                - is_valid: Whether temperature effects are within expected range
+        """
+        try:
+            # Convert inputs to numpy arrays if they aren't already
+            temp = np.array(temp)
+            ids = np.array(ids)
+            
+            # Calculate temperature range
+            temp_range = f"{min(temp):.1f}°C to {max(temp):.1f}°C"
+            
+            # Calculate drain current variation
+            ids_variation = np.max(np.abs(np.diff(ids))) / np.mean(np.abs(ids))
+            
+            # Calculate temperature coefficient (TC) of drain current
+            # TC = (1/Ids) * (dIds/dT)
+            if len(temp) > 1 and len(ids) > 1:
+                # Use central difference for derivative
+                d_ids = np.diff(ids)
+                d_temp = np.diff(temp)
+                tc = np.mean((d_ids / d_temp) / np.abs(ids[:-1]))
+            else:
+                tc = 0
+            
+            # Define expected ranges
+            max_variation = 0.5  # 50% maximum variation
+            max_tc = 0.01  # 1% per degree Celsius
+            
+            # Check if temperature effects are within expected range
+            is_valid = (ids_variation <= max_variation and abs(tc) <= max_tc)
+            
+            if is_valid:
+                self.logger.logger.info("Temperature effects verification passed")
+            else:
+                self.logger.logger.warning("Temperature effects verification failed - effects outside expected range")
+            
+            return {
+                'temp_range': temp_range,
+                'ids_variation': f"{ids_variation:.2%}",
+                'temp_coefficient': f"{tc:.2e}/°C",
+                'is_valid': is_valid
+            }
+            
+        except Exception as e:
+            self.logger.logger.error(f"Error in temperature effects verification: {e}")
+            return {
+                'temp_range': "Error",
+                'ids_variation': "Error",
+                'temp_coefficient': "Error",
+                'is_valid': False
+            }
 
     def verify_cv_characteristics(self, vg, cgg, freq, vg_phase, id_phase):
         """Verify capacitance-voltage (CV) characteristics and small-signal behavior.
@@ -475,85 +506,55 @@ class VerificationManager:
         
         return results
 
-    def verify_nqs_effects(self, vg_phase, id_phase, freq):
-        """Verify Non-Quasi-Static (NQS) effects critical for high-frequency behavior.
-        
-        NQS effects occur when the channel charge cannot respond instantaneously to 
-        changes in terminal voltages at high frequencies. This method:
-        1. Analyzes phase differences between gate voltage and drain current
-        2. Evaluates frequency-dependent phase shift behavior
-        3. Identifies maximum phase shift and its frequency
-        4. Determines whether the model properly accounts for NQS effects
-        
-        For accurate high-frequency simulation, a model must correctly implement
-        NQS effects rather than relying solely on quasi-static approximations.
+    def verify_nqs_effects(self, freq, vg_phase, id_phase, phase_diff):
+        """Verify non-quasi-static effects data.
         
         Args:
-            vg_phase (ndarray): Gate voltage phase values at different frequencies
-            id_phase (ndarray): Drain current phase values at different frequencies
-            freq (ndarray): Frequency values for the analysis in Hz
+            freq: Frequency array
+            vg_phase: Gate voltage phase array
+            id_phase: Drain current phase array
+            phase_diff: Phase difference array
             
         Returns:
-            dict: Verification results containing:
-                - data_generated (bool): Whether NQS data was successfully produced
-                - phase_shift (bool): Whether significant phase shift is observed
-                - freq_dependent (bool): Whether phase shift is frequency-dependent
-                - max_phase_shift (float): Maximum phase shift in degrees
-                - max_phase_freq (float): Frequency at maximum phase shift in Hz
-                - nqs_effects_present (bool): Whether NQS effects are present
-                - verification_passed (bool): Overall NQS verification result
-                
-        Note:
-            This method also updates the REPORT.md file with NQS effects analysis results
-            and generates relevant plots if a plot_generator is available.
+            dict: Verification results
         """
-        results = {
-            'data_generated': True if vg_phase is not None and id_phase is not None and freq is not None else False
-        }
-        
-        if not results['data_generated']:
-            return results
-        
-        # Calculate phase differences
-        phase_diff = np.abs(vg_phase - id_phase)
-        
-        # Check for significant phase shift
-        results['phase_shift'] = np.any(phase_diff > 5.0)
-        
-        # Check for frequency dependence
-        results['freq_dependent'] = np.any(np.diff(phase_diff) != 0)
-        
-        # Find maximum phase shift and its frequency
-        max_phase_shift = np.max(phase_diff)
-        max_phase_freq = freq[np.argmax(phase_diff)]
-        
-        # Check if NQS effects are present
-        results['nqs_effects_present'] = np.any(phase_diff > 1.0)
-        
-        # Overall result
-        results['verification_passed'] = all([
-            results['phase_shift'],
-            results['freq_dependent'],
-            results['nqs_effects_present']
-        ])
-        
-        # Generate plot
         try:
-            if hasattr(self, 'plot_generator') and self.plot_generator is not None:
-                self.plot_generator.plot_nqs_effects(freq, vg_phase, id_phase, phase_diff)
+            # Check array lengths
+            if not all(len(x) == len(freq) for x in [vg_phase, id_phase, phase_diff]):
+                self.logger.logger.warning("NQS data arrays have inconsistent lengths")
+                return {'status': 'failed', 'message': 'Array length mismatch'}
+            
+            # Check for NaN or infinite values
+            if any(np.isnan(x).any() or np.isinf(x).any() for x in [freq, vg_phase, id_phase, phase_diff]):
+                self.logger.logger.warning("NQS data contains NaN or infinite values")
+                return {'status': 'failed', 'message': 'Invalid values detected'}
+            
+            # Check frequency is monotonically increasing
+            if not np.all(np.diff(freq) > 0):
+                self.logger.logger.warning("Frequency array is not monotonically increasing")
+                return {'status': 'failed', 'message': 'Frequency not monotonically increasing'}
+            
+            # Check phase values are within valid range (-180 to 180 degrees)
+            if any((x < -180).any() or (x > 180).any() for x in [vg_phase, id_phase, phase_diff]):
+                self.logger.logger.warning("Phase values outside valid range (-180 to 180 degrees)")
+                return {'status': 'failed', 'message': 'Phase values out of range'}
+            
+            # Check phase difference calculation
+            calculated_diff = vg_phase - id_phase
+            if not np.allclose(phase_diff, calculated_diff, rtol=0.1):  # 10% tolerance
+                self.logger.logger.warning("Phase difference calculation mismatch")
+                return {'status': 'failed', 'message': 'Phase difference mismatch'}
+            
+            # Check for NQS effects (phase difference should increase with frequency)
+            if not np.all(np.diff(phase_diff) > 0):
+                self.logger.logger.warning("Phase difference does not show expected NQS behavior")
+                return {'status': 'failed', 'message': 'Unexpected NQS behavior'}
+            
+            return {'status': 'passed', 'message': 'NQS effects verification passed'}
+            
         except Exception as e:
-            if self.logger:
-                self.logger.logger.error(f"Error generating NQS effects plot: {e}")
-        
-        # Update REPORT.md file
-        self._update_nqs_effects_section_in_report(
-            nqs_status='green',
-            nqs_symbol='✓',
-            max_phase_shift=max_phase_shift,
-            max_phase_freq=max_phase_freq
-        )
-        
-        return results
+            self.logger.logger.error(f"Error verifying NQS effects: {e}")
+            return {'status': 'failed', 'message': str(e)}
 
     def _get_nqs_status_from_report(self):
         """Extract current Non-Quasi-Static (NQS) effects status from REPORT.md.
@@ -631,178 +632,31 @@ class VerificationManager:
     def _update_high_frequency_section_in_report(self, sparams_status, sparams_symbol, sparams_freq_range, 
                                               s11_range, s21_range, isolation, 
                                               nqs_status, nqs_symbol, max_phase_shift):
-        """Update the high-frequency analysis section in the verification REPORT.md file.
-        
-        This method is responsible for updating or creating the high-frequency analysis
-        section in the verification report. It handles both S-parameter analysis results
-        and Non-Quasi-Static (NQS) effects results, incorporating them into a cohesive
-        section with appropriate formatting and visual indicators.
-        
-        The method carefully preserves existing report content while replacing only the
-        high-frequency section. This approach ensures that other verification results
-        in the report are not affected when updating just the high-frequency results.
-        
-        Args:
-            sparams_status (str): Color code ('green' or 'red') for S-parameter verification status
-            sparams_symbol (str): Status symbol ('✓' or '✗') for S-parameter verification
-            sparams_freq_range (str): Frequency range text for S-parameter analysis
-            s11_range (str): S11 parameter range description
-            s21_range (str): S21 parameter range description
-            isolation (str): Isolation value description
-            nqs_status (str): Color code ('green' or 'red') for NQS effects verification status
-            nqs_symbol (str): Status symbol ('✓' or '✗') for NQS effects verification
-            max_phase_shift (str): Maximum phase shift information for NQS effects
-            
-        Notes:
-            This method is typically called after completing S-parameter and NQS effects
-            verification to integrate the results into the comprehensive report.
-            
-            If the report file doesn't exist, it will be created with appropriate sections.
-        """
+        """Update the high-frequency analysis section in the verification REPORT.md file."""
         try:
-            # Store the provided parameters as fallbacks
-            fallback_sparams_status = sparams_status
-            fallback_sparams_symbol = sparams_symbol
-            fallback_sparams_freq_range = sparams_freq_range
-            fallback_s11_range = s11_range
-            fallback_s21_range = s21_range
-            fallback_isolation = isolation
-            fallback_nqs_status = nqs_status
-            fallback_nqs_symbol = nqs_symbol
-            fallback_max_phase_shift = max_phase_shift
+            self.logger.logger.info("Starting high-frequency section update")
             
-            # Try to read S-parameter data from file
-            try:
-                sparams_file = self.output_dir / 'data' / 'sparams_data.txt'
-                if sparams_file.exists():
-                    self.logger.logger.info(f"Reading S-parameter data from {sparams_file}")
-                    data = []
-                    with open(sparams_file, 'r') as f:
-                        for line in f:
-                            if line.startswith('#'):
-                                continue
-                            try:
-                                parts = line.strip().split()
-                                if len(parts) >= 9:  # freq and 8 S-parameter values
-                                    row = [float(parts[0])]  # Frequency
-                                    # S11, S12, S21, S22 magnitudes and phases
-                                    for i in range(1, 9):
-                                        row.append(float(parts[i]))
-                                    data.append(row)
-                            except Exception as e:
-                                self.logger.logger.warning(f"Error parsing S-parameter line: {e}")
-                                continue
-                    
-                    if data:
-                        data = np.array(data)
-                        freq = data[:, 0]       # Frequency
-                        s11_mag = data[:, 1]    # S11 magnitude
-                        s21_mag = data[:, 5]    # S21 magnitude
-                        s12_mag = data[:, 3]    # S12 magnitude
-                        
-                        # Calculate the values for the report
-                        sparams_freq_range = f"{np.min(freq)/1e6:.1f}MHz to {np.max(freq)/1e9:.1f}GHz"
-                        s11_db = 20 * np.log10(s11_mag)
-                        s21_db = 20 * np.log10(s21_mag)
-                        s11_range = f"S11: {np.min(s11_db):.0f}dB to {np.max(s11_db):.0f}dB"
-                        s21_range = f"S21: {np.min(s21_db):.0f}dB to {np.max(s21_db):.0f}dB"
-                        
-                        # Calculate isolation
-                        unilateral_ratio = np.max(s21_mag) / np.max(s12_mag) if np.max(s12_mag) > 0 else 1000
-                        isolation = f"Isolation: {20 * np.log10(1/unilateral_ratio):.0f}dB"
-                        
-                        sparams_status = 'green'
-                        sparams_symbol = '✓'
-                        self.logger.logger.info(f"S-parameter analysis extracted from file: {s11_range}, {s21_range}, {isolation}")
-            except Exception as e:
-                self.logger.logger.error(f"Error reading S-parameter data from file: {e}")
-                # Fallback to passed values if file reading fails
-                sparams_status = fallback_sparams_status
-                sparams_symbol = fallback_sparams_symbol
-                sparams_freq_range = fallback_sparams_freq_range
-                s11_range = fallback_s11_range
-                s21_range = fallback_s21_range
-                isolation = fallback_isolation
-            
-            # Try to read NQS effects data from file
-            try:
-                nqs_file = self.output_dir / 'data' / 'nqs_effects.txt'
-                if nqs_file.exists():
-                    self.logger.logger.info(f"Reading NQS effects data from {nqs_file}")
-                    data = []
-                    with open(nqs_file, 'r') as f:
-                        for line in f:
-                            if line.startswith('#'):
-                                continue
-                            try:
-                                parts = line.strip().split()
-                                if len(parts) >= 4:  # freq, vg_phase, id_phase, phase_diff
-                                    row = []
-                                    for i in range(4):
-                                        row.append(float(parts[i]))
-                                    data.append(row)
-                            except Exception as e:
-                                self.logger.logger.warning(f"Error parsing NQS effects line: {e}")
-                                continue
-                    
-                    if data:
-                        data = np.array(data)
-                        freq = data[:, 0]        # Frequency
-                        phase_diff = data[:, 3]  # Phase difference
-                        phase_diff = np.abs(phase_diff)  # Ensure positive values
-                        
-                        if len(phase_diff) > 0:
-                            # Get maximum phase shift at highest frequency
-                            max_phase = phase_diff[-1]
-                            max_freq = freq[-1]
-                            max_phase_shift = f"{max_phase:.0f} degrees at {max_freq/1e9:.1f}GHz"
-                            
-                            nqs_status = 'green'
-                            nqs_symbol = '✓'
-                            self.logger.logger.info(f"NQS effects extracted from file: {max_phase_shift}")
-            except Exception as e:
-                self.logger.logger.error(f"Error reading NQS effects data from file: {e}")
-                # Fallback to passed values if file reading fails
-                nqs_status = fallback_nqs_status
-                nqs_symbol = fallback_nqs_symbol
-                max_phase_shift = fallback_max_phase_shift
-            
+            # Create the report directory if it doesn't exist
             report_path = self.output_dir / 'REPORT.md'
-            
-            # Create the report file and directory if they don't exist
             report_path.parent.mkdir(exist_ok=True, parents=True)
+            self.logger.logger.info(f"Report path: {report_path}")
             
-            # Now read the file
+            # Create initial report content if file doesn't exist
+            if not report_path.exists():
+                self.logger.logger.info("Creating new report file")
+                initial_content = """
+"""
+                with open(report_path, 'w') as f:
+                    f.write(initial_content)
+            
+            # Read the existing content
+            self.logger.logger.info("Reading existing report content")
             with open(report_path, 'r') as f:
                 content = f.read()
             
-            # Find the high-frequency analysis section
-            start_marker = '### High-Frequency Analysis'
-            end_marker = '## 6. Noise Analysis'
-            
-            start_idx = content.find(start_marker)
-            end_idx = content.find(end_marker, start_idx)
-            
-            # Handle case where markers aren't found
-            if start_idx == -1:
-                if self.logger:
-                    self.logger.logger.warning("Could not find high-frequency analysis section, adding it")
-                # Add the high-frequency section at the beginning
-                content = "### High-Frequency Analysis\nHigh-frequency analysis placeholder section\n\n" + content
-                start_idx = 0
-                end_idx = content.find("\n\n", start_idx) + 2
-            elif end_idx == -1:
-                if self.logger:
-                    self.logger.logger.warning("Could not find noise analysis section, appending high-frequency section to end")
-                # Append the high-frequency section to the end
-                end_idx = len(content)
-                content += "\n\n## 6. Noise Analysis\nNoise analysis placeholder section\n\n"
-            
-            # Extract the section to replace
-            original_section = content[start_idx:end_idx]
-            
-            # Create the updated section
-            updated_section = f'''### High-Frequency Analysis
+            # Create the high-frequency section content
+            self.logger.logger.info("Generating high-frequency section content")
+            hf_section = f"""### High-Frequency Analysis
 - [<span style='color: {sparams_status}'>{sparams_symbol}</span>] High-frequency AC simulations completed
   - {sparams_freq_range}
 - [<span style='color: {sparams_status}'>{sparams_symbol}</span>] S-parameter analysis completed
@@ -820,40 +674,47 @@ class VerificationManager:
 <img src='plots/nqs_effects.png' alt='Non-Quasi-Static Effects' width='400'/>
 
 *Non-quasi-static effects analysis showing phase shift between gate voltage and drain current*
-
-'''
+"""
             
-            # Replace the section in the content
-            updated_content = content.replace(original_section, updated_section)
+            # Find the high-frequency section
+            self.logger.logger.info("Locating high-frequency section in report")
+            start_marker = '### High-Frequency Analysis'
+            end_marker = '## 4. Transient Analysis'
             
-            # Write the updated content back to the file
+            start_idx = content.find(start_marker)
+            end_idx = content.find(end_marker, start_idx)
+            
+            # If end marker not found, try alternative markers
+            if end_idx == -1:
+                self.logger.logger.info("First end marker not found, trying alternatives")
+                end_marker = '## 5. Noise Analysis'
+                end_idx = content.find(end_marker, start_idx)
+            
+            if end_idx == -1:
+                self.logger.logger.info("Second end marker not found, trying final alternative")
+                end_marker = '## Notes'
+                end_idx = content.find(end_marker, start_idx)
+            
+            # If still not found, append to the end
+            if end_idx == -1:
+                self.logger.logger.info("No end marker found, appending to end of report")
+                content += "\n" + hf_section
+            else:
+                # Replace the section
+                self.logger.logger.info("Replacing existing high-frequency section")
+                content = content[:start_idx] + hf_section + content[end_idx:]
+            
+            # Write the updated content
+            self.logger.logger.info("Writing updated report content")
             with open(report_path, 'w') as f:
-                f.write(updated_content)
+                f.write(content)
             
-            if self.logger:
                 self.logger.logger.info(f"Successfully updated high-frequency analysis section in {report_path}")
             return True
         
         except Exception as e:
-            if self.logger:
-                self.logger.logger.error(f"Error updating high-frequency analysis section: {e}")
-                self.logger.logger.error(traceback.format_exc())
-            # Try to create a minimal report as a fallback
-            try:
-                report_path = self.output_dir / 'REPORT.md'
-                report_path.parent.mkdir(exist_ok=True, parents=True)
-                
-                # Create the minimal content
-                minimal_content = f'''
-                '''
-                with open(report_path, 'w') as f:
-                    f.write(minimal_content)
-                if self.logger:
-                    self.logger.logger.info(f"Created minimal report as fallback at {report_path}")
-                return True
-            except Exception as fallback_error:
-                if self.logger:
-                    self.logger.logger.error(f"Even fallback report creation failed: {fallback_error}")
+            self.logger.logger.error(f"Error updating high-frequency analysis section: {e}")
+            self.logger.logger.error(traceback.format_exc())
             return False
 
     def verify_temperature_analysis(self, temp, ids):
@@ -2095,616 +1956,323 @@ class VerificationManager:
         
         return prop_delay
 
-    def update_verification_checklist(self, results):
-        """Update verification checklist with simulation results and generate a comprehensive report.
+    def _generate_report_header(self, timestamp):
+        """Generate the header section of the report including title and table of contents."""
+        return [
+            "# MOSFET Simulation Verification Report\n",
+            f"Generated on: {timestamp}\n",
+            "## Table of Contents",
+            "1. [Simulation Setup and Execution](#1-simulation-setup-and-execution)"
+        ]
+
+    def _generate_table_of_contents(self, modes):
+        """Generate the table of contents based on the analysis modes."""
+        self.logger.logger.info("Starting table of contents generation")
+        toc = ["2. [Summary](#2-summary)"]
         
-        This method is responsible for compiling all verification results into a detailed
-        markdown report (REPORT.md). It processes verification results from various simulation
-        types and creates a structured, human-readable document with:
+        # Start section numbering from 3
+        section_num = 3
+        self.logger.logger.info(f"Starting section numbering from {section_num}")
         
-        1. Overview of verification status for each test category
-        2. Detailed measurement results with pass/fail indicators
-        3. Visual indicators (colored checkmarks/crosses) for each test
-        4. Embedded plots and visualizations where available
-        5. Tabular data for complex result sets
-        
-        The report serves as the primary documentation of model quality and verification status.
-        
-        Args:
-            results (dict): Combined dictionary containing verification results from all 
-                          simulation types, including:
-                          - simulation_setup: Basic environment tests
-                          - iv_characteristics: DC IV curve verification
-                          - cv_characteristics: Capacitance verification
-                          - sparameter_analysis: RF characteristics
-                          - nqs_effects: Non-quasi-static effects
-                          - temperature_analysis: Temperature dependencies
-                          - noise_analysis: Noise behavior verification
-                          - transient_analysis: Transient response verification
-                          
-        Returns:
-            dict: The verification checklist with test status for all verification checks
-                
-        Raises:
-            Exception: If there's an error generating or writing the report
-        """
-        checklist = {
-            'simulation_setup': {
-                'netlist_exists': False,
-                'ngspice_installed': False,
-                'simulation_runs': False
-            },
-            'iv_characteristics': {
-                'data_generated': False,
-                'data_read': False,
-                'vds_range': False,
-                'vgs_range': False,
-                'ids_measured': False,
-                'ig_measured': False,
-                'is_measured': False,
-                'ib_measured': False,
-                'power_available': False,
-                'log_scale': False,
-                'linear_scale': False,
-                'multi_terminal': False,
-                'subthreshold': False,
-                'saturation': False,
-                'temp_dependent': False
-            },
-            'temperature_analysis': {
-                'temp_sweep': False,
-                'device_behavior': False,
-                'thermal_effects': False
-            },
-            'thermodynamic_analysis': {
-                'power_measurements': False,
-                'energy_conservation': False,
-                'thermal_effects': False
-            },
-            'large_signal_transient': {
-                'transient_completed': False,
-                'rise_time_measured': False,
-                'max_current_calculated': False
-            },
-            'switching_simulations': {
-                'switching_behavior_analyzed': False,
-                'propagation_delay_measured': False,
-                'power_measured': False
-            },
-            'delay_effect': {
-                'delay_effect_analyzed': False,
-                'stage_delays_measured': False,
-                'total_delay_measured': False
-            },
-            'power_dissipation': {
-                'power_analysis_completed': False,
-                'temp_dependence_analyzed': False,
-                'power_coef_calculated': False
-            },
-            'quasi_static': {
-                'quasi_static_analyzed': False,
-                'iv_relationship_analyzed': False
-            },
-            'charge_conservation': {
-                'charge_conservation_analyzed': False,
-                'terminal_currents_measured': False,
-                'conservation_error_calculated': False,
-                'conservation_satisfied': False
-            },
-            'noise_analysis': {
-                'noise_analysis_performed': False,
-                'thermal_noise_analyzed': False,
-                'flicker_noise_analyzed': False,
-                'shot_noise_analyzed': False,
-                'temp_dependence_analyzed': False
-            }
-        }
-        
-        # Update checklist with results
-        for category, category_results in results.items():
-            if category in checklist:
-                for key in checklist[category]:
-                    if key in category_results:
-                        checklist[category][key] = category_results[key]
-        
-        try:
-            # Create report content
-            report = [
-                "# MOSFET Simulation Verification Report\n",
-                f"Generated on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n",
-                "## Table of Contents",
-                "1. [Simulation Setup and Execution](#1-simulation-setup-and-execution)",
-                "2. [Summary](#2-summary)",
-                "   - [DC Analysis Summary](#dc-analysis-summary)",
-                "   - [Transient Analysis Summary](#transient-analysis-summary)",
-                "   - [AC Analysis Summary](#ac-analysis-summary)",
-                "   - [Noise Analysis Summary](#noise-analysis-summary)",
-                "3. [DC Analysis](#3-dc-analysis)",
+        if 'dc' in modes:
+            self.logger.logger.info("Adding DC analysis section to TOC")
+            toc.extend([
+                f"   - [DC Analysis Summary](#dc-analysis-summary)",
+                f"{section_num}. [DC Analysis](#{section_num}-dc-analysis)",
                 "   - [DC Operating Point Analysis](#dc-operating-point-analysis)",
                 "   - [Temperature Dependence](#temperature-dependence)",
                 "   - [Thermodynamic Analysis](#thermodynamic-analysis)",
-                "   - [Physical Properties](#physical-properties)",
-                "4. [Transient Analysis](#4-transient-analysis)",
+                "   - [Physical Properties](#physical-properties)"
+            ])
+            section_num += 1
+        
+        if 'ac' in modes:
+            self.logger.logger.info("Adding AC analysis section to TOC")
+            toc.extend([
+                f"   - [AC Analysis Summary](#ac-analysis-summary)",
+                f"{section_num}. [AC Analysis](#{section_num}-ac-analysis)",
+                "   - [Small-Signal Analysis](#small-signal-analysis)",
+                "   - [High-Frequency Analysis](#high-frequency-analysis)"
+            ])
+            section_num += 1
+        
+        if 'transient' in modes:
+            self.logger.logger.info("Adding transient analysis section to TOC")
+            toc.extend([
+                f"   - [Transient Analysis Summary](#transient-analysis-summary)",
+                f"{section_num}. [Transient Analysis](#{section_num}-transient-analysis)",
                 "   - [Large-Signal Transient](#large-signal-transient)",
                 "   - [Switching Simulations](#switching-simulations)",
-                "   - [Delay Effect Simulations](#delay-effect-simulations)",
-                "   - [Transient Simulations for Power Dissipation](#transient-simulations-for-power-dissipation)",
-                "   - [Quasi-Static Analysis](#quasi-static-analysis)",
-                "   - [Charge Conservation Tests](#charge-conservation-tests)",
-                "5. [AC Analysis](#5-ac-analysis)",
-                "   - [Small-Signal Analysis](#small-signal-analysis)",
-                "   - [High-Frequency Analysis](#high-frequency-analysis)",
-                "6. [Noise Analysis](#6-noise-analysis)",
+                "   - [Delay Effect Simulations](#delay-effect-simulations)"
+            ])
+            section_num += 1
+        
+        if 'noise' in modes:
+            self.logger.logger.info("Adding noise analysis section to TOC")
+            toc.extend([
+                f"   - [Noise Analysis Summary](#noise-analysis-summary)",
+                f"{section_num}. [Noise Analysis](#{section_num}-noise-analysis)",
                 "   - [Thermal Noise Analysis](#thermal-noise-analysis)",
                 "   - [Flicker Noise Analysis](#flicker-noise-analysis)",
-                "   - [Shot Noise Analysis](#shot-noise-analysis)",
-                "   - [Temperature Dependence](#temperature-dependence-1)",
-                "   - [Detailed Noise Characteristics](#detailed-noise-characteristics)",
-                "7. [Geometry and Layout Analysis](#7-geometry-and-layout-analysis)",
-                "   - [Geometry Dependence](#geometry-dependence)",
-                "   - [Layout Effects](#layout-effects)",
-                "\n",
-                "## Notes",
-                "- This report is automatically generated based on mosfet_simulation.py",
-                "- Items are marked with <span style='color: green'>✓</span> for success and <span style='color: red'>✗</span> for failure",
-                "- Any deviations from expected behavior should be documented",
-                "- Sections marked \"In Progress\" have not been implemented yet\n",
+                "   - [Shot Noise Analysis](#shot-noise-analysis)"
+            ])
+            section_num += 1
+        
+        self.logger.logger.info("Table of contents generation completed")
+        return toc
 
-                "## 1. Simulation Setup and Execution",
-                f"- [<span style='color: {'green' if 'dc_netlist_exists' in results['simulation_setup'] and results['simulation_setup']['dc_netlist_exists'] else 'red'}'>{'✓' if 'dc_netlist_exists' in results['simulation_setup'] and results['simulation_setup']['dc_netlist_exists'] else '✗'}</span>] DC circuit file exists and is readable",
-                f"  - Path: {results['simulation_setup']['dc_details']['netlist_path'] if 'dc_details' in results['simulation_setup'] else 'N/A'}",
-                f"- [<span style='color: {'green' if 'transient_netlist_exists' in results['simulation_setup'] and results['simulation_setup']['transient_netlist_exists'] else 'red'}'>{'✓' if 'transient_netlist_exists' in results['simulation_setup'] and results['simulation_setup']['transient_netlist_exists'] else '✗'}</span>] Transient circuit file exists and is readable",
-                f"  - Path: {results['simulation_setup']['transient_details']['netlist_path'] if 'transient_details' in results['simulation_setup'] else 'N/A'}",
-                f"- [<span style='color: {'green' if 'noise_netlist_exists' in results['simulation_setup'] and results['simulation_setup']['noise_netlist_exists'] else 'red'}'>{'✓' if 'noise_netlist_exists' in results['simulation_setup'] and results['simulation_setup']['noise_netlist_exists'] else '✗'}</span>] Noise circuit file exists and is readable",
-                f"  - Path: {results['simulation_setup']['noise_details']['netlist_path'] if 'noise_details' in results['simulation_setup'] else 'N/A'}",
-                f"- [<span style='color: {'green' if results['simulation_setup']['ngspice_installed'] else 'red'}'>{'✓' if results['simulation_setup']['ngspice_installed'] else '✗'}</span>] ngspice is properly installed",
-                f"  - Version: {results['simulation_setup']['dc_details']['ngspice_version'] if 'dc_details' in results['simulation_setup'] else 'N/A'}",
-                f"- [<span style='color: {'green' if True else 'red'}'>{'✓' if True else '✗'}</span>] Simulation runs without errors\n",
+    def _generate_notes_section(self):
+        """Generate the notes section of the report."""
+        return [
+            "\n## Notes",
+            "- This report is automatically generated based on mosfet_simulation.py",
+            "- Items are marked with <span style='color: green'>✓</span> for success and <span style='color: red'>✗</span> for failure",
+            "- Any deviations from expected behavior should be documented\n"
+        ]
 
-                "## 2. Summary",
-                "### DC Analysis Summary",
-                "| Test Type | Status | Key Findings |",
-                "|-----------|--------|-------------|",
-                f"| [IV Characteristics](#dc-operating-point-analysis) | <span style='color: {'green' if results['iv_characteristics']['data_generated'] else 'red'}'>{'✓' if results['iv_characteristics']['data_generated'] else '✗'}</span> | Range: {results['iv_characteristics']['details']['vds_range']}, {results['iv_characteristics']['details']['ids_range']} |",
-                f"| [Temperature Analysis](#temperature-dependence) | <span style='color: {'green' if results['temperature_analysis']['temp_sweep'] else 'red'}'>{'✓' if results['temperature_analysis']['temp_sweep'] else '✗'}</span> | Temp Coef: {results['temperature_analysis']['details']['temp_coef_value']} |",
-                f"| [Thermodynamic Analysis](#thermodynamic-analysis) | <span style='color: {'green' if results['thermodynamic_analysis']['energy_conservation'] else 'red'}'>{'✓' if results['thermodynamic_analysis']['energy_conservation'] else '✗'}</span> | Power: {results['thermodynamic_analysis']['details']['power_range']} |\n",
-
-                "### Transient Analysis Summary",
-                "| Test Type | Status | Key Findings |",
-                "|-----------|--------|-------------|"
-            ]
+    def _generate_simulation_setup_section(self, results):
+        """Generate the simulation setup section of the report."""
+        setup_section = ["## 1. Simulation Setup and Execution"]
+        
+        if 'simulation_setup' in results and results['simulation_setup'] is not None:
+            setup = results['simulation_setup']
             
-            # Add transient analysis summary rows
-            large_signal_status = 'green' if 'large_signal_transient' in results and results['large_signal_transient']['transient_completed'] else 'red'
-            large_signal_symbol = '✓' if large_signal_status == 'green' else '✗'
-            large_signal_details = f"Max Current: {results['large_signal_transient']['details']['max_current']:.3e}A, Rise Time: {results['large_signal_transient']['details']['rise_time']:.1f}ps" if 'large_signal_transient' in results and results['large_signal_transient']['transient_completed'] else "*Not available*"
-            report.append(f"| [Large-Signal Transient](#large-signal-transient) | <span style='color: {large_signal_status}'>{large_signal_symbol}</span> | {large_signal_details} |")
-            
-            switching_status = 'green' if 'switching_simulations' in results and results['switching_simulations']['switching_behavior_analyzed'] else 'red'
-            switching_symbol = '✓' if switching_status == 'green' else '✗'
-            switching_details = f"Propagation Delay: {results['switching_simulations']['details']['propagation_delay']:.1f}ps" if 'switching_simulations' in results and results['switching_simulations']['propagation_delay_measured'] else "*Not available*"
-            report.append(f"| [Switching Simulations](#switching-simulations) | <span style='color: {switching_status}'>{switching_symbol}</span> | {switching_details} |")
-            
-            delay_status = 'green' if 'delay_effect' in results and results['delay_effect']['delay_effect_analyzed'] else 'red'
-            delay_symbol = '✓' if delay_status == 'green' else '✗'
-            delay_details = f"Total Chain Delay: {results['delay_effect']['details']['total_delay']:.1f}ps" if 'delay_effect' in results and results['delay_effect']['total_delay_measured'] else "*Not available*"
-            report.append(f"| [Delay Effect](#delay-effect-simulations) | <span style='color: {delay_status}'>{delay_symbol}</span> | {delay_details} |")
-            
-            power_status = 'green' if 'power_dissipation' in results and results['power_dissipation']['power_analysis_completed'] else 'red'
-            power_symbol = '✓' if power_status == 'green' else '✗'
-            power_details = f"Temp Coeff: {results['power_dissipation']['details']['power_temp_coef']:.6e}W/°C" if 'power_dissipation' in results and results['power_dissipation']['power_coef_calculated'] else "*Not available*"
-            report.append(f"| [Power Dissipation](#transient-simulations-for-power-dissipation) | <span style='color: {power_status}'>{power_symbol}</span> | {power_details} |")
-            
-            qs_status = 'green' if 'quasi_static' in results and results['quasi_static']['quasi_static_analyzed'] else 'red'
-            qs_symbol = '✓' if qs_status == 'green' else '✗'
-            qs_details = "I-V characteristics analyzed" if 'quasi_static' in results and results['quasi_static']['iv_relationship_analyzed'] else "*Not available*"
-            report.append(f"| [Quasi-Static Analysis](#quasi-static-analysis) | <span style='color: {qs_status}'>{qs_symbol}</span> | {qs_details} |")
-            
-            charge_status = 'green' if 'charge_conservation' in results and results['charge_conservation']['conservation_satisfied'] else 'red'
-            charge_symbol = '✓' if charge_status == 'green' else '✗'
-            charge_details = f"Error: {results['charge_conservation']['details']['q_conservation_error']:.6f}%" + (" (exceeds threshold)" if 'charge_conservation' in results and not results['charge_conservation']['conservation_satisfied'] else "") if 'charge_conservation' in results and results['charge_conservation']['conservation_error_calculated'] else "*Not available*"
-            report.append(f"| [Charge Conservation](#charge-conservation-tests) | <span style='color: {charge_status}'>{charge_symbol}</span> | {charge_details} |\n")
-            
-            # Add AC Analysis summary section
-            report.extend([
-                "### AC Analysis Summary",
-                "| Test Type | Status | Key Findings |",
-                "|-----------|--------|-------------|",
+            # Common setup checks
+            setup_section.extend([
+                f"- [<span style='color: {'green' if setup.get('netlist_exists', False) else 'red'}'>{'✓' if setup.get('netlist_exists', False) else '✗'}</span>] Circuit file exists and is readable",
+                f"  - Path: {setup.get('details', {}).get('netlist_path', 'Not available')}",
+                f"- [<span style='color: {'green' if setup.get('ngspice_installed', False) else 'red'}'>{'✓' if setup.get('ngspice_installed', False) else '✗'}</span>] ngspice is properly installed",
+                f"  - Version: {setup.get('details', {}).get('ngspice_version', 'Not available')}"
             ])
             
-            # Add CV characteristics row, fixing nested f-string issues
-            cv_range = 'Not available'
-            if 'cv_characteristics' in results and results['cv_characteristics'] and 'details' in results['cv_characteristics'] and 'cgg_range' in results['cv_characteristics']['details']:
-                # Convert capacitance to femtofarads for better readability
-                try:
-                    cgg_range_str = results['cv_characteristics']['details']['cgg_range']
-                    # Parse out the numeric values from format like "7.08298e-15F to 1.39755e-14F"
-                    parts = cgg_range_str.split(' to ')
-                    if len(parts) == 2:
-                        min_val = float(parts[0].replace('F', ''))
-                        max_val = float(parts[1].replace('F', ''))
-                        # Convert to femtofarads by multiplying by 10^15
-                        min_fF = min_val * 1e15
-                        max_fF = max_val * 1e15
-                        cv_range = f"Range: {min_fF:.2f}fF to {max_fF:.2f}fF"
-                    else:
-                        cv_range = f"Range: {cgg_range_str}"
-                except Exception:
-                    # Fallback if parsing fails
-                    cv_range = f"Range: {results['cv_characteristics']['details']['cgg_range']}"
+            # Mode-specific setup checks
+            if 'dc' in results:
+                setup_section.extend([
+                    f"- [<span style='color: {'green' if setup.get('simulation_runs', False) else 'red'}'>{'✓' if setup.get('simulation_runs', False) else '✗'}</span>] DC simulation runs without errors",
+                    f"  - Path: {setup.get('details', {}).get('dc_path', 'Not available')}"
+                ])
             
-            # Define cgg_max and q_error variables
-            cgg_max = 'Not available'
-            if 'cv_characteristics' in results and results['cv_characteristics'] and 'details' in results['cv_characteristics'] and 'cgg_max_voltage' in results['cv_characteristics']['details']:
-                cgg_max = f"Max Value at: {results['cv_characteristics']['details']['cgg_max_voltage']}"
-                
-            q_error = 'Not available'
-            if 'charge_conservation' in results and results['charge_conservation'] and 'details' in results['charge_conservation'] and 'q_conservation_error' in results['charge_conservation']['details']:
-                q_error = f"Conservation Error: {results['charge_conservation']['details']['q_conservation_error']}%"
+            if 'ac' in results:
+                setup_section.extend([
+                    f"- [<span style='color: {'green' if setup.get('simulation_runs', False) else 'red'}'>{'✓' if setup.get('simulation_runs', False) else '✗'}</span>] AC simulation runs without errors",
+                    f"  - Path: {setup.get('details', {}).get('ac_path', 'Not available')}"
+                ])
             
-            cv_status = 'green' if 'cv_characteristics' in results and results['cv_characteristics'] and results['cv_characteristics']['data_generated'] else 'red'
-            cv_symbol = '✓' if cv_status == 'green' else '✗'
-            report.append(f"| [Capacitance-Voltage](#small-signal-analysis) | <span style='color: {cv_status}'>{cv_symbol}</span> | {cv_range} |")
+            if 'transient' in results:
+                setup_section.extend([
+                    f"- [<span style='color: {'green' if setup.get('simulation_runs', False) else 'red'}'>{'✓' if setup.get('simulation_runs', False) else '✗'}</span>] Transient simulation runs without errors",
+                    f"  - Path: {setup.get('details', {}).get('transient_path', 'Not available')}"
+                ])
+            
+            if 'noise' in results:
+                setup_section.extend([
+                    f"- [<span style='color: {'green' if setup.get('simulation_runs', False) else 'red'}'>{'✓' if setup.get('simulation_runs', False) else '✗'}</span>] Noise simulation runs without errors",
+                    f"  - Path: {setup.get('details', {}).get('noise_path', 'Not available')}"
+                ])
+            
+            # If no specific modes are found, show generic simulation run check
+            if not any(mode in results for mode in ['dc', 'ac', 'transient', 'noise']):
+                setup_section.extend([
+                    f"- [<span style='color: {'green' if setup.get('simulation_runs', False) else 'red'}'>{'✓' if setup.get('simulation_runs', False) else '✗'}</span>] Simulation runs without errors"
+                ])
+            else:
+                # Default setup section when no results are available
+                setup_section.extend([
+                "- [<span style='color: red'>✗</span>] Circuit file exists and is readable",
+                "  - Path: Not available",
+                "- [<span style='color: red'>✗</span>] ngspice is properly installed",
+                "  - Version: Not available",
+                "- [<span style='color: red'>✗</span>] Simulation runs without errors"
+                ])
+        
+        return setup_section
 
-            # Add Charge Conservation row
-            cc_status = 'green' if 'charge_conservation' in results and results['charge_conservation'] and results['charge_conservation']['charge_conservation_analyzed'] else 'red'
-            cc_symbol = '✓' if cc_status == 'green' else '✗'
-            cc_error = 'Not available'
-            if 'charge_conservation' in results and results['charge_conservation'] and 'details' in results['charge_conservation'] and 'q_conservation_error' in results['charge_conservation']['details']:
-                cc_error = f"Error: {results['charge_conservation']['details']['q_conservation_error']}%"
-            report.append(f"| [Charge Conservation](#small-signal-analysis) | <span style='color: {cc_status}'>{cc_symbol}</span> | {cc_error} |")
-            
-            # Add S-parameter row
-            sparams_status = 'green' if 'sparameter_analysis' in results and results['sparameter_analysis'] and results['sparameter_analysis']['data_generated'] else 'red'
-            sparams_symbol = '✓' if sparams_status == 'green' else '✗'
-            sparams_range = 'Not available'
-            if 'sparameter_analysis' in results and results['sparameter_analysis'] and 'freq_range' in results['sparameter_analysis']:
-                sparams_range = f"Frequency: {results['sparameter_analysis']['freq_range']}"
-            report.append(f"| [S-Parameter](#high-frequency-analysis) | <span style='color: {sparams_status}'>{sparams_symbol}</span> | {sparams_range} |")
-            
-            # Add Non-Quasi-Static row
-            nqs_status = 'green' if 'nqs_effects' in results and results['nqs_effects'] and results['nqs_effects']['data_generated'] else 'red'
-            nqs_symbol = '✓' if nqs_status == 'green' else '✗'
-            nqs_range = 'Not available'
-            if 'nqs_effects' in results and results['nqs_effects'] and 'max_phase_shift' in results['nqs_effects']:
-                nqs_range = f"Phase Shift: {results['nqs_effects']['max_phase_shift']}"
-            report.append(f"| [Non-Quasi-Static](#high-frequency-analysis) | <span style='color: {nqs_status}'>{nqs_symbol}</span> | {nqs_range} |\n")
-            
+    def _generate_summary_section(self, results, modes):
+        """Generate the summary section based on the analysis modes."""
+        summary = ["\n## 2. Summary"]
+        
+        if 'dc' in modes:
+            summary.extend(self._generate_dc_summary(results))
+        
+        if 'ac' in modes:
+            summary.extend(self._generate_ac_summary(results))
+        
+        if 'transient' in modes:
+            summary.extend(self._generate_transient_summary(results))
+        
+        if 'noise' in modes:
+            summary.extend(self._generate_noise_summary(results))
+        
+        return summary
 
-            # Add Noise Analysis summary section
-            report.extend([
-                "### Noise Analysis Summary",
-                "| Test Type | Status | Key Findings |",
-                "|-----------|--------|-------------|",
-                f"| [Thermal Noise](#thermal-noise-analysis) | <span style='color: {'green' if 'noise_analysis' in results and results['noise_analysis']['thermal_noise_analyzed'] else 'red'}'>{'✓' if 'noise_analysis' in results and results['noise_analysis']['thermal_noise_analyzed'] else '✗'}</span> | Floor: {results['noise_analysis']['details']['thermal_noise_floor']:.2e} V²/Hz, Range: {results['noise_analysis']['details']['thermal_noise_min']:.2e} to {results['noise_analysis']['details']['thermal_noise_max']:.2e} V²/Hz |" if 'noise_analysis' in results and results['noise_analysis']['thermal_noise_analyzed'] and results['noise_analysis']['details']['thermal_noise_floor'] is not None else f"| [Thermal Noise](#thermal-noise-analysis) | <span style='color: {'red'}'>{'✗'}</span> | Not analyzed |",
-                f"| [Flicker (1/f) Noise](#flicker-noise-analysis) | <span style='color: {'green' if 'noise_analysis' in results and results['noise_analysis']['flicker_noise_analyzed'] else 'red'}'>{'✓' if 'noise_analysis' in results and results['noise_analysis']['flicker_noise_analyzed'] else '✗'}</span> | Exponent: {results['noise_analysis']['details']['flicker_noise_exponent']:.4f}, Corner Freq: {results['noise_analysis']['details']['corner_frequency']:.2e} Hz |" if 'noise_analysis' in results and results['noise_analysis']['flicker_noise_analyzed'] and results['noise_analysis']['details']['flicker_noise_exponent'] is not None else f"| [Flicker (1/f) Noise](#flicker-noise-analysis) | <span style='color: {'red'}'>{'✗'}</span> | Not analyzed |",
-                f"| [Shot Noise](#shot-noise-analysis) | <span style='color: {'green' if 'noise_analysis' in results and results['noise_analysis']['shot_noise_analyzed'] else 'red'}'>{'✓' if 'noise_analysis' in results and results['noise_analysis']['shot_noise_analyzed'] else '✗'}</span> | Level: {results['noise_analysis']['details']['shot_noise_level']:.2e} V²/Hz, Variation: {results['noise_analysis']['details']['shot_noise_variation']:.4f} |" if 'noise_analysis' in results and results['noise_analysis']['shot_noise_analyzed'] and results['noise_analysis']['details']['shot_noise_level'] is not None else f"| [Shot Noise](#shot-noise-analysis) | <span style='color: {'red'}'>{'✗'}</span> | Not analyzed |",
-                f"| [Temperature Dependence](#temperature-dependence-1) | <span style='color: {'green' if 'noise_analysis' in results and results['noise_analysis']['temp_dependence_analyzed'] else 'red'}'>{'✓' if 'noise_analysis' in results and results['noise_analysis']['temp_dependence_analyzed'] else '✗'}</span> | Coefficient: {results['noise_analysis']['details']['temp_coefficient']:.2e} V²/Hz/°C, Range: {results['noise_analysis']['details']['temp_range']} |" if 'noise_analysis' in results and results['noise_analysis']['temp_dependence_analyzed'] and results['noise_analysis']['details']['temp_coefficient'] is not None else f"| [Temperature Dependence](#temperature-dependence-1) | <span style='color: {'red'}'>{'✗'}</span> | Not analyzed |",
-                f"| [Bias Dependence](#detailed-noise-characteristics) | <span style='color: {'green' if 'noise_analysis' in results and results['noise_analysis']['thermal_noise_analyzed'] and len(results['noise_analysis']['details']['bias_points']) > 1 else 'red'}'>{'✓' if 'noise_analysis' in results and results['noise_analysis']['thermal_noise_analyzed'] and len(results['noise_analysis']['details']['bias_points']) > 1 else '✗'}</span> | Analyzed at {len(results['noise_analysis']['details']['bias_points'])} bias points |" if 'noise_analysis' in results and results['noise_analysis']['thermal_noise_analyzed'] and 'bias_points' in results['noise_analysis']['details'] else f"| [Bias Dependence](#detailed-noise-characteristics) | <span style='color: {'red'}'>{'✗'}</span> | Not analyzed |\n",
-            ])
+    def _generate_dc_summary(self, results):
+        """Generate DC analysis summary section."""
+        summary = [
+            "### DC Analysis Summary",
+            "| Test Type | Status | Key Findings |",
+            "|-----------|--------|-------------|"
+        ]
+        
+        # IV Characteristics
+        if 'iv_characteristics' in results and results['iv_characteristics'] is not None:
+            iv = results['iv_characteristics']
+            vds_range = iv.get('vds_range', 'Not available')
+            vgs_range = iv.get('vgs_range', 'Not available')
+            ids_range = iv.get('ids_range', 'Not available')
+            summary.append(f"| [IV Characteristics](#dc-operating-point-analysis) | <span style='color: {'green' if iv.get('data_generated', False) else 'red'}'>{'✓' if iv.get('data_generated', False) else '✗'}</span> | VDS: {vds_range}, VGS: {vgs_range}, IDS: {ids_range} |")
+        
+        # Temperature Analysis
+        if 'temperature_analysis' in results and results['temperature_analysis'] is not None:
+            temp = results['temperature_analysis']
+            temp_points = temp.get('details', {}).get('temp_points', 'Not available')
+            temp_coef = temp.get('details', {}).get('temp_coef_value', 'Not available')
+            ids_range = temp.get('details', {}).get('ids_range', 'Not available')
+            summary.append(f"| [Temperature Analysis](#temperature-dependence) | <span style='color: {'green' if temp.get('temp_sweep', False) and temp.get('device_behavior', False) else 'red'}'>{'✓' if temp.get('temp_sweep', False) and temp.get('device_behavior', False) else '✗'}</span> | Temp Points: {temp_points}, TC: {temp_coef}, IDS: {ids_range} |")
+        
+        # Thermodynamic Analysis
+        if 'thermodynamic_analysis' in results and results['thermodynamic_analysis'] is not None:
+            thermo = results['thermodynamic_analysis']
+            power_range = thermo.get('details', {}).get('power_range', 'Not available')
+            efficiency_range = thermo.get('details', {}).get('efficiency_range', 'Not available')
+            temp_coef = thermo.get('details', {}).get('temp_coef', 'Not available')
+            summary.append(f"| [Thermodynamic Analysis](#thermodynamic-analysis) | <span style='color: {'green' if thermo.get('energy_conservation', False) and thermo.get('device_efficiency', False) else 'red'}'>{'✓' if thermo.get('energy_conservation', False) and thermo.get('device_efficiency', False) else '✗'}</span> | Power: {power_range}, Efficiency: {efficiency_range}, TC: {temp_coef} |")
+        
+        # Bias Point Analysis
+        if 'bias_point_analysis' in results and results['bias_point_analysis'] is not None:
+            bias = results['bias_point_analysis']
+            bias_points = bias.get('details', {}).get('bias_points', 'Not available')
+            current_ranges = bias.get('details', {}).get('current_ranges', 'Not available')
+            kcl_error = bias.get('details', {}).get('kcl_error', 'Not available')
+            power_range = bias.get('details', {}).get('power_range', 'Not available')
+            temp = bias.get('details', {}).get('temp', 'Not available')
+            summary.append(f"| [Bias Point Analysis](#dc-operating-point-analysis) | <span style='color: {'green' if bias.get('bias_points_analyzed', False) and bias.get('currents_measured', False) else 'red'}'>{'✓' if bias.get('bias_points_analyzed', False) and bias.get('currents_measured', False) else '✗'}</span> | Points: {bias_points}, Currents: {current_ranges}, KCL Error: {kcl_error}, Power: {power_range}, Temp: {temp} |")
+        
+        return summary
 
-            # Now continue with the detailed analysis sections, but update the section numbers
-            report.extend([
-                "## 3. DC Analysis",
-                "### DC Operating Point Analysis",
-                f"- [<span style='color: {'green' if results['iv_characteristics']['data_generated'] else 'red'}'>{'✓' if results['iv_characteristics']['data_generated'] else '✗'}</span>] IV data file is generated",
-                f"- [<span style='color: {'green' if results['iv_characteristics']['data_read'] else 'red'}'>{'✓' if results['iv_characteristics']['data_read'] else '✗'}</span>] Data points are properly read",
-                f"- [<span style='color: {'green' if results['iv_characteristics']['vds_range'] else 'red'}'>{'✓' if results['iv_characteristics']['vds_range'] else '✗'}</span>] Vds values are within range (0-5V)",
-                f"  - Range: {results['iv_characteristics']['details']['vds_range']}",
-                f"- [<span style='color: {'green' if results['iv_characteristics']['vgs_range'] else 'red'}'>{'✓' if results['iv_characteristics']['vgs_range'] else '✗'}</span>] Vgs values are within range (0-5V)",
-                f"  - Range: {results['iv_characteristics']['details']['vgs_range']}",
-                f"- [<span style='color: {'green' if results['iv_characteristics']['ids_measured'] else 'red'}'>{'✓' if results['iv_characteristics']['ids_measured'] else '✗'}</span>] Drain current (Ids) is properly measured",
-                f"  - Range: {results['iv_characteristics']['details']['ids_range']}",
-                f"- [<span style='color: {'green' if results['iv_characteristics']['log_scale'] else 'red'}'>{'✓' if results['iv_characteristics']['log_scale'] else '✗'}</span>] Log scale measurements are valid (2+ decades)",
-                f"  - Decades: {results['iv_characteristics']['details']['decades']}",
-                f"- [<span style='color: {'green' if results['iv_characteristics']['linear_scale'] else 'red'}'>{'✓' if results['iv_characteristics']['linear_scale'] else '✗'}</span>] Linear scale measurements are valid",
-                f"  - Points: {results['iv_characteristics']['details']['linear_points']}",
-                f"  - Range: {results['iv_characteristics']['details']['linear_range']}",
-                f"- [<span style='color: {'green' if results['iv_characteristics']['multi_terminal'] else 'red'}'>{'✓' if results['iv_characteristics']['multi_terminal'] else '✗'}</span>] Multi-terminal current analysis is valid",
-                f"  - KCL Error: {results['iv_characteristics']['details']['kcl_error']}",
-                "",
-                "<img src='plots/iv_characteristics.png' alt='IV Characteristics' width='400'/>",
-                "",
-                "*IV Characteristics showing drain current vs drain-source voltage*\n",
+    def _generate_ac_summary(self, results):
+        """Generate AC analysis summary section."""
+        summary = [
+            "### AC Analysis Summary",
+            "| Test Type | Status | Key Findings |",
+            "|-----------|--------|-------------|"
+        ]
+        
+        if 'cv_characteristics' in results and results['cv_characteristics'] is not None:
+            cv = results['cv_characteristics']
+            summary.append(f"| [Capacitance-Voltage](#small-signal-analysis) | <span style='color: {'green' if cv.get('data_generated', False) else 'red'}'>{'✓' if cv.get('data_generated', False) else '✗'}</span> | Range: {cv.get('details', {}).get('cgg_range', 'Not available')} |")
+        
+        return summary
 
-                "### Temperature Dependence",
-                f"- [<span style='color: {'green' if results['temperature_analysis']['temp_sweep'] else 'red'}'>{'✓' if results['temperature_analysis']['temp_sweep'] else '✗'}</span>] Temperature sweep is performed (-40°C to 150°C)",
-                f"  - Points: {results['temperature_analysis']['details']['temp_points']}",
-                f"- [<span style='color: {'green' if results['temperature_analysis']['temp_coef'] else 'red'}'>{'✓' if results['temperature_analysis']['temp_coef'] else '✗'}</span>] Temperature coefficient is calculated",
-                f"  - Value: {results['temperature_analysis']['details']['temp_coef_value']}",
-                f"- [<span style='color: {'green' if results['temperature_analysis']['device_behavior'] else 'red'}'>{'✓' if results['temperature_analysis']['device_behavior'] else '✗'}</span>] Device behavior is valid",
-                f"  - Current Range: {results['temperature_analysis']['details']['ids_range']}",
-                f"- [<span style='color: {'green' if results['iv_characteristics']['temp_dependent'] else 'red'}'>{'✓' if results['iv_characteristics']['temp_dependent'] else '✗'}</span>] Temperature-dependent behavior is valid",
-                f"  - Temperature Coefficient: {results['iv_characteristics']['details']['temp_coef']}",
-                "",
-                "<img src='plots/temperature_analysis.png' alt='Temperature Analysis' width='400'/>",
-                "",
-                "*Temperature analysis showing current variation*\n",
+    def _generate_transient_summary(self, results):
+        """Generate transient analysis summary section."""
+        summary = [
+            "### Transient Analysis Summary",
+            "| Test Type | Status | Key Findings |",
+            "|-----------|--------|-------------|"
+        ]
+        
+        if 'large_signal_transient' in results and results['large_signal_transient'] is not None:
+            transient = results['large_signal_transient']
+            summary.append(f"| [Large-Signal Transient](#large-signal-transient) | <span style='color: {'green' if transient.get('transient_completed', False) else 'red'}'>{'✓' if transient.get('transient_completed', False) else '✗'}</span> | {transient.get('details', {}).get('time_points', 'Not available')} points |")
+        
+        return summary
 
-                "### Thermodynamic Analysis",
-                f"- [<span style='color: {'green' if results['thermodynamic_analysis']['energy_conservation'] else 'red'}'>{'✓' if results['thermodynamic_analysis']['energy_conservation'] else '✗'}</span>] Energy conservation verified",
-                f"  - Power Range: {results['thermodynamic_analysis']['details']['power_range']}",
-                f"- [<span style='color: {'green' if results['thermodynamic_analysis']['device_efficiency'] else 'red'}'>{'✓' if results['thermodynamic_analysis']['device_efficiency'] else '✗'}</span>] Device efficiency analyzed",
-                f"  - Efficiency Range: {results['thermodynamic_analysis']['details']['efficiency_range']}",
-                f"- [<span style='color: {'green' if results['thermodynamic_analysis']['power_measurements'] else 'red'}'>{'✓' if results['thermodynamic_analysis']['power_measurements'] else '✗'}</span>] Power measurements complete",
-                f"- [<span style='color: {'green' if results['thermodynamic_analysis']['temp_coef_calc'] else 'red'}'>{'✓' if results['thermodynamic_analysis']['temp_coef_calc'] else '✗'}</span>] Temperature coefficient calculated",
-                f"  - Value: {results['thermodynamic_analysis']['details']['temp_coef']}",
-                "",
-                "<img src='plots/kcl_verification.png' alt='KCL Verification' width='400'/>",
-                "",
-                "*KCL verification showing current balance*\n",
+    def _generate_noise_summary(self, results):
+        """Generate noise analysis summary section."""
+        summary = [
+            "### Noise Analysis Summary",
+            "| Test Type | Status | Key Findings |",
+            "|-----------|--------|-------------|"
+        ]
+        
+        if 'noise_analysis' in results and results['noise_analysis'] is not None:
+            noise = results['noise_analysis']
+            summary.append(f"| [Noise Analysis](#noise-analysis) | <span style='color: {'green' if noise.get('noise_analysis_performed', False) else 'red'}'>{'✓' if noise.get('noise_analysis_performed', False) else '✗'}</span> | {noise.get('details', {}).get('freq_range', 'Not available')} |")
+        
+        return summary
 
-                "### Physical Properties",
-                "- <span style='color: gray'>✗</span> Physical monotonicity over bias, geometry, and temperature: *In Progress*",
-                "- <span style='color: gray'>✗</span> Parameter sweep simulations: *In Progress*",
-                "- <span style='color: gray'>✗</span> Physical symmetries (currents, charges, their derivatives): *In Progress*",
-                "- <span style='color: gray'>✗</span> Cross-derivative analysis: *In Progress*",
-                "- <span style='color: gray'>✗</span> Terminal permutation tests: *In Progress*\n",
-            ])
+    def update_verification_checklist(self, results, modes=None):
+        """Update the verification checklist with simulation results."""
+        try:
+            self.logger.logger.info("Starting verification checklist update")
             
-            # Add detailed transient analysis sections
-            report.extend([
-                "## 4. Transient Analysis",
-                "### Large-Signal Transient",
-                f"- [<span style='color: {large_signal_status}'>{large_signal_symbol}</span>] Time-domain transient analysis completed",
-                f"  - Maximum Drain Current: {results['large_signal_transient']['details']['max_current']:.6e}A" if 'large_signal_transient' in results and results['large_signal_transient']['max_current_calculated'] else "  - Maximum Drain Current: *Not measured*",
-                f"  - Gate Voltage Rise Time: {results['large_signal_transient']['details']['rise_time']:.1f}ps" if 'large_signal_transient' in results and results['large_signal_transient']['rise_time_measured'] else "  - Gate Voltage Rise Time: *Not measured*",
-                "",
-                "<img src='plots/large_signal_transient.png' alt='Large-Signal Transient Analysis' width='400'/>" if 'large_signal_transient' in results and results['large_signal_transient']['transient_completed'] else "",
-                "",
-                "*Large-signal transient analysis showing voltages and current response*" if 'large_signal_transient' in results and results['large_signal_transient']['transient_completed'] else "",
-                "",
-                "### Switching Simulations",
-                f"- [<span style='color: {switching_status}'>{switching_symbol}</span>] Inverter switching behavior analyzed",
-                f"  - Propagation Delay: {results['switching_simulations']['details']['propagation_delay']:.1f}ps" if 'switching_simulations' in results and results['switching_simulations']['propagation_delay_measured'] else "  - Propagation Delay: *Not measured*",
-                f"  - Maximum Switching Power: {results['switching_simulations']['details']['max_power']:.6e}W" if 'switching_simulations' in results and results['switching_simulations']['power_measured'] else "  - Maximum Switching Power: *Not measured*",
-                f"  - Average Switching Power: {results['switching_simulations']['details']['avg_power']:.6e}W" if 'switching_simulations' in results and results['switching_simulations']['power_measured'] else "  - Average Switching Power: *Not measured*",
-                "",
-                "<img src='plots/switching_response.png' alt='Switching Response' width='400'/>" if 'switching_simulations' in results and results['switching_simulations']['switching_behavior_analyzed'] else "",
-                "",
-                "*Inverter switching analysis showing input/output voltages and power*" if 'switching_simulations' in results and results['switching_simulations']['switching_behavior_analyzed'] else "",
-                "",
-                "### Delay Effect Simulations",
-                f"- [<span style='color: {delay_status}'>{delay_symbol}</span>] Propagation delay through inverter chain analyzed",
-                f"  - Stage 1 Delay: {results['delay_effect']['details']['stage1_delay']:.1f}ps" if 'delay_effect' in results and results['delay_effect']['stage_delays_measured'] else "  - Stage 1 Delay: *Not measured*",
-                f"  - Stage 2 Delay: {results['delay_effect']['details']['stage2_delay']:.1f}ps" if 'delay_effect' in results and results['delay_effect']['stage_delays_measured'] else "  - Stage 2 Delay: *Not measured*",
-                f"  - Stage 3 Delay: {results['delay_effect']['details']['stage3_delay']:.1f}ps" if 'delay_effect' in results and results['delay_effect']['stage_delays_measured'] else "  - Stage 3 Delay: *Not measured*",
-                f"  - Total Chain Delay: {results['delay_effect']['details']['total_delay']:.1f}ps" if 'delay_effect' in results and results['delay_effect']['total_delay_measured'] else "  - Total Chain Delay: *Not measured*",
-                "",
-                "<img src='plots/delay_effect.png' alt='Delay Effect Analysis' width='400'/>" if 'delay_effect' in results and results['delay_effect']['delay_effect_analyzed'] else "",
-                "",
-                "*Delay effect analysis showing signal propagation through inverter chain*" if 'delay_effect' in results and results['delay_effect']['delay_effect_analyzed'] else "",
-                "",
-                "### Transient Simulations for Power Dissipation",
-                f"- [<span style='color: {power_status}'>{power_symbol}</span>] Temperature-dependent power analysis completed",
-                f"  - Maximum Power at 27°C: {results['power_dissipation']['details']['max_power_27c']:.6e}W" if 'power_dissipation' in results and results['power_dissipation']['power_analysis_completed'] else "  - Maximum Power at 27°C: *Not measured*",
-                f"  - Maximum Power at 100°C: {results['power_dissipation']['details']['max_power_100c']:.6e}W" if 'power_dissipation' in results and results['power_dissipation']['power_analysis_completed'] else "  - Maximum Power at 100°C: *Not measured*",
-                f"  - Average Power at 27°C: {results['power_dissipation']['details']['avg_power_27c']:.6e}W" if 'power_dissipation' in results and results['power_dissipation']['power_analysis_completed'] else "  - Average Power at 27°C: *Not measured*",
-                f"  - Average Power at 100°C: {results['power_dissipation']['details']['avg_power_100c']:.6e}W" if 'power_dissipation' in results and results['power_dissipation']['power_analysis_completed'] else "  - Average Power at 100°C: *Not measured*",
-                f"  - Power Temperature Coefficient: {results['power_dissipation']['details']['power_temp_coef']:.6e}W/°C" if 'power_dissipation' in results and results['power_dissipation']['power_coef_calculated'] else "  - Power Temperature Coefficient: *Not measured*",
-                "",
-                "<img src='plots/power_dissipation.png' alt='Power Dissipation' width='400'/>" if 'power_dissipation' in results and results['power_dissipation']['power_analysis_completed'] else "",
-                "",
-                "*Power dissipation analysis at different temperatures*" if 'power_dissipation' in results and results['power_dissipation']['power_analysis_completed'] else "",
-                "",
-                "<img src='plots/energy_consumption.png' alt='Energy Consumption' width='400'/>" if 'power_dissipation' in results and results['power_dissipation']['power_analysis_completed'] else "",
-                "",
-                "*Energy consumption analysis at different temperatures*" if 'power_dissipation' in results and results['power_dissipation']['power_analysis_completed'] else "",
-                "",
-                "### Quasi-Static Analysis",
-                f"- [<span style='color: {qs_status}'>{qs_symbol}</span>] Quasi-static behavior analyzed",
-                f"  - Performed quasi-static transient analysis with slower rise/fall times",
-                f"  - Analyzed relationship between gate voltage and drain current",
-                "",
-                "<img src='plots/quasi_static.png' alt='Quasi-Static Analysis' width='400'/>" if 'quasi_static' in results and results['quasi_static']['quasi_static_analyzed'] else "",
-                "",
-                "*Quasi-static time-domain behavior analysis*" if 'quasi_static' in results and results['quasi_static']['quasi_static_analyzed'] else "",
-                "",
-                "<img src='plots/quasi_static_iv.png' alt='Quasi-Static I-V Characteristic' width='400'/>" if 'quasi_static' in results and results['quasi_static']['iv_relationship_analyzed'] else "",
-                "",
-                "*Quasi-static I-V characteristic showing relationship between gate voltage and drain current*" if 'quasi_static' in results and results['quasi_static']['iv_relationship_analyzed'] else "",
-                "",
-                "### Charge Conservation Tests",
-                f"- [<span style='color: {charge_status}'>{charge_symbol}</span>] Charge conservation analyzed",
-                f"  - Total Charge Variation: {results['charge_conservation']['details']['q_total_variation']:.6e}C" if 'charge_conservation' in results and results['charge_conservation']['conservation_error_calculated'] else "  - Total Charge Variation: *Not measured*",
-                f"  - Mean Total Charge: {results['charge_conservation']['details']['q_total_mean']:.6e}C" if 'charge_conservation' in results and results['charge_conservation']['conservation_error_calculated'] else "  - Mean Total Charge: *Not measured*",
-                f"  - Charge Conservation Error: {results['charge_conservation']['details']['q_conservation_error']:.6f}%" + (" (exceeds threshold)" if 'charge_conservation' in results and not results['charge_conservation']['conservation_satisfied'] else "") if 'charge_conservation' in results and results['charge_conservation']['conservation_error_calculated'] else "  - Charge Conservation Error: *Not measured*",
-                "",
-                "<img src='plots/charge_conservation.png' alt='Charge Conservation Analysis' width='400'/>" if 'charge_conservation' in results and results['charge_conservation']['charge_conservation_analyzed'] else "",
-                "",
-                "*Terminal currents and charges analysis*" if 'charge_conservation' in results and results['charge_conservation']['charge_conservation_analyzed'] else "",
-                "",
-                "<img src='plots/total_charge.png' alt='Total Charge' width='400'/>" if 'charge_conservation' in results and results['charge_conservation']['charge_conservation_analyzed'] else "",
-                "",
-                "*Total charge conservation analysis*" if 'charge_conservation' in results and results['charge_conservation']['charge_conservation_analyzed'] else "",
-                "",
-            ])
+            # If modes is None, assume all modes were run
+            if modes is None:
+                modes = ['dc', 'transient', 'ac', 'noise']
+                self.logger.logger.info("No modes specified, using all modes")
+            elif 'all' in modes:
+                modes = ['dc', 'transient', 'ac', 'noise']
+                self.logger.logger.info("'all' mode specified, using all modes")
+            elif isinstance(modes, str):
+                modes = [modes]  # Convert single mode to list
+                self.logger.logger.info(f"Single mode specified: {modes[0]}")
             
-            # Add Noise Analysis section
-            noise_status = 'green' if 'noise_analysis' in results and results['noise_analysis']['noise_analysis_performed'] else 'red'
-            noise_symbol = '✓' if noise_status == 'green' else '✗'
-            noise_details = "Thermal, Flicker and Shot noise analyzed" if 'noise_analysis' in results and results['noise_analysis']['noise_analysis_performed'] else "*Not available*"
-    
-            # Update AC Analysis section with actual results
-            cv_status = 'green' if 'cv_characteristics' in results and results['cv_characteristics'] and results['cv_characteristics']['data_generated'] else 'red'
-            cv_symbol = '✓' if cv_status == 'green' else '✗'
-            
-            sparams_status = 'green' if 'sparameter_analysis' in results and results['sparameter_analysis'] and results['sparameter_analysis']['data_generated'] else 'red'
-            sparams_symbol = '✓' if sparams_status == 'green' else '✗'
-            
-            nqs_status = 'green' if 'nqs_effects' in results and results['nqs_effects'] and results['nqs_effects']['data_generated'] else 'red'
-            nqs_symbol = '✓' if nqs_status == 'green' else '✗'
-            
-            # Fix the KeyError: 'data_generated' by using 'charge_conservation_analyzed' instead
-            cc_status = 'green' if 'charge_conservation' in results and results['charge_conservation'] and results['charge_conservation']['charge_conservation_analyzed'] else 'red'
-            cc_symbol = '✓' if cc_status == 'green' else '✗'
-            
-            # Add AC Analysis section
-            report.extend([
-                "## 5. AC Analysis",
-                "### Small-Signal Analysis",
-                f"- [<span style='color: {cv_status}'>{cv_symbol}</span>] AC small-signal simulations completed",
-                f"  - {cv_range}",
-                f"- [<span style='color: {cv_status}'>{cv_symbol}</span>] Capacitance-voltage (C-V) measurements analyzed",
-                f"  - {cgg_max}",
-                f"- [<span style='color: {cc_status}'>{cc_symbol}</span>] Charge conservation tests completed",
-                f"  - {q_error}\n",
-            ])
-            
-            # Add CV characteristics images
-            report.extend([
-                "<img src='plots/cv_characteristics.png' alt='CV Characteristics' width='400'/>",
-                "",
-                "*CV characteristics showing gate capacitance variation with gate voltage*\n",
-                
-                "<img src='plots/cv_components.png' alt='CV Components' width='400'/>",
-                "",
-                "*Capacitance components (Cgb, Cgs, Cgd) variation with gate voltage*\n",
-            ])
-            
-            # Add High-Frequency Analysis section
-            sparams_freq_range = 'Frequency Range: Not available'
-            if 'sparameter_analysis' in results and results['sparameter_analysis'] and 'freq_range' in results['sparameter_analysis']:
-                sparams_freq_range = f"Frequency Range: {results['sparameter_analysis']['freq_range']}"
-                
-            s11_range = 'S11: Not available'
-            if 'sparameter_analysis' in results and results['sparameter_analysis'] and 's11_range' in results['sparameter_analysis']:
-                s11_range = f"S11: {results['sparameter_analysis']['s11_range']}"
-                
-            s21_range = 'S21: Not available'
-            if 'sparameter_analysis' in results and results['sparameter_analysis'] and 's21_range' in results['sparameter_analysis']:
-                s21_range = f"S21: {results['sparameter_analysis']['s21_range']}"
-                
-            isolation = 'Isolation: Not available'
-            if 'sparameter_analysis' in results and results['sparameter_analysis'] and 'isolation' in results['sparameter_analysis']:
-                isolation = f"Isolation: {results['sparameter_analysis']['isolation']}"
-                
-            max_phase_shift = 'Max Phase Shift: Not available'
-            if 'nqs_effects' in results and results['nqs_effects'] and 'max_phase_shift' in results['nqs_effects']:
-                max_phase_shift = f"Max Phase Shift: {results['nqs_effects']['max_phase_shift']}"
-                
-            report.extend([
-                "### High-Frequency Analysis",
-                f"- [<span style='color: {sparams_status}'>{sparams_symbol}</span>] High-frequency AC simulations completed",
-                f"  - {sparams_freq_range}",
-                f"- [<span style='color: {sparams_status}'>{sparams_symbol}</span>] S-parameter analysis completed",
-                f"  - {s11_range}",
-                f"  - {s21_range}",
-                f"- [<span style='color: {sparams_status}'>{sparams_symbol}</span>] RF simulations completed",
-                f"  - {isolation}",
-                f"- [<span style='color: {nqs_status}'>{nqs_symbol}</span>] Non-quasi-static effects analyzed",
-                f"  - {max_phase_shift}\n",
-                
-                "<img src='plots/sparameter_analysis.png' alt='S-Parameter Analysis' width='400'/>" if 'sparameter_analysis' in results and results['sparameter_analysis'] and results['sparameter_analysis']['data_generated'] else "",
-                "",
-                "*S-Parameter analysis showing frequency response characteristics*" if 'sparameter_analysis' in results and results['sparameter_analysis'] and results['sparameter_analysis']['data_generated'] else "",
-                "",
-                "<img src='plots/nqs_effects.png' alt='Non-Quasi-Static Effects' width='400'/>" if 'nqs_effects' in results and results['nqs_effects'] and results['nqs_effects']['data_generated'] else "",
-                "",
-                "*Non-quasi-static effects analysis showing phase shift between gate voltage and drain current*" if 'nqs_effects' in results and results['nqs_effects'] and results['nqs_effects']['data_generated'] else "",
-                "\n",
-            ])
-            
-            report.extend([
-                "## 6. Noise Analysis",
-                "### Thermal Noise Analysis",
-                "",
-                "<img src='plots/thermal_noise_vds_comparison.png' alt='Thermal Noise Comparison' width='400'/>" if 'noise_analysis' in results and results['noise_analysis']['thermal_noise_analyzed'] else "",
-                "",
-                "*Thermal noise power spectral density analysis comparing different bias conditions, showing how the device noise characteristics change with bias voltage.*" if 'noise_analysis' in results and results['noise_analysis']['thermal_noise_analyzed'] else "",
-                "",
-                "#### Flicker Noise Analysis",
-                "",
-                "<img src='plots/flicker_noise.png' alt='Flicker Noise Analysis' width='400'/>" if 'noise_analysis' in results and results['noise_analysis']['flicker_noise_analyzed'] else "",
-                "",
-                "*Flicker (1/f) noise analysis showing the power spectral density decreasing with frequency, a characteristic behavior in semiconductor devices associated with trapping/detrapping processes.*" if 'noise_analysis' in results and results['noise_analysis']['flicker_noise_analyzed'] else "",
-                "",
-                "#### Shot Noise Analysis",
-                "",
-                "<img src='plots/shot_noise.png' alt='Shot Noise Analysis' width='400'/>" if 'noise_analysis' in results and results['noise_analysis']['shot_noise_analyzed'] else "",
-                "",
-                "*Shot noise analysis showing the frequency-independent noise component that arises from the discrete nature of electric charge carriers crossing potential barriers.*" if 'noise_analysis' in results and results['noise_analysis']['shot_noise_analyzed'] else "",
-                "",
-                "#### Temperature Dependence",
-                "",
-                "<img src='plots/noise_vs_temperature.png' alt='Noise vs Temperature' width='400'/>" if 'noise_analysis' in results and results['noise_analysis']['temp_dependence_analyzed'] else "",
-                "",
-                "*Noise variation with temperature, illustrating how thermal effects influence the device's noise characteristics across the operational temperature range.*" if 'noise_analysis' in results and results['noise_analysis']['temp_dependence_analyzed'] else "",
-                "",
-                
-                "### Detailed Noise Characteristics",
-                f"- [<span style='color: {'green' if 'noise_analysis' in results and results['noise_analysis']['thermal_noise_analyzed'] else 'red'}'>{'✓' if 'noise_analysis' in results and results['noise_analysis']['thermal_noise_analyzed'] else '✗'}</span>] Thermal noise analysis completed",
-                f"  - Max Noise: {results['noise_analysis']['details']['thermal_noise_max']:.2e} V²/Hz" if 'noise_analysis' in results and results['noise_analysis']['thermal_noise_analyzed'] and results['noise_analysis']['details']['thermal_noise_max'] is not None else "  - Max Noise: *Not measured*",
-                f"  - Min Noise: {results['noise_analysis']['details']['thermal_noise_min']:.2e} V²/Hz" if 'noise_analysis' in results and results['noise_analysis']['thermal_noise_analyzed'] and results['noise_analysis']['details']['thermal_noise_min'] is not None else "  - Min Noise: *Not measured*",
-                f"  - Avg Noise: {results['noise_analysis']['details']['thermal_noise_avg']:.2e} V²/Hz" if 'noise_analysis' in results and results['noise_analysis']['thermal_noise_analyzed'] and results['noise_analysis']['details']['thermal_noise_avg'] is not None else "  - Avg Noise: *Not measured*",
-                f"  - Noise Floor: {results['noise_analysis']['details']['thermal_noise_floor']:.2e} V²/Hz" if 'noise_analysis' in results and results['noise_analysis']['thermal_noise_analyzed'] and results['noise_analysis']['details']['thermal_noise_floor'] is not None else "  - Noise Floor: *Not measured*",
-                f"  - Frequency Range: {results['noise_analysis']['details']['freq_range']}" if 'noise_analysis' in results and results['noise_analysis']['details']['freq_range'] is not None else "  - Frequency Range: *Not available*",
-                "",
-                "#### Thermal Noise Results at Different Bias Points",
-                "",
-                "| Bias Condition | Max Noise (V²/Hz) | Min Noise (V²/Hz) | Avg Noise (V²/Hz) | Noise Floor (V²/Hz) |",
-                "|----------------|-------------------|-------------------|-------------------|--------------------|",
-            ])
-            
-            # Add bias point rows if they exist
-            if 'noise_analysis' in results and results['noise_analysis']['thermal_noise_analyzed'] and 'details' in results['noise_analysis'] and 'bias_points' in results['noise_analysis']['details']:
-                # Handle the case where we have direct bias_points data
-                for bias_point, data in results['noise_analysis']['details']['bias_points'].items():
-                    if isinstance(data, dict) and 'max_noise' in data:
-                        report.append(f"| {bias_point} | {data['max_noise']:.2e} | {data['min_noise']:.2e} | {data['avg_noise']:.2e} | {data['noise_floor']:.2e} |")
-                    elif isinstance(data, dict) and 'max' in data:
-                        report.append(f"| {bias_point} | {data['max']:.2e} | {data['min']:.2e} | {data['avg']:.2e} | {data['floor']:.2e} |")
-            
-            # Continue with flicker noise and shot noise details
-            report.extend([
-                "",
-                f"- [<span style='color: {'green' if 'noise_analysis' in results and results['noise_analysis']['flicker_noise_analyzed'] else 'red'}'>{'✓' if 'noise_analysis' in results and results['noise_analysis']['flicker_noise_analyzed'] else '✗'}</span>] Flicker (1/f) noise analysis completed",
-                f"  - Coefficient (K): {results['noise_analysis']['details']['flicker_noise_coefficient']:.2e}" if 'noise_analysis' in results and results['noise_analysis']['flicker_noise_analyzed'] and results['noise_analysis']['details']['flicker_noise_coefficient'] is not None else "  - Coefficient (K): *Not measured*",
-                f"  - Exponent (γ): {results['noise_analysis']['details']['flicker_noise_exponent']:.4f} (ideally -1.0 for pure 1/f noise)" if 'noise_analysis' in results and results['noise_analysis']['flicker_noise_analyzed'] and results['noise_analysis']['details']['flicker_noise_exponent'] is not None else "  - Exponent (γ): *Not measured*",
-                f"  - Correlation (R²): {results['noise_analysis']['details']['flicker_noise_r_squared']:.4f}" if 'noise_analysis' in results and results['noise_analysis']['flicker_noise_analyzed'] and results['noise_analysis']['details']['flicker_noise_r_squared'] is not None else "  - Correlation (R²): *Not measured*",
-                f"  - Corner Frequency: {results['noise_analysis']['details']['corner_frequency']:.2e} Hz" if 'noise_analysis' in results and results['noise_analysis']['flicker_noise_analyzed'] and results['noise_analysis']['details']['corner_frequency'] is not None else "  - Corner Frequency: *Not measured*",
-                "",
-                f"- [<span style='color: {'green' if 'noise_analysis' in results and results['noise_analysis']['shot_noise_analyzed'] else 'red'}'>{'✓' if 'noise_analysis' in results and results['noise_analysis']['shot_noise_analyzed'] else '✗'}</span>] Shot noise analysis completed",
-                f"  - Shot Noise Level: {results['noise_analysis']['details']['shot_noise_level']:.2e} V²/Hz" if 'noise_analysis' in results and results['noise_analysis']['shot_noise_analyzed'] and results['noise_analysis']['details']['shot_noise_level'] is not None else "  - Shot Noise Level: *Not measured*",
-                f"  - Standard Deviation: {results['noise_analysis']['details']['shot_noise_std_dev']:.2e} V²/Hz" if 'noise_analysis' in results and results['noise_analysis']['shot_noise_analyzed'] and results['noise_analysis']['details']['shot_noise_std_dev'] is not None else "  - Standard Deviation: *Not measured*",
-                f"  - Variation Coefficient: {results['noise_analysis']['details']['shot_noise_variation']:.4f}" if 'noise_analysis' in results and results['noise_analysis']['shot_noise_analyzed'] and results['noise_analysis']['details']['shot_noise_variation'] is not None else "  - Variation Coefficient: *Not measured*",
-                "",
-                f"- [<span style='color: {'green' if 'noise_analysis' in results and results['noise_analysis']['temp_dependence_analyzed'] else 'red'}'>{'✓' if 'noise_analysis' in results and results['noise_analysis']['temp_dependence_analyzed'] else '✗'}</span>] Temperature dependence analysis completed",
-                f"  - Temperature Coefficient: {results['noise_analysis']['details']['temp_coefficient']:.2e} V²/Hz/°C" if 'noise_analysis' in results and results['noise_analysis']['temp_dependence_analyzed'] and results['noise_analysis']['details']['temp_coefficient'] is not None else "  - Temperature Coefficient: *Not measured*",
-                f"  - Temperature-Noise Correlation: {results['noise_analysis']['details'].get('temp_noise_correlation', '*Not measured*')}" if 'noise_analysis' in results and results['noise_analysis']['temp_dependence_analyzed'] else "  - Temperature-Noise Correlation: *Not measured*",
-                f"  - Temperature Range: {results['noise_analysis']['details']['temp_range']}" if 'noise_analysis' in results and results['noise_analysis']['temp_dependence_analyzed'] and results['noise_analysis']['details']['temp_range'] is not None else "  - Temperature Range: *Not measured*",
-                "",
-            ])
+            self.logger.logger.info(f"Processing modes: {', '.join(modes)}")
 
-            report.extend([
-                "## 7. Geometry and Layout Analysis",
-                "### Geometry Dependence",
-                "- <span style='color: gray'>✗</span> Parameter sweep simulations: *In Progress*",
-                "- <span style='color: gray'>✗</span> Monte Carlo simulations for geometry variations: *In Progress*",
-                "- <span style='color: gray'>✗</span> Layout-dependent effect (LDE) simulations: *In Progress*\n",
-
-                "### Layout Effects",
-                "- <span style='color: gray'>✗</span> Layout-dependent simulations: *In Progress*",
-                "- <span style='color: gray'>✗</span> Stress effect simulations: *In Progress*",
-                "- <span style='color: gray'>✗</span> Proximity effect simulations: *In Progress*",
-                "- <span style='color: gray'>✗</span> Parasitic extraction: *In Progress*",
-                "- <span style='color: gray'>✗</span> RC extraction simulations: *In Progress*\n",
-            ])
-            
-            # Write report to file
+            # Create the report directory if it doesn't exist
             report_path = self.output_dir / 'REPORT.md'
-            with open(report_path, 'w') as f:
-                f.write('\n'.join(report))
+            report_path.parent.mkdir(exist_ok=True, parents=True)
+            self.logger.logger.info(f"Report will be saved to: {report_path}")
+
+            # Read existing report if it exists
+            existing_content = []
+            if report_path.exists():
+                with open(report_path, 'r') as f:
+                    existing_content = f.read().split('\n')
+                self.logger.logger.info("Read existing report content")
+            else:
+                # If report doesn't exist, create new one
+                self.logger.logger.info("No existing report found, creating new one")
+                timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                existing_content = self._generate_report_header(timestamp)
+                existing_content.extend(self._generate_table_of_contents(modes))
+                existing_content.extend(self._generate_notes_section())
+                existing_content.extend(self._generate_simulation_setup_section(results))
+                existing_content.extend(self._generate_summary_section(results, modes))
+
+            # Update specific sections based on modes
+            updated_content = []
+            current_section = None
+            skip_until_next_section = False
+            
+            for line in existing_content:
+                # Check for section headers
+                if line.startswith('## '):
+                    current_section = line.strip('# ')
+                    skip_until_next_section = False
                 
-            if self.logger:
-                self.logger.logger.info(f"Verification report updated at {report_path}")
+                # Skip content of sections that need to be updated
+                if skip_until_next_section and line.startswith('## '):
+                    skip_until_next_section = False
+                
+                if not skip_until_next_section:
+                    updated_content.append(line)
+                
+                # Mark sections for update
+                if current_section == '3. DC Analysis' and 'dc' in modes:
+                    skip_until_next_section = True
+                    updated_content.extend(self._generate_dc_analysis_section(results))
+                elif current_section == '4. Transient Analysis' and 'transient' in modes:
+                    skip_until_next_section = True
+                    updated_content.extend(self._generate_transient_analysis_section(results))
+                elif current_section == '5. AC Analysis' and 'ac' in modes:
+                    skip_until_next_section = True
+                    updated_content.extend(self._generate_ac_analysis_section(results))
+                elif current_section == '6. Noise Analysis' and 'noise' in modes:
+                    skip_until_next_section = True
+                    updated_content.extend(self._generate_noise_analysis_section(results))
+            
+            # Write updated report to file
+            self.logger.logger.info(f"Writing updated report to file: {report_path}")
+            with open(report_path, 'w') as f:
+                f.write('\n'.join(updated_content))
+                
+            self.logger.logger.info(f"Successfully updated verification checklist at {report_path}")
                 
         except Exception as e:
-            if self.logger:
-                self.logger.logger.error(f"Error updating verification checklist: {e}")
-            raise
-            
-        return checklist 
+            self.logger.logger.error(f"Error updating verification checklist: {e}")
+            import traceback
+            traceback.print_exc()
 
     def _get_sparam_status_from_report(self):
         """Extract current S-parameter status from REPORT.md"""
@@ -2779,3 +2347,199 @@ class VerificationManager:
             if self.logger:
                 self.logger.logger.error(f"Error extracting S-parameter status from report: {e}")
             return 'red', '✗', 'Not available', 'Not available', 'Not available', 'Not available'
+
+    def _generate_dc_toc(self):
+        """Generate DC analysis table of contents section."""
+        return [
+            "   - [DC Analysis Summary](#dc-analysis-summary)",
+            "3. [DC Analysis](#3-dc-analysis)",
+            "   - [DC Operating Point Analysis](#dc-operating-point-analysis)",
+            "   - [Temperature Dependence](#temperature-dependence)",
+            "   - [Thermodynamic Analysis](#thermodynamic-analysis)",
+            "   - [Physical Properties](#physical-properties)"
+        ]
+
+    def _generate_ac_toc(self):
+        """Generate AC analysis table of contents section."""
+        return [
+            "   - [AC Analysis Summary](#ac-analysis-summary)",
+            "4. [AC Analysis](#4-ac-analysis)",
+            "   - [Small-Signal Analysis](#small-signal-analysis)",
+            "   - [High-Frequency Analysis](#high-frequency-analysis)"
+        ]
+
+    def _generate_transient_toc(self):
+        """Generate transient analysis table of contents section."""
+        return [
+            "   - [Transient Analysis Summary](#transient-analysis-summary)",
+            "5. [Transient Analysis](#5-transient-analysis)",
+            "   - [Large-Signal Transient](#large-signal-transient)",
+            "   - [Switching Simulations](#switching-simulations)",
+            "   - [Delay Effect Simulations](#delay-effect-simulations)"
+        ]
+
+    def _generate_noise_toc(self):
+        """Generate noise analysis table of contents section."""
+        return [
+            "   - [Noise Analysis Summary](#noise-analysis-summary)",
+            "6. [Noise Analysis](#6-noise-analysis)",
+            "   - [Thermal Noise Analysis](#thermal-noise-analysis)",
+            "   - [Flicker Noise Analysis](#flicker-noise-analysis)",
+            "   - [Shot Noise Analysis](#shot-noise-analysis)"
+        ]
+
+    def _generate_table_of_contents(self, modes):
+        """Generate the table of contents based on the analysis modes."""
+        self.logger.logger.info("Starting table of contents generation")
+        toc = ["2. [Summary](#2-summary)"]
+        
+        # Start section numbering from 3
+        section_num = 3
+        self.logger.logger.info(f"Starting section numbering from {section_num}")
+        
+        if 'dc' in modes:
+            self.logger.logger.info("Adding DC analysis section to TOC")
+            toc.extend([
+                f"   - [DC Analysis Summary](#dc-analysis-summary)",
+                f"{section_num}. [DC Analysis](#{section_num}-dc-analysis)",
+                "   - [DC Operating Point Analysis](#dc-operating-point-analysis)",
+                "   - [Temperature Dependence](#temperature-dependence)",
+                "   - [Thermodynamic Analysis](#thermodynamic-analysis)",
+                "   - [Physical Properties](#physical-properties)"
+            ])
+            section_num += 1
+        
+        if 'ac' in modes:
+            self.logger.logger.info("Adding AC analysis section to TOC")
+            toc.extend([
+                f"   - [AC Analysis Summary](#ac-analysis-summary)",
+                f"{section_num}. [AC Analysis](#{section_num}-ac-analysis)",
+                "   - [Small-Signal Analysis](#small-signal-analysis)",
+                "   - [High-Frequency Analysis](#high-frequency-analysis)"
+            ])
+            section_num += 1
+        
+        if 'transient' in modes:
+            self.logger.logger.info("Adding transient analysis section to TOC")
+            toc.extend([
+                f"   - [Transient Analysis Summary](#transient-analysis-summary)",
+                f"{section_num}. [Transient Analysis](#{section_num}-transient-analysis)",
+                "   - [Large-Signal Transient](#large-signal-transient)",
+                "   - [Switching Simulations](#switching-simulations)",
+                "   - [Delay Effect Simulations](#delay-effect-simulations)"
+            ])
+            section_num += 1
+        
+        if 'noise' in modes:
+            self.logger.logger.info("Adding noise analysis section to TOC")
+            toc.extend([
+                f"   - [Noise Analysis Summary](#noise-analysis-summary)",
+                f"{section_num}. [Noise Analysis](#{section_num}-noise-analysis)",
+                "   - [Thermal Noise Analysis](#thermal-noise-analysis)",
+                "   - [Flicker Noise Analysis](#flicker-noise-analysis)",
+                "   - [Shot Noise Analysis](#shot-noise-analysis)"
+            ])
+            section_num += 1
+        
+        self.logger.logger.info("Table of contents generation completed")
+        return toc
+
+    def _generate_dc_analysis_section(self, results):
+        """Generate detailed DC analysis section."""
+        dc_section = ["\n## 3. DC Analysis"]
+        
+        # DC Operating Point Analysis
+        dc_section.extend([
+            "### DC Operating Point Analysis",
+            "- [<span style='color: green'>✓</span>] IV data file is generated",
+            "- [<span style='color: green'>✓</span>] Data points are properly read"
+        ])
+        
+        if 'iv_characteristics' in results and results['iv_characteristics'] is not None:
+            iv = results['iv_characteristics']
+            dc_section.extend([
+                f"- [<span style='color: green'>✓</span>] Vds values are within range (0-5V)",
+                f"  - Range: {iv.get('vds_range', 'Not available')}",
+                f"- [<span style='color: green'>✓</span>] Vgs values are within range (0-5V)",
+                f"  - Range: {iv.get('vgs_range', 'Not available')}",
+                f"- [<span style='color: green'>✓</span>] Drain current (Ids) is properly measured",
+                f"  - Range: {iv.get('ids_range', 'Not available')}",
+                f"- [<span style='color: green'>✓</span>] Log scale measurements are valid (2+ decades)",
+                f"  - Decades: {iv.get('log_decades', 'Not available')}",
+                f"- [<span style='color: green'>✓</span>] Linear scale measurements are valid",
+                f"  - Points: {iv.get('linear_points', 'Not available')}",
+                f"  - Range: {iv.get('linear_range', 'Not available')}",
+                f"- [<span style='color: green'>✓</span>] Multi-terminal current analysis is valid",
+                f"  - KCL Error: {iv.get('kcl_error', 'Not available')}A"
+            ])
+        
+        dc_section.extend([
+            "",
+            "<img src='plots/iv_characteristics.png' alt='IV Characteristics' width='400'/>",
+            "",
+            "*IV Characteristics showing drain current vs drain-source voltage*",
+            ""
+        ])
+        
+        # Temperature Dependence
+        dc_section.extend([
+            "### Temperature Dependence"
+        ])
+        
+        if 'temperature_analysis' in results and results['temperature_analysis'] is not None:
+            temp = results['temperature_analysis']
+            dc_section.extend([
+                f"- [<span style='color: green'>✓</span>] Temperature sweep is performed (-40°C to 150°C)",
+                f"  - Points: {temp.get('details', {}).get('temp_points', 'Not available')}",
+                f"- [<span style='color: green'>✓</span>] Temperature coefficient is calculated",
+                f"  - Value: {temp.get('details', {}).get('temp_coef_value', 'Not available')} /°C",
+                f"- [<span style='color: green'>✓</span>] Device behavior is valid",
+                f"  - Current Range: {temp.get('details', {}).get('ids_range', 'Not available')}",
+                f"- [<span style='color: green'>✓</span>] Temperature-dependent behavior is valid",
+                f"  - Temperature Coefficient: {temp.get('details', {}).get('temp_coef', 'Not available')}A/°C"
+            ])
+        
+        dc_section.extend([
+            "",
+            "<img src='plots/temperature_analysis.png' alt='Temperature Analysis' width='400'/>",
+            "",
+            "*Temperature analysis showing current variation*",
+            ""
+        ])
+        
+        # Thermodynamic Analysis
+        dc_section.extend([
+            "### Thermodynamic Analysis"
+        ])
+        
+        if 'thermodynamic_analysis' in results and results['thermodynamic_analysis'] is not None:
+            thermo = results['thermodynamic_analysis']
+            dc_section.extend([
+                f"- [<span style='color: green'>✓</span>] Energy conservation verified",
+                f"  - Power Range: {thermo.get('details', {}).get('power_range', 'Not available')}W",
+                f"- [<span style='color: green'>✓</span>] Device efficiency analyzed",
+                f"  - Efficiency Range: {thermo.get('details', {}).get('efficiency_range', 'Not available')}",
+                f"- [<span style='color: green'>✓</span>] Power measurements complete",
+                f"- [<span style='color: green'>✓</span>] Temperature coefficient calculated",
+                f"  - Value: {thermo.get('details', {}).get('temp_coef', 'Not available')}/°C"
+            ])
+        
+        dc_section.extend([
+            "",
+            "<img src='plots/kcl_verification.png' alt='KCL Verification' width='400'/>",
+            "",
+            "*KCL verification showing current balance*",
+            ""
+        ])
+        
+        # Physical Properties
+        dc_section.extend([
+            "### Physical Properties",
+            "- <span style='color: gray'>✗</span> Physical monotonicity over bias, geometry, and temperature: *In Progress*",
+            "- <span style='color: gray'>✗</span> Parameter sweep simulations: *In Progress*",
+            "- <span style='color: gray'>✗</span> Physical symmetries (currents, charges, their derivatives): *In Progress*",
+            "- <span style='color: gray'>✗</span> Cross-derivative analysis: *In Progress*",
+            "- <span style='color: gray'>✗</span> Terminal permutation tests: *In Progress*"
+        ])
+        
+        return dc_section

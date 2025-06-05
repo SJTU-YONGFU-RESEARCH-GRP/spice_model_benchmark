@@ -98,28 +98,32 @@ class DataReader:
         
         return dest_path
     
-    def _parse_data_file(self, file_path, skiprows=2, expected_cols=None, col_names=None):
-        """Parse a data file using numpy loadtxt with appropriate error handling.
+    def _parse_data_file(self, file_path, skiprows=1, expected_cols=None, col_names=None):
+        """Parse a data file with a single header line using numpy loadtxt.
         
         Args:
             file_path: Path to the data file
-            skiprows: Number of header rows to skip
+            skiprows: Number of header rows to skip (default: 1)
             expected_cols: Expected number of columns
             col_names: Column names to map in the file (header must be available)
             
         Returns:
-            np.ndarray: Data array if successful, None otherwise
+            tuple: (data array, column mapping) if successful, else (None, None)
         """
         try:
             if not os.path.exists(file_path):
                 self.logger.logger.warning(f"Data file not found: {file_path}")
-                return None
+                return None, None
             
             # If col_names is provided, read the header to map column positions
             col_map = None
             if col_names:
                 with open(file_path, 'r') as f:
+                    # Read first line (column names)
                     header = f.readline().strip().split()
+                    # Remove '#' if present at the start
+                    if header and header[0].startswith('#'):
+                        header = header[1:]
                     col_map = {name: i for i, name in enumerate(header)}
             
             # Load data with numpy
@@ -128,13 +132,55 @@ class DataReader:
             # Validate data shape if expected_cols is provided
             if expected_cols and (len(data) == 0 or data.shape[1] < expected_cols):
                 self.logger.logger.warning(f"Data file {file_path} has incorrect format. Expected at least {expected_cols} columns.")
-                return None
+                return None, None
             
             return data, col_map
         except Exception as e:
             self.logger.logger.error(f"Error parsing data file {file_path}: {e}")
             return None, None
-    
+
+    def _parse_data_file_with_comments(self, file_path, expected_cols=None, col_names=None):
+        """Parse a data file with two comment lines using numpy loadtxt.
+        
+        Args:
+            file_path: Path to the data file
+            expected_cols: Expected number of columns
+            col_names: Column names to map in the file (header must be available)
+            
+        Returns:
+            tuple: (data array, column mapping) if successful, else (None, None)
+        """
+        try:
+            if not os.path.exists(file_path):
+                self.logger.logger.warning(f"Data file not found: {file_path}")
+                return None, None
+            
+            # If col_names is provided, read the header to map column positions
+            col_map = None
+            if col_names:
+                with open(file_path, 'r') as f:
+                    # Skip first comment line
+                    f.readline()
+                    # Read second line (column names)
+                    header = f.readline().strip().split()
+                    # Remove '#' if present at the start
+                    if header and header[0].startswith('#'):
+                        header = header[1:]
+                    col_map = {name: i for i, name in enumerate(header)}
+            
+            # Load data with numpy
+            data = np.loadtxt(file_path, skiprows=2)  # Skip both comment lines
+            
+            # Validate data shape if expected_cols is provided
+            if expected_cols and (len(data) == 0 or data.shape[1] < expected_cols):
+                self.logger.logger.warning(f"Data file {file_path} has incorrect format. Expected at least {expected_cols} columns.")
+                return None, None
+            
+            return data, col_map
+        except Exception as e:
+            self.logger.logger.error(f"Error parsing data file {file_path}: {e}")
+            return None, None
+
     def _read_ngspice_raw(self, file_path):
         """Read NGSpice raw files and extract data.
         
@@ -363,55 +409,93 @@ class DataReader:
             return None, None, None, None, None, None, None
 
     def read_cv_data(self):
-        """Read CV characteristics data from the output file."""
+        """Read capacitance-voltage characteristics data.
+        
+        Returns:
+            tuple: (vg, cv_ig, cv_is, cv_ib, cgg) if successful, else (None, None, None, None, None)
+        """
         try:
-            filename = 'cv_data.txt'
-            file_path = self._find_file(filename)
-            
+            file_path = self._find_file('cv_data.txt')
             if not file_path:
-                self.logger.logger.warning(f"CV data file not found")
-                return None, None, None, None, None
-                
-            self.logger.logger.info(f"Reading CV data from {file_path}")
-            
-            # Parse data file
-            data, _ = self._parse_data_file(file_path, skiprows=1, expected_cols=5)
-            if data is None:
+                self.logger.logger.warning("CV data file not found")
                 return None, None, None, None, None
             
-            # Extract data columns
-            vg = data[:, 0]  # Gate voltage column
+            # Read data with column mapping using single header parser
+            data, col_map = self._parse_data_file(
+                file_path,
+                skiprows=1,  # Skip header line
+                expected_cols=8,  # Vg and 7 capacitance values
+                col_names=['Vg', 'Cgg_1kHz', 'Cgg_10kHz', 'Cgg_100kHz', 'Cgg_1MHz', 'Cgb_1MHz', 'Cgs_1MHz', 'Cgd_1MHz']
+            )
             
-            # For capacitance values, use the 1MHz data (column 4)
-            # For currents, calculate from capacitance values
-            cgg = data[:, 4] if data.shape[1] > 4 else data[:, 1]  # Total gate capacitance at 1MHz
+            if data is None or col_map is None:
+                return None, None, None, None, None
             
-            # Calculate terminal currents from capacitances
-            w = 2 * np.pi * 1e6  # Angular frequency at 1MHz
-            ig = w * cgg  # Gate current
+            # Extract data using column mapping
+            vg = data[:, col_map['Vg']]
+            cgg = data[:, col_map['Cgg_1MHz']]  # Use 1MHz data for main Cgg
+            cgb = data[:, col_map['Cgb_1MHz']]
+            cgs = data[:, col_map['Cgs_1MHz']]
+            cgd = data[:, col_map['Cgd_1MHz']]
             
-            # Extract component capacitances if available
-            if data.shape[1] >= 8:
-                cgb = data[:, 5]  # Gate-bulk capacitance
-                cgs = data[:, 6]  # Gate-source capacitance
-                cgd = data[:, 7]  # Gate-drain capacitance
-                
-                # Calculate terminal currents
-                ib = w * cgb  # Bulk current
-                is_ = w * cgs  # Source current 
-            else:
-                # If component capacitances not available, use estimated values
-                ib = ig * 0.2  # Approximate bulk current as 20% of gate current
-                is_ = ig * 0.4  # Approximate source current as 40% of gate current
+            # Calculate currents from capacitances
+            # For AC analysis, current = jωCV
+            # We'll use a reference frequency of 1MHz
+            freq = 1e6  # 1MHz
+            omega = 2 * np.pi * freq
             
-            self.logger.logger.info(f"CV data read successfully: {len(vg)} data points")
-            return vg, ig, is_, ib, cgg
+            # Calculate currents
+            cv_ig = omega * cgg * vg  # Gate current
+            cv_is = omega * cgs * vg  # Source current
+            cv_ib = omega * cgb * vg  # Bulk current
+            
+            return vg, cv_ig, cv_is, cv_ib, cgg
             
         except Exception as e:
             self.logger.logger.error(f"Error reading CV data: {e}")
-            import traceback
-            traceback.print_exc()
             return None, None, None, None, None
+
+    def _verify_cv_data(self, vg, cgg, cgd, cgs, cgb):
+        """Verify CV data consistency.
+        
+        Args:
+            vg: Gate voltage array
+            cgg: Gate-gate capacitance array
+            cgd: Gate-drain capacitance array
+            cgs: Gate-source capacitance array
+            cgb: Gate-bulk capacitance array
+            
+        Returns:
+            bool: True if data is consistent, False otherwise
+        """
+        try:
+            # Check array lengths
+            if not all(len(x) == len(vg) for x in [cgg, cgd, cgs, cgb]):
+                self.logger.logger.warning("CV data arrays have inconsistent lengths")
+                return False
+            
+            # Check for NaN or infinite values
+            if any(np.isnan(x).any() or np.isinf(x).any() for x in [vg, cgg, cgd, cgs, cgb]):
+                self.logger.logger.warning("CV data contains NaN or infinite values")
+                return False
+            
+            # Check capacitance values are positive
+            if any((x < 0).any() for x in [cgg, cgd, cgs, cgb]):
+                self.logger.logger.warning("CV data contains negative capacitance values")
+                return False
+            
+            # Check total capacitance consistency
+            # Cgg should be approximately equal to Cgd + Cgs + Cgb
+            total_cap = cgd + cgs + cgb
+            if not np.allclose(cgg, total_cap, rtol=0.1):  # 10% tolerance
+                self.logger.logger.warning("CV data total capacitance mismatch")
+                return False
+            
+            return True
+            
+        except Exception as e:
+            self.logger.logger.error(f"Error verifying CV data: {e}")
+            return False
     
     def read_temperature_data(self):
         """Read temperature data from IV characteristics files."""
@@ -1128,159 +1212,119 @@ class DataReader:
             return None, None
     
     def read_sparameter_data(self):
-        """Read S-parameter data from output file.
+        """Read S-parameter data from simulation output.
         
         Returns:
-            tuple: (freq, s11_mag, s21_mag, s12_mag, s22_mag) arrays of S-parameter data
+            tuple: (freq, s11_mag, s11_phase, s12_mag, s12_phase, s21_mag, s21_phase, s22_mag, s22_phase)
+                   if successful, else tuple of Nones
         """
         try:
-            # First check in data directory
-            filename = 'sparams_data.txt'
-            file_path = os.path.join(self.output_dir, 'data', filename)
-            
-            if not os.path.exists(file_path):
-                # If not there, check in main output directory as fallback
-                file_path = os.path.join(self.output_dir, filename)
-                if not os.path.exists(file_path):
-                    # Check if the S-parameter raw files exist in the netlists directory
-                    s_params_p1_file = os.path.join('netlists', 's_params_p1.txt')
-                    s_params_p2_file = os.path.join('netlists', 's_params_p2.txt')
-                    
-                    if os.path.exists(s_params_p1_file) and os.path.exists(s_params_p2_file):
-                        # Create data directory if it doesn't exist
-                        data_dir = os.path.join(self.output_dir, 'data')
-                        os.makedirs(data_dir, exist_ok=True)
-                        
-                        # Copy files to results directory for processing
-                        dest_p1 = os.path.join(data_dir, 's_params_p1.txt')
-                        dest_p2 = os.path.join(data_dir, 's_params_p2.txt')
-                        shutil.copy(s_params_p1_file, dest_p1)
-                        shutil.copy(s_params_p2_file, dest_p2)
-                        self.logger.logger.info(f"Copied S-parameter data files from netlists to {data_dir}")
-                        
-                        # Also check for sparams_data.txt in netlists directory
-                        sparams_data_file = os.path.join('netlists', filename)
-                        if os.path.exists(sparams_data_file):
-                            shutil.copy(sparams_data_file, file_path)
-                            self.logger.logger.info(f"Copied S-parameter data file from netlists/{filename} to {file_path}")
-                    else:
-                        self.logger.logger.error(f"S-parameter data file {filename} not found")
-                        return None, None, None, None, None, None, None, None, None
-            
-            self.logger.logger.info(f"Reading S-parameter data from {file_path}")
-            
-            # Read file, skipping header lines (starting with #)
-            data = []
-            with open(file_path, 'r') as f:
-                for line in f:
-                    if line.startswith('#'):
-                        continue
-                    try:
-                        parts = line.strip().split()
-                        if len(parts) >= 9:  # freq and 8 S-parameter values
-                            row = [float(parts[0])]  # Frequency
-                            # S11, S12, S21, S22 magnitudes and phases
-                            for i in range(1, 9):
-                                row.append(float(parts[i]))
-                            data.append(row)
-                    except Exception as e:
-                        self.logger.logger.warning(f"Error parsing S-parameter line: {line.strip()}, {e}")
-                        continue
-            
-            if not data:
-                self.logger.logger.error("No valid S-parameter data could be parsed")
+            file_path = self._find_file('sparams_data.txt')
+            if not file_path:
+                self.logger.logger.warning("S-parameter data file not found")
                 return None, None, None, None, None, None, None, None, None
             
-            data = np.array(data)
+            # Read data with column mapping using two-comment-line parser
+            data, col_map = self._parse_data_file_with_comments(
+                file_path,
+                expected_cols=9,  # freq and 8 S-parameter values (mag and phase)
+                col_names=['freq', 's11_mag', 's11_phase', 's12_mag', 's12_phase', 's21_mag', 's21_phase', 's22_mag', 's22_phase']
+            )
             
-            # Extract data columns
-            freq = data[:, 0]       # Frequency
-            s11_mag = data[:, 1]    # S11 magnitude
-            s11_phase = data[:, 2]  # S11 phase (degrees)
-            s12_mag = data[:, 3]    # S12 magnitude
-            s12_phase = data[:, 4]  # S12 phase (degrees)
-            s21_mag = data[:, 5]    # S21 magnitude
-            s21_phase = data[:, 6]  # S21 phase (degrees)
-            s22_mag = data[:, 7]    # S22 magnitude
-            s22_phase = data[:, 8]  # S22 phase (degrees)
+            if data is None or col_map is None:
+                return None, None, None, None, None, None, None, None, None
             
-            self.logger.logger.info(f"S-parameter data read successfully: {len(freq)} frequency points")
+            # Extract frequency and S-parameters
+            freq = data[:, col_map['freq']]
+            s11_mag = data[:, col_map['s11_mag']]
+            s11_phase = data[:, col_map['s11_phase']]
+            s12_mag = data[:, col_map['s12_mag']]
+            s12_phase = data[:, col_map['s12_phase']]
+            s21_mag = data[:, col_map['s21_mag']]
+            s21_phase = data[:, col_map['s21_phase']]
+            s22_mag = data[:, col_map['s22_mag']]
+            s22_phase = data[:, col_map['s22_phase']]
+            
             return freq, s11_mag, s11_phase, s12_mag, s12_phase, s21_mag, s21_phase, s22_mag, s22_phase
             
         except Exception as e:
             self.logger.logger.error(f"Error reading S-parameter data: {e}")
             return None, None, None, None, None, None, None, None, None
-    
-    def read_nqs_effects_data(self):
-        """Read non-quasi-static effects data from output file.
+
+    def _verify_sparameter_data(self, freq, s11_mag, s12_mag, s21_mag, s22_mag):
+        """Verify S-parameter data consistency.
         
+        Args:
+            freq: Frequency array
+            s11_mag: S11 magnitude array
+            s12_mag: S12 magnitude array
+            s21_mag: S21 magnitude array
+            s22_mag: S22 magnitude array
+            
         Returns:
-            tuple: (freq, vg_phase, id_phase, phase_diff) arrays of NQS effect data
+            bool: True if data is consistent, False otherwise
         """
         try:
-            # First check in data directory
-            filename = 'nqs_effects.txt'
-            file_path = os.path.join(self.output_dir, 'data', filename)
+            # Check array lengths
+            if not all(len(x) == len(freq) for x in [s11_mag, s12_mag, s21_mag, s22_mag]):
+                self.logger.logger.warning("S-parameter arrays have inconsistent lengths")
+                return False
             
-            if not os.path.exists(file_path):
-                # If not there, check in main output directory as fallback
-                file_path = os.path.join(self.output_dir, filename)
-                if not os.path.exists(file_path):
-                    # Check if the NQS effects raw file exists in the netlists directory
-                    nqs_raw_file = os.path.join('netlists', 'nqs_effects_raw.txt')
-                    
-                    if os.path.exists(nqs_raw_file):
-                        # Create data directory if it doesn't exist
-                        data_dir = os.path.join(self.output_dir, 'data')
-                        os.makedirs(data_dir, exist_ok=True)
-                        
-                        # Copy file to results directory for processing
-                        dest_raw = os.path.join(data_dir, 'nqs_effects_raw.txt')
-                        shutil.copy(nqs_raw_file, dest_raw)
-                        self.logger.logger.info(f"Copied NQS effects raw data file from netlists to {data_dir}")
-                        
-                        # Also check for nqs_effects.txt in netlists directory
-                        nqs_effects_file = os.path.join('netlists', filename)
-                        if os.path.exists(nqs_effects_file):
-                            shutil.copy(nqs_effects_file, file_path)
-                            self.logger.logger.info(f"Copied NQS effects data file from netlists/{filename} to {file_path}")
-                    else:
-                        self.logger.logger.warning(f"Non-quasi-static effects data file not found: {file_path}")
-                        return None, None, None, None
+            # Check for NaN or infinite values
+            if any(np.isnan(x).any() or np.isinf(x).any() for x in [freq, s11_mag, s12_mag, s21_mag, s22_mag]):
+                self.logger.logger.warning("S-parameter data contains NaN or infinite values")
+                return False
             
-            self.logger.logger.info(f"Reading NQS effects data from {file_path}")
+            # Check frequency is monotonically increasing
+            if not np.all(np.diff(freq) > 0):
+                self.logger.logger.warning("Frequency array is not monotonically increasing")
+                return False
             
-            # Read file, skipping header lines (starting with #)
-            data = []
-            with open(file_path, 'r') as f:
-                for line in f:
-                    if line.startswith('#'):
-                        continue
-                    try:
-                        parts = line.strip().split()
-                        if len(parts) >= 4:  # freq, vg_phase, id_phase, phase_diff
-                            row = []
-                            for i in range(4):
-                                row.append(float(parts[i]))
-                            data.append(row)
-                    except Exception as e:
-                        self.logger.logger.warning(f"Error parsing NQS line: {line.strip()}, {e}")
-                        continue
+            # Check S-parameter magnitudes are between 0 and 1
+            if any((x > 1).any() for x in [s11_mag, s12_mag, s21_mag, s22_mag]):
+                self.logger.logger.warning("S-parameter magnitudes exceed 1")
+                return False
             
-            if not data:
-                self.logger.logger.error("No valid NQS effects data could be parsed")
+            # Check reciprocity (S12 ≈ S21 for passive devices)
+            if not np.allclose(s12_mag, s21_mag, rtol=0.1):  # 10% tolerance
+                self.logger.logger.warning("S-parameter reciprocity check failed")
+                return False
+            
+            return True
+            
+        except Exception as e:
+            self.logger.logger.error(f"Error verifying S-parameter data: {e}")
+            return False
+    
+    def read_nqs_effects_data(self):
+        """Read non-quasi-static effects data from simulation output.
+        
+        Returns:
+            tuple: (nqs_freq, vg_phase, id_phase, phase_diff) if successful, else tuple of Nones
+        """
+        try:
+            file_path = self._find_file('nqs_effects.txt')
+            if not file_path:
+                self.logger.logger.warning("NQS effects data file not found")
                 return None, None, None, None
             
-            data = np.array(data)
+            # Read data with column mapping using two-comment-line parser
+            data, col_map = self._parse_data_file_with_comments(
+                file_path,
+                expected_cols=4,  # freq, vg_phase, id_phase, phase_diff
+                col_names=['freq', 'vg_phase', 'id_phase', 'phase_diff']
+            )
             
-            # Extract data columns
-            freq = data[:, 0]        # Frequency
-            vg_phase = data[:, 1]    # Gate voltage phase
-            id_phase = data[:, 2]    # Drain current phase
-            phase_diff = data[:, 3]  # Phase difference (vg_phase - id_phase)
+            if data is None or col_map is None:
+                return None, None, None, None
             
-            self.logger.logger.info(f"NQS effects data read successfully: {len(freq)} frequency points")
-            return freq, vg_phase, id_phase, phase_diff
+            # Extract data using column mapping
+            nqs_freq = data[:, col_map['freq']]
+            vg_phase = data[:, col_map['vg_phase']]
+            id_phase = data[:, col_map['id_phase']]
+            phase_diff = data[:, col_map['phase_diff']]
+            
+            return nqs_freq, vg_phase, id_phase, phase_diff
             
         except Exception as e:
             self.logger.logger.error(f"Error reading NQS effects data: {e}")

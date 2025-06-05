@@ -105,7 +105,7 @@ class SimulationRunner:
                 
                 # Log output
                 if stdout:
-                    self.logger.logger.info(f"Simulation output: {stdout}")
+                    self.logger.logger.debug(f"Simulation output: {stdout}")
                 if stderr:
                     self.logger.logger.warning(f"Simulation warnings: {stderr}")
                 
@@ -253,3 +253,54 @@ class SimulationRunner:
             
         self.logger.logger.info("All simulations completed successfully")
         return True
+
+    def run_simulations_by_mode(self, modes: List[str]) -> bool:
+        """Run simulations based on selected modes.
+        
+        Args:
+            modes: List of simulation modes to run. Valid modes are:
+                  - 'dc': DC analysis
+                  - 'ac': AC analysis
+                  - 'transient': Transient analysis
+                  - 'noise': Noise analysis
+                  - 'all': Run all simulations
+                  
+        Returns:
+            bool: True if all selected simulations succeeded, False if any failed
+        """
+        success = True
+        
+        # Handle 'all' mode
+        if 'all' in modes:
+            return self.run_all_simulations()
+            
+        # Run DC simulation if requested
+        if 'dc' in modes:
+            if not self.run_dc_simulation():
+                self.logger.logger.error("DC circuit simulation failed")
+                success = False
+                
+        # Run AC simulation if requested and file exists
+        if 'ac' in modes:
+            if self.ac_circuit_file and self.ac_circuit_file.exists():
+                if not self.run_ac_simulation():
+                    self.logger.logger.error("AC circuit simulation failed")
+                    success = False
+            else:
+                self.logger.logger.info("Skipping AC simulation (no circuit file)")
+                
+        # Run transient simulation if requested
+        if 'transient' in modes:
+            if not self.run_transient_simulation():
+                self.logger.logger.error("Transient circuit simulation failed")
+                success = False
+                
+        # Run noise analysis if requested
+        if 'noise' in modes:
+            if not self.run_noise_simulation():
+                self.logger.logger.error("Noise analysis simulation failed")
+                success = False
+                
+        if success:
+            self.logger.logger.info("All selected simulations completed successfully")
+        return success
