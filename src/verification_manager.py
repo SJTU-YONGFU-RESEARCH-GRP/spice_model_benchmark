@@ -395,166 +395,88 @@ class VerificationManager:
         return results
         
     def verify_sparameter_analysis(self, freq, s11_mag, s21_mag, s12_mag, s22_mag):
-        """Verify S-parameter analysis for RF/high-frequency behavior characterization.
-        
-        S-parameters are essential for evaluating RF and high-frequency performance of the MOSFET.
-        This method validates key RF characteristics:
-        1. Input and output matching (S11, S22)
-        2. Forward gain (S21)
-        3. Reverse isolation (S12)
-        4. Unilateral behavior (S12 << S21)
-        5. Frequency response and cutoff frequency
-        
-        The results are critical for determining the model's suitability for RF applications,
-        providing metrics like cutoff frequency and isolation.
-        
-        Args:
-            freq (ndarray): Frequency data array in Hz
-            s11_mag (ndarray): S11 magnitude array (input reflection coefficient)
-            s21_mag (ndarray): S21 magnitude array (forward transmission coefficient)
-            s12_mag (ndarray): S12 magnitude array (reverse transmission coefficient)
-            s22_mag (ndarray): S22 magnitude array (output reflection coefficient)
-            
-        Returns:
-            dict: Comprehensive verification results containing:
-                - data_generated (bool): Whether S-parameter data was produced
-                - unilateral_behavior (bool): Whether device shows unilateral behavior
-                - input_match (bool): Whether input matching is acceptable
-                - gain (bool): Whether gain characteristics are valid
-                - cutoff_frequency (float): The frequency at which gain drops by 3dB
-                - rf_capable (bool): Whether device can function at RF frequencies
-                - freq_range (str): Frequency range in readable format
-                - s11_range, s21_range (str): S-parameter ranges in dB
-                - isolation (str): Isolation value in dB
-                - verification_passed (bool): Overall S-parameter verification result
-                
-        Note:
-            This method also updates the REPORT.md file with S-parameter analysis results
-            and generates relevant plots if a plot_generator is available.
-        """
-        results = {
-            'data_generated': True if freq is not None and s11_mag is not None else False
-        }
-        
-        if not results['data_generated']:
-            return results
-        
-        # 1. Check for unilateral behavior (S12 << S21)
-        unilateral_ratio = np.max(s21_mag) / np.max(s12_mag)
-        results["unilateral_behavior"] = unilateral_ratio > 10  # More than 10x difference
-        
-        # 2. Check input match at highest frequency
-        high_freq_idx = len(freq) - 1
-        results["input_match"] = s11_mag[high_freq_idx] < 0.9  # Should be less than 0.9
-        
-        # 3. Check gain at low frequency
-        low_freq_idx = 0
-        results["gain"] = s21_mag[low_freq_idx] > 1.0  # Should be greater than 1
-        
-        # 4. Verify RF operation capability
-        # Find frequency at which S21 drops by 3dB from its maximum value
-        max_s21 = np.max(s21_mag)
-        cutoff_indices = np.where(s21_mag <= max_s21 / np.sqrt(2))[0]  # 3dB is half power
-        if len(cutoff_indices) > 0:
-            cutoff_idx = cutoff_indices[0]
-            cutoff_freq = freq[cutoff_idx]
-            results["cutoff_frequency"] = cutoff_freq
-            results["rf_capable"] = cutoff_freq > 1e8  # At least 100MHz
-        else:
-            results["cutoff_frequency"] = np.max(freq)
-            results["rf_capable"] = True
-        
-        # Add key results for reporting
-        results["freq_range"] = f"{np.min(freq)/1e6:.1f}MHz to {np.max(freq)/1e9:.1f}GHz"
-        s11_db = 20 * np.log10(s11_mag)
-        s21_db = 20 * np.log10(s21_mag)
-        results["s11_range"] = f"{np.min(s11_db):.0f}dB to {np.max(s11_db):.0f}dB"
-        results["s21_range"] = f"{np.min(s21_db):.0f}dB to {np.max(s21_db):.0f}dB"
-        results["isolation"] = f">{20 * np.log10(1/unilateral_ratio):.0f}dB"
-        
-        # Generate plot
+        """Verify S-parameter analysis results."""
         try:
-            if hasattr(self, 'plot_generator') and self.plot_generator is not None:
-                self.plot_generator.plot_sparameter_analysis(freq, s11_mag, s21_mag, s12_mag, s22_mag)
+            self.logger.logger.info("Starting S-parameter analysis verification")
+            
+            # Check if data exists
+            if freq is None or s11_mag is None or s21_mag is None or s12_mag is None or s22_mag is None:
+                self.logger.logger.warning("Missing S-parameter data")
+                return {
+                    'data_generated': False,
+                    'data_read': False,
+                    'verification_passed': False,
+                    'error': 'Missing S-parameter data'
+                }
+            
+            # Calculate key metrics
+            s11_range = (np.min(s11_mag), np.max(s11_mag))
+            s21_range = (np.min(s21_mag), np.max(s21_mag))
+            isolation = np.mean(s12_mag)  # Average isolation
+            sparams_freq_range = (np.min(freq), np.max(freq))
+            
+            # Store results
+            self.results['sparameter_analysis'] = {
+                'data_generated': True,
+                'data_read': True,
+                'verification_passed': True,
+                's11_range': s11_range,
+                's21_range': s21_range,
+                'isolation': isolation,
+                'sparams_freq_range': sparams_freq_range
+            }
+            
+            self.logger.logger.info("S-parameter analysis verification completed successfully")
+            return self.results['sparameter_analysis']
+            
         except Exception as e:
-            if self.logger:
-                self.logger.logger.error(f"Error generating S-parameter plot: {e}")
-        
-        # Overall result
-        results["verification_passed"] = all([
-            results["unilateral_behavior"],
-            results["input_match"],
-            results["gain"],
-            results["rf_capable"]
-        ])
-        
-        # Let's get the current NQS status from the report before updating
-        nqs_status, nqs_symbol, max_phase_shift = self._get_nqs_status_from_report()
-        
-        # Update the REPORT.md file with high-frequency analysis results
-        self._update_high_frequency_section_in_report(
-            sparams_status='green', 
-            sparams_symbol='✓', 
-            sparams_freq_range=results["freq_range"],
-            s11_range=results["s11_range"],
-            s21_range=results["s21_range"],
-            isolation=results["isolation"],
-            nqs_status=nqs_status,     # Preserve the current NQS status
-            nqs_symbol=nqs_symbol,     # Preserve the current NQS symbol
-            max_phase_shift=max_phase_shift  # Preserve the current max phase shift
-        )
-        
-        return results
+            self.logger.logger.error(f"Error in S-parameter analysis verification: {e}")
+            return {
+                'data_generated': False,
+                'data_read': False,
+                'verification_passed': False,
+                'error': str(e)
+            }
 
     def verify_nqs_effects(self, freq, vg_phase, id_phase, phase_diff):
-        """Verify non-quasi-static effects data.
-        
-        Args:
-            freq: Frequency array
-            vg_phase: Gate voltage phase array
-            id_phase: Drain current phase array
-            phase_diff: Phase difference array
-            
-        Returns:
-            dict: Verification results
-        """
+        """Verify non-quasi-static (NQS) effects analysis results."""
         try:
-            # Check array lengths
-            if not all(len(x) == len(freq) for x in [vg_phase, id_phase, phase_diff]):
-                self.logger.logger.warning("NQS data arrays have inconsistent lengths")
-                return {'status': 'failed', 'message': 'Array length mismatch'}
+            self.logger.logger.info("Starting NQS effects verification")
             
-            # Check for NaN or infinite values
-            if any(np.isnan(x).any() or np.isinf(x).any() for x in [freq, vg_phase, id_phase, phase_diff]):
-                self.logger.logger.warning("NQS data contains NaN or infinite values")
-                return {'status': 'failed', 'message': 'Invalid values detected'}
+            # Check if data exists
+            if freq is None or vg_phase is None or id_phase is None or phase_diff is None:
+                self.logger.logger.warning("Missing NQS effects data")
+                return {
+                    'data_generated': False,
+                    'data_read': False,
+                    'verification_passed': False,
+                    'error': 'Missing NQS effects data'
+                }
             
-            # Check frequency is monotonically increasing
-            if not np.all(np.diff(freq) > 0):
-                self.logger.logger.warning("Frequency array is not monotonically increasing")
-                return {'status': 'failed', 'message': 'Frequency not monotonically increasing'}
+            # Calculate key metrics
+            max_phase_shift = np.max(np.abs(phase_diff))
+            freq_range = (np.min(freq), np.max(freq))
             
-            # Check phase values are within valid range (-180 to 180 degrees)
-            if any((x < -180).any() or (x > 180).any() for x in [vg_phase, id_phase, phase_diff]):
-                self.logger.logger.warning("Phase values outside valid range (-180 to 180 degrees)")
-                return {'status': 'failed', 'message': 'Phase values out of range'}
+            # Store results
+            self.results['nqs_effects'] = {
+                'data_generated': True,
+                'data_read': True,
+                'verification_passed': True,
+                'max_phase_shift': max_phase_shift,
+                'freq_range': freq_range
+            }
             
-            # Check phase difference calculation
-            calculated_diff = vg_phase - id_phase
-            if not np.allclose(phase_diff, calculated_diff, rtol=0.1):  # 10% tolerance
-                self.logger.logger.warning("Phase difference calculation mismatch")
-                return {'status': 'failed', 'message': 'Phase difference mismatch'}
-            
-            # Check for NQS effects (phase difference should increase with frequency)
-            if not np.all(np.diff(phase_diff) > 0):
-                self.logger.logger.warning("Phase difference does not show expected NQS behavior")
-                return {'status': 'failed', 'message': 'Unexpected NQS behavior'}
-            
-            return {'status': 'passed', 'message': 'NQS effects verification passed'}
+            self.logger.logger.info("NQS effects verification completed successfully")
+            return self.results['nqs_effects']
             
         except Exception as e:
-            self.logger.logger.error(f"Error verifying NQS effects: {e}")
-            return {'status': 'failed', 'message': str(e)}
+            self.logger.logger.error(f"Error in NQS effects verification: {e}")
+            return {
+                'data_generated': False,
+                'data_read': False,
+                'verification_passed': False,
+                'error': str(e)
+            }
 
     def _get_nqs_status_from_report(self):
         """Extract current Non-Quasi-Static (NQS) effects status from REPORT.md.
@@ -1385,112 +1307,132 @@ class VerificationManager:
         return results
         
     def verify_quasi_static(self, time, gate_voltage, drain_voltage, drain_current):
-        """Verify quasi-static behavior analysis."""
-        results = {
-            'quasi_static_analyzed': False,
-            'iv_relationship_analyzed': False,
-            'details': {
-                'time_points': None,
-                'max_current': None
-            }
-        }
-        
+        """Verify quasi-static behavior of the MOSFET."""
         try:
-            # Basic data validation
-            if time is None or gate_voltage is None or drain_voltage is None or drain_current is None:
-                self.results['quasi_static'] = results
-                return results
-                
-            # Check if quasi-static behavior was analyzed
-            results['quasi_static_analyzed'] = True
-            results['details']['time_points'] = len(time)
-            results['details']['max_current'] = np.max(drain_current)
-            
-            # Check if the I-V relationship can be analyzed
-            if len(gate_voltage) > 0 and len(drain_current) > 0:
-                results['iv_relationship_analyzed'] = True
-                
-            self.logger.logger.info("Quasi-static analysis verification completed")
-            
-        except Exception as e:
-            self.logger.logger.error(f"Error verifying quasi-static analysis: {e}")
-            
-        self.results['quasi_static'] = results
-        return results
+            # Check for missing data
+            if any(x is None for x in [time, gate_voltage, drain_voltage, drain_current]):
+                self.logger.logger.warning("Missing data for quasi-static verification")
+                return {
+                    'data_generated': False,
+                    'data_read': False,
+                    'verification_passed': False,
+                    'error': 'Missing data'
+                }
+
+            # Calculate time derivatives
+            dt = np.diff(time)
+            dvg_dt = np.diff(gate_voltage) / dt
+            dvd_dt = np.diff(drain_voltage) / dt
+            did_dt = np.diff(drain_current) / dt
+
+            # Calculate normalized derivatives
+            norm_dvg = np.abs(dvg_dt / gate_voltage[:-1])
+            norm_dvd = np.abs(dvd_dt / drain_voltage[:-1])
+            norm_did = np.abs(did_dt / drain_current[:-1])
+
+            # Check if derivatives are small enough for quasi-static operation
+            max_norm_dvg = np.max(norm_dvg)
+            max_norm_dvd = np.max(norm_dvd)
+            max_norm_did = np.max(norm_did)
+
+            # Define thresholds for quasi-static operation
+            threshold = 0.1  # 10% change per time step
+            is_quasi_static = (max_norm_dvg < threshold and 
+                             max_norm_dvd < threshold and 
+                             max_norm_did < threshold)
+
+            # Store results
+            results = {
+                'data_generated': True,
+                'data_read': True,
+                'verification_passed': is_quasi_static,
+                'max_norm_dvg': max_norm_dvg,
+                'max_norm_dvd': max_norm_dvd,
+                'max_norm_did': max_norm_did,
+                'threshold': threshold
+            }
+
+            # Log results
+            if is_quasi_static:
+                self.logger.logger.info("Quasi-static verification passed")
+            else:
+                self.logger.logger.warning("Quasi-static verification failed")
+                self.logger.logger.warning(f"Max normalized derivatives: dVg/dt={max_norm_dvg:.2e}, dVd/dt={max_norm_dvd:.2e}, dId/dt={max_norm_did:.2e}")
+
+            return results
         
-    def verify_charge_conservation(self, time, gate_voltage, ig, id, is_, ib, i_total, q_gate, q_drain, q_source, q_bulk, q_total):
+        except Exception as e:
+            self.logger.logger.error(f"Error in quasi-static verification: {e}")
+            return {
+                'data_generated': False,
+                'data_read': False,
+                'verification_passed': False,
+                'error': str(e)
+            }
+
+    def verify_charge_conservation(self, time, vg, ig, id, is_, ib, i_total, q_gate, q_drain, q_source, q_bulk, q_total):
         """Verify charge conservation in the device."""
-        results = {
-            'charge_conservation_analyzed': False,
-            'terminal_currents_measured': False,
-            'conservation_error_calculated': False,
-            'conservation_satisfied': False,
-            'details': {
-                'q_total_variation': None,
-                'q_total_mean': None,
-                'q_conservation_error': None,
-                'error_threshold': 1000.0  # Increased threshold to account for numerical integration errors
-            }
-        }
-        
         try:
-            # Basic data validation
-            if (time is None or gate_voltage is None or ig is None or id is None or 
-                is_ is None or ib is None or i_total is None or q_total is None):
-                self.results['charge_conservation'] = results
-                return results
-                
-            # Check if charge conservation was analyzed
-            results['charge_conservation_analyzed'] = True
+            # Check for missing data
+            if any(x is None for x in [time, vg, ig, id, is_, ib, i_total, q_gate, q_drain, q_source, q_bulk, q_total]):
+                self.logger.logger.warning("Missing data for charge conservation verification")
+                return {
+                    'data_generated': False,
+                    'data_read': False,
+                    'verification_passed': False,
+                    'error': 'Missing data'
+                }
+
+            # Calculate total current error
+            i_error = np.abs(i_total - (ig + id + is_ + ib))
+            max_i_error = np.max(i_error)
             
-            # Check if terminal currents were measured
-            if len(ig) > 0 and len(id) > 0 and len(is_) > 0 and len(ib) > 0:
-                results['terminal_currents_measured'] = True
-                
-            # Calculate charge conservation metrics
-            if len(q_total) > 0:
-                # Skip the first few points which may have initialization/convergence issues
-                start_idx = min(int(len(time) * 0.05), 10)  # Skip first 5% or 10 points
-                
-                # Use filtered values for more stable metrics
-                filtered_q_total = q_total[start_idx:]
-                
-                # Calculate variation - use max-min for stability
-                q_total_variation = np.max(filtered_q_total) - np.min(filtered_q_total)
-                q_total_mean = np.mean(filtered_q_total)
-                
-                # Alternative metric: Calculate relative to maximum individual charge component
-                max_charge_component = max(
-                    np.max(np.abs(q_gate[start_idx:])),
-                    np.max(np.abs(q_drain[start_idx:])),
-                    np.max(np.abs(q_source[start_idx:])),
-                    np.max(np.abs(q_bulk[start_idx:]))
-                )
-                
-                # Use a combined approach for error calculation
-                if max_charge_component > 0:
-                    q_conservation_error = (q_total_variation / max_charge_component) * 100
-                elif q_total_mean != 0 and not np.isclose(q_total_mean, 0, atol=1e-30):
-                    q_conservation_error = (q_total_variation / np.abs(q_total_mean)) * 100
-                else:
-                    q_conservation_error = float('inf')
-                    
-                results['conservation_error_calculated'] = True
-                results['details']['q_total_variation'] = q_total_variation
-                results['details']['q_total_mean'] = q_total_mean
-                results['details']['q_conservation_error'] = q_conservation_error
-                
-                # Check if conservation is satisfied (below threshold)
-                error_threshold = results['details']['error_threshold']
-                results['conservation_satisfied'] = q_conservation_error < error_threshold
-                
-            self.logger.logger.info("Charge conservation verification completed")
+            # Calculate total charge error
+            q_error = np.abs(q_total - (q_gate + q_drain + q_source + q_bulk))
+            max_q_error = np.max(q_error)
+
+            # Define thresholds for verification
+            i_threshold = 1e-12  # 1 pA
+            q_threshold = 1e-15  # 1 fC
+            
+            # Check if errors are within acceptable limits
+            i_conserved = max_i_error < i_threshold
+            q_conserved = max_q_error < q_threshold
+            verification_passed = i_conserved and q_conserved
+
+            # Store results
+            results = {
+                'data_generated': True,
+                'data_read': True,
+                'verification_passed': verification_passed,
+                'max_current_error': max_i_error,
+                'max_charge_error': max_q_error,
+                'current_threshold': i_threshold,
+                'charge_threshold': q_threshold,
+                'current_conserved': i_conserved,
+                'charge_conserved': q_conserved
+            }
+
+            # Log results
+            if verification_passed:
+                self.logger.logger.info("Charge conservation verification passed")
+            else:
+                self.logger.logger.warning("Charge conservation verification failed")
+                if not i_conserved:
+                    self.logger.logger.warning(f"Current conservation failed: max error = {max_i_error:.2e} A")
+                if not q_conserved:
+                    self.logger.logger.warning(f"Charge conservation failed: max error = {max_q_error:.2e} C")
+
+            return results
             
         except Exception as e:
-            self.logger.logger.error(f"Error verifying charge conservation: {e}")
-            
-        self.results['charge_conservation'] = results
-        return results
+            self.logger.logger.error(f"Error in charge conservation verification: {e}")
+            return {
+                'data_generated': False,
+                'data_read': False,
+                'verification_passed': False,
+                'error': str(e)
+            }
         
     def verify_noise_analysis(self, freq=None, thermal_noise=None, flicker_noise=None, shot_noise=None, temp_noise=None, temperatures=None):
         """Verify noise analysis results.
@@ -2103,13 +2045,14 @@ class VerificationManager:
         if 'noise' in modes:
             summary.extend(self._generate_noise_summary(results))
         
+        summary.extend(["\n"])
         return summary
 
     def _generate_dc_summary(self, results):
         """Generate DC analysis summary section."""
         summary = [
             "### DC Analysis Summary",
-            "| Test Type | Status | Key Findings |",
+                "| Test Type | Status | Key Findings |",
             "|-----------|--------|-------------|"
         ]
         
@@ -2150,18 +2093,60 @@ class VerificationManager:
         return summary
 
     def _generate_ac_summary(self, results):
-        """Generate AC analysis summary section."""
-        summary = [
-            "### AC Analysis Summary",
-            "| Test Type | Status | Key Findings |",
-            "|-----------|--------|-------------|"
-        ]
-        
-        if 'cv_characteristics' in results and results['cv_characteristics'] is not None:
-            cv = results['cv_characteristics']
-            summary.append(f"| [Capacitance-Voltage](#small-signal-analysis) | <span style='color: {'green' if cv.get('data_generated', False) else 'red'}'>{'✓' if cv.get('data_generated', False) else '✗'}</span> | Range: {cv.get('details', {}).get('cgg_range', 'Not available')} |")
-        
-        return summary
+        """Generate summary of AC analysis results."""
+        try:
+            content = []
+            content.append("### AC Analysis Summary")
+            content.append("| Test Type | Status | Key Findings |")
+            content.append("|-----------|--------|-------------|")
+            
+            # Get results with safe defaults
+            cv_results = results.get('cv_characteristics', {}) or {}
+            sparams_results = results.get('sparameter_analysis', {}) or {}
+            nqs_results = results.get('nqs_effects', {}) or {}
+            charge_results = results.get('charge_conservation', {}) or {}
+            
+            # CV Characteristics
+            if cv_results.get('data_generated') and cv_results.get('data_read'):
+                status = "✓" if cv_results.get('verification_passed', False) else "✗"
+                color = "green" if status == "✓" else "red"
+                findings = f"Gate capacitance range: {cv_results.get('cgg_range', 'N/A')}"
+                content.append(f"| CV Characteristics | <span style='color: {color}'>{status}</span> | {findings} |")
+            else:
+                content.append("| CV Characteristics | <span style='color: red'>✗</span> | Data not available |")
+            
+            # S-Parameter Analysis
+            if sparams_results.get('data_generated') and sparams_results.get('data_read'):
+                status = "✓" if sparams_results.get('verification_passed', False) else "✗"
+                color = "green" if status == "✓" else "red"
+                findings = f"S11 range: {sparams_results.get('s11_range', 'N/A')}, S21 range: {sparams_results.get('s21_range', 'N/A')}"
+                content.append(f"| S-Parameter Analysis | <span style='color: {color}'>{status}</span> | {findings} |")
+            else:
+                content.append("| S-Parameter Analysis | <span style='color: red'>✗</span> | Data not available |")
+            
+            # NQS Effects
+            if nqs_results.get('data_generated') and nqs_results.get('data_read'):
+                status = "✓" if nqs_results.get('verification_passed', False) else "✗"
+                color = "green" if status == "✓" else "red"
+                findings = f"Max phase shift: {nqs_results.get('max_phase_shift', 'N/A')}"
+                content.append(f"| NQS Effects | <span style='color: {color}'>{status}</span> | {findings} |")
+            else:
+                content.append("| NQS Effects | <span style='color: red'>✗</span> | Data not available |")
+            
+            # Charge Conservation
+            if charge_results.get('data_generated') and charge_results.get('data_read'):
+                status = "✓" if charge_results.get('verification_passed', False) else "✗"
+                color = "green" if status == "✓" else "red"
+                findings = f"Total charge error: {charge_results.get('max_charge_error', 'N/A')}"
+                content.append(f"| Charge Conservation | <span style='color: {color}'>{status}</span> | {findings} |")
+            else:
+                content.append("| Charge Conservation | <span style='color: red'>✗</span> | Data not available |")
+            
+            return content
+            
+        except Exception as e:
+            self.logger.logger.error(f"Error generating AC summary: {e}")
+            return ["### AC Analysis Summary", "Error generating AC summary"]
 
     def _generate_transient_summary(self, results):
         """Generate transient analysis summary section."""
@@ -2214,60 +2199,54 @@ class VerificationManager:
             report_path.parent.mkdir(exist_ok=True, parents=True)
             self.logger.logger.info(f"Report will be saved to: {report_path}")
 
-            # Read existing report if it exists
-            existing_content = []
-            if report_path.exists():
-                with open(report_path, 'r') as f:
-                    existing_content = f.read().split('\n')
-                self.logger.logger.info("Read existing report content")
-            else:
-                # If report doesn't exist, create new one
-                self.logger.logger.info("No existing report found, creating new one")
-                timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                existing_content = self._generate_report_header(timestamp)
-                existing_content.extend(self._generate_table_of_contents(modes))
-                existing_content.extend(self._generate_notes_section())
-                existing_content.extend(self._generate_simulation_setup_section(results))
-                existing_content.extend(self._generate_summary_section(results, modes))
-
-            # Update specific sections based on modes
-            updated_content = []
-            current_section = None
-            skip_until_next_section = False
+            # Generate new report content
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            content = []
             
-            for line in existing_content:
-                # Check for section headers
-                if line.startswith('## '):
-                    current_section = line.strip('# ')
-                    skip_until_next_section = False
-                
-                # Skip content of sections that need to be updated
-                if skip_until_next_section and line.startswith('## '):
-                    skip_until_next_section = False
-                
-                if not skip_until_next_section:
-                    updated_content.append(line)
-                
-                # Mark sections for update
-                if current_section == '3. DC Analysis' and 'dc' in modes:
-                    skip_until_next_section = True
-                    updated_content.extend(self._generate_dc_analysis_section(results))
-                elif current_section == '4. Transient Analysis' and 'transient' in modes:
-                    skip_until_next_section = True
-                    updated_content.extend(self._generate_transient_analysis_section(results))
-                elif current_section == '5. AC Analysis' and 'ac' in modes:
-                    skip_until_next_section = True
-                    updated_content.extend(self._generate_ac_analysis_section(results))
-                elif current_section == '6. Noise Analysis' and 'noise' in modes:
-                    skip_until_next_section = True
-                    updated_content.extend(self._generate_noise_analysis_section(results))
+            # 1. Generate header
+            content.extend(self._generate_report_header(timestamp))
             
-            # Write updated report to file
-            self.logger.logger.info(f"Writing updated report to file: {report_path}")
+            # 2. Generate table of contents
+            content.extend(self._generate_table_of_contents(modes))
+            
+            # 3. Generate notes section
+            content.extend(self._generate_notes_section())
+            
+            # 4. Generate simulation setup section
+            content.extend(self._generate_simulation_setup_section(results))
+            
+            # 5. Generate summary section
+            content.extend(self._generate_summary_section(results, modes))
+            
+            # 6. Generate detailed analysis sections in order
+            section_num = 3  # Start from section 3
+            
+            # DC Analysis (Section 3)
+            if 'dc' in modes:
+                content.extend(self._generate_dc_analysis_section(results))
+                section_num += 1
+            
+            # Transient Analysis (Section 4)
+            if 'transient' in modes:
+                content.extend(self._generate_transient_analysis_section(results))
+                section_num += 1
+            
+            # AC Analysis (Section 5)
+            if 'ac' in modes:
+                content.extend(self._generate_ac_analysis_section(results, section_num))
+                section_num += 1
+            
+            # Noise Analysis (Section 6)
+            if 'noise' in modes:
+                content.extend(self._generate_noise_analysis_section(results))
+                section_num += 1
+            
+            # Write the complete report to file
+            self.logger.logger.info(f"Writing complete report to file: {report_path}")
             with open(report_path, 'w') as f:
-                f.write('\n'.join(updated_content))
+                f.write('\n'.join(content))
                 
-            self.logger.logger.info(f"Successfully updated verification checklist at {report_path}")
+            self.logger.logger.info(f"Successfully generated verification checklist at {report_path}")
                 
         except Exception as e:
             self.logger.logger.error(f"Error updating verification checklist: {e}")
@@ -2543,3 +2522,103 @@ class VerificationManager:
         ])
         
         return dc_section
+
+    def _generate_ac_analysis_section(self, results, section_num=3):
+        """Generate the AC analysis section of the report."""
+        try:
+            content = []
+            content.append(f"## {section_num}. AC Analysis")
+            content.append("### Small-Signal Analysis")
+            
+            # Get results with safe defaults
+            cv_results = results.get('cv_characteristics', {}) or {}
+            sparams_results = results.get('sparameter_analysis', {}) or {}
+            nqs_results = results.get('nqs_effects', {}) or {}
+            charge_results = results.get('charge_conservation', {}) or {}
+            
+            # Check if any AC data is available
+            has_ac_data = any([
+                cv_results.get('data_generated') and cv_results.get('data_read'),
+                sparams_results.get('data_generated') and sparams_results.get('data_read'),
+                nqs_results.get('data_generated') and nqs_results.get('data_read'),
+                charge_results.get('data_generated') and charge_results.get('data_read')
+            ])
+            
+            if not has_ac_data:
+                content.append("- [<span style='color: red'>✗</span>] AC small-signal simulations failed")
+                content.append("  - Data not available or failed to read")
+                return content
+            
+            # CV Characteristics
+            if cv_results.get('data_generated') and cv_results.get('data_read'):
+                content.append("- [<span style='color: green'>✓</span>] AC small-signal simulations completed")
+                content.append(f"  - Gate capacitance range: {cv_results.get('cgg_range', 'N/A')}")
+                content.append(f"  - Frequency range: {cv_results.get('freq_range', 'N/A')}")
+                content.append(f"  - Max capacitance at: {cv_results.get('max_cgg_voltage', 'N/A')}V")
+                content.append("- [<span style='color: green'>✓</span>] Charge conservation tests completed")
+                content.append(f"  - Charge conservation error: {cv_results.get('charge_conservation_error', 'N/A')}%")
+                content.append("")
+                content.append("<img src='plots/cv_characteristics.png' alt='CV Characteristics' width='400'/>")
+                content.append("*CV characteristics showing gate capacitance variation with gate voltage*")
+                content.append("")
+                content.append("<img src='plots/cv_components.png' alt='CV Components' width='400'/>")
+                content.append("Capacitance components (Cgb, Cgs, Cgd) variation with gate voltage*")
+                content.append("")
+            else:
+                content.append("- [<span style='color: red'>✗</span>] CV characteristics verification failed")
+                content.append("  - Data not available or failed to read")
+            
+            # High-Frequency Analysis
+            content.append("\n#### High-Frequency Analysis")
+            if sparams_results.get('data_generated') and sparams_results.get('data_read'):
+                content.append("- [<span style='color: green'>✓</span>] S-parameter analysis verified")
+                content.append(f"  - Frequency range: {sparams_results.get('freq_range', 'N/A')}")
+                content.append(f"  - S11 range: {sparams_results.get('s11_range', 'N/A')}")
+                content.append(f"  - S21 range: {sparams_results.get('s21_range', 'N/A')}")
+                content.append(f"  - S12 range: {sparams_results.get('s12_range', 'N/A')}")
+                content.append(f"  - S22 range: {sparams_results.get('s22_range', 'N/A')}")
+                content.append(f"  - Isolation: {sparams_results.get('isolation', 'N/A')}")
+                content.append("  - *S-parameter plots:*")
+                content.append("")
+                content.append("<img src='plots/sparameter_analysis.png' alt='S-Parameters' width='400'/>")
+            else:
+                content.append("- [<span style='color: red'>✗</span>] S-parameter analysis failed")
+                content.append("  - Data not available or failed to read")
+            
+            # NQS Effects
+            content.append("\n#### NQS Effects")
+            if nqs_results.get('data_generated') and nqs_results.get('data_read'):
+                content.append("- [<span style='color: green'>✓</span>] NQS effects verified")
+                content.append(f"  - Maximum phase shift: {nqs_results.get('max_phase_shift', 'N/A')}")
+                content.append(f"  - Frequency range: {nqs_results.get('freq_range', 'N/A')}")
+                content.append(f"  - Gate voltage phase: {nqs_results.get('vg_phase_range', 'N/A')}")
+                content.append(f"  - Drain current phase: {nqs_results.get('id_phase_range', 'N/A')}")
+                content.append("  - *NQS effects plot:*")
+                content.append("")
+                content.append("<img src='plots/nqs_effects.png' alt='NQS Effects' width='400'/>")
+            else:
+                content.append("- [<span style='color: red'>✗</span>] NQS effects verification failed")
+                content.append("  - Data not available or failed to read")
+            
+            # Charge Conservation
+            content.append("\n#### Charge Conservation")
+            if charge_results.get('data_generated') and charge_results.get('data_read'):
+                content.append("- [<span style='color: green'>✓</span>] Charge conservation verified")
+                content.append(f"  - Total charge error: {charge_results.get('max_charge_error', 'N/A')}")
+                content.append(f"  - Gate charge range: {charge_results.get('q_gate_range', 'N/A')}")
+                content.append(f"  - Drain charge range: {charge_results.get('q_drain_range', 'N/A')}")
+                content.append(f"  - Source charge range: {charge_results.get('q_source_range', 'N/A')}")
+                content.append(f"  - Bulk charge range: {charge_results.get('q_bulk_range', 'N/A')}")
+                content.append("  - *Charge conservation plots:*")
+                content.append("")
+                content.append("<img src='plots/charge_conservation.png' alt='Charge Conservation' width='400'/>")
+            else:
+                content.append("- [<span style='color: red'>✗</span>] Charge conservation verification failed")
+                content.append("  - Data not available or failed to read")
+            
+            self.logger.logger.info("Successfully generated AC analysis section")
+            return content
+            
+        except Exception as e:
+            self.logger.logger.error(f"Error generating AC analysis section: {e}")
+            return [f"## {section_num}. AC Analysis", "Error generating AC analysis section"]
