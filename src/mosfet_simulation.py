@@ -18,22 +18,18 @@ class MOSFETSimulation:
     
     This class handles the complete MOSFET simulation workflow including:
     - Simulation setup and execution
-    - IV characteristics analysis
-    - Temperature analysis
-    - Thermodynamic analysis
+    - DC, AC, Noise and Transient analysis
     - Results verification and reporting
     """
     def __init__(self, dc_circuit_file, transient_circuit_file, noise_circuit_file, 
-                 ac_circuit_file=None, output_dir='results', dpi=300, log_level='INFO'):
+                 ac_circuit_file, output_dir='results', dpi=300, log_level='INFO'):
+
         # Store the circuit file paths directly
         self.dc_circuit_file = dc_circuit_file
         self.transient_circuit_file = transient_circuit_file
         self.noise_circuit_file = noise_circuit_file
         self.ac_circuit_file = ac_circuit_file
-        
-        # Use the DC circuit as the reference circuit for directory paths
-        self.circuit_dir = os.path.dirname(dc_circuit_file)
-        
+                
         # Convert output_dir to absolute path if it's not already
         self.output_dir = Path(output_dir).resolve()
         self.dpi = dpi
@@ -54,7 +50,7 @@ class MOSFETSimulation:
         # Initialize results
         self.results = {
             'simulation_setup': None,
-            'iv_characteristics': None,
+            'dc_operating_point_analysis': None,
             'temperature_analysis': None,
             'thermodynamic_analysis': None,
             'bias_point_analysis': None,
@@ -81,7 +77,7 @@ class MOSFETSimulation:
                   Default is ['all'] which runs all modes.
         """
         try:
-            self.logger.logger.info("Starting MOSFET simulation and analysis")
+            self.logger.info("Starting MOSFET simulation and analysis")
             
             # Create plot generator and data reader
             plot_generator = PlotGenerator(str(self.output_dir), self.dpi, self.logger)
@@ -114,20 +110,20 @@ class MOSFETSimulation:
             
             for circ_file, circ_type in circuit_files:
                 if not os.path.exists(circ_file):
-                    self.logger.logger.error(f"{circ_type} circuit file not found: {circ_file}")
+                    self.logger.error(f"{circ_type} circuit file not found: {circ_file}")
                     return False
             
             # Run simulations based on selected modes
             if not self.simulation_runner.run_simulations_by_mode(modes):
-                self.logger.logger.error("SPICE simulation failed")
+                self.logger.error("SPICE simulation failed")
                 return False
             
             # Verify circuit files
-            self.logger.logger.info("Verifying simulation setup")
+            self.logger.info("Verifying simulation setup")
             setup_results = {}
 
             # Do a single verification for ngspice and DC circuit
-            self.logger.logger.info("Verifying ngspice installation and DC circuit setup")
+            self.logger.info("Verifying ngspice installation and DC circuit setup")
             dc_result = self.verification_manager.verify_simulation_setup(self.dc_circuit_file)
             setup_results["ngspice_installed"] = dc_result['ngspice_installed']
             setup_results["dc_netlist_exists"] = dc_result['netlist_exists']
@@ -136,7 +132,7 @@ class MOSFETSimulation:
             # Verify other circuit files if they exist
             for circ_file, circ_type in circuit_files:
                 if circ_file != self.dc_circuit_file:  # Skip DC circuit as it's already verified
-                    self.logger.logger.info(f"Verifying {circ_type} circuit setup")
+                    self.logger.info(f"Verifying {circ_type} circuit setup")
                     result = self.verification_manager.verify_simulation_setup(circ_file)
                     setup_results[f"{circ_type.lower()}_netlist_exists"] = result['netlist_exists']
                     setup_results[f"{circ_type.lower()}_details"] = result['details']
@@ -157,140 +153,235 @@ class MOSFETSimulation:
             # Run analysis based on selected modes
             if 'dc' in modes:
                 # Read DC data files
-                vds, vgs, ids, ig, is_, ib, power = self.data_reader.read_iv_data()
-                temp = self.data_reader.read_temperature_data()
-                
+                v_ds, v_gs, i_ds, i_g, i_s, i_b, power = self.data_reader.read_iv_data(self.output_dir)
+
+                # Read temperature                 
+                temp = self.data_reader.read_temperature_data(self.output_dir)
+
                 # Read bias point data
-                bias_vds, bias_vgs, bias_ids, bias_ig, bias_is, bias_ib = self.data_reader.read_bias_point_data()
-                
-                # Generate IV plots
-                if vds is not None and vgs is not None and ids is not None:
-                    plot_generator.plot_iv_characteristics(vds, vgs, ids, self.output_dir)
+                bias_vds, bias_vgs, bias_ids, bias_ig, bias_is, bias_ib = self.data_reader.read_bias_point_data(self.output_dir)
+
+                # Verify DC Operating Point Analysis
+                if v_ds is not None and v_gs is not None and i_ds is not None:
+                    plot_generator.plot_iv_characteristics(self.output_dir, v_ds, v_gs, i_ds)
                     # Store IV characteristics data in results
-                    self.results['iv_characteristics'] = {
-                        'data_generated': True,
-                        'data_read': True,
-                        'vds_range': f"{min(vds):.2f}V to {max(vds):.2f}V" if vds is not None else "Not available",
-                        'vgs_range': f"{min(vgs):.2f}V to {max(vgs):.2f}V" if vgs is not None else "Not available",
-                        'ids_range': f"{min(ids):.2e}A to {max(ids):.2e}A" if ids is not None else "Not available",
+                    self.results['dc_operating_point_analysis'] = {
+                        'data_ready': True,
+                        'vds_range': f"{min(v_ds):.2f}V to {max(v_ds):.2f}V" if v_ds is not None else "Not available",
+                        'vgs_range': f"{min(v_gs):.2f}V to {max(v_gs):.2f}V" if v_gs is not None else "Not available",
+                        'ids_range': f"{min(i_ds):.2e}A to {max(i_ds):.2e}A" if i_ds is not None else "Not available",
                         'details': {
-                            'vds': vds.tolist() if vds is not None else None,
-                            'vgs': vgs.tolist() if vgs is not None else None,
-                            'ids': ids.tolist() if ids is not None else None,
-                            'ig': ig.tolist() if ig is not None else None,
-                            'is': is_.tolist() if is_ is not None else None,
-                            'ib': ib.tolist() if ib is not None else None
+                            'v_ds': v_ds.tolist() if v_ds is not None else None,
+                            'v_gs': v_gs.tolist() if v_gs is not None else None,
+                            'i_ds': i_ds.tolist() if i_ds is not None else None,
+                            'i_g': i_g.tolist() if i_g is not None else None,
+                            'i_s': i_s.tolist() if i_s is not None else None,
+                            'i_b': i_b.tolist() if i_b is not None else None
                         }
                     }
-                if temp is not None and ids is not None:
-                    plot_generator.plot_temperature_analysis(temp, ids)
-                if all(x is not None for x in [ids, ig, is_, ib]):
-                    plot_generator.plot_kcl_verification(ids, ig, is_, ib)
+                                    
+                if all(x is not None for x in [i_ds, i_g, i_s, i_b]):
+                    plot_generator.plot_kcl_verification(self.output_dir, i_ds, i_g, i_s, i_b)
                 
-                # Verify characteristics
-                iv_results = self.verification_manager.verify_iv_characteristics(vds, vgs, ids, ig, is_, ib, temp)
-                if not iv_results['data_generated'] or not iv_results['data_read']:
-                    raise ValueError("IV characteristics verification failed")
-                self.results['iv_characteristics'] = iv_results
-                
-                # Verify temperature analysis
-                temp_results = self.verification_manager.verify_temperature_analysis(temp, ids)
-                if not temp_results['temp_sweep'] or not temp_results['device_behavior']:
-                    raise ValueError("Temperature analysis verification failed")
-                self.results['temperature_analysis'] = temp_results
-                
-                # Calculate power for thermodynamic analysis
-                power = np.abs(vds * ids) if vds is not None and ids is not None else None
-                thermo_results = self.verification_manager.verify_thermodynamic_analysis(power, temp, ids)
-                if not thermo_results['power_measurements']:
-                    raise ValueError("Power measurements verification failed")
-                self.results['thermodynamic_analysis'] = thermo_results
-                
+                dc_operating_point_result = self.verification_manager.verify_dc_operating_point_analysis(v_ds, v_gs, i_ds, i_g, i_s, i_b, temp)
+                if not dc_operating_point_result['data_ready']:
+                    raise ValueError("DC Operating Point Analysis failed")
+                self.results['dc_operating_point_analysis'] = dc_operating_point_result
+
                 # Verify bias point analysis
                 bias_results = self.verification_manager.verify_bias_point_analysis(
                     bias_vds, bias_vgs, bias_ids, bias_ig, bias_is, bias_ib, temp[0] if temp is not None else 27
                 )
                 self.results['bias_point_analysis'] = bias_results
+
+                # Verify temperature analysis
+                if temp is not None and i_ds is not None:
+                    plot_generator.plot_temperature_analysis(self.output_dir, temp, i_ds)
+
+                temp_results = self.verification_manager.verify_temperature_analysis(temp, i_ds)
+                if not temp_results['temp_sweep'] or not temp_results['device_behavior']:
+                    raise ValueError("Temperature analysis verification failed")
+                self.results['temperature_analysis'] = temp_results
+                
+                # Calculate power for thermodynamic analysis
+                power = np.abs(v_ds * i_ds) if v_ds is not None and i_ds is not None else None
+                thermo_results = self.verification_manager.verify_thermodynamic_analysis(power, temp, i_ds)
+                if not thermo_results['power_measurements']:
+                    raise ValueError("Power measurements verification failed")
+                self.results['thermodynamic_analysis'] = thermo_results
             
             if 'ac' in modes:
-                # Read CV data
-                vg, cv_ig, cv_is, cv_ib, cgg = self.data_reader.read_cv_data()
-                
-                # Read high-frequency data
-                freq, s11_mag, s11_phase, s12_mag, s12_phase, s21_mag, s21_phase, s22_mag, s22_phase = self.data_reader.read_sparameter_data()
-                nqs_freq, vg_phase, id_phase, phase_diff = self.data_reader.read_nqs_effects_data()
+                # Read AC data files
+                vg, cv_ig, cv_is, cv_ib, cgg = self.data_reader.read_cv_data(self.output_dir)
+                freq, s11_mag, s11_phase, s12_mag, s12_phase, s21_mag, s21_phase, s22_mag, s22_phase = self.data_reader.read_sparameter_data(self.output_dir)
+                nqs_freq, vg_phase, id_phase, phase_diff = self.data_reader.read_nqs_effects_data(self.output_dir)
+                time, vg, ig, id, is_, ib = self.data_reader.read_charge_conservation_data(self.output_dir)
                 
                 # Generate CV plots
-                if vg is not None:
-                    plot_generator.plot_cv_characteristics()
+                if vg is not None and cgg is not None:
+                    plot_generator.plot_cv_characteristics(self.output_dir)
+                    # Store CV characteristics data in results
+                    self.results['cv_characteristics'] = {
+                        'data_ready': True,
+                        'vg_range': f"{min(vg):.2f}V to {max(vg):.2f}V" if vg is not None else "Not available",
+                        'cgg_range': f"{min(cgg):.2e}F to {max(cgg):.2e}F" if cgg is not None else "Not available",
+                        'freq_range': f"{min(freq):.2e}Hz to {max(freq):.2e}Hz" if freq is not None else "Not available",
+                        'details': {
+                            'vg': vg.tolist() if vg is not None else None,
+                            'cgg': cgg.tolist() if cgg is not None else None,
+                            'freq': freq.tolist() if freq is not None else None,
+                            'vg_phase': vg_phase.tolist() if vg_phase is not None else None,
+                            'id_phase': id_phase.tolist() if id_phase is not None else None
+                        }
+                    }
+                
+                # Generate S-parameter plots
+                if all(x is not None for x in [freq, s11_mag, s21_mag, s12_mag, s22_mag]):
+                    plot_generator.plot_sparameter_analysis(self.output_dir, freq, s11_mag, s21_mag, s12_mag, s22_mag)
+                    # Store S-parameter data in results
+                    self.results['sparameter_analysis'] = {
+                        'data_ready': True,
+                        'freq_range': f"{min(freq):.2e}Hz to {max(freq):.2e}Hz" if freq is not None else "Not available",
+                        's11_range': f"{min(s11_mag):.2e} to {max(s11_mag):.2e}" if s11_mag is not None else "Not available",
+                        's21_range': f"{min(s21_mag):.2e} to {max(s21_mag):.2e}" if s21_mag is not None else "Not available",
+                        'isolation': f"{min(s12_mag):.2e} to {max(s12_mag):.2e}" if s12_mag is not None else "Not available",
+                        'details': {
+                            'freq': freq.tolist() if freq is not None else None,
+                            's11_mag': s11_mag.tolist() if s11_mag is not None else None,
+                            's21_mag': s21_mag.tolist() if s21_mag is not None else None,
+                            's12_mag': s12_mag.tolist() if s12_mag is not None else None,
+                            's22_mag': s22_mag.tolist() if s22_mag is not None else None
+                        }
+                    }
+                
+                # Generate NQS effects plots
+                if all(x is not None for x in [nqs_freq, vg_phase, id_phase, phase_diff]):
+                    plot_generator.plot_nqs_effects(self.output_dir, nqs_freq, vg_phase, id_phase, phase_diff)
+                    # Store NQS effects data in results
+                    self.results['nqs_effects'] = {
+                        'data_ready': True,
+                        'max_phase_shift': f"{max(phase_diff):.2f}°" if phase_diff is not None else "Not available",
+                        'freq_range': f"{min(nqs_freq):.2e}Hz to {max(nqs_freq):.2e}Hz" if nqs_freq is not None else "Not available",
+                        'details': {
+                            'freq': nqs_freq.tolist() if nqs_freq is not None else None,
+                            'vg_phase': vg_phase.tolist() if vg_phase is not None else None,
+                            'id_phase': id_phase.tolist() if id_phase is not None else None,
+                            'phase_diff': phase_diff.tolist() if phase_diff is not None else None
+                        }
+                    }
+                
+                # Read charge conservation data
+                if time is not None:
+                    # Calculate total current and integrated charge
+                    i_total = ig + id + is_ + ib
+
+                    # Integrate currents to get charges - use numpy.cumsum with trapezoidal weights
+                    q_gate = np.zeros_like(ig)
+                    q_drain = np.zeros_like(id)
+                    q_source = np.zeros_like(is_)
+                    q_bulk = np.zeros_like(ib)
+                    for i in range(1, len(time)):
+                        q_gate[i] = q_gate[i-1] + 0.5 * (ig[i] + ig[i-1]) * (time[i] - time[i-1])
+                        q_drain[i] = q_drain[i-1] + 0.5 * (id[i] + id[i-1]) * (time[i] - time[i-1])
+                        q_source[i] = q_source[i-1] + 0.5 * (is_[i] + is_[i-1]) * (time[i] - time[i-1])
+                        q_bulk[i] = q_bulk[i-1] + 0.5 * (ib[i] + ib[i-1]) * (time[i] - time[i-1])
+                    q_total = q_gate + q_drain + q_source + q_bulk
+
+                    # Generate charge conservation plots
+                    self.plot_generator.plot_charge_conservation(time, vg, ig, id, is_, ib, i_total, q_gate, q_drain, q_source, q_bulk, q_total)
+                    # Verify charge conservation
+                    charge_results = self.verification_manager.verify_charge_conservation(time, vg, ig, id, is_, ib, i_total, q_gate, q_drain, q_source, q_bulk, q_total)
+                    # Calculate conservation error as in reference
+                    conservation_error = np.max(np.abs(q_total - q_total[0])) / np.max(np.abs(q_total)) * 100 if np.max(np.abs(q_total)) != 0 else 0.0
+                    self.results['charge_conservation'] = {
+                        **charge_results,
+                        'conservation_error': f"{conservation_error:.16f}%"
+                    }
                 
                 # Verify CV characteristics
-                if vg is not None:
+                if vg is not None and cgg is not None:
+                    cgg_min = np.min(cgg)
+                    cgg_max = np.max(cgg)
+                    max_idx = np.argmax(cgg)
+                    max_vg = vg[max_idx]
                     cv_results = self.verification_manager.verify_cv_characteristics(vg, cgg, freq, vg_phase, id_phase)
-                    self.results['cv_characteristics'] = cv_results
-                
-                # Verify S-parameter and high-frequency behavior
-                if freq is not None and s11_mag is not None and s21_mag is not None and s12_mag is not None and s22_mag is not None:
-                    plot_generator.plot_sparameter_analysis(freq, s11_mag, s21_mag, s12_mag, s22_mag)
-                    sparam_results = self.verification_manager.verify_sparameter_analysis(
-                        freq, s11_mag, s21_mag, s12_mag, s22_mag
-                    )
+                    if not cv_results['data_ready']:
+                        raise ValueError("CV characteristics verification failed")
+                        
+                    # Get charge conservation error if available
+                    cc_error = self.results.get('charge_conservation', {}).get('conservation_error', None)
+                    if cc_error is not None:
+                        cv_results['charge_conservation_error'] = cc_error
+                    else:
+                        cv_results['charge_conservation_error'] = "N/A%"
+
+                    self.results['cv_characteristics'] = {
+                        **cv_results,
+                        'cgg_range': f"{cgg_min*1e15:.2f}fF to {cgg_max*1e15:.2f}fF",
+                        'max_value_at': f"{max_vg:.2f}V",
+                        'freq_range': f"{min(freq):.2e}Hz to {max(freq):.2e}Hz" if freq is not None and len(freq) > 0 else "N/A"
+                    }
+                # Verify S-parameter analysis
+                if all(x is not None for x in [freq, s11_mag, s21_mag, s12_mag, s22_mag]):
+                    sparam_results = self.verification_manager.verify_sparameter_analysis(freq, s11_mag, s21_mag, s12_mag, s22_mag)
+                    if not sparam_results['data_ready']:
+                        raise ValueError("S-parameter analysis verification failed")
                     self.results['sparameter_analysis'] = sparam_results
                 
-                # Verify non-quasi-static effects
-                if nqs_freq is not None and vg_phase is not None and id_phase is not None:
-                    plot_generator.plot_nqs_effects(nqs_freq, vg_phase, id_phase, phase_diff)
-                    nqs_results = self.verification_manager.verify_nqs_effects(
-                        nqs_freq, vg_phase, id_phase, phase_diff
-                    )
+                # Verify NQS effects
+                if all(x is not None for x in [nqs_freq, vg_phase, id_phase, phase_diff]):
+                    nqs_results = self.verification_manager.verify_nqs_effects(nqs_freq, vg_phase, id_phase, phase_diff)
+                    if not nqs_results['data_ready']:
+                        raise ValueError("NQS effects verification failed")
                     self.results['nqs_effects'] = nqs_results
             
             if 'transient' in modes:
                 # Read and verify transient analysis data
                 
                 # 1. Large signal transient analysis
-                time_ls, vgate_ls, vdrain_ls, idrain_ls = self.data_reader.read_large_signal_transient_data()
+                time_ls, vgate_ls, vdrain_ls, idrain_ls = self.data_reader.read_large_signal_transient_data(self.output_dir)
+
                 if all(x is not None for x in [time_ls, vgate_ls, vdrain_ls, idrain_ls]):
-                    plot_generator.plot_large_signal_transient(time_ls, vgate_ls, vdrain_ls, idrain_ls)
+                    plot_generator.plot_large_signal_transient(self.output_dir, time_ls, vgate_ls, vdrain_ls, idrain_ls)
                     ls_results = self.verification_manager.verify_large_signal_transient(time_ls, vgate_ls, vdrain_ls, idrain_ls)
                     self.results['large_signal_transient'] = ls_results
                 
                 # 2. Switching response analysis
-                time_sw, vin_sw, vout_sw, idrain_sw = self.data_reader.read_switching_response_data()
-                time_sw_pwr, power_sw = self.data_reader.read_switching_power_data()
+                time_sw, vin_sw, vout_sw, idrain_sw = self.data_reader.read_switching_response_data(self.output_dir)
+                time_sw_pwr, power_sw = self.data_reader.read_switching_power_data(self.output_dir)
                 
                 if all(x is not None for x in [time_sw, vin_sw, vout_sw, idrain_sw, time_sw_pwr, power_sw]):
-                    plot_generator.plot_switching_response(time_sw, vin_sw, vout_sw, idrain_sw, power_sw)
+                    plot_generator.plot_switching_response(self.output_dir, time_sw, vin_sw, vout_sw, idrain_sw, power_sw)
                     sw_results = self.verification_manager.verify_switching_simulations(
                         time_sw, vin_sw, vout_sw, idrain_sw, power_sw
                     )
                     self.results['switching_simulations'] = sw_results
                 
                 # 3. Delay effect analysis
-                time_delay, vin_delay, v_mid1, v_mid2, vout_delay = self.data_reader.read_delay_effect_data()
+                time_delay, vin_delay, v_mid1, v_mid2, vout_delay = self.data_reader.read_delay_effect_data(self.output_dir)
                 if all(x is not None for x in [time_delay, vin_delay, v_mid1, v_mid2, vout_delay]):
-                    plot_generator.plot_delay_effect(time_delay, vin_delay, v_mid1, v_mid2, vout_delay)
+                    plot_generator.plot_delay_effect(self.output_dir, time_delay, vin_delay, v_mid1, v_mid2, vout_delay)
                     delay_results = self.verification_manager.verify_delay_effect(time_delay, vin_delay, v_mid1, v_mid2, vout_delay)
                     self.results['delay_effect'] = delay_results
                 
                 # 4. Power dissipation analysis
-                time_27c, power_27c = self.data_reader.read_power_dissipation_data(temperature=27)
-                time_100c, power_100c = self.data_reader.read_power_dissipation_data(temperature=100)
+                time_27c, power_27c = self.data_reader.read_power_dissipation_data(self.output_dir, temperature=27)
+                time_100c, power_100c = self.data_reader.read_power_dissipation_data(self.output_dir, temperature=100)
                 if all(x is not None for x in [time_27c, power_27c, time_100c, power_100c]):
-                    plot_generator.plot_power_dissipation(time_27c, power_27c, time_100c, power_100c)
+                    plot_generator.plot_power_dissipation(self.output_dir, time_27c, power_27c, time_100c, power_100c)
                     power_results = self.verification_manager.verify_power_dissipation(time_27c, power_27c, time_100c, power_100c)
                     self.results['power_dissipation'] = power_results
                     
                     # Read and plot energy consumption data
-                    time_27c_energy, energy_27c = self.data_reader.read_energy_consumption_data(temperature=27)
-                    time_100c_energy, energy_100c = self.data_reader.read_energy_consumption_data(temperature=100)
+                    time_27c_energy, energy_27c = self.data_reader.read_energy_consumption_data(self.output_dir, temperature=27)
+                    time_100c_energy, energy_100c = self.data_reader.read_energy_consumption_data(self.output_dir, temperature=100)
                     if all(x is not None for x in [time_27c_energy, energy_27c, time_100c_energy, energy_100c]):
-                        plot_generator.plot_energy_consumption(time_27c_energy, energy_27c, time_100c_energy, energy_100c)
+                        plot_generator.plot_energy_consumption(self.output_dir, time_27c_energy, energy_27c, time_100c_energy, energy_100c)
                 
                 # 5. Quasi-static analysis
-                time_qs, vgate_qs, vdrain_qs, idrain_qs = self.data_reader.read_quasi_static_data()
+                time_qs, vgate_qs, vdrain_qs, idrain_qs = self.data_reader.read_quasi_static_data(self.output_dir)
                 if all(x is not None for x in [time_qs, vgate_qs, vdrain_qs, idrain_qs]):
-                    plot_generator.plot_quasi_static(time_qs, vgate_qs, vdrain_qs, idrain_qs)
+                    plot_generator.plot_quasi_static(self.output_dir, time_qs, vgate_qs, vdrain_qs, idrain_qs)
                     qs_results = self.verification_manager.verify_quasi_static(time_qs, vgate_qs, vdrain_qs, idrain_qs)
                     self.results['quasi_static'] = qs_results
             
@@ -342,12 +433,11 @@ class MOSFETSimulation:
             
             # Update verification checklist
             self.verification_manager.update_verification_checklist(self.results, modes=modes)
-            exit()
-            self.logger.logger.info("MOSFET simulation and analysis completed successfully")
+            self.logger.info("MOSFET simulation and analysis completed successfully")
             return True
             
         except Exception as e:
-            self.logger.logger.error(f"Error in MOSFET simulation: {e}")
+            self.logger.error(f"Error in MOSFET simulation: {e}")
             import traceback
             traceback.print_exc()
             return False
@@ -380,7 +470,7 @@ def main():
     
     # Convert 'all' to list of all modes
     if 'all' in args.mode:
-        args.mode = ['dc', 'transient', 'ac', 'noise']
+        args.mode = ['dc', 'ac', 'transient', 'noise']
     
     simulation = MOSFETSimulation(
         dc_circuit_file=args.dc_circuit,
@@ -398,7 +488,7 @@ def main():
     if success:
         print("MOSFET simulation and analysis completed successfully.")
     else:
-        print("MOSFET simulation and analysis failed.")
+        print("MOSFET simulation and analysis failed!")
         sys.exit(1)
 
 if __name__ == "__main__":
