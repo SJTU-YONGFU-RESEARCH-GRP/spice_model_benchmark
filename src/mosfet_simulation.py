@@ -153,13 +153,13 @@ class MOSFETSimulation:
             # Run analysis based on selected modes
             if 'dc' in modes:
                 # Read DC data files
-                v_ds, v_gs, i_ds, i_g, i_s, i_b, power = self.data_reader.read_iv_data(self.output_dir)
+                v_ds, v_gs, i_ds, i_g, i_s, i_b, power = self.data_reader.read_dc_iv_data(self.output_dir)
 
                 # Read temperature                 
-                temp = self.data_reader.read_temperature_data(self.output_dir)
+                temp = self.data_reader.read_dc_temperature_data(self.output_dir)
 
                 # Read bias point data
-                bias_vds, bias_vgs, bias_ids, bias_ig, bias_is, bias_ib = self.data_reader.read_bias_point_data(self.output_dir)
+                bias_vds, bias_vgs, bias_ids, bias_ig, bias_is, bias_ib = self.data_reader.read_dc_bias_point_data(self.output_dir)
 
                 # Verify DC Operating Point Analysis
                 if v_ds is not None and v_gs is not None and i_ds is not None:
@@ -237,7 +237,7 @@ class MOSFETSimulation:
                 
                 # Generate S-parameter plots
                 if all(x is not None for x in [freq, s11_mag, s21_mag, s12_mag, s22_mag]):
-                    plot_generator.plot_sparameter_analysis(self.output_dir, freq, s11_mag, s21_mag, s12_mag, s22_mag)
+                    plot_generator.plot_cv_sparameter_analysis(self.output_dir, freq, s11_mag, s21_mag, s12_mag, s22_mag)
                     # Store S-parameter data in results
                     self.results['sparameter_analysis'] = {
                         'data_ready': True,
@@ -256,7 +256,7 @@ class MOSFETSimulation:
                 
                 # Generate NQS effects plots
                 if all(x is not None for x in [nqs_freq, vg_phase, id_phase, phase_diff]):
-                    plot_generator.plot_nqs_effects(self.output_dir, nqs_freq, vg_phase, id_phase, phase_diff)
+                    plot_generator.plot_cv_nqs_effects(self.output_dir, nqs_freq, vg_phase, id_phase, phase_diff)
                     # Store NQS effects data in results
                     self.results['nqs_effects'] = {
                         'data_ready': True,
@@ -288,9 +288,9 @@ class MOSFETSimulation:
                     q_total = q_gate + q_drain + q_source + q_bulk
 
                     # Generate charge conservation plots
-                    self.plot_generator.plot_charge_conservation(time, vg, ig, id, is_, ib, i_total, q_gate, q_drain, q_source, q_bulk, q_total)
+                    self.plot_generator.plot_ac_charge_conservation(self.output_dir, time, vg, ig, id, is_, ib, i_total, q_gate, q_drain, q_source, q_bulk, q_total)
                     # Verify charge conservation
-                    charge_results = self.verification_manager.verify_charge_conservation(time, vg, ig, id, is_, ib, i_total, q_gate, q_drain, q_source, q_bulk, q_total)
+                    charge_results = self.verification_manager.verify_ac_charge_conservation(time, vg, ig, id, is_, ib, i_total, q_gate, q_drain, q_source, q_bulk, q_total)
                     # Calculate conservation error as in reference
                     conservation_error = np.max(np.abs(q_total - q_total[0])) / np.max(np.abs(q_total)) * 100 if np.max(np.abs(q_total)) != 0 else 0.0
                     self.results['charge_conservation'] = {
@@ -339,50 +339,50 @@ class MOSFETSimulation:
                 # Read and verify transient analysis data
                 
                 # 1. Large signal transient analysis
-                time_ls, vgate_ls, vdrain_ls, idrain_ls = self.data_reader.read_large_signal_transient_data(self.output_dir)
+                time_ls, vgate_ls, vdrain_ls, idrain_ls = self.data_reader.read_trans_large_signal_transient_data(self.output_dir)
 
                 if all(x is not None for x in [time_ls, vgate_ls, vdrain_ls, idrain_ls]):
-                    plot_generator.plot_large_signal_transient(self.output_dir, time_ls, vgate_ls, vdrain_ls, idrain_ls)
-                    ls_results = self.verification_manager.verify_large_signal_transient(time_ls, vgate_ls, vdrain_ls, idrain_ls)
+                    plot_generator.plot_trans_large_signal_transient(self.output_dir, time_ls, vgate_ls, vdrain_ls, idrain_ls)
+                    ls_results = self.verification_manager.verify_trans_large_signal_transient(time_ls, vgate_ls, vdrain_ls, idrain_ls)
                     self.results['large_signal_transient'] = ls_results
                 
                 # 2. Switching response analysis
-                time_sw, vin_sw, vout_sw, idrain_sw = self.data_reader.read_switching_response_data(self.output_dir)
-                time_sw_pwr, power_sw = self.data_reader.read_switching_power_data(self.output_dir)
+                time_sw, vin_sw, vout_sw, idrain_sw = self.data_reader.read_trans_switching_response_data(self.output_dir)
+                time_sw_pwr, power_sw = self.data_reader.read_trans_switching_power_data(self.output_dir)
                 
                 if all(x is not None for x in [time_sw, vin_sw, vout_sw, idrain_sw, time_sw_pwr, power_sw]):
-                    plot_generator.plot_switching_response(self.output_dir, time_sw, vin_sw, vout_sw, idrain_sw, power_sw)
-                    sw_results = self.verification_manager.verify_switching_simulations(
+                    plot_generator.plot_trans_switching_response(self.output_dir, time_sw, vin_sw, vout_sw, idrain_sw, power_sw)
+                    sw_results = self.verification_manager.verify_trans_switching_simulations(
                         time_sw, vin_sw, vout_sw, idrain_sw, power_sw
                     )
                     self.results['switching_simulations'] = sw_results
                 
                 # 3. Delay effect analysis
-                time_delay, vin_delay, v_mid1, v_mid2, vout_delay = self.data_reader.read_delay_effect_data(self.output_dir)
+                time_delay, vin_delay, v_mid1, v_mid2, vout_delay = self.data_reader.read_trans_delay_effect_data(self.output_dir)
                 if all(x is not None for x in [time_delay, vin_delay, v_mid1, v_mid2, vout_delay]):
-                    plot_generator.plot_delay_effect(self.output_dir, time_delay, vin_delay, v_mid1, v_mid2, vout_delay)
-                    delay_results = self.verification_manager.verify_delay_effect(time_delay, vin_delay, v_mid1, v_mid2, vout_delay)
+                    plot_generator.plot_trans_delay_effect(self.output_dir, time_delay, vin_delay, v_mid1, v_mid2, vout_delay)
+                    delay_results = self.verification_manager.verify_trans_delay_effect(time_delay, vin_delay, v_mid1, v_mid2, vout_delay)
                     self.results['delay_effect'] = delay_results
                 
                 # 4. Power dissipation analysis
-                time_27c, power_27c = self.data_reader.read_power_dissipation_data(self.output_dir, temperature=27)
-                time_100c, power_100c = self.data_reader.read_power_dissipation_data(self.output_dir, temperature=100)
+                time_27c, power_27c = self.data_reader.read_trans_power_dissipation_data(self.output_dir, temperature=27)
+                time_100c, power_100c = self.data_reader.read_trans_power_dissipation_data(self.output_dir, temperature=100)
                 if all(x is not None for x in [time_27c, power_27c, time_100c, power_100c]):
-                    plot_generator.plot_power_dissipation(self.output_dir, time_27c, power_27c, time_100c, power_100c)
-                    power_results = self.verification_manager.verify_power_dissipation(time_27c, power_27c, time_100c, power_100c)
+                    plot_generator.plot_trans_power_dissipation(self.output_dir, time_27c, power_27c, time_100c, power_100c)
+                    power_results = self.verification_manager.verify_trans_power_dissipation(time_27c, power_27c, time_100c, power_100c)
                     self.results['power_dissipation'] = power_results
                     
                     # Read and plot energy consumption data
-                    time_27c_energy, energy_27c = self.data_reader.read_energy_consumption_data(self.output_dir, temperature=27)
-                    time_100c_energy, energy_100c = self.data_reader.read_energy_consumption_data(self.output_dir, temperature=100)
+                    time_27c_energy, energy_27c = self.data_reader.read_trans_energy_consumption_data(self.output_dir, temperature=27)
+                    time_100c_energy, energy_100c = self.data_reader.read_trans_energy_consumption_data(self.output_dir, temperature=100)
                     if all(x is not None for x in [time_27c_energy, energy_27c, time_100c_energy, energy_100c]):
-                        plot_generator.plot_energy_consumption(self.output_dir, time_27c_energy, energy_27c, time_100c_energy, energy_100c)
+                        plot_generator.plot_trans_energy_consumption(self.output_dir, time_27c_energy, energy_27c, time_100c_energy, energy_100c)
                 
                 # 5. Quasi-static analysis
-                time_qs, vgate_qs, vdrain_qs, idrain_qs = self.data_reader.read_quasi_static_data(self.output_dir)
+                time_qs, vgate_qs, vdrain_qs, idrain_qs = self.data_reader.read_trans_quasi_static_data(self.output_dir)
                 if all(x is not None for x in [time_qs, vgate_qs, vdrain_qs, idrain_qs]):
-                    plot_generator.plot_quasi_static(self.output_dir, time_qs, vgate_qs, vdrain_qs, idrain_qs)
-                    qs_results = self.verification_manager.verify_quasi_static(time_qs, vgate_qs, vdrain_qs, idrain_qs)
+                    plot_generator.plot_trans_quasi_static(self.output_dir, time_qs, vgate_qs, vdrain_qs, idrain_qs)
+                    qs_results = self.verification_manager.verify_trans_quasi_static(time_qs, vgate_qs, vdrain_qs, idrain_qs)
                     self.results['quasi_static'] = qs_results
             
             if 'noise' in modes:

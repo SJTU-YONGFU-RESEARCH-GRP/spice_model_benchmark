@@ -128,6 +128,896 @@ class VerificationManager:
         return results
 
     # Done
+    def update_verification_checklist(self, results, modes=None):
+        """
+        Update the verification checklist with simulation results.
+        """
+        try:
+            self.logger.info("Starting verification checklist update")
+            
+            # If modes is None, assume all modes were run
+            if modes is None:
+                modes = ['dc', 'transient', 'ac', 'noise']
+                self.logger.info("No modes specified, using all modes")
+            elif 'all' in modes:
+                modes = ['dc', 'transient', 'ac', 'noise']
+                self.logger.info("'all' mode specified, using all modes")
+            elif isinstance(modes, str):
+                modes = [modes]  # Convert single mode to list
+                self.logger.info(f"Single mode specified: {modes[0]}")
+            
+            self.logger.info(f"Processing modes: {', '.join(modes)}")
+
+            # Create the report directory if it doesn't exist
+            report_path = self.output_dir / 'REPORT.md'
+            report_path.parent.mkdir(exist_ok=True, parents=True)
+            self.logger.info(f"Report will be saved to: {report_path}")
+
+            # Generate new report content
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            content = []
+            
+            # 1. Generate header
+            content.extend(self._generate_report_header(timestamp))
+            
+            # 2. Generate table of contents
+            content.extend(self._generate_table_of_contents(modes))
+            
+            # 3. Generate notes section
+            content.extend(self._generate_notes_section())
+            
+            # 4. Generate simulation setup section
+            content.extend(self._generate_simulation_setup_section(results))
+            
+            # 5. Generate summary section
+            content.extend(self._generate_summary_section(results, modes))
+            
+            # 6. Generate detailed analysis sections in order
+            section_num = 3  # Start from section 3
+            
+            # DC Analysis (Section 3)
+            if 'dc' in modes:
+                content.extend(self._generate_dc_analysis_section(results, section_num))
+                section_num += 1
+            
+            # Transient Analysis (Section 4)
+            if 'transient' in modes:
+                content.extend(self._generate_transient_analysis_section(results, section_num))
+                section_num += 1
+            
+            # AC Analysis (Section 5)
+            if 'ac' in modes:
+                content.extend(self._generate_ac_analysis_section(results, section_num))
+                section_num += 1
+            
+            # Noise Analysis (Section 6)
+            if 'noise' in modes:
+                content.extend(self._generate_noise_analysis_section(results, section_num))
+                section_num += 1
+            
+            # Write the complete report to file
+            self.logger.info(f"Writing complete report to file: {report_path}")
+            with open(report_path, 'w') as f:
+                f.write('\n'.join(content))
+                
+            self.logger.info(f"Successfully generated verification checklist at {report_path}")
+                
+        except Exception as e:
+            self.logger.error(f"Error updating verification checklist: {e}")
+            import traceback
+            traceback.print_exc()
+
+    # Done
+    def _generate_report_header(self, timestamp):
+        """
+        Generate the header section of the report including title and table of contents.
+        """
+        self.logger.info("Generating Report Header")
+        content = ["# MOSFET Simulation Verification Report"]
+        content.append(f"Generated on: {timestamp}")
+        content.append("")
+        content.append("## Table of Contents")
+        content.append("1. [Simulation Setup and Execution](#1-simulation-setup-and-execution)")
+
+        self.logger.info("Completed Report Header")
+        return content
+
+    # Done
+    def _generate_table_of_contents(self, modes):
+        """
+        Generate the table of contents based on the analysis modes.
+        """
+
+        self.logger.info("Generating Table of Contents")
+        content = ["2. [Summary](#2-summary)"]
+        # Start section numbering from 3
+        section_num = 3
+        self.logger.info(f"Starting section numbering from {section_num}")
+
+        if 'dc' in modes:
+            self.logger.info("Adding DC analysis section to TOC")
+            content.append(f"   - [DC Analysis Summary](#dc-analysis-summary)")
+            content.append(f"{section_num}. [DC Analysis](#{section_num}-dc-analysis)")
+            content.append("   - [DC Operating Point Analysis](#dc-operating-point-analysis)")
+            content.append("   - [Bias Point Analysis](#bias-point-analysis)")
+            content.append("   - [Temperature Analysis](#temperature-analysis)")
+            content.append("   - [Thermodynamic Analysis](#thermodynamic-analysis)")
+            content.append("   - [Physical Properties Analysis](#physical-properties-analysis)")
+            section_num += 1
+
+        if 'ac' in modes:
+            self.logger.info("Adding AC analysis section to TOC")
+            content.append(f"   - [AC Analysis Summary](#ac-analysis-summary)")
+            content.append(f"{section_num}. [AC Analysis](#{section_num}-ac-analysis)")
+            content.append("   - [Small-Signal Analysis](#small-signal-analysis)")
+            content.append("   - [S-Parameter Analysis](#s-parameter-analysis)")
+            content.append("   - [Non-Quasi-Static (NQS) Effects Analysis](#non-quasi-static-effects-analysis)")
+            content.append("   - [Charge Conservation Analysis](#charge-conservation-analysis)")
+            section_num += 1
+
+        if 'transient' in modes:
+            self.logger.info("Adding transient analysis section to TOC")
+            content.append(f"   - [Transient Analysis Summary](#transient-analysis-summary)")
+            content.append(f"{section_num}. [Transient Analysis](#{section_num}-transient-analysis)")
+            content.append("   - [Large-Signal Transient](#large-signal-transient)")
+            content.append("   - [Switching Simulations](#switching-simulations)")
+            content.append("   - [Delay Effect Simulations](#delay-effect-simulations)")
+            section_num += 1
+        
+        if 'noise' in modes:
+            self.logger.info("Adding noise analysis section to TOC")
+            content.append(f"   - [Noise Analysis Summary](#noise-analysis-summary)")
+            content.append(f"{section_num}. [Noise Analysis](#{section_num}-noise-analysis)")
+            content.append("   - [Thermal Noise Analysis](#thermal-noise-analysis)")
+            content.append("   - [Flicker Noise Analysis](#flicker-noise-analysis)")
+            content.append("   - [Shot Noise Analysis](#shot-noise-analysis)")
+            section_num += 1
+        
+        content.append("")
+        self.logger.info("Table of contents generation completed")
+        return content
+
+    # Done
+    def _generate_notes_section(self):
+        """
+        Generate the notes section of the report.
+        """
+        self.logger.info("Generating Note Section")
+        content = []
+        content.append("## Notes")
+        content.append("- This report is automatically generated based on mosfet_simulation.py")
+        content.append("- Items are marked with <span style='color: green'>✓</span> for success and <span style='color: red'>✗</span> for failure")
+        content.append("- Any deviations from expected behavior should be documented")
+        
+        content.append("")
+        self.logger.info("Note Section Completed")
+        return content
+
+    # Done
+    def _generate_simulation_setup_section(self, results):
+        """
+        Generate the simulation setup section of the report.
+        """
+        self.logger.info("Generating Simulation Setup Section")
+        content = ["## 1. Simulation Setup and Execution"]
+        
+        if 'simulation_setup' in results and results['simulation_setup'] is not None:
+            setup = results['simulation_setup']
+            
+            # Common setup checks
+            content.append(f"- [<span style='color: {'green' if setup.get('netlist_exists', False) else 'red'}'>{'✓' if setup.get('netlist_exists', False) else '✗'}</span>] Circuit file exists and is readable")
+            content.append(f"  - Path: {setup.get('details', {}).get('netlist_path', 'Not available')}")
+            content.append(f"- [<span style='color: {'green' if setup.get('ngspice_installed', False) else 'red'}'>{'✓' if setup.get('ngspice_installed', False) else '✗'}</span>] ngspice is properly installed")
+            content.append(f"  - Version: {setup.get('details', {}).get('ngspice_version', 'Not available')}")
+            
+            # Mode-specific setup checks
+            if 'dc' in results:
+                content.append(f"- [<span style='color: {'green' if setup.get('simulation_runs', False) else 'red'}'>{'✓' if setup.get('simulation_runs', False) else '✗'}</span>] DC simulation runs without errors")
+                content.append(f"  - Path: {setup.get('details', {}).get('dc_path', 'Not available')}")
+            
+            if 'ac' in results:
+                content.append(f"- [<span style='color: {'green' if setup.get('simulation_runs', False) else 'red'}'>{'✓' if setup.get('simulation_runs', False) else '✗'}</span>] AC simulation runs without errors")
+                content.append(f"  - Path: {setup.get('details', {}).get('ac_path', 'Not available')}")
+            
+            if 'transient' in results:
+                content.append(f"- [<span style='color: {'green' if setup.get('simulation_runs', False) else 'red'}'>{'✓' if setup.get('simulation_runs', False) else '✗'}</span>] Transient simulation runs without errors")
+                content.append(f"  - Path: {setup.get('details', {}).get('transient_path', 'Not available')}")
+            
+            if 'noise' in results:
+                content.append(f"- [<span style='color: {'green' if setup.get('simulation_runs', False) else 'red'}'>{'✓' if setup.get('simulation_runs', False) else '✗'}</span>] Noise simulation runs without errors")
+                content.append(f"  - Path: {setup.get('details', {}).get('noise_path', 'Not available')}")
+            
+            # If no specific modes are found, show generic simulation run check
+            if not any(mode in results for mode in ['dc', 'ac', 'transient', 'noise']):
+                content.append(f"- [<span style='color: {'green' if setup.get('simulation_runs', False) else 'red'}'>{'✓' if setup.get('simulation_runs', False) else '✗'}</span>] Simulation runs without errors")
+            else:
+                # Default setup section when no results are available
+                content.append("- [<span style='color: red'>✗</span>] Circuit file exists and is readable")
+                content.append("  - Path: Not available")
+                content.append("- [<span style='color: red'>✗</span>] ngspice is properly installed")
+                content.append("  - Version: Not available")
+                content.append("- [<span style='color: red'>✗</span>] Simulation runs without errors")
+
+        content.append("")
+        self.logger.info("Simulation Setup Section Completed")
+        return content
+
+    # Done
+    def _generate_summary_section(self, results, modes):
+        """
+        Generate the summary section based on the analysis modes.
+        """
+        self.logger.info("Generating Summary Section")
+        content = ["## 2. Summary"]
+        
+        if 'dc' in modes:
+            content.extend(self._generate_dc_summary_section(results))
+        
+        if 'ac' in modes:
+            content.extend(self._generate_ac_summary(results))
+        
+        if 'transient' in modes:
+            content.extend(self._generate_transient_summary(results))
+        
+        if 'noise' in modes:
+            content.extend(self._generate_noise_summary(results))
+        
+        self.logger.info("Summary Section Completed")
+        return content
+
+    # Done
+    def _generate_dc_summary_section(self, results):
+        """
+        Generate DC analysis summary section.
+        """
+        content = []
+        content.append("### DC Analysis Summary")
+        content.append("| Test Type | Status | Key Findings |")
+        content.append("|-----------|--------|-------------|")
+        
+        # DC Operating Point Analysis
+        if 'dc_operating_point_analysis' in results and results['dc_operating_point_analysis'] is not None:
+            data = results['dc_operating_point_analysis']
+            vds_range = data.get('vds_range', 'Not available')
+            vgs_range = data.get('vgs_range', 'Not available')
+            ids_range = data.get('ids_range', 'Not available')
+            content.append(f"| [DC Operating Point Analysis](#dc-operating-point-analysis) | <span style='color: {'green' if data.get('data_ready', False) else 'red'}'>{'✓' if data.get('data_ready', False) else '✗'}</span> | VDS: {vds_range}, VGS: {vgs_range}, IDS: {ids_range} |")
+
+        # Bias Point Analysis
+        if 'bias_point_analysis' in results and results['bias_point_analysis'] is not None:
+            bias = results['bias_point_analysis']
+            bias_points = bias.get('details', {}).get('bias_points', 'Not available')
+            current_ranges = bias.get('details', {}).get('current_ranges', 'Not available')
+            kcl_error = bias.get('details', {}).get('kcl_error', 'Not available')
+            power_range = bias.get('details', {}).get('power_range', 'Not available')
+            temp = bias.get('details', {}).get('temp', 'Not available')
+            content.append(f"| [Bias Point Analysis](#bias-point-analysis) | <span style='color: {'green' if bias.get('bias_points_analyzed', False) and bias.get('currents_measured', False) else 'red'}'>{'✓' if bias.get('bias_points_analyzed', False) and bias.get('currents_measured', False) else '✗'}</span> | Points: {bias_points}, Currents: {current_ranges}, KCL Error: {kcl_error}, Power: {power_range}, Temp: {temp} |")
+
+        # Temperature Analysis
+        if 'temperature_analysis' in results and results['temperature_analysis'] is not None:
+            temp = results['temperature_analysis']
+            temp_points = temp.get('details', {}).get('temp_points', 'Not available')
+            temp_coef = temp.get('details', {}).get('temp_coef_value', 'Not available')
+            ids_range = temp.get('details', {}).get('ids_range', 'Not available')
+            content.append(f"| [Temperature Analysis](#temperature-analysis) | <span style='color: {'green' if temp.get('temp_sweep', False) and temp.get('device_behavior', False) else 'red'}'>{'✓' if temp.get('temp_sweep', False) and temp.get('device_behavior', False) else '✗'}</span> | Temp Points: {temp_points}, TC: {temp_coef}, IDS: {ids_range} |")
+
+        # Thermodynamic Analysis
+        if 'thermodynamic_analysis' in results and results['thermodynamic_analysis'] is not None:
+            thermo = results['thermodynamic_analysis']
+            power_range = thermo.get('details', {}).get('power_range', 'Not available')
+            efficiency_range = thermo.get('details', {}).get('efficiency_range', 'Not available')
+            temp_coef = thermo.get('details', {}).get('temp_coef', 'Not available')
+            content.append(f"| [Thermodynamic Analysis](#thermodynamic-analysis) | <span style='color: {'green' if thermo.get('energy_conservation', False) and thermo.get('device_efficiency', False) else 'red'}'>{'✓' if thermo.get('energy_conservation', False) and thermo.get('device_efficiency', False) else '✗'}</span> | Power: {power_range}, Efficiency: {efficiency_range}, TC: {temp_coef} |")
+
+        content.append("")
+        self.logger.info("DC Summary Section Completed")
+        return content
+
+    # Done
+    def _generate_dc_analysis_section(self, results, section_num=3):
+        """
+        Generate detailed DC analysis section.
+        """
+        try:
+            content = []
+            content.append(f"## {section_num}. AC Analysis")
+        
+            # DC Operating Point Analysis   
+            content.append("### DC Operating Point Analysis")
+            if 'dc_operating_point_analysis' in results and results['dc_operating_point_analysis'] is not None:
+                content.append("- [<span style='color: green'>✓</span>] IV data file is generated")
+                content.append("- [<span style='color: green'>✓</span>] Data points are properly read")
+
+                data = results['dc_operating_point_analysis']
+                content.append(f"- [<span style='color: green'>✓</span>] Vds values are within range")
+                content.append(f"  - Range: {data.get('vds_range', 'Not available')}")
+                content.append(f"- [<span style='color: green'>✓</span>] Vgs values are within range")
+                content.append(f"  - Range: {data.get('vgs_range', 'Not available')}")
+                content.append(f"- [<span style='color: green'>✓</span>] Drain current (Ids) is properly measured")
+                content.append(f"  - Range: {data.get('ids_range', 'Not available')}")
+                content.append("")
+                content.append("*IV Characteristics showing drain current vs drain-source voltage*")
+                content.append("")
+                content.append("<img src='plots/iv_characteristics.png' alt='IV Characteristics' width='400'/>")
+            else:
+                content.append("- [<span style='color: red'>✗</span>] IV data is Missing")
+            content.append("")
+
+            # Bias Point Analysis
+            content.append("### Bias Point Analysis")      
+            if 'bias_point_analysis' in results and results['bias_point_analysis'] is not None:  
+                data = results['bias_point_analysis']
+                content.append(f"- [<span style='color: green'>✓</span>] Voltage Biasing Points")
+                content.append(f"  - Points: {data.get('details', {}).get('bias_points', 'Not available')}")
+                content.append(f"- [<span style='color: green'>✓</span>] Current Range")
+                content.append(f"  - IDS: {data.get('details', {}).get('IDS', 'Not available')}")
+                content.append(f"  - IG: {data.get('details', {}).get('IG', 'Not available')}")
+                content.append(f"  - IS: {data.get('details', {}).get('IS', 'Not available')}")
+                content.append(f"  - IB: {data.get('details', {}).get('IB', 'Not available')}")
+                content.append(f"- [<span style='color: green'>✓</span>] KCL Error Range")
+                content.append(f"  - KCL Error: {data.get('details', {}).get('kcl_error', 'Not available')}")
+                content.append("")
+                content.append("*KCL verification showing current balance*")
+                content.append("")
+                content.append("<img src='plots/kcl_verification.png' alt='KCL Verification' width='400'/>")
+            else:
+                content.append("- [<span style='color: red'>✗</span>] Bias data is Missing")
+            content.append("")
+
+            # Temperature Analysis
+            content.append("### Temperature Analysis")
+            if 'temperature_analysis' in results and results['temperature_analysis'] is not None:
+                data = results['temperature_analysis']
+                content.append(f"- [<span style='color: green'>✓</span>] Temperature sweep is performed")
+                content.append(f"  - Points: {data.get('details', {}).get('temp_points', 'Not available')}")
+                content.append(f"- [<span style='color: green'>✓</span>] Temperature coefficient is calculated")
+                content.append(f"  - Temperature Coefficient: {data.get('details', {}).get('temp_coef_value', 'Not available')}")
+                content.append(f"- [<span style='color: green'>✓</span>] Device behavior is valid")
+                content.append(f"  - Current Range: {data.get('details', {}).get('ids_range', 'Not available')}")
+                content.append(f"- [<span style='color: green'>✓</span>] Temperature-dependent behavior is valid")
+                content.append("")
+                content.append("*Temperature analysis showing current variation*")
+                content.append("")
+                content.append("<img src='plots/temperature_analysis.png' alt='Temperature Analysis' width='400'/>")
+            else:
+                content.append("- [<span style='color: red'>✗</span>] Temperature data is Missing")
+            content.append("")
+
+            # Thermodynamic Analysis
+            content.append("### Thermodynamic Analysis")        
+            if 'thermodynamic_analysis' in results and results['thermodynamic_analysis'] is not None:
+                data = results['thermodynamic_analysis']
+
+                if data['energy_conservation']:
+                    content.append(f"- [<span style='color: green'>✓</span>] Energy is conserved")
+                    content.append(f"  - Power Range: {data.get('details', {}).get('power_range', 'Not available')}")
+                else:
+                    content.append(f"- [<span style='color: red'>✗</span>] Energy is not conserved")
+
+                if data['device_efficiency']:
+                    content.append(f"- [<span style='color: green'>✓</span>] Device is efficient")
+                else:
+                    content.append(f"- [<span style='color: green'>✗</span>] Device is not efficient")
+                content.append(f"  - Efficiency Range: {data.get('details', {}).get('efficiency_range', 'Not available')}")
+                if data['temp_coef_calc']:
+                    content.append(f"- [<span style='color: green'>✓</span>] Temperature coefficient is calculated")
+                    content.append(f"  - Value: {data.get('details', {}).get('temp_coef', 'Not available')}")
+                else:
+                    content.append(f"- [<span style='color: green'>✗</span>] Temperature coefficient has error")
+            else:
+                content.append("- [<span style='color: red'>✗</span>] Thermodynamic data is Missing")
+            content.append("")
+
+            # Physical Properties
+            content.append("### Physical Properties Analysis")
+            content.append("- <span style='color: gray'>✗</span> Physical monotonicity over bias, geometry, and temperature: *In Progress*")
+            content.append("- <span style='color: gray'>✗</span> Parameter sweep simulations: *In Progress*")
+            content.append("- <span style='color: gray'>✗</span> Physical symmetries (currents, charges, their derivatives): *In Progress*")
+            content.append("- <span style='color: gray'>✗</span> Cross-derivative analysis: *In Progress*")
+            content.append("- <span style='color: gray'>✗</span> Terminal permutation tests: *In Progress*")
+
+            content.append("")
+            self.logger.info("Successfully generated DC analysis section")    
+            return content
+        except Exception as e:
+            self.logger.error(f"Error generating DC analysis section: {e}")
+            return [f"## {section_num}. DC Analysis", "Error generating DC analysis section"]
+
+    # Done
+    def _generate_ac_summary(self, results):
+        """Generate summary of AC analysis results."""
+        try:
+            self.logger.info("Generate summary of AC analysis results.")
+            content = []
+            content.append("### AC Analysis Summary")
+            content.append("| Test Type | Status | Key Findings |")
+            content.append("|-----------|--------|-------------|")
+            
+            # Get results with safe defaults
+            cv_results = results.get('cv_characteristics', {}) or {}
+            sparams_results = results.get('sparameter_analysis', {}) or {}
+            nqs_results = results.get('nqs_effects', {}) or {}
+            charge_results = results.get('charge_conservation', {}) or {}
+            
+            self.logger.info(f"CV Results: {cv_results}")
+            self.logger.info(f"S Params Results: {sparams_results}")
+            self.logger.info(f"NQS Results: {nqs_results}")
+            self.logger.info(f"Charge Results: {charge_results}")
+            
+            # Small-Signal Analysis
+            if cv_results.get('data_ready'):
+                status = "✓" if cv_results.get('verification_passed', True) else "✗"
+                color = "green" if status == "✓" else "red"
+                findings = f"Gate capacitance range: {cv_results.get('cgg_range', 'N/A')}"
+                self.logger.info(f"cv_results.get('verification_passed', True): {status}")
+                content.append(f"| [Small Signal Analysis](#small-signal-analysis) | <span style='color: {color}'>{status}</span> | {findings} |")
+            else:
+                content.append("| [Small Signal Analysis](#small-signal-analysis) | <span style='color: red'>✗</span> | Data not available |")
+            
+            # S-Parameter Analysis
+            if sparams_results.get('data_ready'):
+                status = "✓" if sparams_results.get('verification_passed', True) else "✗"
+                color = "green" if status == "✓" else "red"
+                findings = f"S11 range: {sparams_results.get('s11_range', 'N/A')}, S21 range: {sparams_results.get('s21_range', 'N/A')}"
+                self.logger.info(f"sparams_results.get('verification_passed', True): {status}")
+                content.append(f"| [S-Parameter Analysis](#s-parameter-analysis) | <span style='color: {color}'>{status}</span> | {findings} |")
+            else:
+                content.append("| [S-Parameter Analysis](#s-parameter-analysis) | <span style='color: red'>✗</span> | Data not available |")
+            
+            # NQS Effects
+            if nqs_results.get('data_ready'):
+                status = "✓" if nqs_results.get('verification_passed', True) else "✗"
+                color = "green" if status == "✓" else "red"
+                findings = f"Max phase shift: {nqs_results.get('max_phase_shift', 'N/A')}"
+                self.logger.info(f"nqs_results.get('verification_passed', True): {status}")
+                content.append(f"| [Non-Quasi-Static (NQS) Effects Analysis](#non-quasi-static-effects-analysis) | <span style='color: {color}'>{status}</span> | {findings} |")
+            else:
+                content.append("| [Non-Quasi-Static (NQS) Effects Analysis](#non-quasi-static-effects-analysis) | <span style='color: red'>✗</span> | Data not available |")
+            
+            # Charge Conservation Analysis
+            if charge_results.get('data_ready'):
+                status = "✓" if charge_results.get('verification_passed', True) else "✗"
+                color = "green" if status == "✓" else "red"
+                findings = f"Total charge error: {charge_results.get('max_charge_error', 'N/A')}"
+                self.logger.info(f"data_ready.get('verification_passed', True): {status}")
+                content.append(f"| [Charge Conservation Analysis](#charge-conservation-analysis) | <span style='color: {color}'>{status}</span> | {findings} |")
+            else:
+                content.append("| [Charge Conservation Analysis](#charge-conservation-analysis) | <span style='color: red'>✗</span> | Data not available |")
+            
+            content.append("")
+            return content
+            
+        except Exception as e:
+            self.logger.error(f"Error generating AC summary: {e}")
+            return ["### AC Analysis Summary", "Error generating AC summary"]
+
+    # Done
+    def _generate_ac_analysis_section(self, results, section_num=3):
+        """Generate the AC analysis section of the report."""
+        try:
+            content = []
+            content.append(f"## {section_num}. AC Analysis")
+
+            # Get results with safe defaults
+            cv_results = results.get('cv_characteristics', {}) or {}
+            sparams_results = results.get('sparameter_analysis', {}) or {}
+            nqs_results = results.get('nqs_effects', {}) or {}
+            charge_results = results.get('charge_conservation', {}) or {}
+            
+            # Check if any AC data is available
+            has_ac_data = any([
+                cv_results.get('data_ready'),
+                sparams_results.get('data_ready'),
+                nqs_results.get('data_ready'),
+                charge_results.get('data_ready')
+            ])
+            
+            if not has_ac_data:
+                content.append("- [<span style='color: red'>✗</span>] AC simulations failed")
+                content.append("  - Data not available or failed to read")
+                return content
+            
+            # CV Characteristics
+            content.append("### Small-Signal Analysis")
+            if cv_results.get('data_ready'):
+                content.append("- [<span style='color: green'>✓</span>] AC small-signal simulations verified")
+                content.append(f"  - Gate capacitance range: {cv_results.get('cgg_range', 'N/A')}")
+                content.append(f"  - Frequency range: {cv_results.get('freq_range', 'N/A')}")
+                content.append(f"  - Max capacitance at: {cv_results.get('max_value_at', 'N/A')}")
+                content.append("")
+                content.append("*CV characteristics showing gate capacitance variation with gate voltage*")
+                content.append("")
+                content.append("<img src='plots/cv_characteristics.png' alt='CV Characteristics' width='400'/>")
+                content.append("")
+                content.append("Capacitance components (Cgb, Cgs, Cgd) variation with gate voltage*")
+                content.append("")
+                content.append("<img src='plots/cv_components.png' alt='CV Components' width='400'/>")
+            else:
+                content.append("- [<span style='color: red'>✗</span>] CV characteristics verification failed")
+                content.append("  - Data not available or failed to read")
+            content.append("")
+            
+            # High-Frequency Analysis
+            content.append("### S-Parameter Analysis")
+            if sparams_results.get('data_ready'):
+                content.append("- [<span style='color: green'>✓</span>] High-frequency AC simulations verified")
+                content.append(f"  - Frequency range: {sparams_results.get('freq_range', 'N/A')}")
+                content.append("- [<span style='color: green'>✓</span>] S-parameter analysis verified")
+                content.append(f"  - S11 range: {sparams_results.get('s11_range', 'N/A')}")
+                content.append(f"  - S21 range: {sparams_results.get('s21_range', 'N/A')}")
+                content.append(f"  - S12 range: {sparams_results.get('s12_range', 'N/A')}")
+                content.append(f"  - S22 range: {sparams_results.get('s22_range', 'N/A')}")
+                content.append("- [<span style='color: green'>✓</span>] RF simulations verified")
+                content.append(f"  - Isolation: {sparams_results.get('isolation', 'N/A')}")
+                content.append("")
+                content.append("*S-Parameter analysis showing frequency response characteristics*")
+                content.append("")
+                content.append("<img src='plots/cv_sparameter_analysis.png' alt='S-Parameters' width='400'/>")
+            else:
+                content.append("- [<span style='color: red'>✗</span>] S-parameter analysis failed")
+                content.append("  - Data not available or failed to read")
+            content.append("")
+
+            # NQS Effects
+            content.append("### Non-Quasi-Static Effects Analysis")
+            if nqs_results.get('data_ready'):
+                content.append("- [<span style='color: green'>✓</span>] NQS effects verified")
+                content.append(f"  - Maximum phase shift: {nqs_results.get('max_phase_shift', 'N/A')}")
+                content.append(f"  - Frequency range: {nqs_results.get('freq_range', 'N/A')}")
+                content.append("")
+                content.append("*Non-quasi-static effects analysis showing phase shift between gate voltage and drain current*")
+                content.append("")
+                content.append("<img src='plots/cv_nqs_effects.png' alt='NQS Effects' width='400'/>")
+            else:
+                content.append("- [<span style='color: red'>✗</span>] NQS effects verification failed")
+                content.append("  - Data not available or failed to read")
+            
+            # Charge Conservation Analysis
+            content.append("\n### Charge Conservation Analysis")
+            if charge_results.get('data_ready'):
+                content.append("- [<span style='color: green'>✓</span>] Charge conservation verified")
+                content.append(f"  - Total charge error: {charge_results.get('max_charge_error', 'N/A')}")
+                content.append(f"  - Max current: {charge_results.get('max_current_error', 'N/A')}")
+                content.append(f"  - Current Threshold: {charge_results.get('current_threshold', 'N/A')}")
+                content.append("")
+                content.append("*Terminal currents and charges analysis*")
+                content.append("")
+                content.append("<img src='plots/charge_conservation.png' alt='Charge Conservation' width='400'/>")
+            else:
+                content.append("- [<span style='color: red'>✗</span>] Charge conservation verification failed")
+                content.append("  - Data not available or failed to read")
+
+            content.append("")
+            self.logger.info("Successfully generated AC analysis section")
+            return content
+            
+        except Exception as e:
+            self.logger.error(f"Error generating AC analysis section: {e}")
+            return [f"## {section_num}. AC Analysis", "Error generating AC analysis section"]
+
+    # Done
+    def _generate_transient_summary(self, results):
+        """
+        Generate transient analysis summary section.
+        """
+        try:
+            content = []
+            content.append("### Transient Analysis Summary")
+            content.append("| Test Type | Status | Key Findings |")
+            content.append("|-----------|--------|-------------|")
+
+            # Get results with safe defaults
+            transient_results = results.get('large_signal_transient', {}) or {}
+            switching_results = results.get('switching_simulations', {}) or {}
+            delay_results = results.get('delay_effect', {}) or {}
+            power_results = results.get('power_dissipation', {}) or {}
+            qs_results = results.get('quasi_static', {}) or {}
+            charge_results = results.get('charge_conservation', {}) or {}
+
+            # Check if any Transient data is available
+            has_transient_data = any([
+                transient_results.get('data_ready'),
+                switching_results.get('data_ready'),
+                delay_results.get('data_ready'),
+                power_results.get('data_ready'),
+                qs_results.get('data_ready'),
+                charge_results.get('data_ready')
+            ])
+            
+            if not has_transient_data:
+                content.append("- [<span style='color: red'>✗</span>] Transient simulations failed")
+                content.append("  - Data not available or failed to read")
+                return content
+
+            # Transient Analysis
+            self.logger.info(f"transient_results: {transient_results}")
+            self.logger.info(f"switching_results: {switching_results}")
+            self.logger.info(f"delay_results: {delay_results}")
+            self.logger.info(f"power_results: {power_results}")
+            self.logger.info(f"qs_results: {qs_results}")
+            self.logger.info(f"charge_results: {charge_results}")
+
+            if transient_results.get('data_ready'):
+                status = "✓" if transient_results.get('transient_completed', True) else "✗"
+                color = "green" if status == "✓" else "red"
+                findings = f"Max Current: {transient_results.get('details', {}).get('max_current'):.3e}A, Rise Time: {transient_results.get('details', {}).get('rise_time'):.1f}ps" 
+                self.logger.info(f"transient_results.get('transient_completed', True): {status}")
+                content.append(f"| [Large-Signal Transient](#large-signal-transient) | <span style='color: {color}'>{status}</span> | {findings} |")
+            else:
+                content.append("| [Large-Signal Transient](#large-signal-transient) | <span style='color: red'>✗</span> | Data not available |")
+
+            if switching_results.get('data_ready'):
+                status = "✓" if switching_results.get('switching_behavior_analyzed', True) and switching_results.get('propagation_delay_measured', True) and switching_results.get('max_current_calculated', True) else "✗"
+                color = "green" if status == "✓" else "red"
+                findings = f"Propagation Delay: {switching_results.get('details', {}).get('propagation_delay'):.1f}ps, Power: {switching_results.get('details', {}).get('max_power'):.3e}W (max), {switching_results.get('details', {}).get('avg_power'):.3e}W (avg)"
+                self.logger.info(f"switching_results.get('switching_behavior_analyzed', True): {status}")
+                content.append(f"| [Switching Simulations](#switching-simulations) | <span style='color: {color}'>{status}</span> | {findings} |")
+            else:
+                content.append("| [Switching Simulations](#switching-simulations) | <span style='color: red'>✗</span> | Data not available |")
+
+            if delay_results.get('data_ready'):
+                status = "✓" if delay_results.get('delay_effect_analyzed', True) else "✗"
+                color = "green" if status == "✓" else "red"
+                findings = f"Total Chain Delay: {delay_results.get('details', {}).get('total_delay'):.1f}ps"
+                self.logger.info(f"delay_results.get('delay_effect_analyzed', True): {status}")
+                content.append(f"| [Delay Effect](#delay-effect-simulations) | <span style='color: {color}'>{status}</span> | {findings} |")
+            else:
+                content.append("| [Delay Effect](#delay-effect-simulations) | <span style='color: red'>✗</span> | Data not available |")
+
+            if power_results.get('data_ready'):
+                status = "✓" if power_results.get('power_analysis_completed', True) else "✗"
+                color = "green" if status == "✓" else "red"
+                findings = f"Temp Coeff: {power_results.get('details', {}).get('power_temp_coef'):.6e}W/°C"
+                self.logger.info(f"power_results.get('power_analysis_completed', True): {status}")
+                content.append(f"| [Power Dissipation](#transient-simulations-for-power-dissipation) | <span style='color: {color}'>{status}</span> | {findings} |")
+            else:
+                content.append("| [Power Dissipation](#transient-simulations-for-power-dissipation) | <span style='color: red'>✗</span> | Data not available |")
+
+            if qs_results.get('data_ready'):
+                status = "✓" if qs_results.get('quasi_static_analyzed', True) else "✗"
+                color = "green" if status == "✓" else "red"
+                findings = f"I-V characteristics analyzed: {qs_results.get('iv_relationship_analyzed')}" 
+                self.logger.info(f"qs_results.get('quasi_static_analyzed', True): {status}")
+                content.append(f"| [Quasi-Static Analysis](#quasi-static-analysis) | <span style='color: {color}'>{status}</span> | {findings} |")
+            else:
+                content.append("| [Quasi-Static Analysis](#quasi-static-analysis) | <span style='color: red'>✗</span> | Data not available |")
+
+            if charge_results.get('data_ready'):
+                status = "✓" if charge_results.get('conservation_satisfied', True) else "✗"
+                color = "green" if status == "✓" else "red"
+                findings = f"Error: {charge_results.get('details', {}).get('q_conservation_error')}"
+                self.logger.info(f"charge_results.get('conservation_satisfied', True): {status}")
+                content.append(f"| [Charge Conservation](#charge-conservation-tests) | <span style='color: {color}'>{status}</span> | {findings} |")
+            else:
+                content.append("| [Charge Conservation](#charge-conservation-tests) | <span style='color: red'>✗</span> | Data not available |")
+
+            content.append("")
+            return content
+            
+        except Exception as e:
+            self.logger.error(f"Error generating Transient summary: {e}")
+            return ["### Transient Analysis Summary", "Error generating Transient summary"]
+
+    def _generate_transient_analysis_section(self, results, section_num=3):
+        """
+        Generate detailed Transient analysis section.
+        """
+        try:
+            content = []
+            content.append(f"## {section_num}. Transient Analysis")
+
+            # Get results with safe defaults
+            transient_results = results.get('large_signal_transient', {}) or {}
+            switching_results = results.get('switching_simulations', {}) or {}
+            delay_results = results.get('delay_effect', {}) or {}
+            power_results = results.get('power_dissipation', {}) or {}
+            qs_results = results.get('quasi_static', {}) or {}
+            charge_results = results.get('charge_conservation', {}) or {}
+
+            # Check if any Transient data is available
+            has_transient_data = any([
+                transient_results.get('data_ready'),
+                switching_results.get('data_ready'),
+                delay_results.get('data_ready'),
+                power_results.get('data_ready'),
+                qs_results.get('data_ready'),
+                charge_results.get('data_ready')
+            ])
+            
+            if not has_transient_data:
+                content.append("- [<span style='color: red'>✗</span>] Transient simulations failed")
+                content.append("  - Data not available or failed to read")
+                return content
+            
+            # Large-Signal Transient
+            content.append("### Large-Signal Transient")
+            if transient_results.get('data_ready'):
+                status = "✓" if transient_results.get('transient_completed', True) else "✗"
+                color = "green" if status == "✓" else "red"
+                findings = f"  - Maximum Drain Current: {transient_results.get('details', {}).get('max_current'):.6e}A"
+                content.append(f"- [<span style='color: {color}'>{status}</span>] Large Signal Transient Verified")
+                content.append(findings if status else "  - Maximum Drain Current: *Not measured*")
+
+                status = "✓" if transient_results.get('rise_time_measured', True) else "✗"
+                color = "green" if status == "✓" else "red"
+                findings = f"  - Gate Voltage Rise Time: {transient_results.get('details', {}).get('rise_time'):.1f}ps"
+                content.append(findings if status else "  - Gate Voltage Rise Time: *Not measured*")
+
+                content.append("")
+                content.append("*Large-signal transient analysis showing voltages and current response*")
+                content.append("")
+                content.append("<img src='plots/trans_large_signal_transient.png' alt='Large-Signal Transient Analysis' width='400'/>")
+                content.append("")
+            else:
+                content.append("- [<span style='color: red'>✗</span>] Large-Signal Transient verification failed")
+                content.append("  - Data not available or failed to read")
+                content.append("")
+
+            # Switching Simulations
+            content.append("### Switching Simulations")
+            if switching_results.get('data_ready'):
+                status = "✓" if switching_results.get('propagation_delay_measured', True) else "✗"
+                color = "green" if status == "✓" else "red"
+                findings = f"  - Propagation Delay: {switching_results.get('details', {}).get('propagation_delay'):.1f}ps"
+                content.append(f"- [<span style='color: {color}'>{status}</span>] Propagation Delay Verified")
+                content.append(findings if status else "  - Propagation Delay: *Not measured*")
+                content.append("")
+
+                status = "✓" if switching_results.get('power_measured', True) else "✗"
+                color = "green" if status == "✓" else "red"
+                findings = f"  - Maximum Switching Power: {switching_results.get('details', {}).get('max_power'):.6e}W"
+                content.append(findings if status else "  - Maximum Switching Power: *Not measured*")
+                content.append("")
+
+                findings = f"  - Average Switching Power: {switching_results.get('details', {}).get('avg_power'):.6e}W" 
+                content.append(findings if status else "  - Average Switching Power: *Not measured*")
+                content.append("")
+
+                content.append("*Inverter switching analysis showing input/output voltages and power*")
+                content.append("")
+                content.append("<img src='plots/trans_switching_response.png' alt='Switching Response' width='400'/>")
+                content.append("")
+            else:
+                content.append("- [<span style='color: red'>✗</span>] Switching Simulations verification failed")
+                content.append("  - Data not available or failed to read")
+                content.append("")
+
+            # Delay Effect Simulations
+            content.append("### Delay Effect Simulations")
+            if delay_results.get('data_ready'):
+                status = "✓" if delay_results.get('delay_effect_analyzed', True) else "✗"
+                color = "green" if status == "✓" else "red"
+                content.append(f"- [<span style='color: {color}'>{status}</span>] Propagation delay through inverter chain analyzed")
+                
+                findings = f"  - Stage 1 Delay: {delay_results.get('details', {}).get('stage1_delay'):.1f}ps"
+                content.append(findings if status else "  - Stage 1 Delay: *Not measured*")
+                content.append("")
+
+                findings = f"  - Stage 2 Delay: {delay_results.get('details', {}).get('stage2_delay'):.1f}ps"
+                content.append(findings if status else "  - Stage 2 Delay: *Not measured*")
+                content.append("")
+
+                findings = f"  - Stage 3 Delay: {delay_results.get('details', {}).get('stage3_delay'):.1f}ps"
+                content.append(findings if status else "  - Stage 3 Delay: *Not measured*")
+                content.append("")
+
+                findings = f"  - Total Delay: {delay_results.get('details', {}).get('total_delay'):.1f}ps"
+                content.append(findings if status else "  - Total Chain Delay: *Not measured*")
+                content.append("")
+
+                content.append("*Delay effect analysis showing signal propagation through inverter chain*")
+                content.append("")
+                content.append("<img src='plots/trans_delay_effect.png' alt='Delay Effect Analysis' width='400'/>")
+                content.append("")
+            else:
+                content.append("- [<span style='color: red'>✗</span>] Delay Effect Simulations verification failed")
+                content.append("  - Data not available or failed to read")
+                content.append("")
+
+            # Transient Simulations for Power Dissipation
+            content.append("### Transient Simulations for Power Dissipation")
+            if power_results.get('data_ready'):
+                status = "✓" if power_results.get('power_analysis_completed', True) else "✗"
+                color = "green" if status == "✓" else "red"
+                content.append(f"- [<span style='color: {color}'>{status}</span>] Temperature-dependent power analysis completed")
+                
+                findings = f"  - Maximum Power at 27°C: {power_results.get('details', {}).get('max_power_27c'):.6e}W" 
+                content.append(findings if status else "  - Maximum Power at 27°C: *Not measured*")
+                content.append("")
+                
+                findings = f"  - Maximum Power at 100°C: {power_results.get('details', {}).get('max_power_100c'):.6e}W" 
+                content.append(findings if status else "  - Maximum Power at 100°C: *Not measured*")
+                content.append("")
+
+                findings = f"  - Average Power at 27°C: {power_results.get('details', {}).get('avg_power_27c'):.6e}W" 
+                content.append(findings if status else "  - Average Power at 27°C: *Not measured*")
+                content.append("")
+
+                findings = f"  - Average Power at 100°C: {power_results.get('details', {}).get('avg_power_100c'):.6e}W" 
+                content.append(findings if status else "  - Average Power at 100°C: *Not measured*")
+                content.append("")
+
+                findings = f"  - Power Temperature Coefficient: {power_results.get('details', {}).get('power_temp_coef'):.6e}W/°C" 
+                content.append(findings if status else "  - Power Temperature Coefficient: *Not measured*")
+                content.append("")
+
+                content.append("*Power dissipation analysis at different temperatures*")
+                content.append("")
+                content.append("<img src='plots/trans_power_dissipation.png' alt='Power Dissipation' width='400'/>")
+                content.append("")
+                content.append("*Energy consumption analysis at different temperatures*")
+                content.append("")
+                content.append("<img src='plots/trans_energy_consumption.png' alt='Energy Consumption' width='400'/>")
+                content.append("")
+            else:
+                content.append("- [<span style='color: red'>✗</span>] Power verification failed")
+                content.append("  - Data not available or failed to read")
+                content.append("")
+
+            # Quasi-Static Analysis
+            content.append("### Quasi-Static Analysis")
+            if qs_results.get('data_ready'):
+                status = "✓" if qs_results.get('quasi_static_analyzed', True) else "✗"
+                color = "green" if status == "✓" else "red"
+                content.append(f"- [<span style='color: {color}'>{status}</span>] Charge conservation analyzed")
+
+                content.append("*Quasi-static time-domain behavior analysis*")
+                content.append("")
+                content.append("<img src='plots/trans_quasi_static.png' alt='Quasi-Static Analysis' width='400'/>")
+                content.append("")
+                content.append("*Quasi-static I-V characteristic showing relationship between gate voltage and drain current*")
+                content.append("")
+                content.append("<img src='plots/trans_quasi_static_iv.png' alt='Quasi-Static I-V Characteristic' width='400'/>")
+                content.append("")
+            else:
+                content.append("- [<span style='color: red'>✗</span>] Quasi-Static Simulations verification failed")
+                content.append("  - Data not available or failed to read")
+                content.append("")
+
+            # Charge Conservation Tests
+            content.append("### Charge Conservation Tests")
+            charge_results['data_ready'] = False
+            if charge_results.get('data_ready'):
+                status = "✓" if charge_results.get('charge_conservation', True) else "✗"
+                color = "green" if status == "✓" else "red"
+                content.append(f"- [<span style='color: {color}'>{status}</span>] Charge conservation analyzed")
+                content.append("")
+
+                findings = f"  - Total Charge Variation: {charge_results.get('details', {}).get('q_total_variation'):.6e}C" 
+                content.append(findings if status else "  - Total Charge Variation: *Not measured*")
+                content.append("")
+
+                findings = f"  - Mean Total Charge: {charge_results.get('details', {}).get('q_total_mean'):.6e}C"
+                content.append(findings if status else "  - Mean Total Charge: *Not measured*")
+                content.append("")
+
+                findings = f"  - Charge Conservation Error: {charge_results.get('details', {}).get('q_conservation_error'):.6f}%"
+                content.append(findings if status else "  - Charge Conservation Error: *Not measured*")
+                content.append("")
+
+                content.append("*Terminal currents and charges analysis*")
+                content.append("")
+                content.append("<img src='plots/trans_charge_conservation.png' alt='Charge Conservation Analysis' width='400'/>")
+                content.append("")
+                content.append("*Total charge conservation analysis*")
+                content.append("")
+                content.append("<img src='plots/trans_total_charge.png' alt='Total Charge' width='400'/>")
+                content.append("")
+            else:
+                content.append("- [<span style='color: red'>✗</span>] Charge Conservation verification failed")
+                content.append("  - Data not available or failed to read")
+                content.append("")
+
+
+            content.append("")
+            self.logger.info("Successfully generated Transient analysis section")    
+            return content
+        except Exception as e:
+            self.logger.error(f"Error generating Transient analysis section: {e}")
+            return [f"## {section_num}. Transient Analysis", "Error generating Transient analysis section"]
+
+    # DC Analysis
+    # Done
     def verify_dc_operating_point_analysis(self, v_ds, v_gs, i_ds, i_g, i_s, i_b, temp):
         """Verify DC Operating Point Analysis.
         
@@ -773,564 +1663,8 @@ class VerificationManager:
             self.logger.error(f"Error verifying bias point analysis: {e}")
             
         return results
-    
-    # Done
-    def update_verification_checklist(self, results, modes=None):
-        """
-        Update the verification checklist with simulation results.
-        """
-        try:
-            self.logger.info("Starting verification checklist update")
-            
-            # If modes is None, assume all modes were run
-            if modes is None:
-                modes = ['dc', 'transient', 'ac', 'noise']
-                self.logger.info("No modes specified, using all modes")
-            elif 'all' in modes:
-                modes = ['dc', 'transient', 'ac', 'noise']
-                self.logger.info("'all' mode specified, using all modes")
-            elif isinstance(modes, str):
-                modes = [modes]  # Convert single mode to list
-                self.logger.info(f"Single mode specified: {modes[0]}")
-            
-            self.logger.info(f"Processing modes: {', '.join(modes)}")
 
-            # Create the report directory if it doesn't exist
-            report_path = self.output_dir / 'REPORT.md'
-            report_path.parent.mkdir(exist_ok=True, parents=True)
-            self.logger.info(f"Report will be saved to: {report_path}")
-
-            # Generate new report content
-            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            content = []
-            
-            # 1. Generate header
-            content.extend(self._generate_report_header(timestamp))
-            
-            # 2. Generate table of contents
-            content.extend(self._generate_table_of_contents(modes))
-            
-            # 3. Generate notes section
-            content.extend(self._generate_notes_section())
-            
-            # 4. Generate simulation setup section
-            content.extend(self._generate_simulation_setup_section(results))
-            
-            # 5. Generate summary section
-            content.extend(self._generate_summary_section(results, modes))
-            
-            # 6. Generate detailed analysis sections in order
-            section_num = 3  # Start from section 3
-            
-            # DC Analysis (Section 3)
-            if 'dc' in modes:
-                content.extend(self._generate_dc_analysis_section(results))
-                section_num += 1
-            
-            # Transient Analysis (Section 4)
-            if 'transient' in modes:
-                content.extend(self._generate_transient_analysis_section(results))
-                section_num += 1
-            
-            # AC Analysis (Section 5)
-            if 'ac' in modes:
-                content.extend(self._generate_ac_analysis_section(results, section_num))
-                section_num += 1
-            
-            # Noise Analysis (Section 6)
-            if 'noise' in modes:
-                content.extend(self._generate_noise_analysis_section(results))
-                section_num += 1
-            
-            # Write the complete report to file
-            self.logger.info(f"Writing complete report to file: {report_path}")
-            with open(report_path, 'w') as f:
-                f.write('\n'.join(content))
-                
-            self.logger.info(f"Successfully generated verification checklist at {report_path}")
-                
-        except Exception as e:
-            self.logger.error(f"Error updating verification checklist: {e}")
-            import traceback
-            traceback.print_exc()
-
-    # Done
-    def _generate_report_header(self, timestamp):
-        """
-        Generate the header section of the report including title and table of contents.
-        """
-        self.logger.info("Generating Report Header")
-        content = ["# MOSFET Simulation Verification Report"]
-        content.append(f"Generated on: {timestamp}")
-        content.append("")
-        content.append("## Table of Contents")
-        content.append("1. [Simulation Setup and Execution](#1-simulation-setup-and-execution)")
-
-        self.logger.info("Completed Report Header")
-        return content
-
-    # Done
-    def _generate_table_of_contents(self, modes):
-        """
-        Generate the table of contents based on the analysis modes.
-        """
-
-        self.logger.info("Generating Table of Contents")
-        content = ["2. [Summary](#2-summary)"]
-        # Start section numbering from 3
-        section_num = 3
-        self.logger.info(f"Starting section numbering from {section_num}")
-
-        if 'dc' in modes:
-            self.logger.info("Adding DC analysis section to TOC")
-            content.append(f"   - [DC Analysis Summary](#dc-analysis-summary)")
-            content.append(f"{section_num}. [DC Analysis](#{section_num}-dc-analysis)")
-            content.append("   - [DC Operating Point Analysis](#dc-operating-point-analysis)")
-            content.append("   - [Bias Point Analysis](#bias-point-analysis)")
-            content.append("   - [Temperature Analysis](#temperature-analysis)")
-            content.append("   - [Thermodynamic Analysis](#thermodynamic-analysis)")
-            content.append("   - [Physical Properties Analysis](#physical-properties-analysis)")
-            section_num += 1
-
-        if 'ac' in modes:
-            self.logger.info("Adding AC analysis section to TOC")
-            content.append(f"   - [AC Analysis Summary](#ac-analysis-summary)")
-            content.append(f"{section_num}. [AC Analysis](#{section_num}-ac-analysis)")
-            content.append("   - [Small-Signal Analysis](#small-signal-analysis)")
-            content.append("   - [S-Parameter Analysis](#s-parameter-analysis)")
-            content.append("   - [Non-Quasi-Static (NQS) Effects Analysis](#non-quasi-static-effects-analysis)")
-            content.append("   - [Charge Conservation Analysis](#charge-conservation-analysis)")
-            section_num += 1
-
-        if 'transient' in modes:
-            self.logger.info("Adding transient analysis section to TOC")
-            content.append(f"   - [Transient Analysis Summary](#transient-analysis-summary)")
-            content.append(f"{section_num}. [Transient Analysis](#{section_num}-transient-analysis)")
-            content.append("   - [Large-Signal Transient](#large-signal-transient)")
-            content.append("   - [Switching Simulations](#switching-simulations)")
-            content.append("   - [Delay Effect Simulations](#delay-effect-simulations)")
-            section_num += 1
-        
-        if 'noise' in modes:
-            self.logger.info("Adding noise analysis section to TOC")
-            content.append(f"   - [Noise Analysis Summary](#noise-analysis-summary)")
-            content.append(f"{section_num}. [Noise Analysis](#{section_num}-noise-analysis)")
-            content.append("   - [Thermal Noise Analysis](#thermal-noise-analysis)")
-            content.append("   - [Flicker Noise Analysis](#flicker-noise-analysis)")
-            content.append("   - [Shot Noise Analysis](#shot-noise-analysis)")
-            section_num += 1
-        
-        content.append("")
-        self.logger.info("Table of contents generation completed")
-        return content
-
-    # Done
-    def _generate_notes_section(self):
-        """
-        Generate the notes section of the report.
-        """
-        self.logger.info("Generating Note Section")
-        content = []
-        content.append("## Notes")
-        content.append("- This report is automatically generated based on mosfet_simulation.py")
-        content.append("- Items are marked with <span style='color: green'>✓</span> for success and <span style='color: red'>✗</span> for failure")
-        content.append("- Any deviations from expected behavior should be documented")
-        
-        content.append("")
-        self.logger.info("Note Section Completed")
-        return content
-
-    # Done
-    def _generate_simulation_setup_section(self, results):
-        """
-        Generate the simulation setup section of the report.
-        """
-        self.logger.info("Generating Simulation Setup Section")
-        content = ["## 1. Simulation Setup and Execution"]
-        
-        if 'simulation_setup' in results and results['simulation_setup'] is not None:
-            setup = results['simulation_setup']
-            
-            # Common setup checks
-            content.append(f"- [<span style='color: {'green' if setup.get('netlist_exists', False) else 'red'}'>{'✓' if setup.get('netlist_exists', False) else '✗'}</span>] Circuit file exists and is readable")
-            content.append(f"  - Path: {setup.get('details', {}).get('netlist_path', 'Not available')}")
-            content.append(f"- [<span style='color: {'green' if setup.get('ngspice_installed', False) else 'red'}'>{'✓' if setup.get('ngspice_installed', False) else '✗'}</span>] ngspice is properly installed")
-            content.append(f"  - Version: {setup.get('details', {}).get('ngspice_version', 'Not available')}")
-            
-            # Mode-specific setup checks
-            if 'dc' in results:
-                content.append(f"- [<span style='color: {'green' if setup.get('simulation_runs', False) else 'red'}'>{'✓' if setup.get('simulation_runs', False) else '✗'}</span>] DC simulation runs without errors")
-                content.append(f"  - Path: {setup.get('details', {}).get('dc_path', 'Not available')}")
-            
-            if 'ac' in results:
-                content.append(f"- [<span style='color: {'green' if setup.get('simulation_runs', False) else 'red'}'>{'✓' if setup.get('simulation_runs', False) else '✗'}</span>] AC simulation runs without errors")
-                content.append(f"  - Path: {setup.get('details', {}).get('ac_path', 'Not available')}")
-            
-            if 'transient' in results:
-                content.append(f"- [<span style='color: {'green' if setup.get('simulation_runs', False) else 'red'}'>{'✓' if setup.get('simulation_runs', False) else '✗'}</span>] Transient simulation runs without errors")
-                content.append(f"  - Path: {setup.get('details', {}).get('transient_path', 'Not available')}")
-            
-            if 'noise' in results:
-                content.append(f"- [<span style='color: {'green' if setup.get('simulation_runs', False) else 'red'}'>{'✓' if setup.get('simulation_runs', False) else '✗'}</span>] Noise simulation runs without errors")
-                content.append(f"  - Path: {setup.get('details', {}).get('noise_path', 'Not available')}")
-            
-            # If no specific modes are found, show generic simulation run check
-            if not any(mode in results for mode in ['dc', 'ac', 'transient', 'noise']):
-                content.append(f"- [<span style='color: {'green' if setup.get('simulation_runs', False) else 'red'}'>{'✓' if setup.get('simulation_runs', False) else '✗'}</span>] Simulation runs without errors")
-            else:
-                # Default setup section when no results are available
-                content.append("- [<span style='color: red'>✗</span>] Circuit file exists and is readable")
-                content.append("  - Path: Not available")
-                content.append("- [<span style='color: red'>✗</span>] ngspice is properly installed")
-                content.append("  - Version: Not available")
-                content.append("- [<span style='color: red'>✗</span>] Simulation runs without errors")
-
-        content.append("")
-        self.logger.info("Simulation Setup Section Completed")
-        return content
-
-    # Done
-    def _generate_summary_section(self, results, modes):
-        """
-        Generate the summary section based on the analysis modes.
-        """
-        self.logger.info("Generating Summary Section")
-        content = ["## 2. Summary"]
-        
-        if 'dc' in modes:
-            content.extend(self._generate_dc_summary_section(results))
-        
-        if 'ac' in modes:
-            content.extend(self._generate_ac_summary(results))
-        
-        if 'transient' in modes:
-            content.extend(self._generate_transient_summary(results))
-        
-        if 'noise' in modes:
-            content.extend(self._generate_noise_summary(results))
-        
-        self.logger.info("Summary Section Completed")
-        return content
-
-    # Done
-    def _generate_dc_summary_section(self, results):
-        """
-        Generate DC analysis summary section.
-        """
-        content = []
-        content.append("### DC Analysis Summary")
-        content.append("| Test Type | Status | Key Findings |")
-        content.append("|-----------|--------|-------------|")
-        
-        # DC Operating Point Analysis
-        if 'dc_operating_point_analysis' in results and results['dc_operating_point_analysis'] is not None:
-            data = results['dc_operating_point_analysis']
-            vds_range = data.get('vds_range', 'Not available')
-            vgs_range = data.get('vgs_range', 'Not available')
-            ids_range = data.get('ids_range', 'Not available')
-            content.append(f"| [DC Operating Point Analysis](#dc-operating-point-analysis) | <span style='color: {'green' if data.get('data_ready', False) else 'red'}'>{'✓' if data.get('data_ready', False) else '✗'}</span> | VDS: {vds_range}, VGS: {vgs_range}, IDS: {ids_range} |")
-
-        # Bias Point Analysis
-        if 'bias_point_analysis' in results and results['bias_point_analysis'] is not None:
-            bias = results['bias_point_analysis']
-            bias_points = bias.get('details', {}).get('bias_points', 'Not available')
-            current_ranges = bias.get('details', {}).get('current_ranges', 'Not available')
-            kcl_error = bias.get('details', {}).get('kcl_error', 'Not available')
-            power_range = bias.get('details', {}).get('power_range', 'Not available')
-            temp = bias.get('details', {}).get('temp', 'Not available')
-            content.append(f"| [Bias Point Analysis](#bias-point-analysis) | <span style='color: {'green' if bias.get('bias_points_analyzed', False) and bias.get('currents_measured', False) else 'red'}'>{'✓' if bias.get('bias_points_analyzed', False) and bias.get('currents_measured', False) else '✗'}</span> | Points: {bias_points}, Currents: {current_ranges}, KCL Error: {kcl_error}, Power: {power_range}, Temp: {temp} |")
-
-        # Temperature Analysis
-        if 'temperature_analysis' in results and results['temperature_analysis'] is not None:
-            temp = results['temperature_analysis']
-            temp_points = temp.get('details', {}).get('temp_points', 'Not available')
-            temp_coef = temp.get('details', {}).get('temp_coef_value', 'Not available')
-            ids_range = temp.get('details', {}).get('ids_range', 'Not available')
-            content.append(f"| [Temperature Analysis](#temperature-analysis) | <span style='color: {'green' if temp.get('temp_sweep', False) and temp.get('device_behavior', False) else 'red'}'>{'✓' if temp.get('temp_sweep', False) and temp.get('device_behavior', False) else '✗'}</span> | Temp Points: {temp_points}, TC: {temp_coef}, IDS: {ids_range} |")
-
-        # Thermodynamic Analysis
-        if 'thermodynamic_analysis' in results and results['thermodynamic_analysis'] is not None:
-            thermo = results['thermodynamic_analysis']
-            power_range = thermo.get('details', {}).get('power_range', 'Not available')
-            efficiency_range = thermo.get('details', {}).get('efficiency_range', 'Not available')
-            temp_coef = thermo.get('details', {}).get('temp_coef', 'Not available')
-            content.append(f"| [Thermodynamic Analysis](#thermodynamic-analysis) | <span style='color: {'green' if thermo.get('energy_conservation', False) and thermo.get('device_efficiency', False) else 'red'}'>{'✓' if thermo.get('energy_conservation', False) and thermo.get('device_efficiency', False) else '✗'}</span> | Power: {power_range}, Efficiency: {efficiency_range}, TC: {temp_coef} |")
-
-        content.append("")
-        self.logger.info("DC Summary Section Completed")
-        return content
-
-    # Done
-    def _generate_dc_analysis_section(self, results):
-        """
-        Generate detailed DC analysis section.
-        """
-        content = []
-        content.append("## 3. DC Analysis")
-        
-        # DC Operating Point Analysis   
-        content.append("### DC Operating Point Analysis")
-        if 'dc_operating_point_analysis' in results and results['dc_operating_point_analysis'] is not None:
-            content.append("- [<span style='color: green'>✓</span>] IV data file is generated")
-            content.append("- [<span style='color: green'>✓</span>] Data points are properly read")
-
-            data = results['dc_operating_point_analysis']
-            content.append(f"- [<span style='color: green'>✓</span>] Vds values are within range")
-            content.append(f"  - Range: {data.get('vds_range', 'Not available')}")
-            content.append(f"- [<span style='color: green'>✓</span>] Vgs values are within range")
-            content.append(f"  - Range: {data.get('vgs_range', 'Not available')}")
-            content.append(f"- [<span style='color: green'>✓</span>] Drain current (Ids) is properly measured")
-            content.append(f"  - Range: {data.get('ids_range', 'Not available')}")
-            content.append("")
-            content.append("*IV Characteristics showing drain current vs drain-source voltage*")
-            content.append("")
-            content.append("<img src='plots/iv_characteristics.png' alt='IV Characteristics' width='400'/>")
-        else:
-            content.append("- [<span style='color: red'>✗</span>] IV data is Missing")
-        content.append("")
-
-        # Bias Point Analysis
-        content.append("### Bias Point Analysis")      
-        if 'bias_point_analysis' in results and results['bias_point_analysis'] is not None:  
-            data = results['bias_point_analysis']
-            content.append(f"- [<span style='color: green'>✓</span>] Voltage Biasing Points")
-            content.append(f"  - Points: {data.get('details', {}).get('bias_points', 'Not available')}")
-            content.append(f"- [<span style='color: green'>✓</span>] Current Range")
-            content.append(f"  - IDS: {data.get('details', {}).get('IDS', 'Not available')}")
-            content.append(f"  - IG: {data.get('details', {}).get('IG', 'Not available')}")
-            content.append(f"  - IS: {data.get('details', {}).get('IS', 'Not available')}")
-            content.append(f"  - IB: {data.get('details', {}).get('IB', 'Not available')}")
-            content.append(f"- [<span style='color: green'>✓</span>] KCL Error Range")
-            content.append(f"  - KCL Error: {data.get('details', {}).get('kcl_error', 'Not available')}")
-            content.append("")
-            content.append("*KCL verification showing current balance*")
-            content.append("")
-            content.append("<img src='plots/kcl_verification.png' alt='KCL Verification' width='400'/>")
-        else:
-            content.append("- [<span style='color: red'>✗</span>] Bias data is Missing")
-        content.append("")
-
-        # Temperature Analysis
-        content.append("### Temperature Analysis")
-        if 'temperature_analysis' in results and results['temperature_analysis'] is not None:
-            data = results['temperature_analysis']
-            content.append(f"- [<span style='color: green'>✓</span>] Temperature sweep is performed")
-            content.append(f"  - Points: {data.get('details', {}).get('temp_points', 'Not available')}")
-            content.append(f"- [<span style='color: green'>✓</span>] Temperature coefficient is calculated")
-            content.append(f"  - Temperature Coefficient: {data.get('details', {}).get('temp_coef_value', 'Not available')}")
-            content.append(f"- [<span style='color: green'>✓</span>] Device behavior is valid")
-            content.append(f"  - Current Range: {data.get('details', {}).get('ids_range', 'Not available')}")
-            content.append(f"- [<span style='color: green'>✓</span>] Temperature-dependent behavior is valid")
-            content.append("")
-            content.append("*Temperature analysis showing current variation*")
-            content.append("")
-            content.append("<img src='plots/temperature_analysis.png' alt='Temperature Analysis' width='400'/>")
-        else:
-            content.append("- [<span style='color: red'>✗</span>] Temperature data is Missing")
-        content.append("")
-
-        # Thermodynamic Analysis
-        content.append("### Thermodynamic Analysis")        
-        if 'thermodynamic_analysis' in results and results['thermodynamic_analysis'] is not None:
-            data = results['thermodynamic_analysis']
-
-            if data['energy_conservation']:
-                content.append(f"- [<span style='color: green'>✓</span>] Energy is conserved")
-                content.append(f"  - Power Range: {data.get('details', {}).get('power_range', 'Not available')}")
-            else:
-                content.append(f"- [<span style='color: red'>✗</span>] Energy is not conserved")
-
-            if data['device_efficiency']:
-                content.append(f"- [<span style='color: green'>✓</span>] Device is efficient")
-            else:
-                content.append(f"- [<span style='color: green'>✗</span>] Device is not efficient")
-            content.append(f"  - Efficiency Range: {data.get('details', {}).get('efficiency_range', 'Not available')}")
-            if data['temp_coef_calc']:
-                content.append(f"- [<span style='color: green'>✓</span>] Temperature coefficient is calculated")
-                content.append(f"  - Value: {data.get('details', {}).get('temp_coef', 'Not available')}")
-            else:
-                content.append(f"- [<span style='color: green'>✗</span>] Temperature coefficient has error")
-        else:
-            content.append("- [<span style='color: red'>✗</span>] Thermodynamic data is Missing")
-        content.append("")
-
-        # Physical Properties
-        content.append("### Physical Properties Analysis")
-        content.append("- <span style='color: gray'>✗</span> Physical monotonicity over bias, geometry, and temperature: *In Progress*")
-        content.append("- <span style='color: gray'>✗</span> Parameter sweep simulations: *In Progress*")
-        content.append("- <span style='color: gray'>✗</span> Physical symmetries (currents, charges, their derivatives): *In Progress*")
-        content.append("- <span style='color: gray'>✗</span> Cross-derivative analysis: *In Progress*")
-        content.append("- <span style='color: gray'>✗</span> Terminal permutation tests: *In Progress*")
-        content.append("")
-        
-        return content
-
-    # Done
-    def _generate_ac_summary(self, results):
-        """Generate summary of AC analysis results."""
-        try:
-            self.logger.info("Generate summary of AC analysis results.")
-            content = []
-            content.append("### AC Analysis Summary")
-            content.append("| Test Type | Status | Key Findings |")
-            content.append("|-----------|--------|-------------|")
-            
-            # Get results with safe defaults
-            cv_results = results.get('cv_characteristics', {}) or {}
-            sparams_results = results.get('sparameter_analysis', {}) or {}
-            nqs_results = results.get('nqs_effects', {}) or {}
-            charge_results = results.get('charge_conservation', {}) or {}
-            
-            self.logger.info(f"CV Results: {cv_results}")
-            
-            # Small-Signal Analysis
-            if cv_results.get('data_ready'):
-                status = "✓" if cv_results.get('verification_passed', True) else "✗"
-                color = "green" if status == "✓" else "red"
-                findings = f"Gate capacitance range: {cv_results.get('cgg_range', 'N/A')}"
-                self.logger.info(f"cv_results.get('verification_passed', True): {cv_results.get('verification_passed', True)}")
-                content.append(f"| [Small Signal Analysis](#small-signal-analysis) | <span style='color: {color}'>{status}</span> | {findings} |")
-            else:
-                content.append("| [Small Signal Analysis](#small-signal-analysis) | <span style='color: red'>✗</span> | Data not available |")
-            
-            # S-Parameter Analysis
-            if sparams_results.get('data_ready'):
-                status = "✓" if sparams_results.get('verification_passed', True) else "✗"
-                color = "green" if status == "✓" else "red"
-                findings = f"S11 range: {sparams_results.get('s11_range', 'N/A')}, S21 range: {sparams_results.get('s21_range', 'N/A')}"
-                content.append(f"| [S-Parameter Analysis](#s-parameter-analysis) | <span style='color: {color}'>{status}</span> | {findings} |")
-            else:
-                content.append("| [S-Parameter Analysis](#s-parameter-analysis) | <span style='color: red'>✗</span> | Data not available |")
-            
-            # NQS Effects
-            if nqs_results.get('data_ready'):
-                status = "✓" if nqs_results.get('verification_passed', True) else "✗"
-                color = "green" if status == "✓" else "red"
-                findings = f"Max phase shift: {nqs_results.get('max_phase_shift', 'N/A')}"
-                content.append(f"| [Non-Quasi-Static (NQS) Effects Analysis](#non-quasi-static-effects-analysis) | <span style='color: {color}'>{status}</span> | {findings} |")
-            else:
-                content.append("| [Non-Quasi-Static (NQS) Effects Analysis](#non-quasi-static-effects-analysis) | <span style='color: red'>✗</span> | Data not available |")
-            
-            # Charge Conservation Analysis
-            if charge_results.get('data_ready'):
-                status = "✓" if charge_results.get('verification_passed', True) else "✗"
-                color = "green" if status == "✓" else "red"
-                findings = f"Total charge error: {charge_results.get('max_charge_error', 'N/A')}"
-                content.append(f"| [Charge Conservation Analysis](#charge-conservation-analysis) | <span style='color: {color}'>{status}</span> | {findings} |")
-            else:
-                content.append("| [Charge Conservation Analysis](#charge-conservation-analysis) | <span style='color: red'>✗</span> | Data not available |")
-            
-            content.append("")
-            return content
-            
-        except Exception as e:
-            self.logger.error(f"Error generating AC summary: {e}")
-            return ["### AC Analysis Summary", "Error generating AC summary"]
-
-    # Done
-    def _generate_ac_analysis_section(self, results, section_num=3):
-        """Generate the AC analysis section of the report."""
-        try:
-            content = []
-            content.append(f"## {section_num}. AC Analysis")
-            content.append("### Small-Signal Analysis")
-            
-            # Get results with safe defaults
-            cv_results = results.get('cv_characteristics', {}) or {}
-            sparams_results = results.get('sparameter_analysis', {}) or {}
-            nqs_results = results.get('nqs_effects', {}) or {}
-            charge_results = results.get('charge_conservation', {}) or {}
-            
-            # Check if any AC data is available
-            has_ac_data = any([
-                cv_results.get('data_ready'),
-                sparams_results.get('data_ready'),
-                nqs_results.get('data_ready'),
-                charge_results.get('data_ready')
-            ])
-            
-            if not has_ac_data:
-                content.append("- [<span style='color: red'>✗</span>] AC small-signal simulations failed")
-                content.append("  - Data not available or failed to read")
-                return content
-            
-            # CV Characteristics
-            if cv_results.get('data_ready'):
-                content.append("- [<span style='color: green'>✓</span>] AC small-signal simulations verified")
-                content.append(f"  - Gate capacitance range: {cv_results.get('cgg_range', 'N/A')}")
-                content.append(f"  - Frequency range: {cv_results.get('freq_range', 'N/A')}")
-                content.append(f"  - Max capacitance at: {cv_results.get('max_value_at', 'N/A')}")
-                content.append("")
-                content.append("*CV characteristics showing gate capacitance variation with gate voltage*")
-                content.append("")
-                content.append("<img src='plots/cv_characteristics.png' alt='CV Characteristics' width='400'/>")
-                content.append("")
-                content.append("Capacitance components (Cgb, Cgs, Cgd) variation with gate voltage*")
-                content.append("")
-                content.append("<img src='plots/cv_components.png' alt='CV Components' width='400'/>")
-            else:
-                content.append("- [<span style='color: red'>✗</span>] CV characteristics verification failed")
-                content.append("  - Data not available or failed to read")
-            content.append("")
-            
-            # High-Frequency Analysis
-            content.append("### S-Parameter Analysis")
-            if sparams_results.get('data_ready'):
-                content.append("- [<span style='color: green'>✓</span>] High-frequency AC simulations verified")
-                content.append(f"  - Frequency range: {sparams_results.get('freq_range', 'N/A')}")
-                content.append("- [<span style='color: green'>✓</span>] S-parameter analysis verified")
-                content.append(f"  - S11 range: {sparams_results.get('s11_range', 'N/A')}")
-                content.append(f"  - S21 range: {sparams_results.get('s21_range', 'N/A')}")
-                content.append(f"  - S12 range: {sparams_results.get('s12_range', 'N/A')}")
-                content.append(f"  - S22 range: {sparams_results.get('s22_range', 'N/A')}")
-                content.append("- [<span style='color: green'>✓</span>] RF simulations verified")
-                content.append(f"  - Isolation: {sparams_results.get('isolation', 'N/A')}")
-                content.append("")
-                content.append("*S-Parameter analysis showing frequency response characteristics*")
-                content.append("")
-                content.append("<img src='plots/sparameter_analysis.png' alt='S-Parameters' width='400'/>")
-            else:
-                content.append("- [<span style='color: red'>✗</span>] S-parameter analysis failed")
-                content.append("  - Data not available or failed to read")
-            content.append("")
-
-            # NQS Effects
-            content.append("### Non-Quasi-Static Effects Analysis")
-            if nqs_results.get('data_ready'):
-                content.append("- [<span style='color: green'>✓</span>] NQS effects verified")
-                content.append(f"  - Maximum phase shift: {nqs_results.get('max_phase_shift', 'N/A')}")
-                content.append(f"  - Frequency range: {nqs_results.get('freq_range', 'N/A')}")
-                content.append("")
-                content.append("*Non-quasi-static effects analysis showing phase shift between gate voltage and drain current*")
-                content.append("")
-                content.append("<img src='plots/nqs_effects.png' alt='NQS Effects' width='400'/>")
-            else:
-                content.append("- [<span style='color: red'>✗</span>] NQS effects verification failed")
-                content.append("  - Data not available or failed to read")
-            
-            # Charge Conservation Analysis
-            content.append("\n### Charge Conservation Analysis")
-            if charge_results.get('data_ready'):
-                content.append("- [<span style='color: green'>✓</span>] Charge conservation verified")
-                content.append(f"  - Total charge error: {charge_results.get('max_charge_error', 'N/A')}")
-                content.append(f"  - Max current: {charge_results.get('max_current_error', 'N/A')}")
-                content.append(f"  - Current Threshold: {charge_results.get('current_threshold', 'N/A')}")
-                content.append("")
-                content.append("*Terminal currents and charges analysis*")
-                content.append("")
-                content.append("<img src='plots/charge_conservation.png' alt='Charge Conservation' width='400'/>")
-            else:
-                content.append("- [<span style='color: red'>✗</span>] Charge conservation verification failed")
-                content.append("  - Data not available or failed to read")
-
-            content.append("")
-            self.logger.info("Successfully generated AC analysis section")
-            return content
-            
-        except Exception as e:
-            self.logger.error(f"Error generating AC analysis section: {e}")
-            return [f"## {section_num}. AC Analysis", "Error generating AC analysis section"]
-
+    # AC Analysis
     # Done
     def verify_cv_characteristics(self, vg, cgg, freq, vg_phase, id_phase):
         """Verify capacitance-voltage (CV) characteristics and small-signal behavior.
@@ -1410,30 +1744,6 @@ class VerificationManager:
             
         return results
 
-    # Done
-    def _generate_transient_summary(self, results):
-        """
-        Generate transient analysis summary section.
-        """
-        content = []
-        content.append("### DC Analysis Summary")
-        content.append("| Test Type | Status | Key Findings |")
-        content.append("|-----------|--------|-------------|")
-
-        
-        if 'large_signal_transient' in results and results['large_signal_transient'] is not None:
-            transient = results['large_signal_transient']
-            large_signal_status = 'green' if transient.get('transient_completed', False) else 'red'
-            large_signal_symbol = '✓' if large_signal_status == 'green' else '✗'
-            large_signal_details = f"Max Current: {transient.get('details', {}).get('max_current'):.3e}A, Rise Time: {transient.get('details', {}).get('rise_time'):.1f}ps" if transient.get('transient_completed', False) else "*Not available*"
-            content.append(f"| [Large-Signal Transient](#large-signal-transient) | <span style='color: {large_signal_status}'>{large_signal_symbol}</span> | {large_signal_details} |")
-
-        return content
-
-    def _generate_transient_analysis_section(self, results):
-        pass
-
-    # AC Analysis
     def verify_sparameter_analysis(self, freq, s11_mag, s21_mag, s12_mag, s22_mag):
         """Verify S-parameter analysis for RF/high-frequency behavior characterization.
         
@@ -1485,15 +1795,15 @@ class VerificationManager:
 
             # 1. Check for unilateral behavior (S12 << S21)
             unilateral_ratio = np.max(s21_mag) / np.max(s12_mag)
-            self.results["unilateral_behavior"] = unilateral_ratio > 10  # More than 10x difference
+            results["unilateral_behavior"] = unilateral_ratio > 10  # More than 10x difference
             
             # 2. Check input match at highest frequency
             high_freq_idx = len(freq) - 1
-            self.results["input_match"] = s11_mag[high_freq_idx] < 0.9  # Should be less than 0.9
+            results["input_match"] = s11_mag[high_freq_idx] < 0.9  # Should be less than 0.9
             
             # 3. Check gain at low frequency
             low_freq_idx = 0
-            self.results["gain"] = s21_mag[low_freq_idx] > 1.0  # Should be greater than 1
+            results["gain"] = s21_mag[low_freq_idx] > 1.0  # Should be greater than 1
             
             # 4. Verify RF operation capability
             # Find frequency at which S21 drops by 3dB from its maximum value
@@ -1502,24 +1812,24 @@ class VerificationManager:
             if len(cutoff_indices) > 0:
                 cutoff_idx = cutoff_indices[0]
                 cutoff_freq = freq[cutoff_idx]
-                self.results["cutoff_frequency"] = cutoff_freq
-                self.results["rf_capable"] = cutoff_freq > 1e8  # At least 100MHz
+                results["cutoff_frequency"] = cutoff_freq
+                results["rf_capable"] = cutoff_freq > 1e8  # At least 100MHz
             else:
-                self.results["cutoff_frequency"] = np.max(freq)
-                self.results["rf_capable"] = True
+                results["cutoff_frequency"] = np.max(freq)
+                results["rf_capable"] = True
             
             # Add key results for reporting
-            self.results["freq_range"] = f"{np.min(freq)/1e6:.1f}MHz to {np.max(freq)/1e9:.1f}GHz"
+            results["freq_range"] = f"{np.min(freq)/1e6:.1f}MHz to {np.max(freq)/1e9:.1f}GHz"
             s11_db = 20 * np.log10(s11_mag)
             s21_db = 20 * np.log10(s21_mag)
             s22_db = 20 * np.log10(s22_mag)
             s12_db = 20 * np.log10(s12_mag)
 
-            self.results["s11_range"] = f"{np.min(s11_db):.0f}dB to {np.max(s11_db):.0f}dB"
-            self.results["s21_range"] = f"{np.min(s21_db):.0f}dB to {np.max(s21_db):.0f}dB"
-            self.results["s22_range"] = f"{np.min(s22_db):.0f}dB to {np.max(s22_db):.0f}dB"
-            self.results["s12_range"] = f"{np.min(s12_db):.0f}dB to {np.max(s12_db):.0f}dB"
-            self.results["isolation"] = f">{20 * np.log10(1/unilateral_ratio):.0f}dB"
+            results["s11_range"] = f"{np.min(s11_db):.0f}dB to {np.max(s11_db):.0f}dB"
+            results["s21_range"] = f"{np.min(s21_db):.0f}dB to {np.max(s21_db):.0f}dB"
+            results["s22_range"] = f"{np.min(s22_db):.0f}dB to {np.max(s22_db):.0f}dB"
+            results["s12_range"] = f"{np.min(s12_db):.0f}dB to {np.max(s12_db):.0f}dB"
+            results["isolation"] = f">{20 * np.log10(1/unilateral_ratio):.0f}dB"
             
             # Generate plot
             try:
@@ -1530,11 +1840,11 @@ class VerificationManager:
                     self.logger.error(f"Error generating S-parameter plot: {e}")
 
             # Overall result
-            self.results["verification_passed"] = all([
-                self.results["unilateral_behavior"],
-                self.results["input_match"],
-                self.results["gain"],
-                self.results["rf_capable"]
+            results["verification_passed"] = all([
+                results["unilateral_behavior"],
+                results["input_match"],
+                results["gain"],
+                results["rf_capable"]
             ])
         
             # Let's get the current NQS status from the report before updating
@@ -1544,13 +1854,13 @@ class VerificationManager:
             self.results['sparameter_analysis'] = {
                 'data_ready': True,
                 'verification_passed': True,
-                'freq_range': self.results["freq_range"],
-                's11_range': self.results["s11_range"],
-                's21_range': self.results["s21_range"],
-                's22_range': self.results["s22_range"],
-                's12_range': self.results["s12_range"],
-                'isolation': self.results["isolation"],
-                'sparams_freq_range': self.results["freq_range"],
+                'freq_range': results["freq_range"],
+                's11_range': results["s11_range"],
+                's21_range': results["s21_range"],
+                's22_range': results["s22_range"],
+                's12_range': results["s12_range"],
+                'isolation': results["isolation"],
+                'sparams_freq_range': results["freq_range"],
                 'nqs_status': nqs_status,
                 'nqs_symbol': nqs_symbol,
                 'max_phase_shift': max_phase_shift
@@ -1568,7 +1878,12 @@ class VerificationManager:
             }
 
     def verify_nqs_effects(self, freq, vg_phase, id_phase, phase_diff):
-        """Verify non-quasi-static (NQS) effects analysis results."""
+        """
+        Verify non-quasi-static (NQS) effects analysis results.
+        """
+        results = {
+            'data_ready': False
+        }
         try:
             self.logger.info("Starting NQS effects verification")
             
@@ -1598,6 +1913,70 @@ class VerificationManager:
             
         except Exception as e:
             self.logger.error(f"Error in NQS effects verification: {e}")
+            return {
+                'data_ready': False,
+                'verification_passed': False,
+                'error': str(e)
+            }
+
+    def verify_ac_charge_conservation(self, time, vg, ig, id, is_, ib, i_total, q_gate, q_drain, q_source, q_bulk, q_total):
+        """Verify charge conservation in the device."""
+        results = {
+            'data_ready': False,
+        }
+        try:
+            # Check for missing data
+            if any(x is None for x in [time, vg, ig, id, is_, ib, i_total, q_gate, q_drain, q_source, q_bulk, q_total]):
+                self.logger.warning("Missing data for charge conservation verification")
+                return {
+                    'data_ready': False,
+                    'verification_passed': False,
+                    'error': 'Missing data'
+                }
+
+            # Calculate total current error
+            i_error = np.abs(i_total - (ig + id + is_ + ib))
+            max_i_error = np.max(i_error)
+            
+            # Calculate total charge error
+            q_error = np.abs(q_total - (q_gate + q_drain + q_source + q_bulk))
+            max_q_error = np.max(q_error)
+
+            # Define thresholds for verification
+            i_threshold = 1e-12  # 1 pA
+            q_threshold = 1e-15  # 1 fC
+            
+            # Check if errors are within acceptable limits
+            i_conserved = max_i_error < i_threshold
+            q_conserved = max_q_error < q_threshold
+            verification_passed = i_conserved and q_conserved
+
+            # Store results
+            results = {
+                'data_ready': True,
+                'verification_passed': verification_passed,
+                'max_current_error': max_i_error,
+                'max_charge_error': max_q_error,
+                'current_threshold': i_threshold,
+                'charge_threshold': q_threshold,
+                'current_conserved': i_conserved,
+                'charge_conserved': q_conserved
+            }
+
+            # Log results
+            if verification_passed:
+                self.logger.info("Charge conservation verification passed")
+            else:
+                self.logger.warning("Charge conservation verification failed")
+                if not i_conserved:
+                    self.logger.warning(f"Current conservation failed: max error = {max_i_error:.2e} A")
+                if not q_conserved:
+                    self.logger.warning(f"Charge conservation failed: max error = {max_q_error:.2e} C")
+
+            return results
+            
+        except Exception as e:
+            self.logger.error(f"Error in charge conservation verification: {e}")
             return {
                 'data_ready': False,
                 'verification_passed': False,
@@ -1678,9 +2057,12 @@ class VerificationManager:
             return 'red', '✗', 'Not available'
 
     # Transient Analysis
-    def verify_large_signal_transient(self, time, gate_voltage, drain_voltage, drain_current):
-        """Verify large signal transient analysis results."""
+    def verify_trans_large_signal_transient(self, time, gate_voltage, drain_voltage, drain_current):
+        """
+        Verify large signal transient analysis results.
+        """
         results = {
+            'data_ready': False,            
             'transient_completed': False,
             'rise_time_measured': False,
             'max_current_calculated': False,
@@ -1695,12 +2077,15 @@ class VerificationManager:
             # Basic data validation
             if time is None or gate_voltage is None or drain_voltage is None or drain_current is None:
                 self.results['large_signal_transient'] = results
-                return results
+                return self.results['large_signal_transient']
                 
             if len(time) == 0 or len(gate_voltage) == 0 or len(drain_voltage) == 0 or len(drain_current) == 0:
                 self.results['large_signal_transient'] = results
-                return results
-                
+                return self.results['large_signal_transient']
+            
+            # Data Ready
+            results['data_ready'] = True
+
             # Check if transient analysis completed
             results['transient_completed'] = True
             results['details']['time_points'] = len(time)
@@ -1737,9 +2122,12 @@ class VerificationManager:
         self.results['large_signal_transient'] = results
         return results
         
-    def verify_switching_simulations(self, time, input_voltage, output_voltage, supply_current, switching_power=None):
-        """Verify switching behavior of the inverter."""
+    def verify_trans_switching_simulations(self, time, input_voltage, output_voltage, supply_current, switching_power=None):
+        """
+        Verify switching behavior of the inverter.
+        """
         results = {
+            'data_ready': False,
             'switching_behavior_analyzed': False,
             'propagation_delay_measured': False,
             'power_measured': False,
@@ -1755,7 +2143,9 @@ class VerificationManager:
             if time is None or input_voltage is None or output_voltage is None or supply_current is None:
                 self.results['switching_simulations'] = results
                 return results
-                
+            
+            results['data_ready'] = True
+            
             # Check if switching behavior was analyzed
             results['switching_behavior_analyzed'] = True
             
@@ -1801,9 +2191,10 @@ class VerificationManager:
         self.results['switching_simulations'] = results
         return results
         
-    def verify_delay_effect(self, time, input_voltage, mid1_voltage, mid2_voltage, output_voltage):
+    def verify_trans_delay_effect(self, time, input_voltage, mid1_voltage, mid2_voltage, output_voltage):
         """Verify delay effects in inverter chain."""
         results = {
+            'data_ready': False,
             'delay_effect_analyzed': False,
             'stage_delays_measured': False,
             'total_delay_measured': False,
@@ -1822,6 +2213,8 @@ class VerificationManager:
                 self.results['delay_effect'] = results
                 return results
                 
+            results['data_ready'] = True
+
             # Check if delay effect was analyzed
             results['delay_effect_analyzed'] = True
             
@@ -1862,7 +2255,7 @@ class VerificationManager:
         self.results['delay_effect'] = results
         return results
         
-    def verify_power_dissipation(self, time_27c, power_27c, time_100c, power_100c):
+    def verify_trans_power_dissipation(self, time_27c, power_27c, time_100c, power_100c):
         """Verify power dissipation at different temperatures.
         
         Args:
@@ -1877,6 +2270,7 @@ class VerificationManager:
         self.logger.info("Starting power dissipation verification")
         
         results = {
+            'data_ready': False,
             'power_analysis_completed': False,
             'temp_dependence_analyzed': False,
             'power_coef_calculated': False,
@@ -1897,6 +2291,7 @@ class VerificationManager:
             self.logger.warning("Cannot verify power dissipation: empty data")
             return results
             
+        results['data_ready'] = True
         # Mark power analysis as completed
         results['power_analysis_completed'] = True
         
@@ -1927,8 +2322,11 @@ class VerificationManager:
         self.logger.info("Power dissipation verification completed")
         return results
         
-    def verify_quasi_static(self, time, gate_voltage, drain_voltage, drain_current):
+    def verify_trans_quasi_static(self, time, gate_voltage, drain_voltage, drain_current):
         """Verify quasi-static behavior of the MOSFET."""
+        results = {
+            'data_ready': False,
+        }
         try:
             # Check for missing data
             if any(x is None for x in [time, gate_voltage, drain_voltage, drain_current]):
@@ -1938,7 +2336,6 @@ class VerificationManager:
                     'verification_passed': False,
                     'error': 'Missing data'
                 }
-
             # Calculate time derivatives
             dt = np.diff(time)
             dvg_dt = np.diff(gate_voltage) / dt
@@ -1951,6 +2348,9 @@ class VerificationManager:
             norm_did = np.abs(did_dt / drain_current[:-1])
 
             # Check if derivatives are small enough for quasi-static operation
+            print(f"norm_dvg: {norm_dvg}")
+            print(f"norm_dvd: {norm_dvd}")
+            print(f"norm_did: {norm_did}")
             max_norm_dvg = np.max(norm_dvg)
             max_norm_dvd = np.max(norm_dvd)
             max_norm_did = np.max(norm_did)
@@ -1988,8 +2388,11 @@ class VerificationManager:
                 'error': str(e)
             }
 
-    def verify_charge_conservation(self, time, vg, ig, id, is_, ib, i_total, q_gate, q_drain, q_source, q_bulk, q_total):
+    def verify_trans_charge_conservation(self, time, vg, ig, id, is_, ib, i_total, q_gate, q_drain, q_source, q_bulk, q_total):
         """Verify charge conservation in the device."""
+        results = {
+            'data_ready': False,
+        }
         try:
             # Check for missing data
             if any(x is None for x in [time, vg, ig, id, is_, ib, i_total, q_gate, q_drain, q_source, q_bulk, q_total]):
@@ -2602,10 +3005,6 @@ class VerificationManager:
                 self.logger.error(f"Error extracting S-parameter status from report: {e}")
             return 'red', '✗', 'Not available', 'Not available', 'Not available', 'Not available'
 
-
-
-
-
     def _update_high_frequency_section_in_report(self, sparams_status, sparams_symbol, sparams_freq_range, 
                                               s11_range, s21_range, isolation, 
                                               nqs_status, nqs_symbol, max_phase_shift):
@@ -2644,11 +3043,11 @@ class VerificationManager:
 - [<span style='color: {nqs_status}'>{nqs_symbol}</span>] Non-Quasi-Static (NQS) Effects Analysis verified
   - Phase shift: {max_phase_shift}
 
-<img src='plots/sparameter_analysis.png' alt='S-Parameter Analysis' width='400'/>
+<img src='plots/cv_sparameter_analysis.png' alt='S-Parameter Analysis' width='400'/>
 
 *S-Parameter analysis showing frequency response characteristics*
 
-<img src='plots/nqs_effects.png' alt='Non-Quasi-Static Effects' width='400'/>
+<img src='plots/cv_nqs_effects.png' alt='Non-Quasi-Static Effects' width='400'/>
 
 *Non-quasi-static effects analysis showing phase shift between gate voltage and drain current*
 """

@@ -240,7 +240,7 @@ class DataReader:
             return None, None
 
     # DC analysis data reading methods
-    def read_iv_data(self, output_dir):
+    def read_dc_iv_data(self, output_dir):
         """Read IV characteristics data from the ASCII file."""
         try:
             self.logger.info("Reading IV characteristics data")
@@ -295,7 +295,7 @@ class DataReader:
             self.logger.error(f"Error reading IV data: {e}")
             return None, None, None, None, None, None, None
 
-    def read_temperature_data(self, output_dir):
+    def read_dc_temperature_data(self, output_dir):
         """Read temperature data from IV characteristics files."""
         try:
             self.logger.info("Reading temperature data")
@@ -339,7 +339,7 @@ class DataReader:
             self.logger.error(f"Error reading temperature data: {e}")
             return None
 
-    def read_bias_point_data(self, output_dir):
+    def read_dc_bias_point_data(self, output_dir):
         """Read bias point analysis data from output files.
         
         Returns:
@@ -380,243 +380,8 @@ class DataReader:
             self.logger.error(f"Error reading bias point data: {e}")
             return None, None, None, None, None, None
 
-    def read_cv_characteristics_data(self, file_path):
-        """Read CV characteristics data from the simulation output."""
-        try:
-            self.logger.info(f"Reading CV characteristics data from {file_path}")
-            
-            # Check if file exists
-            if not os.path.exists(file_path):
-                self.logger.error(f"CV characteristics file not found: {file_path}")
-                return None, None, None, None, None
-            
-            # Try to read the data
-            try:
-                # Try reading with pandas, which will handle column headers
-                data = pd.read_csv(file_path, delim_whitespace=True)
-                columns = list(data.columns)
-                # If the expected columnar format is present, use it
-                if 'Vg' in columns and 'Cgg_1MHz' in columns:
-                    vg = data['Vg'].values
-                    cgg = data['Cgg_1MHz'].values
-                    # For compatibility, fill freq, vg_phase, id_phase with dummy arrays
-                    freq = np.full_like(vg, 1e6, dtype=float)  # 1 MHz
-                    vg_phase = np.zeros_like(vg, dtype=float)
-                    id_phase = np.zeros_like(vg, dtype=float)
-                    self.logger.info("Successfully read CV characteristics data (columnar format)")
-                    return vg, cgg, freq, vg_phase, id_phase
-                # Otherwise, fall through to the next logic
-            except Exception as e:
-                self.logger.warning(f"Standard parsing failed, attempting to parse ngspice raw file format: {e}")
-                data = None
-            
-            # Try to parse ngspice raw format (previous logic)
-            try:
-                with open(file_path, 'r') as f:
-                    lines = f.readlines()
-                data_start = 0
-                for i, line in enumerate(lines):
-                    if line.strip().startswith('Values:'):
-                        data_start = i + 1
-                        break
-                if data_start == 0:
-                    raise ValueError("Could not find data section in ngspice raw file")
-                data_lines = []
-                for line in lines[data_start:]:
-                    line = line.strip()
-                    if line and not line.startswith('Date:'):
-                        try:
-                            values = [float(x) for x in line.split()]
-                            if len(values) >= 5:
-                                data_lines.append(values)
-                        except ValueError:
-                            continue
-                if not data_lines:
-                    raise ValueError("No valid data found in ngspice raw file")
-                data = pd.DataFrame(data_lines, columns=['vg', 'cgg', 'freq', 'vg_phase', 'id_phase'])
-            except Exception as e:
-                self.logger.error(f"Failed to parse ngspice raw format: {e}")
-                return None, None, None, None, None
-            # Verify we have the required columns
-            required_columns = ['vg', 'cgg', 'freq', 'vg_phase', 'id_phase']
-            if not all(col in data.columns for col in required_columns):
-                self.logger.error(f"Missing required columns in CV data. Found columns: {data.columns}")
-                return None, None, None, None, None
-            # Extract the data
-            vg = data['vg'].values
-            cgg = data['cgg'].values
-            freq = data['freq'].values
-            vg_phase = data['vg_phase'].values
-            id_phase = data['id_phase'].values
-            self.logger.info("Successfully read CV characteristics data (ngspice raw format)")
-            return vg, cgg, freq, vg_phase, id_phase
-        except Exception as e:
-            self.logger.error(f"Error reading CV characteristics data: {e}")
-            return None, None, None, None, None
-
-    def verify_cv_data(self, vg, cgg, cgd, cgs, cgb):
-        """Verify CV data consistency.
-        
-        Args:
-            vg: Gate voltage array
-            cgg: Gate-gate capacitance array
-            cgd: Gate-drain capacitance array
-            cgs: Gate-source capacitance array
-            cgb: Gate-bulk capacitance array
-            
-        Returns:
-            bool: True if data is consistent, False otherwise
-        """
-        try:
-            # Check array lengths
-            if not all(len(x) == len(vg) for x in [cgg, cgd, cgs, cgb]):
-                self.logger.warning("CV data arrays have inconsistent lengths")
-                return False
-            
-            # Check for NaN or infinite values
-            if any(np.isnan(x).any() or np.isinf(x).any() for x in [vg, cgg, cgd, cgs, cgb]):
-                self.logger.warning("CV data contains NaN or infinite values")
-                return False
-            
-            # Check capacitance values are positive
-            if any((x < 0).any() for x in [cgg, cgd, cgs, cgb]):
-                self.logger.warning("CV data contains negative capacitance values")
-                return False
-            
-            # Check total capacitance consistency
-            # Cgg should be approximately equal to Cgd + Cgs + Cgb
-            total_cap = cgd + cgs + cgb
-            if not np.allclose(cgg, total_cap, rtol=0.1):  # 10% tolerance
-                self.logger.warning("CV data total capacitance mismatch")
-                return False
-            
-            return True
-            
-        except Exception as e:
-            self.logger.error(f"Error verifying CV data: {e}")
-            return False
-    
-    def read_noise_data_file(self, output_dir):
-        """Read noise data files with robust parsing to handle text headers and complex formats.
-        
-        Args:
-            file_path: Path to the noise data file
-            
-        Returns:
-            tuple: (frequency, noise) if successful, else (None, None)
-        """
-        try:
-            if not os.path.exists(file_path):
-                self.logger.warning(f"Noise data file not found: {file_path}")
-                return None, None
-
-            # Try multiple parsing approaches
-            # 1. First try our custom triplet parser
-            with open(file_path, 'r') as f:
-                lines = f.readlines()
-            
-            # Find Values: section
-            values_index = None
-            for i, line in enumerate(lines):
-                if line.strip() == 'Values:':
-                    values_index = i
-                    break
-            
-            if values_index is not None:
-                # Process the data section using triplet format
-                freq_data = []
-                noise_data = []
-                i = values_index + 1
-                
-                while i < len(lines) - 2:  # Need at least 3 more lines for a complete triplet
-                    # Each triplet has: index, frequency, noise
-                    if lines[i].strip() and not lines[i].strip().startswith(' '):
-                        i += 1  # Skip index line
-                        
-                        # Read frequency
-                        if i < len(lines):
-                            try:
-                                freq = float(lines[i].strip())
-                                freq_data.append(freq)
-                                i += 1
-                                
-                                # Read noise
-                                if i < len(lines):
-                                    try:
-                                        noise = float(lines[i].strip())
-                                        noise_data.append(noise)
-                                    except ValueError:
-                                        # Skip this triplet if we can't parse the noise value
-                                        pass
-                            except ValueError:
-                                # Skip this triplet if we can't parse the frequency
-                                pass
-                    i += 1
-                
-                # Check if we have valid data
-                if len(freq_data) > 0 and len(noise_data) > 0:
-                    # Ensure the arrays have the same length
-                    min_len = min(len(freq_data), len(noise_data))
-                    freq_array = np.array(freq_data[:min_len])
-                    noise_array = np.array(noise_data[:min_len])
-                    return freq_array, noise_array
-            
-            # 2. Try numpy parsing with different skiprows values
-            for skiprows in [9, 10, 8, 11]:
-                try:
-                    data = np.loadtxt(file_path, skiprows=skiprows)
-                    if len(data) > 0 and data.shape[1] >= 3:
-                        freq = data[:, 0]  # First column is frequency
-                        noise = data[:, 2]  # Third column is noise
-                        return freq, noise
-                except Exception:
-                    continue
-            
-            # 3. Last resort - try a more flexible line-by-line parsing
-            freq_data = []
-            noise_data = []
-            data_started = False
-            
-            for line in lines:
-                line = line.strip()
-                if not line:
-                    continue
-                    
-                # If we see 'Values:', data will start soon
-                if line == 'Values:':
-                    data_started = True
-                    continue
-                    
-                if data_started:
-                    # Split by whitespace and try to extract values
-                    parts = line.split()
-                    if len(parts) == 1:
-                        try:
-                            # This might be a frequency or noise value
-                            value = float(parts[0])
-                            # If this is the first value we've seen, assume it's frequency
-                            if len(freq_data) > len(noise_data):
-                                noise_data.append(value)
-                            else:
-                                freq_data.append(value)
-                        except ValueError:
-                            # Not a numeric value, skip
-                            pass
-            
-            # Check if we have matching data
-            if len(freq_data) == len(noise_data) and len(freq_data) > 0:
-                return np.array(freq_data), np.array(noise_data)
-            
-            # No valid data found
-            self.logger.warning(f"Could not extract valid data from {file_path}")
-            return None, None
-            
-        except Exception as e:
-            self.logger.error(f"Error reading noise data file {file_path}: {e}")
-            return None, None
-
     # Transient analysis data reading methods
-    def read_large_signal_transient_data(self, output_dir):
+    def read_trans_large_signal_transient_data(self, output_dir):
         """Read large signal transient analysis data from file.
         
         Returns:
@@ -649,7 +414,7 @@ class DataReader:
             self.logger.error(f"Error reading large signal transient data: {e}")
             return None, None, None, None
             
-    def read_switching_response_data(self, output_dir):
+    def read_trans_switching_response_data(self, output_dir):
         """Read switching response data from file.
         
         Returns:
@@ -682,7 +447,7 @@ class DataReader:
             self.logger.error(f"Error reading switching response data: {e}")
             return None, None, None, None
             
-    def read_switching_power_data(self, output_dir):
+    def read_trans_switching_power_data(self, output_dir):
         """Read switching power data from file.
         
         Returns:
@@ -713,7 +478,7 @@ class DataReader:
             self.logger.error(f"Error reading switching power data: {e}")
             return None, None
 
-    def read_delay_effect_data(self, output_dir):
+    def read_trans_delay_effect_data(self, output_dir):
         """Read delay effect data from file.
         
         Returns:
@@ -747,7 +512,7 @@ class DataReader:
             self.logger.error(f"Error reading delay effect data: {e}")
             return None, None, None, None, None
             
-    def read_power_dissipation_data(self, output_dir, temperature=27):
+    def read_trans_power_dissipation_data(self, output_dir, temperature=27):
         """Read power dissipation data from file.
         
         Args:
@@ -781,7 +546,7 @@ class DataReader:
             self.logger.error(f"Error reading power dissipation data at {temperature}°C: {e}")
             return None, None
             
-    def read_energy_consumption_data(self, output_dir, temperature=27):
+    def read_trans_energy_consumption_data(self, output_dir, temperature=27):
         """Read energy consumption data from file.
         
         Args:
@@ -815,7 +580,7 @@ class DataReader:
             self.logger.error(f"Error reading energy consumption data at {temperature}°C: {e}")
             return None, None
     
-    def read_quasi_static_data(self, output_dir):
+    def read_trans_quasi_static_data(self, output_dir):
         """Read quasi-static analysis data from file.
         
         Returns:
@@ -847,7 +612,155 @@ class DataReader:
         except Exception as e:
             self.logger.error(f"Error reading quasi-static data: {e}")
             return None, None, None, None
+
+    def read_trans_charge_conservation_data(self, output_dir):
+        """Read charge conservation test data from output file.
+        
+        Returns:
+            tuple: (time, vg, ig, id, is_, ib) arrays of charge conservation data
+        """
+        try:
+            # First check for tran_charge.txt which contains all charge data
+            file_path = os.path.join(output_dir, 'data', 'tran_charge.txt')
+            if os.path.exists(file_path):
+                self.logger.logger.info(f"Reading charge conservation data from {file_path}")
                 
+                # Read the file with numpy - skip the first two comment lines
+                try:
+                    data = np.loadtxt(file_path, skiprows=2)
+                    if len(data) > 0 and data.shape[1] >= 7:
+                        # Extract columns
+                        time = data[:, 0]   # Time
+                        vg = data[:, 2]     # Gate voltage
+                        ig = data[:, 3]     # Gate current
+                        id = data[:, 4]     # Drain current
+                        is_ = data[:, 5]    # Source current
+                        ib = data[:, 6]     # Bulk current
+                        
+                        self.logger.logger.info(f"Charge conservation data read successfully from tran_charge.txt: {len(time)} time points")
+                        return time, vg, ig, id, is_, ib
+                except Exception as e:
+                    self.logger.logger.warning(f"Error parsing tran_charge.txt: {e}. Trying alternative files.")
+                        
+            self.logger.logger.info(f"Reading charge conservation data from {file_path}")
+            
+            # First try to load data directly with numpy
+            try:
+                data = np.loadtxt(file_path, skiprows=1)
+                if len(data) > 0 and data.shape[1] >= 6:
+                    # Extract columns
+                    time = data[:, 0]  # Time
+                    vg = data[:, 1]    # Gate voltage
+                    ig = data[:, 2]    # Gate current
+                    id = data[:, 3]    # Drain current
+                    is_ = data[:, 4]   # Source current
+                    ib = data[:, 5]    # Bulk current
+                    
+                    self.logger.logger.info(f"Charge conservation data read successfully: {len(time)} time points")
+                    return time, vg, ig, id, is_, ib
+            except Exception as e:
+                self.logger.logger.warning(f"Standard parsing failed, attempting to parse ngspice raw file format: {e}")
+            
+            # If standard parsing fails, try to parse the ngspice raw file format
+            try:
+                # Read the file and parse the ngspice raw format
+                with open(file_path, 'r') as f:
+                    lines = f.readlines()
+                
+                # Find the 'Values:' line that indicates the start of data
+                values_index = -1
+                variables_index = -1
+                for i, line in enumerate(lines):
+                    if line.strip() == 'Variables:':
+                        variables_index = i
+                    if line.strip() == 'Values:':
+                        values_index = i
+                        break
+                
+                if values_index == -1:
+                    self.logger.logger.error("Could not find 'Values:' in charge conservation file")
+                    return None, None, None, None, None, None
+                
+                # Parse data from the Values section
+                time_data = []
+                vg_data = []
+                ig_data = []
+                id_data = []
+                is_data = []
+                ib_data = []
+                
+                # Extract column indices from Variables section
+                var_map = {}
+                if variables_index != -1:
+                    for i in range(variables_index + 1, values_index):
+                        parts = lines[i].strip().split()
+                        if len(parts) >= 3:
+                            idx = int(parts[0])
+                            var_name = parts[1]
+                            var_map[idx] = var_name
+                
+                # Process data rows - each data point spans multiple lines
+                i = values_index + 1
+                while i < len(lines):
+                    # First line has the index and time value
+                    row_match = re.match(r'^ *([0-9]+)\t([-0-9.e+]+)', lines[i].strip())
+                    if row_match:
+                        index = int(row_match.group(1))
+                        time_val = float(row_match.group(2))
+                        time_data.append(time_val)
+                        
+                        # Next lines contain the voltage and currents
+                        # We need to parse the next 5 values, skipping empty lines
+                        values = []
+                        j = i + 1
+                        while j < len(lines) and len(values) < 5:
+                            line = lines[j].strip()
+                            if line and line[0] == '\t':
+                                try:
+                                    val = float(line.strip())
+                                    values.append(val)
+                                except ValueError:
+                                    pass
+                            j += 1
+                        
+                        # If we found all 5 values, add them to our data arrays
+                        if len(values) >= 5:
+                            vg_data.append(values[0])  # Gate voltage
+                            ig_data.append(values[1])  # Gate current
+                            id_data.append(values[2])  # Drain current
+                            is_data.append(values[3])  # Source current
+                            ib_data.append(values[4])  # Bulk current
+                            i = j - 1  # Continue from where we left off
+                    i += 1
+                
+                # Check if we extracted valid data
+                if len(time_data) > 0 and len(time_data) == len(vg_data) == len(ig_data) == len(id_data) == len(is_data) == len(ib_data):
+                    # Convert to numpy arrays
+                    time_array = np.array(time_data)
+                    vg_array = np.array(vg_data)
+                    ig_array = np.array(ig_data)
+                    id_array = np.array(id_data)
+                    is_array = np.array(is_data)
+                    ib_array = np.array(ib_data)
+                    
+                    self.logger.logger.info(f"Charge conservation data parsed from ngspice raw format: {len(time_array)} time points")
+                    return time_array, vg_array, ig_array, id_array, is_array, ib_array
+                else:
+                    self.logger.logger.error("Failed to extract consistent data from ngspice raw format")
+                    return None, None, None, None, None, None
+                
+            except Exception as e:
+                self.logger.logger.error(f"Error parsing charge conservation data from ngspice raw format: {e}")
+                import traceback
+                traceback.print_exc()
+                return None, None, None, None, None, None
+                
+        except Exception as e:
+            self.logger.logger.error(f"Error reading charge conservation data: {e}")
+            import traceback
+            traceback.print_exc()
+            return None, None, None, None, None, None
+
     # Noise analysis data reading methods
     def read_thermal_noise_data(self, vgs=0.3, vds=0.3):
         """Read thermal noise data from file.
@@ -1056,6 +969,125 @@ class DataReader:
             self.logger.error(f"Error reading temperature noise data: {e}")
             return None, None
 
+    def read_noise_data_file(self, output_dir):
+        """Read noise data files with robust parsing to handle text headers and complex formats.
+        
+        Args:
+            file_path: Path to the noise data file
+            
+        Returns:
+            tuple: (frequency, noise) if successful, else (None, None)
+        """
+        try:
+            if not os.path.exists(file_path):
+                self.logger.warning(f"Noise data file not found: {file_path}")
+                return None, None
+
+            # Try multiple parsing approaches
+            # 1. First try our custom triplet parser
+            with open(file_path, 'r') as f:
+                lines = f.readlines()
+            
+            # Find Values: section
+            values_index = None
+            for i, line in enumerate(lines):
+                if line.strip() == 'Values:':
+                    values_index = i
+                    break
+            
+            if values_index is not None:
+                # Process the data section using triplet format
+                freq_data = []
+                noise_data = []
+                i = values_index + 1
+                
+                while i < len(lines) - 2:  # Need at least 3 more lines for a complete triplet
+                    # Each triplet has: index, frequency, noise
+                    if lines[i].strip() and not lines[i].strip().startswith(' '):
+                        i += 1  # Skip index line
+                        
+                        # Read frequency
+                        if i < len(lines):
+                            try:
+                                freq = float(lines[i].strip())
+                                freq_data.append(freq)
+                                i += 1
+                                
+                                # Read noise
+                                if i < len(lines):
+                                    try:
+                                        noise = float(lines[i].strip())
+                                        noise_data.append(noise)
+                                    except ValueError:
+                                        # Skip this triplet if we can't parse the noise value
+                                        pass
+                            except ValueError:
+                                # Skip this triplet if we can't parse the frequency
+                                pass
+                    i += 1
+                
+                # Check if we have valid data
+                if len(freq_data) > 0 and len(noise_data) > 0:
+                    # Ensure the arrays have the same length
+                    min_len = min(len(freq_data), len(noise_data))
+                    freq_array = np.array(freq_data[:min_len])
+                    noise_array = np.array(noise_data[:min_len])
+                    return freq_array, noise_array
+            
+            # 2. Try numpy parsing with different skiprows values
+            for skiprows in [9, 10, 8, 11]:
+                try:
+                    data = np.loadtxt(file_path, skiprows=skiprows)
+                    if len(data) > 0 and data.shape[1] >= 3:
+                        freq = data[:, 0]  # First column is frequency
+                        noise = data[:, 2]  # Third column is noise
+                        return freq, noise
+                except Exception:
+                    continue
+            
+            # 3. Last resort - try a more flexible line-by-line parsing
+            freq_data = []
+            noise_data = []
+            data_started = False
+            
+            for line in lines:
+                line = line.strip()
+                if not line:
+                    continue
+                    
+                # If we see 'Values:', data will start soon
+                if line == 'Values:':
+                    data_started = True
+                    continue
+                    
+                if data_started:
+                    # Split by whitespace and try to extract values
+                    parts = line.split()
+                    if len(parts) == 1:
+                        try:
+                            # This might be a frequency or noise value
+                            value = float(parts[0])
+                            # If this is the first value we've seen, assume it's frequency
+                            if len(freq_data) > len(noise_data):
+                                noise_data.append(value)
+                            else:
+                                freq_data.append(value)
+                        except ValueError:
+                            # Not a numeric value, skip
+                            pass
+            
+            # Check if we have matching data
+            if len(freq_data) == len(noise_data) and len(freq_data) > 0:
+                return np.array(freq_data), np.array(noise_data)
+            
+            # No valid data found
+            self.logger.warning(f"Could not extract valid data from {file_path}")
+            return None, None
+            
+        except Exception as e:
+            self.logger.error(f"Error reading noise data file {file_path}: {e}")
+            return None, None
+
     # AC analysis data reading methods
     def read_cv_data(self, output_dir):
         """Read capacitance-voltage characteristics data.
@@ -1090,6 +1122,80 @@ class DataReader:
         except Exception as e:
             self.logger.error(f"Error reading CV data: {e}")
             return None, None, None, None, None 
+
+    def read_cv_characteristics_data(self, file_path):
+        """Read CV characteristics data from the simulation output."""
+        try:
+            self.logger.info(f"Reading CV characteristics data from {file_path}")
+            
+            # Check if file exists
+            if not os.path.exists(file_path):
+                self.logger.error(f"CV characteristics file not found: {file_path}")
+                return None, None, None, None, None
+            
+            # Try to read the data
+            try:
+                # Try reading with pandas, which will handle column headers
+                data = pd.read_csv(file_path, delim_whitespace=True)
+                columns = list(data.columns)
+                # If the expected columnar format is present, use it
+                if 'Vg' in columns and 'Cgg_1MHz' in columns:
+                    vg = data['Vg'].values
+                    cgg = data['Cgg_1MHz'].values
+                    # For compatibility, fill freq, vg_phase, id_phase with dummy arrays
+                    freq = np.full_like(vg, 1e6, dtype=float)  # 1 MHz
+                    vg_phase = np.zeros_like(vg, dtype=float)
+                    id_phase = np.zeros_like(vg, dtype=float)
+                    self.logger.info("Successfully read CV characteristics data (columnar format)")
+                    return vg, cgg, freq, vg_phase, id_phase
+                # Otherwise, fall through to the next logic
+            except Exception as e:
+                self.logger.warning(f"Standard parsing failed, attempting to parse ngspice raw file format: {e}")
+                data = None
+            
+            # Try to parse ngspice raw format (previous logic)
+            try:
+                with open(file_path, 'r') as f:
+                    lines = f.readlines()
+                data_start = 0
+                for i, line in enumerate(lines):
+                    if line.strip().startswith('Values:'):
+                        data_start = i + 1
+                        break
+                if data_start == 0:
+                    raise ValueError("Could not find data section in ngspice raw file")
+                data_lines = []
+                for line in lines[data_start:]:
+                    line = line.strip()
+                    if line and not line.startswith('Date:'):
+                        try:
+                            values = [float(x) for x in line.split()]
+                            if len(values) >= 5:
+                                data_lines.append(values)
+                        except ValueError:
+                            continue
+                if not data_lines:
+                    raise ValueError("No valid data found in ngspice raw file")
+                data = pd.DataFrame(data_lines, columns=['vg', 'cgg', 'freq', 'vg_phase', 'id_phase'])
+            except Exception as e:
+                self.logger.error(f"Failed to parse ngspice raw format: {e}")
+                return None, None, None, None, None
+            # Verify we have the required columns
+            required_columns = ['vg', 'cgg', 'freq', 'vg_phase', 'id_phase']
+            if not all(col in data.columns for col in required_columns):
+                self.logger.error(f"Missing required columns in CV data. Found columns: {data.columns}")
+                return None, None, None, None, None
+            # Extract the data
+            vg = data['vg'].values
+            cgg = data['cgg'].values
+            freq = data['freq'].values
+            vg_phase = data['vg_phase'].values
+            id_phase = data['id_phase'].values
+            self.logger.info("Successfully read CV characteristics data (ngspice raw format)")
+            return vg, cgg, freq, vg_phase, id_phase
+        except Exception as e:
+            self.logger.error(f"Error reading CV characteristics data: {e}")
+            return None, None, None, None, None
 
     def read_sparameter_data(self, output_dir):
         """Read S-parameter data from simulation output.
@@ -1273,3 +1379,44 @@ class DataReader:
             self.logger.error(f"Error verifying S-parameter data: {e}")
             return False
     
+    def verify_cv_data(self, vg, cgg, cgd, cgs, cgb):
+        """Verify CV data consistency.
+        
+        Args:
+            vg: Gate voltage array
+            cgg: Gate-gate capacitance array
+            cgd: Gate-drain capacitance array
+            cgs: Gate-source capacitance array
+            cgb: Gate-bulk capacitance array
+            
+        Returns:
+            bool: True if data is consistent, False otherwise
+        """
+        try:
+            # Check array lengths
+            if not all(len(x) == len(vg) for x in [cgg, cgd, cgs, cgb]):
+                self.logger.warning("CV data arrays have inconsistent lengths")
+                return False
+            
+            # Check for NaN or infinite values
+            if any(np.isnan(x).any() or np.isinf(x).any() for x in [vg, cgg, cgd, cgs, cgb]):
+                self.logger.warning("CV data contains NaN or infinite values")
+                return False
+            
+            # Check capacitance values are positive
+            if any((x < 0).any() for x in [cgg, cgd, cgs, cgb]):
+                self.logger.warning("CV data contains negative capacitance values")
+                return False
+            
+            # Check total capacitance consistency
+            # Cgg should be approximately equal to Cgd + Cgs + Cgb
+            total_cap = cgd + cgs + cgb
+            if not np.allclose(cgg, total_cap, rtol=0.1):  # 10% tolerance
+                self.logger.warning("CV data total capacitance mismatch")
+                return False
+            
+            return True
+            
+        except Exception as e:
+            self.logger.error(f"Error verifying CV data: {e}")
+            return False

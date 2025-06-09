@@ -46,7 +46,7 @@ class PlotGenerator:
         self.three_panel_height = self.figure_width * self.height_ratio_three
     
     # DC Analysis
-    def plot_iv_characteristics(self, output_dir, vds, vgs, ids, colors=None):
+    def plot_dc_iv_characteristics(self, output_dir, vds, vgs, ids, colors=None):
         """Plot IV characteristics with subthreshold and saturation regions."""
         try:
             plt.figure(figsize=(self.figure_width, self.single_plot_height))
@@ -107,7 +107,7 @@ class PlotGenerator:
             ax_inset.grid(True)
             
             # Save to plots subdirectory
-            output_file = Path(self.plots_dir) / 'iv_characteristics.png'
+            output_file = Path(self.plots_dir) / 'dc_iv_characteristics.png'
             plt.savefig(output_file, dpi=self.dpi, bbox_inches='tight')
             plt.close()
             
@@ -120,7 +120,7 @@ class PlotGenerator:
             self.logger.error(f"Error plotting IV characteristics: {e}")
             raise
 
-    def plot_kcl_verification(self, output_dir, ids, ig, is_, ib):
+    def plot_dc_kcl_verification(self, output_dir, ids, ig, is_, ib):
         """Plot KCL verification showing current balance."""
         if any(x is None for x in [ids, ig, is_, ib]):
             return None
@@ -145,7 +145,7 @@ class PlotGenerator:
             plt.legend()
             
             # Save plot
-            output_file = Path(self.plots_dir) / 'kcl_verification.png'
+            output_file = Path(self.plots_dir) / 'dc_kcl_verification.png'
             plt.savefig(output_file, dpi=self.dpi, bbox_inches='tight')
             plt.close()
             
@@ -159,7 +159,7 @@ class PlotGenerator:
                 self.logger.error(f"Error creating KCL verification plot: {e}")
             return None
 
-    def plot_temperature_analysis(self, output_dir, temp, ids):
+    def plot_dc_temperature_analysis(self, output_dir, temp, ids):
         """Plot temperature analysis with current variation."""
         if temp is None or ids is None:
             return None
@@ -182,7 +182,7 @@ class PlotGenerator:
             plt.legend()
             
             # Save plot
-            output_file = Path(self.plots_dir) / 'temperature_analysis.png'
+            output_file = Path(self.plots_dir) / 'dc_temperature_analysis.png'
             plt.savefig(output_file, dpi=self.dpi, bbox_inches='tight')
             plt.close()
             
@@ -482,7 +482,7 @@ class PlotGenerator:
             traceback.print_exc()
             return None
 
-    def plot_sparameter_analysis(self, output_dir, freq=None, s11_mag=None, s21_mag=None, s12_mag=None, s22_mag=None):
+    def plot_cv_sparameter_analysis(self, output_dir, freq=None, s11_mag=None, s21_mag=None, s12_mag=None, s22_mag=None):
         """Plot S-parameters analysis.
         
         Args:
@@ -572,14 +572,14 @@ class PlotGenerator:
         plt.tight_layout()
         
         # Save plot
-        save_path = f'results/plots/sparameter_analysis.png'
-        plt.savefig(save_path, dpi=self.dpi)
+        plot_file = os.path.join(plots_dir, 'cv_sparameter_analysis.png')
+        plt.savefig(plot_file, dpi=self.dpi)
         plt.close()
         
-        print(f"[INFO]: S-parameter analysis plot saved to {save_path}")
-        return save_path
+        print(f"[INFO]: S-parameter analysis plot saved to {plot_file}")
+        return plot_file
 
-    def plot_nqs_effects(self, output_dir, freq=None, vg_phase=None, id_phase=None, phase_diff=None):
+    def plot_cv_nqs_effects(self, output_dir, freq=None, vg_phase=None, id_phase=None, phase_diff=None):
         """Plot non-quasi-static effects analysis.
         
         Args:
@@ -656,13 +656,94 @@ class PlotGenerator:
         plt.tight_layout()
         
         # Save plot
-        save_path = f'results/plots/nqs_effects.png'
-        plt.savefig(save_path, dpi=self.dpi)
+        plot_file = os.path.join(plots_dir, 'cv_nqs_effects.png')
+        plt.savefig(plot_file, dpi=self.dpi)
         plt.close()
             
-        print(f"[INFO]: NQS effects plot saved to {save_path}")
-        return save_path
-    
+        print(f"[INFO]: NQS effects plot saved to {plot_file}")
+        return plot_file
+
+    def plot_ac_charge_conservation(self, output_dir, time, vg, ig, id, is_, ib, i_total, q_gate, q_drain, q_source, q_bulk, q_total):
+        """Plot charge conservation test results.
+        
+        Args:
+            time (np.ndarray): Time points
+            vg (np.ndarray): Gate voltage
+            ig (np.ndarray): Gate current
+            id (np.ndarray): Drain current
+            is_ (np.ndarray): Source current
+            ib (np.ndarray): Bulk current
+            i_total (np.ndarray): Total current
+            q_gate (np.ndarray): Gate charge
+            q_drain (np.ndarray): Drain charge
+            q_source (np.ndarray): Source charge
+            q_bulk (np.ndarray): Bulk charge
+            q_total (np.ndarray): Total charge
+        """
+        try:
+            # Create figure with subplots
+            fig = plt.figure(figsize=(15, 10))
+            gs = gridspec.GridSpec(4, 1)
+            plt.figure(figsize=(self.figure_width, 4 * self.single_plot_height))
+        
+            # Plot currents
+            plt.subplot(4, 1, 1)
+            plt.plot(time, ig, 'b-', label='Gate')
+            plt.plot(time, id, 'r-', label='Drain')
+            plt.plot(time, is_, 'g-', label='Source')
+            plt.plot(time, ib, 'm-', label='Bulk')
+            plt.plot(time, i_total, 'k--', label='Total')
+            plt.xlabel('Time (s)')
+            plt.ylabel('Current (A)')
+            plt.title('Terminal Currents')
+            plt.grid(True)
+            plt.legend()
+            
+            # Plot charges
+            plt.subplot(4, 1, 2)
+            plt.plot(time, q_gate, 'b-', label='Gate')
+            plt.plot(time, q_drain, 'r-', label='Drain')
+            plt.plot(time, q_source, 'g-', label='Source')
+            plt.plot(time, q_bulk, 'm-', label='Bulk')
+            plt.plot(time, q_total, 'k--', label='Total')
+            plt.xlabel('Time (s)')
+            plt.ylabel('Charge (C)')
+            plt.title('Terminal Charges')
+            plt.grid(True)
+            plt.legend()
+            
+            # Plot charge vs voltage
+            plt.subplot(4, 1, 3)
+            plt.plot(vg, q_gate, 'b-', label='Gate')
+            plt.plot(vg, q_drain, 'r-', label='Drain')
+            plt.plot(vg, q_source, 'g-', label='Source')
+            plt.plot(vg, q_bulk, 'm-', label='Bulk')
+            plt.xlabel('Gate Voltage (V)')
+            plt.ylabel('Charge (C)')
+            plt.title('Charge vs Gate Voltage')
+            plt.grid(True)
+            plt.legend()
+            
+            # Plot total charge error
+            plt.subplot(4, 1, 4)
+            plt.plot(time, q_total, 'k-')
+            plt.xlabel('Time (s)')
+            plt.ylabel('Total Charge (C)')
+            plt.title('Total Charge Error')
+            plt.grid(True)
+            
+            # Adjust layout and save
+            plt.tight_layout()
+            plt.savefig(os.path.join(output_dir, 'plots', 'ac_charge_conservation.png'))
+            plt.close()
+            
+            self.logger.info("Charge conservation plots generated successfully")
+            
+        except Exception as e:
+            self.logger.error(f"Error generating charge conservation plots: {e}")
+            import traceback
+            traceback.print_exc()
+
     def _process_sparameter_files(self):
         """Generate S-parameter data file from raw simulation output."""
         import os
@@ -1026,14 +1107,14 @@ class PlotGenerator:
             print(f"[INFO]: NQS effects data file created with fallback data ({len(nqs_data)} points)") 
 
     # Transient Analysis
-    def plot_large_signal_transient(self, output_dir, time, gate_voltage, drain_voltage, drain_current):
+    def plot_trans_large_signal_transient(self, output_dir, time, gate_voltage, drain_voltage, drain_current):
         """Plot large signal transient analysis results."""
         try:
             # Make sure plots directory exists
             plots_dir = Path(output_dir) / 'plots'
             plots_dir.mkdir(exist_ok=True)
                 
-            output_file = os.path.join(plots_dir, 'large_signal_transient.png')
+            output_file = os.path.join(plots_dir, 'trans_large_signal_transient.png')
 
             plt.figure(figsize=(self.figure_width, self.two_panel_height))
             plt.subplot(2, 1, 1)
@@ -1067,14 +1148,14 @@ class PlotGenerator:
                 self.logger.error(f"Error creating large signal transient plot: {e}")
             return None
     
-    def plot_switching_response(self, output_dir, time, input_voltage, output_voltage, supply_current, switching_power=None):
+    def plot_trans_switching_response(self, output_dir, time, input_voltage, output_voltage, supply_current, switching_power=None):
         """Plot switching behavior of the inverter."""
         try:
             # Make sure plots directory exists
             plots_dir = Path(output_dir) / 'plots'
             plots_dir.mkdir(exist_ok=True)
                 
-            output_file = os.path.join(plots_dir, 'switching_response.png')
+            output_file = os.path.join(plots_dir, 'trans_switching_response.png')
 
             plt.figure(figsize=(self.figure_width, self.three_panel_height))
             
@@ -1120,14 +1201,14 @@ class PlotGenerator:
                 self.logger.error(f"Error creating switching response plot: {e}")
             return None
     
-    def plot_delay_effect(self, output_dir, time, input_voltage, mid1_voltage, mid2_voltage, output_voltage):
+    def plot_trans_delay_effect(self, output_dir, time, input_voltage, mid1_voltage, mid2_voltage, output_voltage):
         """Plot delay effects in inverter chain."""
         try:
             # Make sure plots directory exists
             plots_dir = Path(output_dir) / 'plots'
             plots_dir.mkdir(exist_ok=True)
                 
-            output_file = os.path.join(plots_dir, 'delay_effect.png')
+            output_file = os.path.join(plots_dir, 'trans_delay_effect.png')
 
             plt.figure(figsize=(self.figure_width, self.single_plot_height))
             plt.plot(time*1e12, input_voltage, color=self.color_map['primary'], label='Input')
@@ -1153,14 +1234,14 @@ class PlotGenerator:
                 self.logger.error(f"Error creating delay effect plot: {e}")
             return None
     
-    def plot_power_dissipation(self, output_dir, time_27c, power_27c, time_100c, power_100c):
+    def plot_trans_power_dissipation(self, output_dir, time_27c, power_27c, time_100c, power_100c):
         """Plot power dissipation at different temperatures."""
         try:
             # Make sure plots directory exists
             plots_dir = Path(output_dir) / 'plots'
             plots_dir.mkdir(exist_ok=True)
                 
-            output_file = os.path.join(plots_dir, 'power_dissipation.png')
+            output_file = os.path.join(plots_dir, 'trans_power_dissipation.png')
 
             plt.figure(figsize=(self.figure_width, self.single_plot_height))
             plt.plot(time_27c*1e9, power_27c*1e3, color=self.color_map['primary'], label='27°C')
@@ -1184,14 +1265,14 @@ class PlotGenerator:
                 self.logger.error(f"Error creating power dissipation plot: {e}")
             return None
     
-    def plot_energy_consumption(self, output_dir, time_27c, energy_27c, time_100c, energy_100c):
+    def plot_trans_energy_consumption(self, output_dir, time_27c, energy_27c, time_100c, energy_100c):
         """Plot energy consumption at different temperatures."""
         try:
             # Make sure plots directory exists
             plots_dir = Path(output_dir) / 'plots'
             plots_dir.mkdir(exist_ok=True)
                 
-            output_file = os.path.join(plots_dir, 'energy_consumption.png')
+            output_file = os.path.join(plots_dir, 'trans_energy_consumption.png')
 
             plt.figure(figsize=(self.figure_width, self.single_plot_height))
             plt.plot(time_27c*1e9, energy_27c*1e12, color=self.color_map['primary'], label='27°C')
@@ -1215,7 +1296,7 @@ class PlotGenerator:
                 self.logger.error(f"Error creating energy consumption plot: {e}")
             return None
 
-    def plot_quasi_static(self, output_dir, time, gate_voltage, drain_voltage, drain_current):
+    def plot_trans_quasi_static(self, output_dir, time, gate_voltage, drain_voltage, drain_current):
         """Plot quasi-static behavior."""
         try:
             # Time-domain plot
@@ -1223,8 +1304,8 @@ class PlotGenerator:
             plots_dir = Path(output_dir) / 'plots'
             plots_dir.mkdir(exist_ok=True)
                 
-            time_plot_file = os.path.join(plots_dir, 'quasi_static.png')
-            iv_plot_file = os.path.join(plots_dir, 'quasi_static.png')
+            time_plot_file = os.path.join(plots_dir, 'trans_quasi_static_time.png')
+            iv_plot_file = os.path.join(plots_dir, 'trans_quasi_static_iv.png')
 
             plt.figure(figsize=(self.figure_width, self.two_panel_height))
             
@@ -1248,7 +1329,7 @@ class PlotGenerator:
             
             plt.tight_layout()
             
-            plt.savefig(output_file, dpi=self.dpi)
+            plt.savefig(time_plot_file, dpi=self.dpi)
             plt.close()
             
             # I-V characteristic plot
@@ -1273,86 +1354,6 @@ class PlotGenerator:
             return None
 
     # Others
-    def plot_charge_conservation(self, output_dir, time, vg, ig, id, is_, ib, i_total, q_gate, q_drain, q_source, q_bulk, q_total):
-        """Plot charge conservation test results.
-        
-        Args:
-            time (np.ndarray): Time points
-            vg (np.ndarray): Gate voltage
-            ig (np.ndarray): Gate current
-            id (np.ndarray): Drain current
-            is_ (np.ndarray): Source current
-            ib (np.ndarray): Bulk current
-            i_total (np.ndarray): Total current
-            q_gate (np.ndarray): Gate charge
-            q_drain (np.ndarray): Drain charge
-            q_source (np.ndarray): Source charge
-            q_bulk (np.ndarray): Bulk charge
-            q_total (np.ndarray): Total charge
-        """
-        try:
-            # Create figure with subplots
-            fig = plt.figure(figsize=(15, 10))
-            gs = gridspec.GridSpec(4, 1)
-            plt.figure(figsize=(self.figure_width, 4 * self.single_plot_height))
-        
-            # Plot currents
-            plt.subplot(4, 1, 1)
-            plt.plot(time, ig, 'b-', label='Gate')
-            plt.plot(time, id, 'r-', label='Drain')
-            plt.plot(time, is_, 'g-', label='Source')
-            plt.plot(time, ib, 'm-', label='Bulk')
-            plt.plot(time, i_total, 'k--', label='Total')
-            plt.xlabel('Time (s)')
-            plt.ylabel('Current (A)')
-            plt.title('Terminal Currents')
-            plt.grid(True)
-            plt.legend()
-            
-            # Plot charges
-            plt.subplot(4, 1, 2)
-            plt.plot(time, q_gate, 'b-', label='Gate')
-            plt.plot(time, q_drain, 'r-', label='Drain')
-            plt.plot(time, q_source, 'g-', label='Source')
-            plt.plot(time, q_bulk, 'm-', label='Bulk')
-            plt.plot(time, q_total, 'k--', label='Total')
-            plt.xlabel('Time (s)')
-            plt.ylabel('Charge (C)')
-            plt.title('Terminal Charges')
-            plt.grid(True)
-            plt.legend()
-            
-            # Plot charge vs voltage
-            plt.subplot(4, 1, 3)
-            plt.plot(vg, q_gate, 'b-', label='Gate')
-            plt.plot(vg, q_drain, 'r-', label='Drain')
-            plt.plot(vg, q_source, 'g-', label='Source')
-            plt.plot(vg, q_bulk, 'm-', label='Bulk')
-            plt.xlabel('Gate Voltage (V)')
-            plt.ylabel('Charge (C)')
-            plt.title('Charge vs Gate Voltage')
-            plt.grid(True)
-            plt.legend()
-            
-            # Plot total charge error
-            plt.subplot(4, 1, 4)
-            plt.plot(time, q_total, 'k-')
-            plt.xlabel('Time (s)')
-            plt.ylabel('Total Charge (C)')
-            plt.title('Total Charge Error')
-            plt.grid(True)
-            
-            # Adjust layout and save
-            plt.tight_layout()
-            plt.savefig(os.path.join(self.output_dir, 'plots', 'charge_conservation.png'))
-            plt.close()
-            
-            self.logger.info("Charge conservation plots generated successfully")
-            
-        except Exception as e:
-            self.logger.error(f"Error generating charge conservation plots: {e}")
-            import traceback
-            traceback.print_exc()
     
     def plot_noise_spectrum(self, output_dir, freq, noise, title, filename, 
                            log_x=True, log_y=True, additional_data=None):
