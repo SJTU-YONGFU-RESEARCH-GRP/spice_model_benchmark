@@ -237,6 +237,20 @@ class VerificationManager:
         if 'dc' in modes:
             self.logger.info("Adding DC analysis section to TOC")
             content.append(f"   - [DC Analysis Summary](#dc-analysis-summary)")
+
+        if 'ac' in modes:
+            self.logger.info("Adding AC analysis section to TOC")
+            content.append(f"   - [AC Analysis Summary](#ac-analysis-summary)")
+
+        if 'transient' in modes:
+            self.logger.info("Adding transient analysis section to TOC")
+            content.append(f"   - [Transient Analysis Summary](#transient-analysis-summary)")
+
+        if 'noise' in modes:
+            self.logger.info("Adding noise analysis section to TOC")
+            content.append(f"   - [Noise Analysis Summary](#noise-analysis-summary)")
+
+        if 'dc' in modes:
             content.append(f"{section_num}. [DC Analysis](#{section_num}-dc-analysis)")
             content.append("   - [DC Operating Point Analysis](#dc-operating-point-analysis)")
             content.append("   - [Bias Point Analysis](#bias-point-analysis)")
@@ -246,8 +260,6 @@ class VerificationManager:
             section_num += 1
 
         if 'ac' in modes:
-            self.logger.info("Adding AC analysis section to TOC")
-            content.append(f"   - [AC Analysis Summary](#ac-analysis-summary)")
             content.append(f"{section_num}. [AC Analysis](#{section_num}-ac-analysis)")
             content.append("   - [Small-Signal Analysis](#small-signal-analysis)")
             content.append("   - [S-Parameter Analysis](#s-parameter-analysis)")
@@ -256,8 +268,6 @@ class VerificationManager:
             section_num += 1
 
         if 'transient' in modes:
-            self.logger.info("Adding transient analysis section to TOC")
-            content.append(f"   - [Transient Analysis Summary](#transient-analysis-summary)")
             content.append(f"{section_num}. [Transient Analysis](#{section_num}-transient-analysis)")
             content.append("   - [Large-Signal Transient](#large-signal-transient)")
             content.append("   - [Switching Simulations](#switching-simulations)")
@@ -265,8 +275,6 @@ class VerificationManager:
             section_num += 1
         
         if 'noise' in modes:
-            self.logger.info("Adding noise analysis section to TOC")
-            content.append(f"   - [Noise Analysis Summary](#noise-analysis-summary)")
             content.append(f"{section_num}. [Noise Analysis](#{section_num}-noise-analysis)")
             content.append("   - [Thermal Noise Analysis](#thermal-noise-analysis)")
             content.append("   - [Flicker Noise Analysis](#flicker-noise-analysis)")
@@ -438,7 +446,7 @@ class VerificationManager:
                 content.append("")
                 content.append("*IV Characteristics showing drain current vs drain-source voltage*")
                 content.append("")
-                content.append("<img src='plots/iv_characteristics.png' alt='IV Characteristics' width='400'/>")
+                content.append("<img src='plots/dc_iv_characteristics.png' alt='IV Characteristics' width='400'/>")
             else:
                 content.append("- [<span style='color: red'>✗</span>] IV data is Missing")
             content.append("")
@@ -459,7 +467,7 @@ class VerificationManager:
                 content.append("")
                 content.append("*KCL verification showing current balance*")
                 content.append("")
-                content.append("<img src='plots/kcl_verification.png' alt='KCL Verification' width='400'/>")
+                content.append("<img src='plots/dc_kcl_verification.png' alt='KCL Verification' width='400'/>")
             else:
                 content.append("- [<span style='color: red'>✗</span>] Bias data is Missing")
             content.append("")
@@ -478,7 +486,7 @@ class VerificationManager:
                 content.append("")
                 content.append("*Temperature analysis showing current variation*")
                 content.append("")
-                content.append("<img src='plots/temperature_analysis.png' alt='Temperature Analysis' width='400'/>")
+                content.append("<img src='plots/dc_temperature_analysis.png' alt='Temperature Analysis' width='400'/>")
             else:
                 content.append("- [<span style='color: red'>✗</span>] Temperature data is Missing")
             content.append("")
@@ -627,11 +635,11 @@ class VerificationManager:
                 content.append("")
                 content.append("*CV characteristics showing gate capacitance variation with gate voltage*")
                 content.append("")
-                content.append("<img src='plots/cv_characteristics.png' alt='CV Characteristics' width='400'/>")
+                content.append("<img src='plots/ac_cv_characteristics.png' alt='CV Characteristics' width='400'/>")
                 content.append("")
                 content.append("Capacitance components (Cgb, Cgs, Cgd) variation with gate voltage*")
                 content.append("")
-                content.append("<img src='plots/cv_components.png' alt='CV Components' width='400'/>")
+                content.append("<img src='plots/ac_cv_components.png' alt='CV Components' width='400'/>")
             else:
                 content.append("- [<span style='color: red'>✗</span>] CV characteristics verification failed")
                 content.append("  - Data not available or failed to read")
@@ -652,7 +660,7 @@ class VerificationManager:
                 content.append("")
                 content.append("*S-Parameter analysis showing frequency response characteristics*")
                 content.append("")
-                content.append("<img src='plots/cv_sparameter_analysis.png' alt='S-Parameters' width='400'/>")
+                content.append("<img src='plots/ac_cv_sparameter_analysis.png' alt='S-Parameters' width='400'/>")
             else:
                 content.append("- [<span style='color: red'>✗</span>] S-parameter analysis failed")
                 content.append("  - Data not available or failed to read")
@@ -667,7 +675,7 @@ class VerificationManager:
                 content.append("")
                 content.append("*Non-quasi-static effects analysis showing phase shift between gate voltage and drain current*")
                 content.append("")
-                content.append("<img src='plots/cv_nqs_effects.png' alt='NQS Effects' width='400'/>")
+                content.append("<img src='plots/ac_cv_nqs_effects.png' alt='NQS Effects' width='400'/>")
             else:
                 content.append("- [<span style='color: red'>✗</span>] NQS effects verification failed")
                 content.append("  - Data not available or failed to read")
@@ -682,7 +690,7 @@ class VerificationManager:
                 content.append("")
                 content.append("*Terminal currents and charges analysis*")
                 content.append("")
-                content.append("<img src='plots/charge_conservation.png' alt='Charge Conservation' width='400'/>")
+                content.append("<img src='plots/ac_charge_conservation.png' alt='Charge Conservation' width='400'/>")
             else:
                 content.append("- [<span style='color: red'>✗</span>] Charge conservation verification failed")
                 content.append("  - Data not available or failed to read")
@@ -798,6 +806,7 @@ class VerificationManager:
             self.logger.error(f"Error generating Transient summary: {e}")
             return ["### Transient Analysis Summary", "Error generating Transient summary"]
 
+    # Done
     def _generate_transient_analysis_section(self, results, section_num=3):
         """
         Generate detailed Transient analysis section.
@@ -1015,6 +1024,265 @@ class VerificationManager:
         except Exception as e:
             self.logger.error(f"Error generating Transient analysis section: {e}")
             return [f"## {section_num}. Transient Analysis", "Error generating Transient analysis section"]
+
+    # Done
+    def _generate_noise_summary(self, results):
+        """
+        Generate noise analysis summary section.
+        """
+        self.logger.info("Generating Noise Summary")
+        try:
+            content = []
+            content.append("### Noise Analysis Summary")
+            content.append("| Test Type | Status | Key Findings |")
+            content.append("|-----------|--------|-------------|")
+
+            # Get results with safe defaults
+            noise_results = results.get('noise_analysis', {}) or {}
+
+            # Check if any Noise data is available
+            has_noise_data = any([
+                noise_results.get('data_ready'),
+                noise_results.get('noise_analysis_performed'),
+                noise_results.get('thermal_noise_analyzed'),
+                noise_results.get('flicker_noise_analyzed'),
+                noise_results.get('shot_noise_analyzed')
+            ])
+            
+            if not has_noise_data:
+                content.append("- [<span style='color: red'>✗</span>] Noise simulations failed")
+                content.append("  - Data not available or failed to read")
+                return content
+
+            # Noise Analysis
+            self.logger.info(f"noise_results: {noise_results}")
+
+            if noise_results.get('thermal_noise_analyzed'):
+                status = "✓" if noise_results.get('thermal_noise_analyzed', True) else "✗"
+                color = "green" if status == "✓" else "red"
+                findings = f"Floor: {noise_results.get('details', {}).get('thermal_noise_floor'):.2e} V²/Hz, Range: {noise_results.get('details', {}).get('thermal_noise_min'):.2e} to {noise_results.get('details', {}).get('thermal_noise_max'):.2e} V²/Hz" 
+                self.logger.info(f"noise_results.get('thermal_noise_analyzed', True): {status}")
+                content.append(f"| [Thermal Noise](#thermal-noise-analysis) | <span style='color: {color}'>{status}</span> | {findings} |")
+            else:
+                content.append("| [Thermal Noise](#thermal-noise-analysis) | <span style='color: red'>✗</span> | Data not available |")
+
+            if noise_results.get('flicker_noise_analyzed'):
+                status = "✓" if noise_results.get('flicker_noise_analyzed', True) else "✗"
+                color = "green" if status == "✓" else "red"
+                findings = f"Exponent: {noise_results.get('details', {}).get('flicker_noise_exponent'):.4f}, Corner Freq: {noise_results.get('details', {}).get('corner_frequency'):.2e} Hz" 
+                self.logger.info(f"noise_results.get('flicker_noise_analyzed', True): {status}")
+                content.append(f"| [Flicker (1/f) Noise](#flicker-noise-analysis) | <span style='color: {color}'>{status}</span> | {findings} |")
+            else:
+                content.append("| [Flicker (1/f) Noise](#flicker-noise-analysis) | <span style='color: red'>✗</span> | Data not available |")
+
+            if noise_results.get('shot_noise_analyzed'):
+                status = "✓" if noise_results.get('shot_noise_analyzed', True) else "✗"
+                color = "green" if status == "✓" else "red"
+                findings = f"Level: {noise_results.get('details', {}).get('shot_noise_level'):.2e} V²/Hz, Variation: {noise_results.get('details', {}).get('shot_noise_variation'):.4f}"
+                self.logger.info(f"noise_results.get('shot_noise_analyzed', True): {status}")
+                content.append(f"| [Shot Noise](#shot-noise-analysis) | <span style='color: {color}'>{status}</span> | {findings} |")
+            else:
+                content.append("| [Shot Noise](#shot-noise-analysis) | <span style='color: red'>✗</span> | Data not available |")                
+
+            if noise_results.get('temp_dependence_analyzed'):
+                status = "✓" if noise_results.get('temp_dependence_analyzed', True) else "✗"
+                color = "green" if status == "✓" else "red"
+                findings = f"Coefficient: {noise_results.get('details', {}).get('temp_coefficient'):.2e} V²/Hz/°C, Range: {noise_results.get('details', {}).get('temp_range')}" 
+                self.logger.info(f"noise_results.get('temp_dependence_analyzed', True): {status}")
+                content.append(f"| [Temperature Dependence](#temperature-dependence) | <span style='color: {color}'>{status}</span> | {findings} |")
+            else:
+                content.append("| [Temperature Dependence](#temperature-dependence) | <span style='color: red'>✗</span> | Data not available |")               
+
+            if noise_results.get('thermal_noise_analyzed'):
+                status = "✓" if noise_results.get('thermal_noise_analyzed', True) else "✗"
+                color = "green" if status == "✓" else "red"
+                findings = f"Analyzed at {len(noise_results.get('details', {}).get('bias_points'))} bias points" 
+                self.logger.info(f"noise_results.get('thermal_noise_analyzed', True): {status}")
+                content.append(f"| [Bias Dependence](#bias-dependence) | <span style='color: {color}'>{status}</span> | {findings} |")
+            else:
+                content.append("| [Bias Dependence](#detailed-noise-characteristics) | <span style='color: red'>✗</span> | Data not available |")
+
+            content.append("")
+            return content
+            
+        except Exception as e:
+            self.logger.error(f"Error generating Noise summary: {e}")
+            return ["### Noise Analysis Summary", "Error generating Noise summary"]
+
+    def _generate_noise_analysis_section(self, results, section_num=3):
+        """
+        Generate detailed Noise analysis section.
+        """
+        self.logger.info("Generating Noise Analysis Section")
+        try:
+            content = []
+            content.append(f"## {section_num}. Noise Analysis")
+
+            # Get results with safe defaults
+            noise_results = results.get('noise_analysis', {}) or {}
+
+            # Check if any Noise data is available
+            has_noise_data = any([
+                noise_results.get('data_ready'),
+                noise_results.get('noise_analysis_performed'),
+                noise_results.get('thermal_noise_analyzed'),
+                noise_results.get('flicker_noise_analyzed'),
+                noise_results.get('shot_noise_analyzed')
+            ])
+            
+            if not has_noise_data:
+                content.append("- [<span style='color: red'>✗</span>] Noise simulations failed")
+                content.append("  - Data not available or failed to read")
+                return content
+            
+            # Thermal Noise Analysis
+            content.append("### Thermal Noise Analysis")
+            if noise_results.get('noise_analysis_performed'):
+                status = "✓" if noise_results.get('noise_analysis_performed', True) else "✗"
+                color = "green" if status == "✓" else "red"
+                content.append(f"- [<span style='color: {color}'>{status}</span>] Thermal noise analysis completed")
+
+                findings = f"  - Max Noise: {noise_results.get('details', {}).get('thermal_noise_max'):.2e} V²/Hz" 
+                content.append(findings if status else "  - Max Noise: *Not measured*")
+
+                findings = f"  - Min Noise: {noise_results.get('details', {}).get('thermal_noise_min'):.2e} V²/Hz" 
+                content.append(findings if status else "  - Min Noise: *Not measured*")
+                
+                findings = f"  - Avg Noise: {noise_results.get('details', {}).get('thermal_noise_avg'):.2e} V²/Hz" 
+                content.append(findings if status else "  - Avg Noise: *Not measured*")
+
+                findings = f"  - Noise Floor: {noise_results.get('details', {}).get('thermal_noise_floor'):.2e} V²/Hz" 
+                content.append(findings if status else "  - Noise Floor: *Not measured*")
+
+                findings = f"  - Frequency Range: {noise_results.get('details', {}).get('freq_range')}" 
+                content.append(findings if status else "  - Frequency Range: *Not measured*")
+
+                content.append("")
+                content.append("*Thermal noise power spectral density analysis comparing different bias conditions, showing how the device noise characteristics change with bias voltage.*")
+                content.append("")
+                content.append("<img src='plots/noise_thermal_noise_vds_comparison.png' alt='Thermal Noise Comparison' width='400'/>")
+                content.append("")
+            else:
+                content.append("- [<span style='color: red'>✗</span>] Thermal Noise Analysis verification failed")
+                content.append("  - Data not available or failed to read")
+                content.append("")
+
+            # Flicker Noise Analysis
+            content.append("### Flicker Noise Analysis")
+            if noise_results.get('flicker_noise_analyzed'):
+                status = "✓" if noise_results.get('flicker_noise_analyzed', True) else "✗"
+                color = "green" if status == "✓" else "red"
+                content.append(f"- [<span style='color: {color}'>{status}</span>] Flicker noise analysis completed")
+
+                findings = f"  - Coefficient (K): {noise_results.get('details', {}).get('flicker_noise_coefficient'):.2e}" 
+                content.append(findings if status else "  - Coefficient (K): *Not measured*")
+
+                findings = f"  - Exponent (γ): {noise_results.get('details', {}).get('flicker_noise_exponent'):.2e} (ideally -1.0 for pure 1/f noise)" 
+                content.append(findings if status else "  - Exponent (γ): *Not measured*")
+
+                findings = f"  - Correlation (R²): {noise_results.get('details', {}).get('flicker_noise_r_squared'):.4f}" 
+                content.append(findings if status else "  - Correlation (R²): *Not measured*")
+
+                findings = f"  - Corner Frequency: {noise_results.get('details', {}).get('corner_frequency'):.2e} Hz" 
+                content.append(findings if status else "  - Corner Frequency: *Not measured*")
+
+                content.append("")
+                content.append("*Flicker (1/f) noise analysis showing the power spectral density decreasing with frequency, a characteristic behavior in semiconductor devices associated with trapping/detrapping processes.*")
+                content.append("")
+                content.append("<img src='plots/noise_flicker_noise.png' alt='Flicker Noise Analysis' width='400'/>")
+                content.append("")
+            else:
+                content.append("- [<span style='color: red'>✗</span>] Flicker Noise Analysis verification failed")
+                content.append("  - Data not available or failed to read")
+                content.append("")
+
+            # Short Noise Analysis
+            content.append("### Short Noise Analysis")
+            if noise_results.get('shot_noise_analyzed'):
+                status = "✓" if noise_results.get('shot_noise_analyzed', True) else "✗"
+                color = "green" if status == "✓" else "red"
+                content.append(f"- [<span style='color: {color}'>{status}</span>] Short noise analysis completed")
+
+                findings = f"  - Shot Noise Level: {noise_results.get('details', {}).get('shot_noise_level'):.2e} V²/Hz"
+                content.append(findings if status else "  - Shot Noise Level: *Not measured*")
+
+                findings = f"  - Standard Deviation: {noise_results.get('details', {}).get('shot_noise_std_dev'):.2e} V²/Hz"
+                content.append(findings if status else "  - Standard Deviation: *Not measured*")
+
+                findings = f"  - Variation Coefficient: {noise_results.get('details', {}).get('shot_noise_variation'):.4f}"
+                content.append(findings if status else "  - Variation Coefficient: *Not measured*")
+
+                content.append("")
+                content.append("*Shot noise analysis showing the frequency-independent noise component that arises from the discrete nature of electric charge carriers crossing potential barriers.*")
+                content.append("")
+                content.append("<img src='plots/noise_shot_noise.png' alt='Shot Noise Analysis' width='400'/>")
+                content.append("")
+            else:
+                content.append("- [<span style='color: red'>✗</span>] Short Noise Analysis verification failed")
+                content.append("  - Data not available or failed to read")
+                content.append("")   
+                
+            # Temperature Dependence
+            content.append("### Temperature Dependence")
+            if noise_results.get('temp_dependence_analyzed'):
+                status = "✓" if noise_results.get('temp_dependence_analyzed', True) else "✗"
+                color = "green" if status == "✓" else "red"
+                content.append(f"- [<span style='color: {color}'>{status}</span>] Short noise analysis completed")
+
+                findings = f"  - Temperature Coefficient: {noise_results.get('details', {}).get('temp_coefficient'):.2e} V²/Hz/°C"
+                content.append(findings if status else "  - Temperature Coefficient: *Not measured*")
+
+                findings = f"  - Temperature-Noise Correlation: {noise_results.get('details', {}).get('temp_noise_correlation')}"
+                content.append(findings if status else "  - Temperature-Noise Correlation: *Not measured*")
+
+                findings = f"  - Temperature Range: {noise_results.get('details', {}).get('temp_range')}"
+                content.append(findings if status else "  - Temperature Range: *Not measured*")
+
+                content.append("")
+                content.append("*Noise variation with temperature, illustrating how thermal effects influence the device's noise characteristics across the operational temperature range.*")
+                content.append("")
+                content.append("<img src='plots/noise_vs_temperature.png' alt='Shot Noise Analysis' width='400'/>")
+                content.append("")
+            else:
+                content.append("- [<span style='color: red'>✗</span>] Temperature Dependence verification failed")
+                content.append("  - Data not available or failed to read")
+                content.append("")   
+
+
+            # Temperature Dependence
+            content.append("### Bias Dependence")
+            if noise_results.get('thermal_noise_analyzed'):
+                status = "✓" if noise_results.get('thermal_noise_analyzed', True) else "✗"
+                color = "green" if status == "✓" else "red"
+                content.append(f"- [<span style='color: {color}'>{status}</span>] Bias Dependance analysis completed")
+
+                content.append("*Thermal Noise Results at Different Bias Points*")
+                content.append("")
+                content.append("| Bias Condition | Max Noise (V²/Hz) | Min Noise (V²/Hz) | Avg Noise (V²/Hz) | Noise Floor (V²/Hz) |")
+                content.append("|----------------|-------------------|-------------------|-------------------|--------------------|")
+
+                # Handle the case where we have direct bias_points data
+                for bias_point, data in noise_results.get('details', {}).get('bias_points').items():
+                    if isinstance(data, dict) and 'max_noise' in data:
+                        content.append(f"| {bias_point} | {data['max_noise']:.2e} | {data['min_noise']:.2e} | {data['avg_noise']:.2e} | {data['noise_floor']:.2e} |")
+                    elif isinstance(data, dict) and 'max' in data:
+                        content.append(f"| {bias_point} | {data['max']:.2e} | {data['min']:.2e} | {data['avg']:.2e} | {data['floor']:.2e} |")
+                content.append("")
+            else:
+                content.append("- [<span style='color: red'>✗</span>] Bias Dependence verification failed")
+                content.append("  - Data not available or failed to read")
+                content.append("")  
+
+
+
+
+
+            content.append("")
+            self.logger.info("Successfully generated Noise analysis section")    
+            return content
+        except Exception as e:
+            self.logger.error(f"Error generating Noise analysis section: {e}")
+            return [f"## {section_num}. Noise Analysis", "Error generating Noise analysis section"]
 
     # DC Analysis
     # Done
@@ -1834,7 +2102,7 @@ class VerificationManager:
             # Generate plot
             try:
                 if hasattr(self, 'plot_generator') and self.plot_generator is not None:
-                    self.plot_generator.plot_sparameter_analysis(freq, s11_mag, s21_mag, s12_mag, s22_mag)
+                    self.plot_generator.plot_ac_sparameter_analysis(freq, s11_mag, s21_mag, s12_mag, s22_mag)
             except Exception as e:
                 if self.logger:
                     self.logger.error(f"Error generating S-parameter plot: {e}")
@@ -2452,6 +2720,7 @@ class VerificationManager:
                 'error': str(e)
             }
         
+    # Noise Analysis
     def verify_noise_analysis(self, freq=None, thermal_noise=None, flicker_noise=None, shot_noise=None, temp_noise=None, temperatures=None):
         """Verify noise analysis results.
         
@@ -2467,6 +2736,7 @@ class VerificationManager:
             Dictionary with analysis results
         """
         results = {
+            'data_ready': False,
             'noise_analysis_performed': False,
             'thermal_noise_analyzed': False,
             'flicker_noise_analyzed': False,
@@ -2505,7 +2775,8 @@ class VerificationManager:
                 # Handle thermal_noise regardless of whether it's a dictionary or a list
                 results['thermal_noise_analyzed'] = True
                 results['noise_analysis_performed'] = True
-                
+                results['data_ready'] = True
+
                 # Case 1: thermal_noise is a dictionary (keys are bias points)
                 all_values = []
                 if isinstance(thermal_noise, dict):
@@ -2615,7 +2886,8 @@ class VerificationManager:
                 self.logger.debug("Starting flicker noise analysis")
                 results['flicker_noise_analyzed'] = True
                 results['noise_analysis_performed'] = True
-                
+                results['data_ready'] = True
+
                 # Convert inputs to numpy arrays
                 freq_array = np.array(freq, dtype=float)
                 flicker_array = np.array(flicker_noise, dtype=float)
@@ -2916,21 +3188,6 @@ class VerificationManager:
         
         return prop_delay
 
-
-    def _generate_noise_summary(self, results):
-        """Generate noise analysis summary section."""
-        summary = [
-            "### Noise Analysis Summary",
-            "| Test Type | Status | Key Findings |",
-            "|-----------|--------|-------------|"
-        ]
-        
-        if 'noise_analysis' in results and results['noise_analysis'] is not None:
-            noise = results['noise_analysis']
-            summary.append(f"| [Noise Analysis](#noise-analysis) | <span style='color: {'green' if noise.get('noise_analysis_performed', False) else 'red'}'>{'✓' if noise.get('noise_analysis_performed', False) else '✗'}</span> | {noise.get('details', {}).get('freq_range', 'Not available')} |")
-        
-        return summary
-
     def _get_sparam_status_from_report(self):
         """Extract current S-parameter status from REPORT.md"""
         try:
@@ -3005,90 +3262,3 @@ class VerificationManager:
                 self.logger.error(f"Error extracting S-parameter status from report: {e}")
             return 'red', '✗', 'Not available', 'Not available', 'Not available', 'Not available'
 
-    def _update_high_frequency_section_in_report(self, sparams_status, sparams_symbol, sparams_freq_range, 
-                                              s11_range, s21_range, isolation, 
-                                              nqs_status, nqs_symbol, max_phase_shift):
-        """Update the high-frequency analysis section in the verification REPORT.md file."""
-        try:
-            self.logger.info("Starting high-frequency section update")
-            
-            # Create the report directory if it doesn't exist
-            report_path = self.output_dir / 'REPORT.md'
-            report_path.parent.mkdir(exist_ok=True, parents=True)
-            self.logger.info(f"Report path: {report_path}")
-            
-            # Create initial report content if file doesn't exist
-            if not report_path.exists():
-                self.logger.info("Creating new report file")
-                initial_content = """
-"""
-                with open(report_path, 'w') as f:
-                    f.write(initial_content)
-            
-            # Read the existing content
-            self.logger.info("Reading existing report content")
-            with open(report_path, 'r') as f:
-                content = f.read()
-            
-            # Create the high-frequency section content
-            self.logger.info("Generating high-frequency section content")
-            hf_section = f"""### High-Frequency Analysis
-- [<span style='color: {sparams_status}'>{sparams_symbol}</span>] Small-Signal Analysis verified
-  - {freq_range}
-- [<span style='color: {sparams_status}'>{sparams_symbol}</span>] S-parameter analysis verified
-  - {s11_range}
-  - {s21_range}
-- [<span style='color: {sparams_status}'>{sparams_symbol}</span>] RF simulations verified
-  - {isolation}
-- [<span style='color: {nqs_status}'>{nqs_symbol}</span>] Non-Quasi-Static (NQS) Effects Analysis verified
-  - Phase shift: {max_phase_shift}
-
-<img src='plots/cv_sparameter_analysis.png' alt='S-Parameter Analysis' width='400'/>
-
-*S-Parameter analysis showing frequency response characteristics*
-
-<img src='plots/cv_nqs_effects.png' alt='Non-Quasi-Static Effects' width='400'/>
-
-*Non-quasi-static effects analysis showing phase shift between gate voltage and drain current*
-"""
-            
-            # Find the high-frequency section
-            self.logger.info("Locating high-frequency section in report")
-            start_marker = '### High-Frequency Analysis'
-            end_marker = '## 4. Transient Analysis'
-            
-            start_idx = content.find(start_marker)
-            end_idx = content.find(end_marker, start_idx)
-            
-            # If end marker not found, try alternative markers
-            if end_idx == -1:
-                self.logger.info("First end marker not found, trying alternatives")
-                end_marker = '## 5. Noise Analysis'
-                end_idx = content.find(end_marker, start_idx)
-            
-            if end_idx == -1:
-                self.logger.info("Second end marker not found, trying final alternative")
-                end_marker = '## Notes'
-                end_idx = content.find(end_marker, start_idx)
-            
-            # If still not found, append to the end
-            if end_idx == -1:
-                self.logger.info("No end marker found, appending to end of report")
-                content += "\n" + hf_section
-            else:
-                # Replace the section
-                self.logger.info("Replacing existing high-frequency section")
-                content = content[:start_idx] + hf_section + content[end_idx:]
-            
-            # Write the updated content
-            self.logger.info("Writing updated report content")
-            with open(report_path, 'w') as f:
-                f.write(content)
-            
-                self.logger.info(f"Successfully updated high-frequency analysis section in {report_path}")
-            return True
-        
-        except Exception as e:
-            self.logger.error(f"Error updating high-frequency analysis section: {e}")
-            self.logger.error(traceback.format_exc())
-            return False

@@ -163,7 +163,7 @@ class MOSFETSimulation:
 
                 # Verify DC Operating Point Analysis
                 if v_ds is not None and v_gs is not None and i_ds is not None:
-                    plot_generator.plot_iv_characteristics(self.output_dir, v_ds, v_gs, i_ds)
+                    plot_generator.plot_dc_iv_characteristics(self.output_dir, v_ds, v_gs, i_ds)
                     # Store IV characteristics data in results
                     self.results['dc_operating_point_analysis'] = {
                         'data_ready': True,
@@ -181,7 +181,7 @@ class MOSFETSimulation:
                     }
                                     
                 if all(x is not None for x in [i_ds, i_g, i_s, i_b]):
-                    plot_generator.plot_kcl_verification(self.output_dir, i_ds, i_g, i_s, i_b)
+                    plot_generator.plot_dc_kcl_verification(self.output_dir, i_ds, i_g, i_s, i_b)
                 
                 dc_operating_point_result = self.verification_manager.verify_dc_operating_point_analysis(v_ds, v_gs, i_ds, i_g, i_s, i_b, temp)
                 if not dc_operating_point_result['data_ready']:
@@ -196,7 +196,7 @@ class MOSFETSimulation:
 
                 # Verify temperature analysis
                 if temp is not None and i_ds is not None:
-                    plot_generator.plot_temperature_analysis(self.output_dir, temp, i_ds)
+                    plot_generator.plot_dc_temperature_analysis(self.output_dir, temp, i_ds)
 
                 temp_results = self.verification_manager.verify_temperature_analysis(temp, i_ds)
                 if not temp_results['temp_sweep'] or not temp_results['device_behavior']:
@@ -389,41 +389,42 @@ class MOSFETSimulation:
                 # Read and verify noise analysis data
                 
                 # 1. Thermal noise
-                thermal_freq, thermal_noise, thermal_temp, thermal_temps = self.data_reader.read_thermal_noise_data()
+                thermal_freq, thermal_noise, thermal_temp, thermal_temps = self.data_reader.read_thermal_noise_data(self.output_dir)
                 # 2. Flicker noise
-                flicker_freq, flicker_noise = self.data_reader.read_flicker_noise_data()
+                flicker_freq, flicker_noise = self.data_reader.read_flicker_noise_data(self.output_dir)
                 # 3. Shot noise
-                shot_freq, shot_noise = self.data_reader.read_shot_noise_data()
+                shot_freq, shot_noise = self.data_reader.read_shot_noise_data(self.output_dir)
                 # 4. Temperature-dependent noise
-                temps, temp_noise = self.data_reader.read_temperature_noise_data()
+                temps, temp_noise = self.data_reader.read_temperature_noise_data(self.output_dir)
                 
                 if all(x is not None for x in [thermal_freq, thermal_noise, flicker_freq, flicker_noise]):
                     # Plot noise spectra individually
-                    plot_generator.plot_noise_spectrum(thermal_freq, thermal_noise, 
-                                                   'Thermal Noise Spectrum', 'thermal_noise')
-                    plot_generator.plot_noise_spectrum(flicker_freq, flicker_noise, 
-                                                   'Flicker Noise Spectrum', 'flicker_noise')
+                    plot_generator.plot_noise_spectrum(self.output_dir, thermal_freq, thermal_noise, 
+                                                   'Thermal Noise Spectrum', 'noise_thermal_noise')
+                    plot_generator.plot_noise_spectrum(self.output_dir, flicker_freq, flicker_noise, 
+                                                   'Flicker Noise Spectrum', 'noise_flicker_noise')
                     
                     if shot_freq is not None and shot_noise is not None:
-                        plot_generator.plot_noise_spectrum(shot_freq, shot_noise,
-                                                      'Shot Noise Spectrum', 'shot_noise')
+                        plot_generator.plot_noise_spectrum(self.output_dir, shot_freq, shot_noise,
+                                                      'Shot Noise Spectrum', 'noise_shot_noise')
                     
                     # Plot thermal noise comparison
-                    thermal_data_dict = self.data_reader.read_all_thermal_noise_data()
+                    thermal_data_dict = self.data_reader.read_all_thermal_noise_data(self.output_dir)
                     if thermal_data_dict and len(thermal_data_dict) > 1:
                         plot_generator.plot_multiple_noise_spectra(
+                            self.output_dir, 
                             thermal_data_dict, 
                             'Thermal Noise vs. Bias Conditions', 
-                            'thermal_noise_vds_comparison'
+                            'noise_thermal_noise_vds_comparison'
                         )
                     
                     # Plot all components together
-                    plot_generator.plot_noise_components(thermal_freq, thermal_noise, 
+                    plot_generator.plot_noise_components(self.output_dir, thermal_freq, thermal_noise, 
                                                      flicker_noise, shot_noise if shot_noise is not None else None)
                     
                     # Plot temperature dependence if available
                     if temps is not None and temp_noise is not None:
-                        plot_generator.plot_noise_vs_temperature(temps, temp_noise)
+                        plot_generator.plot_noise_vs_temperature(self.output_dir, temps, temp_noise)
                     
                     # Verify noise analysis results
                     noise_results = self.verification_manager.verify_noise_analysis(

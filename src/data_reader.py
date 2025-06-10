@@ -239,6 +239,125 @@ class DataReader:
             self.logger.error(f"Error reading NGSpice raw file {file_path}: {e}")
             return None, None
 
+    def _read_noise_data_file(self, file_path):
+        """Read noise data files with robust parsing to handle text headers and complex formats.
+        
+        Args:
+            file_path: Path to the noise data file
+            
+        Returns:
+            tuple: (frequency, noise) if successful, else (None, None)
+        """
+        try:
+            if not os.path.exists(file_path):
+                self.logger.logger.warning(f"Noise data file not found: {file_path}")
+                return None, None
+
+            # Try multiple parsing approaches
+            # 1. First try our custom triplet parser
+            with open(file_path, 'r') as f:
+                lines = f.readlines()
+            
+            # Find Values: section
+            values_index = None
+            for i, line in enumerate(lines):
+                if line.strip() == 'Values:':
+                    values_index = i
+                    break
+            
+            if values_index is not None:
+                # Process the data section using triplet format
+                freq_data = []
+                noise_data = []
+                i = values_index + 1
+                
+                while i < len(lines) - 2:  # Need at least 3 more lines for a complete triplet
+                    # Each triplet has: index, frequency, noise
+                    if lines[i].strip() and not lines[i].strip().startswith(' '):
+                        i += 1  # Skip index line
+                        
+                        # Read frequency
+                        if i < len(lines):
+                            try:
+                                freq = float(lines[i].strip())
+                                freq_data.append(freq)
+                                i += 1
+                                
+                                # Read noise
+                                if i < len(lines):
+                                    try:
+                                        noise = float(lines[i].strip())
+                                        noise_data.append(noise)
+                                    except ValueError:
+                                        # Skip this triplet if we can't parse the noise value
+                                        pass
+                            except ValueError:
+                                # Skip this triplet if we can't parse the frequency
+                                pass
+                    i += 1
+                
+                # Check if we have valid data
+                if len(freq_data) > 0 and len(noise_data) > 0:
+                    # Ensure the arrays have the same length
+                    min_len = min(len(freq_data), len(noise_data))
+                    freq_array = np.array(freq_data[:min_len])
+                    noise_array = np.array(noise_data[:min_len])
+                    return freq_array, noise_array
+            
+            # 2. Try numpy parsing with different skiprows values
+            for skiprows in [9, 10, 8, 11]:
+                try:
+                    data = np.loadtxt(file_path, skiprows=skiprows)
+                    if len(data) > 0 and data.shape[1] >= 3:
+                        freq = data[:, 0]  # First column is frequency
+                        noise = data[:, 2]  # Third column is noise
+                        return freq, noise
+                except Exception:
+                    continue
+            
+            # 3. Last resort - try a more flexible line-by-line parsing
+            freq_data = []
+            noise_data = []
+            data_started = False
+            
+            for line in lines:
+                line = line.strip()
+                if not line:
+                    continue
+                    
+                # If we see 'Values:', data will start soon
+                if line == 'Values:':
+                    data_started = True
+                    continue
+                    
+                if data_started:
+                    # Split by whitespace and try to extract values
+                    parts = line.split()
+                    if len(parts) == 1:
+                        try:
+                            # This might be a frequency or noise value
+                            value = float(parts[0])
+                            # If this is the first value we've seen, assume it's frequency
+                            if len(freq_data) > len(noise_data):
+                                noise_data.append(value)
+                            else:
+                                freq_data.append(value)
+                        except ValueError:
+                            # Not a numeric value, skip
+                            pass
+            
+            # Check if we have matching data
+            if len(freq_data) == len(noise_data) and len(freq_data) > 0:
+                return np.array(freq_data), np.array(noise_data)
+            
+            # No valid data found
+            self.logger.logger.warning(f"Could not extract valid data from {file_path}")
+            return None, None
+            
+        except Exception as e:
+            self.logger.logger.error(f"Error reading noise data file {file_path}: {e}")
+            return None, None
+
     # DC analysis data reading methods
     def read_dc_iv_data(self, output_dir):
         """Read IV characteristics data from the ASCII file."""
@@ -762,7 +881,7 @@ class DataReader:
             return None, None, None, None, None, None
 
     # Noise analysis data reading methods
-    def read_thermal_noise_data(self, vgs=0.3, vds=0.3):
+    def read_thermal_noise_data(self, output_dir, vgs=0.3, vds=0.3):
         """Read thermal noise data from file.
         
         Args:
@@ -776,7 +895,7 @@ class DataReader:
         try:
             # Try the text file first
             txt_filename = f'thermal_noise_vgs{vgs:.1f}_vds{vds:.1f}.txt'
-            txt_file_path = self._find_file(txt_filename)
+            txt_file_path = self._find_file(txt_filename, output_dir)
             
             if txt_file_path:
                 # Use custom parser
@@ -791,7 +910,7 @@ class DataReader:
             
             # Try the raw file if txt file doesn't exist or couldn't be read
             raw_filename = f'thermal_noise_vgs{vgs:.1f}_vds{vds:.1f}.raw'
-            raw_file_path = self._find_file(raw_filename, fallback_dirs=['netlists'])
+            raw_file_path = self._find_file(raw_filename, output_dir, fallback_dirs=['netlists'])
             
             if not raw_file_path:
                 self.logger.warning(f"Thermal noise data file not found for Vgs={vgs}V, Vds={vds}V")
@@ -813,7 +932,7 @@ class DataReader:
             self.logger.error(f"Error reading thermal noise data: {e}")
             return None, None, None, None
     
-    def read_all_thermal_noise_data(self, file_path):
+    def read_all_thermal_noise_data(self, output_dir):
         """Read all thermal noise data files for different bias points.
         
         Returns:
@@ -828,7 +947,7 @@ class DataReader:
         thermal_noise_data = {}
         
         for vgs, vds in bias_points:
-            freq, noise, _, _ = self.read_thermal_noise_data(vgs, vds)
+            freq, noise, _, _ = self.read_thermal_noise_data(output_dir, vgs, vds)
             if freq is not None and noise is not None:
                 key = f"Vgs={vgs:.1f}V, Vds={vds:.1f}V"
                 thermal_noise_data[key] = (freq, noise)
@@ -841,7 +960,7 @@ class DataReader:
             
         return thermal_noise_data
     
-    def read_flicker_noise_data(self, file_path):
+    def read_flicker_noise_data(self, output_dir):
         """Read flicker noise data from file.
         
         Returns:
@@ -850,7 +969,7 @@ class DataReader:
         try:
             # Try the text file first
             txt_filename = 'flicker_noise.txt'
-            txt_file_path = self._find_file(txt_filename)
+            txt_file_path = self._find_file(txt_filename, output_dir)
             
             if txt_file_path:
                 # Use custom parser
@@ -861,7 +980,7 @@ class DataReader:
             
             # Try the raw file if txt file doesn't exist or couldn't be read
             raw_filename = 'flicker_noise.raw'
-            raw_file_path = self._find_file(raw_filename, fallback_dirs=['netlists'])
+            raw_file_path = self._find_file(raw_filename, output_dir, fallback_dirs=['netlists'])
             
             if not raw_file_path:
                 self.logger.warning("Flicker noise data file not found")
@@ -879,7 +998,7 @@ class DataReader:
             self.logger.error(f"Error reading flicker noise data: {e}")
             return None, None
     
-    def read_shot_noise_data(self, file_path):
+    def read_shot_noise_data(self, output_dir):
         """Read shot noise data from file.
         
         Returns:
@@ -888,7 +1007,7 @@ class DataReader:
         try:
             # Try the text file first
             txt_filename = 'shot_noise.txt'
-            txt_file_path = self._find_file(txt_filename)
+            txt_file_path = self._find_file(txt_filename, output_dir)
             
             if txt_file_path:
                 # Use custom parser
@@ -899,7 +1018,7 @@ class DataReader:
             
             # Try the raw file if txt file doesn't exist or couldn't be read
             raw_filename = 'shot_noise.raw'
-            raw_file_path = self._find_file(raw_filename, fallback_dirs=['netlists'])
+            raw_file_path = self._find_file(raw_filename, output_dir, fallback_dirs=['netlists'])
             
             if not raw_file_path:
                 self.logger.warning("Shot noise data file not found")
@@ -917,7 +1036,7 @@ class DataReader:
             self.logger.error(f"Error reading shot noise data: {e}")
             return None, None
     
-    def read_temperature_noise_data(self, file_path):
+    def read_temperature_noise_data(self, output_dir):
         """Read temperature-dependent noise data from files.
         
         Returns:
@@ -931,7 +1050,9 @@ class DataReader:
             
             for temp in temperatures:
                 # First try reading from .txt file in data directory
-                txt_file_path = os.path.join(self.output_dir, 'data', f'noise_temp{temp}.txt')
+                txt_filename = f'noise_temp{temp}.txt'
+                txt_file_path = self._find_file(txt_filename, output_dir)
+
                 if os.path.exists(txt_file_path):
                     # Use custom parser instead of np.loadtxt
                     freq, noise = self._read_noise_data_file(txt_file_path)

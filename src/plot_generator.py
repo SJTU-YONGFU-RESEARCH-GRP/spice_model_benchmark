@@ -341,7 +341,7 @@ class PlotGenerator:
             
             # Save the figure
             plt.tight_layout()
-            comp_file = Path(self.plots_dir) / 'cv_components.png'
+            comp_file = Path(self.plots_dir) / 'ac_cv_components.png'
             plt.savefig(comp_file, dpi=self.dpi)
             plt.close()
             
@@ -446,7 +446,7 @@ class PlotGenerator:
             
             # Save the figure
             plt.tight_layout()
-            freq_file = Path(self.plots_dir) / 'cv_multifreq_characteristics.png'
+            freq_file = Path(self.plots_dir) / 'ac_v_multifreq_characteristics.png'
             plt.savefig(freq_file, dpi=self.dpi)
             plt.close()
             
@@ -465,7 +465,7 @@ class PlotGenerator:
             plt.legend()
             
             # Save standard plot for compatibility
-            std_file = Path(self.plots_dir) / 'cv_characteristics.png'
+            std_file = Path(self.plots_dir) / 'ac_cv_characteristics.png'
             plt.savefig(std_file, dpi=self.dpi, bbox_inches='tight')
             plt.close()
             
@@ -572,7 +572,7 @@ class PlotGenerator:
         plt.tight_layout()
         
         # Save plot
-        plot_file = os.path.join(plots_dir, 'cv_sparameter_analysis.png')
+        plot_file = os.path.join(plots_dir, 'ac_cv_sparameter_analysis.png')
         plt.savefig(plot_file, dpi=self.dpi)
         plt.close()
         
@@ -656,7 +656,7 @@ class PlotGenerator:
         plt.tight_layout()
         
         # Save plot
-        plot_file = os.path.join(plots_dir, 'cv_nqs_effects.png')
+        plot_file = os.path.join(plots_dir, 'ac_cv_nqs_effects.png')
         plt.savefig(plot_file, dpi=self.dpi)
         plt.close()
             
@@ -1353,7 +1353,7 @@ class PlotGenerator:
                 self.logger.logger.error(f"Error creating quasi-static plots: {e}")
             return None
 
-    # Others
+    # Noise
     
     def plot_noise_spectrum(self, output_dir, freq, noise, title, filename, 
                            log_x=True, log_y=True, additional_data=None):
@@ -1394,7 +1394,11 @@ class PlotGenerator:
             plt.title(title)
             plt.grid(True, which='both', linestyle='--', alpha=0.6)
             plt.legend()
-            
+
+            # Make sure plots directory exists
+            plots_dir = Path(output_dir) / 'plots'
+            plots_dir.mkdir(exist_ok=True)
+
             output_file = Path(self.plots_dir) / f'{filename}.png'
             plt.savefig(output_file, dpi=self.dpi)
             plt.close()
