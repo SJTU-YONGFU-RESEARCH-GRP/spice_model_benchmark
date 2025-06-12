@@ -219,7 +219,7 @@ class MOSFETSimulation:
                 
                 # Generate CV plots
                 if vg is not None and cgg is not None:
-                    plot_generator.plot_cv_characteristics(self.output_dir)
+                    plot_generator.plot_ac_cv_characteristics(self.output_dir)
                     # Store CV characteristics data in results
                     self.results['cv_characteristics'] = {
                         'data_ready': True,
@@ -237,7 +237,7 @@ class MOSFETSimulation:
                 
                 # Generate S-parameter plots
                 if all(x is not None for x in [freq, s11_mag, s21_mag, s12_mag, s22_mag]):
-                    plot_generator.plot_cv_sparameter_analysis(self.output_dir, freq, s11_mag, s21_mag, s12_mag, s22_mag)
+                    plot_generator.plot_ac_sparameter_analysis(self.output_dir, freq, s11_mag, s21_mag, s12_mag, s22_mag)
                     # Store S-parameter data in results
                     self.results['sparameter_analysis'] = {
                         'data_ready': True,
@@ -256,7 +256,7 @@ class MOSFETSimulation:
                 
                 # Generate NQS effects plots
                 if all(x is not None for x in [nqs_freq, vg_phase, id_phase, phase_diff]):
-                    plot_generator.plot_cv_nqs_effects(self.output_dir, nqs_freq, vg_phase, id_phase, phase_diff)
+                    plot_generator.plot_ac_nqs_effects(self.output_dir, nqs_freq, vg_phase, id_phase, phase_diff)
                     # Store NQS effects data in results
                     self.results['nqs_effects'] = {
                         'data_ready': True,

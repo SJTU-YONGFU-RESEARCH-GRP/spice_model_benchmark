@@ -1,12 +1,12 @@
 Title: * mosfet ac analysis circuit
-Date: Wed Jun 11 04:59:33  2025
+Date: Thu Jun 12 17:28:10  2025
 Plotname: Transient Analysis
 Flags: real
 No. Variables: 6
 No. Points: 922
 Variables:
 	0	time	time
-	1	v(gate_q)	voltage
+	1	v(gate_3)	voltage
 	2	i(vgq)	current
 	3	i(vdq)	current
 	4	i(vsq)	current

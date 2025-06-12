@@ -12,6 +12,11 @@
 * Include FreePDK45 model
 .inc ../models/ngspice-cmos/FreePDK45/nom.inc
 
+* ----------------------------------------------------------
+* MOSFET device under test - standard 45nm transistor
+* ----------------------------------------------------------
+M_tran drain_tran gate_tran source_tran bulk_tran NMOS_VTG L=0.045u W=10u
+
 * Large-Signal Transient Analysis Circuit
 * Pulse input source for gate
 Vgs_tran gate_tran 0 PULSE(0 1.2 0n 0.1n 0.1n 10n 20n)
@@ -22,63 +27,85 @@ Vb_tran bulk_tran 0 DC 0
 * Load capacitor to see switching behavior
 Cload drain_tran 0 1f
 
-* MOSFET device under test - standard 45nm transistor
-M_tran drain_tran gate_tran source_tran bulk_tran NMOS_VTG L=0.045u W=10u
-
+* ----------------------------------------------------------
 * Switching Simulation Circuit (inverter)
-Vdd_inv vdd_inv 0 DC 1.2
-Vin_inv in_inv 0 PULSE(0 1.2 0n 0.1n 0.1n 10n 20n)
+* ----------------------------------------------------------
 M_inv_n out_inv in_inv 0 0 NMOS_VTG L=0.045u W=10u
 M_inv_p out_inv in_inv vdd_inv vdd_inv PMOS_VTG L=0.045u W=20u
+
+Vdd_inv vdd_inv 0 DC 1.2
+Vin_inv in_inv 0 PULSE(0 1.2 0n 0.1n 0.1n 10n 20n)
+
 Cload_inv out_inv 0 1f
 
 * Delay Effect Circuit - Chain of inverters
 Vdd_delay vdd_delay 0 DC 1.2
 Vin_delay in_delay 0 PULSE(0 1.2 0n 0.1n 0.1n 10n 20n)
 
+* ----------------------------------------------------------
 * First inverter
+* ----------------------------------------------------------
 M_d1_n mid1_delay in_delay 0 0 NMOS_VTG L=0.045u W=10u
 M_d1_p mid1_delay in_delay vdd_delay vdd_delay PMOS_VTG L=0.045u W=20u
+
 Cload_d1 mid1_delay 0 1f
 
+* ----------------------------------------------------------
 * Second inverter
+* ----------------------------------------------------------
 M_d2_n mid2_delay mid1_delay 0 0 NMOS_VTG L=0.045u W=10u
 M_d2_p mid2_delay mid1_delay vdd_delay vdd_delay PMOS_VTG L=0.045u W=20u
+
 Cload_d2 mid2_delay 0 1f
 
+* ----------------------------------------------------------
 * Third inverter (output)
+* ----------------------------------------------------------
 M_d3_n out_delay mid2_delay 0 0 NMOS_VTG L=0.045u W=10u
 M_d3_p out_delay mid2_delay vdd_delay vdd_delay PMOS_VTG L=0.045u W=20u
+
 Cload_d3 out_delay 0 1f
 
+* ----------------------------------------------------------
 * Power Dissipation Circuit
-Vdd_power vdd_power 0 DC 1.2
-Vin_power in_power 0 PULSE(0 1.2 0n 0.1n 0.1n 10n 20n)
+* ----------------------------------------------------------
 M_power_n out_power in_power 0 0 NMOS_VTG L=0.045u W=10u
 M_power_p out_power in_power vdd_power vdd_power PMOS_VTG L=0.045u W=20u
+
+Vdd_power vdd_power 0 DC 1.2
+Vin_power in_power 0 PULSE(0 1.2 0n 0.1n 0.1n 10n 20n)
 Cload_power out_power 0 1f
 
 * Charge Conservation Test Circuit using capacitance approach
 * Instead of direct charge extraction, we'll measure capacitances and integrate
 Vdd_charge vdd_charge 0 DC 1.2
 Vg_charge gate_charge 0 PULSE(0 1.2 0n 1n 1n 10n 20n)
+
+* ----------------------------------------------------------
 * MOS for charge conservation test
+* ----------------------------------------------------------
 M_charge drain_charge gate_charge source_charge bulk_charge NMOS_VTG L=0.045u W=10u
+
 Vd_charge drain_charge 0 DC 1.2
 Vs_charge source_charge 0 DC 0
 Vb_charge bulk_charge 0 DC 0
+
 * Capacitors to measure charges (small value to avoid affecting circuit)
 Cg gate_charge 0 1e-18
 Cd drain_charge 0 1e-18
 Cs source_charge 0 1e-18
 Cb bulk_charge 0 1e-18
 
+* ----------------------------------------------------------
 * Quasi-Static Analysis Circuit with improved convergence
+* ----------------------------------------------------------
+M_qs drain_qs gate_qs source_qs bulk_qs NMOS_VTG L=0.045u W=10u
+
 Vgs_qs gate_qs 0 PULSE(0 1.2 0n 20n 20n 100n 200n)
 Vds_qs drain_qs 0 DC 1.2
 Vs_qs source_qs 0 DC 0
 Vb_qs bulk_qs 0 DC 0
-M_qs drain_qs gate_qs source_qs bulk_qs NMOS_VTG L=0.045u W=10u
+
 Cload_qs drain_qs 0 10f
 
 * Control block

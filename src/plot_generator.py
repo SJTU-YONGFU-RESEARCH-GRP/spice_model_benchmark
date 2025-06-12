@@ -197,7 +197,7 @@ class PlotGenerator:
             return None
 
     # AC Analysis
-    def plot_cv_characteristics(self, output_dir, vg=None, ig=None, freq=None):
+    def plot_ac_cv_characteristics(self, output_dir, vg=None, ig=None, freq=None):
         """
         Generate comprehensive CV plots based on data in results/data/cv_data.txt.
         Creates both component analysis and frequency-dependent plots.
@@ -482,7 +482,7 @@ class PlotGenerator:
             traceback.print_exc()
             return None
 
-    def plot_cv_sparameter_analysis(self, output_dir, freq=None, s11_mag=None, s21_mag=None, s12_mag=None, s22_mag=None):
+    def plot_ac_sparameter_analysis(self, output_dir, freq=None, s11_mag=None, s21_mag=None, s12_mag=None, s22_mag=None):
         """Plot S-parameters analysis.
         
         Args:
@@ -579,7 +579,7 @@ class PlotGenerator:
         print(f"[INFO]: S-parameter analysis plot saved to {plot_file}")
         return plot_file
 
-    def plot_cv_nqs_effects(self, output_dir, freq=None, vg_phase=None, id_phase=None, phase_diff=None):
+    def plot_ac_nqs_effects(self, output_dir, freq=None, vg_phase=None, id_phase=None, phase_diff=None):
         """Plot non-quasi-static effects analysis.
         
         Args:

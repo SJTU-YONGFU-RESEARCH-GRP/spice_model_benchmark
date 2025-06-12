@@ -2102,7 +2102,7 @@ class VerificationManager:
             # Generate plot
             try:
                 if hasattr(self, 'plot_generator') and self.plot_generator is not None:
-                    self.plot_generator.plot_ac_sparameter_analysis(freq, s11_mag, s21_mag, s12_mag, s22_mag)
+                    self.plot_generator.plot_ac_sparameter_analysis(self.output_dir, freq, s11_mag, s21_mag, s12_mag, s22_mag)
             except Exception as e:
                 if self.logger:
                     self.logger.error(f"Error generating S-parameter plot: {e}")
