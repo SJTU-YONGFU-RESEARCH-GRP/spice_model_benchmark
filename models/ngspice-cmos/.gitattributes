@@ -1,4 +1,0 @@
-*.cir linguist-language=SPICE
-*.inc linguist-language=SPICE
-
-FreePDK45/**/* linguist-vendored
