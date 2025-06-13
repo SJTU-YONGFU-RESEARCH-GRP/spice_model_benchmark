@@ -15,6 +15,10 @@
 * SKY130 Spice File.
 * Number of bins: 63
 .param
++ sky130_fd_pr__nfet_01v8__toxe_slope = 0.0
++ sky130_fd_pr__nfet_01v8__vth0_slope = 0.0
++ sky130_fd_pr__nfet_01v8__voff_slope = 0.0
++ sky130_fd_pr__nfet_01v8__nfactor_slope = 0.0
 + sky130_fd_pr__nfet_01v8__toxe_mult = 1.0
 + sky130_fd_pr__nfet_01v8__rshn_mult = 1.0
 + sky130_fd_pr__nfet_01v8__overlap_mult = 0.9642
@@ -22,6 +26,13 @@
 + sky130_fd_pr__nfet_01v8__wint_diff = 0.0
 + sky130_fd_pr__nfet_01v8__dlc_diff = -.61492e-9
 + sky130_fd_pr__nfet_01v8__dwc_diff = 0.0
++ sky130_fd_pr__nfet_01v8__dlc_rotweak = 0.0
++ sky130_fd_pr__nfet_01v8__ajunction_mult = 1.0
++ sky130_fd_pr__nfet_01v8__pjunction_mult = 1.0
++ sky130_fd_pr__nfet_01v8__toxe_slope_spectre = 0.0
++ sky130_fd_pr__nfet_01v8__vth0_slope_spectre = 0.0
++ sky130_fd_pr__nfet_01v8__voff_slope_spectre = 0.0
++ sky130_fd_pr__nfet_01v8__nfactor_slope_spectre = 0.0
 *
 * sky130_fd_pr__nfet_01v8, Bin 000, W = 1.26, L = 0.15
 * -----------------------------------
