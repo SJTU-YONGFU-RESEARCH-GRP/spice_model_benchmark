@@ -1,0 +1,22 @@
+* Minimal sky130 NFET test
+.option scale=1E-6
+.option temp=27
+
+* Try to include just the essential model file
+.include "../models/skywater-pdk-libs-sky130_fd_pr/cells/nfet_01v8/sky130_fd_pr__nfet_01v8__tt.corner.spice"
+
+* Minimal circuit
+Vdd 1 0 1.8
+Vgs 2 0 0.8
+
+* Use subcircuit syntax: X<name> <drain> <gate> <source> <bulk> <subckt_name> <params>
+X1 1 2 0 0 sky130_fd_pr__nfet_01v8 l=1 w=1
+
+
+.control
+* Just try to get operating point
+dc vdd 0 1.2 0.2 
+
+quit
+.endc
+.end

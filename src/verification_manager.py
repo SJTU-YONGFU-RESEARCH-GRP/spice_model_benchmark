@@ -428,7 +428,7 @@ class VerificationManager:
         """
         try:
             content = []
-            content.append(f"## {section_num}. AC Analysis")
+            content.append(f"## {section_num}. DC Analysis")
         
             # DC Operating Point Analysis   
             content.append("### DC Operating Point Analysis")

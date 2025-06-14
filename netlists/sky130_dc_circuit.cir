@@ -1,35 +1,31 @@
 * MOSFET DC Characteristics Simulation with Temperature Analysis
-.option temp=27 tnom=27
-.option gmin=1e-15
-.option reltol=1e-8
-.option abstol=1e-12
-.option chgtol=1e-15
-.option method=gear
+.option scale=1E-6
+.option gmin=1e-12
+.option reltol=1e-3
+.option abstol=1e-9
+.option chgtol=1e-12
+.option method=trap
 .option TEMP=27
 .option TNOM=27
 .option TEMPSCALE=1.0
 
-* Include Sky130 model (tt corner)
-.include "../models/skywater-pdk-libs-sky130_fd_pr/models/corners/tt.spice"
-
+* Include SkyWater sky130 device models
+.include "../models/skywater-pdk-libs-sky130_fd_pr/cells/nfet_01v8/sky130_fd_pr__nfet_01v8__tt.corner.spice"
 
 * MOSFET device under test (Sky130 NMOS 1.8V)
-X1 drain_iv gate_iv source_iv bulk_iv sky130_fd_pr__nfet_01v8 
+X1 drain_iv gate_iv source_iv bulk_iv sky130_fd_pr__nfet_01v8 l=1 w=1
 
 * MOSFET device under test for bias point analysis
-X2 drain_bias gate_bias source_bias bulk_bias sky130_fd_pr__nfet_01v8
+X2 drain_bias gate_bias source_bias bulk_bias sky130_fd_pr__nfet_01v8 l=1 w=1
 
 * IV Characteristics Circuit
-Vds_iv drain_iv 0 DC 0
-Vgs_iv gate_iv 0 DC 0
+* Source and bulk connected to ground
 Vs_iv source_iv 0 DC 0
 Vb_iv bulk_iv 0 DC 0
-
-* Bias Point Analysis Circuit
-Vds_bias drain_bias 0 DC 0
-Vgs_bias gate_bias 0 DC 0
-Vs_bias source_bias 0 DC 0
-Vb_bias bulk_bias 0 DC 0
+* Gate voltage source
+Vg_iv gate_iv source_iv DC 0
+* Drain voltage source
+Vd_iv drain_iv source_iv DC 0
 
 * Control block
 .control
@@ -45,170 +41,14 @@ echo "Starting temperature sweep"
 * Temperature -40°C
 option temp=-40
 echo "Running simulation at temperature: -40 °C"
-dc Vds_iv 0 1.2 0.01 Vgs_iv 0 1.2 0.2
-let id = i(Vds_iv)
+dc Vg_iv 0 1.2 0.2 Vd_iv 0 1.2 0.01
+let id = i(Vd_iv)
 let is = i(Vs_iv)
-let ig = i(Vgs_iv)
+let ig = i(Vg_iv)
 let ib = i(Vb_iv)
 let kcl = abs(id + is + ig + ib)
 * Write data in the order expected by data_reader: v(d) v(g) i(vds) i(vs) i(vb) i(vgs) kcl
 wrdata ./iv_data_-40.txt v(drain_iv) v(gate_iv) id is ib ig kcl
-
-* Temperature 0°C
-option temp=0
-echo "Running simulation at temperature: 0 °C"
-dc Vds_iv 0 1.2 0.01 Vgs_iv 0 1.2 0.2
-let id = i(Vds_iv)
-let is = i(Vs_iv)
-let ig = i(Vgs_iv)
-let ib = i(Vb_iv)
-let kcl = abs(id + is + ig + ib)
-wrdata ./iv_data_0.txt v(drain_iv) v(gate_iv) id is ib ig kcl
-
-* Temperature 25°C
-option temp=25
-echo "Running simulation at temperature: 25 °C"
-dc Vds_iv 0 1.2 0.01 Vgs_iv 0 1.2 0.2
-let id = i(Vds_iv)
-let is = i(Vs_iv)
-let ig = i(Vgs_iv)
-let ib = i(Vb_iv)
-let kcl = abs(id + is + ig + ib)
-wrdata ./iv_data_25.txt v(drain_iv) v(gate_iv) id is ib ig kcl
-
-* Temperature 50°C
-option temp=50
-echo "Running simulation at temperature: 50 °C"
-dc Vds_iv 0 1.2 0.01 Vgs_iv 0 1.2 0.2
-let id = i(Vds_iv)
-let is = i(Vs_iv)
-let ig = i(Vgs_iv)
-let ib = i(Vb_iv)
-let kcl = abs(id + is + ig + ib)
-wrdata ./iv_data_50.txt v(drain_iv) v(gate_iv) id is ib ig kcl
-
-* Temperature 100°C
-option temp=100
-echo "Running simulation at temperature: 100 °C"
-dc Vds_iv 0 1.2 0.01 Vgs_iv 0 1.2 0.2
-let id = i(Vds_iv)
-let is = i(Vs_iv)
-let ig = i(Vgs_iv)
-let ib = i(Vb_iv)
-let kcl = abs(id + is + ig + ib)
-wrdata ./iv_data_100.txt v(drain_iv) v(gate_iv) id is ib ig kcl
-
-* Temperature 150°C
-option temp=150
-echo "Running simulation at temperature: 150 °C"
-dc Vds_iv 0 1.2 0.01 Vgs_iv 0 1.2 0.2
-let id = i(Vds_iv)
-let is = i(Vs_iv)
-let ig = i(Vgs_iv)
-let ib = i(Vb_iv)
-let kcl = abs(id + is + ig + ib)
-wrdata ./iv_data_150.txt v(drain_iv) v(gate_iv) id is ib ig kcl
-
-* Bias Point Analysis Section
-echo "Starting bias point analysis"
-
-* Run bias point analysis at room temperature
-option temp=27
-echo "Running bias point analysis at 27°C"
-
-* Initialize bias_point_data.txt with headers
-echo "v(drain_bias) v(gate_bias) id_bias ig_bias is_bias ib_bias" > ./bias_point_data.txt
-
-* Define bias points explicitly and process each one separately
-* First bias point (0.0, 0.0)
-alter Vds_bias = 0.0
-alter Vgs_bias = 0.0
-op
-let id_bias = i(Vds_bias)
-let is_bias = i(Vs_bias)
-let ig_bias = i(Vgs_bias)
-let ib_bias = i(Vb_bias)
-echo "$&v(drain_bias) $&v(gate_bias) $&id_bias $&ig_bias $&is_bias $&ib_bias" >> ./bias_point_data.txt
-
-* Second bias point (0.0, 0.6)
-alter Vds_bias = 0.0
-alter Vgs_bias = 0.6
-op
-let id_bias = i(Vds_bias)
-let is_bias = i(Vs_bias)
-let ig_bias = i(Vgs_bias)
-let ib_bias = i(Vb_bias)
-echo "$&v(drain_bias) $&v(gate_bias) $&id_bias $&ig_bias $&is_bias $&ib_bias" >> ./bias_point_data.txt
-
-* Third bias point (0.0, 1.2)
-alter Vds_bias = 0.0
-alter Vgs_bias = 1.2
-op
-let id_bias = i(Vds_bias)
-let is_bias = i(Vs_bias)
-let ig_bias = i(Vgs_bias)
-let ib_bias = i(Vb_bias)
-echo "$&v(drain_bias) $&v(gate_bias) $&id_bias $&ig_bias $&is_bias $&ib_bias" >> ./bias_point_data.txt
-
-* Fourth bias point (0.6, 0.0)
-alter Vds_bias = 0.6
-alter Vgs_bias = 0.0
-op
-let id_bias = i(Vds_bias)
-let is_bias = i(Vs_bias)
-let ig_bias = i(Vgs_bias)
-let ib_bias = i(Vb_bias)
-echo "$&v(drain_bias) $&v(gate_bias) $&id_bias $&ig_bias $&is_bias $&ib_bias" >> ./bias_point_data.txt
-
-* Fifth bias point (0.6, 0.6)
-alter Vds_bias = 0.6
-alter Vgs_bias = 0.6
-op
-let id_bias = i(Vds_bias)
-let is_bias = i(Vs_bias)
-let ig_bias = i(Vgs_bias)
-let ib_bias = i(Vb_bias)
-echo "$&v(drain_bias) $&v(gate_bias) $&id_bias $&ig_bias $&is_bias $&ib_bias" >> ./bias_point_data.txt
-
-* Sixth bias point (0.6, 1.2)
-alter Vds_bias = 0.6
-alter Vgs_bias = 1.2
-op
-let id_bias = i(Vds_bias)
-let is_bias = i(Vs_bias)
-let ig_bias = i(Vgs_bias)
-let ib_bias = i(Vb_bias)
-echo "$&v(drain_bias) $&v(gate_bias) $&id_bias $&ig_bias $&is_bias $&ib_bias" >> ./bias_point_data.txt
-
-* Seventh bias point (1.2, 0.0)
-alter Vds_bias = 1.2
-alter Vgs_bias = 0.0
-op
-let id_bias = i(Vds_bias)
-let is_bias = i(Vs_bias)
-let ig_bias = i(Vgs_bias)
-let ib_bias = i(Vb_bias)
-echo "$&v(drain_bias) $&v(gate_bias) $&id_bias $&ig_bias $&is_bias $&ib_bias" >> ./bias_point_data.txt
-
-* Eighth bias point (1.2, 0.6)
-alter Vds_bias = 1.2
-alter Vgs_bias = 0.6
-op
-let id_bias = i(Vds_bias)
-let is_bias = i(Vs_bias)
-let ig_bias = i(Vgs_bias)
-let ib_bias = i(Vb_bias)
-echo "$&v(drain_bias) $&v(gate_bias) $&id_bias $&ig_bias $&is_bias $&ib_bias" >> ./bias_point_data.txt
-
-* Ninth bias point (1.2, 1.2)
-alter Vds_bias = 1.2
-alter Vgs_bias = 1.2
-op
-let id_bias = i(Vds_bias)
-let is_bias = i(Vs_bias)
-let ig_bias = i(Vgs_bias)
-let ib_bias = i(Vb_bias)
-echo "$&v(drain_bias) $&v(gate_bias) $&id_bias $&ig_bias $&is_bias $&ib_bias" >> ./bias_point_data.txt
 
 echo "DC analysis completed"
 quit

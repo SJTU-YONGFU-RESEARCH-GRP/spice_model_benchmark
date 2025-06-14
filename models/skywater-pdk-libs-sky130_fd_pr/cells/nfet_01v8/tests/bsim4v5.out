@@ -1,0 +1,6 @@
+
+Checking parameters for BSIM 4.5 model x1:sky130_fd_pr__nfet_01v8__model.68
+Fatal: Toxe = 0 is not positive.
+Fatal: Toxp = 0 is not positive.
+Warning: Toxe = 0 is less than 1A. Recommended Toxe >= 5A
+Warning: Toxp = 0 is less than 1A. Recommended Toxp >= 5A
