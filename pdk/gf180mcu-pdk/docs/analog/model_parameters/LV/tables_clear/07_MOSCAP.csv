@@ -1,0 +1,13 @@
+Model Name,Description,Scalable,"Corner
+
+Model","Statistical
+
+Model"
+cap_nmos_03v3,Model for nominal IO 3.3V inversion-mode NMOS capacitor,Y,Y,N
+cap_pmos_03v3,Model for nominal IO 3.3V inversion-mode PMOS capacitor,Y,Y,N
+cap_nmos_06v0,Model for nominal IO 6V inversion -mode NMOS capacitor,Y,Y,N
+cap_pmos_06v0,Model for nominal IO 6V inversion -mode PMOS capacitor,Y,Y,N
+cap_nmos_03v3_b,Model for nominal IO 3.3V NMOS in Nwell capacitor,Y,Y,N
+cap_pmos_03v3_b,Model for nominal IO 3.3V PMOS in Pwell capacitor,Y,Y,N
+cap_nmos_06v0_b,Model for nominal IO 6V NMOS in Nwell capacitor,Y,Y,N
+cap_pmos_06v0_b,Model for nominal IO 6V PMOS in Pwell capacitor,Y,Y,N
