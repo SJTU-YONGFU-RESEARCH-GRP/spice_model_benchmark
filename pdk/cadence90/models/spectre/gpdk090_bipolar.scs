@@ -1,0 +1,182 @@
+**************************************************************
+*   Generic PDK Bipolar models                       
+**************************************************************
+
+
+* 6th May 2008: 
+* - kf added, to get at least some flicker noise
+* - vpnp rc added to get at least basic saturation behavior
+* - vpnp cj, tr & tf added to get at least basic dynamic modeling
+* - vpnp va added to get at least rds modeling
+* - rb added to model base resistance
+* - ikf added to model current gain roll-off at high currents
+* - ikr reduced to made it more realistic
+* - ise increased to model B drop at low currents
+* - ft modeling improved (xtf, itf, vtf)
+* - npn ft increased to support building RF circuits
+* - re added 
+* - dcmatch and mismatch for MC added
+* - corners added
+* - high-performance devices added
+
+TODO:
+* - furthers checks on good npn & pnp devices, also against diodes
+* - diodes have much larger Rs and now larger Cj
+* - bulk node for bjts
+
+simulator lang=spectre
+library gpdk090
+
+section stat_mis
+parameters 
++ pis_mc=0
+
+statistics { 
+ mismatch { 
+  vary pis_mc  dist=gauss std=1/1 
+  } 
+ }
+endsection stat_mis
+
+
+section bjt_s
+parameters cis=0.667 cbeta=0.667 ctf=1.5 ccj=1.2 cvaf=1.15
+include "gpdk090_bipolar.scs" section=bjt
+endsection bjt_s
+
+section bjt_t
+parameters cis=1 cbeta=1 ctf=1 ccj=1 cvaf=1
+include "gpdk090_bipolar.scs" section=bjt
+endsection bjt_t
+
+section bjt_f
+parameters cis=1/0.667 cbeta=1/0.667 ctf=1/1.5 ccj=1/1.2 cvaf=1/1.15
+include "gpdk090_bipolar.scs" section=bjt
+endsection bjt_f
+
+section highperf_bjt_s
+parameters cis=0.667 cbeta=0.667 ctf=1.5 ccj=1.2 cvaf=1.15
+include "gpdk090_bipolar.scs" section=highperf_bjt
+endsection highperf_bjt_s
+
+section highperf_bjt_t
+parameters cis=1 cbeta=1 ctf=1 ccj=1 cvaf=1
+include "gpdk090_bipolar.scs" section=highperf_bjt
+endsection highperf_bjt_t
+
+section highperf_bjt_f
+parameters cis=1/0.667 cbeta=1/0.667 ctf=1/1.5 ccj=1/1.2 cvaf=1/1.15
+include "gpdk090_bipolar.scs" section=highperf_bjt
+endsection highperf_bjt_f
+
+********** defining typ BJT parameter in  standard CMOS processes
+section bjt
+include "gpdk090_bipolar.scs" section =stat_mis
+
+inline subckt gpdk090_vpnp10 (C B E)
+parameters area=1 
+gpdk090_vpnp10 (C B E)  gpdk090_vpnp10_x area=area
+model gpdk090_vpnp10_x bjt type=pnp rbmod=spice minr=1e-60 bf=cbeta*3.0 nf=1.0 va=cvaf*25 tr=ctf*200e-12 tf=ctf*50e-12 re=1  br=cbeta*6 var=cvaf*5
++                      is=cis*(1-0.5m/26m*pis_mc)*2.4e-18 ise=cis*24e-18 kf=0.1f rc=10 rb=1000 cjc=ccj*0.05e-12 fc=0.5 cje=ccj*0.07e-12 ikf=0.5m mvt0=1.41*0.5m 
+ends gpdk090_vpnp10
+
+inline subckt gpdk090_vpnp5 (C B E)
+parameters area=1 
+gpdk090_vpnp5 (C B E)  gpdk090_vpnp5_x area=area
+model gpdk090_vpnp5_x bjt type=pnp rbmod=spice minr=1e-60 bf=cbeta*3.0 nf=1.0  va=cvaf*25 tr=ctf*200e-12 tf=ctf*50e-12 re=1 br=cbeta*6 var=cvaf*5
++                      is=cis*(1-1m/26m*pis_mc)*2.4e-18 ise=cis*24e-18 kf=0.1f rc=10 rb=1000 cjc=ccj*0.05e-12 fc=0.5 cje=ccj*0.07e-12  ikf=0.5m mvt0=1.41*1m
+ends gpdk090_vpnp5
+
+
+inline subckt gpdk090_vpnp2 (C B E)
+parameters area=1 
+gpdk090_vpnp2 (C B E)  gpdk090_vpnp2_x area=area
+model gpdk090_vpnp2_x bjt type=pnp rbmod=spice minr=1e-60 bf=cbeta*3.0 nf=1.0  va=cvaf*25 tr=ctf*200e-12 tf=ctf*50e-12 re=1 br=cbeta*6 var=cvaf*5
++                      is=cis*(1-2m/26m*pis_mc)*2.4e-18 ise=cis*24e-18 kf=0.1f rc=10 rb=1000 cjc=ccj*0.05e-12 fc=0.5 cje=ccj*0.07e-12  ikf=0.5m mvt0=1.41*2m
+ends gpdk090_vpnp2
+
+inline subckt gpdk090_vpnp (C B E)
+parameters area=1 
+gpdk090_vpnp (C B E)  gpdk090_vpnp_x area=area
+model gpdk090_vpnp_x bjt type=pnp rbmod=spice minr=1e-60 bf=cbeta*3.0 nf=1.0  va=cvaf*25 tr=ctf*200e-12 tf=ctf*50e-12 re=1 br=cbeta*6 var=cvaf*5
++                      is=cis*(1-2m/26m*pis_mc)*(1-0.1*pis_mc)*2.4e-18 ise=cis*24e-18 kf=0.1f rc=10 rb=1000 cjc=ccj*0.05e-12 fc=0.5 cje=ccj*0.07e-12  ikf=0.5m mvt0=1.41*2m
+ends gpdk090_vpnp
+
+
+inline subckt gpdk090_pnp (C B E)
+parameters area=1 
+gpdk090_pnp (C B E)  gpdk090_pnp_x area=area
+model gpdk090_pnp_x bjt type=pnp is=cis*(1-2m/26m*pis_mc)*3.28e-16 va=cvaf*30 bf=cbeta*35 ise=cis*60e-16 
++                      br=cbeta*6 nc=2 ikr=1m rc=10 kf=0.1f rb=1000 re=1 var=cvaf*5
++                      cjc=ccj*0.05e-12 fc=0.5 cje=ccj*0.07e-12  ikf=0.5m
++                      tr=ctf*200e-12 tf=ctf*65e-12 itf=0.03 vtf=1 xtf=2 mvt0=1.41*2m
+ends gpdk090_pnp
+ 
+ 
+inline subckt gpdk090_npn (C B E)
+parameters area=1 
+gpdk090_npn (C B E)  gpdk090_npn_x area=area
+model gpdk090_npn_x bjt type=npn is=cis*(1-2m/26m*pis_mc)*3.26E-16 va=cvaf*60 bf=cbeta*100 ise=cis*3.2E-16
++                      br=cbeta*6 nc=2 ikr=1m rc=10 vje=0.7  rb=1000 re=1 var=cvaf*5
++                      cjc=ccj*0.05e-12 fc=0.5 cje=ccj*0.07e-12 kf=0.1f ikf=0.5m
++                      tr=ctf*200e-12 tf=ctf*10e-12 itf=0.03 vtf=1 xtf=2 mvt0=1.41*2m
+ends gpdk090_npn
+
+endsection bjt
+
+**** new models for high-performance BJT models
+section highperf_bjt
+include "gpdk090_bipolar.scs" section =stat_mis
+
+inline subckt gpdk090_vpnp10 (C B E)
+parameters area=1 
+gpdk090_vpnp10 (C B E)  gpdk090_vpnp10_x area=area
+model gpdk090_vpnp10_x bjt type=pnp rbmod=spice minr=1e-60 bf=cbeta*100 nf=1.0 va=cvaf*25 tr=ctf*200e-12 tf=ctf*25e-12 re=1  br=cbeta*6 var=cvaf*5 itf=0.001 vtf=1 xtf=2 
++                      is=cis*(1-0.5m/26m*pis_mc)*2.4e-18 ise=cis*3e-18 kf=0.1f rc=20 rb=1000 cjc=ccj*0.005e-12 fc=0.5 cje=ccj*0.007e-12 ikf=0.5m mvt0=1.41*0.5m 
+ends gpdk090_vpnp10
+
+inline subckt gpdk090_vpnp5 (C B E)
+parameters area=1 
+gpdk090_vpnp5 (C B E)  gpdk090_vpnp5_x area=area
+model gpdk090_vpnp5_x bjt type=pnp rbmod=spice minr=1e-60 bf=cbeta*100 nf=1.0  va=cvaf*25 tr=ctf*200e-12 tf=ctf*25e-12 re=1 br=cbeta*6 var=cvaf*5 itf=0.001 vtf=1 xtf=2 
++                      is=cis*(1-1m/26m*pis_mc)*2.4e-18 ise=cis*3e-18 kf=0.1f rc=20 rb=1000 cjc=ccj*0.005e-12 fc=0.5 cje=ccj*0.007e-12  ikf=0.5m mvt0=1.41*1m
+ends gpdk090_vpnp5
+
+
+inline subckt gpdk090_vpnp2 (C B E)
+parameters area=1 
+gpdk090_vpnp2 (C B E)  gpdk090_vpnp2_x area=area
+model gpdk090_vpnp2_x bjt type=pnp rbmod=spice minr=1e-60 bf=cbeta*100 nf=1.0  va=cvaf*25 tr=ctf*200e-12 tf=ctf*25e-12 re=1 br=cbeta*6 var=cvaf*5 itf=0.001 vtf=1 xtf=2 
++                      is=cis*(1-2m/26m*pis_mc)*2.4e-18 ise=cis*3e-18 kf=0.1f rc=20 rb=1000 cjc=ccj*0.005e-12 fc=0.5 cje=ccj*0.0007e-12  ikf=0.5m mvt0=1.41*2m
+ends gpdk090_vpnp2
+
+inline subckt gpdk090_vpnp (C B E)
+parameters area=1 
+gpdk090_vpnp (C B E)  gpdk090_vpnp_x area=area
+model gpdk090_vpnp_x bjt type=pnp rbmod=spice minr=1e-60 bf=cbeta*100 nf=1.0  va=cvaf*25 tr=ctf*200e-12 tf=ctf*25e-12 re=1 br=cbeta*6 var=cvaf*5 itf=0.001 vtf=1 xtf=2 
++                      is=cis*(1-2m/26m*pis_mc)*(1-0.1*pis_mc)*2.4e-18 ise=cis*3e-18 kf=0.1f rc=20 rb=1000 cjc=ccj*0.005e-12 fc=0.5 cje=ccj*0.007e-12  ikf=0.5m mvt0=1.41*2m
+ends gpdk090_vpnp
+
+**** not improved
+inline subckt gpdk090_pnp (C B E)
+parameters area=1 
+gpdk090_pnp (C B E)  gpdk090_pnp_x area=area
+model gpdk090_pnp_x bjt type=pnp is=cis*(1-2m/26m*pis_mc)*3.28e-16 va=cvaf*30 bf=cbeta*35 ise=cis*60e-16 
++                      br=cbeta*6 nc=2 ikr=1m rc=20 kf=0.1f rb=1000 re=1 var=cvaf*5
++                      cjc=ccj*0.005e-12 fc=0.5 cje=ccj*0.007e-12  ikf=100u
++                      tr=ctf*200e-12 tf=ctf*65e-12 itf=0.01 vtf=1 xtf=2 mvt0=1.41*2m
+ends gpdk090_pnp
+ 
+ 
+inline subckt gpdk090_npn (C B E)
+parameters area=1 
+gpdk090_npn (C B E)  gpdk090_npn_x area=area
+model gpdk090_npn_x bjt type=npn is=cis*(1-2m/26m*pis_mc)*3.26E-16 va=cvaf*80 bf=cbeta*150 ise=cis*3E-16
++                      br=cbeta*6 nc=2 ikr=1m rc=10 vje=0.7  rb=1000 re=0.5 var=cvaf*5
++                      cjc=ccj*0.002e-12 fc=0.5 cje=ccj*0.003e-12 kf=0.1f ikf=1m
++                      tr=ctf*100e-12 tf=ctf*3e-12 itf=0.002 vtf=1 xtf=2 mvt0=1.41*2m
+ends gpdk090_npn
+
+endsection highperf_bjt
+
+endlibrary gpdk090

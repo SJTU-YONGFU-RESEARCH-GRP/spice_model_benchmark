@@ -1,0 +1,34 @@
+*lvsRulesFile: $PDK_DIR/calibre/ruledirs/lvs/lvsRules_calibre_asap7.rul
+*lvsRunDir: $PWD/lvs
+*lvsLayoutPaths: LATQ_X1M_7d5TR_C20.calibre.db
+*lvsLayoutPrimary: LATQ_X1M_7d5TR_C20
+*lvsLayoutLibrary: Standard_cells_v06
+*lvsLayoutView: layout
+*lvsLayoutGetFromViewer: 1
+*lvsSourcePath: LATQ_X1M_7d5TR_C20.src.net
+*lvsSourcePrimary: LATQ_X1M_7d5TR_C20
+*lvsSourceLibrary: Standard_cells_v06
+*lvsSourceView: schematic
+*lvsSourceGetFromViewer: 1
+*lvsSpiceFile: LATQ_X1M_7d5TR_C20.sp
+*lvsAutoMatch: 1
+*lvsHCellsFile: 
+*lvsPowerNames: vdd! VDD! vdd VDD
+*lvsGroundNames: VSS VSS! GND GND!
+*lvsERCDatabase: LATQ_X1M_7d5TR_C20.erc.results
+*lvsERCSummaryFile: LATQ_X1M_7d5TR_C20.erc.summary
+*lvsReportFile: LATQ_X1M_7d5TR_C20.lvs.report
+*lvsViewReport: 0
+*lvsMaskDBFile: tc24.maskdb
+*lvsReportMaximumAll: 1
+*cmnShowOptions: 1
+*cmnSaveRunsetChanges: 0
+*cmnRunHier: -2
+*cmnRunMT: 1
+*cmnRunHyper: 1
+*cmnSlaveHosts: {use {}} {hostName {}} {cpuCount {}} {a32a64 {}} {rsh {}} {maxMem {}} {workingDir {}} {layerDir {}} {mgcLibPath {}} {launchName {}}
+*cmnLSFSlaveTbl: {use 1} {totalCpus 1} {minCpus 1} {architecture {{}}} {minMemory {{}}} {resourceOptions {{}}} {submitOptions {{}}}
+*cmnGridSlaveTbl: {use 1} {totalCpus 1} {minCpus 1} {architecture {{}}} {minMemory {{}}} {resourceOptions {{}}} {submitOptions {{}}}
+*cmnFDILayoutLibrary: Standard_cells_v06
+*cmnFDILayoutView: layout
+*cmnFDIDEFLayoutPath: LATQ_X1M_7d5TR_C20.def

@@ -1,0 +1,99 @@
+* GPDK Corner Definitions
+* This is an example file showing how to define corners
+* using model files for individual components as the
+* building blocks.
+
+simulator lang=spectre
+library gpdk
+
+section NN
+include "mos25gen.scs" section=tt
+include "nmos1.scs" section=nom
+include "pmos1.scs" section=nom
+include "resistor.scs"  section=res
+include "capacitor.scs"  section=cap
+include "diode.scs"  section=dio
+include "bipolar.scs"  section=bjt
+include "rfmos.scs"  section=rf_mos
+include "xjvar_nf36.scs"
+include "xjvar_w40.scs"
+include "snacapacitor.scs"
+include "cmodel.scs"
+endsection NN
+
+section SS
+include "mos25gen.scs" section=ss
+include "nmos1.scs" section=slow
+include "pmos1.scs" section=slow
+include "resistor.scs"  section=res
+include "capacitor.scs"  section=cap
+include "diode.scs"  section=dio
+include "bipolar.scs"  section=bjt
+include "rfmos.scs"  section=rf_mos
+include "xjvar_nf36.scs"
+include "xjvar_w40.scs"
+include "snacapacitor.scs"
+include "cmodel.scs"
+endsection SS
+
+section SF
+include "mos25gen.scs" section=sf
+include "nmos1.scs" section=slow
+include "pmos1.scs" section=fast
+include "resistor.scs"  section=res
+include "capacitor.scs"  section=cap
+include "diode.scs"  section=dio
+include "bipolar.scs"  section=bjt
+include "rfmos.scs"  section=rf_mos
+include "xjvar_nf36.scs"
+include "xjvar_w40.scs"
+include "snacapacitor.scs"
+include "cmodel.scs"
+endsection SF
+
+section FS
+include "mos25gen.scs" section=fs
+include "nmos1.scs" section=fast
+include "pmos1.scs" section=slow
+include "resistor.scs"  section=res
+include "capacitor.scs"  section=cap
+include "diode.scs"  section=dio
+include "bipolar.scs"  section=bjt
+include "rfmos.scs"  section=rf_mos
+include "xjvar_nf36.scs"
+include "xjvar_w40.scs"
+include "snacapacitor.scs"
+include "cmodel.scs"
+endsection FS
+
+section FF
+include "mos25gen.scs" section=ff
+include "nmos1.scs" section=fast
+include "pmos1.scs" section=fast
+include "resistor.scs"  section=res
+include "capacitor.scs"  section=cap
+include "diode.scs"  section=dio
+include "bipolar.scs"  section=bjt
+include "rfmos.scs"  section=rf_mos
+include "xjvar_nf36.scs"
+include "xjvar_w40.scs"
+include "snacapacitor.scs"
+include "cmodel.scs"
+endsection FF
+
+section stat
+include "mos25gen.scs" section=tt
+include "nmos1.scs" section=stat
+include "pmos1.scs" section=stat
+include "resistor.scs"  section=res
+include "capacitor.scs"  section=cap
+include "diode.scs"  section=dio
+include "bipolar.scs"  section=bjt
+include "rfmos.scs"  section=rf_mos
+include "xjvar_nf36.scs"
+include "mcxjvar_w40.scs"
+include "snacapacitor.scs"
+include "cmodel.scs"
+endsection stat
+
+endlibrary gpdk

@@ -1,0 +1,34 @@
+// Generated for: spectre (May  1 11:29:38 2013 )
+// Library name: gsclib045_backbias
+// Cell name: INVX20
+// View name: extracted
+
+simulator lang=spectre
+
+subckt INVX20 A NW VDD VSS Y
+mp0 (\1\:Y \1\:A VDD NW) g45p1svt w=(4.6e-07) l=4.5e-08 nf=1 \
+        as=7.306e-14 ad=7.306e-14 ps=1.23765e-06 pd=1.23765e-06 \
+        nrd=1.16667 nrs=1.16667 sa=1.4e-07 sb=2e-06 sd=160n sca=41.0128 \
+        scb=0.0371513 scc=0.00426262 m=(17)
+C1 (A VSS) capacitor c=2.14865e-17
+C2 (VDD VSS) capacitor c=1.01736e-15
+C3 (NW VSS) capacitor c=4.00134e-16
+C4 (Y VSS) capacitor c=1.30845e-17
+C5 (\1\:A VSS) capacitor c=1.60529e-15
+C6 (\27\:A VSS) capacitor c=2.29427e-17
+C7 (\1\:Y VSS) capacitor c=1.14361e-15
+C8 (\69\:A VSS) capacitor c=4.26853e-17
+C9 (\4\:Y VSS) capacitor c=9.22617e-16
+Rk9 (\69\:A A) resistor r=0.01623 c=0
+Rk8 (\1\:A \69\:A) resistor r=0.29 c=0
+Rk11 (\1\:Y Y) resistor r=0.1076 c=0
+Rk12 (Y \4\:Y) resistor r=0.06532 c=0
+Rl26 (\1\:A \27\:A) resistor r=3.1164 c=0
+Rx9 (\69\:A \27\:A) resistor r=45 c=0
+mn0 (\4\:Y \1\:A VSS VSS) g45n1svt w=(3.05e-07) l=4.5e-08 nf=1 \
+        as=4.844e-14 ad=4.844e-14 ps=9.2765e-07 pd=9.2765e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=2e-06 sd=160n sca=16.121 scb=0.0155296 \
+        scc=0.00139557 m=(17)
+ends INVX20
+// End of subcircuit definition.
+

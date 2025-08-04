@@ -1,0 +1,24 @@
+
+Enclosed are 3 cap tables for encounter.
+
+gpdk090.basic.CapTbl - is a basic encounter cap table
+gpdk090.extended.CapTbl - is an extended cap table created with a pcs file and the coyote field solver
+gpdk090.lef.extended.CapTbl - is an extended cap table that also includes the lef file and runs with the coyote field solver
+
+The cap tables take from about 5 min(basic) to 8 hours(extended) to run on a Intel 2.8GHz Linux workstation.
+
+These were built as follows:
+
+First, set up to use SOC52USR1_lnx86
+
+generateCapTbl -ict ../fireIce/qx/gpdk090_9l.ict -output gpdk090.basic.CapTbl -basic
+
+generateCapTbl -ict ../fireIce/qx/gpdk090_9l.ict -output gpdk090.extended.CapTbl 
+
+generateCapTbl -ict ../fireIce/qx/gpdk090_9l.ict -output gpdk090.lef.extended.CapTbl -lef ../../gsclib090/lef/gpdk090_tech_9lm.lef
+
+
+
+
+
+

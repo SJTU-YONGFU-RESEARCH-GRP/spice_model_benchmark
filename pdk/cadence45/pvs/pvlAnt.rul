@@ -1,0 +1,1006 @@
+// PVS ANTENNA RULE DECK FOR GPDK 45nm
+
+// -----------------------------------------------------------------------------
+// VERSION v0.1 (initial version) (30-APR-2010)
+// -----------------------------------------------------------------------------
+// New:
+// Preliminary release of antenna rule deck
+// -----------------------------------------------------------------------------
+
+
+
+#DEFINE CHECK_CONT_ANT_3
+
+layout_path "CELLNAME.gds" gdsii;
+layout_primary "CELLNAME";
+results_db -drc "CELLNAME.db" -ascii;
+
+input_scale 2000;
+grid 5;
+unit -length u;
+text_depth -primary;
+
+layer_def empty 999;
+
+layer_def Cont 1000;
+layer_map 6 -datatype 0 1000;
+
+layer_def INDdummy 1001;
+layer_map 16 -datatype 0 1001;
+
+layer_def M1Resdum 1002;
+layer_map 75 -datatype 0 1002;
+
+layer_def M2Resdum 1003;
+layer_map 76 -datatype 0 1003;
+
+layer_def M3Resdum 1004;
+layer_map 77 -datatype 0 1004;
+
+layer_def M4Resdum 1005;
+layer_map 78 -datatype 0 1005;
+
+layer_def M5Resdum 1006;
+layer_map 79 -datatype 0 1006;
+
+layer_def M6Resdum 1007;
+layer_map 80 -datatype 0 1007;
+
+layer_def M7Resdum 1008;
+layer_map 81 -datatype 0 1008;
+
+layer_def M8Resdum 1009;
+layer_map 82 -datatype 0 1009;
+
+layer_def M9Resdum 1010;
+layer_map 83 -datatype 0 1010;
+
+layer_def M10Resdum 1011;
+layer_map 93 -datatype 0 1011;
+
+layer_def M11Resdum 1012;
+layer_map 103 -datatype 0 1012;
+
+layer_def Metal1 1013;
+layer_map 7 -datatype 0 1013;
+
+layer_def Metal2 1014;
+layer_map 9 -datatype 0 1014;
+
+layer_def Metal3 1015;
+layer_map 11 -datatype 0 1015;
+
+layer_def Metal4 1016;
+layer_map 31 -datatype 0 1016;
+
+layer_def Metal5 1017;
+layer_map 33 -datatype 0 1017;
+
+layer_def Metal6 1018;
+layer_map 35 -datatype 0 1018;
+
+layer_def Metal7 1019;
+layer_map 38 -datatype 0 1019;
+
+layer_def Metal8 1020;
+layer_map 40 -datatype 0 1020;
+
+layer_def Metal9 1021;
+layer_map 42 -datatype 0 1021;
+
+layer_def Metal10 1022;
+layer_map 152 -datatype 0 1022;
+
+layer_def Metal11 1023;
+layer_map 162 -datatype 0 1023;
+
+layer_def Nimp 1024;
+layer_map 4 -datatype 0 1024;
+
+layer_def Oxide 1025;
+layer_map 1 -datatype 0 1025;
+
+layer_def Pimp 1026;
+layer_map 5 -datatype 0 1026;
+
+layer_def Poly 1027;
+layer_map 3 -datatype 0 1027;
+
+layer_def Resdum 1028;
+layer_map 13 -datatype 0 1028;
+
+layer_def Via1 1029;
+layer_map 8 -datatype 0 1029;
+
+layer_def Via2 1030;
+layer_map 10 -datatype 0 1030;
+
+layer_def Via3 1031;
+layer_map 30 -datatype 0 1031;
+
+layer_def Via4 1032;
+layer_map 32 -datatype 0 1032;
+
+layer_def Via5 1033;
+layer_map 34 -datatype 0 1033;
+
+layer_def Via6 1034;
+layer_map 37 -datatype 0 1034;
+
+layer_def Via7 1035;
+layer_map 39 -datatype 0 1035;
+
+layer_def Via8 1036;
+layer_map 41 -datatype 0 1036;
+
+layer_def Via9 1037;
+layer_map 151 -datatype 0 1037;
+
+layer_def Via10 1038;
+layer_map 161 -datatype 0 1038;
+
+layer_def metal1_conn_text 1039;
+layer_map 7 -texttype 0 1039;
+
+layer_def metal2_conn_text 1040;
+layer_map 9 -texttype 0 1040;
+
+layer_def metal3_conn_text 1041;
+layer_map 11 -texttype 0 1041;
+
+layer_def metal4_conn_text 1042;
+layer_map 31 -texttype 0 1042;
+
+layer_def metal5_conn_text 1043;
+layer_map 33 -texttype 0 1043;
+
+layer_def metal6_conn_text 1044;
+layer_map 35 -texttype 0 1044;
+
+layer_def metal7_conn_text 1045;
+layer_map 38 -texttype 0 1045;
+
+layer_def metal8_conn_text 1046;
+layer_map 40 -texttype 0 1046;
+
+layer_def metal9_conn_text 1047;
+layer_map 42 -texttype 0 1047;
+
+layer_def metal10_conn_text 1048;
+layer_map 152 -texttype 0 1048;
+
+layer_def metal11_conn_text 1049;
+layer_map 162 -texttype 0 1049;
+
+layer_def poly_conn_text 1050;
+layer_map 3 -texttype 0 1050;
+
+extent dsmbulk;
+
+// cont_poly=Cont and Poly
+and Cont Poly cont_poly;
+
+// cont_antenna=cont_poly and Poly
+and Poly cont_poly cont_antenna;
+
+// gate=Poly and Oxide
+and Oxide Poly gate;
+
+// metal1_conn=Metal1 andnot M1Resdum
+not Metal1 M1Resdum metal1_conn;
+
+// metal2_conn=Metal2 andnot M2Resdum
+not Metal2 M2Resdum metal2_conn;
+
+// metal3_conn=Metal3 andnot M3Resdum
+not Metal3 M3Resdum metal3_conn;
+
+// metal4_conn=Metal4 andnot M4Resdum
+not Metal4 M4Resdum metal4_conn;
+
+// metal5_conn=Metal5 andnot M5Resdum
+not Metal5 M5Resdum metal5_conn;
+
+// metal6_conn=Metal6 andnot M6Resdum
+not Metal6 M6Resdum metal6_conn;
+
+// metal7_conn=Metal7 andnot M7Resdum
+not Metal7 M7Resdum metal7_conn;
+
+// metal8_conn=Metal8 andnot M8Resdum
+not Metal8 M8Resdum metal8_conn;
+
+// metal9_conn=Metal9  andnot M9Resdum
+not Metal9 M9Resdum metal9_conn;
+
+// nactive=Nimp and Oxide
+and Nimp Oxide nactive;
+
+// pactive=Pimp and Oxide
+and Oxide Pimp pactive;
+
+// pdiff=pactive andnot Poly
+not pactive Poly pdiff;
+
+// pdiff_conn=pdiff andnot Resdum
+not pdiff Resdum pdiff_conn;
+
+// cont_pdiff=Cont and pdiff_conn
+and Cont pdiff_conn cont_pdiff;
+
+// poly_conn=Poly andnot Resdum
+not Poly Resdum poly_conn;
+
+// ndiff=(nactive andnot poly_conn)
+not nactive poly_conn ndiff;
+
+// ndiff_conn=ndiff andnot Resdum
+not ndiff Resdum ndiff_conn;
+
+// cont_ndiff=Cont and ndiff_conn
+and Cont ndiff_conn cont_ndiff;
+
+// cont_diode=cont_ndiff or cont_pdiff
+
+// cont_diode=cont_ndiff or cont_pdiff
+or cont_ndiff cont_pdiff cont_diode;
+
+// diff_diode=ndiff_conn or pdiff_conn
+
+// diff_diode=ndiff_conn or pdiff_conn
+or ndiff_conn pdiff_conn diff_diode;
+
+// poly_on_field=Poly andnot Oxide
+not Poly Oxide poly_on_field;
+
+// poly_tap=poly_on_field and Poly
+and Poly poly_on_field poly_tap;
+
+// metal10_conn=Metal10 andnot (M10Resdum or INDdummy)
+
+// metal10_conn=Metal10 andnot (M10Resdum or INDdummy)
+or INDdummy M10Resdum L17074;
+not Metal10 L17074 metal10_conn;
+
+// metal11_conn=Metal11 andnot (M11Resdum or INDdummy )
+
+// metal11_conn=Metal11 andnot (M11Resdum or INDdummy )
+or INDdummy M11Resdum L86607;
+not Metal11 L86607 metal11_conn;
+
+// metal1_with_diode=(metal1_conn interact > 1 diff_diode) or (metal1_conn interact
+//  (diff_diode area >= 0.1))
+select -interact metal1_conn diff_diode -gt 1 L90713;
+area diff_diode -ge 0.1 L28904;
+select -interact metal1_conn L28904 L77036;
+or L77036 L90713 metal1_with_diode;
+
+// metal1_wo_diode=metal1_conn andnot metal1_with_diode
+not metal1_conn metal1_with_diode metal1_wo_diode;
+
+
+incr_conn yes;
+disconnect;
+#ifdef CHECK_POLY_ANT_1
+
+    connect poly_on_field Poly -by poly_tap;
+    connect gate Poly;
+
+    rule ANT.1 {
+        caption ANT.1: Field Poly area to gate area ratio must be <= 275.0;
+        antenna poly_on_field gate -gt 275.0 -expr
+        "(area(poly_on_field)/area(gate))";
+    }
+
+#endif
+
+#ifdef CHECK_POLY_ANT_2
+
+    disconnect;
+    connect poly_on_field Poly -by poly_tap;
+    connect gate Poly;
+
+    rule ANT.2 {
+        caption ANT.2: Field Poly perimeter to gate area ratio must be <= 550.0;
+        antenna poly_on_field gate -gt 550.0 -expr
+        "(perimeter(poly_on_field)/area(gate))";
+    }
+
+#endif
+
+#ifdef CHECK_CONT_ANT_3
+
+    disconnect;
+    connect cont_antenna Poly -by cont_poly;
+    connect gate Poly;
+
+    rule ANT.3 {
+        caption ANT.3: Poly Contact area to gate area ratio must be <= 15.0;
+        antenna cont_antenna gate -gt 15.0 -expr
+        "(area(cont_antenna)/area(gate))";
+    }
+
+#endif
+
+#ifdef CHECK_METAL1_ANT_4
+
+    disconnect;
+    connect metal1_wo_diode Poly -by cont_poly;
+    connect gate Poly;
+
+    rule ANT.4.M1 {
+        caption ANT.4.M1: Metal1 area to gate area ratio must be <= 475.0;
+        antenna metal1_wo_diode gate -gt 475.0 -expr
+        "(area(metal1_wo_diode)/area(gate))";
+    }
+
+#endif
+
+#ifdef CHECK_METAL2_ANT_4
+
+    disconnect;
+    connect metal2_conn metal1_wo_diode -by Via1;
+    connect metal1_wo_diode Poly -by cont_poly;
+    connect gate Poly;
+
+    rule ANT.4.M2 {
+        caption ANT.4.M2: Metal2 area to gate area ratio must be <= 475.0;
+        antenna metal2_conn gate -gt 475.0 -expr
+        "(area(metal2_conn)/area(gate))";
+    }
+
+#endif
+
+#ifdef CHECK_METAL3_ANT_4
+
+    disconnect;
+    connect metal3_conn metal2_conn -by Via2;
+    connect metal2_conn metal1_wo_diode -by Via1;
+    connect metal1_wo_diode Poly -by cont_poly;
+    connect gate Poly;
+
+    rule ANT.4.M3 {
+        caption ANT.4.M3: Metal3 area to gate area ratio must be <= 475.0;
+        antenna metal3_conn gate -gt 475.0 -expr
+        "(area(metal3_conn)/area(gate))";
+    }
+
+#endif
+
+#ifdef CHECK_METAL4_ANT_4
+
+    disconnect;
+    connect metal4_conn metal3_conn -by Via3;
+    connect metal3_conn metal2_conn -by Via2;
+    connect metal2_conn metal1_wo_diode -by Via1;
+    connect metal1_wo_diode Poly -by cont_poly;
+    connect gate Poly;
+
+    rule ANT.4.M4 {
+        caption ANT.4.M4: Metal4 area to gate area ratio must be <= 475.0;
+        antenna metal4_conn gate -gt 475.0 -expr
+        "(area(metal4_conn)/area(gate))";
+    }
+
+#endif
+
+#ifdef CHECK_METAL5_ANT_4
+
+    disconnect;
+    connect metal5_conn metal4_conn -by Via4;
+    connect metal4_conn metal3_conn -by Via3;
+    connect metal3_conn metal2_conn -by Via2;
+    connect metal2_conn metal1_wo_diode -by Via1;
+    connect metal1_wo_diode Poly -by cont_poly;
+    connect gate Poly;
+
+    rule ANT.4.M5 {
+        caption ANT.4.M5: Metal5 area to gate area ratio must be <= 475.0;
+        antenna metal5_conn gate -gt 475.0 -expr
+        "(area(metal5_conn)/area(gate))";
+    }
+
+#endif
+
+#ifdef CHECK_METAL6_ANT_4
+
+    disconnect;
+    connect metal6_conn metal5_conn -by Via5;
+    connect metal5_conn metal4_conn -by Via4;
+    connect metal4_conn metal3_conn -by Via3;
+    connect metal3_conn metal2_conn -by Via2;
+    connect metal2_conn metal1_wo_diode -by Via1;
+    connect metal1_wo_diode Poly -by cont_poly;
+    connect gate Poly;
+
+    rule ANT.4.M6 {
+        caption ANT.4.M6: Metal6 area to gate area ratio must be <= 475.0;
+        antenna metal6_conn gate -gt 475.0 -expr
+        "(area(metal6_conn)/area(gate))";
+    }
+
+#endif
+
+#ifdef CHECK_METAL7_ANT_4
+
+    disconnect;
+    connect metal7_conn metal6_conn -by Via6;
+    connect metal6_conn metal5_conn -by Via5;
+    connect metal5_conn metal4_conn -by Via4;
+    connect metal4_conn metal3_conn -by Via3;
+    connect metal3_conn metal2_conn -by Via2;
+    connect metal2_conn metal1_wo_diode -by Via1;
+    connect metal1_wo_diode Poly -by cont_poly;
+    connect gate Poly;
+
+    rule ANT.4.M7 {
+        caption ANT.4.M7: Metal7 area to gate area ratio must be <= 475.0;
+        antenna metal7_conn gate -gt 475.0 -expr
+        "(area(metal7_conn)/area(gate))";
+    }
+
+#endif
+
+#ifdef CHECK_METAL8_ANT_4
+
+    disconnect;
+    connect metal8_conn metal7_conn -by Via7;
+    connect metal7_conn metal6_conn -by Via6;
+    connect metal6_conn metal5_conn -by Via5;
+    connect metal5_conn metal4_conn -by Via4;
+    connect metal4_conn metal3_conn -by Via3;
+    connect metal3_conn metal2_conn -by Via2;
+    connect metal2_conn metal1_wo_diode -by Via1;
+    connect metal1_wo_diode Poly -by cont_poly;
+    connect gate Poly;
+
+    rule ANT.4.M8 {
+        caption ANT.4.M8: Metal8 area to gate area ratio must be <= 475.0;
+        antenna metal8_conn gate -gt 475.0 -expr
+        "(area(metal8_conn)/area(gate))";
+    }
+
+#endif
+
+#ifdef CHECK_METAL9_ANT_4
+
+    disconnect;
+    connect metal9_conn metal8_conn -by Via8;
+    connect metal8_conn metal7_conn -by Via7;
+    connect metal7_conn metal6_conn -by Via6;
+    connect metal6_conn metal5_conn -by Via5;
+    connect metal5_conn metal4_conn -by Via4;
+    connect metal4_conn metal3_conn -by Via3;
+    connect metal3_conn metal2_conn -by Via2;
+    connect metal2_conn metal1_wo_diode -by Via1;
+    connect metal1_wo_diode Poly -by cont_poly;
+    connect gate Poly;
+
+    rule ANT.4.M9 {
+        caption ANT.4.M9: Metal9 area to gate area ratio must be <= 475.0;
+        antenna metal9_conn gate -gt 475.0 -expr
+        "(area(metal9_conn)/area(gate))";
+    }
+
+#endif
+
+#ifdef CHECK_METAL10_ANT_4
+
+    disconnect;
+    connect metal10_conn metal9_conn -by Via9;
+    connect metal9_conn metal8_conn -by Via8;
+    connect metal8_conn metal7_conn -by Via7;
+    connect metal7_conn metal6_conn -by Via6;
+    connect metal6_conn metal5_conn -by Via5;
+    connect metal5_conn metal4_conn -by Via4;
+    connect metal4_conn metal3_conn -by Via3;
+    connect metal3_conn metal2_conn -by Via2;
+    connect metal2_conn metal1_wo_diode -by Via1;
+    connect metal1_wo_diode Poly -by cont_poly;
+    connect gate Poly;
+
+    rule ANT.4.M10 {
+        caption ANT.4.M10: Metal10 area to gate area ratio must be <= 475.0;
+        antenna metal10_conn gate -gt 475.0 -expr
+        "(area(metal10_conn)/area(gate))";
+    }
+
+#endif
+
+#ifdef CHECK_METAL11_ANT_4
+
+    disconnect;
+    connect metal11_conn metal10_conn -by Via10;
+    connect metal10_conn metal9_conn -by Via9;
+    connect metal9_conn metal8_conn -by Via8;
+    connect metal8_conn metal7_conn -by Via7;
+    connect metal7_conn metal6_conn -by Via6;
+    connect metal6_conn metal5_conn -by Via5;
+    connect metal5_conn metal4_conn -by Via4;
+    connect metal4_conn metal3_conn -by Via3;
+    connect metal3_conn metal2_conn -by Via2;
+    connect metal2_conn metal1_wo_diode -by Via1;
+    connect metal1_wo_diode Poly -by cont_poly;
+    connect gate Poly;
+
+    rule ANT.4.M11 {
+        caption ANT.4.M11: Metal11 area to gate area ratio must be <= 475.0;
+        antenna metal11_conn gate -gt 475.0 -expr
+        "(area(metal11_conn)/area(gate))";
+    }
+
+#endif
+
+#ifdef CHECK_VIA1_ANT_5
+
+    disconnect;
+    connect metal2_conn metal1_wo_diode -by Via1;
+    connect metal1_wo_diode Poly -by cont_poly;
+    connect gate Poly;
+
+    rule ANT.5.V1 {
+        caption ANT.5.V1: Via1 area to gate area ratio must be <= 25.0;
+        antenna metal2_conn Via1 gate -gt 25.0 -expr
+        "(area(Via1)/area(gate))";
+    }
+
+#endif
+
+#ifdef CHECK_VIA2_ANT_5
+
+    disconnect;
+    connect metal3_conn metal2_conn -by Via2;
+    connect metal2_conn metal1_wo_diode -by Via1;
+    connect metal1_wo_diode Poly -by cont_poly;
+    connect gate Poly;
+
+    rule ANT.5.V2 {
+        caption ANT.5.V2: Via2 area to gate area ratio must be <= 25.0;
+        antenna metal3_conn Via2 gate -gt 25.0 -expr
+        "(area(Via2)/area(gate))";
+    }
+
+#endif
+
+#ifdef CHECK_VIA3_ANT_5
+
+    disconnect;
+    connect metal4_conn metal3_conn -by Via3;
+    connect metal3_conn metal2_conn -by Via2;
+    connect metal2_conn metal1_wo_diode -by Via1;
+    connect metal1_wo_diode Poly -by cont_poly;
+    connect gate Poly;
+
+    rule ANT.5.V3 {
+        caption ANT.5.V3: Via3 area to gate area ratio must be <= 25.0;
+        antenna metal4_conn Via3 gate -gt 25.0 -expr
+        "(area(Via3)/area(gate))";
+    }
+
+#endif
+
+#ifdef CHECK_VIA4_ANT_5
+
+    disconnect;
+    connect metal5_conn metal4_conn -by Via4;
+    connect metal4_conn metal3_conn -by Via3;
+    connect metal3_conn metal2_conn -by Via2;
+    connect metal2_conn metal1_wo_diode -by Via1;
+    connect metal1_wo_diode Poly -by cont_poly;
+    connect gate Poly;
+
+    rule ANT.5.V4 {
+        caption ANT.5.V4: Via4 area to gate area ratio must be <= 25.0;
+        antenna metal5_conn Via4 gate -gt 25.0 -expr
+        "(area(Via4)/area(gate))";
+    }
+
+#endif
+
+#ifdef CHECK_VIA5_ANT_5
+
+    disconnect;
+    connect metal6_conn metal5_conn -by Via5;
+    connect metal5_conn metal4_conn -by Via4;
+    connect metal4_conn metal3_conn -by Via3;
+    connect metal3_conn metal2_conn -by Via2;
+    connect metal2_conn metal1_wo_diode -by Via1;
+    connect metal1_wo_diode Poly -by cont_poly;
+    connect gate Poly;
+
+    rule ANT.5.V5 {
+        caption ANT.5.V5: Via5 area to gate area ratio must be <= 25.0;
+        antenna metal6_conn Via5 gate -gt 25.0 -expr
+        "(area(Via5)/area(gate))";
+    }
+
+#endif
+
+#ifdef CHECK_VIA6_ANT_5
+
+    disconnect;
+    connect metal7_conn metal6_conn -by Via6;
+    connect metal6_conn metal5_conn -by Via5;
+    connect metal5_conn metal4_conn -by Via4;
+    connect metal4_conn metal3_conn -by Via3;
+    connect metal3_conn metal2_conn -by Via2;
+    connect metal2_conn metal1_wo_diode -by Via1;
+    connect metal1_wo_diode Poly -by cont_poly;
+    connect gate Poly;
+
+    rule ANT.5.V6 {
+        caption ANT.5.V6: Via6 area to gate area ratio must be <= 25.0;
+        antenna metal7_conn Via6 gate -gt 25.0 -expr
+        "(area(Via6)/area(gate))";
+    }
+
+#endif
+
+#ifdef CHECK_VIA7_ANT_5
+
+    disconnect;
+    connect metal8_conn metal7_conn -by Via7;
+    connect metal7_conn metal6_conn -by Via6;
+    connect metal6_conn metal5_conn -by Via5;
+    connect metal5_conn metal4_conn -by Via4;
+    connect metal4_conn metal3_conn -by Via3;
+    connect metal3_conn metal2_conn -by Via2;
+    connect metal2_conn metal1_wo_diode -by Via1;
+    connect metal1_wo_diode Poly -by cont_poly;
+    connect gate Poly;
+
+    rule ANT.5.V7 {
+        caption ANT.5.V7: Via7 area to gate area ratio must be <= 25.0;
+        antenna metal8_conn Via7 gate -gt 25.0 -expr
+        "(area(Via7)/area(gate))";
+    }
+
+#endif
+
+#ifdef CHECK_VIA8_ANT_5
+
+    disconnect;
+    connect metal9_conn metal8_conn -by Via8;
+    connect metal8_conn metal7_conn -by Via7;
+    connect metal7_conn metal6_conn -by Via6;
+    connect metal6_conn metal5_conn -by Via5;
+    connect metal5_conn metal4_conn -by Via4;
+    connect metal4_conn metal3_conn -by Via3;
+    connect metal3_conn metal2_conn -by Via2;
+    connect metal2_conn metal1_wo_diode -by Via1;
+    connect metal1_wo_diode Poly -by cont_poly;
+    connect gate Poly;
+
+    rule ANT.5.V8 {
+        caption ANT.5.V8: Via8 area to gate area ratio must be <= 25.0;
+        antenna metal9_conn Via8 gate -gt 25.0 -expr
+        "(area(Via8)/area(gate))";
+    }
+
+#endif
+
+#ifdef CHECK_VIA9_ANT_5
+
+    disconnect;
+    connect metal10_conn metal9_conn -by Via9;
+    connect metal9_conn metal8_conn -by Via8;
+    connect metal8_conn metal7_conn -by Via7;
+    connect metal7_conn metal6_conn -by Via6;
+    connect metal6_conn metal5_conn -by Via5;
+    connect metal5_conn metal4_conn -by Via4;
+    connect metal4_conn metal3_conn -by Via3;
+    connect metal3_conn metal2_conn -by Via2;
+    connect metal2_conn metal1_wo_diode -by Via1;
+    connect metal1_wo_diode Poly -by cont_poly;
+    connect gate Poly;
+
+    rule ANT.5.V9 {
+        caption ANT.5.V9: Via9 area to gate area ratio must be <= 25.0;
+        antenna metal10_conn Via9 gate -gt 25.0 -expr
+        "(area(Via9)/area(gate))";
+    }
+
+#endif
+
+#ifdef CHECK_VIA10_ANT_5
+
+    disconnect;
+    connect metal11_conn metal10_conn -by Via10;
+    connect metal10_conn metal9_conn -by Via9;
+    connect metal9_conn metal8_conn -by Via8;
+    connect metal8_conn metal7_conn -by Via7;
+    connect metal7_conn metal6_conn -by Via6;
+    connect metal6_conn metal5_conn -by Via5;
+    connect metal5_conn metal4_conn -by Via4;
+    connect metal4_conn metal3_conn -by Via3;
+    connect metal3_conn metal2_conn -by Via2;
+    connect metal2_conn metal1_wo_diode -by Via1;
+    connect metal1_wo_diode Poly -by cont_poly;
+    connect gate Poly;
+
+    rule ANT.5.V10 {
+        caption ANT.5.V10: Via10 area to gate area ratio must be <= 25.0;
+        antenna metal11_conn Via10 Via1 gate -gt 25.0 -expr
+        "(area(Via10)/area(gate))";
+    }
+
+#endif
+
+#ifdef CHECK_METAL11_ANT_6
+
+    disconnect;
+    connect metal11_conn metal10_conn -by Via10;
+    connect metal10_conn metal9_conn -by Via9;
+    connect metal9_conn metal8_conn -by Via8;
+    connect metal8_conn metal7_conn -by Via7;
+    connect metal7_conn metal6_conn -by Via6;
+    connect metal6_conn metal5_conn -by Via5;
+    connect metal5_conn metal4_conn -by Via4;
+    connect metal4_conn metal3_conn -by Via3;
+    connect metal3_conn metal2_conn -by Via2;
+    connect metal2_conn metal1_wo_diode -by Via1;
+    connect metal1_wo_diode Poly -by cont_poly;
+    connect gate Poly;
+
+    rule ANT.6.M1_11 {
+        caption ANT.6.M1_11: Cumulative Metal1 through Metal11 area to gate area ratio must be <= 1200.0;
+        antenna metal11_conn metal10_conn metal9_conn metal8_conn metal7_conn metal6_conn metal5_conn metal4_conn metal3_conn metal2_conn metal1_wo_diode gate -gt 1200.0 -expr
+        "((area(metal11_conn)+area(metal10_conn)+area(metal9_conn)+area(metal8_conn)+area(metal7_conn)+area(metal6_conn)+area(metal5_conn)+area(metal4_conn)+area(metal3_conn)+area(metal2_conn)+area(metal1_wo_diode))/area(gate))";
+    }
+
+#endif
+
+#ifdef CHECK_METAL10_ANT_7
+
+    disconnect;
+    connect metal10_conn metal9_conn -by Via9;
+    connect metal9_conn metal8_conn -by Via8;
+    connect metal8_conn metal7_conn -by Via7;
+    connect metal7_conn metal6_conn -by Via6;
+    connect metal6_conn metal5_conn -by Via5;
+    connect metal5_conn metal4_conn -by Via4;
+    connect metal4_conn metal3_conn -by Via3;
+    connect metal3_conn metal2_conn -by Via2;
+    connect metal2_conn metal1_with_diode -by Via1;
+    connect metal1_with_diode Poly -by cont_poly;
+    connect metal1_with_diode diff_diode -by cont_diode;
+    connect gate Poly;
+
+    rule ANT.7.M1_10 {
+        caption ANT.7.M1_10: Cumulative Metal1 through Metal10 area to gate area ratio must be <= 45000 + (diode area * 500);
+        antenna metal10_conn metal9_conn metal8_conn metal7_conn metal6_conn metal5_conn metal4_conn metal3_conn metal2_conn metal1_with_diode gate diff_diode -gt 0.0 -expr
+        "(((area(metal1_with_diode)+area(metal2_conn)+area(metal3_conn)+area(metal4_conn)+area(metal5_conn)+area(metal6_conn)+area(metal7_conn)+area(metal8_conn)+area(metal9_conn)+area(metal10_conn))/area(gate))-((area(diff_diode)*500.0)+45000.0))";
+    }
+
+#endif
+
+#ifdef CHECK_METAL11_ANT_7
+
+    disconnect;
+    connect metal11_conn metal10_conn -by Via10;
+    connect metal10_conn metal9_conn -by Via9;
+    connect metal9_conn metal8_conn -by Via8;
+    connect metal8_conn metal7_conn -by Via7;
+    connect metal7_conn metal6_conn -by Via6;
+    connect metal6_conn metal5_conn -by Via5;
+    connect metal5_conn metal4_conn -by Via4;
+    connect metal4_conn metal3_conn -by Via3;
+    connect metal3_conn metal2_conn -by Via2;
+    connect metal2_conn metal1_with_diode -by Via1;
+    connect metal1_with_diode Poly -by cont_poly;
+    connect metal1_with_diode diff_diode -by cont_diode;
+    connect gate Poly;
+
+    rule ANT.7.M1_11 {
+        caption ANT.7.M1_11: Cumulative Metal1 through Metal11 area to gate area ratio must be <= 55000 + (diode area * 7500);
+        antenna metal11_conn metal10_conn metal9_conn metal8_conn metal7_conn metal6_conn metal5_conn metal4_conn metal3_conn metal2_conn metal1_with_diode gate diff_diode -gt 0.0 -expr
+        "((area(metal1_with_diode)+area(metal2_conn)+area(metal3_conn)+area(metal4_conn)+area(metal5_conn)+area(metal6_conn)+area(metal7_conn)+area(metal8_conn)+area(metal9_conn)+area(metal10_conn)+area(metal11_conn)/area(gate))-((area(diff_diode)*7500.0)+55000.0))";
+    }
+
+#endif
+
+#ifdef CHECK_VIA1_ANT_8
+
+    disconnect;
+    connect metal2_conn metal1_with_diode -by Via1;
+    connect metal1_with_diode Poly -by cont_poly;
+    connect metal1_with_diode diff_diode -by cont_diode;
+    connect gate Poly;
+
+    rule ANT.8.V1_1 {
+        caption ANT.8.V1_1: Via1 area to gate area ratio must be <= 1000 + (diode area * 250);
+        antenna metal2_conn Via1 gate diff_diode -gt 0.0 -expr
+        "((area(Via1)/area(gate))-((area(diff_diode)*250.0)+1000.0))";
+    }
+
+#endif
+
+#ifdef CHECK_VIA2_ANT_8
+
+    disconnect;
+    connect metal3_conn metal2_conn -by Via2;
+    connect metal2_conn metal1_with_diode -by Via1;
+    connect metal1_with_diode Poly -by cont_poly;
+    connect metal1_with_diode diff_diode -by cont_diode;
+    connect gate Poly;
+
+    rule ANT.8.V1_2 {
+        caption ANT.8.V1_2: Cumulative Via1 through Via2 area to gate area ratio must be <= 1000 + (diode area * 250);
+        antenna metal3_conn Via2 Via1 gate diff_diode -gt 0.0 -expr
+        "(((area(Via1)+area(Via2))/area(gate))-((area(diff_diode)*250.0)+1000.0))";
+    }
+
+#endif
+
+#ifdef CHECK_VIA3_ANT_8
+
+    disconnect;
+    connect metal4_conn metal3_conn -by Via3;
+    connect metal3_conn metal2_conn -by Via2;
+    connect metal2_conn metal1_with_diode -by Via1;
+    connect metal1_with_diode Poly -by cont_poly;
+    connect metal1_with_diode diff_diode -by cont_diode;
+    connect gate Poly;
+
+    rule ANT.8.V1_3 {
+        caption ANT.8.V1_3: Cumulative Via1 through Via3 area to gate area ratio must be <= 1000 + (diode area * 250);
+        antenna metal4_conn Via3 Via2 Via1 gate diff_diode -gt 0.0 -expr
+        "(((area(Via1)+area(Via2)+area(Via3))/area(gate))-((area(diff_diode)*250.0)+1000.0))";
+    }
+
+#endif
+
+#ifdef CHECK_VIA4_ANT_8
+
+    disconnect;
+    connect metal5_conn metal4_conn -by Via4;
+    connect metal4_conn metal3_conn -by Via3;
+    connect metal3_conn metal2_conn -by Via2;
+    connect metal2_conn metal1_with_diode -by Via1;
+    connect metal1_with_diode Poly -by cont_poly;
+    connect metal1_with_diode diff_diode -by cont_diode;
+    connect gate Poly;
+
+    rule ANT.8.V1_4 {
+        caption ANT.8.V1_4: Cumulative Via1 through Via4 area to gate area ratio must be <= 1000 + (diode area * 250);
+        antenna metal5_conn Via4 Via3 Via2 Via1 gate diff_diode -gt 0.0 -expr
+        "(((area(Via1)+area(Via2)+area(Via3)+area(Via4))/area(gate))-((area(diff_diode)*250.0)+1000.0))";
+    }
+
+#endif
+
+#ifdef CHECK_VIA5_ANT_8
+
+    disconnect;
+    connect metal6_conn metal5_conn -by Via5;
+    connect metal5_conn metal4_conn -by Via4;
+    connect metal4_conn metal3_conn -by Via3;
+    connect metal3_conn metal2_conn -by Via2;
+    connect metal2_conn metal1_with_diode -by Via1;
+    connect metal1_with_diode Poly -by cont_poly;
+    connect metal1_with_diode diff_diode -by cont_diode;
+    connect gate Poly;
+
+    rule ANT.8.V1_5 {
+        caption ANT.8.V1_5: Cumulative Via1 through Via5 area to gate area ratio must be <= 1000 + (diode area * 250);
+        antenna metal6_conn Via5 Via4 Via3 Via2 Via1 gate diff_diode -gt 0.0 -expr
+        "(((area(Via1)+area(Via2)+area(Via3)+area(Via4)+area(Via5))/area(gate))-((area(diff_diode)*250.0)+1000.0))";
+    }
+
+#endif
+
+#ifdef CHECK_VIA6_ANT_8
+
+    disconnect;
+    connect metal7_conn metal6_conn -by Via6;
+    connect metal6_conn metal5_conn -by Via5;
+    connect metal5_conn metal4_conn -by Via4;
+    connect metal4_conn metal3_conn -by Via3;
+    connect metal3_conn metal2_conn -by Via2;
+    connect metal2_conn metal1_with_diode -by Via1;
+    connect metal1_with_diode Poly -by cont_poly;
+    connect metal1_with_diode diff_diode -by cont_diode;
+    connect gate Poly;
+
+    rule ANT.8.V1_6 {
+        caption ANT.8.V1_6: Cumulative Via1 through Via6 area to gate area ratio must be <= 1000 + (diode area * 250);
+        antenna metal7_conn Via6 Via5 Via4 Via3 Via2 Via1 gate diff_diode -gt 0.0 -expr
+        "(((area(Via1)+area(Via2)+area(Via3)+area(Via4)+area(Via5)+area(Via6))/area(gate))-((area(diff_diode)*250.0)+1000.0))";
+    }
+
+#endif
+
+#ifdef CHECK_VIA7_ANT_8
+
+    disconnect;
+    connect metal8_conn metal7_conn -by Via7;
+    connect metal7_conn metal6_conn -by Via6;
+    connect metal6_conn metal5_conn -by Via5;
+    connect metal5_conn metal4_conn -by Via4;
+    connect metal4_conn metal3_conn -by Via3;
+    connect metal3_conn metal2_conn -by Via2;
+    connect metal2_conn metal1_with_diode -by Via1;
+    connect metal1_with_diode Poly -by cont_poly;
+    connect metal1_with_diode diff_diode -by cont_diode;
+    connect gate Poly;
+
+    rule ANT.8.V1_7 {
+        caption ANT.8.V1_7: Cumulative Via1 through Via7 area to gate area ratio must be <= 1000 + (diode area * 250);
+        antenna metal8_conn Via7 Via6 Via5 Via4 Via3 Via2 Via1 gate diff_diode -gt 0.0 -expr
+        "(((area(Via1)+area(Via2)+area(Via3)+area(Via4)+area(Via5)+area(Via6)+area(Via7))/area(gate))-((area(diff_diode)*250.0)+1000.0))";
+    }
+
+#endif
+
+#ifdef CHECK_VIA8_ANT_8
+
+    disconnect;
+    connect metal9_conn metal8_conn -by Via8;
+    connect metal8_conn metal7_conn -by Via7;
+    connect metal7_conn metal6_conn -by Via6;
+    connect metal6_conn metal5_conn -by Via5;
+    connect metal5_conn metal4_conn -by Via4;
+    connect metal4_conn metal3_conn -by Via3;
+    connect metal3_conn metal2_conn -by Via2;
+    connect metal2_conn metal1_with_diode -by Via1;
+    connect metal1_with_diode Poly -by cont_poly;
+    connect metal1_with_diode diff_diode -by cont_diode;
+    connect gate Poly;
+
+    rule ANT.8.V1_8 {
+        caption ANT.8.V1_8: Cumulative Via1 through Via8 area to gate area ratio must be <= 1000 + (diode area * 250);
+        antenna metal9_conn Via8 Via7 Via6 Via5 Via4 Via3 Via2 Via1 gate diff_diode -gt 0.0 -expr
+        "(((area(Via1)+area(Via2)+area(Via3)+area(Via4)+area(Via5)+area(Via6)+area(Via7)+area(Via8))/area(gate))-((area(diff_diode)*250.0)+1000.0))";
+    }
+
+#endif
+
+#ifdef CHECK_VIA9_ANT_8
+
+    disconnect;
+    connect metal10_conn metal9_conn -by Via9;
+    connect metal9_conn metal8_conn -by Via8;
+    connect metal8_conn metal7_conn -by Via7;
+    connect metal7_conn metal6_conn -by Via6;
+    connect metal6_conn metal5_conn -by Via5;
+    connect metal5_conn metal4_conn -by Via4;
+    connect metal4_conn metal3_conn -by Via3;
+    connect metal3_conn metal2_conn -by Via2;
+    connect metal2_conn metal1_with_diode -by Via1;
+    connect metal1_with_diode Poly -by cont_poly;
+    connect metal1_with_diode diff_diode -by cont_diode;
+    connect gate Poly;
+
+    rule ANT.8.V1_9 {
+        caption ANT.8.V1_9: Cumulative Via1 through Via9 area to gate area ratio must be <= 1000 + (diode area * 250);
+        antenna metal10_conn Via9 Via8 Via7 Via6 Via5 Via4 Via3 Via2 Via1 gate diff_diode -gt 0.0 -expr
+        "(((area(Via1)+area(Via2)+area(Via3)+area(Via4)+area(Via5)+area(Via6)+area(Via7)+area(Via8)+area(Via9))/area(gate))-((area(diff_diode)*250.0)+1000.0))";
+    }
+
+#endif
+
+#ifdef CHECK_VIA10_ANT_8
+
+    disconnect;
+    connect metal11_conn metal10_conn -by Via10;
+    connect metal10_conn metal9_conn -by Via9;
+    connect metal9_conn metal8_conn -by Via8;
+    connect metal8_conn metal7_conn -by Via7;
+    connect metal7_conn metal6_conn -by Via6;
+    connect metal6_conn metal5_conn -by Via5;
+    connect metal5_conn metal4_conn -by Via4;
+    connect metal4_conn metal3_conn -by Via3;
+    connect metal3_conn metal2_conn -by Via2;
+    connect metal2_conn metal1_with_diode -by Via1;
+    connect metal1_with_diode Poly -by cont_poly;
+    connect metal1_with_diode diff_diode -by cont_diode;
+    connect gate Poly;
+
+    rule ANT.8.V1_10 {
+        caption ANT.8.V1_10: Cumulative Via1 through Via10 area to gate area ratio must be <= 1000 + (diode area * 250);
+        antenna metal11_conn Via10 Via9 Via8 Via7 Via6 Via5 Via4 Via3 Via2 Via1 gate diff_diode -gt 0.0 -expr
+        "(((area(Via1)+area(Via2)+area(Via3)+area(Via4)+area(Via5)+area(Via6)+area(Via7)+area(Via8)+area(Via9)+area(Via10))/area(gate))-((area(diff_diode)*250.0)+1000.0))";
+    }
+
+#endif
+

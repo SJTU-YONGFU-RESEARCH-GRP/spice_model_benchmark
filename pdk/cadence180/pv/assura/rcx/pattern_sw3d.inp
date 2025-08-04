@@ -1,0 +1,705 @@
+BEGIN PATTERN SW3D_A_1_0 1
+
+    BEGIN PARAMETER DECLARATION
+        LAYER 1
+        LAYER 2 (WIDTH W, LENGTH L)
+        LAYER 3 (WIDTH W, LENGTH L)
+    END PARAMETER DECLARATION
+
+    WINDOW (LENGTH = 3 * 4, WIDTH = 3 * 4)
+
+    BLOCKS IN LAYER 1
+        BLOCK 1 = WINDOW
+    END BLOCKS IN LAYER
+
+    BLOCKS IN LAYER 2
+           BLOCK 2 (C_X = 0, C_Y = 0,
++                    WIDTH = W(2),
++                    LENGTH = (2 * L(2) + W(3)))
+    END BLOCKS IN LAYER
+
+    BLOCKS IN LAYER 3
+           BLOCK 3 (C_X = 0, C_Y = 0,
++                    WIDTH = (2 * L(3) + W(2)),
++                    LENGTH = W(3))
+    END BLOCKS IN LAYER
+
+    COMPUTE C(2,1), C(2,3), C(3,1)
+END PATTERN
+
+
+BEGIN PATTERN SW3D_A_1_1 2
+
+    BEGIN PARAMETER DECLARATION
+        LAYER 1
+        LAYER 2 (WIDTH W, LENGTH L)
+        LAYER 3 (WIDTH W, LENGTH L)
+        LAYER 4
+    END PARAMETER DECLARATION
+
+    WINDOW (LENGTH = 3 * 4, WIDTH = 3 * 4)
+
+    BLOCKS IN LAYER 1
+        BLOCK 1 = WINDOW
+    END BLOCKS IN LAYER
+
+    BLOCKS IN LAYER 2
+           BLOCK 2 (C_X = 0, C_Y = 0,
++                    WIDTH = W(2),
++                    LENGTH = (2 * L(2) + W(3)))
+    END BLOCKS IN LAYER
+
+    BLOCKS IN LAYER 3
+           BLOCK 3 (C_X = 0, C_Y = 0,
++                    WIDTH = (2 * L(3) + W(2)),
++                    LENGTH = W(3))
+    END BLOCKS IN LAYER
+
+    BLOCKS IN LAYER 4
+        BLOCK 4 = WINDOW
+    END BLOCKS IN LAYER
+
+    COMPUTE C(2,1), C(2,3), C(2,4), C(3,1), C(3,4)
+END PATTERN
+
+
+BEGIN PATTERN SW3D_B_1_0 3
+
+    BEGIN PARAMETER DECLARATION
+        LAYER 1
+        LAYER 2 (WIDTH W, LENGTH L, SEPR S)
+        LAYER 3 (WIDTH W)
+    END PARAMETER DECLARATION
+
+    WINDOW (LENGTH = 3 * 4, WIDTH = 3 * 4)
+
+    BLOCKS IN LAYER 1
+        BLOCK 1 = WINDOW
+    END BLOCKS IN LAYER
+
+    BLOCKS IN LAYER 2
+           BLOCK 2 (C_X = 0, C_Y = 0,
++                    WIDTH = W(2),
++                    LENGTH = (2 * L(2) + W(3)))
+           BLOCK 3 (C_X = -(W(2) + S(2)), C_Y = 0,
++                    WIDTH = W(2),
++                    LENGTH = (2 * L(2) + W(3)))
+           BLOCK 4 (C_X = (W(2) + S(2)), C_Y = 0,
++                    WIDTH = W(2),
++                    LENGTH = (2 * L(2) + W(3)))
+    END BLOCKS IN LAYER
+
+    BLOCKS IN LAYER 3
+           BLOCK 5 (C_X = 0, C_Y = 0,
++                    WIDTH = (2 * S(2) + 3 * W(2)),
++                    LENGTH = W(3))
+    END BLOCKS IN LAYER
+
+    COMPUTE C(2,1), C(2,5), C(2,3), C(5,1)
+END PATTERN
+
+
+BEGIN PATTERN SW3D_B_1_1 4
+
+    BEGIN PARAMETER DECLARATION
+        LAYER 1
+        LAYER 2 (WIDTH W, LENGTH L, SEPR S)
+        LAYER 3 (WIDTH W)
+        LAYER 4
+    END PARAMETER DECLARATION
+
+    WINDOW (LENGTH = 3 * 4, WIDTH = 3 * 4)
+
+    BLOCKS IN LAYER 1
+        BLOCK 1 = WINDOW
+    END BLOCKS IN LAYER
+
+    BLOCKS IN LAYER 2
+           BLOCK 2 (C_X = 0, C_Y = 0,
++                    WIDTH = W(2),
++                    LENGTH = (2 * L(2) + W(3)))
+           BLOCK 3 (C_X = -(W(2) + S(2)), C_Y = 0,
++                    WIDTH = W(2),
++                    LENGTH = (2 * L(2) + W(3)))
+           BLOCK 4 (C_X = (W(2) + S(2)), C_Y = 0,
++                    WIDTH = W(2),
++                    LENGTH = (2 * L(2) + W(3)))
+    END BLOCKS IN LAYER
+
+    BLOCKS IN LAYER 3
+           BLOCK 5 (C_X = 0, C_Y = 0,
++                    WIDTH = (2 * S(2) + 3 * W(2)),
++                    LENGTH = W(3))
+    END BLOCKS IN LAYER
+
+    BLOCKS IN LAYER 4
+        BLOCK 6 = WINDOW
+    END BLOCKS IN LAYER
+
+    COMPUTE C(2,1), C(2,5), C(2,3), C(2,6), C(5,1), C(5,6)
+END PATTERN
+
+
+BEGIN PATTERN SW3D_C_1_0 5
+
+    BEGIN PARAMETER DECLARATION
+        LAYER 1
+        LAYER 2 (WIDTH W)
+        LAYER 3 (WIDTH W, LENGTH L, SEPR S)
+    END PARAMETER DECLARATION
+
+    WINDOW (LENGTH = 3 * 4, WIDTH = 3 * 4)
+
+    BLOCKS IN LAYER 1
+        BLOCK 1 = WINDOW
+    END BLOCKS IN LAYER
+
+    BLOCKS IN LAYER 2
+           BLOCK 2 (C_X = 0, C_Y = 0,
++                    WIDTH = (2 * S(3) + 3 * W(3)),
++                    LENGTH = W(2))
+    END BLOCKS IN LAYER
+
+    BLOCKS IN LAYER 3
+           BLOCK 3 (C_X = 0, C_Y = 0,
++                    WIDTH = W(3),
++                    LENGTH = (2 * L(3) + W(2)))
+           BLOCK 4 (C_X = -(W(3) + S(3)), C_Y = 0,
++                    WIDTH = W(3),
++                    LENGTH = (2 * L(3) + W(2)))
+           BLOCK 5 (C_X = (W(3) + S(3)), C_Y = 0,
++                    WIDTH = W(3),
++                    LENGTH = (2 * L(3) + W(2)))
+    END BLOCKS IN LAYER
+
+    COMPUTE C(2,1), C(2,3), C(3,1), C(3,4)
+END PATTERN
+
+
+BEGIN PATTERN SW3D_C_1_1 6
+
+    BEGIN PARAMETER DECLARATION
+        LAYER 1
+        LAYER 2 (WIDTH W)
+        LAYER 3 (WIDTH W, LENGTH L, SEPR S)
+        LAYER 4
+    END PARAMETER DECLARATION
+
+    WINDOW (LENGTH = 3 * 4, WIDTH = 3 * 4)
+
+    BLOCKS IN LAYER 1
+        BLOCK 1 = WINDOW
+    END BLOCKS IN LAYER
+
+    BLOCKS IN LAYER 2
+           BLOCK 2 (C_X = 0, C_Y = 0,
++                    WIDTH = (2 * S(3) + 3 * W(3)),
++                    LENGTH = W(2))
+    END BLOCKS IN LAYER
+
+    BLOCKS IN LAYER 3
+           BLOCK 3 (C_X = 0, C_Y = 0,
++                    WIDTH = W(3),
++                    LENGTH = (2 * L(3) + W(2)))
+           BLOCK 4 (C_X = -(W(3) + S(3)), C_Y = 0,
++                    WIDTH = W(3),
++                    LENGTH = (2 * L(3) + W(2)))
+           BLOCK 5 (C_X = (W(3) + S(3)), C_Y = 0,
++                    WIDTH = W(3),
++                    LENGTH = (2 * L(3) + W(2)))
+    END BLOCKS IN LAYER
+
+    BLOCKS IN LAYER 4
+        BLOCK 6 = WINDOW
+    END BLOCKS IN LAYER
+
+    COMPUTE C(2,1), C(2,3), C(2,6), C(3,1),C(3,4), C(3,6)
+END PATTERN
+
+
+BEGIN PATTERN SW3D_D_1_0 7
+
+    BEGIN PARAMETER DECLARATION
+        LAYER 1
+        LAYER 2 (WIDTH W, SEPR S)
+        LAYER 3 (WIDTH W, SEPR S)
+    END PARAMETER DECLARATION
+
+    WINDOW (LENGTH = 3 * 4, WIDTH = 3 * 4)
+
+    BLOCKS IN LAYER 1
+        BLOCK 1 = WINDOW
+    END BLOCKS IN LAYER
+
+    BLOCKS IN LAYER 2
+           BLOCK 2 (C_X = 0, C_Y = 0,
++                    WIDTH = W(2),
++                    LENGTH = (4 * S(3) + 5 * W(3)))
+           BLOCK 3 (C_X = -(W(2) + S(2)), C_Y = 0,
++                    WIDTH = W(2),
++                    LENGTH = (4 * S(3) + 5 * W(3)))
+           BLOCK 4 (C_X = (W(2) + S(2)), C_Y = 0,
++                    WIDTH = W(2),
++                    LENGTH = (4 * S(3) + 5 * W(3)))
+           BLOCK 5 (C_X = -2 * (W(2) + S(2)), C_Y = 0,
++                    WIDTH = W(2),
++                    LENGTH = (4 * S(3) + 5 * W(3)))
+           BLOCK 6 (C_X = 2 * (W(2) + S(2)), C_Y = 0,
++                    WIDTH = W(2),
++                    LENGTH = (4 * S(3) + 5 * W(3)))
+    END BLOCKS IN LAYER
+
+    BLOCKS IN LAYER 3
+           BLOCK 7 (C_X = 0, C_Y = 0,
++                    WIDTH = (4 * S(2) + 5 * W(2)),
++                    LENGTH = W(3))
+           BLOCK 8 (C_X = 0, C_Y = -(W(3) + S(3)),
++                    WIDTH = (4 * S(2) + 5 * W(2)),
++                    LENGTH = W(3))
+           BLOCK 9 (C_X = 0, C_Y = (W(3) + S(3)),
++                    WIDTH = (4 * S(2) + 5 * W(2)),
++                    LENGTH = W(3))
+           BLOCK 10 (C_X = 0, C_Y = -2 * (W(3) + S(3)),
++                    WIDTH = (4 * S(2) + 5 * W(2)),
++                    LENGTH = W(3))
+           BLOCK 11 (C_X = 0, C_Y = 2 * (W(3) + S(3)),
++                    WIDTH = (4 * S(2) + 5 * W(2)),
++                    LENGTH = W(3))
+    END BLOCKS IN LAYER
+
+    COMPUTE C(2,1), C(2,7), C(2,3), C(7,1), C(7,8), C(2,5), C(7,10), C(4,5), C(9,10)
+END PATTERN
+
+
+BEGIN PATTERN SW3D_D_1_1 8
+
+    BEGIN PARAMETER DECLARATION
+        LAYER 1
+        LAYER 2 (WIDTH W, SEPR S)
+        LAYER 3 (WIDTH W, SEPR S)
+        LAYER 4
+    END PARAMETER DECLARATION
+
+    WINDOW (LENGTH = 3 * 4, WIDTH = 3 * 4)
+
+    BLOCKS IN LAYER 1
+        BLOCK 1 = WINDOW
+    END BLOCKS IN LAYER
+
+    BLOCKS IN LAYER 2
+           BLOCK 2 (C_X = 0, C_Y = 0,
++                    WIDTH = W(2),
++                    LENGTH = (4 * S(3) + 5 * W(3)))
+           BLOCK 3 (C_X = -(W(2) + S(2)), C_Y = 0,
++                    WIDTH = W(2),
++                    LENGTH = (4 * S(3) + 5 * W(3)))
+           BLOCK 4 (C_X = (W(2) + S(2)), C_Y = 0,
++                    WIDTH = W(2),
++                    LENGTH = (4 * S(3) + 5 * W(3)))
+           BLOCK 5 (C_X = -2 * (W(2) + S(2)), C_Y = 0,
++                    WIDTH = W(2),
++                    LENGTH = (4 * S(3) + 5 * W(3)))
+           BLOCK 6 (C_X = 2 * (W(2) + S(2)), C_Y = 0,
++                    WIDTH = W(2),
++                    LENGTH = (4 * S(3) + 5 * W(3)))
+    END BLOCKS IN LAYER
+
+    BLOCKS IN LAYER 3
+           BLOCK 7 (C_X = 0, C_Y = 0,
++                    WIDTH = (4 * S(2) + 5 * W(2)),
++                    LENGTH = W(3))
+           BLOCK 8 (C_X = 0, C_Y = -(W(3) + S(3)),
++                    WIDTH = (4 * S(2) + 5 * W(2)),
++                    LENGTH = W(3))
+           BLOCK 9 (C_X = 0, C_Y = (W(3) + S(3)),
++                    WIDTH = (4 * S(2) + 5 * W(2)),
++                    LENGTH = W(3))
+           BLOCK 10 (C_X = 0, C_Y = -2 * (W(3) + S(3)),
++                    WIDTH = (4 * S(2) + 5 * W(2)),
++                    LENGTH = W(3))
+           BLOCK 11 (C_X = 0, C_Y = 2 * (W(3) + S(3)),
++                    WIDTH = (4 * S(2) + 5 * W(2)),
++                    LENGTH = W(3))
+    END BLOCKS IN LAYER
+
+    BLOCKS IN LAYER 4
+        BLOCK 12 = WINDOW
+    END BLOCKS IN LAYER
+
+    COMPUTE C(2,1), C(2,7), C(2,3), C(2,12), C(7,1), C(7,8), C(7,12), C(2,5), C(7,10), C(4,5), C(9,10)
+END PATTERN
+
+
+BEGIN PATTERN SW3D_E_1_0 9
+
+    BEGIN PARAMETER DECLARATION
+        LAYER 1
+        LAYER 2 (WIDTH W, LENGTH L)
+        LAYER 3 (WIDTH W, LENGTH L)
+    END PARAMETER DECLARATION
+
+    WINDOW (LENGTH = 3 * 4, WIDTH = 3 * 4)
+
+    BLOCKS IN LAYER 1
+        BLOCK 1 = WINDOW
+    END BLOCKS IN LAYER
+
+    BLOCKS IN LAYER 2
+           BLOCK 2 (C_X = W(2) / 2, C_Y = -(L(3) + W(3)) / 2,
++                    WIDTH = (L(2) + W(3)),
++                    LENGTH = W(2))
+           BLOCK 2 (C_X = -(W(3) + L(2)) / 2, C_Y = 0,
++                    WIDTH = W(2),
++                    LENGTH = (L(3) + W(2) + W(3)))
+    END BLOCKS IN LAYER
+
+    BLOCKS IN LAYER 3
+           BLOCK 3 (C_X = -W(3) / 2, C_Y = (L(3) + W(2)) / 2,
++                    WIDTH = (W(2) + L(2)),
++                    LENGTH = W(3))
+           BLOCK 3 (C_X = (W(2) + L(2)) / 2, C_Y = 0,
++                    WIDTH = W(3),
++                    LENGTH = (L(3) + W(2) + W(3)))
+    END BLOCKS IN LAYER
+
+    COMPUTE C(2,1), C(2,3), C(3,1)
+END PATTERN
+
+
+BEGIN PATTERN SW3D_E_1_1 10
+
+    BEGIN PARAMETER DECLARATION
+        LAYER 1
+        LAYER 2 (WIDTH W, LENGTH L)
+        LAYER 3 (WIDTH W, LENGTH L)
+        LAYER 4
+    END PARAMETER DECLARATION
+
+    WINDOW (LENGTH = 3 * 4, WIDTH = 3 * 4)
+
+    BLOCKS IN LAYER 1
+        BLOCK 1 = WINDOW
+    END BLOCKS IN LAYER
+
+    BLOCKS IN LAYER 2
+           BLOCK 2 (C_X = W(2) / 2, C_Y = -(L(3) + W(3)) / 2,
++                    WIDTH = (L(2) + W(3)),
++                    LENGTH = W(2))
+           BLOCK 2 (C_X = -(W(3) + L(2)) / 2, C_Y = 0,
++                    WIDTH = W(2),
++                    LENGTH = (L(3) + W(2) + W(3)))
+    END BLOCKS IN LAYER
+
+    BLOCKS IN LAYER 3
+           BLOCK 3 (C_X = -W(3) / 2, C_Y = (L(3) + W(2)) / 2,
++                    WIDTH = (W(2) + L(2)),
++                    LENGTH = W(3))
+           BLOCK 3 (C_X = (W(2) + L(2)) / 2, C_Y = 0,
++                    WIDTH = W(3),
++                    LENGTH = (L(3) + W(2) + W(3)))
+    END BLOCKS IN LAYER
+
+    BLOCKS IN LAYER 4
+        BLOCK 4 = WINDOW
+    END BLOCKS IN LAYER
+
+    COMPUTE C(2,1), C(2,3), C(2,4), C(3,1), C(3,4)
+END PATTERN
+
+
+BEGIN PATTERN SW3D_F_1_0 11
+
+    BEGIN PARAMETER DECLARATION
+        LAYER 1
+        LAYER 2 (WIDTH W, LENGTH L)
+        LAYER 3 (WIDTH W, LENGTH L)
+    END PARAMETER DECLARATION
+
+    WINDOW (LENGTH = 3 * 4, WIDTH = 3 * 4)
+
+    BLOCKS IN LAYER 1
+        BLOCK 1 = WINDOW
+    END BLOCKS IN LAYER
+
+    BLOCKS IN LAYER 2
+           BLOCK 2 (C_X = W(2) / 2, C_Y = -(L(2) + W(3)) / 2,
++                    WIDTH = L(3),
++                    LENGTH = W(2))
+           BLOCK 2 (C_X = -L(3) / 2, C_Y = 0,
++                    WIDTH = W(2),
++                    LENGTH = (L(2) + W(2) + W(3)))
+    END BLOCKS IN LAYER
+
+    BLOCKS IN LAYER 3
+           BLOCK 3 (C_X = 0, C_Y = (L(2) + W(2)) / 2,
++                    WIDTH = (W(2) + L(3)),
++                    LENGTH = W(3))
+    END BLOCKS IN LAYER
+
+    COMPUTE C(2,1), C(2,3), C(3,1)
+END PATTERN
+
+
+BEGIN PATTERN SW3D_F_1_1 12
+
+    BEGIN PARAMETER DECLARATION
+        LAYER 1
+        LAYER 2 (WIDTH W, LENGTH L)
+        LAYER 3 (WIDTH W, LENGTH L)
+        LAYER 4
+    END PARAMETER DECLARATION
+
+    WINDOW (LENGTH = 3 * 4, WIDTH = 3 * 4)
+
+    BLOCKS IN LAYER 1
+        BLOCK 1 = WINDOW
+    END BLOCKS IN LAYER
+
+    BLOCKS IN LAYER 2
+           BLOCK 2 (C_X = W(2) / 2, C_Y = -(L(2) + W(3)) / 2,
++                    WIDTH = L(3),
++                    LENGTH = W(2))
+           BLOCK 2 (C_X = -L(3) / 2, C_Y = 0,
++                    WIDTH = W(2),
++                    LENGTH = (L(2) + W(2) + W(3)))
+    END BLOCKS IN LAYER
+
+    BLOCKS IN LAYER 3
+           BLOCK 3 (C_X = 0, C_Y = (L(2) + W(2)) / 2,
++                    WIDTH = (W(2) + L(3)),
++                    LENGTH = W(3))
+    END BLOCKS IN LAYER
+
+    BLOCKS IN LAYER 4
+        BLOCK 4 = WINDOW
+    END BLOCKS IN LAYER
+
+    COMPUTE C(2,1), C(2,3), C(2,4), C(3,1), C(3,4)
+END PATTERN
+
+
+BEGIN PATTERN SW3D_G_1_0 13
+
+    BEGIN PARAMETER DECLARATION
+        LAYER 1
+        LAYER 2 (WIDTH W, LENGTH L)
+        LAYER 3 (WIDTH W, LENGTH L)
+    END PARAMETER DECLARATION
+
+    WINDOW (LENGTH = 3 * 4, WIDTH = 3 * 4)
+
+    BLOCKS IN LAYER 1
+        BLOCK 1 = WINDOW
+    END BLOCKS IN LAYER
+
+    BLOCKS IN LAYER 2
+           BLOCK 2 (C_X = 0, C_Y = (L(2) + W(3)) / 2,
++                    WIDTH = (W(3) + L(2)),
++                    LENGTH = W(2))
+    END BLOCKS IN LAYER
+
+    BLOCKS IN LAYER 3
+           BLOCK 3 (C_X = -L(2) / 2, C_Y = 0,
++                    WIDTH = W(3),
++                    LENGTH = (L(3) + W(2) + W(3)))
+           BLOCK 3 (C_X = W(3) / 2, C_Y = -(L(3) + W(2)) / 2,
++                    WIDTH = L(2),
++                    LENGTH = W(3))
+    END BLOCKS IN LAYER
+
+    COMPUTE C(2,1), C(2,3), C(3,1)
+END PATTERN
+
+
+BEGIN PATTERN SW3D_G_1_1 14
+
+    BEGIN PARAMETER DECLARATION
+        LAYER 1
+        LAYER 2 (WIDTH W, LENGTH L)
+        LAYER 3 (WIDTH W, LENGTH L)
+        LAYER 4
+    END PARAMETER DECLARATION
+
+    WINDOW (LENGTH = 3 * 4, WIDTH = 3 * 4)
+
+    BLOCKS IN LAYER 1
+        BLOCK 1 = WINDOW
+    END BLOCKS IN LAYER
+
+    BLOCKS IN LAYER 2
+           BLOCK 2 (C_X = 0, C_Y = (L(2) + W(3)) / 2,
++                    WIDTH = (W(3) + L(2)),
++                    LENGTH = W(2))
+    END BLOCKS IN LAYER
+
+    BLOCKS IN LAYER 3
+           BLOCK 3 (C_X = -L(2) / 2, C_Y = 0,
++                    WIDTH = W(3),
++                    LENGTH = (L(3) + W(2) + W(3)))
+           BLOCK 3 (C_X = W(3) / 2, C_Y = -(L(3) + W(2)) / 2,
++                    WIDTH = L(2),
++                    LENGTH = W(3))
+    END BLOCKS IN LAYER
+
+    BLOCKS IN LAYER 4
+        BLOCK 4 = WINDOW
+    END BLOCKS IN LAYER
+
+    COMPUTE C(2,1), C(2,3), C(2,4), C(3,1), C(3,4)
+END PATTERN
+
+
+BEGIN PATTERN SW3D_H_1_0 15
+
+    BEGIN PARAMETER DECLARATION
+        LAYER 1
+        LAYER 2 (WIDTH W, LENGTH L)
+        LAYER 3 (WIDTH W, LENGTH L)
+    END PARAMETER DECLARATION
+
+    WINDOW (LENGTH = 3 * 4, WIDTH = 3 * 4)
+
+    BLOCKS IN LAYER 1
+        BLOCK 1 = WINDOW
+    END BLOCKS IN LAYER
+
+    BLOCKS IN LAYER 2
+           BLOCK 2 (C_X = -(W(2) + L(3)) / 2, C_Y = 0,
++                    WIDTH = W(2),
++                    LENGTH = (L(2) + W(2) + W(3)))
+           BLOCK 2 (C_X = 0, C_Y = -(L(2) + W(3)) / 2,
++                    WIDTH = L(3),
++                    LENGTH = W(2))
+           BLOCK 2 (C_X = (W(2) + L(3)) / 2, C_Y = 0,
++                    WIDTH = W(2),
++                    LENGTH = (L(2) + W(2) + W(3)))
+    END BLOCKS IN LAYER
+
+    BLOCKS IN LAYER 3
+           BLOCK 3 (C_X = 0, C_Y = (L(2) + W(2)) / 2,
++                    WIDTH = (2 * W(2) + L(3)),
++                    LENGTH = W(3))
+    END BLOCKS IN LAYER
+
+    COMPUTE C(2,1), C(2,3), C(3,1)
+END PATTERN
+
+
+BEGIN PATTERN SW3D_H_1_1 16
+
+    BEGIN PARAMETER DECLARATION
+        LAYER 1
+        LAYER 2 (WIDTH W, LENGTH L)
+        LAYER 3 (WIDTH W, LENGTH L)
+        LAYER 4
+    END PARAMETER DECLARATION
+
+    WINDOW (LENGTH = 3 * 4, WIDTH = 3 * 4)
+
+    BLOCKS IN LAYER 1
+        BLOCK 1 = WINDOW
+    END BLOCKS IN LAYER
+
+    BLOCKS IN LAYER 2
+           BLOCK 2 (C_X = -(W(2) + L(3)) / 2, C_Y = 0,
++                    WIDTH = W(2),
++                    LENGTH = (L(2) + W(2) + W(3)))
+           BLOCK 2 (C_X = 0, C_Y = -(L(2) + W(3)) / 2,
++                    WIDTH = L(3),
++                    LENGTH = W(2))
+           BLOCK 2 (C_X = (W(2) + L(3)) / 2, C_Y = 0,
++                    WIDTH = W(2),
++                    LENGTH = (L(2) + W(2) + W(3)))
+    END BLOCKS IN LAYER
+
+    BLOCKS IN LAYER 3
+           BLOCK 3 (C_X = 0, C_Y = (L(2) + W(2)) / 2,
++                    WIDTH = (2 * W(2) + L(3)),
++                    LENGTH = W(3))
+    END BLOCKS IN LAYER
+
+    BLOCKS IN LAYER 4
+        BLOCK 4 = WINDOW
+    END BLOCKS IN LAYER
+
+    COMPUTE C(2,1), C(2,3), C(2,4), C(3,1), C(3,4)
+END PATTERN
+
+
+BEGIN PATTERN SW3D_I_1_0 17
+
+    BEGIN PARAMETER DECLARATION
+        LAYER 1
+        LAYER 2 (WIDTH W, LENGTH L)
+        LAYER 3 (WIDTH W, LENGTH L)
+    END PARAMETER DECLARATION
+
+    WINDOW (LENGTH = 3 * 4, WIDTH = 3 * 4)
+
+    BLOCKS IN LAYER 1
+        BLOCK 1 = WINDOW
+    END BLOCKS IN LAYER
+
+    BLOCKS IN LAYER 2
+           BLOCK 2 (C_X = 0, C_Y = (L(3) + W(3)) / 2,
++                    WIDTH = (2 * W(3) + L(2)),
++                    LENGTH = W(2))
+    END BLOCKS IN LAYER
+
+    BLOCKS IN LAYER 3
+           BLOCK 3 (C_X = -(W(3) + L(2)) / 2, C_Y = 0,
++                    WIDTH = W(3),
++                    LENGTH = (L(3) + W(2) + W(3)))
+           BLOCK 3 (C_X = 0, C_Y = -(L(3) + W(2)) / 2,
++                    WIDTH = L(2),
++                    LENGTH = W(3))
+           BLOCK 3 (C_X = (W(3) + L(2)) / 2, C_Y = 0,
++                    WIDTH = W(3),
++                    LENGTH = (L(3) + W(2) + W(3)))
+    END BLOCKS IN LAYER
+
+    COMPUTE C(2,1), C(2,3), C(3,1)
+END PATTERN
+
+
+BEGIN PATTERN SW3D_I_1_1 18
+
+    BEGIN PARAMETER DECLARATION
+        LAYER 1
+        LAYER 2 (WIDTH W, LENGTH L)
+        LAYER 3 (WIDTH W, LENGTH L)
+        LAYER 4
+    END PARAMETER DECLARATION
+
+    WINDOW (LENGTH = 3 * 4, WIDTH = 3 * 4)
+
+    BLOCKS IN LAYER 1
+        BLOCK 1 = WINDOW
+    END BLOCKS IN LAYER
+
+    BLOCKS IN LAYER 2
+           BLOCK 2 (C_X = 0, C_Y = (L(3) + W(3)) / 2,
++                    WIDTH = (2 * W(3) + L(2)),
++                    LENGTH = W(2))
+    END BLOCKS IN LAYER
+
+    BLOCKS IN LAYER 3
+           BLOCK 3 (C_X = -(W(3) + L(2)) / 2, C_Y = 0,
++                    WIDTH = W(3),
++                    LENGTH = (L(3) + W(2) + W(3)))
+           BLOCK 3 (C_X = 0, C_Y = -(L(3) + W(2)) / 2,
++                    WIDTH = L(2),
++                    LENGTH = W(3))
+           BLOCK 3 (C_X = (W(3) + L(2)) / 2, C_Y = 0,
++                    WIDTH = W(3),
++                    LENGTH = (L(3) + W(2) + W(3)))
+    END BLOCKS IN LAYER
+
+    BLOCKS IN LAYER 4
+        BLOCK 4 = WINDOW
+    END BLOCKS IN LAYER
+
+    COMPUTE C(2,1), C(2,3), C(2,4), C(3,1), C(3,4)
+END PATTERN
+
+

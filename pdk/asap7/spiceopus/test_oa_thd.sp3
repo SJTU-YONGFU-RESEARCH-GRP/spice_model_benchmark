@@ -1,0 +1,20 @@
+test_oa_thd.sp3
+* Harmonic distortion analysis
+
+.control
+
+delcirc all
+destroy all
+delete all
+save all
+
+source oa_follower_sin.cir
+tran 1u 2m 1m 1u
+
+let vout=v(vout)
+plot vout xlabel 'Time [s]' ylabel 'Output Voltage [V]'
+fourier 10k vout
+
+.endc
+
+.end

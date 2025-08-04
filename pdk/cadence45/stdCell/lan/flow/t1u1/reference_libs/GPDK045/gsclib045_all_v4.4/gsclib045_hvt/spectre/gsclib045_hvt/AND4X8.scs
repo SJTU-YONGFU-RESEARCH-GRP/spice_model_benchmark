@@ -1,0 +1,41 @@
+// Generated for: spectre (Apr  5 14:19:12 2013 )
+// Library name: gsclib045_hvt
+// Cell name: AND4X8
+// View name: schematic
+
+simulator lang=spectre
+
+subckt AND4X8 A B C D Y VDD VSS
+mp3 (net116 D VDD VDD) g45p1hvt w=(780n) l=45n nf=1 as=109.2f ad=109.2f \
+        ps=1.84u pd=1.84u nrd=179.487m nrs=179.487m sa=140n sb=140n \
+        sd=160n sca=80.49887 scb=0.07059 scc=0.00954 m=(1)
+mp2 (net116 C VDD VDD) g45p1hvt w=(780n) l=45n nf=1 as=109.2f ad=109.2f \
+        ps=1.84u pd=1.84u nrd=179.487m nrs=179.487m sa=140n sb=140n \
+        sd=160n sca=80.49887 scb=0.07059 scc=0.00954 m=(1)
+mp1 (net116 B VDD VDD) g45p1hvt w=(780n) l=45n nf=1 as=109.2f ad=109.2f \
+        ps=1.84u pd=1.84u nrd=179.487m nrs=179.487m sa=140n sb=140n \
+        sd=160n sca=80.49887 scb=0.07059 scc=0.00954 m=(1)
+mp4 (Y net116 VDD VDD) g45p1hvt w=(3.115u) l=45n nf=1 as=436.1f \
+        ad=436.1f ps=6.51u pd=6.51u nrd=44.9438m nrs=44.9438m sa=140n \
+        sb=140n sd=160n sca=51.31501 scb=0.05377 scc=0.00636 m=(1)
+mp0 (net116 A VDD VDD) g45p1hvt w=(780n) l=45n nf=1 as=109.2f ad=109.2f \
+        ps=1.84u pd=1.84u nrd=179.487m nrs=179.487m sa=140n sb=140n \
+        sd=160n sca=80.49887 scb=0.07059 scc=0.00954 m=(1)
+mn3 (net116 D net132 VSS) g45n1hvt w=(520n) l=45n nf=1 as=72.8f ad=72.8f \
+        ps=1.32u pd=1.32u nrd=269.231m nrs=269.231m sa=140n sb=140n \
+        sd=160n sca=98.28759 scb=0.08111 scc=0.01166 m=(1)
+mn2 (net132 C net128 VSS) g45n1hvt w=(520n) l=45n nf=1 as=72.8f ad=72.8f \
+        ps=1.32u pd=1.32u nrd=269.231m nrs=269.231m sa=140n sb=140n \
+        sd=160n sca=98.28759 scb=0.08111 scc=0.01166 m=(1)
+mn4 (Y net116 VSS VSS) g45n1hvt w=(2.065u) l=45n nf=1 as=289.1f \
+        ad=289.1f ps=4.41u pd=4.41u nrd=67.7966m nrs=67.7966m sa=140n \
+        sb=140n sd=160n sca=56.50260 scb=0.05663 scc=0.00690 m=(1)
+mn1 (net128 B net124 VSS) g45n1hvt w=(520n) l=45n nf=1 as=72.8f ad=72.8f \
+        ps=1.32u pd=1.32u nrd=269.231m nrs=269.231m sa=140n sb=140n \
+        sd=160n sca=98.28759 scb=0.08111 scc=0.01166 m=(1)
+mn0 (net124 A VSS VSS) g45n1hvt w=(520n) l=45n nf=1 as=72.8f ad=72.8f \
+        ps=1.32u pd=1.32u nrd=269.231m nrs=269.231m sa=140n sb=140n \
+        sd=160n sca=98.28759 scb=0.08111 scc=0.01166 m=(1)
+ends AND4X8
+// End of subcircuit definition.
+

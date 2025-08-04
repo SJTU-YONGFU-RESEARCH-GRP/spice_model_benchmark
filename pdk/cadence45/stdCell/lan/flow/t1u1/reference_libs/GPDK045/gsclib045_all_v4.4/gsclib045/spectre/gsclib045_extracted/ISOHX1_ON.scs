@@ -1,0 +1,89 @@
+// Generated for: spectre (May  1 08:11:35 2013 )
+// Library name: gsclib045
+// Cell name: ISOHX1_ON
+// View name: extracted
+
+simulator lang=spectre
+
+subckt ISOHX1_ON A ISO VDD VSS Y
+mp1 (\6\:n0 \3\:ISO n1 VDD) g45p1svt w=(2.15e-07) l=4.5e-08 nf=1 \
+        as=3.01e-14 ad=1.29e-14 ps=7.1e-07 pd=5.5e-07 nrd=1.16667 \
+        nrs=1.16667 sa=2.45e-07 sb=1.4e-07 sd=160n sca=14.7748 \
+        scb=0.0128938 scc=0.000187084 m=(1)
+mp0 (n1 \3\:A \5\:VDD VDD) g45p1svt w=(2.15e-07) l=4.5e-08 nf=1 \
+        as=1.29e-14 ad=3.01e-14 ps=5.5e-07 pd=7.1e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=2.45e-07 sd=160n sca=17.4272 \
+        scb=0.0179257 scc=0.000390864 m=(1)
+C1 (VDD VSS) capacitor c=1.04703e-16
+C2 (Y VSS) capacitor c=6.37378e-17
+C3 (A VSS) capacitor c=4.24856e-17
+C4 (ISO VSS) capacitor c=5.18341e-17
+C5 (n0 VSS) capacitor c=3.78794e-17
+C6 (\3\:ISO VSS) capacitor c=5.81638e-17
+C7 (\3\:A VSS) capacitor c=7.65657e-17
+C8 (\3\:n0 VSS) capacitor c=4.47679e-17
+C9 (\1\:ISO VSS) capacitor c=6.00072e-17
+C10 (\1\:A VSS) capacitor c=4.13919e-17
+C11 (\2\:n0 VSS) capacitor c=3.12748e-17
+C12 (\4\:ISO VSS) capacitor c=8.5981e-17
+C13 (\2\:A VSS) capacitor c=6.83794e-17
+C14 (\4\:Y VSS) capacitor c=3.27027e-17
+C15 (\1\:VDD VSS) capacitor c=1.03714e-16
+C16 (\6\:n0 VSS) capacitor c=8.1509e-17
+C17 (\5\:VDD VSS) capacitor c=2.70012e-17
+C18 (\2\:Y VSS) capacitor c=5.03006e-17
+C19 (\8\:n0 VSS) capacitor c=7.35307e-17
+C20 (\4\:n0 VSS) capacitor c=3.18436e-17
+C21 (\5\:n0 VSS) capacitor c=6.9001e-17
+C22 (\1\:Y VSS) capacitor c=1.87827e-17
+Rk12 (\4\:VDD VDD) resistor r=0.02471 c=0
+Rk11 (\2\:VDD \4\:VDD) resistor r=0.4009 c=0
+Rk13 (VDD \6\:VDD) resistor r=0.4603 c=0
+Rk7 (Y \1\:Y) resistor r=0.01335 c=0
+Rk9 (Y \3\:Y) resistor r=0.3142 c=0
+Rk10 (\1\:Y \5\:Y) resistor r=0.1452 c=0
+Rk2 (\4\:A A) resistor r=0.004654 c=0
+Rk14 (\2\:VSS VSS) resistor r=0.2249 c=0
+Rk15 (VSS \4\:VSS) resistor r=0.08304 c=0
+Rk16 (\4\:VSS \6\:VSS) resistor r=0.3862 c=0
+Rk3 (ISO \5\:ISO) resistor r=0.002412 c=0
+Rk4 (\4\:n0 \5\:n0) resistor r=0.1025 c=0
+Rk5 (\5\:n0 \7\:n0) resistor r=0.3941 c=0
+Rk6 (\5\:n0 \9\:n0) resistor r=0.3877 c=0
+Rl2 (\2\:A \3\:A) resistor r=153.685 c=0
+Rl1 (\1\:A \2\:A) resistor r=89.8433 c=0
+Rl4 (\2\:ISO \3\:ISO) resistor r=95.9008 c=0
+Rl3 (\1\:ISO \2\:ISO) resistor r=196.188 c=0
+Rl5 (\2\:ISO \4\:ISO) resistor r=0.6051 c=0
+Rl6 (n0 \2\:n0) resistor r=58.6969 c=0
+Rl7 (\2\:n0 \3\:n0) resistor r=101.357 c=0
+Rz2 (\2\:Y \3\:Y) resistor r=37.5 c=0
+Rz4 (\1\:VSS \2\:VSS) resistor r=37.5 c=0
+Rz5 (\5\:VSS \6\:VSS) resistor r=75 c=0
+Rz1 (\8\:n0 \9\:n0) resistor r=75 c=0
+Ry3 (\1\:VDD \2\:VDD) resistor r=20.6667 c=0
+Ry4 (\5\:VDD \6\:VDD) resistor r=62 c=0
+Ry2 (\4\:Y \5\:Y) resistor r=20.6667 c=0
+Ry1 (\6\:n0 \7\:n0) resistor r=62 c=0
+Rx1 (\2\:A \4\:A) resistor r=45 c=0
+Rx2 (\4\:ISO \5\:ISO) resistor r=45 c=0
+Rx3 (\2\:n0 \4\:n0) resistor r=45 c=0
+mn0 (\8\:n0 \1\:A \5\:VSS VSS) g45n1svt w=(1.45e-07) l=4.5e-08 nf=1 \
+        as=2.32e-14 ad=2.03e-14 ps=6.1e-07 pd=5.7e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=5.8e-07 sd=160n sca=7.91544 \
+        scb=0.00544522 scc=7.50774e-05 m=(1)
+mn1 (\8\:n0 \1\:ISO \1\:VSS VSS) g45n1svt w=(1.45e-07) l=4.5e-08 nf=1 \
+        as=4.365e-14 ad=2.32e-14 ps=9e-07 pd=6.1e-07 nrd=1.16667 \
+        nrs=1.16667 sa=3.45e-07 sb=3.75e-07 sd=160n sca=7.91544 \
+        scb=0.00544522 scc=7.50774e-05 m=(1)
+mn2 (\2\:Y \3\:n0 \1\:VSS VSS) g45n1svt w=(2.6e-07) l=4.5e-08 nf=1 \
+        as=3.64e-14 ad=4.365e-14 ps=8e-07 pd=9e-07 nrd=1.16667 nrs=1.16667 \
+        sa=3.85385e-07 sb=1.4e-07 sd=160n sca=8.09546 scb=0.00588493 \
+        scc=0.000117119 m=(1)
+mp2 (\4\:Y n0 \1\:VDD VDD) g45p1svt w=(3.9e-07) l=4.5e-08 nf=1 \
+        as=5.46e-14 ad=5.46e-14 ps=1.06e-06 pd=1.06e-06 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=1.4e-07 sd=160n sca=18.5723 \
+        scb=0.0189272 scc=0.00068777 m=(1)
+ends ISOHX1_ON
+// End of subcircuit definition.
+

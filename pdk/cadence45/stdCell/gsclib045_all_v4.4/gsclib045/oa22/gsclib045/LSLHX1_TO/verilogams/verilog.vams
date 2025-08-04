@@ -1,0 +1,110 @@
+//Verilog-AMS HDL for "gsclib045", "LSLHX1_TO" "verilogams"
+
+//Verilog-AMS HDL for "zambezi45", "LP_pll_ls_dvdd2avdd" "verilogams"
+
+// DESCRIPTION: 
+// LP_pll_ls_dvdd2avdd is leveraged from pll_ls_dvdd2avdd.
+// pll_ls_dvdd2avdd : This is a simple model for converting signals from digital
+// voltage level of 1.0V to analog supply level of 1.2V for the purpose of
+// Functional Verification. Since the requirement for functional verification
+// needs to be simple, the model is coded to have the input routed directly to 
+// output
+// The features of this model are:
+//	- Simple Input directed to Output operation
+//	- Assertions are built in. Checks for the status of power supply signals 
+//	  VDD(1.2 V) and VSS(0.0 V) when it goes
+//	  - above or below nominal level
+
+// LIMITATIONS:
+//
+// This model is not coded for performance verification 
+//
+
+
+
+`include "constants.vams"
+`include "logic_disciplines.vams"
+
+`timescale 1s/1ps
+
+module LSLHX1_TO ( Y, A, VSS, VDD, ExtVDD );
+
+  input A;
+  output Y;
+  input VSS;
+  input VDD;
+  input ExtVDD;
+
+  logic_12 Y;
+  logic A;
+  electrical VSS, VDD, ExtVDD;
+  real Vinput;
+
+  // PARAMETERS
+  parameter real VddNom	= 1.2;				// nominal supply voltage [V]
+  parameter real VddNom_pcttol = 0.10 from (0:1);	// Tolerance settings in percentage
+
+  
+  // LOCAL VARIABLES:
+  real 		VddErrMax, VddErrMin, GndErr;  	// supply levels to generate errors
+  integer 	asup, anagnd;			// supply problem indicators
+  reg		Active;				// Flag for whether actively operating or not.
+
+  
+  analog begin
+      @(initial_step) begin
+       VddErrMax=VddNom * (1+VddNom_pcttol);  		// supply levels to generate errors
+       VddErrMin=VddNom * (1-VddNom_pcttol);   		// supply levels to generate errors
+       GndErr=VddNom * VddNom_pcttol;			// supply levels to generate errors
+       asup = 1;
+       anagnd = 1;
+     end  // initial
+
+     // ------- ASSERTIONS ---------------------------------------------------
+     //
+     // ------ Supply Assertion Start --------------------------------------
+     //
+     // ------ Analog Supply Assertion Start -------------------------------
+     //
+     if (V(VDD)<VddErrMin) begin
+        if ( (!asup) ) begin //&& ($abstime>0) ) begin
+           $strobe("*ANALOGSUPPLYLOW %m: vdd (%M) too low at T=%10.5g", $abstime );
+           asup=1'b1;
+        end
+     end else if (V(VDD)>VddErrMax) begin
+        if ( (!asup) ) begin //  && ($abstime>0) ) begin
+           $strobe("*ANALOGSUPPLYHIGH %m: vdd (%M) too high at T=%10.5g", $abstime );
+           asup=1'b1;
+        end
+     end else asup=1'b0;  // VDD
+     // ------ Analog Supply Assertion End ----------------------------------
+
+     // ------ Analog Ground Assertion Start -------------------------------
+     //
+     if (V(VSS)>GndErr) begin
+        if ( (!anagnd) ) begin // && ($abstime>0) ) begin
+           $strobe("*GNDHIGH %m: VSS (%M) too high at T=%10.5g", $abstime );
+           anagnd=1'b1;
+        end
+     end else if (V(VSS)<-GndErr) begin
+        if ( (!anagnd) ) begin // && ($abstime>0) ) begin
+           $strobe("*GNDHIGH %m: VSS (%M) too low at T=%10.5g", $abstime );
+           anagnd=1'b1;
+        end
+     end else anagnd=1'b0;  // VSS
+     // ------ Analog Ground Assertion End ----------------------------------
+
+     // ------ Supply Assertion End ----------------------------------------
+     //
+  end
+
+  initial Active=1'b1;
+  
+  always #1e-09 
+  Active = !(asup | anagnd);  			// check for disabling errors
+
+
+assign Y = (A & Active);
+
+
+endmodule

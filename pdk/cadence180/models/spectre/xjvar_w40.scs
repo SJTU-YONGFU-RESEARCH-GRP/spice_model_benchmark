@@ -1,0 +1,52 @@
+//  **************************************************************************
+//  JUNCTION VARACTOR MODEL :
+//  
+//
+//      Model name      L(um)    W(um)   Finger   
+//      -----------------------------------------
+//       xjvar_w40      0.60      40       1-50     
+//      -----------------------------------------      
+//  *************************************************************************
+
+subckt xjvar_w40 ( anode cathode gnode ) 
+parameters nf=1 
++ ad1=40u*nf*0.60u pd1=2*nf*(0.60u+40u)
++ ad2=1.60u*(nf+1)*(40u+1u) pd2=2*((40u+1u)+(nf+1)*1.60u) 
+if (nf >= 1) && (nf <= 6) {
+r1 ( anode node1 ) resistor r=(-0.467*nf+4.367)
+l1 ( node1 node2 ) inductor l=(-3.083*nf+22.583)*1e-12
+r2 ( node4 cathode ) resistor r=(-0.467*nf+4.367)
+l2 ( node3 node4 ) inductor l=(-3.083*nf+22.583)*1e-12
+} else {
+r11 ( anode node1 ) resistor r=(-0.0181*nf+1.2265)
+l11 ( node1 node2 ) inductor l=(-0.1276*nf+65.893)*1e-12
+r21 ( node4 cathode ) resistor r=(-0.0181*nf+1.2265)
+l21 ( node3 node4 ) inductor l=(-0.1276*nf+65.893)*1e-12
+}
+d1 ( node2 node3 ) pdiodejv area=ad1 pj=pd1
+d2 ( node5 node3 ) nwdiodejv area=ad2 pj=pd2
+rsub ( node5 gnode ) resistor r=(-1.0647*nf+141.98)
+csub ( node5 gnode ) capacitor c=(0.9091*nf+70.9091)*1e-15
+model pdiodejv diode 
++ level=3                   is=2.50e-7                rs=1.0e-10
++ n=1.03                    bv=10.1                   ibv=1e-3
++ ik=1e20                   isw=4.00e-13
++ area=7.5e-8               pj=1.1e-3                 cj=1.121e-3
++ pb=0.895226               mj=0.4476                 cjsw=2.241e-10
++ vj=0.6                    mjsw=0.05                 tlev=1
++ eg=1.17                   xti=3                     tbv1=8.8e-4
++ trs=1.2e-4                tlevc=1                   cta=9.739001e-4
++ ctp=4.130718e-4           ptp=1.572025e-3           pta=1.572025e-3
++ tnom=25                   fc=0                      minr=0.1
+model nwdiodejv diode 
++ level=3                   is=6.50e-7                rs=1.0e-10
++ n=1.03                    bv=14.75                  ibv=1e-3
++ ik=1e20                   isw=9.75e-13
++ area=7.5e-8               pj=1.1e-3                 cj=1.337566e-4
++ pb=0.5846489              mj=0.3883243              cjsw=5.333577e-10
++ vj=0.5846489              mjsw=0.2345684            tlev=1
++ eg=1.17                   xti=3                     tbv1=9.6e-4
++ trs=1.125e-3              tlevc=1                   cta=2.8425e-3
++ ctp=1.5284e-3             ptp=2.819e-3              pta=2.819e-3
++ tnom=25                   fc=0                      minr=0.1
+ends xjvar_w40

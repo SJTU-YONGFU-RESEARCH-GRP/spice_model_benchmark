@@ -1,0 +1,16 @@
+VALE Framework Component Module:
+   Reset View with Selected Layer 
+
+Description:
+   This component modules uses the current layer selected in the Layer Palette, to fit the display window with only that layer visible. 
+
+Dependencies:
+   None
+
+Input Requirements:
+   An open cellview.
+      
+Development Notes:
+   All aspects of this Component Module were developed by Cadence.
+   Please contact Jonathan Fales for more information: jfales@cadence.com
+

@@ -1,0 +1,21 @@
+# gds.layermap .
+#
+  metal       METAL_1         gds   7
+  metal       METAL_2         gds   9
+  metal       METAL_3         gds   11
+  metal       METAL_4         gds   31
+  metal       METAL_5         gds   33
+  metal       METAL_6         gds   35
+  metal       METAL_7         gds   38
+  metal       METAL_8         gds   40
+  metal       METAL_9         gds   42
+  poly        POLYCIDE        gds   3
+  via         CONT            gds   6
+  via         VIA_1           gds   8
+  via         VIA_2           gds   10
+  via         VIA_3           gds   30
+  via         VIA_4           gds   32
+  via         VIA_5           gds   34
+  via         VIA_6           gds   37  
+  via         VIA_7           gds   39
+  via         VIA_8           gds   41

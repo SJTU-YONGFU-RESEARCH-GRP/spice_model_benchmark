@@ -1,0 +1,247 @@
+// Generated for: spectre (May  1 08:18:43 2013 )
+// Library name: gsclib045
+// Cell name: TLATX2
+// View name: extracted
+
+simulator lang=spectre
+
+subckt TLATX2 D G Q QN VDD VSS
+mp1 (\8\:Gbb Gb \19\:VDD VDD) g45p1svt w=(2.15e-07) l=4.5e-08 nf=1 \
+        as=3.44e-14 ad=3.01e-14 ps=7.5e-07 pd=7.1e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=1.22465e-06 sd=160n sca=19.2562 \
+        scb=0.0208092 scc=0.000651488 m=(1)
+mp5 (net220 \1\:D \19\:VDD VDD) g45p1svt w=(2.15e-07) l=4.5e-08 nf=1 \
+        as=3.44e-14 ad=5.805e-14 ps=7.5e-07 pd=9.7e-07 nrd=1.16667 \
+        nrs=1.16667 sa=3.45e-07 sb=1.01965e-06 sd=160n sca=12.9559 \
+        scb=0.0103241 scc=9.95448e-05 m=(1)
+mp6 (\7\:n0 \4\:Gb net220 VDD) g45p1svt w=(2.15e-07) l=4.5e-08 nf=1 \
+        as=5.805e-14 ad=5.267e-14 ps=9.7e-07 pd=9.2e-07 nrd=1.16667 \
+        nrs=1.16667 sa=6.6e-07 sb=7.04651e-07 sd=160n sca=10.7129 \
+        scb=0.00769258 scc=8.40492e-05 m=(1)
+mp16 (\7\:n0 Gbb net212 VDD) g45p1svt w=(2.15e-07) l=4.5e-08 nf=1 \
+        as=2.365e-14 ad=5.268e-14 ps=6.5e-07 pd=9.2e-07 nrd=1.16667 \
+        nrs=1.16667 sa=9.5e-07 sb=4.14651e-07 sd=160n sca=10.2431 \
+        scb=0.00753556 scc=8.40048e-05 m=(1)
+mp15 (net212 \3\:Qint \17\:VDD VDD) g45p1svt w=(2.15e-07) l=4.5e-08 nf=1 \
+        as=7.258e-14 ad=2.365e-14 ps=1.46e-06 pd=6.5e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.105e-06 sb=2.59651e-07 sd=160n sca=10.2431 \
+        scb=0.00753556 scc=8.40048e-05 m=(1)
+mp0 (\8\:Gb \1\:G \1\:VDD VDD) g45p1svt w=(2.15e-07) l=4.5e-08 nf=1 \
+        as=5.19e-14 ad=3.01e-14 ps=1.1e-06 pd=7.1e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=1.55e-06 sd=160n sca=12.1244 \
+        scb=0.0107968 scc=0.000332109 m=(1)
+C1 (QN VSS) capacitor c=5.05703e-17
+C2 (D VSS) capacitor c=5.33348e-17
+C3 (VDD VSS) capacitor c=2.45784e-16
+C4 (Q VSS) capacitor c=2.31743e-17
+C5 (Gb VSS) capacitor c=3.05112e-17
+C6 (Gbb VSS) capacitor c=6.85185e-17
+C7 (net257 VSS) capacitor c=1.17585e-17
+C8 (n0 VSS) capacitor c=5.79375e-17
+C9 (Qint VSS) capacitor c=8.75841e-17
+C10 (Qbint VSS) capacitor c=1.26727e-16
+C11 (net220 VSS) capacitor c=6.81972e-19
+C12 (net212 VSS) capacitor c=1.30876e-18
+C13 (\4\:Qint VSS) capacitor c=1.13316e-16
+C14 (\1\:G VSS) capacitor c=4.19129e-17
+C15 (\3\:Qint VSS) capacitor c=4.79014e-17
+C16 (\4\:Gb VSS) capacitor c=2.74516e-17
+C17 (\1\:D VSS) capacitor c=5.1341e-17
+C18 (\3\:G VSS) capacitor c=5.74897e-17
+C19 (\4\:n0 VSS) capacitor c=3.7378e-17
+C20 (\6\:Gb VSS) capacitor c=7.85196e-17
+C21 (\4\:Gbb VSS) capacitor c=3.01134e-17
+C22 (\3\:D VSS) capacitor c=2.82664e-17
+C23 (\3\:Gb VSS) capacitor c=5.38081e-17
+C24 (\10\:Qint VSS) capacitor c=3.28312e-17
+C25 (\2\:G VSS) capacitor c=3.63355e-17
+C26 (\3\:n0 VSS) capacitor c=1.74442e-17
+C27 (\2\:Qint VSS) capacitor c=5.91524e-17
+C28 (\7\:Gb VSS) capacitor c=2.94238e-17
+C29 (\5\:Gb VSS) capacitor c=3.25159e-17
+C30 (\3\:Gbb VSS) capacitor c=3.0616e-17
+C31 (\2\:D VSS) capacitor c=4.59247e-17
+C32 (\2\:Gb VSS) capacitor c=3.96706e-17
+C33 (\1\:VDD VSS) capacitor c=2.79711e-16
+C34 (\3\:Q VSS) capacitor c=7.98148e-17
+C35 (\11\:Qbint VSS) capacitor c=8.54535e-17
+C36 (\1\:QN VSS) capacitor c=9.08486e-17
+C37 (\8\:Gb VSS) capacitor c=1.49496e-16
+C38 (\20\:Qint VSS) capacitor c=5.75677e-17
+C39 (\17\:VDD VSS) capacitor c=4.40217e-17
+C40 (\7\:n0 VSS) capacitor c=7.98624e-17
+C41 (\19\:VDD VSS) capacitor c=3.82548e-17
+C42 (\8\:Gbb VSS) capacitor c=7.81121e-17
+C43 (\3\:VDD VSS) capacitor c=5.99072e-17
+C44 (\1\:Q VSS) capacitor c=1.27644e-17
+C45 (\9\:Qbint VSS) capacitor c=1.66101e-17
+C46 (\14\:Gb VSS) capacitor c=7.03438e-17
+C47 (\22\:Qint VSS) capacitor c=1.80079e-17
+C48 (\9\:n0 VSS) capacitor c=3.02044e-17
+C49 (\6\:Gbb VSS) capacitor c=8.64126e-17
+C50 (\2\:Gbb VSS) capacitor c=5.3626e-17
+C51 (\2\:n0 VSS) capacitor c=1.62358e-17
+C52 (\7\:Qint VSS) capacitor c=1.25195e-16
+C53 (\4\:D VSS) capacitor c=6.7188e-17
+C54 (\5\:Gbb VSS) capacitor c=8.40895e-17
+C55 (\5\:n0 VSS) capacitor c=3.94483e-17
+C56 (\6\:n0 VSS) capacitor c=7.38858e-17
+C57 (\10\:Gb VSS) capacitor c=1.46901e-16
+C58 (\11\:Gb VSS) capacitor c=1.14194e-16
+C59 (\12\:Gb VSS) capacitor c=8.16352e-17
+C60 (\13\:Gb VSS) capacitor c=1.28578e-16
+C61 (\4\:G VSS) capacitor c=5.24907e-17
+C62 (\6\:G VSS) capacitor c=3.20339e-17
+C63 (\18\:Qint VSS) capacitor c=4.38638e-17
+C64 (\19\:Qint VSS) capacitor c=4.81674e-17
+C65 (\24\:Qint VSS) capacitor c=4.71137e-17
+C66 (\7\:Qbint VSS) capacitor c=3.19944e-17
+C67 (\8\:Qbint VSS) capacitor c=3.13707e-17
+C68 (\8\:VDD VSS) capacitor c=1.33862e-17
+C69 (\10\:VDD VSS) capacitor c=2.51782e-17
+Rk12 (\4\:G \5\:G) resistor r=0.006478 c=0
+Rk13 (G \6\:G) resistor r=0.00636 c=0
+Rk14 (\4\:G \6\:G) resistor r=0.0219 c=0
+Rk19 (\2\:QN QN) resistor r=0.4365 c=0
+Rk20 (QN \4\:QN) resistor r=0.002997 c=0
+Rk1 (D \4\:D) resistor r=0.08353 c=0
+Rk30 (\1\:VDD \8\:VDD) resistor r=0.3631 c=0
+Rk31 (\8\:VDD \9\:VDD) resistor r=0.08001 c=0
+Rk33 (\10\:VDD VDD) resistor r=0.1299 c=0
+Rk32 (\9\:VDD \10\:VDD) resistor r=0.4209 c=0
+Rk37 (\8\:VDD \18\:VDD) resistor r=0.1836 c=0
+Rk38 (\10\:VDD \20\:VDD) resistor r=0.1878 c=0
+Rk24 (Q \2\:Q) resistor r=0.0869 c=0
+Rk25 (Q \4\:Q) resistor r=0.2667 c=0
+Rk43 (\1\:VSS \8\:VSS) resistor r=0.343 c=0
+Rk44 (\8\:VSS \9\:VSS) resistor r=0.06748 c=0
+Rk46 (\10\:VSS VSS) resistor r=0.144 c=0
+Rk45 (\9\:VSS \10\:VSS) resistor r=0.4049 c=0
+Rk50 (\8\:VSS \18\:VSS) resistor r=0.07358 c=0
+Rk51 (\10\:VSS \20\:VSS) resistor r=0.04328 c=0
+Rk7 (\9\:Gb \10\:Gb) resistor r=1.1645 c=0
+Rk8 (\10\:Gb \11\:Gb) resistor r=0.1406 c=0
+Rk9 (\10\:Gb \12\:Gb) resistor r=0.4187 c=0
+Rk10 (\11\:Gb \13\:Gb) resistor r=0.711 c=0
+Rk11 (\13\:Gb \15\:Gb) resistor r=0.58 c=0
+Rk2 (\5\:Gbb \7\:Gbb) resistor r=0.5023 c=0
+Rk3 (\7\:Gbb \9\:Gbb) resistor r=0.628 c=0
+Rk4 (\5\:n0 \6\:n0) resistor r=0.2717 c=0
+Rk5 (\6\:n0 \8\:n0) resistor r=0.4582 c=0
+Rk6 (\6\:n0 \10\:n0) resistor r=0.12 c=0
+Rk15 (\18\:Qint \19\:Qint) resistor r=0.2992 c=0
+Rk16 (\19\:Qint \21\:Qint) resistor r=0.2773 c=0
+Rk17 (\19\:Qint \23\:Qint) resistor r=0.06732 c=0
+Rk18 (\21\:Qint \24\:Qint) resistor r=0.2773 c=0
+Rk21 (\7\:Qbint \8\:Qbint) resistor r=0.2506 c=0
+Rk22 (\8\:Qbint \10\:Qbint) resistor r=0.1172 c=0
+Rk23 (\8\:Qbint \12\:Qbint) resistor r=0.3113 c=0
+Rl15 (\1\:G \2\:G) resistor r=29.5379 c=0
+Rl16 (\2\:G \3\:G) resistor r=138.441 c=0
+Rl3 (\1\:D \2\:D) resistor r=171.846 c=0
+Rl4 (\2\:D \3\:D) resistor r=29.5379 c=0
+Rl9 (\6\:Gb \7\:Gb) resistor r=77.6148 c=0
+Rl5 (\4\:Gb \5\:Gb) resistor r=71.8456 c=0
+Rl1 (Gb \2\:Gb) resistor r=29.5379 c=0
+Rl2 (\2\:Gb \3\:Gb) resistor r=171.846 c=0
+Rl6 (Gbb \2\:Gbb) resistor r=205.747 c=0
+Rl8 (\2\:Gbb \4\:Gbb) resistor r=41.9892 c=0
+Rl7 (\2\:Gbb \3\:Gbb) resistor r=80.6945 c=0
+Rl12 (n0 \2\:n0) resistor r=84.3295 c=0
+Rl14 (\2\:n0 \4\:n0) resistor r=34.3295 c=0
+Rl13 (\2\:n0 \3\:n0) resistor r=1.2666 c=0
+Rl11 (\2\:Qint \3\:Qint) resistor r=64.5604 c=0
+Rl10 (\2\:Qint Qint) resistor r=138.462 c=0
+Rl19 (\7\:Qint \4\:Qint) resistor r=72.348 c=0
+Rl22 (\7\:Qint \10\:Qint) resistor r=2.9588 c=0
+Rz5 (\4\:QN \3\:QN) resistor r=75 c=0
+Rz8 (\1\:VDD \3\:VDD) resistor r=12.5 c=0
+Rz9 (\9\:VDD \3\:VDD) resistor r=6.25 c=0
+Rz7 (\2\:Q \1\:Q) resistor r=75 c=0
+Rz14 (\18\:VSS \17\:VSS) resistor r=75 c=0
+Rz15 (\20\:VSS \19\:VSS) resistor r=75 c=0
+Rz3 (\14\:Gb \15\:Gb) resistor r=75 c=0
+Rz1 (\6\:Gbb \7\:Gbb) resistor r=75 c=0
+Rz2 (\9\:n0 \10\:n0) resistor r=75 c=0
+Rz4 (\23\:Qint \22\:Qint) resistor r=75 c=0
+Rz6 (\10\:Qbint \9\:Qbint) resistor r=75 c=0
+Ry5 (\2\:QN \1\:QN) resistor r=20.6667 c=0
+Ry12 (\18\:VDD \17\:VDD) resistor r=62 c=0
+Ry13 (\20\:VDD \19\:VDD) resistor r=62 c=0
+Ry7 (\4\:Q \3\:Q) resistor r=20.6667 c=0
+Ry14 (\1\:VSS \3\:VSS) resistor r=10.3333 c=0
+Ry15 (\9\:VSS \3\:VSS) resistor r=5.1667 c=0
+Ry3 (\8\:Gb \9\:Gb) resistor r=62 c=0
+Ry1 (\8\:Gbb \9\:Gbb) resistor r=62 c=0
+Ry2 (\7\:n0 \8\:n0) resistor r=62 c=0
+Ry4 (\21\:Qint \20\:Qint) resistor r=62 c=0
+Ry6 (\12\:Qbint \11\:Qbint) resistor r=20.6667 c=0
+Rx7 (\2\:G \5\:G) resistor r=45 c=0
+Rx1 (\2\:D \4\:D) resistor r=45 c=0
+Rx4 (\5\:Gb \11\:Gb) resistor r=45 c=0
+Rx5 (\2\:Gb \12\:Gb) resistor r=45 c=0
+Rx6 (\7\:Gb \13\:Gb) resistor r=45 c=0
+Rx2 (\3\:Gbb \5\:Gbb) resistor r=45 c=0
+Rx3 (\3\:n0 \5\:n0) resistor r=45 c=0
+Rx8 (\18\:Qint \10\:Qint) resistor r=45 c=0
+Rx9 (\24\:Qint \2\:Qint) resistor r=45 c=0
+Rx10 (\7\:Qbint Qbint) resistor r=45 c=0
+mn1 (\6\:Gbb \3\:Gb \19\:VSS VSS) g45n1svt w=(1.45e-07) l=4.5e-08 nf=1 \
+        as=5.335e-14 ad=2.03e-14 ps=1.62e-06 pd=5.7e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=1.435e-06 sd=160n sca=23.279 \
+        scb=0.0230742 scc=0.00267719 m=(1)
+mn5 (net257 \3\:D \19\:VSS VSS) g45n1svt w=(1.45e-07) l=4.5e-08 nf=1 \
+        as=5.335e-14 ad=6.67e-14 ps=1.62e-06 pd=1.21e-06 nrd=1.16667 \
+        nrs=1.16667 sa=3.45e-07 sb=1.23e-06 sd=160n sca=23.279 \
+        scb=0.0230742 scc=0.00267719 m=(1)
+mn6 (\9\:n0 \4\:Gbb net257 VSS) g45n1svt w=(1.45e-07) l=4.5e-08 nf=1 \
+        as=6.67e-14 ad=2.32e-14 ps=1.21e-06 pd=6.1e-07 nrd=1.16667 \
+        nrs=1.16667 sa=8.5e-07 sb=7.25e-07 sd=160n sca=23.279 \
+        scb=0.0230742 scc=0.00267719 m=(1)
+mn16 (\9\:n0 \6\:Gb net245 VSS) g45n1svt w=(1.45e-07) l=4.5e-08 nf=1 \
+        as=8.7e-15 ad=2.32e-14 ps=4.1e-07 pd=6.1e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.055e-06 sb=5.2e-07 sd=160n sca=23.279 \
+        scb=0.0230742 scc=0.00267719 m=(1)
+mn15 (net245 Qint \17\:VSS VSS) g45n1svt w=(1.45e-07) l=4.5e-08 nf=1 \
+        as=6.575e-14 ad=8.7e-15 ps=1.71e-06 pd=4.1e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.16e-06 sb=4.15e-07 sd=160n sca=23.279 \
+        scb=0.0230742 scc=0.00267719 m=(1)
+mn0 (\14\:Gb \3\:G \1\:VSS VSS) g45n1svt w=(1.45e-07) l=4.5e-08 nf=1 \
+        as=5.365e-14 ad=2.03e-14 ps=1.44e-06 pd=5.7e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=1.575e-06 sd=160n sca=13.6097 \
+        scb=0.014254 scc=0.000755054 m=(1)
+mn10 (\22\:Qint \4\:n0 \17\:VSS VSS) g45n1svt w=(2.05e-07) l=4.5e-08 \
+        nf=1 as=6.575e-14 ad=3.485e-14 ps=1.71e-06 pd=7.5e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.03768e-06 sb=1.7e-07 sd=160n sca=19.867 \
+        scb=0.0198061 scc=0.00201945 m=(1)
+mn21_1__rcx (\1\:Q Qbint \1\:VSS VSS) g45n1svt w=(2.6e-07) l=4.5e-08 \
+        nf=1 as=5.59e-14 ad=5.46e-14 ps=9.5e-07 pd=9.4e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.21606e-06 sb=3.95e-07 sd=160n sca=11.0409 \
+        scb=0.0104003 scc=0.000454168 m=(2)
+mn22 (\3\:QN \7\:Qint \1\:VSS VSS) g45n1svt w=(2.6e-07) l=4.5e-08 nf=1 \
+        as=4.763e-14 ad=5.07e-14 ps=1.14e-06 pd=9.1e-07 nrd=1.16667 \
+        nrs=1.16667 sa=2.31058e-07 sb=1.38e-06 sd=160n sca=11.0409 \
+        scb=0.0104003 scc=0.000454168 m=(2)
+mn20_1__rcx (\9\:Qbint \4\:Qint \1\:VSS VSS) g45n1svt w=(2.6e-07) \
+        l=4.5e-08 nf=1 as=5.85e-14 ad=4.16e-14 ps=9.7e-07 pd=8.4e-07 \
+        nrd=1.16667 nrs=1.16667 sa=6.76058e-07 sb=9.35e-07 sd=160n \
+        sca=11.0409 scb=0.0104003 scc=0.000454168 m=(2)
+mp10 (\20\:Qint n0 \17\:VDD VDD) g45p1svt w=(3.1e-07) l=4.5e-08 nf=1 \
+        as=7.258e-14 ad=4.34e-14 ps=1.46e-06 pd=9e-07 nrd=1.16667 \
+        nrs=1.16667 sa=3.10484e-07 sb=1.4e-07 sd=160n sca=16.415 \
+        scb=0.0153923 scc=0.00118075 m=(1)
+mp21_1__rcx (\3\:Q Qbint \1\:VDD VDD) g45p1svt w=(3.9e-07) l=4.5e-08 \
+        nf=1 as=8.385e-14 ad=8.19e-14 ps=1.21e-06 pd=1.2e-06 nrd=1.16667 \
+        nrs=1.16667 sa=1.18506e-06 sb=3.95e-07 sd=160n sca=28.4121 \
+        scb=0.0218393 scc=0.00279381 m=(2)
+mp20_1__rcx (\11\:Qbint \4\:Qint \1\:VDD VDD) g45p1svt w=(3.9e-07) \
+        l=4.5e-08 nf=1 as=8.775e-14 ad=6.24e-14 ps=1.23e-06 pd=1.1e-06 \
+        nrd=1.16667 nrs=1.16667 sa=6.45064e-07 sb=9.35e-07 sd=160n \
+        sca=25.6993 scb=0.0190507 scc=0.00277827 m=(2)
+mp22 (\1\:QN \7\:Qint \1\:VDD VDD) g45p1svt w=(3.9e-07) l=4.5e-08 nf=1 \
+        as=5.715e-14 ad=6.24e-14 ps=1.1e-06 pd=1.1e-06 nrd=1.16667 \
+        nrs=1.16667 sa=2.35064e-07 sb=1.345e-06 sd=160n sca=25.6993 \
+        scb=0.0190507 scc=0.00277827 m=(2)
+ends TLATX2
+// End of subcircuit definition.
+

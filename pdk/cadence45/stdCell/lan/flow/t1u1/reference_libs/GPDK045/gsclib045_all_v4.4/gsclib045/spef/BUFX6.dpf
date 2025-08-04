@@ -1,0 +1,34 @@
+*
+*|DSPF 1.5
+*
+*|DATE "Mon Sep 27 09:12:07 2010"
+*|VENDOR "Cadence Design Systems"
+*|PROGRAM "Assura RCX"
+*|VERSION "3.2 Red Hat Linux release 7.2 (Enigma) - (09/09/2009-10:39)"
+*|DESIGN "BUFX6"
+*|DIVIDER /
+*|DELIMITER :
+*|DeviceFingerDelim "@"
+*|BUSBIT []
+** MATCHED
+** caps2d version: 10
+*
+.GLOBAL 
+*
+.SUBCKT  BUFX6 VDD VSS A Y
+*
+*Instance Section
+*
+mn1	mn0@1:d	mp1@4:g	Y	VSS:3	nmos1v	L=0.045U
++ W=0.31U
++ AD=0.04868P	AS=0.04868P	PD=0.936U	PS=0.936U	M=5
+mn0	mn0@1:d	mp0@1:g	mn0:s	VSS:3	nmos1v	L=0.045U
++ W=0.26U
++ AD=0.04155P	AS=0.04155P	PD=0.855U	PS=0.855U	M=2
+mp0	mp0:d	mp0@1:g	mp0@1:s	VDD:3	pmos1v	L=0.045U
++ W=0.39U
++ AD=0.06245P	AS=0.06245P	PD=1.13U	PS=1.13U	M=2
+mp1	Y	mp1@4:g	mp0@1:s	VDD:3	pmos1v	L=0.045U
++ W=0.47U
++ AD=0.07378P	AS=0.07378P	PD=1.256U	PS=1.256U	M=5
+.ENDS

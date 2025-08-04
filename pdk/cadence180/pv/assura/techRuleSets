@@ -1,0 +1,32 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Assura Rule Set File                                                   ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+ruleSet( "default"
+     (DrcRules             "drc.rul" )
+     (DrcTemplateFile      ".drc_setup.tpl" )
+     (LvsExtractRules      "extract.rul" )
+     (LvsCompareRules      "compare.rul" )
+     (LvsTemplateFile      ".lvs_setup.tpl" )
+     (LvsAVCTemplateFile   ".avc_setup.tpl" )
+     (RcxSetupDir          "rcx" )
+)
+
+ruleSet( "density"
+     (DrcRules             "density.rul" )
+     (DrcTemplateFile      ".den_setup.tpl" )
+)
+
+ruleSet( "antenna"
+     (DrcRules             "antenna.rul" )
+     (DrcTemplateFile      ".ant_setup.tpl" )
+)
+
+ruleSet( "RF"
+     (DrcRules             "drc.rul" )
+     (LvsExtractRules      "extract.rul.RF" )
+     (LvsCompareRules      "compare.rul.RF" )
+     (RcxSetupDir          "rcx_RF" )
+     (LvsTemplateFile      ".lvs_RF.tpl" )
+)
+

@@ -1,0 +1,47 @@
+<deck version_str="1.0">
+ <properties lpa_xml_version="2.0"/>
+
+ <rule>
+  <rulename>Row528CenterTaps</rulename>
+  <report custom_orients="R0" />
+  <pattern_def type="squish"
+    signature="L3
+               5 4 6 4 /
+               4 4 6 4 /
+               4 4 4 4 /
+               4 4 6 4 /
+               5 4 6 4 "
+    x_deltas="15 19 18 1"
+    y_deltas="1 28 226 28 1" >
+   <pattern sel="LiAct" />
+   <pattern sel="Poly" />
+   <pattern sel="PolyTrack" />
+   <overlay_scanline_range range_str="x1 y1 x2 y4" output_layer="MARKER" />
+   <properties primary_layer="LiAct" hotspot_type="WIDTH" hotspot_level="1" >
+    <repair>
+     <hint>
+      <group>
+       <overlay_scanline_range range_str="x1 x2 y1 y4" 
+          output_layer="NOPATTERNREF_LiAct/drawing" action="ADDPATH"/>
+
+       <overlay_scanline_range range_str="x1 x2 y1 y4" 
+          output_layer="PROPERTY_imfGenerated:string:RowBasedTap" action="ADDPATH"/>
+
+       <overlay_scanline_range range_str="x0-15 x1 y1 y4"
+          output_layer="LiAct/drawing" action="ADDPATH"/>
+
+       <overlay_scanline_range range_str="x0 x0+86 y2h-31 y2h+31"
+          output_layer="Active/drawing" action="ADDRECT"/>
+
+       <overlay_scanline_range range_str="x2 x3 y2 y3"
+          output_layer="Poly/drawing" action="ADDPATH"/>
+       
+      </group>
+     </hint>
+    </repair>
+   </properties>
+  </pattern_def>
+ </rule>
+
+</deck>
+

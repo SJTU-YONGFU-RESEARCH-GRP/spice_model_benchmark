@@ -1,0 +1,17 @@
+// Generated for: spectre (Feb  2 16:41:22 2012 )
+// Library name: gsclib045
+// Cell name: PINVX1
+// View name: schematic
+
+simulator lang=spectre
+
+subckt PINVX1 A Y VSS VDD ExtVDD
+mp0 (Y A ExtVDD ExtVDD) g45p1svt w=(390n) l=45n nf=1 as=54.6f ad=54.6f \
+        ps=1.06u pd=1.06u nrd=358.974m nrs=358.974m sa=140n sb=140n \
+        sd=160n sca=226.00151 scb=0.11734 scc=0.02767 m=(1)
+mn0 (Y A VSS VSS) g45n1svt w=(260n) l=45n nf=1 as=36.4f ad=36.4f ps=800n \
+        pd=800n nrd=538.462m nrs=538.462m sa=140n sb=140n sd=160n \
+        sca=226.00151 scb=0.11734 scc=0.02767 m=(1)
+ends PINVX1
+// End of subcircuit definition.
+

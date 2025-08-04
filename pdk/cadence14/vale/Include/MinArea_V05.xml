@@ -1,0 +1,121 @@
+<deck version_str="1.0">
+ <properties lpa_xml_version="2.0"/>
+
+ <target_sels_map map_name="M1_E2">
+  <remap from_sel="M1MASK1" to_sel="M1MASK2"/>
+ </target_sels_map>
+
+ <target_sels_map map_name="M1_GR">
+  <remap from_sel="M1MASK1" to_sel="M1"/>
+ </target_sels_map>
+
+ <target_sels_map map_name="M3_E2">
+  <remap from_sel="M3MASK1" to_sel="M3MASK2"/>
+ </target_sels_map>
+
+ <target_sels_map map_name="M3_GR">
+  <remap from_sel="M3MASK1" to_sel="M3"/>
+ </target_sels_map>
+
+ <target_sels_map map_name="M2_E2">
+  <remap from_sel="M2MASK1" to_sel="M2MASK2"/>
+ </target_sels_map>
+
+ <target_sels_map map_name="M2_GR">
+  <remap from_sel="M2MASK1" to_sel="M2"/>
+ </target_sels_map>
+
+ <rule>
+  <rulename>M1_minArea_1a</rulename>
+  <report custom_orients="R90 R270" />
+  <target_sels_map_name>M1_E2</target_sels_map_name>
+  <target_sels_map_name>M1_GR</target_sels_map_name>
+  <pattern_def type="squish"
+    signature="L1
+               0 0 0 /
+               0 1 0 /
+               0 0 0 "
+    x_deltas="128 32-192 128"
+    y_deltas="1 32-136 1" >
+   <pattern sel="M1MASK1" />
+   <overlay_scanline_range range_str="x1 y1 x2 y2" output_layer="MARKER" />
+   <properties primary_layer="M1MASK1" hotspot_type="WIDTH" hotspot_level="1" >
+    <repair>
+     <hint>
+      <group>
+       <overlay_scanline_range range_str="x1 x2 y1 y2" output_layer="PATTERNREF_M1" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x1 x2 y1 y2" output_layer="PROPERTY_LOCKCOLOR" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x1 x2 y1 y2" output_layer="NOPATTERNREF_M1/drawing" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x1 x2 y1 y2" output_layer="PROPERTY_imfGenerated:string:MinArea" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x1h-95 x1 y1 y2" output_layer="M1/drawing-addpath" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x2 x1h+96 y1 y2" output_layer="M1/drawing-addpath" action="ADDPATH"/>
+      </group>
+     </hint>
+    </repair>
+   </properties>
+  </pattern_def>
+ </rule>
+
+ <rule>
+  <rulename>M3_minArea_1a</rulename>
+  <report custom_orients="R90 R270" />
+  <target_sels_map_name>M3_E2</target_sels_map_name>
+  <target_sels_map_name>M3_GR</target_sels_map_name>
+  <pattern_def type="squish"
+    signature="L1
+               0 0 0 /
+               0 1 0 /
+               0 0 0 "
+    x_deltas="128 100-192 128"
+    y_deltas="1 32-136 1" >
+   <pattern sel="M3MASK1" />
+   <overlay_scanline_range range_str="x1 y1 x2 y2" output_layer="MARKER" />
+   <properties primary_layer="M3MASK1" hotspot_type="WIDTH" hotspot_level="1" >
+    <repair>
+     <hint>
+      <group>
+       <overlay_scanline_range range_str="x1 x2 y1 y2" output_layer="PATTERNREF_M3" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x1 x2 y1 y2" output_layer="PROPERTY_LOCKCOLOR" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x1 x2 y1 y2" output_layer="NOPATTERNREF_M3/drawing" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x1 x2 y1 y2" output_layer="PROPERTY_imfGenerated:string:MinArea" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x1h-95 x1 y1 y2" output_layer="M3/drawing-addpath" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x2 x1h+96 y1 y2" output_layer="M3/drawing-addpath" action="ADDPATH"/>
+      </group>
+     </hint>
+    </repair>
+   </properties>
+  </pattern_def>
+ </rule>
+
+ <rule>
+  <rulename>M2_minArea_1a</rulename>
+  <report custom_orients="R0 R180" />
+  <target_sels_map_name>M2_E2</target_sels_map_name>
+  <target_sels_map_name>M2_GR</target_sels_map_name>
+  <pattern_def type="squish"
+    signature="L1
+               0 0 0 /
+               0 1 0 /
+               0 0 0 "
+    x_deltas="128 100-192 128"
+    y_deltas="1 32-136 1" >
+   <pattern sel="M2MASK1" />
+   <overlay_scanline_range range_str="x1 y1 x2 y2" output_layer="MARKER" />
+   <properties primary_layer="M2MASK1" hotspot_type="WIDTH" hotspot_level="1" >
+    <repair>
+     <hint>
+      <group>
+       <overlay_scanline_range range_str="x1 x2 y1 y2" output_layer="PATTERNREF_M2" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x1 x2 y1 y2" output_layer="PROPERTY_LOCKCOLOR" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x1 x2 y1 y2" output_layer="NOPATTERNREF_M2/drawing" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x1 x2 y1 y2" output_layer="PROPERTY_imfGenerated:string:MinArea" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x1h-95 x1 y1 y2" output_layer="M2/drawing-addpath" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x2 x1h+96 y1 y2" output_layer="M2/drawing-addpath" action="ADDPATH"/>
+      </group>
+     </hint>
+    </repair>
+   </properties>
+  </pattern_def>
+ </rule>
+
+</deck>

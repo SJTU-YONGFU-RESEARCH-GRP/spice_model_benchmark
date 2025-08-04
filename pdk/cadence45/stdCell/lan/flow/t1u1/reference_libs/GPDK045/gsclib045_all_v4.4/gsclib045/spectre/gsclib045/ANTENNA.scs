@@ -1,0 +1,13 @@
+// Generated for: spectre (Mar 20 14:01:53 2013 )
+// Library name: gsclib045
+// Cell name: ANTENNA
+// View name: schematic
+
+simulator lang=spectre
+
+subckt ANTENNA A VSS VDD
+D1 (A VDD) g45pd1svt area=188.8f pj=1.82u m=1
+D0 (VSS A) g45nd1svt area=155.1f pj=1.6u m=1
+ends ANTENNA
+// End of subcircuit definition.
+

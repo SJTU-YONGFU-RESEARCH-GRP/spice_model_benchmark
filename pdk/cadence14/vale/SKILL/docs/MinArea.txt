@@ -1,0 +1,16 @@
+VALE Framework Component Module:
+   Min Area 
+
+Description:
+   This Component Module runs pattern analysis with hotspot fixing to create design improvements to minimum area shapes.  This is just an example.  There are other, more sophisticated ways to do minimum area optimization.
+
+   In this example, it looks for M1 shapes that are between 32nm and 192nm long, and have 128nm of space on each side, and 32nm and 136nm wide, with no space requirement.  If these pattern conditions are met, the optimization is to add 95nm to the left and 96nm to the right.
+
+   It also looks for M2 or M3 shapes that are between 100nm and 192nm long, and have 128nm of space on each side, and 32nm and 136nm wide, with no space requirement.  If these pattern conditions are met, the optimization is to add 95nm to the left and 96nm to the right.
+
+Input Requirements:
+   An open cellview.
+
+Development Notes:
+   All aspects of this Component Module were developed by Cadence.
+   Please contact Jonathan Fales for more information: jfales@cadence.com

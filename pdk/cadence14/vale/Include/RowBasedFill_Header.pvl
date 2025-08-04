@@ -1,0 +1,579 @@
+// PVS RULE DECK FOR VALE FRAMEWORK COMPONENT MODULE
+// AGPDK 10nm
+//
+
+df2key enableColoring yes ;
+
+layout_path "CELLNAME.gds" gdsii;
+layout_primary "CELLNAME";
+results_db -drc "CELLNAME.db" -ascii;
+
+input_scale 2000;
+grid 1;
+unit -length u;
+text_depth -primary;
+
+layout_format gdsii
+max_results -drc -all
+
+flag -nonsimple yes;
+
+layer_def BuriedNWell 1100 
+ layer_map 3 -datatype 0 1100
+
+layer_def NWelli 1001 
+ layer_map 5 -datatype 0 1001
+
+layer_def NWell_PIN 1002 
+ layer_map 5 -datatype 45 1002
+
+layer_def NWell_LABEL 1003 
+ layer_map 5 -datatype 46 1003
+
+layer_def Active 1004 
+ layer_map 10 -datatype 0 1004
+
+layer_def Active_FIN 1005 
+ layer_map 10 -datatype 5 1005
+
+layer_def Active_DUMMY 1006 
+ layer_map 10 -datatype 10 1006
+
+layer_def CutActive 1007 
+ layer_map 10 -datatype 20 1007
+
+layer_def Active_PIN 1008 
+ layer_map 10 -datatype 45 1008
+
+layer_def Active_LABEL 1009 
+ layer_map 10 -datatype 46 1009
+
+layer_def FinArea 1010 
+ layer_map 300 -datatype 0 1010
+
+layer_def FinArea_type2 1011 
+ layer_map 350 -datatype 0 1011
+
+layer_def FinArea_type3 1012 
+ layer_map 400 -datatype 0 1012
+
+layer_def TrimFin 1013 
+ layer_map 120 -datatype 0 1013
+
+layer_def Psvt 1014 
+ layer_map 15 -datatype 0 1014
+
+layer_def Plvt 1015 
+ layer_map 15 -datatype 1 1015
+
+layer_def Phvt 1016 
+ layer_map 15 -datatype 2 1016
+
+layer_def Nsvt 1017 
+ layer_map 16 -datatype 0 1017
+
+layer_def Nlvt 1018 
+ layer_map 16 -datatype 1 1018
+
+layer_def Nhvt 1019 
+ layer_map 16 -datatype 2 1019
+
+layer_def Poly_DRAWING 1020 
+ layer_map 20 -datatype 0 1020
+
+layer_def Poly_DUMMY 1021 
+ layer_map 20 -datatype 10 1021
+
+layer_def Poly_EDGE 1022 
+ layer_map 20 -datatype 30 1022
+
+layer_def Poly_PIN 1023 
+ layer_map 20 -datatype 45 1023
+
+layer_def Poly_LABEL 1024 
+ layer_map 20 -datatype 46 1024
+
+layer_def CutPolyi 1025 
+ layer_map 21 -datatype 0 1025
+
+layer_def LiAct 1026 
+ layer_map 22 -datatype 0 1026
+
+layer_def LiPo 1027 
+ layer_map 24 -datatype 0 1027
+
+layer_def PPitch_POLY86 1028 
+ layer_map 130 -datatype 1 1028
+
+layer_def PPitch_POLY90 1029 
+ layer_map 130 -datatype 2 1029
+
+layer_def PPitch_POLY94 1030 
+ layer_map 130 -datatype 3 1030
+
+layer_def PPitch_POLY102 1031 
+ layer_map 130 -datatype 4 1031
+
+layer_def PPitch_POLY104 1032 
+ layer_map 130 -datatype 5 1032
+
+layer_def SaB 1033 
+ layer_map 6 -datatype 0 1033
+
+layer_def V0 1034 
+ layer_map 25 -datatype 0 1034
+
+layer_def M1 1040 
+ layer_map 30 -datatype 0 1040
+
+layer_def M1_FILL 1041 
+ layer_map 30 -datatype 11 1041
+
+layer_def M1_MASK1_UNLOCK 1042 
+ layer_map 30 -datatype 1 1042
+
+layer_def M1_MASK1_LOCK 1043 
+ layer_map 30 -datatype 2 1043
+
+layer_def M1_MASK2_UNLOCK 1044 
+ layer_map 30 -datatype 3 1044
+
+layer_def M1_MASK2_LOCK 1045 
+ layer_map 30 -datatype 4 1045
+
+layer_def M1_PIN 1046 
+ layer_map 30 -datatype 45 1046
+
+layer_def M1_LABEL 1047 
+ layer_map 30 -datatype 46 1047
+
+layer_def V1 1055 
+ layer_map 32 -datatype 0 1055
+
+layer_def V1_MASK1_UNLOCK 1355 
+ layer_map 32 -datatype 1 1355
+
+layer_def V1_MASK1_LOCK 1356 
+ layer_map 32 -datatype 2 1356
+
+layer_def V1_MASK2_UNLOCK 1455 
+ layer_map 32 -datatype 3 1455
+
+layer_def V1_MASK2_LOCK 1456 
+ layer_map 32 -datatype 4 1456
+
+layer_def V1_MASK3_UNLOCK 1555 
+ layer_map 32 -datatype 5 1555
+
+layer_def V1_MASK3_LOCK 1556 
+ layer_map 32 -datatype 6 1556
+
+layer_def M2 1060 
+ layer_map 34 -datatype 0 1060
+
+layer_def M2_FILL 1161 
+ layer_map 34 -datatype 11 1161
+
+layer_def M2_MASK1_UNLOCK 1062 
+ layer_map 34 -datatype 1 1062
+
+layer_def M2_MASK1_LOCK 1063 
+ layer_map 34 -datatype 2 1063
+
+layer_def M2_MASK2_UNLOCK 1064 
+ layer_map 34 -datatype 3 1064
+
+layer_def M2_MASK2_LOCK 1065 
+ layer_map 34 -datatype 4 1065
+
+layer_def M2_PIN 1066 
+ layer_map 34 -datatype 45 1066
+
+layer_def M2_LABEL 1067 
+ layer_map 34 -datatype 46 1067
+
+layer_def V2 1075 
+ layer_map 36 -datatype 0 1075
+
+layer_def V2_MASK1_UNLOCK 1375 
+ layer_map 36 -datatype 1 1375
+
+layer_def V2_MASK1_LOCK 1376 
+ layer_map 36 -datatype 2 1376
+
+layer_def V2_MASK2_UNLOCK 1475 
+ layer_map 36 -datatype 3 1475
+
+layer_def V2_MASK2_LOCK 1476 
+ layer_map 36 -datatype 4 1476
+
+layer_def V2_MASK3_UNLOCK 1575 
+ layer_map 36 -datatype 5 1575
+
+layer_def V2_MASK3_LOCK 1576 
+ layer_map 36 -datatype 6 1576
+
+layer_def M3 1080 
+ layer_map 38 -datatype 0 1080
+
+layer_def M3_FILL 1081 
+ layer_map 38 -datatype 11 1081
+
+layer_def M3_MASK1_UNLOCK 1082 
+ layer_map 38 -datatype 1 1082
+
+layer_def M3_MASK1_LOCK 1083 
+ layer_map 38 -datatype 2 1083
+
+layer_def M3_MASK2_UNLOCK 1084 
+ layer_map 38 -datatype 3 1084
+
+layer_def M3_MASK2_LOCK 1085 
+ layer_map 38 -datatype 4 1085
+
+layer_def M3_PIN 1086 
+ layer_map 38 -datatype 45 1086
+
+layer_def M3_LABEL 1087 
+ layer_map 38 -datatype 46 1087
+
+layer_def V3 1095 
+ layer_map 40 -datatype 0 1095
+
+layer_def V3_MASK1_UNLOCK 1395 
+ layer_map 40 -datatype 1 1395
+
+layer_def V3_MASK1_LOCK 1396 
+ layer_map 40 -datatype 2 1396
+
+layer_def V3_MASK2_UNLOCK 1495 
+ layer_map 40 -datatype 3 1495
+
+layer_def V3_MASK2_LOCK 1496 
+ layer_map 40 -datatype 4 1496
+
+layer_def V3_MASK3_UNLOCK 1595 
+ layer_map 40 -datatype 5 1595
+
+layer_def V3_MASK3_LOCK 1596 
+ layer_map 40 -datatype 6 1596
+
+layer_def M4 1103 
+ layer_map 42 -datatype 0 1103
+
+layer_def M4_FILL 1126 
+ layer_map 42 -datatype 11 1126
+
+layer_def M4_PIN 1106 
+ layer_map 42 -datatype 45 1106
+
+layer_def M4_LABEL 1107 
+ layer_map 42 -datatype 46 1107
+
+layer_def V4 1115 
+ layer_map 44 -datatype 0 1115
+
+layer_def M5 1123 
+ layer_map 46 -datatype 0 1123
+
+layer_def M5_FILL 1127 
+ layer_map 46 -datatype 11 1127
+
+layer_def M5_PIN 1130 
+ layer_map 46 -datatype 45 1130
+
+layer_def M5_LABEL 1131 
+ layer_map 46 -datatype 46 1131
+
+layer_def V5 1139 
+ layer_map 48 -datatype 0 1139
+
+layer_def M6 1147 
+ layer_map 50 -datatype 0 1147
+
+layer_def M6_FILL 1148 
+ layer_map 50 -datatype 11 1148
+
+layer_def M6_PIN 1151 
+ layer_map 50 -datatype 45 1151
+
+layer_def M6_LABEL 1152 
+ layer_map 50 -datatype 46 1152
+
+layer_def V6 1160 
+ layer_map 52 -datatype 0 1160
+
+layer_def M7 1168 
+ layer_map 54 -datatype 0 1168
+
+layer_def M7_FILL 1169 
+ layer_map 54 -datatype 11 1169
+
+layer_def M7_PIN 1172 
+ layer_map 54 -datatype 45 1172
+
+layer_def M7_LABEL 1173 
+ layer_map 54 -datatype 46 1173
+
+layer_def CMT 1181 
+ layer_map 60 -datatype 0 1181
+
+layer_def VT 1182
+ layer_map 62 -datatype 0 1182
+
+layer_def MT 1190 
+ layer_map 64 -datatype 0 1190
+
+layer_def MT_FILL 1191 
+ layer_map 64 -datatype 11 1191
+
+layer_def MT_PIN 1194 
+ layer_map 64 -datatype 45 1194
+
+layer_def MT_LABEL 1195 
+ layer_map 64 -datatype 46 1195
+
+layer_def m1res 1203 
+ layer_map 30 -datatype 32 1203
+
+layer_def m2res 1204 
+ layer_map 34 -datatype 32 1204
+
+layer_def m3res 1205 
+ layer_map 38 -datatype 32 1205
+
+layer_def m4res 1206 
+ layer_map 42 -datatype 32 1206
+
+layer_def m5res 1207 
+ layer_map 46 -datatype 32 1207
+
+layer_def m6res 1208 
+ layer_map 50 -datatype 32 1208
+
+layer_def m7res 1209 
+ layer_map 54 -datatype 32 1209
+
+layer_def mtres 1210 
+ layer_map 64 -datatype 32 1210
+
+layer_def nwstires 1211 
+ layer_map 5 -datatype 32 1211
+
+layer_def nwodres 1212 
+ layer_map 5 -datatype 33 1212
+
+layer_def diffres 1213 
+ layer_map 10 -datatype 32 1213
+
+layer_def pcres 1214 
+ layer_map 20 -datatype 32 1214
+
+layer_def diodmy 1215 
+ layer_map 153 -datatype 0 1215
+
+layer_def NPNdmy 1216 
+ layer_map 154 -datatype 0 1216
+
+layer_def ThickOx 1217 
+ layer_map 11 -datatype 0 1217
+
+layer_def CutM1  1231;
+ layer_map 31 -datatype eq 0  1231;
+
+layer_def CutM1_MASK1_UNLOCK  1232;
+ layer_map 31 -datatype eq 1  1232;
+
+layer_def CutM1_MASK1_LOCK 1233;
+ layer_map 31 -datatype eq 2 1233;
+
+layer_def CutM1_MASK2_UNLOCK 1234;
+ layer_map 31 -datatype eq 3 1234;
+
+layer_def CutM1_MASK2_LOCK 1235;
+ layer_map 31 -datatype eq 4 1235;
+
+layer_def CutM2  1241;
+ layer_map 35 -datatype eq 0  1241;
+
+layer_def CutM2_MASK1_UNLOCK 1242;
+ layer_map 35 -datatype eq 1 1242;
+
+layer_def CutM2_MASK1_LOCK 1243;
+ layer_map 35 -datatype eq 2 1243;
+
+layer_def CutM2_MASK2_UNLOCK 1244;
+ layer_map 35 -datatype eq 3 1244;
+
+layer_def CutM2_MASK2_LOCK 1245;
+ layer_map 35 -datatype eq 4 1245;
+
+layer_def CutM3  1251; 
+ layer_map 39 -datatype eq 0 1251;
+
+layer_def CutM3_MASK1_UNLOCK 1252;
+ layer_map 39 -datatype eq 1 1252;
+
+layer_def CutM3_MASK1_LOCK 1253;
+ layer_map 39 -datatype eq 2 1253;
+
+layer_def CutM3_MASK2_UNLOCK 1254;
+ layer_map 39 -datatype eq 3 1254;
+
+layer_def CutM3_MASK2_LOCK 1255;
+ layer_map 39 -datatype eq 4 1255;
+
+
+
+// Technology specific custom layer definitions
+layer_def prBoundaryObj 8319;
+layer_map 1000 -datatype 0 8319;
+layer_def Poly_Track 8350;
+layer_map 20 -datatype 6 8350;
+
+// Multiple layers with multiple grids means that each must me classified
+// and combinations must be recognized.
+//
+// Poly style - pitch - width - space
+// 1 -  86n - 18n - 68n
+// 2 -  90n - 18n - 72n 
+// 3 -  90n - 20n - 70n 
+// 4 -  94n - 18n - 76n 
+// 5 -  94n - 20n - 74n 
+// 6 -  94n - 24n - 70n
+// 7 - 102n - 18n - 84n
+// 8 - 102n - 20n - 82n
+// 9 - 102n - 24n - 78n
+//10 - 102n - 28n - 74n
+//11 - 104n - 18n - 86n
+//12 - 104n - 20n - 84n
+//13 - 104n - 24n - 80n
+//14 - 104n - 28n - 76n
+//15 - 104n - 30n - 74n
+
+variable POLY_W_1 0.018
+variable POLY_S_1 0.068
+variable POLY_P_1 0.086
+variable HALF_POLY_W_1 0.009
+variable HALF_POLY_S_1 0.034
+variable HALF_POLY_P_1 0.043
+
+variable POLY_W_15 0.030
+variable POLY_S_15 0.074
+variable POLY_P_15 0.104
+variable HALF_POLY_W_15 0.015
+variable HALF_POLY_S_15 0.037
+variable HALF_POLY_P_15 0.052
+
+// Local interconnect width - space
+// 30n - all spaces with poly pitch but given an ID according 
+// to the row style 
+
+// Row heights
+// 1 - 528n
+
+// A max distance to extend the diffusion as a full row in a boundary
+variable MAX 3.0 ;
+
+// Row pitch, double pitch
+variable ROW_P_1 0.528
+
+variable ROW_2P_1 1.056
+
+// Row 2x pitch minus value for odd/even row classification
+variable ROW_2PMV_1 0.956
+
+// Generate a 2nm row joint
+variable ROW_ID_HEIGHT_1 0.526
+
+// Row Extension Past Diffusion 
+// ROW_EXT_DIFF_1A = (ROW_ID_HEIGHT_1 - DIFF_WIDTH_1A)/ 2
+variable ROW_EXT_DIFF_1A 0.160
+
+// Orientation variable
+variable ORIENT_90 90 ;
+
+// Local interconnect/contact width and space 1
+variable LI_W_1 0.030 ;
+variable LI_S_1 0.056 ;
+variable HALF_LI_W_1 0.015 ;
+variable HALF_LI_S_1 0.028 ;
+
+// Local interconnect/contact width and space 2
+variable LI_W_2 0.030
+variable LI_S_2 0.074
+variable HALF_LI_W_2 0.015
+variable HALF_LI_S_2 0.037
+
+// Related to fin width: 1A is 5 fin 
+variable DIFF_WIDTH_1A 0.206
+variable DIFF_WIDTH_1B 0.302
+variable DIFF_WIDTH_1C 0.398
+variable DIFF_WIDTH_1D 0.494
+
+// Local interconnect/contact layer extension past diffusion
+// A is the dimension away from an inverter center, B is towards the center
+variable LI_EXT_DIFF_1A 0.020
+variable LI_EXT_DIFF_1B 0.020
+variable LI_EXT_DIFF_15A 0.020
+variable LI_EXT_DIFF_15B 0.020
+variable LI_EXT_DIFF_2C 0.0
+variable LI_EXT_DIFF_2D 0.0
+variable POLY_EXT_DIFF_1A 0.048
+variable POLY_EXT_DIFF_1B 0.048
+variable POLY_EXT_DIFF_15A 0.048
+variable POLY_EXT_DIFF_15B 0.048
+variable LI_EXT_DIFF_3A 0.0
+variable LI_EXT_DIFF_3B 0.0
+variable LI_EXT_DIFF_4A 0.0
+
+// Diffusion Spacing to odd/even rows for style 1
+variable DIFF_SP_O3 0.0
+variable DIFF_SP_E3 0.0
+// Diffusion Spacing to odd/even rows for style 2
+variable DIFF_SP_O4 0.0
+variable DIFF_SP_E4 0.0
+
+variable IMPL_CUSTOM_3VA 0.0
+variable IMPL_CUSTOM_3VB 0.0
+
+variable IMPL_CUSTOM_4A 0.0
+variable IMPL_CUSTOM_4B 0.0
+variable IMPL_CUSTOM_4D 0.0
+variable IMPL_CUSTOM_4E 0.0
+
+// Parameters to generate Poly Cut
+variable POLY_CUT_CUSTOM_1  0.017
+variable POLY_CUT_CUSTOM_2A 0.0
+variable POLY_CUT_CUSTOM_2B 0.0
+variable POLY_CUT_CUSTOM_4A 0.0
+variable POLY_CUT_CUSTOM_4B 0.0
+variable POLY_CUT_CUSTOM_4C 0.0
+variable POLY_CUT_CUSTOM_4D 0.0
+
+// Parameters for Active Fill for Dummy and Tap Rows
+variable ACTIVE_X4W_15 0.342
+variable ACTIVE_X4S_15 0.074
+variable HALF_ACTIVE_X4W_15 0.171
+variable HALF_ACTIVE_X4S_15 0.037
+
+// mapped from object map
+layer_def BoundaryArea 8320;
+layer_map 1000 -datatype 1 8320;
+
+// Rename layers to generic
+and Poly_DRAWING  BoundaryArea Poly
+or Poly_DUMMY Poly_EDGE PolyMulti
+and PolyMulti     BoundaryArea PolyDummy
+copy Poly_Track   PolyRegion
+and LiAct         BoundaryArea LiCont
+and Active        BoundaryArea Diff
+and ThickOx       BoundaryArea DiffMarkerA1
+and NWelli        BoundaryArea NWell
+copy CutPolyi     CutPoly
+or Plvt Psvt      tmpImplP
+or Phvt tmpImplP  ImplP
+or Plvt Nlvt      ImplLvt
+or Psvt Nsvt      ImplSvt
+or Phvt Nhvt      ImplHvt
+

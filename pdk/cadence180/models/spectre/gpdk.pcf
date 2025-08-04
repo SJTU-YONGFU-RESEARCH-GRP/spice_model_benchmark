@@ -1,0 +1,57 @@
+corAddProcess( "gpdk" "./models" "multipleModelLib" )
+
+corAddModelFileAndSectionChoices( "gpdk" "mos25gen.scs" '("tt" "ff" "ss" "fs" "sf") )
+corAddModelFileAndSectionChoices( "gpdk" "nmos1.scs" '("nom" "slow" "fast") )
+corAddModelFileAndSectionChoices( "gpdk" "pmos1.scs" '("nom" "slow" "fast") )
+corAddModelFileAndSectionChoices( "gpdk" "bipolar.scs" '("bjt") )
+corAddModelFileAndSectionChoices( "gpdk" "rfmos.scs" '("rf_mos") )
+corAddModelFileAndSectionChoices( "gpdk" "capacitor.scs" '("cap") )
+corAddModelFileAndSectionChoices( "gpdk" "diode.scs" '("dio") )
+corAddModelFileAndSectionChoices( "gpdk" "resistor.scs" '("res") )
+
+;;;;;;;;;;;;;;;;;;;;;;  begin typ corner ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+corAddCorner( "gpdk" "typ" )
+corSetCornerGroupVariant( "gpdk" "typ" "mos25gen.scs" "tt" )
+corSetCornerGroupVariant( "gpdk" "typ" "nmos1.scs" "nom" )
+corSetCornerGroupVariant( "gpdk" "typ" "pmos1.scs" "nom" )
+corSetCornerGroupVariant( "gpdk" "typ" "bipolar.scs" "bjt" )
+corSetCornerGroupVariant( "gpdk" "typ" "rfmos.scs" "rf_mos" )
+corSetCornerGroupVariant( "gpdk" "typ" "capacitor.scs" "cap" )
+corSetCornerGroupVariant( "gpdk" "typ" "diode.scs" "dio" )
+corSetCornerGroupVariant( "gpdk" "typ" "resistor.scs" "res" )
+corSetCornerRunTempVal( "gpdk" "typ" 25 )
+
+;;;;;;;;;;;;;;;;;;;;;;  end typ corner ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;;;;;;;;  begin fastNP corner ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+corAddCorner( "gpdk" "fastNP" )
+corSetCornerGroupVariant( "gpdk" "fastNP" "mos25gen.scs" "ff" )
+corSetCornerGroupVariant( "gpdk" "fastNP" "nmos1.scs" "fast" )
+corSetCornerGroupVariant( "gpdk" "fastNP" "pmos1.scs" "fast" )
+corSetCornerGroupVariant( "gpdk" "fastNP" "bipolar.scs" "bjt" )
+corSetCornerGroupVariant( "gpdk" "fastNP" "rfmos.scs" "rf_mos" )
+corSetCornerGroupVariant( "gpdk" "fastNP" "capacitor.scs" "cap" )
+corSetCornerGroupVariant( "gpdk" "fastNP" "diode.scs" "dio" )
+corSetCornerGroupVariant( "gpdk" "fastNP" "resistor.scs" "res" )
+corSetCornerRunTempVal( "gpdk" "fastNP" 85 )
+
+;;;;;;;;;;;;;;;;;;;;;;  end fastNP corner ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;;;;;;;;  begin slowNP corner ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+corAddCorner( "gpdk" "slowNP" )
+corSetCornerGroupVariant( "gpdk" "slowNP" "mos25gen.scs" "ss" )
+corSetCornerGroupVariant( "gpdk" "slowNP" "nmos1.scs" "slow" )
+corSetCornerGroupVariant( "gpdk" "slowNP" "pmos1.scs" "slow" )
+corSetCornerGroupVariant( "gpdk" "slowNP" "bipolar.scs" "bjt" )
+corSetCornerGroupVariant( "gpdk" "slowNP" "rfmos.scs" "rf_mos" )
+corSetCornerGroupVariant( "gpdk" "slowNP" "capacitor.scs" "cap" )
+corSetCornerGroupVariant( "gpdk" "slowNP" "diode.scs" "dio" )
+corSetCornerGroupVariant( "gpdk" "slowNP" "resistor.scs" "res" )
+corSetCornerRunTempVal( "gpdk" "slowNP" 0 )
+
+;;;;;;;;;;;;;;;;;;;;;;  end slowNP corner ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

@@ -1,0 +1,12 @@
+**************************************************************
+*   Generic PDK Resistor models                       05/17/01
+*                                                  PDK Factory
+**************************************************************
+
+simulator lang=spectre
+*
+subckt snacapacitor PLUS MINUS
+parameters c=0 
+c1 (PLUS MINUS) capacitor c=c*1
+ends snacapacitor 
+*

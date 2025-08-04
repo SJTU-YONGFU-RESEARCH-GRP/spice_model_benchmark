@@ -1,0 +1,234 @@
+*
+*|DSPF 1.5
+*
+*|DATE "Wed May  8 11:33:23 2013"
+*|VENDOR "Cadence Design Systems"
+*|PROGRAM "Cadence Extraction QRC"
+*|VERSION "12.1 Linux 64 bit - (Fri Mar 15 17:53:47 PDT 2013)"
+*|DESIGN "NAND3X6"
+*|DIVIDER /
+*|DELIMITER :
+*|DeviceFingerDelim "@"
+*|BUSBIT []
+** caps2d version: 10
+*
+.GLOBAL  VDD VSS
+*
+.SUBCKT  NAND3X6 C A Y B
+*
+*Net Section
+*
+*|GROUND_NET VSS
+*
+*|NET C 1.126e-15
+*|P (C X 0 1.1000 0.6650)
+*|I (Mmn2@1:g Mmn2@1 g X 0 0.7025 0.4750)
+*|I (Mmn2@2:g Mmn2@2 g X 0 0.9075 0.4750)
+*|I (Mmn2@3:g Mmn2@3 g X 0 1.8925 0.4750)
+*|I (Mmn2@4:g Mmn2@4 g X 0 2.0975 0.4750)
+*|I (Mmn2:g Mmn2 g X 0 3.3175 0.4750)
+C1 Mmn2:g VSS 3.73555e-17
+C2 Mmn2@4:g VSS 1.90583e-17
+C3 Mmn2@3:g VSS 2.75644e-17
+C4 Mmn2@2:g VSS 2.6343e-17
+C5 Mmn2@1:g VSS 3.193e-17
+C6 C VSS 9.83744e-16
+Rl1 C Mmn2@1:g 52.754070 $W=0.039
+Rl2 C Mmn2@2:g 24.232828 $W=0.039
+Rl3 C Mmn2@3:g 35.233555 $W=0.039
+Rl4 C Mmn2@4:g 45.789383 $W=0.039
+Rl5 C Mmn2:g 24.232828 $W=0.039
+*
+*|NET A 1.60812e-15
+*|P (A X 0 0.3000 0.8550)
+*|I (Mmn0@1:g Mmn0@1 g X 0 0.4175 0.4750)
+*|I (Mmn0@2:g Mmn0@2 g X 0 1.2975 0.4750)
+*|I (Mmn0@3:g Mmn0@3 g X 0 1.5625 0.4750)
+*|I (Mmn0@4:g Mmn0@4 g X 0 2.6775 0.4750)
+*|I (Mmn0:g Mmn0 g X 0 2.9425 0.4750)
+*|I (Mmp0:g Mmp0 g X 0 0.3175 1.2350)
+C7 Mmp0:g VSS 1.32457e-15
+C8 Mmn0:g VSS 4.67943e-17
+C9 Mmn0@4:g VSS 4.73584e-17
+C10 Mmn0@3:g VSS 5.63934e-17
+C11 Mmn0@2:g VSS 4.9362e-17
+C12 Mmn0@1:g VSS 6.46206e-17
+C13 A VSS 1.90166e-17
+Rl6 Mmn0@1:g Mmp0:g 73.054115 $W=0.039
+Rl7 Mmp0:g Mmn0@2:g 115.362503 $W=0.039
+Rl8 Mmn0@3:g Mmp0:g 118.246201 $W=0.039
+Rl9 Mmp0:g Mmn0@4:g 120.707954 $W=0.039
+Rl10 Mmp0:g Mmn0:g 106.925835 $W=0.039
+Rk11 Mmp0:g A 0.026773 $W=0.1
+*
+*|NET Y 1.43584e-15
+*|P (Y X 0 4.1000 1.0450)
+*|I (Mmn2@1:d Mmn2@1 d X 0 0.8050 0.4750)
+*|I (Mmn2@3:d Mmn2@3 d X 0 1.9950 0.4750)
+*|I (Mmn2:d Mmn2 d X 0 3.4175 0.4750)
+*|I (Mmp0:d Mmp0 d X 0 0.4200 1.2350)
+*|S (Y:10 3.4350 0.4600)
+*|S (Y:21 1.9950 0.4600)
+C14 Mmp0:d VSS 7.87193e-16
+C15 Mmn2:d VSS 1.97768e-16
+C16 Mmn2@3:d VSS 2.25103e-16
+C17 Mmn2@1:d VSS 1.1489e-16
+C18 Y VSS 1.1089e-16
+Rk12 Y:10 Y 0.870083 $W=0.09
+Rk13 Y:21 Y:10 1.035651 $W=0.09
+Rk14 Y:21 Mmn2@1:d 38.459843 $W=0.09
+Rk15 Y:21 Mmn2@3:d 37.500000 $W=0.09
+Rk16 Y:10 Mmn2:d 37.500000 $W=0.09
+Rk17 Mmp0:d Y 0.269186 $W=0.09
+*
+*|NET B 1.65769e-15
+*|P (B X 0 3.7000 0.8550)
+*|I (Mmn1@1:g Mmn1@1 g X 0 0.5225 0.4750)
+*|I (Mmn1@2:g Mmn1@2 g X 0 1.1375 0.4750)
+*|I (Mmn1@3:g Mmn1@3 g X 0 1.6975 0.4750)
+*|I (Mmn1@4:g Mmn1@4 g X 0 2.5075 0.4750)
+*|I (Mmn1:g Mmn1 g X 0 3.1475 0.4750)
+*|I (Mmp1@1:g Mmp1@1 g X 0 0.5225 1.2350)
+C19 Mmp1@1:g VSS 1.34773e-15
+C20 Mmn1:g VSS 4.85405e-17
+C21 Mmn1@4:g VSS 4.12857e-17
+C22 Mmn1@3:g VSS 6.65331e-17
+C23 Mmn1@2:g VSS 5.5027e-17
+C24 Mmn1@1:g VSS 8.1763e-17
+C25 B VSS 1.68057e-17
+Rl18 Mmp1@1:g Mmn1@1:g 83.790321 $W=0.039
+Rl19 Mmp1@1:g Mmn1@2:g 66.076393 $W=0.039
+Rl20 Mmp1@1:g Mmn1@3:g 87.637360 $W=0.039
+Rl21 Mmp1@1:g Mmn1@4:g 44.922543 $W=0.039
+Rl22 Mmp1@1:g Mmn1:g 53.560280 $W=0.039
+Rk23 Mmp1@1:g B 0.016847 $W=0.1
+*
+*|NET 7 0
+*|I (Mmn0@1:d Mmn0@1 d X 0 0.4700 0.4750)
+*|I (Mmn1@1:d Mmn1@1 d X 0 0.4700 0.4750)
+Rmw24 Mmn1@1:d Mmn0@1:d 0.001000 $W=1
+*
+*|NET 8 0
+*|I (Mmn1@1:s Mmn1@1 s X 0 0.6125 0.4750)
+*|I (Mmn2@1:s Mmn2@1 s X 0 0.6125 0.4750)
+Rmw25 Mmn2@1:s Mmn1@1:s 0.001000 $W=1
+*
+*|NET 9 9.87819e-18
+*|I (Mmn2@2:s Mmn2@2 s X 0 1.0225 0.4750)
+*|I (Mmn1@2:d Mmn1@2 d X 0 1.0225 0.4750)
+C26 Mmn2@2:s VSS 9.87819e-18
+Rmw26 Mmn1@2:d Mmn2@2:s 0.001000 $W=1
+*
+*|NET 10 5.83404e-18
+*|I (Mmn1@2:s Mmn1@2 s X 0 1.2175 0.4750)
+*|I (Mmn0@2:d Mmn0@2 d X 0 1.2175 0.4750)
+C27 Mmn1@2:s VSS 5.83404e-18
+Rmw27 Mmn0@2:d Mmn1@2:s 0.001000 $W=1
+*
+*|NET 11 4.69902e-18
+*|I (Mmn0@3:d Mmn0@3 d X 0 1.6300 0.4750)
+*|I (Mmn1@3:d Mmn1@3 d X 0 1.6300 0.4750)
+C28 Mmn0@3:d VSS 4.69902e-18
+Rmw28 Mmn1@3:d Mmn0@3:d 0.001000 $W=1
+*
+*|NET 12 7.28392e-18
+*|I (Mmn1@3:s Mmn1@3 s X 0 1.7950 0.4750)
+*|I (Mmn2@3:s Mmn2@3 s X 0 1.7950 0.4750)
+C29 Mmn1@3:s VSS 7.28392e-18
+Rmw29 Mmn2@3:s Mmn1@3:s 0.001000 $W=1
+*
+*|NET 13 1.52758e-17
+*|I (Mmn2@4:s Mmn2@4 s X 0 2.3025 0.4750)
+*|I (Mmn1@4:d Mmn1@4 d X 0 2.3025 0.4750)
+C30 Mmn2@4:s VSS 1.52758e-17
+Rmw30 Mmn1@4:d Mmn2@4:s 0.001000 $W=1
+*
+*|NET 14 4.94436e-18
+*|I (Mmn1@4:s Mmn1@4 s X 0 2.5925 0.4750)
+*|I (Mmn0@4:d Mmn0@4 d X 0 2.5925 0.4750)
+C31 Mmn1@4:s VSS 4.94436e-18
+Rmw31 Mmn0@4:d Mmn1@4:s 0.001000 $W=1
+*
+*|NET 15 7.25523e-18
+*|I (Mmn0:d Mmn0 d X 0 3.0450 0.4750)
+*|I (Mmn1:d Mmn1 d X 0 3.0450 0.4750)
+C32 Mmn0:d VSS 7.25523e-18
+Rmw32 Mmn1:d Mmn0:d 0.001000 $W=1
+*
+*|NET 16 4.87818e-18
+*|I (Mmn1:s Mmn1 s X 0 3.2325 0.4750)
+*|I (Mmn2:s Mmn2 s X 0 3.2325 0.4750)
+C33 Mmn1:s VSS 4.87818e-18
+Rmw33 Mmn2:s Mmn1:s 0.001000 $W=1
+*
+*Instance Section
+*
+Mmn0@1	Mmn0@1:d	Mmn0@1:g	VSS	VSS	g45n1hvt
++ L=0.045U	W=0.31U
++ AD=0.0186P	AS=0.0434P	PD=0.74U	PS=0.9U
++ fw=3.1e-07 sa=1.4e-07 sb=2e-06 sca=13.2036 scb=0.0127776 scc=0.000861941
+Mmn1@1	Mmn1@1:d	Mmn1@1:g	Mmn1@1:s	VSS	g45n1hvt
++ L=0.045U	W=0.31U
++ AD=0.0186P	AS=0.04185P	PD=0.74U	PS=0.89U
++ fw=3.1e-07 sa=2.45e-07 sb=2e-06 sca=13.2036 scb=0.0127776 scc=0.000861941
+Mmn2@1	Mmn2@1:d	Mmn2@1:g	Mmn2@1:s	VSS	g45n1hvt
++ L=0.045U	W=0.31U
++ AD=0.0496P	AS=0.04185P	PD=0.94U	PS=0.89U
++ fw=3.1e-07 sa=4.25e-07 sb=2e-06 sca=13.2036 scb=0.0127776 scc=0.000861941
+Mmn2@2	Mmn2@1:d	Mmn2@2:g	Mmn2@2:s	VSS	g45n1hvt
++ L=0.045U	W=0.31U
++ AD=0.0496P	AS=0.05735P	PD=0.94U	PS=0.99U
++ fw=3.1e-07 sa=6.3e-07 sb=2e-06 sca=13.2036 scb=0.0127776 scc=0.000861941
+Mmn1@2	Mmn1@2:d	Mmn1@2:g	Mmn1@2:s	VSS	g45n1hvt
++ L=0.045U	W=0.31U
++ AD=0.05735P	AS=0.03565P	PD=0.99U	PS=0.85U
++ fw=3.1e-07 sa=8.6e-07 sb=2e-06 sca=13.2036 scb=0.0127776 scc=0.000861941
+Mmn0@2	Mmn0@2:d	Mmn0@2:g	VSS	VSS	g45n1hvt
++ L=0.045U	W=0.31U
++ AD=0.03565P	AS=0.097P	PD=0.85U	PS=1.54U
++ fw=3.1e-07 sa=1.02e-06 sb=2e-06 sca=13.2036 scb=0.0127776 scc=0.000861941
+Mmn0@3	Mmn0@3:d	Mmn0@3:g	VSS	VSS	g45n1hvt
++ L=0.045U	W=0.31U
++ AD=0.0279P	AS=0.097P	PD=0.8U	PS=1.54U
++ fw=3.1e-07 sa=1.285e-06 sb=1.91e-06 sca=13.2036 scb=0.0127776 scc=0.000861941
+Mmn1@3	Mmn1@3:d	Mmn1@3:g	Mmn1@3:s	VSS	g45n1hvt
++ L=0.045U	W=0.31U
++ AD=0.0279P	AS=0.0465P	PD=0.8U	PS=0.92U
++ fw=3.1e-07 sa=1.42e-06 sb=1.775e-06 sca=13.2036 scb=0.0127776 scc=0.000861941
+Mmn2@3	Mmn2@3:d	Mmn2@3:g	Mmn2@3:s	VSS	g45n1hvt
++ L=0.045U	W=0.31U
++ AD=0.0496P	AS=0.0465P	PD=0.94U	PS=0.92U
++ fw=3.1e-07 sa=1.615e-06 sb=1.58e-06 sca=13.2036 scb=0.0127776 scc=0.000861941
+Mmn2@4	Mmn2@3:d	Mmn2@4:g	Mmn2@4:s	VSS	g45n1hvt
++ L=0.045U	W=0.31U
++ AD=0.0496P	AS=0.11315P	PD=0.94U	PS=1.35U
++ fw=3.1e-07 sa=1.82e-06 sb=1.375e-06 sca=13.2036 scb=0.0127776 scc=0.000861941
+Mmn1@4	Mmn1@4:d	Mmn1@4:g	Mmn1@4:s	VSS	g45n1hvt
++ L=0.045U	W=0.31U
++ AD=0.11315P	AS=0.03875P	PD=1.35U	PS=0.87U
++ fw=3.1e-07 sa=2e-06 sb=9.65e-07 sca=13.2036 scb=0.0127776 scc=0.000861941
+Mmn0@4	Mmn0@4:d	Mmn0@4:g	VSS	VSS	g45n1hvt
++ L=0.045U	W=0.31U
++ AD=0.03875P	AS=0.097P	PD=0.87U	PS=1.54U
++ fw=3.1e-07 sa=2e-06 sb=7.95e-07 sca=13.2036 scb=0.0127776 scc=0.000861941
+Mmn0	Mmn0:d	Mmn0:g	VSS	VSS	g45n1hvt	L=0.045U	W=0.31U
++ AD=0.0496P	AS=0.097P	PD=0.94U	PS=1.54U
++ fw=3.1e-07 sa=2e-06 sb=5.3e-07 sca=13.2036 scb=0.0127776 scc=0.000861941
+Mmn1	Mmn1:d	Mmn1:g	Mmn1:s	VSS	g45n1hvt	L=0.045U	W=0.31U
++ AD=0.0496P	AS=0.03875P	PD=0.94U	PS=0.87U
++ fw=3.1e-07 sa=2e-06 sb=3.25e-07 sca=13.2036 scb=0.0127776 scc=0.000861941
+Mmn2	Mmn2:d	Mmn2:g	Mmn2:s	VSS	g45n1hvt	L=0.045U	W=0.31U
++ AD=0.04805P	AS=0.03875P	PD=0.93U	PS=0.87U
++ fw=3.1e-07 sa=2e-06 sb=1.55e-07 sca=13.2036 scb=0.0127776 scc=0.000861941
+Mmp0	Mmp0:d	Mmp0:g	VDD	VDD	g45p1hvt	L=0.045U	W=0.39U
++ AD=0.06402P	AS=0.0598P	PD=1.10833U	PS=1.08667U	M=6
++ fw=3.9e-07 sa=1.4e-07 sb=2e-06 sca=18.6153 scb=0.0196772 scc=0.000647465
+Mmp1@1	Mmp0:d	Mmp1@1:g	VDD	VDD	g45p1hvt	L=0.045U
++ W=0.39U
++ AD=0.06402P	AS=0.0715P	PD=1.10833U	PS=1.14667U	M=6
++ fw=3.9e-07 sa=3.45e-07 sb=2e-06 sca=14.5247 scb=0.0127136 scc=0.000449121
+Mmp2	Mmp0:d	C	VDD	VDD	g45p1hvt	L=0.045U	W=0.39U
++ AD=0.0624P	AS=0.0715P	PD=1.1U	PS=1.14667U	M=6
++ fw=3.9e-07 sa=5.5e-07 sb=2e-06 sca=13.1869 scb=0.0112853 scc=0.000444017
+.ENDS
+.END

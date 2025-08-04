@@ -1,0 +1,309 @@
+**************************************************************
+*   Generic PDK Resistor models       
+**************************************************************
+
+* 16th May 2008: 
+* - TC added for metal resistors
+* - Corners for metal resistors
+* - noise added for diffusion resistors
+* - basic dcmatch added to all non-diff r's
+* - trise made globally and set to 0
+
+* TODO:
+* - Improve dcmatch modeling
+* - Improve mismatch modeling
+
+* Restrictions:
+* - All rdiffs support no dcmatch
+
+simulator lang=spectre
+library gpdk090
+
+section stat_mis 
+parameters 
++ triseRes = 0
++ pres_mc=0
+
+statistics { 
+ mismatch { 
+  vary pres_mc  dist=gauss std=1/1   
+  } 
+ } 
+endsection stat_mis
+
+
+//************* Library of typical corner ******************************
+
+section res_t
+parameters rnwox=400 rnwsti=400 crmet=1\
+rnsnd=100 rsnd=10 rnspd=150 rspd=10 \
+rnsnp=100 rsnp=10 rnspp=400 rspp=10 
+include "gpdk090_resistor.scs" section=stat_mis
+include "gpdk090_resistor.scs" section=res_macro
+include "gpdk090_resistor.scs" section=res
+endsection res_t
+
+//************* Library of best corner *********************************
+
+section res_l
+parameters rnwox=400*0.8 rnwsti=400*0.75 crmet=0.75\
+rnsnd=100*0.85 rsnd=10*0.8 rnspd=150*0.85 rspd=10*0.8 \
+rnsnp=100*0.85 rsnp=10*0.8 rnspp=400*0.85 rspp=10*0.8
+include "gpdk090_resistor.scs" section=stat_mis
+include "gpdk090_resistor.scs" section=res_macro
+include "gpdk090_resistor.scs" section=res
+endsection res_l
+
+//************* Library of worst corner ********************************
+
+section res_h
+parameters rnwox=400*1.2 rnwsti=400*1.25 crmet=1.5\
+rnsnd=100*1.15 rsnd=10*1.2 rnspd=150*1.15 rspd=10*1.2 \
+rnsnp=100*1.15 rsnp=10*1.2 rnspp=400*1.15 rspp=10*1.2
+include "gpdk090_resistor.scs" section=stat_mis
+include "gpdk090_resistor.scs" section=res_macro
+include "gpdk090_resistor.scs" section=res
+endsection res_h
+
+//**********************************************************************
+
+section res_macro
+
+ahdl_include "resd_va.va"
+subckt gpdk090_resnsndiff n2 n1 body
+parameters w=1u l=1u rsh=rnsnd dw=0.011u ptc1=1.32e-3 ptc2=5.53e-7 pvc1=2.99e-4 pvc2=5.56e-5
+R1 (n2 nm n2 n1) resd_va w=w l=l/4 r=rsh etch=dw tc1=ptc1 tc2=ptc2 vc1=pvc1 vc2=pvc2
+R2 (nm nn n2 n1) resd_va w=w l=l/4 r=rsh etch=dw tc1=ptc1 tc2=ptc2 vc1=pvc1 vc2=pvc2
+R3 (nn nx n2 n1) resd_va w=w l=l/4 r=rsh etch=dw tc1=ptc1 tc2=ptc2 vc1=pvc1 vc2=pvc2
+R4 (nx n1 n2 n1) resd_va w=w l=l/4 r=rsh etch=dw tc1=ptc1 tc2=ptc2 vc1=pvc1 vc2=pvc2
+d1 (body n2) gpdk090_ndio area=(w-dw)*l/5.0 pj=(w-dw)+2.0*l/5.0
+d2 (body nm) gpdk090_ndio area=(w-dw)*l/5.0 pj=2.0*l/5.0
+d3 (body nn) gpdk090_ndio area=(w-dw)*l/5.0 pj=2.0*l/5.0
+d4 (body nx) gpdk090_ndio area=(w-dw)*l/5.0 pj=2.0*l/5.0
+d5 (body n1) gpdk090_ndio area=(w-dw)*l/5.0 pj=(w-dw)+2.0*l/5.0
+ends gpdk090_resnsndiff 
+endsection res_macro
+
+//**********************************************************************
+
+section res
+
+ahdl_include "rnoise_va.va"
+**************************************************************************
+* Salicided Nplus Resistor
+**************************************************************************
+inline subckt gpdk090_ressndiff (PLUS MINUS B)
+  parameters \
+       l = 0.6e-6 \
+       w = 0.6e-6 \
+       simM=1 \
+       Pwl=2.0 \
+       geo_fac=.01*sqrt(Pwl*Pwl/(l*w*1e12))  \
+       delmis= geo_fac * pres_mc / sqrt(simM) \
+       w_mc=w/(1+delmis)
+
+  gpdk090_ressndiff  (PLUS MINUS B) ressndiff l=l w=w_mc
+  Rnoise (PLUS MINUS) rnoise_va l=l w=w rsh=10
+ends gpdk090_ressndiff
+
+model ressndiff rdiff level=1 tr=27 dta=0 rshr=rsnd
+  
+**************************************************************************
+* Non-Salicided Pplus Resistor
+************************************************************************** 
+inline subckt gpdk090_resnspdiff (PLUS MINUS B)
+  parameters \
+       l = 0.6e-6 \
+       w = 0.6e-6 \
+       simM=1 \
+       Pwl=2.0  \
+       geo_fac=.01*sqrt(Pwl*Pwl/(l*w*1e12))  \
+       delmis= geo_fac * pres_mc / sqrt(simM) \
+       w_mc=w/(1+delmis)
+       
+  gpdk090_resnspdiff (PLUS MINUS B) resnspdiff l=l w=w_mc
+  Rnoise (PLUS MINUS) rnoise_va l=l w=w rsh=100
+ends gpdk090_resnspdiff
+
+model resnspdiff rdiff level=1 tr=27 dta=0 rshr=rnspd 
+
+*************************************************************************
+* Salicided  Pplus Resistor
+**************************************************************************
+inline subckt gpdk090_resspdiff (PLUS MINUS B)
+  parameters \
+       l = 0.6e-6 \
+       w = 0.6e-6 \
+       simM=1 \
+       Pwl=2.0\          \
+       geo_fac=.01*sqrt(Pwl*Pwl/(l*w*1e12))  \
+       delmis= geo_fac * pres_mc / sqrt(simM) \
+       w_mc=w/(1+delmis)
+       
+  gpdk090_resspdiff (PLUS MINUS B) resspdiff l=l w=w_mc
+  Rnoise (PLUS MINUS) rnoise_va l=l w=w rsh=10
+ends gpdk090_resspdiff
+  
+model resspdiff rdiff level=1 tr=27 dta=0 rshr=rspd 
+
+**************************************************************************
+* Non-Salicided P Poly Resistor
+**************************************************************************
+inline subckt gpdk090_resnsppoly (PLUS MINUS B)
+  parameters \
+       l = 0.6e-6 \
+       w = 0.6e-6 \
+       simM=1 \
+       Pwl=1.0     Pww=1.0    \
+       geo_fac=.01*sqrt(Pwl*Pwl/(l*w*1e12) + Pww*Pww/(w*w*1e12)) \
+       delmis= geo_fac * pres_mc / sqrt(simM) \
+       w_mc=w/(1+delmis)
+
+  gpdk090_resnsppoly  (PLUS MINUS) resnsppoly l=l w=w_mc
+ends gpdk090_resnsppoly
+
+model resnsppoly phy_res subtype=poly rsh=rnspp  cj=1.33e-3 cjsw=3.15e-10 tc1c=9.26e-4 mr=0.71*10m
+
+**************************************************************************
+* Salicided P Poly Resistor
+**************************************************************************
+inline subckt gpdk090_ressppoly (PLUS MINUS B)
+  parameters \
+       l = 0.6e-6 \
+       w = 0.6e-6 \
+       simM=1 \
+       Pwl=2     Pww=2     \
+       geo_fac=.01*sqrt(Pwl*Pwl/(l*w*1e12) + Pww*Pww/(w*w*1e12)) \
+       delmis= geo_fac * pres_mc / sqrt(simM) \
+       w_mc=w/(1+delmis)
+
+  gpdk090_ressppoly (PLUS MINUS) ressppoly l=l w=w_mc
+ends gpdk090_ressppoly
+
+model ressppoly phy_res subtype=poly rsh=rspp cj=1.33e-3 cjsw=3.15e-10 tc1c=9.26e-4 mr=0.71*10m
+
+**************************************************************************
+* Non-Salicided N Poly Resistor
+**************************************************************************
+inline subckt gpdk090_resnsnpoly (PLUS MINUS B)
+  parameters \
+       l = 0.6e-6 \
+       w = 0.6e-6 \
+       simM=1 \
+       Pwl=4.0  \
+       geo_fac=.01*sqrt(Pwl*Pwl/(l*w*1e12))  \
+       delmis= geo_fac * pres_mc / sqrt(simM) \
+       w_mc=w/(1+delmis)
+       
+  gpdk090_resnsnpoly (PLUS MINUS) resnsnpoly l=l w=w_mc
+ends gpdk090_resnsnpoly
+
+model resnsnpoly phy_res subtype=poly rsh=rnsnp  cj=1.33e-3 cjsw=3.15e-10 tc1c=9.26e-4 mr=0.71*10m
+
+***************************************************************************
+* Salicided N Poly Resistor
+***************************************************************************
+inline subckt gpdk090_ressnpoly (PLUS MINUS B)
+  parameters \
+       l = 0.6e-6 \
+       w = 0.6e-6 \
+       simM=1 \
+       Pwl=4.0   \
+       geo_fac=.01*sqrt(Pwl*Pwl/(l*w*1e12))  \
+       delmis= geo_fac * pres_mc / sqrt(simM) \
+       w_mc=w/(1+delmis)
+
+  gpdk090_ressnpoly  (PLUS MINUS) ressnpoly l=l w=w_mc
+ends gpdk090_ressnpoly
+
+model ressnpoly phy_res subtype=poly rsh=rsnp cj=1.33e-3 cjsw=3.15e-10 tc1c=9.26e-4 mr=0.71*10m
+
+***************************************************************************
+* Nwell resistor over STI
+***************************************************************************
+
+model gpdk090_resnwsti phy_res subtype=p rsh=rnwsti etch=0 tc1=3e-3 tc2=-2e-6 mr=0.71*10m
+
+***************************************************************************
+* Nwell resistor over Oxide
+***************************************************************************
+
+model gpdk090_resnwoxide phy_res subtype=p rsh=rnwox etch=0 tc1=3e-3 tc2=-2e-6 mr=0.71*10m
+
+***************************************************************************
+* Metal Resistors
+***************************************************************************
+//inline subckt gpdk090_resm1 (PLUS MINUS)
+//parameters segL=1u segW=1u w_mc=segW/(1+20m*pres_mc)
+//gpdk090_resm1 (PLUS MINUS) gpdk090_resm1x l=segL w=w_mc
+//model gpdk090_resm1x resistor trise=triseRes rsh=0.08*crmet tc1=3e-3 mr=0.71*20m
+//ends gpdk090_resm1
+
+inline subckt gpdk090_resm1 (PLUS MINUS)
+parameters l=1u w=1u 
+gpdk090_resm1 (PLUS MINUS) gpdk090_resm1x l=l w=w
+model gpdk090_resm1x resistor trise=triseRes rsh=0.08*crmet*(1+20m*pres_mc) tc1=3e-3 mr=0.71*20m
+ends gpdk090_resm1
+
+inline subckt gpdk090_resm2 (PLUS MINUS)
+parameters l=1u w=1u 
+gpdk090_resm2 (PLUS MINUS) gpdk090_resm2x l=l w=w
+model gpdk090_resm2x resistor trise=triseRes rsh=0.06*crmet*(1+15m*pres_mc) tc1=3e-3 mr=0.71*15m
+ends gpdk090_resm2
+
+inline subckt gpdk090_resm3 (PLUS MINUS)
+parameters l=1u w=1u 
+gpdk090_resm3 (PLUS MINUS) gpdk090_resm3x l=l w=w
+model gpdk090_resm3x resistor trise=triseRes rsh=0.06*crmet*(1+15m*pres_mc) tc1=3e-3 mr=0.71*15m
+ends gpdk090_resm3
+
+inline subckt gpdk090_resm4 (PLUS MINUS)
+parameters l=1u w=1u 
+gpdk090_resm4 (PLUS MINUS) gpdk090_resm4x l=l w=w
+model gpdk090_resm4x resistor trise=triseRes rsh=0.06*crmet*(1+15m*pres_mc) tc1=3e-3 mr=0.71*15m
+ends gpdk090_resm4
+
+inline subckt gpdk090_resm5 (PLUS MINUS)
+parameters l=1u w=1u 
+gpdk090_resm5 (PLUS MINUS) gpdk090_resm5x l=l w=w
+model gpdk090_resm5x resistor trise=triseRes rsh=0.06*crmet*(1+15m*pres_mc) tc1=3e-3 mr=0.71*15m
+ends gpdk090_resm5
+
+inline subckt gpdk090_resm6 (PLUS MINUS)
+parameters l=1u w=1u 
+gpdk090_resm6 (PLUS MINUS) gpdk090_resm6x l=l w=w
+model gpdk090_resm6x resistor trise=triseRes rsh=0.068*crmet*(1+15m*pres_mc) tc1=3e-3 mr=0.71*15m
+ends gpdk090_resm6
+
+inline subckt gpdk090_resm7 (PLUS MINUS)
+parameters l=1u w=1u 
+gpdk090_resm7 (PLUS MINUS) gpdk090_resm7x l=l w=w
+model gpdk090_resm7x resistor trise=triseRes rsh=0.06*crmet*(1+15m*pres_mc) tc1=3e-3 mr=0.71*15m
+ends gpdk090_resm7
+
+inline subckt gpdk090_resm8 (PLUS MINUS)
+parameters l=1u w=1u 
+gpdk090_resm8 (PLUS MINUS) gpdk090_resm8x l=l w=w
+model gpdk090_resm8x resistor trise=triseRes rsh=0.02*crmet*(1+10m*pres_mc) tc1=3e-3 mr=0.71*10m
+ends gpdk090_resm8
+
+inline subckt gpdk090_resm9 (PLUS MINUS)
+parameters l=1u w=1u 
+gpdk090_resm9 (PLUS MINUS) gpdk090_resm9x l=l w=w
+model gpdk090_resm9x resistor trise=triseRes rsh=0.02*crmet*(1+10m*pres_mc) tc1=3e-3 mr=0.71*10m
+ends gpdk090_resm9
+
+//model gpdk090_resm1 resistor trise=triseRes rsh=0.08*crmet tc1=3e-3 mr=0.71*20m
+//model gpdk090_resm2 resistor trise=triseRes rsh=0.06*crmet tc1=3e-3 mr=0.71*15m
+//model gpdk090_resm3 resistor trise=triseRes rsh=0.06*crmet tc1=3e-3 mr=0.71*15m
+//model gpdk090_resm4 resistor trise=triseRes rsh=0.06*crmet tc1=3e-3 mr=0.71*15m
+//model gpdk090_resm5 resistor trise=triseRes rsh=0.06*crmet tc1=3e-3 mr=0.71*15m
+//model gpdk090_resm6 resistor trise=triseRes rsh=0.06*crmet tc1=3e-3 mr=0.71*15m
+//model gpdk090_resm7 resistor trise=triseRes rsh=0.06*crmet tc1=3e-3 mr=0.71*15m
+//model gpdk090_resm8 resistor trise=triseRes rsh=0.02*crmet tc1=3e-3 mr=0.71*10m
+//model gpdk090_resm9 resistor trise=triseRes rsh=0.02*crmet tc1=3e-3 mr=0.71*10m
+*
+*
+endsection res
+
+endlibrary gpdk090

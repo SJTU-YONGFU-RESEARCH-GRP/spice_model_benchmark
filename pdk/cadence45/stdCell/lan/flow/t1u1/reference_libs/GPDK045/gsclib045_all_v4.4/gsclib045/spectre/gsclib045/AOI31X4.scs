@@ -1,0 +1,35 @@
+// Generated for: spectre (Mar 20 14:03:00 2013 )
+// Library name: gsclib045
+// Cell name: AOI31X4
+// View name: schematic
+
+simulator lang=spectre
+
+subckt AOI31X4 A0 A1 A2 B0 Y VSS VDD
+mn3 (Y B0 VSS VSS) g45n1svt w=(1.04u) l=45n nf=1 as=145.6f ad=145.6f \
+        ps=2.36u pd=2.36u nrd=134.615m nrs=134.615m sa=140n sb=140n \
+        sd=160n sca=71.11936 scb=0.06501 scc=0.00848 m=(1)
+mn1 (net101 A1 net97 VSS) g45n1svt w=(1.04u) l=45n nf=1 as=145.6f \
+        ad=145.6f ps=2.36u pd=2.36u nrd=134.615m nrs=134.615m sa=140n \
+        sb=140n sd=160n sca=71.11936 scb=0.06501 scc=0.00848 m=(1)
+mn2 (Y A2 net101 VSS) g45n1svt w=(1.04u) l=45n nf=1 as=145.6f ad=145.6f \
+        ps=2.36u pd=2.36u nrd=134.615m nrs=134.615m sa=140n sb=140n \
+        sd=160n sca=71.11936 scb=0.06501 scc=0.00848 m=(1)
+mn0 (net97 A0 VSS VSS) g45n1svt w=(1.04u) l=45n nf=1 as=145.6f ad=145.6f \
+        ps=2.36u pd=2.36u nrd=134.615m nrs=134.615m sa=140n sb=140n \
+        sd=160n sca=71.11936 scb=0.06501 scc=0.00848 m=(1)
+mp2 (net89 A2 VDD VDD) g45p1svt w=(1.56u) l=45n nf=1 as=218.4f ad=218.4f \
+        ps=3.4u pd=3.4u nrd=89.7436m nrs=89.7436m sa=140n sb=140n sd=160n \
+        sca=61.39246 scb=0.05939 scc=0.00742 m=(1)
+mp3 (Y B0 net89 VDD) g45p1svt w=(1.56u) l=45n nf=1 as=218.4f ad=218.4f \
+        ps=3.4u pd=3.4u nrd=89.7436m nrs=89.7436m sa=140n sb=140n sd=160n \
+        sca=61.39246 scb=0.05939 scc=0.00742 m=(1)
+mp1 (net89 A1 VDD VDD) g45p1svt w=(1.56u) l=45n nf=1 as=218.4f ad=218.4f \
+        ps=3.4u pd=3.4u nrd=89.7436m nrs=89.7436m sa=140n sb=140n sd=160n \
+        sca=61.39246 scb=0.05939 scc=0.00742 m=(1)
+mp0 (net89 A0 VDD VDD) g45p1svt w=(1.56u) l=45n nf=1 as=218.4f ad=218.4f \
+        ps=3.4u pd=3.4u nrd=89.7436m nrs=89.7436m sa=140n sb=140n sd=160n \
+        sca=61.39246 scb=0.05939 scc=0.00742 m=(1)
+ends AOI31X4
+// End of subcircuit definition.
+

@@ -1,0 +1,1950 @@
+// PVS LVS RULE DECK FOR GPDK 45nm
+
+// -----------------------------------------------------------------------------
+// VERSION v4.0 (19-NOV-2015)
+// -----------------------------------------------------------------------------
+// - Modified resistor extraction to have "l" and "w" as segL and segW
+
+// -----------------------------------------------------------------------------
+// VERSION v3.0 (07-MAY-2014)
+// -----------------------------------------------------------------------------
+// - Added filter option to remove dummy devices "FILTER_DGS_TIED_MOS"
+// - lvs check property will have MP/MN based on P/N device
+// - Added control file "pvs_control_file" to avoid inconsistent model warning
+
+// -----------------------------------------------------------------------------
+// VERSION v2.0 (15-NOV-2013)
+// -----------------------------------------------------------------------------
+// - nwell_conn_text,  nwell_label, nwell_pin added
+// - Removed NHVT.X.1, PHVT.X.1, NLVT.X.1, PLVT.X.1
+
+// -----------------------------------------------------------------------------
+// VERSION pre-release
+// -----------------------------------------------------------------------------
+// - Added label and pin layer definition
+// - Modified model names of devices to have unique name for gpdk045
+
+// -----------------------------------------------------------------------------
+// VERSION v0.1 (initial version) (30-APR-2010)
+// -----------------------------------------------------------------------------
+// New:
+// - Basic PVS LVS rule deck
+// - This extracts all devices of gpdk045 including inductor
+// - Added auxillary layer and property check to inductor extraction
+// -----------------------------------------------------------------------------
+
+
+// layout_path "CELLNAME.gds" gdsii;
+// layout_primary "CELLNAME";
+// results_db -drc "CELLNAME.db" -ascii;
+// schematic_path "CELLNAME.spice" spice;
+// schematic_primary "CELLNAME";
+
+// Black Box Commands
+// lvs_black_box CELLNAME -source_layout;
+// lvs_netlist _box_contents NO;
+// layout_text pinName xcoord ycoord layerNumber cellName
+// lvs_write_netlist_reduced -layout "./layoutNetList.net"
+
+include ./pvs_control_file
+// lvs_netlist yes -allow_inconsistent_model;
+
+// lvs_cdn_flow_options -cdl_use_scale;
+
+//  AG: Filter M with D,G,S,G terminals tied together 
+//  AB: Filter M with D,G,S terminals tied together 
+//  RC: Filter R with PLUS and MINUS terminals tied together 
+//  RE: Filter C with PLUS and MINUS terminals tied together 
+//  RG: Filter D with PLUS and MINUS terminals tied together 
+
+#IFNDEF FILTER_DGS_TIED_MOS 
+ LVS_FILTER_OPTION AG RC RE RG; 
+#ELSE 
+ LVS_FILTER_OPTION AB RC RE RG; 
+#ENDIF
+
+// rsh variable definition for different resistors
+
+variable R_metal1  0.0736
+variable R_metal2_7  0.0604
+variable R_metal8_10  0.0214
+variable R_metal11  0.021
+variable R_snpoly  15
+variable R_sppoly  15
+variable R_nsnpoly  200
+variable R_nsppoly  650
+variable R_snactive  18
+variable R_spactive  15
+variable R_nsnactive  100
+variable R_nspactive  200
+variable R_nwell  450
+variable R_pwell  1000
+variable resTol  5
+
+input_scale 2000;
+grid 5;
+unit -length u;
+text_depth -primary;
+mask_svdb_dir "svdb";
+
+layout_preserve_case -property yes
+
+layer_def empty 999;
+
+layer_def BJTdum 1000;
+layer_map 15 -datatype 0 1000;
+
+layer_def Bondpad 1001;
+layer_map 36 -datatype 0 1001;
+
+layer_def Cap3dum 1002;
+layer_map 84 -datatype 0 1002;
+
+layer_def CapMetal 1003;
+layer_map 14 -datatype 0 1003;
+
+layer_def Capdum 1004;
+layer_map 12 -datatype 0 1004;
+
+layer_def Cont 1005;
+layer_map 6 -datatype 0 1005;
+
+layer_def DIOdummy 1006;
+layer_map 22 -datatype 0 1006;
+
+layer_def IND2dummy 1007;
+layer_map 17 -datatype 0 1007;
+
+layer_def INDdummy 1008;
+layer_map 16 -datatype 0 1008;
+
+layer_def M1Resdum 1009;
+layer_map 75 -datatype 0 1009;
+
+layer_def M2Resdum 1010;
+layer_map 76 -datatype 0 1010;
+
+layer_def M3Resdum 1011;
+layer_map 77 -datatype 0 1011;
+
+layer_def M4Resdum 1012;
+layer_map 78 -datatype 0 1012;
+
+layer_def M5Resdum 1013;
+layer_map 79 -datatype 0 1013;
+
+layer_def M6Resdum 1014;
+layer_map 80 -datatype 0 1014;
+
+layer_def M7Resdum 1015;
+layer_map 81 -datatype 0 1015;
+
+layer_def M8Resdum 1016;
+layer_map 82 -datatype 0 1016;
+
+layer_def M9Resdum 1017;
+layer_map 83 -datatype 0 1017;
+
+layer_def M10Resdum 1018;
+layer_map 93 -datatype 0 1018;
+
+layer_def M11Resdum 1019;
+layer_map 103 -datatype 0 1019;
+
+layer_def Metal1 1020;
+layer_map 7 -datatype -le 5 1020;
+
+layer_def Metal2 1021;
+layer_map 9 -datatype -le 5 1021;
+
+layer_def Metal3 1022;
+layer_map 11 -datatype -le 5 1022;
+
+layer_def Metal4 1023;
+layer_map 31 -datatype -le 5 1023;
+
+layer_def Metal5 1024;
+layer_map 33 -datatype -le 5 1024;
+
+layer_def Metal6 1025;
+layer_map 35 -datatype -le 5 1025;
+
+layer_def Metal7 1026;
+layer_map 38 -datatype -le 5 1026;
+
+layer_def Metal8 1027;
+layer_map 40 -datatype -le 5 1027;
+
+layer_def Metal9 1028;
+layer_map 42 -datatype -le 5 1028;
+
+layer_def Metal10 1029;
+layer_map 152 -datatype -le 5 1029;
+
+layer_def Metal11 1030;
+layer_map 162 -datatype -le 5 1030;
+
+layer_def NPN2dum 1031;
+layer_map 110 -datatype 0 1031;
+
+layer_def NPN5dum 1032;
+layer_map 111 -datatype 0 1032;
+
+layer_def NPN10dum 1033;
+layer_map 112 -datatype 0 1033;
+
+layer_def NPNdummy 1034;
+layer_map 20 -datatype 0 1034;
+
+layer_def Nburied 1035;
+layer_map 19 -datatype 0 1035;
+
+layer_def Nhvt 1036;
+layer_map 18 -datatype 0 1036;
+
+layer_def Nimp 1037;
+layer_map 4 -datatype 0 1037;
+
+layer_def Nlvt 1038;
+layer_map 26 -datatype 0 1038;
+
+layer_def Nwell 1039;
+layer_map 2 -datatype 0 1039;
+
+layer_def Nzvt 1040;
+layer_map 52 -datatype 0 1040;
+
+layer_def Oxide 1041;
+layer_map 1 -datatype 0 1041;
+
+layer_def Oxide_thk 1042;
+layer_map 24 -datatype 0 1042;
+
+layer_def PNPdummy 1043;
+layer_map 21 -datatype 0 1043;
+
+layer_def Phvt 1044;
+layer_map 23 -datatype 0 1044;
+
+layer_def Pimp 1045;
+layer_map 5 -datatype 0 1045;
+
+layer_def Plvt 1046;
+layer_map 27 -datatype 0 1046;
+
+layer_def Poly 1047;
+layer_map 3 -datatype 0 1047;
+
+layer_def Psub 1048;
+layer_map 25 -datatype 0 1048;
+
+layer_def ResWdum 1049;
+layer_map 71 -datatype 0 1049;
+
+layer_def Resdum 1050;
+layer_map 13 -datatype 0 1050;
+
+layer_def SiProt 1051;
+layer_map 72 -datatype 0 1051;
+
+layer_def Via1 1052;
+layer_map 8 -datatype 0 1052;
+
+layer_def Via2 1053;
+layer_map 10 -datatype 0 1053;
+
+layer_def Via3 1054;
+layer_map 30 -datatype 0 1054;
+
+layer_def Via4 1055;
+layer_map 32 -datatype 0 1055;
+
+layer_def Via5 1056;
+layer_map 34 -datatype 0 1056;
+
+layer_def Via6 1057;
+layer_map 37 -datatype 0 1057;
+
+layer_def Via7 1058;
+layer_map 39 -datatype 0 1058;
+
+layer_def Via8 1059;
+layer_map 41 -datatype 0 1059;
+
+layer_def Via9 1060;
+layer_map 151 -datatype 0 1060;
+
+layer_def Via10 1061;
+layer_map 161 -datatype 0 1061;
+
+layer_def text 1098;
+layer_map 63 -texttype 0 1098;
+text_layer text;
+port -text_layer text;
+
+layer_def ind10_text 1062;
+layer_map 152 -texttype 0 1062;
+text_layer ind10_text;
+port -text_layer ind10_text;
+
+layer_def ind11_text 1063;
+layer_map 162 -texttype 0 1063;
+text_layer ind11_text;
+port -text_layer ind11_text;
+
+layer_def nwell_conn_text 10645;
+layer_map 2 -texttype 0 10645;
+text_layer nwell_conn_text;
+port -text_layer nwell_conn_text;
+
+layer_def metal1_conn_text 1064;
+layer_map 7 -texttype 0 1064;
+text_layer metal1_conn_text;
+port -text_layer metal1_conn_text;
+
+layer_def metal2_conn_text 1065;
+layer_map 9 -texttype 0 1065;
+text_layer metal2_conn_text;
+port -text_layer metal2_conn_text;
+
+layer_def metal3_conn_text 1066;
+layer_map 11 -texttype 0 1066;
+text_layer metal3_conn_text;
+port -text_layer metal3_conn_text;
+
+layer_def metal4_conn_text 1067;
+layer_map 31 -texttype 0 1067;
+text_layer metal4_conn_text;
+port -text_layer metal4_conn_text;
+
+layer_def metal5_conn_text 1068;
+layer_map 33 -texttype 0 1068;
+text_layer metal5_conn_text;
+port -text_layer metal5_conn_text;
+
+layer_def metal6_conn_text 1069;
+layer_map 35 -texttype 0 1069;
+text_layer metal6_conn_text;
+port -text_layer metal6_conn_text;
+
+layer_def metal7_conn_text 1070;
+layer_map 38 -texttype 0 1070;
+text_layer metal7_conn_text;
+port -text_layer metal7_conn_text;
+
+layer_def metal8_conn_text 1071;
+layer_map 40 -texttype 0 1071;
+text_layer metal8_conn_text;
+port -text_layer metal8_conn_text;
+
+layer_def metal9_conn_text 1072;
+layer_map 42 -texttype 0 1072;
+text_layer metal9_conn_text;
+port -text_layer metal9_conn_text;
+
+layer_def metal10_conn_text 1073;
+layer_map 152 -texttype 0 1073;
+text_layer metal10_conn_text;
+port -text_layer metal10_conn_text;
+
+layer_def metal11_conn_text 1074;
+layer_map 162 -texttype 0 1074;
+text_layer metal11_conn_text;
+port -text_layer metal11_conn_text;
+
+layer_def nwell_label 10765;
+layer_map 2 -texttype 0 10765;
+text_layer nwell_label;
+port -text_layer nwell_label;
+
+layer_def m1_label 1076;
+layer_map 7 -texttype 3 1076;
+text_layer m1_label;
+port -text_layer m1_label;
+
+layer_def m2_label 1077;
+layer_map 9 -texttype 3 1077;
+text_layer m2_label;
+port -text_layer m2_label;
+
+layer_def m3_label 1078;
+layer_map 11 -texttype 3 1078;
+text_layer m3_label;
+port -text_layer m3_label;
+
+layer_def m4_label 1079;
+layer_map 31 -texttype 3 1079;
+text_layer m4_label;
+port -text_layer m4_label;
+
+layer_def m5_label 1080;
+layer_map 33 -texttype 3 1080;
+text_layer m5_label;
+port -text_layer m5_label;
+
+layer_def m6_label 1081;
+layer_map 35 -texttype 3 1081;
+text_layer m6_label;
+port -text_layer m6_label;
+
+layer_def m7_label 1082;
+layer_map 38 -texttype 3 1082;
+text_layer m7_label;
+port -text_layer m7_label;
+
+layer_def m8_label 1083;
+layer_map 40 -texttype 3 1083;
+text_layer m8_label;
+port -text_layer m8_label;
+
+layer_def m9_label 1084;
+layer_map 42 -texttype 3 1084;
+text_layer m9_label;
+port -text_layer m9_label;
+
+layer_def m10_label 1085;
+layer_map 152 -texttype 3 1085;
+text_layer m10_label;
+port -text_layer m10_label;
+
+layer_def m11_label 1086;
+layer_map 162 -texttype 3 1086;
+text_layer m11_label;
+port -text_layer m11_label;
+
+layer_def nwell_pin 10875;
+layer_map 2 -texttype 0 10875;
+text_layer nwell_pin;
+port -text_layer nwell_pin;
+
+layer_def m1_pin 1087;
+layer_map 7 -texttype 1 1087;
+text_layer m1_pin;
+port -text_layer m1_pin;
+
+layer_def m2_pin 1088;
+layer_map 9 -texttype 1 1088;
+text_layer m2_pin;
+port -text_layer m2_pin;
+
+layer_def m3_pin 1089;
+layer_map 11 -texttype 1 1089;
+text_layer m3_pin;
+port -text_layer m3_pin;
+
+layer_def m4_pin 1090;
+layer_map 31 -texttype 1 1090;
+text_layer m4_pin;
+port -text_layer m4_pin;
+
+layer_def m5_pin 1091;
+layer_map 33 -texttype 1 1091;
+text_layer m5_pin;
+port -text_layer m5_pin;
+
+layer_def m6_pin 1092;
+layer_map 35 -texttype 1 1092;
+text_layer m6_pin;
+port -text_layer m6_pin;
+
+layer_def m7_pin 1093;
+layer_map 38 -texttype 1 1093;
+text_layer m7_pin;
+port -text_layer m7_pin;
+
+layer_def m8_pin 1094;
+layer_map 40 -texttype 1 1094;
+text_layer m8_pin;
+port -text_layer m8_pin;
+
+layer_def m9_pin 1095;
+layer_map 42 -texttype 1 1095;
+text_layer m9_pin;
+port -text_layer m9_pin;
+
+layer_def m10_pin 1096;
+layer_map 152 -texttype 1 1096;
+text_layer m10_pin;
+port -text_layer m10_pin;
+
+layer_def m11_pin 1097;
+layer_map 162 -texttype 1 1097;
+text_layer m11_pin;
+port -text_layer m11_pin;
+
+extent bulk;
+
+// _npn2=NPN2dum and NPNdummy
+and NPN2dum NPNdummy _npn2;
+
+// _npn5=NPN5dum and NPNdummy
+and NPN5dum NPNdummy _npn5;
+
+// _npn10=NPN10dum and NPNdummy
+and NPN10dum NPNdummy _npn10;
+
+// _resm1=Metal1 and M1Resdum
+and M1Resdum Metal1 _resm1;
+
+// _resm2=Metal2 and M2Resdum
+and M2Resdum Metal2 _resm2;
+
+// _resm3=Metal3 and M3Resdum
+and M3Resdum Metal3 _resm3;
+
+// _resm4=Metal4 and M4Resdum
+and M4Resdum Metal4 _resm4;
+
+// _resm5=Metal5 and M5Resdum
+and M5Resdum Metal5 _resm5;
+
+// _resm6=Metal6 and M6Resdum
+and M6Resdum Metal6 _resm6;
+
+// _resm7=Metal7 and M7Resdum
+and M7Resdum Metal7 _resm7;
+
+// _resm8=Metal8 and M8Resdum
+and M8Resdum Metal8 _resm8;
+
+// _resm9=Metal9 and M9Resdum
+and M9Resdum Metal9 _resm9;
+
+// _resm10=Metal10 and M10Resdum
+and M10Resdum Metal10 _resm10;
+
+// _resm11=Metal11 and M11Resdum
+and M11Resdum Metal11 _resm11;
+
+// bp_tap=Bondpad and Metal9
+and Bondpad Metal9 bp_tap;
+
+// cont_poly=Cont and Poly
+and Cont Poly cont_poly;
+
+// ind10=Metal10 and INDdummy
+and INDdummy Metal10 ind10;
+
+// metal1_conn=Metal1 andnot M1Resdum
+not Metal1 M1Resdum metal1_conn;
+
+// metal2_conn=Metal2 andnot M2Resdum
+not Metal2 M2Resdum metal2_conn;
+
+// metal3_conn=Metal3 andnot M3Resdum
+not Metal3 M3Resdum metal3_conn;
+
+// metal4_conn=Metal4 andnot M4Resdum
+not Metal4 M4Resdum metal4_conn;
+
+// metal5_conn=Metal5 andnot M5Resdum
+not Metal5 M5Resdum metal5_conn;
+
+// metal6_conn=Metal6 andnot M6Resdum
+not Metal6 M6Resdum metal6_conn;
+
+// metal7_conn=Metal7 andnot M7Resdum
+not Metal7 M7Resdum metal7_conn;
+
+// metal8_conn=Metal8 andnot M8Resdum
+not Metal8 M8Resdum metal8_conn;
+
+// metal9_conn=Metal9  andnot M9Resdum
+not Metal9 M9Resdum metal9_conn;
+
+// nactive=Nimp and Oxide
+and Nimp Oxide nactive;
+
+// nb_tap=Nburied and Nwell
+and Nburied Nwell nb_tap;
+
+// nwell_conn=Nwell andnot ResWdum
+not Nwell ResWdum nwell_conn;
+
+// pactive=Pimp and Oxide
+and Oxide Pimp pactive;
+
+// pdiff=pactive andnot Poly
+not pactive Poly pdiff;
+
+// pdiff_conn=pdiff andnot Resdum
+not pdiff Resdum pdiff_conn;
+
+// cont_pdiff=Cont and pdiff_conn
+and Cont pdiff_conn cont_pdiff;
+
+// poly_conn=Poly andnot Resdum
+not Poly Resdum poly_conn;
+
+// ndiff=(nactive andnot poly_conn)
+not nactive poly_conn ndiff;
+
+// ndiff_conn=ndiff andnot Resdum
+not ndiff Resdum ndiff_conn;
+
+// cont_ndiff=Cont and ndiff_conn
+and Cont ndiff_conn cont_ndiff;
+
+// via10_cap=Via10 and CapMetal
+and CapMetal Via10 via10_cap;
+
+// via10_nocap=Via10 andnot CapMetal
+not Via10 CapMetal via10_nocap;
+
+// _resnwoxide=Nwell and SiProt and ResWdum
+and Nwell SiProt L40182;
+and L40182 ResWdum _resnwoxide;
+
+// _resnwsti=(Nwell notInteract SiProt) and ResWdum
+select -interact -not Nwell SiProt L25544;
+and L25544 ResWdum _resnwsti;
+
+// _vpnp2=(pdiff_conn and BJTdum) area == 4
+and BJTdum pdiff_conn L68803;
+area L68803 -eq 4 _vpnp2;
+
+// _vpnp5=(pdiff_conn and BJTdum) area == 25
+area L68803 -eq 25 _vpnp5;
+
+// _vpnp10=(pdiff_conn and BJTdum) area == 100
+area L68803 -eq 100 _vpnp10;
+
+// ind11=( Metal11 and INDdummy ) upDown .01
+and INDdummy Metal11 L13465;
+size L13465 -by .01 -overunder ind11;
+
+// _ind_a=INDdummy enclose < 2 ind11
+select -enclose INDdummy ind11 -lt 2 _ind_a;
+//select -interact -not INDdummy L66977 _ind_a;
+
+// _ind_s1=INDdummy notInteract _ind_a
+select -interact -not INDdummy _ind_a _ind_s1;
+
+// _ind_s=_ind_s1 enclose ind11
+select -enclose _ind_s1 ind11 _ind_s;
+
+// ind_nr=ind10 andnot ind11
+not ind10 ind11 ind_nr;
+
+// metal10_conn=Metal10 andnot (M10Resdum or INDdummy)
+or INDdummy M10Resdum L17074;
+not Metal10 L17074 metal10_conn;
+
+// metal11_conn=Metal11 andnot (M11Resdum or INDdummy )
+or INDdummy M11Resdum L86607;
+not Metal11 L86607 metal11_conn;
+
+// _mimcap=CapMetal interact (metal11_conn and metal10_conn)
+and metal10_conn metal11_conn L92042;
+select -interact CapMetal L92042 _mimcap;
+
+// npn_emit=(ndiff_conn and NPNdummy ) andnot Nwell
+and NPNdummy ndiff_conn L61645;
+not L61645 Nwell npn_emit;
+
+// pnp_emit=pdiff_conn and Psub and PNPdummy
+and Psub pdiff_conn L98077;
+and L98077 PNPdummy pnp_emit;
+
+// via10_nodev=Via10 andnot (CapMetal or INDdummy)
+
+// via10_nodev=Via10 andnot (CapMetal or INDdummy)
+or CapMetal INDdummy L47735;
+not Via10 L47735 via10_nodev;
+
+// ind2_width=((IND2dummy grow90Edges .01) andnot IND2dummy) inside ind11
+angle -not IND2dummy -ltgt 0 90 L57315;
+edge_expand L57315 -outside_by .01 L71536;
+not L71536 IND2dummy L93547;
+select -inside L93547 ind11 ind2_width;
+
+// inda_width=ind2_width and _ind_a
+and _ind_a ind2_width inda_width;
+
+// inds_width=ind2_width and _ind_s
+and _ind_s ind2_width inds_width;
+
+// ind_hole=(innerHoles ( ind11 or ind10 )) vertex < 14
+
+// ind_hole=(innerHoles ( ind11 or ind10 )) vertex < 14
+or ind10 ind11 L83584;
+holes L83584 -inner L87155;
+vertex L87155 -lt 14 ind_hole;
+
+// ntap=(Nwell and ndiff_conn) andnot (Psub and NPNdummy)
+and Nwell ndiff_conn L74405;
+and NPNdummy Psub L28555;
+not L74405 L28555 ntap;
+
+// ptap=(pdiff_conn andnot (Nwell andnot Psub)) andnot PNPdummy
+// not Nwell Psub L83944;
+not pdiff_conn Nwell L65704;
+not L65704 PNPdummy ptap;
+
+// _ndio_2v_nvt=(DIOdummy and Oxide and Oxide_thk and Nzvt) andnot Nwell
+and DIOdummy Oxide L54696;
+and L54696 Oxide_thk L77738;
+and L77738 Nzvt L73169;
+not L73169 Nwell _ndio_2v_nvt;
+
+// _ndio_hvt=(DIOdummy and Oxide andnot Oxide_thk and Nhvt) andnot Nwell
+not L54696 Oxide_thk L97435;
+and L97435 Nhvt L22301;
+not L22301 Nwell _ndio_hvt;
+
+// _ndio_lvt=(DIOdummy and Oxide andnot Oxide_thk and Nlvt) andnot Nwell
+and L97435 Nlvt L18457;
+not L18457 Nwell _ndio_lvt;
+
+// _ndio_nvt=(DIOdummy and Oxide andnot Oxide_thk and Nzvt) andnot Nwell
+and L97435 Nzvt L5003;
+not L5003 Nwell _ndio_nvt;
+
+// _pdio_hvt=(DIOdummy and Oxide andnot Oxide_thk and Phvt) and Nwell
+and L97435 Phvt L62719;
+and L62719 Nwell _pdio_hvt;
+
+// _pdio_lvt=(DIOdummy and Oxide andnot Oxide_thk and Plvt) and Nwell
+and L97435 Plvt L58875;
+and L58875 Nwell _pdio_lvt;
+
+// _pmos1v_hvt=(((Oxide andnot Oxide_thk) and Poly) and Pimp) and Phvt
+not Oxide Oxide_thk L28394;
+and L28394 Poly L66375;
+and L66375 Pimp L29970;
+and L29970 Phvt _pmos1v_hvt;
+
+// _pmos1v_lvt=(((Oxide andnot Oxide_thk) and Poly) and Pimp) and Plvt
+and L29970 Plvt _pmos1v_lvt;
+
+// _resnsndiff=(((Oxide and Nimp) and SiProt) and Resdum) andnot Nwell
+and SiProt nactive L18758;
+and L18758 Resdum L23316;
+not L23316 Nwell _resnsndiff;
+
+// _resnsnpoly=((Poly and SiProt) and Nimp) and Resdum andnot Nwell
+and Poly SiProt L5240;
+and L5240 Nimp L1378;
+and L1378 Resdum L66582;
+not L66582 Nwell _resnsnpoly;
+
+// _resnsnpoly_nw=((Poly and SiProt) and Nimp) and Resdum and Nwell
+and L66582 Nwell _resnsnpoly_nw;
+
+// _resnspdiff=(((Oxide and Pimp) and SiProt) and Resdum) and Nwell
+and SiProt pactive L88604;
+and L88604 Resdum L197;
+and L197 Nwell _resnspdiff;
+
+// _resnsppoly=((Poly and SiProt) and Pimp) and Resdum andnot Nwell
+and L5240 Pimp L60960;
+and L60960 Resdum L4294;
+not L4294 Nwell _resnsppoly;
+
+// _resnsppoly_nw=((Poly and SiProt) and Pimp) and Resdum and Nwell
+and L4294 Nwell _resnsppoly_nw;
+
+// _ressndiff=(((Oxide and Nimp) notInteract SiProt) and Resdum) andnot Nwell
+select -interact -not nactive SiProt L62496;
+and L62496 Resdum L426;
+not L426 Nwell _ressndiff;
+
+// _ressnpoly=((Poly andnot SiProt) and Nimp) and Resdum andnot Nwell
+not Poly SiProt L90381;
+and L90381 Nimp L49196;
+and L49196 Resdum L17878;
+not L17878 Nwell _ressnpoly;
+
+// _ressnpoly_nw=((Poly andnot SiProt) and Nimp) and Resdum and Nwell
+and L17878 Nwell _ressnpoly_nw;
+
+// _resspdiff=(((Oxide and Pimp) notInteract SiProt) and Resdum) and Nwell
+select -interact -not pactive SiProt L79746;
+and L79746 Resdum L22728;
+and L22728 Nwell _resspdiff;
+
+// _ressppoly=((Poly andnot SiProt) and Pimp) and Resdum andnot Nwell
+and L90381 Pimp L8778;
+and L8778 Resdum L54937;
+not L54937 Nwell _ressppoly;
+
+// _ressppoly_nw=((Poly andnot SiProt) and Pimp) and Resdum and Nwell
+and L54937 Nwell _ressppoly_nw;
+
+// ind_ct=((ind11 and ind10 and _ind_s) buttOnly ind_hole ) interact Via10
+and ind10 ind11 L54420;
+and L54420 _ind_s L42364;
+select -touch L42364 ind_hole L12760;
+select -interact L12760 Via10 ind_ct;
+
+// ind_via_diva=( Via10 and _ind_s ) andnot ind_ct
+and Via10 _ind_s L13648;
+not L13648 ind_ct ind_via_diva;
+
+// _pmos2v=((Oxide and Oxide_thk) and Poly) and Pimp andnot (Capdum or Cap3dum)
+and Oxide Oxide_thk L24975;
+and L24975 Poly L98842;
+and L98842 Pimp L73768;
+or Cap3dum Capdum L8948;
+not L73768 L8948 _pmos2v;
+
+// ind_rad=((((ind_ct grow90Edges .1) and ind10) edgesButting ind_hole)  growEdges 101
+//  ) and ind_hole
+angle -not ind_ct -ltgt 0 90 L65767;
+edge_expand L65767 -outside_by .1 L12066;
+and L12066 ind10 L64022;
+edge_boolean -coincident_only L64022 ind_hole -outside L30099;
+edge_expand L30099 -outside_by 101 L43958;
+and L43958 ind_hole ind_rad;
+
+// psubstrate=(bulk andnot (Nburied and Nwell)) andnot (Psub andnot (Psub size -0.001))
+not bulk nb_tap L14174;
+size Psub -by -0.001 L86601;
+not Psub L86601 L7495;
+not L14174 L7495 psubstrate;
+
+// _nmos_12_native=(((((Oxide andnot Oxide_thk) and Poly) and Nimp) and Nzvt) andnot
+//  Nhvt) andnot Nburied
+and L66375 Nimp L89552;
+and L89552 Nzvt L70180;
+not L70180 Nhvt L21328;
+not L21328 Nburied _nmos_12_native;
+
+// _nmos_25_native=(((((Oxide and Oxide_thk) and Poly) and Nimp) and Nzvt) andnot Nhvt)
+//  andnot Nburied
+and L98842 Nimp L14186;
+and L14186 Nzvt L15681;
+not L15681 Nhvt L10869;
+not L10869 Nburied _nmos_25_native;
+
+// _pdio=DIOdummy and Oxide andnot Oxide_thk and Pimp andnot Plvt andnot Phvt and Nwell
+and L97435 Pimp L62041;
+not L62041 Plvt L28017;
+not L28017 Phvt L17166;
+and L17166 Nwell _pdio;
+
+// _pdio_2v=DIOdummy and Oxide and Oxide_thk and Pimp andnot Plvt andnot Phvt and Nwell
+and L77738 Pimp L16131;
+not L16131 Plvt L48360;
+not L48360 Phvt L917;
+and L917 Nwell _pdio_2v;
+
+// ind2_sp1=(((IND2dummy size 5) andnot (INDdummy size -1) and INDdummy) andnot ind11)
+//  butt == 2 ind11
+size IND2dummy -by 5 L70261;
+size INDdummy -by -1 L66884;
+not L70261 L66884 L26372;
+and INDdummy L26372 L19884;
+not L19884 ind11 L73859;
+edge_boolean -coincident_only ind11 L73859 -outside L50941;
+edge_expand L50941 -inside_by 0.001 L12819;
+select -interact ind11 L12819 L33493;
+select -interact L73859 L33493 -eq 2 ind2_sp1;
+
+// ind2_space=((((( ind10 andnot ind11 ) buttOnly IND2dummy ) grow90Edges .01 ) andnot
+//  ind11 ) andnot ind10 ) vertex < 5
+select -touch ind_nr IND2dummy L69850;
+angle -not L69850 -ltgt 0 90 L78036;
+edge_expand L78036 -outside_by .01 L91609;
+not L91609 ind11 L15138;
+not L15138 ind10 L37576;
+vertex L37576 -lt 5 ind2_space;
+
+// inda_rad=(((((ind_hole and _ind_a) outsideInnerCorner .1)  grow90 101 ) and ind_hole)
+//  angle == 90) area > .8
+and _ind_a ind_hole L69131;
+size L69131 -by .1 L1472;
+edge_expand L1472 -inside_by .1 L82556;
+not L1472 L69131 L62333;
+not L62333 L82556 L28951;
+angle -not L28951 -ltgt 0 90 L87029;
+edge_expand L87029 -outside_by 101 L27296;
+or L27296 L28951 L13931;
+and L13931 ind_hole L10222;
+angle L10222 -ltgt 0 90 L25455;
+edge_expand L25455 -inside_by 0.001 L96841;
+select -interact -not L10222 L96841 L68829;
+area L68829 -gt .8 inda_rad;
+
+// _ndio=DIOdummy and Oxide andnot Oxide_thk and Nimp andnot Nlvt andnot Nhvt andnot
+//  Nzvt andnot Nwell
+and L97435 Nimp L21623;
+not L21623 Nlvt L12020;
+not L12020 Nhvt L4397;
+not L4397 Nzvt L8315;
+not L8315 Nwell _ndio;
+
+// _ndio_2v=DIOdummy and Oxide and Oxide_thk and Nimp andnot Nlvt andnot Nhvt andnot
+//  Nzvt andnot Nwell
+and L77738 Nimp L56549;
+not L56549 Nlvt L18325;
+not L18325 Nhvt L87119;
+not L87119 Nzvt L50344;
+not L50344 Nwell _ndio_2v;
+
+// _nmos1v_hvt=((Oxide andnot Oxide_thk) and Poly and Nimp and Nhvt) andnot (Nzvt or
+//  Nlvt or Nburied)
+and L89552 Nhvt L87478;
+or Nlvt Nzvt L49009;
+or L49009 Nburied L13756;
+not L87478 L13756 _nmos1v_hvt;
+
+// _nmos1v_lvt=((Oxide andnot Oxide_thk) and Poly and Nimp and Nlvt) andnot (Nzvt or
+//  Nhvt or Nburied)
+and L89552 Nlvt L83634;
+or Nhvt Nzvt L25035;
+or L25035 Nburied L68361;
+not L83634 L68361 _nmos1v_lvt;
+
+// _nmoscap1v=(((((Oxide andnot Oxide_thk) and Poly) and Nimp) andnot Nzvt) andnot Nhvt)
+//  andnot Nburied and Capdum
+not L89552 Nzvt L25441;
+not L25441 Nhvt L70734;
+not L70734 Nburied L8530;
+and Capdum L8530 _nmoscap1v;
+
+// _nmoscap2v=(((((Oxide and Oxide_thk) and Poly) and Nimp) andnot Nzvt) andnot Nhvt)
+//  andnot Nburied and Capdum
+not L14186 Nzvt L55994;
+not L55994 Nhvt L55604;
+not L55604 Nburied L64343;
+and Capdum L64343 _nmoscap2v;
+
+// _pmos1v=(((Oxide andnot Oxide_thk) and Poly) and Pimp) andnot (Phvt or Plvt or Capdum
+//  or Cap3dum)
+
+// _pmos1v=(((Oxide andnot Oxide_thk) and Poly) and Pimp) andnot (Phvt or Plvt or Capdum
+//  or Cap3dum)
+or Phvt Plvt L20537;
+or Capdum L20537 L86632;
+or Cap3dum L86632 L85139;
+not L29970 L85139 _pmos1v;
+
+// _pmoscap1v=(((((Oxide andnot Oxide_thk) and Poly) and Pimp) andnot Nzvt) andnot Nhvt)
+//  andnot Nburied and Capdum
+not L29970 Nzvt L5017;
+not L5017 Nhvt L28655;
+not L28655 Nburied L38143;
+and Capdum L38143 _pmoscap1v;
+
+// _pmoscap2v=(((((Oxide and Oxide_thk) and Poly) and Pimp) andnot Nzvt) andnot Nhvt)
+//  andnot Nburied and Capdum
+not L73768 Nzvt L4203;
+not L4203 Nhvt L16207;
+not L16207 Nburied L72451;
+and Capdum L72451 _pmoscap2v;
+
+// _nmos_25=(((((Oxide and Oxide_thk) and Poly) and Nimp) andnot Nzvt) andnot Nhvt)
+//  andnot Nburied andnot (Capdum or Cap3dum)
+not L64343 L8948 _nmos_25;
+
+// _nmos1v=((Oxide andnot Oxide_thk) and Poly and Nimp) andnot (Nzvt or Nhvt or Nlvt
+//  or Nburied or Capdum or Cap3dum)
+
+// _nmos1v=((Oxide andnot Oxide_thk) and Poly and Nimp) andnot (Nzvt or Nhvt or Nlvt
+//  or Nburied or Capdum or Cap3dum)
+or L25035 Nlvt L40124;
+or L40124 Nburied L71361;
+or Capdum L71361 L32193;
+or Cap3dum L32193 L26526;
+not L89552 L26526 _nmos1v;
+
+connect Bondpad metal11_conn -by bp_tap;
+connect ind11 metal11_conn;
+connect metal11_conn CapMetal -by via10_cap;
+connect metal11_conn metal10_conn -by via10_nocap;
+connect ind11 ind10 -by ind_via_diva;
+connect metal11_conn metal10_conn -by via10_nodev;
+connect ind_ct ind10;
+connect ind10 metal10_conn;
+connect metal10_conn metal9_conn -by Via9;
+connect metal9_conn metal8_conn -by Via8;
+connect metal8_conn metal7_conn -by Via7;
+connect metal7_conn metal6_conn -by Via6;
+connect metal6_conn metal5_conn -by Via5;
+connect metal5_conn metal4_conn -by Via4;
+connect metal4_conn metal3_conn -by Via3;
+connect metal3_conn metal2_conn -by Via2;
+connect metal2_conn metal1_conn -by Via1;
+connect metal1_conn poly_conn -by cont_poly;
+connect metal1_conn pdiff_conn -by cont_pdiff;
+connect metal1_conn npn_emit -by cont_ndiff;
+connect metal1_conn ndiff_conn -by cont_ndiff;
+connect metal1_conn pnp_emit -by cont_pdiff;
+
+sconnect pdiff_conn psubstrate -by ptap;
+lvs_softchk psubstrate -type contact
+
+sconnect ndiff_conn nwell_conn -by ntap;
+lvs_softchk nwell_conn -type contact
+
+sconnect nwell_conn Nburied -by nb_tap;
+lvs_softchk Nburied -type contact
+
+attach ind11_text ind11;
+attach metal11_conn_text metal11_conn;
+attach ind11_text ind_ct;
+attach ind10_text ind_ct;
+attach ind10_text ind10;
+attach metal10_conn_text metal10_conn;
+attach metal9_conn_text metal9_conn;
+attach metal8_conn_text metal8_conn;
+attach metal7_conn_text metal7_conn;
+attach metal6_conn_text metal6_conn;
+attach metal5_conn_text metal5_conn;
+attach metal4_conn_text metal4_conn;
+attach metal3_conn_text metal3_conn;
+attach metal2_conn_text metal2_conn;
+attach metal1_conn_text metal1_conn;
+attach nwell_conn_text nwell_conn;
+
+attach nwell_label nwell_conn;
+attach m1_label metal1_conn;
+attach m2_label metal2_conn;
+attach m3_label metal3_conn;
+attach m4_label metal4_conn;
+attach m5_label metal5_conn;
+attach m6_label metal6_conn;
+attach m7_label metal7_conn;
+attach m8_label metal8_conn;
+attach m9_label metal9_conn;
+attach m10_label metal10_conn;
+attach m11_label metal11_conn;
+
+attach nwell_pin nwell_conn;
+attach m1_pin metal1_conn;
+attach m2_pin metal2_conn;
+attach m3_pin metal3_conn;
+attach m4_pin metal4_conn;
+attach m5_pin metal5_conn;
+attach m6_pin metal6_conn;
+attach m7_pin metal7_conn;
+attach m8_pin metal8_conn;
+attach m9_pin metal9_conn;
+attach m10_pin metal10_conn;
+attach m11_pin metal11_conn;
+
+and psubstrate nactive _nmos1v_sti;
+size _nmos1v -by 1 _nmos1v_wpe_temp;
+not _nmos1v_wpe_temp Nwell _nmos1v_wpe;
+device MN (g45n1svt) _nmos1v poly_conn (G) ndiff_conn (S) ndiff_conn (D) psubstrate (B) (S D) -model "g45n1svt" <_nmos1v_sti> <_nmos1v_wpe>
+[property fw, w, l, ad, as, pd, ps, sa, sb, sca, scb, scc 
+    width=perim_co(_nmos1v, ndiff_conn)/2
+    fw=width 
+    w=width 
+    l=area(_nmos1v) / width 
+    ad=area(D) 
+    as=area(S)
+    pd=perimeter(D) 
+    ps=perimeter(S) 
+    s = ENCLOSURE_VECTOR(_nmos1v_sti,2)
+    sw = SUM(s::w)
+    sa = SUM(s::a * (s::w / sw))
+    sb = SUM(s::b * (s::w / sw))
+    sch = ENCLOSURE_PERPENDICULAR(_nmos1v, _nmos1v_wpe, S, 1)
+    scv = ENCLOSURE_PARALLEL(_nmos1v, _nmos1v_wpe, S, 1)
+    sca = TVF_NUM_FUN("calc_sca", "wpe_procedure", sch, scv, w, l, 1)
+    scb = TVF_NUM_FUN("calc_scb", "wpe_procedure", sch, scv, w, l, 1)
+    scc = TVF_NUM_FUN("calc_scc", "wpe_procedure", sch, scv, w, l, 1)    
+];
+lvs_check_property MN(g45n1svt) l l -tolerance 0
+lvs_check_property MN(g45n1svt) w w -tolerance 0
+lvs_map_device M(g45n1svt) MN(g45n1svt);
+
+and psubstrate nactive _nmos1v_hvt_sti;
+size _nmos1v_hvt -by 1 _nmos1v_hvt_wpe_temp;
+not _nmos1v_hvt_wpe_temp Nwell _nmos1v_hvt_wpe;
+device MN (g45n1hvt) _nmos1v_hvt poly_conn (G) ndiff_conn (S) ndiff_conn (D) psubstrate (B) (S D) -model "g45n1hvt"  <_nmos1v_hvt_sti> <_nmos1v_hvt_wpe>
+[property fw, w, l, ad, as, pd, ps, sa, sb, sca, scb, scc
+    width=perim_co(_nmos1v_hvt, ndiff_conn)/2
+    fw=width 
+    w=width 
+    l=area(_nmos1v_hvt) / width 
+    ad=area(D) 
+    as=area(S)
+    pd=perimeter(D) 
+    ps=perimeter(S) 
+    s = ENCLOSURE_VECTOR(_nmos1v_hvt_sti,2)
+    sw = SUM(s::w)
+    sa = SUM(s::a * (s::w / sw))
+    sb = SUM(s::b * (s::w / sw))
+    sch = ENCLOSURE_PERPENDICULAR(_nmos1v_hvt, _nmos1v_hvt_wpe, S, 1)
+    scv = ENCLOSURE_PARALLEL(_nmos1v_hvt, _nmos1v_hvt_wpe, S, 1)
+    sca = TVF_NUM_FUN("calc_sca", "wpe_procedure", sch, scv, w, l, 1)
+    scb = TVF_NUM_FUN("calc_scb", "wpe_procedure", sch, scv, w, l, 1)
+    scc = TVF_NUM_FUN("calc_scc", "wpe_procedure", sch, scv, w, l, 1)    
+];
+lvs_check_property MN(g45n1hvt) l l -tolerance 0
+lvs_check_property MN(g45n1hvt) w w -tolerance 0
+lvs_map_device M(g45n1hvt) MN(g45n1hvt);
+
+and psubstrate nactive _nmos1v_lvt_sti;
+size _nmos1v_lvt -by 1 _nmos1v_lvt_wpe_temp;
+not _nmos1v_lvt_wpe_temp Nwell _nmos1v_lvt_wpe;
+device MN (g45n1lvt) _nmos1v_lvt poly_conn (G) ndiff_conn (S) ndiff_conn (D) psubstrate (B) (S D) -model "g45n1lvt" <_nmos1v_lvt_sti> <_nmos1v_lvt_wpe>
+[property w, l, ad, as, pd, ps, sa, sb, sca, scb, scc
+    width=perim_co(_nmos1v_lvt, ndiff_conn)/2
+    w=width 
+    l=area(_nmos1v_lvt) / width 
+    ad=area(D) 
+    as=area(S)
+    pd=perimeter(D) 
+    ps=perimeter(S) 
+    s = ENCLOSURE_VECTOR(_nmos1v_lvt_sti,2)
+    sw = SUM(s::w)
+    sa = SUM(s::a * (s::w / sw))
+    sb = SUM(s::b * (s::w / sw))
+    sch = ENCLOSURE_PERPENDICULAR(_nmos1v_lvt, _nmos1v_lvt_wpe, S, 1)
+    scv = ENCLOSURE_PARALLEL(_nmos1v_lvt, _nmos1v_lvt_wpe, S, 1)
+    sca = TVF_NUM_FUN("calc_sca", "wpe_procedure", sch, scv, w, l, 1)
+    scb = TVF_NUM_FUN("calc_scb", "wpe_procedure", sch, scv, w, l, 1)
+    scc = TVF_NUM_FUN("calc_scc", "wpe_procedure", sch, scv, w, l, 1)    
+]; 
+lvs_check_property MN(g45n1lvt) l l -tolerance 0
+lvs_check_property MN(g45n1lvt) w w -tolerance 0
+lvs_map_device M(g45n1lvt) MN(g45n1lvt);
+
+and psubstrate nactive _nmos_12_native_sti;
+size _nmos_12_native -by 1 _nmos_12_native_wpe_temp;
+not _nmos_12_native_wpe_temp Nwell _nmos_12_native_wpe;
+device MN (g45n1nvt) _nmos_12_native poly_conn (G) ndiff_conn (S) ndiff_conn (D) psubstrate (B) (S D) -model "g45n1nvt" <_nmos_12_native_sti> <_nmos_12_native_wpe>
+[property fw, w, l, ad, as, pd, ps, sa, sb, sca, scb, scc
+    width=perim_co(_nmos_12_native, ndiff_conn)/2
+    fw=width 
+    w=width 
+    l=area(_nmos_12_native) / width 
+    ad=area(D) 
+    as=area(S)
+    pd=perimeter(D) 
+    ps=perimeter(S) 
+    s = ENCLOSURE_VECTOR(_nmos_12_native_sti,2)
+    sw = SUM(s::w)
+    sa = SUM(s::a * (s::w / sw))
+    sb = SUM(s::b * (s::w / sw))
+    sch = ENCLOSURE_PERPENDICULAR(_nmos_12_native, _nmos_12_native_wpe, S, 1)
+    scv = ENCLOSURE_PARALLEL(_nmos_12_native, _nmos_12_native_wpe, S, 1)
+    sca = TVF_NUM_FUN("calc_sca", "wpe_procedure", sch, scv, w, l, 1)
+    scb = TVF_NUM_FUN("calc_scb", "wpe_procedure", sch, scv, w, l, 1)
+    scc = TVF_NUM_FUN("calc_scc", "wpe_procedure", sch, scv, w, l, 1)    
+];
+lvs_check_property MN(g45n1nvt) l l -tolerance 0
+lvs_check_property MN(g45n1nvt) w w -tolerance 0
+lvs_map_device M(g45n1nvt) MN(g45n1nvt);
+
+and psubstrate nactive _nmos_25_sti;
+size _nmos_25 -by 1 _nmos_25_wpe_temp;
+not _nmos_25_wpe_temp Nwell _nmos_25_wpe;
+device MN (g45n2svt) _nmos_25 poly_conn (G) ndiff_conn (S) ndiff_conn (D) psubstrate (B) (S D) -model "g45n2svt" <_nmos_25_sti> <_nmos_25_wpe>
+[property fw, w, l, ad, as, pd, ps, sa, sb, sca, scb, scc
+    width=perim_co(_nmos_25, ndiff_conn)/2
+    fw=width 
+    w=width 
+    l=area(_nmos_25) / width 
+    ad=area(D) 
+    as=area(S)
+    pd=perimeter(D) 
+    ps=perimeter(S) 
+    s = ENCLOSURE_VECTOR(_nmos_25_sti,2)
+    sw = SUM(s::w)
+    sa = SUM(s::a * (s::w / sw))
+    sb = SUM(s::b * (s::w / sw))
+    sch = ENCLOSURE_PERPENDICULAR(_nmos_25, _nmos_25_wpe, S, 1)
+    scv = ENCLOSURE_PARALLEL(_nmos_25, _nmos_25_wpe, S, 1)
+    sca = TVF_NUM_FUN("calc_sca", "wpe_procedure", sch, scv, w, l, 1)
+    scb = TVF_NUM_FUN("calc_scb", "wpe_procedure", sch, scv, w, l, 1)
+    scc = TVF_NUM_FUN("calc_scc", "wpe_procedure", sch, scv, w, l, 1)    
+];
+lvs_check_property MN(g45n2svt) l l -tolerance 0
+lvs_check_property MN(g45n2svt) w w -tolerance 0
+lvs_map_device M(g45n2svt) MN(g45n2svt);
+
+and psubstrate nactive _nmos_25_native_sti;
+size _nmos_25_native -by 1 _nmos_25_native_wpe_temp;
+not _nmos_25_native_wpe_temp Nwell _nmos_25_native_wpe;
+device MN (g45n2nvt) _nmos_25_native poly_conn (G) ndiff_conn (S) ndiff_conn (D) psubstrate (B) (S D) -model "g45n2nvt" <_nmos_25_native_sti> <_nmos_25_native_wpe>
+[property fw, w, l, ad, as, pd, ps, sa, sb, sca, scb, scc
+    width=perim_co(_nmos_25_native, ndiff_conn)/2
+    fw=width 
+    w=width 
+    l=area(_nmos_25_native) / width 
+    ad=area(D) 
+    as=area(S)
+    pd=perimeter(D) 
+    ps=perimeter(S) 
+    s = ENCLOSURE_VECTOR(_nmos_25_native_sti,2)
+    sw = SUM(s::w)
+    sa = SUM(s::a * (s::w / sw))
+    sb = SUM(s::b * (s::w / sw))
+    sch = ENCLOSURE_PERPENDICULAR(_nmos_25_native, _nmos_25_native_wpe, S, 1)
+    scv = ENCLOSURE_PARALLEL(_nmos_25_native, _nmos_25_native_wpe, S, 1)
+    sca = TVF_NUM_FUN("calc_sca", "wpe_procedure", sch, scv, w, l, 1)
+    scb = TVF_NUM_FUN("calc_scb", "wpe_procedure", sch, scv, w, l, 1)
+    scc = TVF_NUM_FUN("calc_scc", "wpe_procedure", sch, scv, w, l, 1)    
+];
+lvs_check_property MN(g45n2nvt) l l -tolerance 0
+lvs_check_property MN(g45n2nvt) w w -tolerance 0
+lvs_map_device M(g45n2nvt) MN(g45n2nvt);
+
+
+device MN (g45ncap1) _nmoscap1v poly_conn (G) ndiff_conn (S) ndiff_conn (D) psubstrate (B) (S D) -model "g45ncap1"
+[property w, l, ad, as, pd, ps
+    width=perim_co(_nmoscap1v, ndiff_conn)/2
+    w=width 
+    l=area(_nmoscap1v) / width 
+    ad=area(D) 
+    as=area(S) 
+    pd=perimeter(D) 
+    ps=perimeter(S) 
+];
+lvs_check_property MN(g45ncap1) l l -tolerance 0
+lvs_check_property MN(g45ncap1) w w -tolerance 0
+
+device MN (g45ncap2) _nmoscap2v poly_conn (G) ndiff_conn (S) ndiff_conn (D) psubstrate (B) (S D) -model "g45ncap2"
+[property w, l, ad, as, pd, ps
+    width=perim_co(_nmoscap2v, ndiff_conn)/2
+    w=width 
+    l=area(_nmoscap2v) / width 
+    ad=area(D) 
+    as=area(S) 
+    pd=perimeter(D)
+    ps=perimeter(S)
+];
+lvs_check_property MN(g45ncap2) l l -tolerance 0
+lvs_check_property MN(g45ncap2) w w -tolerance 0
+
+
+device MP (g45p1svt) _pmos1v poly_conn (G) pdiff_conn (S) pdiff_conn (D) nwell_conn (B) (S D) -model "g45p1svt" <pactive>
+[property fw, w, l, ad, as, pd, ps, sa, sb, sca, scb, scc
+    width=perim_co(_pmos1v, pdiff_conn)/2
+    fw=width 
+    w=width 
+    l=area(_pmos1v) / width 
+    ad=area(D) 
+    as=area(S)
+    pd=perimeter(D)
+    ps=perimeter(S)
+    s = ENCLOSURE_VECTOR(pactive,2)
+    sw = SUM(s::w)
+    sa = SUM(s::a * (s::w / sw))
+    sb = SUM(s::b * (s::w / sw))
+    sch = ENCLOSURE_PERPENDICULAR(_pmos1v, nwell_conn, S, 1)
+    scv = ENCLOSURE_PARALLEL(_pmos1v, nwell_conn, S, 1)
+    sca = TVF_NUM_FUN("calc_sca", "wpe_procedure", sch, scv, w, l, 1)
+    scb = TVF_NUM_FUN("calc_scb", "wpe_procedure", sch, scv, w, l, 1)
+    scc = TVF_NUM_FUN("calc_scc", "wpe_procedure", sch, scv, w, l, 1)
+];
+lvs_check_property MP(g45p1svt) l l -tolerance 0
+lvs_check_property MP(g45p1svt) w w -tolerance 0
+lvs_map_device M(g45p1svt) MP(g45p1svt);
+
+device MP (g45p1hvt) _pmos1v_hvt poly_conn (G) pdiff_conn (S) pdiff_conn (D) nwell_conn (B) (S D) -model "g45p1hvt" <pactive>
+[property fw, w, l, ad, as, pd, ps, sa, sb, sca, scb, scc
+    width=perim_co(_pmos1v_hvt, pdiff_conn)/2
+    fw=width 
+    w=width 
+    l=area(_pmos1v_hvt) / width 
+    ad=area(D) 
+    as=area(S)
+    pd=perimeter(D)
+    ps=perimeter(S)
+    s = ENCLOSURE_VECTOR(pactive,2)
+    sw = SUM(s::w)
+    sa = SUM(s::a * (s::w / sw))
+    sb = SUM(s::b * (s::w / sw))
+    sch = ENCLOSURE_PERPENDICULAR(_pmos1v_hvt, nwell_conn, S, 1)
+    scv = ENCLOSURE_PARALLEL(_pmos1v_hvt, nwell_conn, S, 1)
+    sca = TVF_NUM_FUN("calc_sca", "wpe_procedure", sch, scv, w, l, 1)
+    scb = TVF_NUM_FUN("calc_scb", "wpe_procedure", sch, scv, w, l, 1)
+    scc = TVF_NUM_FUN("calc_scc", "wpe_procedure", sch, scv, w, l, 1)
+];
+lvs_check_property MP(g45p1hvt) l l -tolerance 0
+lvs_check_property MP(g45p1hvt) w w -tolerance 0
+lvs_map_device M(g45p1hvt) MP(g45p1hvt);
+
+device MP (g45p1lvt) _pmos1v_lvt poly_conn (G) pdiff_conn (S) pdiff_conn (D) nwell_conn (B) (S D) -model "g45p1lvt" <pactive>
+[property fw, w, l, ad, as, pd, ps, sa, sb, sca, scb, scc
+    width=perim_co(_pmos1v_lvt, pdiff_conn)/2
+    fw=width 
+    w=width 
+    l=area(_pmos1v_lvt) / width 
+    ad=area(D) 
+    as=area(S)
+    pd=perimeter(D)
+    ps=perimeter(S)
+    s = ENCLOSURE_VECTOR(pactive,2)
+    sw = SUM(s::w)
+    sa = SUM(s::a * (s::w / sw))
+    sb = SUM(s::b * (s::w / sw))
+    sch = ENCLOSURE_PERPENDICULAR(_pmos1v_lvt, nwell_conn, S, 1)
+    scv = ENCLOSURE_PARALLEL(_pmos1v_lvt, nwell_conn, S, 1)
+    sca = TVF_NUM_FUN("calc_sca", "wpe_procedure", sch, scv, w, l, 1)
+    scb = TVF_NUM_FUN("calc_scb", "wpe_procedure", sch, scv, w, l, 1)
+    scc = TVF_NUM_FUN("calc_scc", "wpe_procedure", sch, scv, w, l, 1)
+];
+lvs_check_property MP(g45p1lvt) l l -tolerance 0
+lvs_check_property MP(g45p1lvt) w w -tolerance 0
+lvs_map_device M(g45p1lvt) MP(g45p1lvt);
+
+
+device MP (g45p2svt) _pmos2v poly_conn (G) pdiff_conn (S) pdiff_conn (D) nwell_conn (B) (S D) -model "g45p2svt" <pactive>
+[property fw, w, l, ad, as, pd, ps, sa, sb, sca, scb, scc
+    width=perim_co(_pmos2v, pdiff_conn)/2
+    fw=width 
+    w=width 
+    l=area(_pmos2v) / width 
+    ad=area(D) 
+    as=area(S)
+    pd=perimeter(D)
+    ps=perimeter(S)
+    s = ENCLOSURE_VECTOR(pactive,2)
+    sw = SUM(s::w)
+    sa = SUM(s::a * (s::w / sw))
+    sb = SUM(s::b * (s::w / sw))
+    sch = ENCLOSURE_PERPENDICULAR(_pmos2v, nwell_conn, S, 1)
+    scv = ENCLOSURE_PARALLEL(_pmos2v, nwell_conn, S, 1)
+    sca = TVF_NUM_FUN("calc_sca", "wpe_procedure", sch, scv, w, l, 1)
+    scb = TVF_NUM_FUN("calc_scb", "wpe_procedure", sch, scv, w, l, 1)
+    scc = TVF_NUM_FUN("calc_scc", "wpe_procedure", sch, scv, w, l, 1)
+];
+lvs_check_property MP(g45p2svt) l l -tolerance 0
+lvs_check_property MP(g45p2svt) w w -tolerance 0
+lvs_map_device M(g45p2svt) MP(g45p2svt);
+
+
+device MP (g45pcap1) _pmoscap1v poly_conn (G) pdiff_conn (S) pdiff_conn (D) nwell_conn (B) (S D) -model "g45pcap1"
+[property w, l, ad, as, pd, ps
+    width=perim_co(_pmoscap1v, pdiff_conn)/2
+    w=width
+    l=area(_pmoscap1v) / width 
+    ad=area(D) 
+    as=area(S)
+    pd=perimeter(D) 
+    ps=perimeter(S)
+];
+lvs_check_property MP(g45pcap1) l l -tolerance 0
+lvs_check_property MP(g45pcap1) w w -tolerance 0
+
+device MP (g45pcap2) _pmoscap2v poly_conn (G) pdiff_conn (S) pdiff_conn (D) nwell_conn (B) (S D) -model "g45pcap2"
+[property w, l, ad, as, pd, ps
+    width=perim_co(_pmoscap2v, pdiff_conn)/2
+    w=width 
+    l=area(_pmoscap2v) / width 
+    ad=area(D) 
+    as=area(S)
+    pd=perimeter(D) 
+    ps=perimeter(S)
+];
+lvs_check_property MP(g45pcap2) l l -tolerance 0
+lvs_check_property MP(g45pcap2) w w -tolerance 0
+
+device R (g45rm1) _resm1 metal1_conn (PLUS) metal1_conn (MINUS) (PLUS MINUS) -model "g45rm1"
+[property w, effW, l, effL, r, segW, segL
+    width=perim_co(_resm1, metal1_conn)/2
+    length=perim_out(_resm1, metal1_conn)/2
+    w=width
+    effW=width
+    segW=width
+    l=(length - (0.45 * bends(_resm1) * width))
+    effL=l
+    segL=l
+    r=R_metal1 * (l/w)
+];
+lvs_check_property R (g45rm1) w w -tolerance 0
+lvs_check_property R (g45rm1) l l -tolerance 0
+
+
+device R (g45rm2) _resm2 metal2_conn (PLUS) metal2_conn (MINUS) (PLUS MINUS) -model "g45rm2"
+[property w, effW, l, effL, r, segW, segL
+    width=perim_co(_resm2, metal2_conn)/2
+    length=perim_out(_resm2, metal2_conn)/2
+    w=width
+    effW=width
+    segW=width
+    l=(length - (0.45 * bends(_resm2) * width))
+    effL=l
+    segL=l
+    r=R_metal2_7 * (l/w)
+];
+lvs_check_property R (g45rm2) w w -tolerance 0
+lvs_check_property R (g45rm2) l l -tolerance 0
+
+device R (g45rm3) _resm3 metal3_conn (PLUS) metal3_conn (MINUS) (PLUS MINUS) -model "g45rm3"
+[property w, effW, l, effL, r, segW, segL
+    width=perim_co(_resm3, metal3_conn)/2
+    length=perim_out(_resm3, metal3_conn)/2
+    w=width
+    effW=width
+    segW=width
+    l=(length - (0.45 * bends(_resm3) * width))
+    effL=l
+    segL=l
+    r=R_metal2_7 * (l/w)
+];
+lvs_check_property R (g45rm3) w w -tolerance 0
+lvs_check_property R (g45rm3) l l -tolerance 0
+
+device R (g45rm4) _resm4 metal4_conn (PLUS) metal4_conn (MINUS) (PLUS MINUS) -model "g45rm4"
+[property w, effW, l, effL, r, segW, segL
+    width=perim_co(_resm4, metal4_conn)/2
+    length=perim_out(_resm4, metal4_conn)/2
+    w=width
+    effW=width
+    segW=width
+    l=(length - (0.45 * bends(_resm4) * width))
+    effL=l
+    segL=l
+    r=R_metal2_7 * (l/w)
+];
+lvs_check_property R (g45rm4) w w -tolerance 0
+lvs_check_property R (g45rm4) l l -tolerance 0
+
+device R (g45rm5) _resm5 metal5_conn (PLUS) metal5_conn (MINUS) (PLUS MINUS) -model "g45rm5"
+[property w, effW, l, effL, r, segW, segL
+    width=perim_co(_resm5, metal5_conn)/2
+    length=perim_out(_resm5, metal5_conn)/2
+    w=width
+    effW=width
+    segW=width
+    l=(length - (0.45 * bends(_resm5) * width))
+    effL=l
+    segL=l
+    r=R_metal2_7 * (l/w)
+];
+lvs_check_property R (g45rm5) w w -tolerance 0
+lvs_check_property R (g45rm5) l l -tolerance 0
+
+device R (g45rm6) _resm6 metal6_conn (PLUS) metal6_conn (MINUS) (PLUS MINUS) -model "g45rm6"
+[property w, effW, l, effL, r, segW, segL
+    width=perim_co(_resm6, metal6_conn)/2
+    length=perim_out(_resm6, metal6_conn)/2
+    w=width
+    effW=width
+    segW=width
+    l=(length - (0.45 * bends(_resm6) * width))
+    effL=l
+    segL=l
+    r=R_metal2_7 * (l/w)
+];
+lvs_check_property R (g45rm6) w w -tolerance 0
+lvs_check_property R (g45rm6) l l -tolerance 0
+
+device R (g45rm7) _resm7 metal7_conn (PLUS) metal7_conn (MINUS) (PLUS MINUS) -model "g45rm7"
+[property w, effW, l, effL, r, segW, segL
+    width=perim_co(_resm7, metal7_conn)/2
+    length=perim_out(_resm7, metal7_conn)/2
+    w=width
+    effW=width
+    segW=width
+    l=(length - (0.45 * bends(_resm7) * width))
+    effL=l
+    segL=l
+    r=R_metal2_7 * (l/w)
+];
+lvs_check_property R (g45rm7) w w -tolerance 0
+lvs_check_property R (g45rm7) l l -tolerance 0
+
+device R (g45rm8) _resm8 metal8_conn (PLUS) metal8_conn (MINUS) (PLUS MINUS) -model "g45rm8"
+[property w, effW, l, effL, r, segW, segL
+    width=perim_co(_resm8, metal8_conn)/2
+    length=perim_out(_resm8, metal8_conn)/2
+    w=width
+    effW=width
+    segW=width
+    l=(length - (0.45 * bends(_resm8) * width))
+    effL=l
+    segL=l
+    r=R_metal8_10 * (l/w)
+];
+lvs_check_property R (g45rm8) w w -tolerance 0
+lvs_check_property R (g45rm8) l l -tolerance 0
+
+device R (g45rm9) _resm9 metal9_conn (PLUS) metal9_conn (MINUS) (PLUS MINUS) -model "g45rm9"
+[property w, effW, l, effL, r, segW, segL
+    width=perim_co(_resm9, metal9_conn)/2
+    length=perim_out(_resm9, metal9_conn)/2
+    w=width
+    effW=width
+    segW=width
+    l=(length - (0.45 * bends(_resm9) * width))
+    effL=l
+    segL=l
+    r=R_metal8_10 * (l/w)
+];
+lvs_check_property R (g45rm9) w w -tolerance 0
+lvs_check_property R (g45rm9) l l -tolerance 0
+
+device R (g45rm10) _resm10 metal10_conn (PLUS) metal10_conn (MINUS) (PLUS MINUS) -model "g45rm10"
+[property w, effW, l, effL, r, segW, segL
+    width=perim_co(_resm10, metal10_conn)/2
+    length=perim_out(_resm10, metal10_conn)/2
+    w=width
+    effW=width
+    segW=width
+    l=(length - (0.45 * bends(_resm10) * width))
+    effL=l
+    segL=l
+    r=R_metal8_10 * (l/w)
+];
+lvs_check_property R (g45rm10) w w -tolerance 0
+lvs_check_property R (g45rm10) l l -tolerance 0
+
+device R (g45rm11) _resm11 metal11_conn (PLUS) metal11_conn (MINUS) (PLUS MINUS) -model "g45rm11"
+[property w, effW, l, effL, r, segW, segL
+    width=perim_co(_resm11, metal11_conn)/2
+    length=perim_out(_resm11, metal11_conn)/2
+    w=width
+    effW=width
+    segW=width
+    l=(length - (0.45 * bends(_resm11) * width))
+    effL=l
+    segL=l
+    r=R_metal11 * (l/w)
+];
+lvs_check_property R (g45rm11) w w -tolerance 0
+lvs_check_property R (g45rm11) l l -tolerance 0
+
+device R (g45rsnd) _ressndiff ndiff_conn (PLUS) ndiff_conn (MINUS) psubstrate (B) (PLUS MINUS) -model "g45rsnd"
+[property w, effW, l, effL, r, segW, segL
+    width=perim_co(_ressndiff, ndiff_conn)/2
+    length=perim_out(_ressndiff, ndiff_conn)/2
+    w=width
+    effW=width
+    segW=width
+    l=(length - (0.45 * bends(_ressndiff) * width))
+    effL=l
+    segL=l
+    r=R_snactive * (l/w)
+];
+lvs_check_property R (g45rsnd) w w -tolerance 0
+lvs_check_property R (g45rsnd) l l -tolerance 0
+
+device R (g45rnsnd) _resnsndiff ndiff_conn (PLUS) ndiff_conn (MINUS) psubstrate (B) (PLUS MINUS) -model "g45rnsnd"
+[property w, effW, l, effL, r, segW, segL
+    width=perim_co(_resnsndiff, ndiff_conn)/2
+    length=perim_out(_resnsndiff, ndiff_conn)/2
+    w=width
+    effW=width
+    segW=width
+    l=(length - (0.45 * bends(_resnsndiff) * width))
+    effL=l
+    segL=l
+    r=R_nsnactive * (l/w)
+];
+lvs_check_property R (g45rnsnd) w w -tolerance 0
+lvs_check_property R (g45rnsnd) l l -tolerance 0
+
+device R (g45rsnp) _ressnpoly poly_conn (PLUS) poly_conn (MINUS) psubstrate (B) (PLUS MINUS) -model "g45rsnp"
+[property w, effW, l, effL, r, segW, segL
+    width=perim_co(_ressnpoly, poly_conn)/2
+    length=perim_out(_ressnpoly, poly_conn)/2
+    w=width
+    effW=width
+    segW=width
+    l=(length - (0.45 * bends(_ressnpoly) * width))
+    effL=l
+    segL=l
+    r=R_spactive * (l/w)
+];
+lvs_check_property R (g45rsnp) w w -tolerance 0
+lvs_check_property R (g45rsnp) l l -tolerance 0
+
+device R (g45rsnp) _ressnpoly_nw poly_conn (PLUS) poly_conn (MINUS) nwell_conn (B) (PLUS MINUS) -model "g45rsnp"
+[property w, effW, l, effL, r, segW, segL
+    width=perim_co(_ressnpoly_nw, poly_conn)/2
+    length=perim_out(_ressnpoly_nw, poly_conn)/2
+    w=width
+    effW=width
+    segW=width
+    l=(length - (0.45 * bends(_ressnpoly_nw) * width))
+    effL=l
+    segL=l
+    r=R_snpoly * (l/w)
+];
+lvs_check_property R (g45rsnp) w w -tolerance 0
+lvs_check_property R (g45rsnp) l l -tolerance 0
+
+device R (g45rnsnp) _resnsnpoly poly_conn (PLUS) poly_conn (MINUS) psubstrate (B) (PLUS MINUS) -model "g45rnsnp"
+[property w, effW, l, effL, r, segW, segL
+    width=perim_co(_resnsnpoly, poly_conn)/2
+    length=perim_out(_resnsnpoly, poly_conn)/2
+    w=width
+    effW=width
+    segW=width
+    l=(length - (0.45 * bends(_resnsnpoly) * width))
+    effL=l
+    segL=l
+    r=R_nsnpoly * (l/w)
+];
+lvs_check_property R (g45rnsnp) w w -tolerance 0
+lvs_check_property R (g45rnsnp) l l -tolerance 0
+
+device R (g45rnsnp) _resnsnpoly_nw poly_conn (PLUS) poly_conn (MINUS) nwell_conn (B) (PLUS MINUS) -model "g45rnsnp"
+[property w, effW, l, effL, r, segW, segL
+    width=perim_co(_resnsnpoly_nw, poly_conn)/2
+    length=perim_out(_resnsnpoly_nw, poly_conn)/2
+    w=width
+    effW=width
+    segW=width
+    l=(length - (0.45 * bends(_resnsnpoly_nw) * width))
+    effL=l
+    segL=l
+    r=R_nsnpoly * (l/w)
+];
+lvs_check_property R (g45rnsnp) w w -tolerance 0
+lvs_check_property R (g45rnsnp) l l -tolerance 0
+
+device R (g45rspd) _resspdiff pdiff_conn (PLUS) pdiff_conn (MINUS) nwell_conn (B) (PLUS MINUS) -model "g45rspd"
+[property w, effW, l, effL, r, segW, segL
+    width=perim_co(_resspdiff, pdiff_conn)/2
+    length=perim_out(_resspdiff, pdiff_conn)/2
+    w=width
+    effW=width
+    segW=width
+    l=(length - (0.45 * bends(_resspdiff) * width))
+    effL=l
+    segL=l
+    r=R_spactive * (l/w)
+];
+lvs_check_property R (g45rspd) w w -tolerance 0
+lvs_check_property R (g45rspd) l l -tolerance 0
+
+device R (g45rnspd) _resnspdiff pdiff_conn (PLUS) pdiff_conn (MINUS) nwell_conn (B) (PLUS MINUS) -model "g45rnspd"
+[property w, effW, l, effL, r, segW, segL
+    width=perim_co(_resnspdiff, pdiff_conn)/2
+    length=perim_out(_resnspdiff, pdiff_conn)/2
+    w=width
+    effW=width
+    segW=width
+    l=(length - (0.45 * bends(_resnspdiff) * width))
+    effL=l
+    segL=l
+    r=R_nspactive * (l/w)
+];
+lvs_check_property R (g45rnspd) w w -tolerance 0
+lvs_check_property R (g45rnspd) l l -tolerance 0
+
+device R (g45rspp) _ressppoly poly_conn (PLUS) poly_conn (MINUS) psubstrate (B) (PLUS MINUS) -model "g45rspp"
+[property w, effW, l, effL, r, segW, segL
+    width=perim_co(_ressppoly, poly_conn)/2
+    length=perim_out(_ressppoly, poly_conn)/2
+    w=width
+    effW=width
+    segW=width
+    l=(length - (0.45 * bends(_ressppoly) * width))
+    effL=l
+    segL=l
+    r=R_sppoly * (l/w)
+];
+lvs_check_property R (g45rspp) w w -tolerance 0
+lvs_check_property R (g45rspp) l l -tolerance 0
+
+device R (g45rspp) _ressppoly_nw poly_conn (PLUS) poly_conn (MINUS) nwell_conn (B) (PLUS MINUS) -model "g45rspp"
+[property w, effW, l, effL, r, segW, segL
+    width=perim_co(_ressppoly_nw, poly_conn)/2
+    length=perim_out(_ressppoly_nw, poly_conn)/2
+    w=width
+    effW=width
+    segW=width
+    l=(length - (0.45 * bends(_ressppoly_nw) * width))
+    effL=l
+    segL=l
+    r=R_sppoly * (l/w)
+];
+lvs_check_property R (g45rspp) w w -tolerance 0
+lvs_check_property R (g45rspp) l l -tolerance 0
+
+device R (g45rnspp) _resnsppoly poly_conn (PLUS) poly_conn (MINUS) psubstrate (B) (PLUS MINUS) -model "g45rnspp"
+[property w, effW, l, effL, r, segW, segL
+    width=perim_co(_resnsppoly, poly_conn)/2
+    length=perim_out(_resnsppoly, poly_conn)/2
+    w=width
+    effW=width
+    segW=width
+    l=(length - (0.45 * bends(_resnsppoly) * width))
+    effL=l
+    segL=l
+    r=R_nsppoly * (l/w)
+];
+lvs_check_property R (g45rnspp) w w -tolerance 0
+lvs_check_property R (g45rnspp) l l -tolerance 0
+
+device R (g45rnspp) _resnsppoly_nw poly_conn (PLUS) poly_conn (MINUS) nwell_conn (B) (PLUS MINUS) -model "g45rnspp"
+[property w, effW, l, effL, r, segW, segL
+    width=perim_co(_resnsppoly_nw, poly_conn)/2
+    length=perim_out(_resnsppoly_nw, poly_conn)/2
+    w=width
+    effW=width
+    segW=width
+    l=(length - (0.45 * bends(_resnsppoly_nw) * width))
+    effL=l
+    segL=l
+    r=R_nsppoly * (l/w)
+];
+lvs_check_property R (g45rnspp) w w -tolerance 0
+lvs_check_property R (g45rnspp) l l -tolerance 0
+
+device R (g45rnws) _resnwsti nwell_conn (PLUS) nwell_conn (MINUS) psubstrate (B) (PLUS MINUS) -model "g45rnws"
+[property w, effW, l, effL, r, segW, segL
+    width=perim_co(_resnwsti, nwell_conn)/2
+    length=perim_out(_resnwsti, nwell_conn)/2
+    w=width
+    effW=width
+    segW=width
+    l=(length - (0.45 * bends(_resnwsti) * width))
+    effL=l
+    segL=l
+    r=R_nwell * (l/w)
+];
+lvs_check_property R (g45rnws) w w -tolerance 0
+lvs_check_property R (g45rnws) l l -tolerance 0
+
+device R (g45rnwo) _resnwoxide nwell_conn (PLUS) nwell_conn (MINUS) psubstrate (B) (PLUS MINUS) -model "g45rnwo"
+[property w, effW, l, effL, r, segW, segL
+    width=perim_co(_resnwoxide, nwell_conn)/2
+    length=perim_out(_resnwoxide, nwell_conn)/2
+    w=width
+    effW=width
+    segW=width
+    l=(length - (0.45 * bends(_resnwoxide) * width))
+    effL=l
+    segL=l
+    r=R_nwell * (l/w)
+];
+lvs_check_property R (g45rnwo) w w -tolerance 0
+lvs_check_property R (g45rnwo) l l -tolerance 0
+
+device D (g45nd1svt) _ndio psubstrate (PLUS) ndiff_conn (MINUS) -model "g45nd1svt"
+[property area, pj 
+    area=area(_ndio)
+    pj=perimeter(_ndio)
+];
+lvs_check_property D (g45nd1svt) A A -tolerance 0
+lvs_check_property D (g45nd1svt) P P -tolerance 0
+
+device D (g45nd1lvt) _ndio_lvt psubstrate (PLUS) ndiff_conn (MINUS) -model "g45nd1lvt"
+[property area, pj
+    area=area(_ndio_lvt)
+    pj=perimeter(_ndio_lvt)
+];
+lvs_check_property D (g45nd1lvt) A A -tolerance 0
+lvs_check_property D (g45nd1lvt) P P -tolerance 0
+
+device D (g45nd1hvt) _ndio_hvt psubstrate (PLUS) ndiff_conn (MINUS) -model "g45nd1hvt"
+[property area, pj
+    area=area(_ndio_hvt)
+    pj=perimeter(_ndio_hvt)
+];
+lvs_check_property D (g45nd1hvt) A A -tolerance 0
+lvs_check_property D (g45nd1hvt) P P -tolerance 0
+
+device D (g45nd1nvt) _ndio_nvt psubstrate (PLUS) ndiff_conn (MINUS) -model "g45nd1nvt"
+[property area, pj
+    area=area(_ndio_nvt)
+    pj=perimeter(_ndio_nvt)
+];
+lvs_check_property D (g45nd1nvt) A A -tolerance 0
+lvs_check_property D (g45nd1nvt) P P -tolerance 0
+
+device D (g45nd2svt) _ndio_2v psubstrate (PLUS) ndiff_conn (MINUS) -model "g45nd2svt"
+[property area, pj
+    area=area(_ndio_2v)
+    pj=perimeter(_ndio_2v)
+];
+lvs_check_property D (g45nd2svt) A A -tolerance 0
+lvs_check_property D (g45nd2svt) P P -tolerance 0
+
+device D (g45nd2nvt) _ndio_2v_nvt psubstrate (PLUS) ndiff_conn (MINUS) -model "g45nd2nvt"
+[property area, pj
+    area=area(_ndio_2v_nvt)
+    pj=perimeter(_ndio_2v_nvt)
+];
+lvs_check_property D (g45nd2nvt) A A -tolerance 0
+lvs_check_property D (g45nd2nvt) P P -tolerance 0
+
+device D (g45pd1svt) _pdio pdiff_conn (PLUS) nwell_conn (MINUS) -model "g45pd1svt"
+[property area, pj
+    area=area(_pdio)
+    pj=perimeter(_pdio)
+];
+lvs_check_property D (g45pd1svt) A A -tolerance 0
+lvs_check_property D (g45pd1svt) P P -tolerance 0
+
+device D (g45pd1lvt) _pdio_lvt pdiff_conn (PLUS) nwell_conn (MINUS) -model "g45pd1lvt"
+[property area, pj
+    area=area(_pdio_lvt)
+    pj=perimeter(_pdio_lvt)
+];
+lvs_check_property D (g45pd1lvt) A A -tolerance 0
+lvs_check_property D (g45pd1lvt) P P -tolerance 0
+
+device D (g45pd1hvt) _pdio_hvt pdiff_conn (PLUS) nwell_conn (MINUS) -model "g45pd1hvt"
+[property area, pj
+    area=area(_pdio_hvt)
+    pj=perimeter(_pdio_hvt)
+];
+lvs_check_property D (g45pd1hvt) A A -tolerance 0
+lvs_check_property D (g45pd1hvt) P P -tolerance 0
+
+device D (g45pd2svt) _pdio_2v pdiff_conn (PLUS) nwell_conn (MINUS) -model "g45pd2svt"
+[property area, pj
+    area=area(_pdio_2v)
+    pj=perimeter(_pdio_2v)
+];
+lvs_check_property D (g45pd2svt) A A -tolerance 0
+lvs_check_property D (g45pd2svt) P P -tolerance 0
+
+device Q (g45vpnp2) _vpnp2 psubstrate (C) nwell_conn (B) pdiff_conn (E) -model "g45vpnp2"
+[property area
+    area=area(E) * 1.0 * 1e+12
+];
+lvs_check_property Q (g45vpnp2) A A -tolerance 0
+
+device Q (g45vpnp5) _vpnp5 psubstrate (C) nwell_conn (B) pdiff_conn (E) -model "g45vpnp5"
+[property area
+    area=area(E) * 1.0 * 1e+12
+];
+lvs_check_property Q (g45vpnp5) A A -tolerance 0
+
+device Q (g45vpnp10) _vpnp10 psubstrate (C) nwell_conn (B) pdiff_conn (E) -model "g45vpnp10"
+[property area
+    area=area(E) * 1.0 * 1e+12
+];
+lvs_check_property Q (g45vpnp10) A A -tolerance 0
+
+device Q (g45vnpn2) _npn2 nwell_conn (C) psubstrate (B) npn_emit (E) -model "g45vnpn2"
+[property area
+    area=area(E) * 1.0 * 1e+12
+];
+lvs_check_property Q (g45vnpn2) A A -tolerance 0
+
+device Q (g45vnpn5) _npn5 nwell_conn (C) psubstrate (B) npn_emit (E) -model "g45vnpn5"
+[property area
+    area=area(E) * 1.0 * 1e+12
+];
+lvs_check_property Q (g45vnpn5) A A -tolerance 0
+
+device Q (g45vnpn10) _npn10 nwell_conn (C) psubstrate (B) npn_emit (E) -model "g45vnpn10"
+[property area
+    area=area(E) * 1.0 * 1e+12
+];
+lvs_check_property Q (g45vnpn10) A A -tolerance 0
+
+device C (g45cmim) _mimcap CapMetal (PLUS) metal10_conn (MINUS) psubstrate (B) -model "g45cmim"
+[property w, l, c, area, pj
+    w=((perimeter(_mimcap)*0.25) + 0.5*sqrt( (0.25*pow(perimeter(_mimcap), 2)) - (4*area(_mimcap)) ))
+    l=((perimeter(_mimcap)*0.25) - 0.5*sqrt( (0.25*pow(perimeter(_mimcap), 2)) - (4*area(_mimcap)) ))
+    c=area(_mimcap)*1e-15 + perimeter(_mimcap)*1e-16
+    area=area(_mimcap)
+    pj=perimeter(_mimcap)
+];
+lvs_check_property C (g45cmim) l l -tolerance 0
+lvs_check_property C (g45cmim) w w -tolerance 0
+lvs_reduce_device  C (g45cmim) -parallel yes [ tolerance l 0 w 0 
+ effective l , w 
+ l = sum ( l ) / count ( ) 
+ w = sum ( w ) 
+ ];
+
+device L (g45inda) _ind_a  ind10 (PLUS)  ind11 (MINUS) psubstrate (B) (PLUS MINUS) <inda_width> <ind2_space> <inda_rad> <ind_nr> -model "g45inda"
+[property width space nr rad
+    width=area(inda_width) * 1e+8
+    space=area(ind2_space) * 0.5e+8
+    nr=count(ind_nr)  - 0.5
+    rad=area(inda_rad) * 0.5e+7
+];
+lvs_check_property  L (g45inda) width width -tolerance 0
+lvs_check_property  L (g45inda) space space -tolerance 0
+lvs_check_property  L (g45inda) nr nr -tolerance 0
+lvs_check_property  L (g45inda) rad rad -tolerance 0
+
+select -inside ind10 _ind_s _ind_s_enc; 
+device L (g45inds) _ind_s  ind11 (PLUS)  ind11 (MINUS) psubstrate (B) (PLUS MINUS) -model "g45inds" <inds_width> <ind2_sp1> <ind_rad> <_ind_s_enc> 
+[property width rad space nr
+    width=area(inds_width) * 1e+8
+    space=area(ind2_sp1) * 1e+6
+    rad=area(ind_rad) * 0.5e+7
+    nr = (count(_ind_s_enc) + 1)
+];
+lvs_check_property  L (g45inds) width width -tolerance 0
+lvs_check_property  L (g45inds) space space -tolerance 0
+lvs_check_property  L (g45inds) nr nr -tolerance 0
+lvs_check_property  L (g45inds) rad rad -tolerance 0
+
+///////////////////////////////////////////
+//
+// TCL CODE FOR WPE PARAMETER EXTRACTION 
+//
+//////////////////////////////////////////
+
+tcl_code  wpe_procedure {
+proc calc_sca { SCH SCV W L scref} {
+set  sca1 0.0
+set  sca2 0.0
+set  SCref  [ expr { [$scref] * 1e-6 } ]
+set  slice_count1 [ $SCH slice_count ]
+set  slice_count2 [ $SCV slice_count ]
+
+for { set i 0 } { $i < $slice_count1} { incr i } {
+    set sca1 [ expr { $sca1 + ([$SCH w $i] * ( (($SCref * $SCref/[$SCH a $i]) - ($SCref * $SCref/([$SCH a $i] + [$L]))) + (($SCref * $SCref/[$SCH b $i]) - ($SCref * $SCref/([$SCH b $i] + [$L]))) ) ) }]
+}
+
+for { set i 0 } { $i < $slice_count2} { incr i } {
+    set sca2 [ expr { $sca2 + ([$SCV w $i] * ( (($SCref * $SCref/[$SCV a $i]) - ($SCref * $SCref/([$SCV a $i] + [$W]))) + (($SCref * $SCref/[$SCV b $i]) - ($SCref * $SCref/([$SCV b $i] + [$W]))) ) ) }]
+}
+
+return [ expr { ($sca1 + $sca2) / (([$W] * [$L])) }]
+}
+
+proc calc_scb { SCH SCV W L scref} {
+set  scb1 0.0
+set  scb2 0.0
+set  SCref [ expr { [$scref] * 1e-06 } ]
+set  slice_count1 [ $SCH slice_count ]
+set  slice_count2 [ $SCV slice_count ]
+
+for { set i 0 } { $i < $slice_count1} { incr i } {
+    set expo_ha1 [ expr { exp(-10*[$SCH a $i]/$SCref) } ]
+    set expo_ha2 [ expr { exp(-10*([$SCH a $i]+[$L])/$SCref) } ]
+    set expo_hb1 [ expr { exp(-10*[$SCH b $i]/$SCref) } ]
+    set expo_hb2 [ expr { exp(-10*([$SCH b $i]+[$L])/$SCref) } ]
+    set scb1 [ expr {$scb1 + ([$SCH w $i] * (([$SCH a $i]/10 + $SCref/100)*$expo_ha1 - (([$SCH a $i] + [$L])/10 + $SCref/100)*$expo_ha2 + ([$SCH b $i]/10 + $SCref/100)*$expo_hb1 - (([$SCH b $i] + [$L])/10 + $SCref/100)*$expo_hb2) ) }]
+}
+
+for { set i 0 } { $i < $slice_count2} { incr i } {
+    set expo_va1 [ expr { exp(-10*[$SCV a $i]/$SCref) } ]
+    set expo_va2 [ expr { exp(-10*([$SCV a $i]+[$W])/$SCref) } ]
+    set expo_vb1 [ expr { exp(-10*[$SCV b $i]/$SCref) } ]
+    set expo_vb2 [ expr { exp(-10*([$SCV b $i]+[$W])/$SCref) } ]
+    set scb2 [ expr {$scb2 + ([$SCV w $i] * (([$SCV a $i]/10 + $SCref/100)*$expo_va1 - (([$SCV a $i] + [$W])/10 + $SCref/100)*$expo_va2 + ([$SCV b $i]/10 + $SCref/100)*$expo_vb1 - (([$SCV b $i] + [$W])/10 + $SCref/100)*$expo_vb2) ) }]
+}
+
+return [ expr { ($scb1 + $scb2) / (([$W] * [$L])) }]
+}
+
+proc calc_scc { SCH SCV W L scref} {
+set  scc1 0.0
+set  scc2 0.0
+set  SCref [ expr { [$scref] * 1e-6 } ]
+set  slice_count1 [ $SCH slice_count ]
+set  slice_count2 [ $SCV slice_count ]
+
+for { set i 0 } { $i < $slice_count1} { incr i } {
+    set expo_ha1 [ expr { exp(-20*[$SCH a $i]/$SCref) } ]
+    set expo_ha2 [ expr { exp(-20*([$SCH a $i]+[$L])/$SCref) } ]
+    set expo_hb1 [ expr { exp(-20*[$SCH b $i]/$SCref) } ]
+    set expo_hb2 [ expr { exp(-20*([$SCH b $i]+[$L])/$SCref) } ]
+    set scc1 [ expr {$scc1 + ([$SCH w $i] * (([$SCH a $i]/20 + $SCref/400)*$expo_ha1 - (([$SCH a $i] + [$L])/20 + $SCref/400)*$expo_ha2 + ([$SCH b $i]/20 + $SCref/400)*$expo_hb1 - (([$SCH b $i] + [$L])/20 + $SCref/400)*$expo_hb2) ) }]
+}
+
+for { set i 0 } { $i < $slice_count2} { incr i } {
+    set expo_va1 [ expr { exp(-20*[$SCV a $i]/$SCref) } ]
+    set expo_va2 [ expr { exp(-20*([$SCV a $i]+[$W])/$SCref) } ]
+    set expo_vb1 [ expr { exp(-20*[$SCV b $i]/$SCref) } ]
+    set expo_vb2 [ expr { exp(-20*([$SCV b $i]+[$W])/$SCref) } ]
+    set scc2 [ expr {$scc2 + ([$SCV w $i] * (([$SCV a $i]/20 + $SCref/400)*$expo_va1 - (([$SCV a $i] + [$W])/20 + $SCref/400)*$expo_va2 + ([$SCV b $i]/20 + $SCref/400)*$expo_vb1 - (([$SCV b $i] + [$W])/20 + $SCref/400)*$expo_vb2) ) }]
+}
+
+return [ expr { ($scc1 + $scc2) / (([$W] * [$L])) }]
+}
+
+};

@@ -1,0 +1,1176 @@
+
+simulator lang = spectre insensitive = yes
+
+library gpdk090
+
+section TT_s1v
+parameters 
++           s1v_rs_necap =        0.000000e+000          s1v_vsat_necap =        1.120000e+005        s1v_pldd_surfcap =        6.000000e+019 
++          s1v_uc1_necap =        3.700000e-010            s1v_u0_necap =        2.000000e-002           s1v_nch_necap =        5.200000e+017 
++          s1v_rsc_necap =        4.082483e-014          s1v_cgbo_necap =        1.482000e-011           s1v_prt_necap =        1.000000e+001 
++          s1v_rdc_necap =        4.082483e-014          s1v_vth0_necap =        1.692662e-001            s1v_k2_necap =        0.000000e+000 
++         s1v_cgdo_necap =        2.667600e-010        s1v_ckappa_necap =        4.605336e+000          s1v_wint_necap =        6.000000e-009 
++           s1v_k1_necap =        2.825346e-001          s1v_cgsl_necap =        1.111500e-010        s1v_nldd_surfcap =        3.000000e+019 
++           s1v_js_necap =        3.366667e-006          s1v_hdif_necap =        1.400000e-007          s1v_rdsw_necap =        3.900000e-006 
++          s1v_jsw_necap =        3.366667e-010           s1v_tox_necap =        2.330000e-009            s1v_cj_necap =        7.983537e-004 
++         s1v_cjsw_necap =        4.790122e-011          s1v_ldif_necap =        1.000000e-008            s1v_xj_necap =        2.500000e-008 
++           s1v_rd_necap =        0.000000e+000            s1v_pb_necap =        9.918524e-001            s1v_cf_necap =        4.594612e-011 
++         s1v_lint_necap =        1.500000e-008         s1v_cjswg_necap =        1.995884e-011           s1v_rsh_necap =        1.000000e+001 
++           s1v_u0_pecap =        1.200000e-002           s1v_nch_pecap =        4.000000e+017           s1v_rsc_pecap =        2.886751e-014 
++         s1v_cgbo_pecap =        1.392363e-011           s1v_rdc_pecap =        2.886751e-014          s1v_vth0_pecap =       -1.359511e-001 
++           s1v_k2_pecap =        0.000000e+000          s1v_cgdo_pecap =        2.506253e-010        s1v_ckappa_pecap =        1.043477e+001 
++         s1v_wint_pecap =        5.000000e-009            s1v_k1_pecap =        2.637520e-001          s1v_cgsl_pecap =        1.044272e-010 
++           s1v_js_pecap =        3.350000e-006          s1v_hdif_pecap =        1.400000e-007          s1v_rdsw_pecap =        7.800000e-006 
++          s1v_jsw_pecap =        3.350000e-010           s1v_tox_pecap =        2.480000e-009            s1v_cj_pecap =        7.912252e-004 
++         s1v_cjsw_pecap =        4.747351e-011          s1v_ldif_pecap =        1.000000e-008            s1v_xj_pecap =        2.500000e-008 
++           s1v_rd_pecap =        0.000000e+000            s1v_pb_pecap =        1.009805e+000            s1v_cf_pecap =        4.527118e-011 
++         s1v_lint_pecap =        1.500000e-008         s1v_cjswg_pecap =        1.978063e-011           s1v_rsh_pecap =        2.000000e+001 
++           s1v_rs_pecap =        0.000000e+000          s1v_vsat_pecap =        1.000000e+005 
+include "gpdk090_moscap.scs" section = s1v_mos
+endsection TT_s1v
+
+section FF_s1v
+parameters 
++           s1v_rs_necap =        0.000000e+000          s1v_vsat_necap =        1.120000e+005        s1v_pldd_surfcap =        6.000000e+019 
++          s1v_uc1_necap =        3.700000e-010            s1v_u0_necap =        2.600000e-002           s1v_nch_necap =        4.680000e+017 
++          s1v_rsc_necap =        4.082483e-014          s1v_cgbo_necap =        1.482000e-011           s1v_prt_necap =        1.000000e+001 
++          s1v_rdc_necap =        4.082483e-014          s1v_vth0_necap =        1.518852e-001            s1v_k2_necap =        0.000000e+000 
++         s1v_cgdo_necap =        2.667600e-010        s1v_ckappa_necap =        4.605336e+000          s1v_wint_necap =        5.400000e-009 
++           s1v_k1_necap =        2.825346e-001          s1v_cgsl_necap =        1.111500e-010        s1v_nldd_surfcap =        3.000000e+019 
++           s1v_js_necap =        3.366667e-006          s1v_hdif_necap =        1.400000e-007          s1v_rdsw_necap =        3.900000e-006 
++          s1v_jsw_necap =        3.366667e-010           s1v_tox_necap =        2.097000e-009            s1v_cj_necap =        7.983537e-004 
++         s1v_cjsw_necap =        4.790122e-011          s1v_ldif_necap =        1.000000e-008            s1v_xj_necap =        2.500000e-008 
++           s1v_rd_necap =        0.000000e+000            s1v_pb_necap =        9.918524e-001            s1v_cf_necap =        4.594612e-011 
++         s1v_lint_necap =        1.650000e-008         s1v_cjswg_necap =        1.995884e-011           s1v_rsh_necap =        1.000000e+001 
++           s1v_u0_pecap =        1.560000e-002           s1v_nch_pecap =        3.600000e+017           s1v_rsc_pecap =        2.886751e-014 
++         s1v_cgbo_pecap =        1.392363e-011           s1v_rdc_pecap =        2.886751e-014          s1v_vth0_pecap =       -1.228104e-001 
++           s1v_k2_pecap =        0.000000e+000          s1v_cgdo_pecap =        2.506253e-010        s1v_ckappa_pecap =        1.043477e+001 
++         s1v_wint_pecap =        4.500000e-009            s1v_k1_pecap =        2.637520e-001          s1v_cgsl_pecap =        1.044272e-010 
++           s1v_js_pecap =        3.350000e-006          s1v_hdif_pecap =        1.400000e-007          s1v_rdsw_pecap =        7.800000e-006 
++          s1v_jsw_pecap =        3.350000e-010           s1v_tox_pecap =        2.232000e-009            s1v_cj_pecap =        7.912252e-004 
++         s1v_cjsw_pecap =        4.747351e-011          s1v_ldif_pecap =        1.000000e-008            s1v_xj_pecap =        2.500000e-008 
++           s1v_rd_pecap =        0.000000e+000            s1v_pb_pecap =        1.009805e+000            s1v_cf_pecap =        4.527118e-011 
++         s1v_lint_pecap =        1.650000e-008         s1v_cjswg_pecap =        1.978063e-011           s1v_rsh_pecap =        2.000000e+001 
++           s1v_rs_pecap =        0.000000e+000          s1v_vsat_pecap =        1.000000e+005 
+include "gpdk090_moscap.scs" section = s1v_mos
+endsection FF_s1v
+
+section SS_s1v
+parameters 
++           s1v_rs_necap =        0.000000e+000          s1v_vsat_necap =        1.120000e+005        s1v_pldd_surfcap =        6.000000e+019 
++          s1v_uc1_necap =        3.700000e-010            s1v_u0_necap =        1.400000e-002           s1v_nch_necap =        5.720000e+017 
++          s1v_rsc_necap =        4.082483e-014          s1v_cgbo_necap =        1.482000e-011           s1v_prt_necap =        1.000000e+001 
++          s1v_rdc_necap =        4.082483e-014          s1v_vth0_necap =        1.866039e-001            s1v_k2_necap =        0.000000e+000 
++         s1v_cgdo_necap =        2.667600e-010        s1v_ckappa_necap =        4.605336e+000          s1v_wint_necap =        6.600000e-009 
++           s1v_k1_necap =        2.825346e-001          s1v_cgsl_necap =        1.111500e-010        s1v_nldd_surfcap =        3.000000e+019 
++           s1v_js_necap =        3.366667e-006          s1v_hdif_necap =        1.400000e-007          s1v_rdsw_necap =        3.900000e-006 
++          s1v_jsw_necap =        3.366667e-010           s1v_tox_necap =        2.563000e-009            s1v_cj_necap =        7.983537e-004 
++         s1v_cjsw_necap =        4.790122e-011          s1v_ldif_necap =        1.000000e-008            s1v_xj_necap =        2.500000e-008 
++           s1v_rd_necap =        0.000000e+000            s1v_pb_necap =        9.918524e-001            s1v_cf_necap =        4.594612e-011 
++         s1v_lint_necap =        1.350000e-008         s1v_cjswg_necap =        1.995884e-011           s1v_rsh_necap =        1.000000e+001 
++           s1v_u0_pecap =        8.400000e-003           s1v_nch_pecap =        4.400000e+017           s1v_rsc_pecap =        2.886751e-014 
++         s1v_cgbo_pecap =        1.392363e-011           s1v_rdc_pecap =        2.886751e-014          s1v_vth0_pecap =       -1.491351e-001 
++           s1v_k2_pecap =        0.000000e+000          s1v_cgdo_pecap =        2.506253e-010        s1v_ckappa_pecap =        1.043477e+001 
++         s1v_wint_pecap =        5.500000e-009            s1v_k1_pecap =        2.637520e-001          s1v_cgsl_pecap =        1.044272e-010 
++           s1v_js_pecap =        3.350000e-006          s1v_hdif_pecap =        1.400000e-007          s1v_rdsw_pecap =        7.800000e-006 
++          s1v_jsw_pecap =        3.350000e-010           s1v_tox_pecap =        2.728000e-009            s1v_cj_pecap =        7.912252e-004 
++         s1v_cjsw_pecap =        4.747351e-011          s1v_ldif_pecap =        1.000000e-008            s1v_xj_pecap =        2.500000e-008 
++           s1v_rd_pecap =        0.000000e+000            s1v_pb_pecap =        1.009805e+000            s1v_cf_pecap =        4.527118e-011 
++         s1v_lint_pecap =        1.350000e-008         s1v_cjswg_pecap =        1.978063e-011           s1v_rsh_pecap =        2.000000e+001 
++           s1v_rs_pecap =        0.000000e+000          s1v_vsat_pecap =        1.000000e+005 
+include "gpdk090_moscap.scs" section = s1v_mos
+endsection SS_s1v
+
+section FS_s1v
+parameters 
++           s1v_rs_necap =        0.000000e+000          s1v_vsat_necap =        1.120000e+005        s1v_pldd_surfcap =        6.000000e+019 
++          s1v_uc1_necap =        3.700000e-010            s1v_u0_necap =        2.600000e-002           s1v_nch_necap =        4.680000e+017 
++          s1v_rsc_necap =        4.082483e-014          s1v_cgbo_necap =        1.482000e-011           s1v_prt_necap =        1.000000e+001 
++          s1v_rdc_necap =        4.082483e-014          s1v_vth0_necap =        1.518852e-001            s1v_k2_necap =        0.000000e+000 
++         s1v_cgdo_necap =        2.667600e-010        s1v_ckappa_necap =        4.605336e+000          s1v_wint_necap =        5.400000e-009 
++           s1v_k1_necap =        2.825346e-001          s1v_cgsl_necap =        1.111500e-010        s1v_nldd_surfcap =        3.000000e+019 
++           s1v_js_necap =        3.366667e-006          s1v_hdif_necap =        1.400000e-007          s1v_rdsw_necap =        3.900000e-006 
++          s1v_jsw_necap =        3.366667e-010           s1v_tox_necap =        2.097000e-009            s1v_cj_necap =        7.983537e-004 
++         s1v_cjsw_necap =        4.790122e-011          s1v_ldif_necap =        1.000000e-008            s1v_xj_necap =        2.500000e-008 
++           s1v_rd_necap =        0.000000e+000            s1v_pb_necap =        9.918524e-001            s1v_cf_necap =        4.594612e-011 
++         s1v_lint_necap =        1.650000e-008         s1v_cjswg_necap =        1.995884e-011           s1v_rsh_necap =        1.000000e+001 
++           s1v_u0_pecap =        8.400000e-003           s1v_nch_pecap =        4.400000e+017           s1v_rsc_pecap =        2.886751e-014 
++         s1v_cgbo_pecap =        1.392363e-011           s1v_rdc_pecap =        2.886751e-014          s1v_vth0_pecap =       -1.491351e-001 
++           s1v_k2_pecap =        0.000000e+000          s1v_cgdo_pecap =        2.506253e-010        s1v_ckappa_pecap =        1.043477e+001 
++         s1v_wint_pecap =        5.500000e-009            s1v_k1_pecap =        2.637520e-001          s1v_cgsl_pecap =        1.044272e-010 
++           s1v_js_pecap =        3.350000e-006          s1v_hdif_pecap =        1.400000e-007          s1v_rdsw_pecap =        7.800000e-006 
++          s1v_jsw_pecap =        3.350000e-010           s1v_tox_pecap =        2.728000e-009            s1v_cj_pecap =        7.912252e-004 
++         s1v_cjsw_pecap =        4.747351e-011          s1v_ldif_pecap =        1.000000e-008            s1v_xj_pecap =        2.500000e-008 
++           s1v_rd_pecap =        0.000000e+000            s1v_pb_pecap =        1.009805e+000            s1v_cf_pecap =        4.527118e-011 
++         s1v_lint_pecap =        1.350000e-008         s1v_cjswg_pecap =        1.978063e-011           s1v_rsh_pecap =        2.000000e+001 
++           s1v_rs_pecap =        0.000000e+000          s1v_vsat_pecap =        1.000000e+005 
+include "gpdk090_moscap.scs" section = s1v_mos
+endsection FS_s1v
+
+section SF_s1v
+parameters 
++           s1v_rs_necap =        0.000000e+000          s1v_vsat_necap =        1.120000e+005        s1v_pldd_surfcap =        6.000000e+019 
++          s1v_uc1_necap =        3.700000e-010            s1v_u0_necap =        1.400000e-002           s1v_nch_necap =        5.720000e+017 
++          s1v_rsc_necap =        4.082483e-014          s1v_cgbo_necap =        1.482000e-011           s1v_prt_necap =        1.000000e+001 
++          s1v_rdc_necap =        4.082483e-014          s1v_vth0_necap =        1.866039e-001            s1v_k2_necap =        0.000000e+000 
++         s1v_cgdo_necap =        2.667600e-010        s1v_ckappa_necap =        4.605336e+000          s1v_wint_necap =        6.600000e-009 
++           s1v_k1_necap =        2.825346e-001          s1v_cgsl_necap =        1.111500e-010        s1v_nldd_surfcap =        3.000000e+019 
++           s1v_js_necap =        3.366667e-006          s1v_hdif_necap =        1.400000e-007          s1v_rdsw_necap =        3.900000e-006 
++          s1v_jsw_necap =        3.366667e-010           s1v_tox_necap =        2.563000e-009            s1v_cj_necap =        7.983537e-004 
++         s1v_cjsw_necap =        4.790122e-011          s1v_ldif_necap =        1.000000e-008            s1v_xj_necap =        2.500000e-008 
++           s1v_rd_necap =        0.000000e+000            s1v_pb_necap =        9.918524e-001            s1v_cf_necap =        4.594612e-011 
++         s1v_lint_necap =        1.350000e-008         s1v_cjswg_necap =        1.995884e-011           s1v_rsh_necap =        1.000000e+001 
++           s1v_u0_pecap =        1.560000e-002           s1v_nch_pecap =        3.600000e+017           s1v_rsc_pecap =        2.886751e-014 
++         s1v_cgbo_pecap =        1.392363e-011           s1v_rdc_pecap =        2.886751e-014          s1v_vth0_pecap =       -1.228104e-001 
++           s1v_k2_pecap =        0.000000e+000          s1v_cgdo_pecap =        2.506253e-010        s1v_ckappa_pecap =        1.043477e+001 
++         s1v_wint_pecap =        4.500000e-009            s1v_k1_pecap =        2.637520e-001          s1v_cgsl_pecap =        1.044272e-010 
++           s1v_js_pecap =        3.350000e-006          s1v_hdif_pecap =        1.400000e-007          s1v_rdsw_pecap =        7.800000e-006 
++          s1v_jsw_pecap =        3.350000e-010           s1v_tox_pecap =        2.232000e-009            s1v_cj_pecap =        7.912252e-004 
++         s1v_cjsw_pecap =        4.747351e-011          s1v_ldif_pecap =        1.000000e-008            s1v_xj_pecap =        2.500000e-008 
++           s1v_rd_pecap =        0.000000e+000            s1v_pb_pecap =        1.009805e+000            s1v_cf_pecap =        4.527118e-011 
++         s1v_lint_pecap =        1.650000e-008         s1v_cjswg_pecap =        1.978063e-011           s1v_rsh_pecap =        2.000000e+001 
++           s1v_rs_pecap =        0.000000e+000          s1v_vsat_pecap =        1.000000e+005 
+include "gpdk090_moscap.scs" section = s1v_mos
+endsection SF_s1v
+
+section TT_s1v_g
+parameters 
++           s1v_rs_necap =        0.000000e+000          s1v_vsat_necap =        1.120000e+005        s1v_pldd_surfcap =        6.000000e+019 
++          s1v_uc1_necap =        3.700000e-010            s1v_u0_necap =        2.000000e-002           s1v_nch_necap =        5.200000e+017 
++          s1v_rsc_necap =        4.082483e-014          s1v_cgbo_necap =        1.482000e-011           s1v_prt_necap =        1.000000e+001 
++          s1v_rdc_necap =        4.082483e-014          s1v_vth0_necap =        1.692662e-001            s1v_k2_necap =        0.000000e+000 
++         s1v_cgdo_necap =        2.667600e-010        s1v_ckappa_necap =        4.605336e+000          s1v_wint_necap =        6.000000e-009 
++           s1v_k1_necap =        2.825346e-001          s1v_cgsl_necap =        1.111500e-010        s1v_nldd_surfcap =        3.000000e+019 
++           s1v_js_necap =        3.366667e-006          s1v_hdif_necap =        1.400000e-007          s1v_rdsw_necap =        3.900000e-006 
++          s1v_jsw_necap =        3.366667e-010           s1v_tox_necap =        2.330000e-009            s1v_cj_necap =        7.983537e-004 
++         s1v_cjsw_necap =        4.790122e-011          s1v_ldif_necap =        1.000000e-008            s1v_xj_necap =        2.500000e-008 
++           s1v_rd_necap =        0.000000e+000            s1v_pb_necap =        9.918524e-001            s1v_cf_necap =        4.594612e-011 
++         s1v_lint_necap =        1.500000e-008         s1v_cjswg_necap =        1.995884e-011           s1v_rsh_necap =        1.000000e+001 
++           s1v_u0_pecap =        1.200000e-002           s1v_nch_pecap =        4.000000e+017           s1v_rsc_pecap =        2.886751e-014 
++         s1v_cgbo_pecap =        1.392363e-011           s1v_rdc_pecap =        2.886751e-014          s1v_vth0_pecap =       -1.359511e-001 
++           s1v_k2_pecap =        0.000000e+000          s1v_cgdo_pecap =        2.506253e-010        s1v_ckappa_pecap =        1.043477e+001 
++         s1v_wint_pecap =        5.000000e-009            s1v_k1_pecap =        2.637520e-001          s1v_cgsl_pecap =        1.044272e-010 
++           s1v_js_pecap =        3.350000e-006          s1v_hdif_pecap =        1.400000e-007          s1v_rdsw_pecap =        7.800000e-006 
++          s1v_jsw_pecap =        3.350000e-010           s1v_tox_pecap =        2.480000e-009            s1v_cj_pecap =        7.912252e-004 
++         s1v_cjsw_pecap =        4.747351e-011          s1v_ldif_pecap =        1.000000e-008            s1v_xj_pecap =        2.500000e-008 
++           s1v_rd_pecap =        0.000000e+000            s1v_pb_pecap =        1.009805e+000            s1v_cf_pecap =        4.527118e-011 
++         s1v_lint_pecap =        1.500000e-008         s1v_cjswg_pecap =        1.978063e-011           s1v_rsh_pecap =        2.000000e+001 
++           s1v_rs_pecap =        0.000000e+000          s1v_vsat_pecap =        1.000000e+005 
+include "gpdk090_moscap.scs" section = s1v_mos
+include "gpdk090_moscap.scs" section = s1v_mac
+endsection TT_s1v_g
+
+section FF_s1v_g
+parameters 
++           s1v_rs_necap =        0.000000e+000          s1v_vsat_necap =        1.120000e+005        s1v_pldd_surfcap =        6.000000e+019 
++          s1v_uc1_necap =        3.700000e-010            s1v_u0_necap =        2.600000e-002           s1v_nch_necap =        4.680000e+017 
++          s1v_rsc_necap =        4.082483e-014          s1v_cgbo_necap =        1.482000e-011           s1v_prt_necap =        1.000000e+001 
++          s1v_rdc_necap =        4.082483e-014          s1v_vth0_necap =        1.518852e-001            s1v_k2_necap =        0.000000e+000 
++         s1v_cgdo_necap =        2.667600e-010        s1v_ckappa_necap =        4.605336e+000          s1v_wint_necap =        5.400000e-009 
++           s1v_k1_necap =        2.825346e-001          s1v_cgsl_necap =        1.111500e-010        s1v_nldd_surfcap =        3.000000e+019 
++           s1v_js_necap =        3.366667e-006          s1v_hdif_necap =        1.400000e-007          s1v_rdsw_necap =        3.900000e-006 
++          s1v_jsw_necap =        3.366667e-010           s1v_tox_necap =        2.097000e-009            s1v_cj_necap =        7.983537e-004 
++         s1v_cjsw_necap =        4.790122e-011          s1v_ldif_necap =        1.000000e-008            s1v_xj_necap =        2.500000e-008 
++           s1v_rd_necap =        0.000000e+000            s1v_pb_necap =        9.918524e-001            s1v_cf_necap =        4.594612e-011 
++         s1v_lint_necap =        1.650000e-008         s1v_cjswg_necap =        1.995884e-011           s1v_rsh_necap =        1.000000e+001 
++           s1v_u0_pecap =        1.560000e-002           s1v_nch_pecap =        3.600000e+017           s1v_rsc_pecap =        2.886751e-014 
++         s1v_cgbo_pecap =        1.392363e-011           s1v_rdc_pecap =        2.886751e-014          s1v_vth0_pecap =       -1.228104e-001 
++           s1v_k2_pecap =        0.000000e+000          s1v_cgdo_pecap =        2.506253e-010        s1v_ckappa_pecap =        1.043477e+001 
++         s1v_wint_pecap =        4.500000e-009            s1v_k1_pecap =        2.637520e-001          s1v_cgsl_pecap =        1.044272e-010 
++           s1v_js_pecap =        3.350000e-006          s1v_hdif_pecap =        1.400000e-007          s1v_rdsw_pecap =        7.800000e-006 
++          s1v_jsw_pecap =        3.350000e-010           s1v_tox_pecap =        2.232000e-009            s1v_cj_pecap =        7.912252e-004 
++         s1v_cjsw_pecap =        4.747351e-011          s1v_ldif_pecap =        1.000000e-008            s1v_xj_pecap =        2.500000e-008 
++           s1v_rd_pecap =        0.000000e+000            s1v_pb_pecap =        1.009805e+000            s1v_cf_pecap =        4.527118e-011 
++         s1v_lint_pecap =        1.650000e-008         s1v_cjswg_pecap =        1.978063e-011           s1v_rsh_pecap =        2.000000e+001 
++           s1v_rs_pecap =        0.000000e+000          s1v_vsat_pecap =        1.000000e+005 
+include "gpdk090_moscap.scs" section = s1v_mos
+include "gpdk090_moscap.scs" section = s1v_mac
+endsection FF_s1v_g
+
+section SS_s1v_g
+parameters 
++           s1v_rs_necap =        0.000000e+000          s1v_vsat_necap =        1.120000e+005        s1v_pldd_surfcap =        6.000000e+019 
++          s1v_uc1_necap =        3.700000e-010            s1v_u0_necap =        1.400000e-002           s1v_nch_necap =        5.720000e+017 
++          s1v_rsc_necap =        4.082483e-014          s1v_cgbo_necap =        1.482000e-011           s1v_prt_necap =        1.000000e+001 
++          s1v_rdc_necap =        4.082483e-014          s1v_vth0_necap =        1.866039e-001            s1v_k2_necap =        0.000000e+000 
++         s1v_cgdo_necap =        2.667600e-010        s1v_ckappa_necap =        4.605336e+000          s1v_wint_necap =        6.600000e-009 
++           s1v_k1_necap =        2.825346e-001          s1v_cgsl_necap =        1.111500e-010        s1v_nldd_surfcap =        3.000000e+019 
++           s1v_js_necap =        3.366667e-006          s1v_hdif_necap =        1.400000e-007          s1v_rdsw_necap =        3.900000e-006 
++          s1v_jsw_necap =        3.366667e-010           s1v_tox_necap =        2.563000e-009            s1v_cj_necap =        7.983537e-004 
++         s1v_cjsw_necap =        4.790122e-011          s1v_ldif_necap =        1.000000e-008            s1v_xj_necap =        2.500000e-008 
++           s1v_rd_necap =        0.000000e+000            s1v_pb_necap =        9.918524e-001            s1v_cf_necap =        4.594612e-011 
++         s1v_lint_necap =        1.350000e-008         s1v_cjswg_necap =        1.995884e-011           s1v_rsh_necap =        1.000000e+001 
++           s1v_u0_pecap =        8.400000e-003           s1v_nch_pecap =        4.400000e+017           s1v_rsc_pecap =        2.886751e-014 
++         s1v_cgbo_pecap =        1.392363e-011           s1v_rdc_pecap =        2.886751e-014          s1v_vth0_pecap =       -1.491351e-001 
++           s1v_k2_pecap =        0.000000e+000          s1v_cgdo_pecap =        2.506253e-010        s1v_ckappa_pecap =        1.043477e+001 
++         s1v_wint_pecap =        5.500000e-009            s1v_k1_pecap =        2.637520e-001          s1v_cgsl_pecap =        1.044272e-010 
++           s1v_js_pecap =        3.350000e-006          s1v_hdif_pecap =        1.400000e-007          s1v_rdsw_pecap =        7.800000e-006 
++          s1v_jsw_pecap =        3.350000e-010           s1v_tox_pecap =        2.728000e-009            s1v_cj_pecap =        7.912252e-004 
++         s1v_cjsw_pecap =        4.747351e-011          s1v_ldif_pecap =        1.000000e-008            s1v_xj_pecap =        2.500000e-008 
++           s1v_rd_pecap =        0.000000e+000            s1v_pb_pecap =        1.009805e+000            s1v_cf_pecap =        4.527118e-011 
++         s1v_lint_pecap =        1.350000e-008         s1v_cjswg_pecap =        1.978063e-011           s1v_rsh_pecap =        2.000000e+001 
++           s1v_rs_pecap =        0.000000e+000          s1v_vsat_pecap =        1.000000e+005 
+include "gpdk090_moscap.scs" section = s1v_mos
+include "gpdk090_moscap.scs" section = s1v_mac
+endsection SS_s1v_g
+
+section FS_s1v_g
+parameters 
++           s1v_rs_necap =        0.000000e+000          s1v_vsat_necap =        1.120000e+005        s1v_pldd_surfcap =        6.000000e+019 
++          s1v_uc1_necap =        3.700000e-010            s1v_u0_necap =        2.600000e-002           s1v_nch_necap =        4.680000e+017 
++          s1v_rsc_necap =        4.082483e-014          s1v_cgbo_necap =        1.482000e-011           s1v_prt_necap =        1.000000e+001 
++          s1v_rdc_necap =        4.082483e-014          s1v_vth0_necap =        1.518852e-001            s1v_k2_necap =        0.000000e+000 
++         s1v_cgdo_necap =        2.667600e-010        s1v_ckappa_necap =        4.605336e+000          s1v_wint_necap =        5.400000e-009 
++           s1v_k1_necap =        2.825346e-001          s1v_cgsl_necap =        1.111500e-010        s1v_nldd_surfcap =        3.000000e+019 
++           s1v_js_necap =        3.366667e-006          s1v_hdif_necap =        1.400000e-007          s1v_rdsw_necap =        3.900000e-006 
++          s1v_jsw_necap =        3.366667e-010           s1v_tox_necap =        2.097000e-009            s1v_cj_necap =        7.983537e-004 
++         s1v_cjsw_necap =        4.790122e-011          s1v_ldif_necap =        1.000000e-008            s1v_xj_necap =        2.500000e-008 
++           s1v_rd_necap =        0.000000e+000            s1v_pb_necap =        9.918524e-001            s1v_cf_necap =        4.594612e-011 
++         s1v_lint_necap =        1.650000e-008         s1v_cjswg_necap =        1.995884e-011           s1v_rsh_necap =        1.000000e+001 
++           s1v_u0_pecap =        8.400000e-003           s1v_nch_pecap =        4.400000e+017           s1v_rsc_pecap =        2.886751e-014 
++         s1v_cgbo_pecap =        1.392363e-011           s1v_rdc_pecap =        2.886751e-014          s1v_vth0_pecap =       -1.491351e-001 
++           s1v_k2_pecap =        0.000000e+000          s1v_cgdo_pecap =        2.506253e-010        s1v_ckappa_pecap =        1.043477e+001 
++         s1v_wint_pecap =        5.500000e-009            s1v_k1_pecap =        2.637520e-001          s1v_cgsl_pecap =        1.044272e-010 
++           s1v_js_pecap =        3.350000e-006          s1v_hdif_pecap =        1.400000e-007          s1v_rdsw_pecap =        7.800000e-006 
++          s1v_jsw_pecap =        3.350000e-010           s1v_tox_pecap =        2.728000e-009            s1v_cj_pecap =        7.912252e-004 
++         s1v_cjsw_pecap =        4.747351e-011          s1v_ldif_pecap =        1.000000e-008            s1v_xj_pecap =        2.500000e-008 
++           s1v_rd_pecap =        0.000000e+000            s1v_pb_pecap =        1.009805e+000            s1v_cf_pecap =        4.527118e-011 
++         s1v_lint_pecap =        1.350000e-008         s1v_cjswg_pecap =        1.978063e-011           s1v_rsh_pecap =        2.000000e+001 
++           s1v_rs_pecap =        0.000000e+000          s1v_vsat_pecap =        1.000000e+005 
+include "gpdk090_moscap.scs" section = s1v_mos
+include "gpdk090_moscap.scs" section = s1v_mac
+endsection FS_s1v_g
+
+section SF_s1v_g
+parameters 
++           s1v_rs_necap =        0.000000e+000          s1v_vsat_necap =        1.120000e+005        s1v_pldd_surfcap =        6.000000e+019 
++          s1v_uc1_necap =        3.700000e-010            s1v_u0_necap =        1.400000e-002           s1v_nch_necap =        5.720000e+017 
++          s1v_rsc_necap =        4.082483e-014          s1v_cgbo_necap =        1.482000e-011           s1v_prt_necap =        1.000000e+001 
++          s1v_rdc_necap =        4.082483e-014          s1v_vth0_necap =        1.866039e-001            s1v_k2_necap =        0.000000e+000 
++         s1v_cgdo_necap =        2.667600e-010        s1v_ckappa_necap =        4.605336e+000          s1v_wint_necap =        6.600000e-009 
++           s1v_k1_necap =        2.825346e-001          s1v_cgsl_necap =        1.111500e-010        s1v_nldd_surfcap =        3.000000e+019 
++           s1v_js_necap =        3.366667e-006          s1v_hdif_necap =        1.400000e-007          s1v_rdsw_necap =        3.900000e-006 
++          s1v_jsw_necap =        3.366667e-010           s1v_tox_necap =        2.563000e-009            s1v_cj_necap =        7.983537e-004 
++         s1v_cjsw_necap =        4.790122e-011          s1v_ldif_necap =        1.000000e-008            s1v_xj_necap =        2.500000e-008 
++           s1v_rd_necap =        0.000000e+000            s1v_pb_necap =        9.918524e-001            s1v_cf_necap =        4.594612e-011 
++         s1v_lint_necap =        1.350000e-008         s1v_cjswg_necap =        1.995884e-011           s1v_rsh_necap =        1.000000e+001 
++           s1v_u0_pecap =        1.560000e-002           s1v_nch_pecap =        3.600000e+017           s1v_rsc_pecap =        2.886751e-014 
++         s1v_cgbo_pecap =        1.392363e-011           s1v_rdc_pecap =        2.886751e-014          s1v_vth0_pecap =       -1.228104e-001 
++           s1v_k2_pecap =        0.000000e+000          s1v_cgdo_pecap =        2.506253e-010        s1v_ckappa_pecap =        1.043477e+001 
++         s1v_wint_pecap =        4.500000e-009            s1v_k1_pecap =        2.637520e-001          s1v_cgsl_pecap =        1.044272e-010 
++           s1v_js_pecap =        3.350000e-006          s1v_hdif_pecap =        1.400000e-007          s1v_rdsw_pecap =        7.800000e-006 
++          s1v_jsw_pecap =        3.350000e-010           s1v_tox_pecap =        2.232000e-009            s1v_cj_pecap =        7.912252e-004 
++         s1v_cjsw_pecap =        4.747351e-011          s1v_ldif_pecap =        1.000000e-008            s1v_xj_pecap =        2.500000e-008 
++           s1v_rd_pecap =        0.000000e+000            s1v_pb_pecap =        1.009805e+000            s1v_cf_pecap =        4.527118e-011 
++         s1v_lint_pecap =        1.650000e-008         s1v_cjswg_pecap =        1.978063e-011           s1v_rsh_pecap =        2.000000e+001 
++           s1v_rs_pecap =        0.000000e+000          s1v_vsat_pecap =        1.000000e+005 
+include "gpdk090_moscap.scs" section = s1v_mos
+include "gpdk090_moscap.scs" section = s1v_mac
+endsection SF_s1v_g
+
+section TT_lp
+parameters 
++            lp_rs_necap =        0.000000e+000           lp_vsat_necap =        1.120000e+005         lp_pldd_surfcap =        6.000000e+019 
++           lp_uc1_necap =       -6.420000e-011             lp_u0_necap =        2.000000e-002            lp_nch_necap =        8.500000e+017 
++           lp_rsc_necap =        4.082483e-014           lp_cgbo_necap =        1.482000e-011            lp_prt_necap =        0.000000e+000 
++           lp_rdc_necap =        4.082483e-014           lp_vth0_necap =        2.742286e-001             lp_k2_necap =        0.000000e+000 
++          lp_cgdo_necap =        2.667600e-010         lp_ckappa_necap =        4.605336e+000           lp_wint_necap =        6.000000e-009 
++            lp_k1_necap =        3.612264e-001           lp_cgsl_necap =        1.111500e-010         lp_nldd_surfcap =        3.000000e+019 
++            lp_js_necap =        3.366667e-006           lp_hdif_necap =        1.400000e-007           lp_rdsw_necap =        3.900000e-006 
++           lp_jsw_necap =        3.366667e-010            lp_tox_necap =        2.330000e-009             lp_cj_necap =        7.983537e-004 
++          lp_cjsw_necap =        4.790122e-011           lp_ldif_necap =        1.000000e-008             lp_xj_necap =        2.500000e-008 
++            lp_rd_necap =        0.000000e+000             lp_pb_necap =        9.918524e-001             lp_cf_necap =        4.594612e-011 
++          lp_lint_necap =        1.500000e-008          lp_cjswg_necap =        1.995884e-011            lp_rsh_necap =        1.000000e+001 
++            lp_u0_pecap =        1.200000e-002            lp_nch_pecap =        6.700000e+017            lp_rsc_pecap =        2.886751e-014 
++          lp_cgbo_pecap =        1.392363e-011            lp_rdc_pecap =        2.886751e-014           lp_vth0_pecap =       -2.405796e-001 
++            lp_k2_pecap =        0.000000e+000           lp_cgdo_pecap =        2.506253e-010         lp_ckappa_pecap =        1.043477e+001 
++          lp_wint_pecap =        5.000000e-009             lp_k1_pecap =        3.413526e-001           lp_cgsl_pecap =        1.044272e-010 
++            lp_js_pecap =        3.350000e-006           lp_hdif_pecap =        1.400000e-007           lp_rdsw_pecap =        7.800000e-006 
++           lp_jsw_pecap =        3.350000e-010            lp_tox_pecap =        2.480000e-009             lp_cj_pecap =        7.912252e-004 
++          lp_cjsw_pecap =        4.747351e-011           lp_ldif_pecap =        1.000000e-008             lp_xj_pecap =        2.500000e-008 
++            lp_rd_pecap =        0.000000e+000             lp_pb_pecap =        1.009805e+000             lp_cf_pecap =        4.527118e-011 
++          lp_lint_pecap =        1.500000e-008          lp_cjswg_pecap =        1.978063e-011            lp_rsh_pecap =        2.000000e+001 
++            lp_rs_pecap =        0.000000e+000           lp_vsat_pecap =        1.000000e+005 
+include "gpdk090_moscap.scs" section = lp_mos
+endsection TT_lp
+
+section FF_lp
+parameters 
++            lp_rs_necap =        0.000000e+000           lp_vsat_necap =        1.120000e+005         lp_pldd_surfcap =        6.000000e+019 
++           lp_uc1_necap =       -6.420000e-011             lp_u0_necap =        2.600000e-002            lp_nch_necap =        7.650000e+017 
++           lp_rsc_necap =        4.082483e-014           lp_cgbo_necap =        1.482000e-011            lp_prt_necap =        0.000000e+000 
++           lp_rdc_necap =        4.082483e-014           lp_vth0_necap =        2.463513e-001             lp_k2_necap =        0.000000e+000 
++          lp_cgdo_necap =        2.667600e-010         lp_ckappa_necap =        4.605336e+000           lp_wint_necap =        5.400000e-009 
++            lp_k1_necap =        3.612264e-001           lp_cgsl_necap =        1.111500e-010         lp_nldd_surfcap =        3.000000e+019 
++            lp_js_necap =        3.366667e-006           lp_hdif_necap =        1.400000e-007           lp_rdsw_necap =        3.900000e-006 
++           lp_jsw_necap =        3.366667e-010            lp_tox_necap =        2.097000e-009             lp_cj_necap =        7.983537e-004 
++          lp_cjsw_necap =        4.790122e-011           lp_ldif_necap =        1.000000e-008             lp_xj_necap =        2.500000e-008 
++            lp_rd_necap =        0.000000e+000             lp_pb_necap =        9.918524e-001             lp_cf_necap =        4.594612e-011 
++          lp_lint_necap =        1.650000e-008          lp_cjswg_necap =        1.995884e-011            lp_rsh_necap =        1.000000e+001 
++            lp_u0_pecap =        1.560000e-002            lp_nch_pecap =        6.030000e+017            lp_rsc_pecap =        2.886751e-014 
++          lp_cgbo_pecap =        1.392363e-011            lp_rdc_pecap =        2.886751e-014           lp_vth0_pecap =       -2.169761e-001 
++            lp_k2_pecap =        0.000000e+000           lp_cgdo_pecap =        2.506253e-010         lp_ckappa_pecap =        1.043477e+001 
++          lp_wint_pecap =        4.500000e-009             lp_k1_pecap =        3.413526e-001           lp_cgsl_pecap =        1.044272e-010 
++            lp_js_pecap =        3.350000e-006           lp_hdif_pecap =        1.400000e-007           lp_rdsw_pecap =        7.800000e-006 
++           lp_jsw_pecap =        3.350000e-010            lp_tox_pecap =        2.232000e-009             lp_cj_pecap =        7.912252e-004 
++          lp_cjsw_pecap =        4.747351e-011           lp_ldif_pecap =        1.000000e-008             lp_xj_pecap =        2.500000e-008 
++            lp_rd_pecap =        0.000000e+000             lp_pb_pecap =        1.009805e+000             lp_cf_pecap =        4.527118e-011 
++          lp_lint_pecap =        1.650000e-008          lp_cjswg_pecap =        1.978063e-011            lp_rsh_pecap =        2.000000e+001 
++            lp_rs_pecap =        0.000000e+000           lp_vsat_pecap =        1.000000e+005 
+include "gpdk090_moscap.scs" section = lp_mos
+endsection FF_lp
+
+section SS_lp
+parameters 
++            lp_rs_necap =        0.000000e+000           lp_vsat_necap =        1.120000e+005         lp_pldd_surfcap =        6.000000e+019 
++           lp_uc1_necap =       -6.420000e-011             lp_u0_necap =        1.400000e-002            lp_nch_necap =        9.350000e+017 
++           lp_rsc_necap =        4.082483e-014           lp_cgbo_necap =        1.482000e-011            lp_prt_necap =        0.000000e+000 
++           lp_rdc_necap =        4.082483e-014           lp_vth0_necap =        3.020626e-001             lp_k2_necap =        0.000000e+000 
++          lp_cgdo_necap =        2.667600e-010         lp_ckappa_necap =        4.605336e+000           lp_wint_necap =        6.600000e-009 
++            lp_k1_necap =        3.612264e-001           lp_cgsl_necap =        1.111500e-010         lp_nldd_surfcap =        3.000000e+019 
++            lp_js_necap =        3.366667e-006           lp_hdif_necap =        1.400000e-007           lp_rdsw_necap =        3.900000e-006 
++           lp_jsw_necap =        3.366667e-010            lp_tox_necap =        2.563000e-009             lp_cj_necap =        7.983537e-004 
++          lp_cjsw_necap =        4.790122e-011           lp_ldif_necap =        1.000000e-008             lp_xj_necap =        2.500000e-008 
++            lp_rd_necap =        0.000000e+000             lp_pb_necap =        9.918524e-001             lp_cf_necap =        4.594612e-011 
++          lp_lint_necap =        1.350000e-008          lp_cjswg_necap =        1.995884e-011            lp_rsh_necap =        1.000000e+001 
++            lp_u0_pecap =        8.400000e-003            lp_nch_pecap =        7.370000e+017            lp_rsc_pecap =        2.886751e-014 
++          lp_cgbo_pecap =        1.392363e-011            lp_rdc_pecap =        2.886751e-014           lp_vth0_pecap =       -2.642265e-001 
++            lp_k2_pecap =        0.000000e+000           lp_cgdo_pecap =        2.506253e-010         lp_ckappa_pecap =        1.043477e+001 
++          lp_wint_pecap =        5.500000e-009             lp_k1_pecap =        3.413526e-001           lp_cgsl_pecap =        1.044272e-010 
++            lp_js_pecap =        3.350000e-006           lp_hdif_pecap =        1.400000e-007           lp_rdsw_pecap =        7.800000e-006 
++           lp_jsw_pecap =        3.350000e-010            lp_tox_pecap =        2.728000e-009             lp_cj_pecap =        7.912252e-004 
++          lp_cjsw_pecap =        4.747351e-011           lp_ldif_pecap =        1.000000e-008             lp_xj_pecap =        2.500000e-008 
++            lp_rd_pecap =        0.000000e+000             lp_pb_pecap =        1.009805e+000             lp_cf_pecap =        4.527118e-011 
++          lp_lint_pecap =        1.350000e-008          lp_cjswg_pecap =        1.978063e-011            lp_rsh_pecap =        2.000000e+001 
++            lp_rs_pecap =        0.000000e+000           lp_vsat_pecap =        1.000000e+005 
+include "gpdk090_moscap.scs" section = lp_mos
+endsection SS_lp
+
+section FS_lp
+parameters 
++            lp_rs_necap =        0.000000e+000           lp_vsat_necap =        1.120000e+005         lp_pldd_surfcap =        6.000000e+019 
++           lp_uc1_necap =       -6.420000e-011             lp_u0_necap =        2.600000e-002            lp_nch_necap =        7.650000e+017 
++           lp_rsc_necap =        4.082483e-014           lp_cgbo_necap =        1.482000e-011            lp_prt_necap =        0.000000e+000 
++           lp_rdc_necap =        4.082483e-014           lp_vth0_necap =        2.463513e-001             lp_k2_necap =        0.000000e+000 
++          lp_cgdo_necap =        2.667600e-010         lp_ckappa_necap =        4.605336e+000           lp_wint_necap =        5.400000e-009 
++            lp_k1_necap =        3.612264e-001           lp_cgsl_necap =        1.111500e-010         lp_nldd_surfcap =        3.000000e+019 
++            lp_js_necap =        3.366667e-006           lp_hdif_necap =        1.400000e-007           lp_rdsw_necap =        3.900000e-006 
++           lp_jsw_necap =        3.366667e-010            lp_tox_necap =        2.097000e-009             lp_cj_necap =        7.983537e-004 
++          lp_cjsw_necap =        4.790122e-011           lp_ldif_necap =        1.000000e-008             lp_xj_necap =        2.500000e-008 
++            lp_rd_necap =        0.000000e+000             lp_pb_necap =        9.918524e-001             lp_cf_necap =        4.594612e-011 
++          lp_lint_necap =        1.650000e-008          lp_cjswg_necap =        1.995884e-011            lp_rsh_necap =        1.000000e+001 
++            lp_u0_pecap =        8.400000e-003            lp_nch_pecap =        7.370000e+017            lp_rsc_pecap =        2.886751e-014 
++          lp_cgbo_pecap =        1.392363e-011            lp_rdc_pecap =        2.886751e-014           lp_vth0_pecap =       -2.642265e-001 
++            lp_k2_pecap =        0.000000e+000           lp_cgdo_pecap =        2.506253e-010         lp_ckappa_pecap =        1.043477e+001 
++          lp_wint_pecap =        5.500000e-009             lp_k1_pecap =        3.413526e-001           lp_cgsl_pecap =        1.044272e-010 
++            lp_js_pecap =        3.350000e-006           lp_hdif_pecap =        1.400000e-007           lp_rdsw_pecap =        7.800000e-006 
++           lp_jsw_pecap =        3.350000e-010            lp_tox_pecap =        2.728000e-009             lp_cj_pecap =        7.912252e-004 
++          lp_cjsw_pecap =        4.747351e-011           lp_ldif_pecap =        1.000000e-008             lp_xj_pecap =        2.500000e-008 
++            lp_rd_pecap =        0.000000e+000             lp_pb_pecap =        1.009805e+000             lp_cf_pecap =        4.527118e-011 
++          lp_lint_pecap =        1.350000e-008          lp_cjswg_pecap =        1.978063e-011            lp_rsh_pecap =        2.000000e+001 
++            lp_rs_pecap =        0.000000e+000           lp_vsat_pecap =        1.000000e+005 
+include "gpdk090_moscap.scs" section = lp_mos
+endsection FS_lp
+
+section SF_lp
+parameters 
++            lp_rs_necap =        0.000000e+000           lp_vsat_necap =        1.120000e+005         lp_pldd_surfcap =        6.000000e+019 
++           lp_uc1_necap =       -6.420000e-011             lp_u0_necap =        1.400000e-002            lp_nch_necap =        9.350000e+017 
++           lp_rsc_necap =        4.082483e-014           lp_cgbo_necap =        1.482000e-011            lp_prt_necap =        0.000000e+000 
++           lp_rdc_necap =        4.082483e-014           lp_vth0_necap =        3.020626e-001             lp_k2_necap =        0.000000e+000 
++          lp_cgdo_necap =        2.667600e-010         lp_ckappa_necap =        4.605336e+000           lp_wint_necap =        6.600000e-009 
++            lp_k1_necap =        3.612264e-001           lp_cgsl_necap =        1.111500e-010         lp_nldd_surfcap =        3.000000e+019 
++            lp_js_necap =        3.366667e-006           lp_hdif_necap =        1.400000e-007           lp_rdsw_necap =        3.900000e-006 
++           lp_jsw_necap =        3.366667e-010            lp_tox_necap =        2.563000e-009             lp_cj_necap =        7.983537e-004 
++          lp_cjsw_necap =        4.790122e-011           lp_ldif_necap =        1.000000e-008             lp_xj_necap =        2.500000e-008 
++            lp_rd_necap =        0.000000e+000             lp_pb_necap =        9.918524e-001             lp_cf_necap =        4.594612e-011 
++          lp_lint_necap =        1.350000e-008          lp_cjswg_necap =        1.995884e-011            lp_rsh_necap =        1.000000e+001 
++            lp_u0_pecap =        1.560000e-002            lp_nch_pecap =        6.030000e+017            lp_rsc_pecap =        2.886751e-014 
++          lp_cgbo_pecap =        1.392363e-011            lp_rdc_pecap =        2.886751e-014           lp_vth0_pecap =       -2.169761e-001 
++            lp_k2_pecap =        0.000000e+000           lp_cgdo_pecap =        2.506253e-010         lp_ckappa_pecap =        1.043477e+001 
++          lp_wint_pecap =        4.500000e-009             lp_k1_pecap =        3.413526e-001           lp_cgsl_pecap =        1.044272e-010 
++            lp_js_pecap =        3.350000e-006           lp_hdif_pecap =        1.400000e-007           lp_rdsw_pecap =        7.800000e-006 
++           lp_jsw_pecap =        3.350000e-010            lp_tox_pecap =        2.232000e-009             lp_cj_pecap =        7.912252e-004 
++          lp_cjsw_pecap =        4.747351e-011           lp_ldif_pecap =        1.000000e-008             lp_xj_pecap =        2.500000e-008 
++            lp_rd_pecap =        0.000000e+000             lp_pb_pecap =        1.009805e+000             lp_cf_pecap =        4.527118e-011 
++          lp_lint_pecap =        1.650000e-008          lp_cjswg_pecap =        1.978063e-011            lp_rsh_pecap =        2.000000e+001 
++            lp_rs_pecap =        0.000000e+000           lp_vsat_pecap =        1.000000e+005 
+include "gpdk090_moscap.scs" section = lp_mos
+endsection SF_lp
+
+section TT_lp_g
+parameters 
++            lp_rs_necap =        0.000000e+000           lp_vsat_necap =        1.120000e+005         lp_pldd_surfcap =        6.000000e+019 
++           lp_uc1_necap =       -6.420000e-011             lp_u0_necap =        2.000000e-002            lp_nch_necap =        8.500000e+017 
++           lp_rsc_necap =        4.082483e-014           lp_cgbo_necap =        1.482000e-011            lp_prt_necap =        0.000000e+000 
++           lp_rdc_necap =        4.082483e-014           lp_vth0_necap =        2.742286e-001             lp_k2_necap =        0.000000e+000 
++          lp_cgdo_necap =        2.667600e-010         lp_ckappa_necap =        4.605336e+000           lp_wint_necap =        6.000000e-009 
++            lp_k1_necap =        3.612264e-001           lp_cgsl_necap =        1.111500e-010         lp_nldd_surfcap =        3.000000e+019 
++            lp_js_necap =        3.366667e-006           lp_hdif_necap =        1.400000e-007           lp_rdsw_necap =        3.900000e-006 
++           lp_jsw_necap =        3.366667e-010            lp_tox_necap =        2.330000e-009             lp_cj_necap =        7.983537e-004 
++          lp_cjsw_necap =        4.790122e-011           lp_ldif_necap =        1.000000e-008             lp_xj_necap =        2.500000e-008 
++            lp_rd_necap =        0.000000e+000             lp_pb_necap =        9.918524e-001             lp_cf_necap =        4.594612e-011 
++          lp_lint_necap =        1.500000e-008          lp_cjswg_necap =        1.995884e-011            lp_rsh_necap =        1.000000e+001 
++            lp_u0_pecap =        1.200000e-002            lp_nch_pecap =        6.700000e+017            lp_rsc_pecap =        2.886751e-014 
++          lp_cgbo_pecap =        1.392363e-011            lp_rdc_pecap =        2.886751e-014           lp_vth0_pecap =       -2.405796e-001 
++            lp_k2_pecap =        0.000000e+000           lp_cgdo_pecap =        2.506253e-010         lp_ckappa_pecap =        1.043477e+001 
++          lp_wint_pecap =        5.000000e-009             lp_k1_pecap =        3.413526e-001           lp_cgsl_pecap =        1.044272e-010 
++            lp_js_pecap =        3.350000e-006           lp_hdif_pecap =        1.400000e-007           lp_rdsw_pecap =        7.800000e-006 
++           lp_jsw_pecap =        3.350000e-010            lp_tox_pecap =        2.480000e-009             lp_cj_pecap =        7.912252e-004 
++          lp_cjsw_pecap =        4.747351e-011           lp_ldif_pecap =        1.000000e-008             lp_xj_pecap =        2.500000e-008 
++            lp_rd_pecap =        0.000000e+000             lp_pb_pecap =        1.009805e+000             lp_cf_pecap =        4.527118e-011 
++          lp_lint_pecap =        1.500000e-008          lp_cjswg_pecap =        1.978063e-011            lp_rsh_pecap =        2.000000e+001 
++            lp_rs_pecap =        0.000000e+000           lp_vsat_pecap =        1.000000e+005 
+include "gpdk090_moscap.scs" section = lp_mos
+include "gpdk090_moscap.scs" section = lp_mac
+endsection TT_lp_g
+
+section FF_lp_g
+parameters 
++            lp_rs_necap =        0.000000e+000           lp_vsat_necap =        1.120000e+005         lp_pldd_surfcap =        6.000000e+019 
++           lp_uc1_necap =       -6.420000e-011             lp_u0_necap =        2.600000e-002            lp_nch_necap =        7.650000e+017 
++           lp_rsc_necap =        4.082483e-014           lp_cgbo_necap =        1.482000e-011            lp_prt_necap =        0.000000e+000 
++           lp_rdc_necap =        4.082483e-014           lp_vth0_necap =        2.463513e-001             lp_k2_necap =        0.000000e+000 
++          lp_cgdo_necap =        2.667600e-010         lp_ckappa_necap =        4.605336e+000           lp_wint_necap =        5.400000e-009 
++            lp_k1_necap =        3.612264e-001           lp_cgsl_necap =        1.111500e-010         lp_nldd_surfcap =        3.000000e+019 
++            lp_js_necap =        3.366667e-006           lp_hdif_necap =        1.400000e-007           lp_rdsw_necap =        3.900000e-006 
++           lp_jsw_necap =        3.366667e-010            lp_tox_necap =        2.097000e-009             lp_cj_necap =        7.983537e-004 
++          lp_cjsw_necap =        4.790122e-011           lp_ldif_necap =        1.000000e-008             lp_xj_necap =        2.500000e-008 
++            lp_rd_necap =        0.000000e+000             lp_pb_necap =        9.918524e-001             lp_cf_necap =        4.594612e-011 
++          lp_lint_necap =        1.650000e-008          lp_cjswg_necap =        1.995884e-011            lp_rsh_necap =        1.000000e+001 
++            lp_u0_pecap =        1.560000e-002            lp_nch_pecap =        6.030000e+017            lp_rsc_pecap =        2.886751e-014 
++          lp_cgbo_pecap =        1.392363e-011            lp_rdc_pecap =        2.886751e-014           lp_vth0_pecap =       -2.169761e-001 
++            lp_k2_pecap =        0.000000e+000           lp_cgdo_pecap =        2.506253e-010         lp_ckappa_pecap =        1.043477e+001 
++          lp_wint_pecap =        4.500000e-009             lp_k1_pecap =        3.413526e-001           lp_cgsl_pecap =        1.044272e-010 
++            lp_js_pecap =        3.350000e-006           lp_hdif_pecap =        1.400000e-007           lp_rdsw_pecap =        7.800000e-006 
++           lp_jsw_pecap =        3.350000e-010            lp_tox_pecap =        2.232000e-009             lp_cj_pecap =        7.912252e-004 
++          lp_cjsw_pecap =        4.747351e-011           lp_ldif_pecap =        1.000000e-008             lp_xj_pecap =        2.500000e-008 
++            lp_rd_pecap =        0.000000e+000             lp_pb_pecap =        1.009805e+000             lp_cf_pecap =        4.527118e-011 
++          lp_lint_pecap =        1.650000e-008          lp_cjswg_pecap =        1.978063e-011            lp_rsh_pecap =        2.000000e+001 
++            lp_rs_pecap =        0.000000e+000           lp_vsat_pecap =        1.000000e+005 
+include "gpdk090_moscap.scs" section = lp_mos
+include "gpdk090_moscap.scs" section = lp_mac
+endsection FF_lp_g
+
+section SS_lp_g
+parameters 
++            lp_rs_necap =        0.000000e+000           lp_vsat_necap =        1.120000e+005         lp_pldd_surfcap =        6.000000e+019 
++           lp_uc1_necap =       -6.420000e-011             lp_u0_necap =        1.400000e-002            lp_nch_necap =        9.350000e+017 
++           lp_rsc_necap =        4.082483e-014           lp_cgbo_necap =        1.482000e-011            lp_prt_necap =        0.000000e+000 
++           lp_rdc_necap =        4.082483e-014           lp_vth0_necap =        3.020626e-001             lp_k2_necap =        0.000000e+000 
++          lp_cgdo_necap =        2.667600e-010         lp_ckappa_necap =        4.605336e+000           lp_wint_necap =        6.600000e-009 
++            lp_k1_necap =        3.612264e-001           lp_cgsl_necap =        1.111500e-010         lp_nldd_surfcap =        3.000000e+019 
++            lp_js_necap =        3.366667e-006           lp_hdif_necap =        1.400000e-007           lp_rdsw_necap =        3.900000e-006 
++           lp_jsw_necap =        3.366667e-010            lp_tox_necap =        2.563000e-009             lp_cj_necap =        7.983537e-004 
++          lp_cjsw_necap =        4.790122e-011           lp_ldif_necap =        1.000000e-008             lp_xj_necap =        2.500000e-008 
++            lp_rd_necap =        0.000000e+000             lp_pb_necap =        9.918524e-001             lp_cf_necap =        4.594612e-011 
++          lp_lint_necap =        1.350000e-008          lp_cjswg_necap =        1.995884e-011            lp_rsh_necap =        1.000000e+001 
++            lp_u0_pecap =        8.400000e-003            lp_nch_pecap =        7.370000e+017            lp_rsc_pecap =        2.886751e-014 
++          lp_cgbo_pecap =        1.392363e-011            lp_rdc_pecap =        2.886751e-014           lp_vth0_pecap =       -2.642265e-001 
++            lp_k2_pecap =        0.000000e+000           lp_cgdo_pecap =        2.506253e-010         lp_ckappa_pecap =        1.043477e+001 
++          lp_wint_pecap =        5.500000e-009             lp_k1_pecap =        3.413526e-001           lp_cgsl_pecap =        1.044272e-010 
++            lp_js_pecap =        3.350000e-006           lp_hdif_pecap =        1.400000e-007           lp_rdsw_pecap =        7.800000e-006 
++           lp_jsw_pecap =        3.350000e-010            lp_tox_pecap =        2.728000e-009             lp_cj_pecap =        7.912252e-004 
++          lp_cjsw_pecap =        4.747351e-011           lp_ldif_pecap =        1.000000e-008             lp_xj_pecap =        2.500000e-008 
++            lp_rd_pecap =        0.000000e+000             lp_pb_pecap =        1.009805e+000             lp_cf_pecap =        4.527118e-011 
++          lp_lint_pecap =        1.350000e-008          lp_cjswg_pecap =        1.978063e-011            lp_rsh_pecap =        2.000000e+001 
++            lp_rs_pecap =        0.000000e+000           lp_vsat_pecap =        1.000000e+005 
+include "gpdk090_moscap.scs" section = lp_mos
+include "gpdk090_moscap.scs" section = lp_mac
+endsection SS_lp_g
+
+section FS_lp_g
+parameters 
++            lp_rs_necap =        0.000000e+000           lp_vsat_necap =        1.120000e+005         lp_pldd_surfcap =        6.000000e+019 
++           lp_uc1_necap =       -6.420000e-011             lp_u0_necap =        2.600000e-002            lp_nch_necap =        7.650000e+017 
++           lp_rsc_necap =        4.082483e-014           lp_cgbo_necap =        1.482000e-011            lp_prt_necap =        0.000000e+000 
++           lp_rdc_necap =        4.082483e-014           lp_vth0_necap =        2.463513e-001             lp_k2_necap =        0.000000e+000 
++          lp_cgdo_necap =        2.667600e-010         lp_ckappa_necap =        4.605336e+000           lp_wint_necap =        5.400000e-009 
++            lp_k1_necap =        3.612264e-001           lp_cgsl_necap =        1.111500e-010         lp_nldd_surfcap =        3.000000e+019 
++            lp_js_necap =        3.366667e-006           lp_hdif_necap =        1.400000e-007           lp_rdsw_necap =        3.900000e-006 
++           lp_jsw_necap =        3.366667e-010            lp_tox_necap =        2.097000e-009             lp_cj_necap =        7.983537e-004 
++          lp_cjsw_necap =        4.790122e-011           lp_ldif_necap =        1.000000e-008             lp_xj_necap =        2.500000e-008 
++            lp_rd_necap =        0.000000e+000             lp_pb_necap =        9.918524e-001             lp_cf_necap =        4.594612e-011 
++          lp_lint_necap =        1.650000e-008          lp_cjswg_necap =        1.995884e-011            lp_rsh_necap =        1.000000e+001 
++            lp_u0_pecap =        8.400000e-003            lp_nch_pecap =        7.370000e+017            lp_rsc_pecap =        2.886751e-014 
++          lp_cgbo_pecap =        1.392363e-011            lp_rdc_pecap =        2.886751e-014           lp_vth0_pecap =       -2.642265e-001 
++            lp_k2_pecap =        0.000000e+000           lp_cgdo_pecap =        2.506253e-010         lp_ckappa_pecap =        1.043477e+001 
++          lp_wint_pecap =        5.500000e-009             lp_k1_pecap =        3.413526e-001           lp_cgsl_pecap =        1.044272e-010 
++            lp_js_pecap =        3.350000e-006           lp_hdif_pecap =        1.400000e-007           lp_rdsw_pecap =        7.800000e-006 
++           lp_jsw_pecap =        3.350000e-010            lp_tox_pecap =        2.728000e-009             lp_cj_pecap =        7.912252e-004 
++          lp_cjsw_pecap =        4.747351e-011           lp_ldif_pecap =        1.000000e-008             lp_xj_pecap =        2.500000e-008 
++            lp_rd_pecap =        0.000000e+000             lp_pb_pecap =        1.009805e+000             lp_cf_pecap =        4.527118e-011 
++          lp_lint_pecap =        1.350000e-008          lp_cjswg_pecap =        1.978063e-011            lp_rsh_pecap =        2.000000e+001 
++            lp_rs_pecap =        0.000000e+000           lp_vsat_pecap =        1.000000e+005 
+include "gpdk090_moscap.scs" section = lp_mos
+include "gpdk090_moscap.scs" section = lp_mac
+endsection FS_lp_g
+
+section SF_lp_g
+parameters 
++            lp_rs_necap =        0.000000e+000           lp_vsat_necap =        1.120000e+005         lp_pldd_surfcap =        6.000000e+019 
++           lp_uc1_necap =       -6.420000e-011             lp_u0_necap =        1.400000e-002            lp_nch_necap =        9.350000e+017 
++           lp_rsc_necap =        4.082483e-014           lp_cgbo_necap =        1.482000e-011            lp_prt_necap =        0.000000e+000 
++           lp_rdc_necap =        4.082483e-014           lp_vth0_necap =        3.020626e-001             lp_k2_necap =        0.000000e+000 
++          lp_cgdo_necap =        2.667600e-010         lp_ckappa_necap =        4.605336e+000           lp_wint_necap =        6.600000e-009 
++            lp_k1_necap =        3.612264e-001           lp_cgsl_necap =        1.111500e-010         lp_nldd_surfcap =        3.000000e+019 
++            lp_js_necap =        3.366667e-006           lp_hdif_necap =        1.400000e-007           lp_rdsw_necap =        3.900000e-006 
++           lp_jsw_necap =        3.366667e-010            lp_tox_necap =        2.563000e-009             lp_cj_necap =        7.983537e-004 
++          lp_cjsw_necap =        4.790122e-011           lp_ldif_necap =        1.000000e-008             lp_xj_necap =        2.500000e-008 
++            lp_rd_necap =        0.000000e+000             lp_pb_necap =        9.918524e-001             lp_cf_necap =        4.594612e-011 
++          lp_lint_necap =        1.350000e-008          lp_cjswg_necap =        1.995884e-011            lp_rsh_necap =        1.000000e+001 
++            lp_u0_pecap =        1.560000e-002            lp_nch_pecap =        6.030000e+017            lp_rsc_pecap =        2.886751e-014 
++          lp_cgbo_pecap =        1.392363e-011            lp_rdc_pecap =        2.886751e-014           lp_vth0_pecap =       -2.169761e-001 
++            lp_k2_pecap =        0.000000e+000           lp_cgdo_pecap =        2.506253e-010         lp_ckappa_pecap =        1.043477e+001 
++          lp_wint_pecap =        4.500000e-009             lp_k1_pecap =        3.413526e-001           lp_cgsl_pecap =        1.044272e-010 
++            lp_js_pecap =        3.350000e-006           lp_hdif_pecap =        1.400000e-007           lp_rdsw_pecap =        7.800000e-006 
++           lp_jsw_pecap =        3.350000e-010            lp_tox_pecap =        2.232000e-009             lp_cj_pecap =        7.912252e-004 
++          lp_cjsw_pecap =        4.747351e-011           lp_ldif_pecap =        1.000000e-008             lp_xj_pecap =        2.500000e-008 
++            lp_rd_pecap =        0.000000e+000             lp_pb_pecap =        1.009805e+000             lp_cf_pecap =        4.527118e-011 
++          lp_lint_pecap =        1.650000e-008          lp_cjswg_pecap =        1.978063e-011            lp_rsh_pecap =        2.000000e+001 
++            lp_rs_pecap =        0.000000e+000           lp_vsat_pecap =        1.000000e+005 
+include "gpdk090_moscap.scs" section = lp_mos
+include "gpdk090_moscap.scs" section = lp_mac
+endsection SF_lp_g
+
+section TT_hv
+parameters 
++            hv_rs_necap =        0.000000e+000           hv_vsat_necap =        1.120000e+005         hv_pldd_surfcap =        6.000000e+019 
++           hv_uc1_necap =       -6.420000e-011             hv_u0_necap =        2.000000e-002            hv_nch_necap =        4.000000e+017 
++           hv_rsc_necap =        4.082483e-014           hv_cgbo_necap =        6.166179e-012            hv_prt_necap =        0.000000e+000 
++           hv_rdc_necap =        4.082483e-014           hv_vth0_necap =        4.485433e-001             hv_k2_necap =        0.000000e+000 
++          hv_cgdo_necap =        1.109912e-010         hv_ckappa_necap =        2.660269e+001           hv_wint_necap =        6.000000e-009 
++            hv_k1_necap =        5.955691e-001           hv_cgsl_necap =        4.624634e-011         hv_nldd_surfcap =        3.000000e+019 
++            hv_js_necap =        3.366667e-006           hv_hdif_necap =        1.400000e-007           hv_rdsw_necap =        3.900000e-006 
++           hv_jsw_necap =        3.366667e-010            hv_tox_necap =        5.600000e-009             hv_cj_necap =        7.983537e-004 
++          hv_cjsw_necap =        4.790122e-011           hv_ldif_necap =        1.000000e-008             hv_xj_necap =        2.500000e-008 
++            hv_rd_necap =        0.000000e+000             hv_pb_necap =        9.918524e-001             hv_cf_necap =        3.654122e-011 
++          hv_lint_necap =        1.500000e-008          hv_cjswg_necap =        1.995884e-011            hv_rsh_necap =        1.000000e+001 
++            hv_u0_pecap =        1.200000e-002            hv_nch_pecap =        3.300000e+017            hv_rsc_pecap =        2.886751e-014 
++          hv_cgbo_pecap =        5.953552e-012            hv_rdc_pecap =        2.886751e-014           hv_vth0_pecap =       -4.023550e-001 
++            hv_k2_pecap =        0.000000e+000           hv_cgdo_pecap =        1.071639e-010         hv_ckappa_pecap =        5.707362e+001 
++          hv_wint_pecap =        5.000000e-009             hv_k1_pecap =        5.602722e-001           hv_cgsl_pecap =        4.465164e-011 
++            hv_js_pecap =        3.350000e-006           hv_hdif_pecap =        1.400000e-007           hv_rdsw_pecap =        7.800000e-006 
++           hv_jsw_pecap =        3.350000e-010            hv_tox_pecap =        5.800000e-009             hv_cj_pecap =        7.912252e-004 
++          hv_cjsw_pecap =        4.747351e-011           hv_ldif_pecap =        1.000000e-008             hv_xj_pecap =        2.500000e-008 
++            hv_rd_pecap =        0.000000e+000             hv_pb_pecap =        1.009805e+000             hv_cf_pecap =        3.616963e-011 
++          hv_lint_pecap =        1.500000e-008          hv_cjswg_pecap =        1.978063e-011            hv_rsh_pecap =        2.000000e+001 
++            hv_rs_pecap =        0.000000e+000           hv_vsat_pecap =        1.000000e+005 
+include "gpdk090_moscap.scs" section = hv_mos
+endsection TT_hv
+
+section FF_hv
+parameters 
++            hv_rs_necap =        0.000000e+000           hv_vsat_necap =        1.120000e+005         hv_pldd_surfcap =        6.000000e+019 
++           hv_uc1_necap =       -6.420000e-011             hv_u0_necap =        2.600000e-002            hv_nch_necap =        3.600000e+017 
++           hv_rsc_necap =        4.082483e-014           hv_cgbo_necap =        6.166179e-012            hv_prt_necap =        0.000000e+000 
++           hv_rdc_necap =        4.082483e-014           hv_vth0_necap =        4.032345e-001             hv_k2_necap =        0.000000e+000 
++          hv_cgdo_necap =        1.109912e-010         hv_ckappa_necap =        2.660269e+001           hv_wint_necap =        5.400000e-009 
++            hv_k1_necap =        5.955691e-001           hv_cgsl_necap =        4.624634e-011         hv_nldd_surfcap =        3.000000e+019 
++            hv_js_necap =        3.366667e-006           hv_hdif_necap =        1.400000e-007           hv_rdsw_necap =        3.900000e-006 
++           hv_jsw_necap =        3.366667e-010            hv_tox_necap =        5.040000e-009             hv_cj_necap =        7.983537e-004 
++          hv_cjsw_necap =        4.790122e-011           hv_ldif_necap =        1.000000e-008             hv_xj_necap =        2.500000e-008 
++            hv_rd_necap =        0.000000e+000             hv_pb_necap =        9.918524e-001             hv_cf_necap =        3.654122e-011 
++          hv_lint_necap =        1.650000e-008          hv_cjswg_necap =        1.995884e-011            hv_rsh_necap =        1.000000e+001 
++            hv_u0_pecap =        1.560000e-002            hv_nch_pecap =        2.970000e+017            hv_rsc_pecap =        2.886751e-014 
++          hv_cgbo_pecap =        5.953552e-012            hv_rdc_pecap =        2.886751e-014           hv_vth0_pecap =       -3.625740e-001 
++            hv_k2_pecap =        0.000000e+000           hv_cgdo_pecap =        1.071639e-010         hv_ckappa_pecap =        5.707362e+001 
++          hv_wint_pecap =        4.500000e-009             hv_k1_pecap =        5.602722e-001           hv_cgsl_pecap =        4.465164e-011 
++            hv_js_pecap =        3.350000e-006           hv_hdif_pecap =        1.400000e-007           hv_rdsw_pecap =        7.800000e-006 
++           hv_jsw_pecap =        3.350000e-010            hv_tox_pecap =        5.220000e-009             hv_cj_pecap =        7.912252e-004 
++          hv_cjsw_pecap =        4.747351e-011           hv_ldif_pecap =        1.000000e-008             hv_xj_pecap =        2.500000e-008 
++            hv_rd_pecap =        0.000000e+000             hv_pb_pecap =        1.009805e+000             hv_cf_pecap =        3.616963e-011 
++          hv_lint_pecap =        1.650000e-008          hv_cjswg_pecap =        1.978063e-011            hv_rsh_pecap =        2.000000e+001 
++            hv_rs_pecap =        0.000000e+000           hv_vsat_pecap =        1.000000e+005 
+include "gpdk090_moscap.scs" section = hv_mos
+endsection FF_hv
+
+section SS_hv
+parameters 
++            hv_rs_necap =        0.000000e+000           hv_vsat_necap =        1.120000e+005         hv_pldd_surfcap =        6.000000e+019 
++           hv_uc1_necap =       -6.420000e-011             hv_u0_necap =        1.400000e-002            hv_nch_necap =        4.400000e+017 
++           hv_rsc_necap =        4.082483e-014           hv_cgbo_necap =        6.166179e-012            hv_prt_necap =        0.000000e+000 
++           hv_rdc_necap =        4.082483e-014           hv_vth0_necap =        4.938087e-001             hv_k2_necap =        0.000000e+000 
++          hv_cgdo_necap =        1.109912e-010         hv_ckappa_necap =        2.660269e+001           hv_wint_necap =        6.600000e-009 
++            hv_k1_necap =        5.955691e-001           hv_cgsl_necap =        4.624634e-011         hv_nldd_surfcap =        3.000000e+019 
++            hv_js_necap =        3.366667e-006           hv_hdif_necap =        1.400000e-007           hv_rdsw_necap =        3.900000e-006 
++           hv_jsw_necap =        3.366667e-010            hv_tox_necap =        6.160000e-009             hv_cj_necap =        7.983537e-004 
++          hv_cjsw_necap =        4.790122e-011           hv_ldif_necap =        1.000000e-008             hv_xj_necap =        2.500000e-008 
++            hv_rd_necap =        0.000000e+000             hv_pb_necap =        9.918524e-001             hv_cf_necap =        3.654122e-011 
++          hv_lint_necap =        1.350000e-008          hv_cjswg_necap =        1.995884e-011            hv_rsh_necap =        1.000000e+001 
++            hv_u0_pecap =        8.400000e-003            hv_nch_pecap =        3.630000e+017            hv_rsc_pecap =        2.886751e-014 
++          hv_cgbo_pecap =        5.953552e-012            hv_rdc_pecap =        2.886751e-014           hv_vth0_pecap =       -4.421794e-001 
++            hv_k2_pecap =        0.000000e+000           hv_cgdo_pecap =        1.071639e-010         hv_ckappa_pecap =        5.707362e+001 
++          hv_wint_pecap =        5.500000e-009             hv_k1_pecap =        5.602722e-001           hv_cgsl_pecap =        4.465164e-011 
++            hv_js_pecap =        3.350000e-006           hv_hdif_pecap =        1.400000e-007           hv_rdsw_pecap =        7.800000e-006 
++           hv_jsw_pecap =        3.350000e-010            hv_tox_pecap =        6.380000e-009             hv_cj_pecap =        7.912252e-004 
++          hv_cjsw_pecap =        4.747351e-011           hv_ldif_pecap =        1.000000e-008             hv_xj_pecap =        2.500000e-008 
++            hv_rd_pecap =        0.000000e+000             hv_pb_pecap =        1.009805e+000             hv_cf_pecap =        3.616963e-011 
++          hv_lint_pecap =        1.350000e-008          hv_cjswg_pecap =        1.978063e-011            hv_rsh_pecap =        2.000000e+001 
++            hv_rs_pecap =        0.000000e+000           hv_vsat_pecap =        1.000000e+005 
+include "gpdk090_moscap.scs" section = hv_mos
+endsection SS_hv
+
+section FS_hv
+parameters 
++            hv_rs_necap =        0.000000e+000           hv_vsat_necap =        1.120000e+005         hv_pldd_surfcap =        6.000000e+019 
++           hv_uc1_necap =       -6.420000e-011             hv_u0_necap =        2.600000e-002            hv_nch_necap =        3.600000e+017 
++           hv_rsc_necap =        4.082483e-014           hv_cgbo_necap =        6.166179e-012            hv_prt_necap =        0.000000e+000 
++           hv_rdc_necap =        4.082483e-014           hv_vth0_necap =        4.032345e-001             hv_k2_necap =        0.000000e+000 
++          hv_cgdo_necap =        1.109912e-010         hv_ckappa_necap =        2.660269e+001           hv_wint_necap =        5.400000e-009 
++            hv_k1_necap =        5.955691e-001           hv_cgsl_necap =        4.624634e-011         hv_nldd_surfcap =        3.000000e+019 
++            hv_js_necap =        3.366667e-006           hv_hdif_necap =        1.400000e-007           hv_rdsw_necap =        3.900000e-006 
++           hv_jsw_necap =        3.366667e-010            hv_tox_necap =        5.040000e-009             hv_cj_necap =        7.983537e-004 
++          hv_cjsw_necap =        4.790122e-011           hv_ldif_necap =        1.000000e-008             hv_xj_necap =        2.500000e-008 
++            hv_rd_necap =        0.000000e+000             hv_pb_necap =        9.918524e-001             hv_cf_necap =        3.654122e-011 
++          hv_lint_necap =        1.650000e-008          hv_cjswg_necap =        1.995884e-011            hv_rsh_necap =        1.000000e+001 
++            hv_u0_pecap =        8.400000e-003            hv_nch_pecap =        3.630000e+017            hv_rsc_pecap =        2.886751e-014 
++          hv_cgbo_pecap =        5.953552e-012            hv_rdc_pecap =        2.886751e-014           hv_vth0_pecap =       -4.421794e-001 
++            hv_k2_pecap =        0.000000e+000           hv_cgdo_pecap =        1.071639e-010         hv_ckappa_pecap =        5.707362e+001 
++          hv_wint_pecap =        5.500000e-009             hv_k1_pecap =        5.602722e-001           hv_cgsl_pecap =        4.465164e-011 
++            hv_js_pecap =        3.350000e-006           hv_hdif_pecap =        1.400000e-007           hv_rdsw_pecap =        7.800000e-006 
++           hv_jsw_pecap =        3.350000e-010            hv_tox_pecap =        6.380000e-009             hv_cj_pecap =        7.912252e-004 
++          hv_cjsw_pecap =        4.747351e-011           hv_ldif_pecap =        1.000000e-008             hv_xj_pecap =        2.500000e-008 
++            hv_rd_pecap =        0.000000e+000             hv_pb_pecap =        1.009805e+000             hv_cf_pecap =        3.616963e-011 
++          hv_lint_pecap =        1.350000e-008          hv_cjswg_pecap =        1.978063e-011            hv_rsh_pecap =        2.000000e+001 
++            hv_rs_pecap =        0.000000e+000           hv_vsat_pecap =        1.000000e+005 
+include "gpdk090_moscap.scs" section = hv_mos
+endsection FS_hv
+
+section SF_hv
+parameters 
++            hv_rs_necap =        0.000000e+000           hv_vsat_necap =        1.120000e+005         hv_pldd_surfcap =        6.000000e+019 
++           hv_uc1_necap =       -6.420000e-011             hv_u0_necap =        1.400000e-002            hv_nch_necap =        4.400000e+017 
++           hv_rsc_necap =        4.082483e-014           hv_cgbo_necap =        6.166179e-012            hv_prt_necap =        0.000000e+000 
++           hv_rdc_necap =        4.082483e-014           hv_vth0_necap =        4.938087e-001             hv_k2_necap =        0.000000e+000 
++          hv_cgdo_necap =        1.109912e-010         hv_ckappa_necap =        2.660269e+001           hv_wint_necap =        6.600000e-009 
++            hv_k1_necap =        5.955691e-001           hv_cgsl_necap =        4.624634e-011         hv_nldd_surfcap =        3.000000e+019 
++            hv_js_necap =        3.366667e-006           hv_hdif_necap =        1.400000e-007           hv_rdsw_necap =        3.900000e-006 
++           hv_jsw_necap =        3.366667e-010            hv_tox_necap =        6.160000e-009             hv_cj_necap =        7.983537e-004 
++          hv_cjsw_necap =        4.790122e-011           hv_ldif_necap =        1.000000e-008             hv_xj_necap =        2.500000e-008 
++            hv_rd_necap =        0.000000e+000             hv_pb_necap =        9.918524e-001             hv_cf_necap =        3.654122e-011 
++          hv_lint_necap =        1.350000e-008          hv_cjswg_necap =        1.995884e-011            hv_rsh_necap =        1.000000e+001 
++            hv_u0_pecap =        1.560000e-002            hv_nch_pecap =        2.970000e+017            hv_rsc_pecap =        2.886751e-014 
++          hv_cgbo_pecap =        5.953552e-012            hv_rdc_pecap =        2.886751e-014           hv_vth0_pecap =       -3.625740e-001 
++            hv_k2_pecap =        0.000000e+000           hv_cgdo_pecap =        1.071639e-010         hv_ckappa_pecap =        5.707362e+001 
++          hv_wint_pecap =        4.500000e-009             hv_k1_pecap =        5.602722e-001           hv_cgsl_pecap =        4.465164e-011 
++            hv_js_pecap =        3.350000e-006           hv_hdif_pecap =        1.400000e-007           hv_rdsw_pecap =        7.800000e-006 
++           hv_jsw_pecap =        3.350000e-010            hv_tox_pecap =        5.220000e-009             hv_cj_pecap =        7.912252e-004 
++          hv_cjsw_pecap =        4.747351e-011           hv_ldif_pecap =        1.000000e-008             hv_xj_pecap =        2.500000e-008 
++            hv_rd_pecap =        0.000000e+000             hv_pb_pecap =        1.009805e+000             hv_cf_pecap =        3.616963e-011 
++          hv_lint_pecap =        1.650000e-008          hv_cjswg_pecap =        1.978063e-011            hv_rsh_pecap =        2.000000e+001 
++            hv_rs_pecap =        0.000000e+000           hv_vsat_pecap =        1.000000e+005 
+include "gpdk090_moscap.scs" section = hv_mos
+endsection SF_hv
+
+section TT_hv_g
+parameters 
++            hv_rs_necap =        0.000000e+000           hv_vsat_necap =        1.120000e+005         hv_pldd_surfcap =        6.000000e+019 
++           hv_uc1_necap =       -6.420000e-011             hv_u0_necap =        2.000000e-002            hv_nch_necap =        4.000000e+017 
++           hv_rsc_necap =        4.082483e-014           hv_cgbo_necap =        6.166179e-012            hv_prt_necap =        0.000000e+000 
++           hv_rdc_necap =        4.082483e-014           hv_vth0_necap =        4.485433e-001             hv_k2_necap =        0.000000e+000 
++          hv_cgdo_necap =        1.109912e-010         hv_ckappa_necap =        2.660269e+001           hv_wint_necap =        6.000000e-009 
++            hv_k1_necap =        5.955691e-001           hv_cgsl_necap =        4.624634e-011         hv_nldd_surfcap =        3.000000e+019 
++            hv_js_necap =        3.366667e-006           hv_hdif_necap =        1.400000e-007           hv_rdsw_necap =        3.900000e-006 
++           hv_jsw_necap =        3.366667e-010            hv_tox_necap =        5.600000e-009             hv_cj_necap =        7.983537e-004 
++          hv_cjsw_necap =        4.790122e-011           hv_ldif_necap =        1.000000e-008             hv_xj_necap =        2.500000e-008 
++            hv_rd_necap =        0.000000e+000             hv_pb_necap =        9.918524e-001             hv_cf_necap =        3.654122e-011 
++          hv_lint_necap =        1.500000e-008          hv_cjswg_necap =        1.995884e-011            hv_rsh_necap =        1.000000e+001 
++            hv_u0_pecap =        1.200000e-002            hv_nch_pecap =        3.300000e+017            hv_rsc_pecap =        2.886751e-014 
++          hv_cgbo_pecap =        5.953552e-012            hv_rdc_pecap =        2.886751e-014           hv_vth0_pecap =       -4.023550e-001 
++            hv_k2_pecap =        0.000000e+000           hv_cgdo_pecap =        1.071639e-010         hv_ckappa_pecap =        5.707362e+001 
++          hv_wint_pecap =        5.000000e-009             hv_k1_pecap =        5.602722e-001           hv_cgsl_pecap =        4.465164e-011 
++            hv_js_pecap =        3.350000e-006           hv_hdif_pecap =        1.400000e-007           hv_rdsw_pecap =        7.800000e-006 
++           hv_jsw_pecap =        3.350000e-010            hv_tox_pecap =        5.800000e-009             hv_cj_pecap =        7.912252e-004 
++          hv_cjsw_pecap =        4.747351e-011           hv_ldif_pecap =        1.000000e-008             hv_xj_pecap =        2.500000e-008 
++            hv_rd_pecap =        0.000000e+000             hv_pb_pecap =        1.009805e+000             hv_cf_pecap =        3.616963e-011 
++          hv_lint_pecap =        1.500000e-008          hv_cjswg_pecap =        1.978063e-011            hv_rsh_pecap =        2.000000e+001 
++            hv_rs_pecap =        0.000000e+000           hv_vsat_pecap =        1.000000e+005 
+include "gpdk090_moscap.scs" section = hv_mos
+include "gpdk090_moscap.scs" section = hv_mac
+endsection TT_hv_g
+
+section FF_hv_g
+parameters 
++            hv_rs_necap =        0.000000e+000           hv_vsat_necap =        1.120000e+005         hv_pldd_surfcap =        6.000000e+019 
++           hv_uc1_necap =       -6.420000e-011             hv_u0_necap =        2.600000e-002            hv_nch_necap =        3.600000e+017 
++           hv_rsc_necap =        4.082483e-014           hv_cgbo_necap =        6.166179e-012            hv_prt_necap =        0.000000e+000 
++           hv_rdc_necap =        4.082483e-014           hv_vth0_necap =        4.032345e-001             hv_k2_necap =        0.000000e+000 
++          hv_cgdo_necap =        1.109912e-010         hv_ckappa_necap =        2.660269e+001           hv_wint_necap =        5.400000e-009 
++            hv_k1_necap =        5.955691e-001           hv_cgsl_necap =        4.624634e-011         hv_nldd_surfcap =        3.000000e+019 
++            hv_js_necap =        3.366667e-006           hv_hdif_necap =        1.400000e-007           hv_rdsw_necap =        3.900000e-006 
++           hv_jsw_necap =        3.366667e-010            hv_tox_necap =        5.040000e-009             hv_cj_necap =        7.983537e-004 
++          hv_cjsw_necap =        4.790122e-011           hv_ldif_necap =        1.000000e-008             hv_xj_necap =        2.500000e-008 
++            hv_rd_necap =        0.000000e+000             hv_pb_necap =        9.918524e-001             hv_cf_necap =        3.654122e-011 
++          hv_lint_necap =        1.650000e-008          hv_cjswg_necap =        1.995884e-011            hv_rsh_necap =        1.000000e+001 
++            hv_u0_pecap =        1.560000e-002            hv_nch_pecap =        2.970000e+017            hv_rsc_pecap =        2.886751e-014 
++          hv_cgbo_pecap =        5.953552e-012            hv_rdc_pecap =        2.886751e-014           hv_vth0_pecap =       -3.625740e-001 
++            hv_k2_pecap =        0.000000e+000           hv_cgdo_pecap =        1.071639e-010         hv_ckappa_pecap =        5.707362e+001 
++          hv_wint_pecap =        4.500000e-009             hv_k1_pecap =        5.602722e-001           hv_cgsl_pecap =        4.465164e-011 
++            hv_js_pecap =        3.350000e-006           hv_hdif_pecap =        1.400000e-007           hv_rdsw_pecap =        7.800000e-006 
++           hv_jsw_pecap =        3.350000e-010            hv_tox_pecap =        5.220000e-009             hv_cj_pecap =        7.912252e-004 
++          hv_cjsw_pecap =        4.747351e-011           hv_ldif_pecap =        1.000000e-008             hv_xj_pecap =        2.500000e-008 
++            hv_rd_pecap =        0.000000e+000             hv_pb_pecap =        1.009805e+000             hv_cf_pecap =        3.616963e-011 
++          hv_lint_pecap =        1.650000e-008          hv_cjswg_pecap =        1.978063e-011            hv_rsh_pecap =        2.000000e+001 
++            hv_rs_pecap =        0.000000e+000           hv_vsat_pecap =        1.000000e+005 
+include "gpdk090_moscap.scs" section = hv_mos
+include "gpdk090_moscap.scs" section = hv_mac
+endsection FF_hv_g
+
+section SS_hv_g
+parameters 
++            hv_rs_necap =        0.000000e+000           hv_vsat_necap =        1.120000e+005         hv_pldd_surfcap =        6.000000e+019 
++           hv_uc1_necap =       -6.420000e-011             hv_u0_necap =        1.400000e-002            hv_nch_necap =        4.400000e+017 
++           hv_rsc_necap =        4.082483e-014           hv_cgbo_necap =        6.166179e-012            hv_prt_necap =        0.000000e+000 
++           hv_rdc_necap =        4.082483e-014           hv_vth0_necap =        4.938087e-001             hv_k2_necap =        0.000000e+000 
++          hv_cgdo_necap =        1.109912e-010         hv_ckappa_necap =        2.660269e+001           hv_wint_necap =        6.600000e-009 
++            hv_k1_necap =        5.955691e-001           hv_cgsl_necap =        4.624634e-011         hv_nldd_surfcap =        3.000000e+019 
++            hv_js_necap =        3.366667e-006           hv_hdif_necap =        1.400000e-007           hv_rdsw_necap =        3.900000e-006 
++           hv_jsw_necap =        3.366667e-010            hv_tox_necap =        6.160000e-009             hv_cj_necap =        7.983537e-004 
++          hv_cjsw_necap =        4.790122e-011           hv_ldif_necap =        1.000000e-008             hv_xj_necap =        2.500000e-008 
++            hv_rd_necap =        0.000000e+000             hv_pb_necap =        9.918524e-001             hv_cf_necap =        3.654122e-011 
++          hv_lint_necap =        1.350000e-008          hv_cjswg_necap =        1.995884e-011            hv_rsh_necap =        1.000000e+001 
++            hv_u0_pecap =        8.400000e-003            hv_nch_pecap =        3.630000e+017            hv_rsc_pecap =        2.886751e-014 
++          hv_cgbo_pecap =        5.953552e-012            hv_rdc_pecap =        2.886751e-014           hv_vth0_pecap =       -4.421794e-001 
++            hv_k2_pecap =        0.000000e+000           hv_cgdo_pecap =        1.071639e-010         hv_ckappa_pecap =        5.707362e+001 
++          hv_wint_pecap =        5.500000e-009             hv_k1_pecap =        5.602722e-001           hv_cgsl_pecap =        4.465164e-011 
++            hv_js_pecap =        3.350000e-006           hv_hdif_pecap =        1.400000e-007           hv_rdsw_pecap =        7.800000e-006 
++           hv_jsw_pecap =        3.350000e-010            hv_tox_pecap =        6.380000e-009             hv_cj_pecap =        7.912252e-004 
++          hv_cjsw_pecap =        4.747351e-011           hv_ldif_pecap =        1.000000e-008             hv_xj_pecap =        2.500000e-008 
++            hv_rd_pecap =        0.000000e+000             hv_pb_pecap =        1.009805e+000             hv_cf_pecap =        3.616963e-011 
++          hv_lint_pecap =        1.350000e-008          hv_cjswg_pecap =        1.978063e-011            hv_rsh_pecap =        2.000000e+001 
++            hv_rs_pecap =        0.000000e+000           hv_vsat_pecap =        1.000000e+005 
+include "gpdk090_moscap.scs" section = hv_mos
+include "gpdk090_moscap.scs" section = hv_mac
+endsection SS_hv_g
+
+section FS_hv_g
+parameters 
++            hv_rs_necap =        0.000000e+000           hv_vsat_necap =        1.120000e+005         hv_pldd_surfcap =        6.000000e+019 
++           hv_uc1_necap =       -6.420000e-011             hv_u0_necap =        2.600000e-002            hv_nch_necap =        3.600000e+017 
++           hv_rsc_necap =        4.082483e-014           hv_cgbo_necap =        6.166179e-012            hv_prt_necap =        0.000000e+000 
++           hv_rdc_necap =        4.082483e-014           hv_vth0_necap =        4.032345e-001             hv_k2_necap =        0.000000e+000 
++          hv_cgdo_necap =        1.109912e-010         hv_ckappa_necap =        2.660269e+001           hv_wint_necap =        5.400000e-009 
++            hv_k1_necap =        5.955691e-001           hv_cgsl_necap =        4.624634e-011         hv_nldd_surfcap =        3.000000e+019 
++            hv_js_necap =        3.366667e-006           hv_hdif_necap =        1.400000e-007           hv_rdsw_necap =        3.900000e-006 
++           hv_jsw_necap =        3.366667e-010            hv_tox_necap =        5.040000e-009             hv_cj_necap =        7.983537e-004 
++          hv_cjsw_necap =        4.790122e-011           hv_ldif_necap =        1.000000e-008             hv_xj_necap =        2.500000e-008 
++            hv_rd_necap =        0.000000e+000             hv_pb_necap =        9.918524e-001             hv_cf_necap =        3.654122e-011 
++          hv_lint_necap =        1.650000e-008          hv_cjswg_necap =        1.995884e-011            hv_rsh_necap =        1.000000e+001 
++            hv_u0_pecap =        8.400000e-003            hv_nch_pecap =        3.630000e+017            hv_rsc_pecap =        2.886751e-014 
++          hv_cgbo_pecap =        5.953552e-012            hv_rdc_pecap =        2.886751e-014           hv_vth0_pecap =       -4.421794e-001 
++            hv_k2_pecap =        0.000000e+000           hv_cgdo_pecap =        1.071639e-010         hv_ckappa_pecap =        5.707362e+001 
++          hv_wint_pecap =        5.500000e-009             hv_k1_pecap =        5.602722e-001           hv_cgsl_pecap =        4.465164e-011 
++            hv_js_pecap =        3.350000e-006           hv_hdif_pecap =        1.400000e-007           hv_rdsw_pecap =        7.800000e-006 
++           hv_jsw_pecap =        3.350000e-010            hv_tox_pecap =        6.380000e-009             hv_cj_pecap =        7.912252e-004 
++          hv_cjsw_pecap =        4.747351e-011           hv_ldif_pecap =        1.000000e-008             hv_xj_pecap =        2.500000e-008 
++            hv_rd_pecap =        0.000000e+000             hv_pb_pecap =        1.009805e+000             hv_cf_pecap =        3.616963e-011 
++          hv_lint_pecap =        1.350000e-008          hv_cjswg_pecap =        1.978063e-011            hv_rsh_pecap =        2.000000e+001 
++            hv_rs_pecap =        0.000000e+000           hv_vsat_pecap =        1.000000e+005 
+include "gpdk090_moscap.scs" section = hv_mos
+include "gpdk090_moscap.scs" section = hv_mac
+endsection FS_hv_g
+
+section SF_hv_g
+parameters 
++            hv_rs_necap =        0.000000e+000           hv_vsat_necap =        1.120000e+005         hv_pldd_surfcap =        6.000000e+019 
++           hv_uc1_necap =       -6.420000e-011             hv_u0_necap =        1.400000e-002            hv_nch_necap =        4.400000e+017 
++           hv_rsc_necap =        4.082483e-014           hv_cgbo_necap =        6.166179e-012            hv_prt_necap =        0.000000e+000 
++           hv_rdc_necap =        4.082483e-014           hv_vth0_necap =        4.938087e-001             hv_k2_necap =        0.000000e+000 
++          hv_cgdo_necap =        1.109912e-010         hv_ckappa_necap =        2.660269e+001           hv_wint_necap =        6.600000e-009 
++            hv_k1_necap =        5.955691e-001           hv_cgsl_necap =        4.624634e-011         hv_nldd_surfcap =        3.000000e+019 
++            hv_js_necap =        3.366667e-006           hv_hdif_necap =        1.400000e-007           hv_rdsw_necap =        3.900000e-006 
++           hv_jsw_necap =        3.366667e-010            hv_tox_necap =        6.160000e-009             hv_cj_necap =        7.983537e-004 
++          hv_cjsw_necap =        4.790122e-011           hv_ldif_necap =        1.000000e-008             hv_xj_necap =        2.500000e-008 
++            hv_rd_necap =        0.000000e+000             hv_pb_necap =        9.918524e-001             hv_cf_necap =        3.654122e-011 
++          hv_lint_necap =        1.350000e-008          hv_cjswg_necap =        1.995884e-011            hv_rsh_necap =        1.000000e+001 
++            hv_u0_pecap =        1.560000e-002            hv_nch_pecap =        2.970000e+017            hv_rsc_pecap =        2.886751e-014 
++          hv_cgbo_pecap =        5.953552e-012            hv_rdc_pecap =        2.886751e-014           hv_vth0_pecap =       -3.625740e-001 
++            hv_k2_pecap =        0.000000e+000           hv_cgdo_pecap =        1.071639e-010         hv_ckappa_pecap =        5.707362e+001 
++          hv_wint_pecap =        4.500000e-009             hv_k1_pecap =        5.602722e-001           hv_cgsl_pecap =        4.465164e-011 
++            hv_js_pecap =        3.350000e-006           hv_hdif_pecap =        1.400000e-007           hv_rdsw_pecap =        7.800000e-006 
++           hv_jsw_pecap =        3.350000e-010            hv_tox_pecap =        5.220000e-009             hv_cj_pecap =        7.912252e-004 
++          hv_cjsw_pecap =        4.747351e-011           hv_ldif_pecap =        1.000000e-008             hv_xj_pecap =        2.500000e-008 
++            hv_rd_pecap =        0.000000e+000             hv_pb_pecap =        1.009805e+000             hv_cf_pecap =        3.616963e-011 
++          hv_lint_pecap =        1.650000e-008          hv_cjswg_pecap =        1.978063e-011            hv_rsh_pecap =        2.000000e+001 
++            hv_rs_pecap =        0.000000e+000           hv_vsat_pecap =        1.000000e+005 
+include "gpdk090_moscap.scs" section = hv_mos
+include "gpdk090_moscap.scs" section = hv_mac
+endsection SF_hv_g
+
+section s1v_mos
+model gpdk090_nmoscap1v bsim3v3 type = n 
++                lmin =                   0.0                lmax =                  1.0                 wmin =                  0.0 
++                wmax =                  1.0                 tnom =                 25.0              version =                  3.2 
++                 tox =           s1v_tox_necap                 toxm =           s1v_tox_necap                   xj =            s1v_xj_necap 
++                 nch =           s1v_nch_necap                  lln =            1.0000000                  lwn =            1.0000000 
++                 wln =            1.0000000                  wwn =           -1.0000000                 lint =          s1v_lint_necap 
++                  ll =                 0.00                   lw =                 0.00                  lwl =                 0.00 
++                wint =          s1v_wint_necap                   wl =                 0.00                   ww =                 0.00 
++                 wwl =                 0.00               mobmod =                    1              binunit =                    2 
++                  xl =                    0                   xw =                    0                  dwg =                 0.00 
++                 dwb =                 0.00                  acm =                   12                 ldif =          s1v_ldif_necap 
++                hdif =          s1v_hdif_necap                  rsh =           s1v_rsh_necap                   rd =            s1v_rd_necap 
++                  rs =            s1v_rs_necap                  rsc =           s1v_rsc_necap                  rdc =           s1v_rdc_necap 
++                vth0 =          s1v_vth0_necap                   k1 =            s1v_k1_necap                   k2 =            s1v_k2_necap 
++                  k3 =           -2.3000000                 dvt0 =              3.86366                 dvt1 =                  1.2 
++                dvt2 =        5.0299990E-02                dvt0w =                 0.00                dvt1w =                 0.00 
++               dvt2w =                 0.00                  nlx =        1.2517999E-07                   w0 =       -7.1353000E-09 
++                 k3b =            0.5576769                ngate =               4.0E20                 vsat =          s1v_vsat_necap 
++                  ua =       -6.1879500E-10                   ub =        1.8806652E-18                   uc =        1.3823546E-10 
++                rdsw =          s1v_rdsw_necap                 prwb =                 0.00                 prwg =                 0.00 
++                  wr =            1.0000000                   u0 =            s1v_u0_necap                   a0 =            2.3750000 
++                keta =       -3.1429991E-02                   a1 =                 0.00                   a2 =            0.9900000 
++                 ags =            0.8900000                   b0 =                 0.00                   b1 =                 0.00 
++                voff =       -9.6776000E-02              nfactor =            1.0200000                  cit =       -8.6656060E-04 
++                cdsc =        4.4460000E-02                cdscb =        1.0565110E-02                cdscd =                 0.00 
++                eta0 =        7.6580000E-02                 etab =       -3.4998000E-02                 dsub =            0.2200000 
++                pclm =            1.5488822              pdiblc1 =                 0.00              pdiblc2 =        2.4648249E-02 
++             pdiblcb =                 0.00                drout =                 0.00               pscbe1 =         9.2648200E08 
++              pscbe2 =        1.0000000E-20                 pvag =                 0.00                delta =        7.5000000E-03 
++              alpha0 =                 0.00               alpha1 =               0.0177                beta0 =               6.3203 
++                 kt1 =                -0.13                  kt2 =               -0.042                   at =         9.0000000E04 
++                 ute =           -1.7303560                  ua1 =        1.8035814E-09                  ub1 =       -2.1874742E-18 
++                 uc1 =           s1v_uc1_necap                 kt1l =                 0.00                  prt =           s1v_prt_necap 
++                  cj =            s1v_cj_necap                   mj =                0.222                   pb =            s1v_pb_necap 
++                cjsw =          s1v_cjsw_necap                 mjsw =                 0.01                 pbsw =                  0.1 
++               cjswg =         s1v_cjswg_necap                mjswg =               0.5028                pbswg =               0.6859 
++                 tpb =             1.30E-03                tpbsw =               0.0000               tpbswg =             2.81E-03 
++                 tcj =             7.61E-04                tcjsw =             1.04E-03               tcjswg =             1.63E-03 
++                  js =            s1v_js_necap                  jsw =           s1v_jsw_necap                    n =                    1 
++                 xti =                    3                 cgdo =          s1v_cgdo_necap                 cgso =          s1v_cgdo_necap 
++                cgbo =          s1v_cgbo_necap               capmod =                    2               nqsmod =                    0 
++                 elm =                    5                xpart =                    1                 cgsl =          s1v_cgsl_necap 
++                cgdl =          s1v_cgsl_necap               ckappa =        s1v_ckappa_necap                   cf =            s1v_cf_necap 
++                 clc =        1.0000000E-07                  cle =            0.6000000                  dlc =             1.89E-08 
++                 dwc =             1.62E-08                  llc =             1.53E-16                  lwc =             -9.0E-16 
++                 wlc =                    0                  wwc =              -0.0989                 lwlc =                    0 
++                wwlc =                    0                 acde =                  0.5                 moin =                 10.5 
++                noff =                 1.85               voffcv =               -0.048              lvoffcv =              2.0E-09 
++             calcacm =                    1             sfvtflag =                    0                 tlev =                    1 
++               tlevc =                    1                 ijth =                 1 
+model gpdk090_pmoscap1v bsim3v3 type = p 
++                lmin =                  0.0                 lmax =                  1.0                 wmin =                  0.0 
++                wmax =                  1.0                 tnom =                 25.0              version =                  3.2 
++                 tox =           s1v_tox_pecap                 toxm =           s1v_tox_pecap                   xj =            s1v_xj_pecap 
++                 nch =         1.7200001E17                  lln =            1.0000000                  lwn =            1.0000000 
++                 wln =            1.0000000                  wwn =           -1.0000000                 lint =          s1v_lint_pecap 
++                  ll =                 0.00                   lw =                 0.00                  lwl =                 0.00 
++                wint =          s1v_wint_pecap                   wl =                 0.00                   ww =                 0.00 
++                 wwl =                 0.00               mobmod =                    1              binunit =                    2 
++                  xl =                    0                   xw =                    0                  dwg =                 0.00 
++                 dwb =                 0.00                  acm =                   12                 ldif =          s1v_ldif_pecap 
++                hdif =          s1v_hdif_pecap                  rsh =           s1v_rsh_pecap                   rd =            s1v_rd_pecap 
++                  rs =            s1v_rs_pecap                  rsc =           s1v_rsc_pecap                  rdc =           s1v_rdc_pecap 
++                vth0 =          s1v_vth0_pecap                pvth0 =                    0                   k1 =            s1v_k1_pecap 
++                  k2 =            s1v_k2_pecap                   k3 =           -0.5000000                 dvt0 =                  8.0 
++                dvt1 =                 2.07                 dvt2 =            0.1000000                dvt0w =                 0.00 
++               dvt1w =                 0.00                dvt2w =                 0.00                  nlx =        2.2400000E-07 
++                  w0 =                 0.00                  k3b =        7.0000000E-02                ngate =         9.3200000E19 
++                vsat =          s1v_vsat_pecap                   ua =       -2.7643932E-10                   ub =        2.2546092E-18 
++                  uc =        1.6265005E-10                 rdsw =          s1v_rdsw_pecap                 prwb =                 0.00 
++                prwg =                 0.00                   wr =            1.0000000                   u0 =            s1v_u0_pecap 
++                  a0 =            2.9669099                 keta =       -8.2015020E-02                   a1 =                 0.00 
++                  a2 =            1.0000000                  ags =            1.2279299                   b0 =                 0.00 
++                  b1 =                 0.00                 voff =           -0.1170768              nfactor =            1.0000000 
++                 cit =       -2.5695576E-03                 cdsc =                 0.00                cdscb =                 0.00 
++               cdscd =                 0.00                 eta0 =        5.0000000E-02                leta0 =                    0 
++                etab =                    0                 dsub =            0.3000000                 pclm =            1.0000000 
++             pdiblc1 =        6.0000000E-03              pdiblc2 =        5.0000000E-03              pdiblcb =           -0.5267781 
++               drout =                 0.00               pscbe1 =         5.1300000E08               pscbe2 =        4.8900000E-07 
++                pvag =                 0.00                delta =        9.9999990E-03               alpha0 =                 0.00 
++              alpha1 =                0.001                beta0 =                  7.6                  kt1 =                -0.11 
++                 kt2 =        4.4329650E-02                   at =         1.0000000E04                  ute =           -1.4468272 
++                 ua1 =        1.2158887E-09                  ub1 =       -4.0489830E-18                  uc1 =       -5.6549980E-10 
++                kt1l =                 0.00                  prt =                    0                   cj =            s1v_cj_pecap 
++                  mj =                0.331                   pb =            s1v_pb_pecap                 cjsw =          s1v_cjsw_pecap 
++                mjsw =                 0.01                 pbsw =                 0.10                cjswg =         s1v_cjswg_pecap 
++               mjswg =               0.7833                pbswg =               0.8137                  tpb =              0.00173 
++               tpbsw =                  0.0               tpbswg =               0.0044                  tcj =             0.000949 
++               tcjsw =            0.0000758               tcjswg =              0.00388                   js =            s1v_js_pecap 
++                 jsw =           s1v_jsw_pecap                    n =                    1                  xti =                    3 
++                cgdo =          s1v_cgdo_pecap                 cgso =          s1v_cgdo_pecap                 cgbo =          s1v_cgbo_pecap 
++              capmod =                    2               nqsmod =                    0                  elm =                    5 
++               xpart =                    1                 cgsl =          s1v_cgsl_pecap                 cgdl =          s1v_cgsl_pecap 
++              ckappa =        s1v_ckappa_pecap                   cf =            s1v_cf_pecap                  clc =        1.0000000E-07 
++                 cle =            0.6000000                  dlc =            2.252E-08                  dwc =           1.2404E-08 
++                 llc =             -1.2E-16                  lwc =             -6.2E-16                  wlc =                    0 
++                 wwc =                -0.15                 lwlc =                    0                 wwlc =                    0 
++                acde =                  0.5                 moin =                 15.6                 noff =                 2.16 
++              voffcv =              -0.0385              lvoffcv =            -3.80E-09                lnoff =             7.50E-08 
++             calcacm =                    1             sfvtflag =                    0                 tlev =                    1 
++               tlevc =                    1                 ijth =                 1 
+endsection s1v_mos
+
+section lp_mos
+model gpdk090_nmoscap1v_hvt bsim3v3 type = n 
++                lmin =                   0.0                lmax =                  1.0                 wmin =                  0.0 
++                wmax =                  1.0                 tnom =                 25.0              version =                  3.2 
++                 tox =            lp_tox_necap                 toxm =            lp_tox_necap                   xj =             lp_xj_necap 
++                 nch =            lp_nch_necap                  lln =            1.0000000                  lwn =            1.0000000 
++                 wln =            1.0000000                  wwn =           -1.0000000                 lint =           lp_lint_necap 
++                  ll =                 0.00                   lw =                 0.00                  lwl =                 0.00 
++                wint =           lp_wint_necap                   wl =                 0.00                   ww =                 0.00 
++                 wwl =                 0.00               mobmod =                    1              binunit =                    2 
++                  xl =                    0                   xw =                    0                  dwg =                 0.00 
++                 dwb =                 0.00                  acm =                   12                 ldif =           lp_ldif_necap 
++                hdif =           lp_hdif_necap                  rsh =            lp_rsh_necap                   rd =             lp_rd_necap 
++                  rs =             lp_rs_necap                  rsc =            lp_rsc_necap                  rdc =            lp_rdc_necap 
++                vth0 =           lp_vth0_necap                   k1 =             lp_k1_necap                   k2 =             lp_k2_necap 
++                  k3 =           -2.3000000                 dvt0 =              3.86366                 dvt1 =                  1.2 
++                dvt2 =        5.0299990E-02                dvt0w =                 0.00                dvt1w =                 0.00 
++               dvt2w =                 0.00                  nlx =        1.2517999E-07                   w0 =       -7.1353000E-09 
++                 k3b =            0.5576769                ngate =               4.0E20                 vsat =           lp_vsat_necap 
++                  ua =       -6.1879500E-10                   ub =        1.8806652E-18                   uc =        1.3823546E-10 
++                rdsw =           lp_rdsw_necap                 prwb =                 0.00                 prwg =                 0.00 
++                  wr =            1.0000000                   u0 =             lp_u0_necap                   a0 =            2.3750000 
++                keta =       -3.1429991E-02                   a1 =                 0.00                   a2 =            0.9900000 
++                 ags =            0.8900000                   b0 =                 0.00                   b1 =                 0.00 
++                voff =       -9.6776000E-02              nfactor =            1.0200000                  cit =       -8.6656060E-04 
++                cdsc =        4.4460000E-02                cdscb =        1.0565110E-02                cdscd =                 0.00 
++                eta0 =        7.6580000E-02                 etab =       -3.4998000E-02                 dsub =            0.2200000 
++                pclm =            1.5488822              pdiblc1 =                 0.00              pdiblc2 =        2.4648249E-02 
++             pdiblcb =                 0.00                drout =                 0.00               pscbe1 =         9.2648200E08 
++              pscbe2 =        1.0000000E-20                 pvag =                 0.00                delta =        7.5000000E-03 
++              alpha0 =                 0.00               alpha1 =               0.0177                beta0 =               6.3203 
++                 kt1 =                -0.13                  kt2 =               -0.042                   at =         9.0000000E04 
++                 ute =           -1.7303560                  ua1 =        1.8035814E-09                  ub1 =       -2.1874742E-18 
++                 uc1 =            lp_uc1_necap                 kt1l =                 0.00                  prt =            lp_prt_necap 
++                  cj =             lp_cj_necap                   mj =                0.222                   pb =             lp_pb_necap 
++                cjsw =           lp_cjsw_necap                 mjsw =                 0.01                 pbsw =                  0.1 
++               cjswg =          lp_cjswg_necap                mjswg =               0.5028                pbswg =               0.6859 
++                 tpb =             1.30E-03                tpbsw =               0.0000               tpbswg =             2.81E-03 
++                 tcj =             7.61E-04                tcjsw =             1.04E-03               tcjswg =             1.63E-03 
++                  js =             lp_js_necap                  jsw =            lp_jsw_necap                    n =                    1 
++                 xti =                    3                 cgdo =           lp_cgdo_necap                 cgso =           lp_cgdo_necap 
++                cgbo =           lp_cgbo_necap               capmod =                    2               nqsmod =                    0 
++                 elm =                    5                xpart =                    1                 cgsl =           lp_cgsl_necap 
++                cgdl =           lp_cgsl_necap               ckappa =         lp_ckappa_necap                   cf =             lp_cf_necap 
++                 clc =        1.0000000E-07                  cle =            0.6000000                  dlc =             1.89E-08 
++                 dwc =             1.62E-08                  llc =             1.53E-16                  lwc =             -9.0E-16 
++                 wlc =                    0                  wwc =              -0.0989                 lwlc =                    0 
++                wwlc =                    0                 acde =                  0.5                 moin =                 10.5 
++                noff =                 1.85               voffcv =               -0.048              lvoffcv =              2.0E-09 
++             calcacm =                    1             sfvtflag =                    0                 tlev =                    1 
++               tlevc =                    1                 ijth =                 1 
+model gpdk090_pmoscap1v_hvt bsim3v3 type = p 
++                lmin =                  0.0                 lmax =                  1.0                 wmin =                  0.0 
++                wmax =                  1.0                 tnom =                 25.0              version =                  3.2 
++                 tox =            lp_tox_pecap                 toxm =            lp_tox_pecap                   xj =             lp_xj_pecap 
++                 nch =         1.7200001E17                  lln =            1.0000000                  lwn =            1.0000000 
++                 wln =            1.0000000                  wwn =           -1.0000000                 lint =           lp_lint_pecap 
++                  ll =                 0.00                   lw =                 0.00                  lwl =                 0.00 
++                wint =           lp_wint_pecap                   wl =                 0.00                   ww =                 0.00 
++                 wwl =                 0.00               mobmod =                    1              binunit =                    2 
++                  xl =                    0                   xw =                    0                  dwg =                 0.00 
++                 dwb =                 0.00                  acm =                   12                 ldif =           lp_ldif_pecap 
++                hdif =           lp_hdif_pecap                  rsh =            lp_rsh_pecap                   rd =             lp_rd_pecap 
++                  rs =             lp_rs_pecap                  rsc =            lp_rsc_pecap                  rdc =            lp_rdc_pecap 
++                vth0 =           lp_vth0_pecap                pvth0 =                    0                   k1 =             lp_k1_pecap 
++                  k2 =             lp_k2_pecap                   k3 =           -0.5000000                 dvt0 =                  8.0 
++                dvt1 =                 2.07                 dvt2 =            0.1000000                dvt0w =                 0.00 
++               dvt1w =                 0.00                dvt2w =                 0.00                  nlx =        2.2400000E-07 
++                  w0 =                 0.00                  k3b =        7.0000000E-02                ngate =         9.3200000E19 
++                vsat =           lp_vsat_pecap                   ua =       -2.7643932E-10                   ub =        2.2546092E-18 
++                  uc =        1.6265005E-10                 rdsw =           lp_rdsw_pecap                 prwb =                 0.00 
++                prwg =                 0.00                   wr =            1.0000000                   u0 =             lp_u0_pecap 
++                  a0 =            2.9669099                 keta =       -8.2015020E-02                   a1 =                 0.00 
++                  a2 =            1.0000000                  ags =            1.2279299                   b0 =                 0.00 
++                  b1 =                 0.00                 voff =           -0.1170768              nfactor =            1.0000000 
++                 cit =       -2.5695576E-03                 cdsc =                 0.00                cdscb =                 0.00 
++               cdscd =                 0.00                 eta0 =        5.0000000E-02                leta0 =                    0 
++                etab =                    0                 dsub =            0.3000000                 pclm =            1.0000000 
++             pdiblc1 =        6.0000000E-03              pdiblc2 =        5.0000000E-03              pdiblcb =           -0.5267781 
++               drout =                 0.00               pscbe1 =         5.1300000E08               pscbe2 =        4.8900000E-07 
++                pvag =                 0.00                delta =        9.9999990E-03               alpha0 =                 0.00 
++              alpha1 =                0.001                beta0 =                  7.6                  kt1 =                -0.11 
++                 kt2 =        4.4329650E-02                   at =         1.0000000E04                  ute =           -1.4468272 
++                 ua1 =        1.2158887E-09                  ub1 =       -4.0489830E-18                  uc1 =       -5.6549980E-10 
++                kt1l =                 0.00                  prt =                    0                   cj =             lp_cj_pecap 
++                  mj =                0.331                   pb =             lp_pb_pecap                 cjsw =           lp_cjsw_pecap 
++                mjsw =                 0.01                 pbsw =                 0.10                cjswg =          lp_cjswg_pecap 
++               mjswg =               0.7833                pbswg =               0.8137                  tpb =              0.00173 
++               tpbsw =                  0.0               tpbswg =               0.0044                  tcj =             0.000949 
++               tcjsw =            0.0000758               tcjswg =              0.00388                   js =             lp_js_pecap 
++                 jsw =            lp_jsw_pecap                    n =                    1                  xti =                    3 
++                cgdo =           lp_cgdo_pecap                 cgso =           lp_cgdo_pecap                 cgbo =           lp_cgbo_pecap 
++              capmod =                    2               nqsmod =                    0                  elm =                    5 
++               xpart =                    1                 cgsl =           lp_cgsl_pecap                 cgdl =           lp_cgsl_pecap 
++              ckappa =         lp_ckappa_pecap                   cf =             lp_cf_pecap                  clc =        1.0000000E-07 
++                 cle =            0.6000000                  dlc =            2.252E-08                  dwc =           1.2404E-08 
++                 llc =             -1.2E-16                  lwc =             -6.2E-16                  wlc =                    0 
++                 wwc =                -0.15                 lwlc =                    0                 wwlc =                    0 
++                acde =                  0.5                 moin =                 15.6                 noff =                 2.16 
++              voffcv =              -0.0385              lvoffcv =            -3.80E-09                lnoff =             7.50E-08 
++             calcacm =                    1             sfvtflag =                    0                 tlev =                    1 
++               tlevc =                    1                 ijth =                 1 
+endsection lp_mos
+
+section hv_mos
+model gpdk090_nmoscap2v bsim3v3 type = n 
++                lmin =                   0.0                lmax =                  1.0                 wmin =                  0.0 
++                wmax =                  1.0                 tnom =                 25.0              version =                  3.2 
++                 tox =            hv_tox_necap                 toxm =            hv_tox_necap                   xj =             hv_xj_necap 
++                 nch =            hv_nch_necap                  lln =            1.0000000                  lwn =            1.0000000 
++                 wln =            1.0000000                  wwn =           -1.0000000                 lint =           hv_lint_necap 
++                  ll =                 0.00                   lw =                 0.00                  lwl =                 0.00 
++                wint =           hv_wint_necap                   wl =                 0.00                   ww =                 0.00 
++                 wwl =                 0.00               mobmod =                    1              binunit =                    2 
++                  xl =                    0                   xw =                    0                  dwg =                 0.00 
++                 dwb =                 0.00                  acm =                   12                 ldif =           hv_ldif_necap 
++                hdif =           hv_hdif_necap                  rsh =            hv_rsh_necap                   rd =             hv_rd_necap 
++                  rs =             hv_rs_necap                  rsc =            hv_rsc_necap                  rdc =            hv_rdc_necap 
++                vth0 =           hv_vth0_necap                   k1 =             hv_k1_necap                   k2 =             hv_k2_necap 
++                  k3 =           -2.3000000                 dvt0 =              3.86366                 dvt1 =                  1.2 
++                dvt2 =        5.0299990E-02                dvt0w =                 0.00                dvt1w =                 0.00 
++               dvt2w =                 0.00                  nlx =        1.2517999E-07                   w0 =       -7.1353000E-09 
++                 k3b =            0.5576769                ngate =               4.0E20                 vsat =           hv_vsat_necap 
++                  ua =       -6.1879500E-10                   ub =        1.8806652E-18                   uc =        1.3823546E-10 
++                rdsw =           hv_rdsw_necap                 prwb =                 0.00                 prwg =                 0.00 
++                  wr =            1.0000000                   u0 =             hv_u0_necap                   a0 =            2.3750000 
++                keta =       -3.1429991E-02                   a1 =                 0.00                   a2 =            0.9900000 
++                 ags =            0.8900000                   b0 =                 0.00                   b1 =                 0.00 
++                voff =       -9.6776000E-02              nfactor =            1.0200000                  cit =       -8.6656060E-04 
++                cdsc =        4.4460000E-02                cdscb =        1.0565110E-02                cdscd =                 0.00 
++                eta0 =        7.6580000E-02                 etab =       -3.4998000E-02                 dsub =            0.2200000 
++                pclm =            1.5488822              pdiblc1 =                 0.00              pdiblc2 =        2.4648249E-02 
++             pdiblcb =                 0.00                drout =                 0.00               pscbe1 =         9.2648200E08 
++              pscbe2 =        1.0000000E-20                 pvag =                 0.00                delta =        7.5000000E-03 
++              alpha0 =                 0.00               alpha1 =               0.0177                beta0 =               6.3203 
++                 kt1 =                -0.13                  kt2 =               -0.042                   at =         9.0000000E04 
++                 ute =           -1.7303560                  ua1 =        1.8035814E-09                  ub1 =       -2.1874742E-18 
++                 uc1 =            hv_uc1_necap                 kt1l =                 0.00                  prt =            hv_prt_necap 
++                  cj =             hv_cj_necap                   mj =                0.222                   pb =             hv_pb_necap 
++                cjsw =           hv_cjsw_necap                 mjsw =                 0.01                 pbsw =                  0.1 
++               cjswg =          hv_cjswg_necap                mjswg =               0.5028                pbswg =               0.6859 
++                 tpb =             1.30E-03                tpbsw =               0.0000               tpbswg =             2.81E-03 
++                 tcj =             7.61E-04                tcjsw =             1.04E-03               tcjswg =             1.63E-03 
++                  js =             hv_js_necap                  jsw =            hv_jsw_necap                    n =                    1 
++                 xti =                    3                 cgdo =           hv_cgdo_necap                 cgso =           hv_cgdo_necap 
++                cgbo =           hv_cgbo_necap               capmod =                    2               nqsmod =                    0 
++                 elm =                    5                xpart =                    1                 cgsl =           hv_cgsl_necap 
++                cgdl =           hv_cgsl_necap               ckappa =         hv_ckappa_necap                   cf =             hv_cf_necap 
++                 clc =        1.0000000E-07                  cle =            0.6000000                  dlc =             1.89E-08 
++                 dwc =             1.62E-08                  llc =             1.53E-16                  lwc =             -9.0E-16 
++                 wlc =                    0                  wwc =              -0.0989                 lwlc =                    0 
++                wwlc =                    0                 acde =                  0.5                 moin =                 10.5 
++                noff =                 1.85               voffcv =               -0.048              lvoffcv =              2.0E-09 
++             calcacm =                    1             sfvtflag =                    0                 tlev =                    1 
++               tlevc =                    1                 ijth =                 1 
+model gpdk090_pmoscap2v bsim3v3 type = p 
++                lmin =                  0.0                 lmax =                  1.0                 wmin =                  0.0 
++                wmax =                  1.0                 tnom =                 25.0              version =                  3.2 
++                 tox =            hv_tox_pecap                 toxm =            hv_tox_pecap                   xj =             hv_xj_pecap 
++                 nch =         1.7200001E17                  lln =            1.0000000                  lwn =            1.0000000 
++                 wln =            1.0000000                  wwn =           -1.0000000                 lint =           hv_lint_pecap 
++                  ll =                 0.00                   lw =                 0.00                  lwl =                 0.00 
++                wint =           hv_wint_pecap                   wl =                 0.00                   ww =                 0.00 
++                 wwl =                 0.00               mobmod =                    1              binunit =                    2 
++                  xl =                    0                   xw =                    0                  dwg =                 0.00 
++                 dwb =                 0.00                  acm =                   12                 ldif =           hv_ldif_pecap 
++                hdif =           hv_hdif_pecap                  rsh =            hv_rsh_pecap                   rd =             hv_rd_pecap 
++                  rs =             hv_rs_pecap                  rsc =            hv_rsc_pecap                  rdc =            hv_rdc_pecap 
++                vth0 =           hv_vth0_pecap                pvth0 =                    0                   k1 =             hv_k1_pecap 
++                  k2 =             hv_k2_pecap                   k3 =           -0.5000000                 dvt0 =                  8.0 
++                dvt1 =                 2.07                 dvt2 =            0.1000000                dvt0w =                 0.00 
++               dvt1w =                 0.00                dvt2w =                 0.00                  nlx =        2.2400000E-07 
++                  w0 =                 0.00                  k3b =        7.0000000E-02                ngate =         9.3200000E19 
++                vsat =           hv_vsat_pecap                   ua =       -2.7643932E-10                   ub =        2.2546092E-18 
++                  uc =        1.6265005E-10                 rdsw =           hv_rdsw_pecap                 prwb =                 0.00 
++                prwg =                 0.00                   wr =            1.0000000                   u0 =             hv_u0_pecap 
++                  a0 =            2.9669099                 keta =       -8.2015020E-02                   a1 =                 0.00 
++                  a2 =            1.0000000                  ags =            1.2279299                   b0 =                 0.00 
++                  b1 =                 0.00                 voff =           -0.1170768              nfactor =            1.0000000 
++                 cit =       -2.5695576E-03                 cdsc =                 0.00                cdscb =                 0.00 
++               cdscd =                 0.00                 eta0 =        5.0000000E-02                leta0 =                    0 
++                etab =                    0                 dsub =            0.3000000                 pclm =            1.0000000 
++             pdiblc1 =        6.0000000E-03              pdiblc2 =        5.0000000E-03              pdiblcb =           -0.5267781 
++               drout =                 0.00               pscbe1 =         5.1300000E08               pscbe2 =        4.8900000E-07 
++                pvag =                 0.00                delta =        9.9999990E-03               alpha0 =                 0.00 
++              alpha1 =                0.001                beta0 =                  7.6                  kt1 =                -0.11 
++                 kt2 =        4.4329650E-02                   at =         1.0000000E04                  ute =           -1.4468272 
++                 ua1 =        1.2158887E-09                  ub1 =       -4.0489830E-18                  uc1 =       -5.6549980E-10 
++                kt1l =                 0.00                  prt =                    0                   cj =             hv_cj_pecap 
++                  mj =                0.331                   pb =             hv_pb_pecap                 cjsw =           hv_cjsw_pecap 
++                mjsw =                 0.01                 pbsw =                 0.10                cjswg =          hv_cjswg_pecap 
++               mjswg =               0.7833                pbswg =               0.8137                  tpb =              0.00173 
++               tpbsw =                  0.0               tpbswg =               0.0044                  tcj =             0.000949 
++               tcjsw =            0.0000758               tcjswg =              0.00388                   js =             hv_js_pecap 
++                 jsw =            hv_jsw_pecap                    n =                    1                  xti =                    3 
++                cgdo =           hv_cgdo_pecap                 cgso =           hv_cgdo_pecap                 cgbo =           hv_cgbo_pecap 
++              capmod =                    2               nqsmod =                    0                  elm =                    5 
++               xpart =                    1                 cgsl =           hv_cgsl_pecap                 cgdl =           hv_cgsl_pecap 
++              ckappa =         hv_ckappa_pecap                   cf =             hv_cf_pecap                  clc =        1.0000000E-07 
++                 cle =            0.6000000                  dlc =            2.252E-08                  dwc =           1.2404E-08 
++                 llc =             -1.2E-16                  lwc =             -6.2E-16                  wlc =                    0 
++                 wwc =                -0.15                 lwlc =                    0                 wwlc =                    0 
++                acde =                  0.5                 moin =                 15.6                 noff =                 2.16 
++              voffcv =              -0.0385              lvoffcv =            -3.80E-09                lnoff =             7.50E-08 
++             calcacm =                    1             sfvtflag =                    0                 tlev =                    1 
++               tlevc =                    1                 ijth =                 1 
+endsection hv_mos
+
+section s1v_mac
+subckt s1v_ckt_nch (n11 n2 n33 n4)
+parameters l=0.1u w=10u multi=1 factor=1 nrd=s1v_hdif_ne/factor/w nrs=s1v_hdif_ne/factor/w
++ Tox_ratio = 3.0e-9 / (s1v_tox_ne*s1v_tox_ne*s1v_tox_ne)
+MAIN (n1 n2 n3 n4) gpdk090_nmoscap1v  w=w l=l nrd=nrd nrs=nrs multi=multi
+GDF1 (n2 n1) bsource i = w*0.6*s1v_xj_ne*4.97232*Tox_ratio*v(n2,n1)*v(n2,n3)*exp(-4.85669e11*s1v_tox_ne*(0.43-0.054*v(n2,n3))*(1.0+0.075*v(n2,n3)))
+GDF2 (n2 n3) bsource i = w*0.6*s1v_xj_ne*4.97232*Tox_ratio*v(n2,n3)*sqrt( (v(n2,n3) - 0.026*log(4.0e20 / s1v_nldd_surf))*(v(n2,n3) - 0.026*log(4.0e20 / s1v_nldd_surf)) + 1.0e-4 )*exp(-4.85669e11*s1v_tox_ne*(0.43-0.054*sqrt( (v(n2,n3) - 0.026*log(4.0e20 / s1v_nldd_surf))*(v(n2,n3) - 0.026*log(4.0e20 / s1v_nldd_surf)) + 1.0e-4 ))*(1.0+0.075*sqrt( (v(n2,n3) - 0.026*log(4.0e20 / s1v_nldd_surf))*(v(n2,n3) - 0.026*log(4.0e20 / s1v_nldd_surf)) + 1.0e-4 )))
+rdn (n1 n11) resistor r= 6.8 *nrd/multi
+rsn (n3 n33) resistor r= 6.8 *nrs/multi
+ends s1v_ckt_nch
+subckt s1v_ckt_pch (p11 p2 p33 p4)
+parameters l=0.1u w=10u multi=1 factor=1 nrd=s1v_hdif_pe/factor/w nrs=s1v_hdif_pe/factor/w
++ Tox_ratio = 3.0e-9/(s1v_tox_pe*s1v_tox_pe*s1v_tox_pe)
+MAIN (p1 p2 p3 p4) gpdk090_pmoscap1v  w=w l=l nrd=nrd nrs=nrs multi=multi
+GDF1 (p2 p1) bsource i = w*0.6*s1v_xj_pe*3.42537*Tox_ratio*v(p2, p1)*sqrt( (v(p2, p1)-0.026*log(9.32E19/s1v_pldd_surf))*(v(p2, p1)-0.026*log(9.32E19/s1v_pldd_surf)) + 1.0e-4 )*exp(-7.0645e11*s1v_tox_pe*(0.31-0.024*sqrt( (v(p2, p1)-0.026*log(9.32E19/s1v_pldd_surf))*(v(p2, p1)-0.026*log(9.32E19/s1v_pldd_surf)) + 1.0e-4 ))*(1.0+0.03*sqrt( (v(p2, p1)-0.026*log(9.32E19/s1v_pldd_surf))*(v(p2, p1)-0.026*log(9.32E19/s1v_pldd_surf)) + 1.0e-4 )))
+GDF2 (p2 p3) bsource i = w*0.6*s1v_xj_pe*3.42537*Tox_ratio*v(p2, p3)*sqrt( (v(p2, p3)-0.026*log(9.32E19/s1v_pldd_surf))*(v(p2, p3)-0.026*log(9.32E19/s1v_pldd_surf)) + 1.0e-4 )*exp(-7.0645e11*s1v_tox_pe*(0.31-0.024*sqrt( (v(p2, p3)-0.026*log(9.32E19/s1v_pldd_surf))*(v(p2, p3)-0.026*log(9.32E19/s1v_pldd_surf)) + 1.0e-4 ))*(1.0+0.03*sqrt( (v(p2, p3)-0.026*log(9.32E19/s1v_pldd_surf))*(v(p2, p3)-0.026*log(9.32E19/s1v_pldd_surf)) + 1.0e-4 )))
+rdp (p1 p11) resistor r = 7.1 * nrd / multi
+rsp (p3 p33) resistor r = 7.1 * nrs / multi
+ends s1v_ckt_pch
+endsection s1v_mac
+
+section lp_mac
+subckt lp_ckt_nch (n11 n2 n33 n4)
+parameters l=0.1u w=10u multi=1 factor=1 nrd=lp_hdif_ne/factor/w nrs=lp_hdif_ne/factor/w
++ Tox_ratio = 3.0e-9 / (lp_tox_ne*lp_tox_ne*lp_tox_ne)
+MAIN (n1 n2 n3 n4) gpdk090_nmoscap1v_hvt  w=w l=l nrd=nrd nrs=nrs multi=multi
+GDF1 (n2 n1) bsource i = w*0.6*lp_xj_ne*4.97232*Tox_ratio*v(n2,n1)*v(n2,n3)*exp(-4.85669e11*lp_tox_ne*(0.43-0.054*v(n2,n3))*(1.0+0.075*v(n2,n3)))
+GDF2 (n2 n3) bsource i = w*0.6*lp_xj_ne*4.97232*Tox_ratio*v(n2,n3)*sqrt( (v(n2,n3) - 0.026*log(4.0e20 / lp_nldd_surf))*(v(n2,n3) - 0.026*log(4.0e20 / lp_nldd_surf)) + 1.0e-4 )*exp(-4.85669e11*lp_tox_ne*(0.43-0.054*sqrt( (v(n2,n3) - 0.026*log(4.0e20 / lp_nldd_surf))*(v(n2,n3) - 0.026*log(4.0e20 / lp_nldd_surf)) + 1.0e-4 ))*(1.0+0.075*sqrt( (v(n2,n3) - 0.026*log(4.0e20 / lp_nldd_surf))*(v(n2,n3) - 0.026*log(4.0e20 / lp_nldd_surf)) + 1.0e-4 )))
+rdn (n1 n11) resistor r= 6.8 *nrd/multi
+rsn (n3 n33) resistor r= 6.8 *nrs/multi
+ends lp_ckt_nch
+subckt lp_ckt_pch (p11 p2 p33 p4)
+parameters l=0.1u w=10u multi=1 factor=1 nrd=lp_hdif_pe/factor/w nrs=lp_hdif_pe/factor/w
++ Tox_ratio = 3.0e-9/(lp_tox_pe*lp_tox_pe*lp_tox_pe)
+MAIN (p1 p2 p3 p4) gpdk090_pmoscap1v_hvt  w=w l=l nrd=nrd nrs=nrs multi=multi
+GDF1 (p2 p1) bsource i = w*0.6*lp_xj_pe*3.42537*Tox_ratio*v(p2, p1)*sqrt( (v(p2, p1)-0.026*log(9.32E19/lp_pldd_surf))*(v(p2, p1)-0.026*log(9.32E19/lp_pldd_surf)) + 1.0e-4 )*exp(-7.0645e11*lp_tox_pe*(0.31-0.024*sqrt( (v(p2, p1)-0.026*log(9.32E19/lp_pldd_surf))*(v(p2, p1)-0.026*log(9.32E19/lp_pldd_surf)) + 1.0e-4 ))*(1.0+0.03*sqrt( (v(p2, p1)-0.026*log(9.32E19/lp_pldd_surf))*(v(p2, p1)-0.026*log(9.32E19/lp_pldd_surf)) + 1.0e-4 )))
+GDF2 (p2 p3) bsource i = w*0.6*lp_xj_pe*3.42537*Tox_ratio*v(p2, p3)*sqrt( (v(p2, p3)-0.026*log(9.32E19/lp_pldd_surf))*(v(p2, p3)-0.026*log(9.32E19/lp_pldd_surf)) + 1.0e-4 )*exp(-7.0645e11*lp_tox_pe*(0.31-0.024*sqrt( (v(p2, p3)-0.026*log(9.32E19/lp_pldd_surf))*(v(p2, p3)-0.026*log(9.32E19/lp_pldd_surf)) + 1.0e-4 ))*(1.0+0.03*sqrt( (v(p2, p3)-0.026*log(9.32E19/lp_pldd_surf))*(v(p2, p3)-0.026*log(9.32E19/lp_pldd_surf)) + 1.0e-4 )))
+rdp (p1 p11) resistor r = 7.1 * nrd / multi
+rsp (p3 p33) resistor r = 7.1 * nrs / multi
+ends lp_ckt_pch
+endsection lp_mac
+
+section hv_mac
+subckt hv_ckt_nch (n11 n2 n33 n4)
+parameters l=0.1u w=10u multi=1 factor=1 nrd=hv_hdif_ne/factor/w nrs=hv_hdif_ne/factor/w
++ Tox_ratio = 3.0e-9 / (hv_tox_ne*hv_tox_ne*hv_tox_ne)
+MAIN (n1 n2 n3 n4) gpdk090_nmoscap2v  w=w l=l nrd=nrd nrs=nrs multi=multi
+GDF1 (n2 n1) bsource i = w*0.6*hv_xj_ne*4.97232*Tox_ratio*v(n2,n1)*v(n2,n3)*exp(-4.85669e11*hv_tox_ne*(0.43-0.054*v(n2,n3))*(1.0+0.075*v(n2,n3)))
+GDF2 (n2 n3) bsource i = w*0.6*hv_xj_ne*4.97232*Tox_ratio*v(n2,n3)*sqrt( (v(n2,n3) - 0.026*log(4.0e20 / hv_nldd_surf))*(v(n2,n3) - 0.026*log(4.0e20 / hv_nldd_surf)) + 1.0e-4 )*exp(-4.85669e11*hv_tox_ne*(0.43-0.054*sqrt( (v(n2,n3) - 0.026*log(4.0e20 / hv_nldd_surf))*(v(n2,n3) - 0.026*log(4.0e20 / hv_nldd_surf)) + 1.0e-4 ))*(1.0+0.075*sqrt( (v(n2,n3) - 0.026*log(4.0e20 / hv_nldd_surf))*(v(n2,n3) - 0.026*log(4.0e20 / hv_nldd_surf)) + 1.0e-4 )))
+rdn (n1 n11) resistor r= 6.8 *nrd/multi
+rsn (n3 n33) resistor r= 6.8 *nrs/multi
+ends hv_ckt_nch
+subckt hv_ckt_pch (p11 p2 p33 p4)
+parameters l=0.1u w=10u multi=1 factor=1 nrd=hv_hdif_pe/factor/w nrs=hv_hdif_pe/factor/w
++ Tox_ratio = 3.0e-9/(hv_tox_pe*hv_tox_pe*hv_tox_pe)
+MAIN (p1 p2 p3 p4) gpdk090_pmoscap2v  w=w l=l nrd=nrd nrs=nrs multi=multi
+GDF1 (p2 p1) bsource i = w*0.6*hv_xj_pe*3.42537*Tox_ratio*v(p2, p1)*sqrt( (v(p2, p1)-0.026*log(9.32E19/hv_pldd_surf))*(v(p2, p1)-0.026*log(9.32E19/hv_pldd_surf)) + 1.0e-4 )*exp(-7.0645e11*hv_tox_pe*(0.31-0.024*sqrt( (v(p2, p1)-0.026*log(9.32E19/hv_pldd_surf))*(v(p2, p1)-0.026*log(9.32E19/hv_pldd_surf)) + 1.0e-4 ))*(1.0+0.03*sqrt( (v(p2, p1)-0.026*log(9.32E19/hv_pldd_surf))*(v(p2, p1)-0.026*log(9.32E19/hv_pldd_surf)) + 1.0e-4 )))
+GDF2 (p2 p3) bsource i = w*0.6*hv_xj_pe*3.42537*Tox_ratio*v(p2, p3)*sqrt( (v(p2, p3)-0.026*log(9.32E19/hv_pldd_surf))*(v(p2, p3)-0.026*log(9.32E19/hv_pldd_surf)) + 1.0e-4 )*exp(-7.0645e11*hv_tox_pe*(0.31-0.024*sqrt( (v(p2, p3)-0.026*log(9.32E19/hv_pldd_surf))*(v(p2, p3)-0.026*log(9.32E19/hv_pldd_surf)) + 1.0e-4 ))*(1.0+0.03*sqrt( (v(p2, p3)-0.026*log(9.32E19/hv_pldd_surf))*(v(p2, p3)-0.026*log(9.32E19/hv_pldd_surf)) + 1.0e-4 )))
+rdp (p1 p11) resistor r = 7.1 * nrd / multi
+rsp (p3 p33) resistor r = 7.1 * nrs / multi
+ends hv_ckt_pch
+endsection hv_mac
+
+endlibrary

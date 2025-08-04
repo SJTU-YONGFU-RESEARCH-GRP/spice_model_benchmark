@@ -1,0 +1,131 @@
+// Generated for: spectre (May  1 08:11:47 2013 )
+// Library name: gsclib045
+// Cell name: LSHL_ISOL_X1_TO_ON
+// View name: extracted
+
+simulator lang=spectre
+
+subckt LSHL_ISOL_X1_TO_ON A ISO VDD VSS Y
+PM1 (\12\:n0 ison \1\:VDD VDD) g45p1svt w=(2.15e-07) l=4.5e-08 nf=1 \
+        as=6.535e-14 ad=3.01e-14 ps=1.16e-06 pd=7.1e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=3.75e-07 sd=160n sca=11.3694 \
+        scb=0.00808912 scc=7.45876e-05 m=(1)
+mp0 (\10\:n0 \1\:A \5\:VDD VDD) g45p1svt w=(2.15e-07) l=4.5e-08 nf=1 \
+        as=3.01e-14 ad=3.44e-14 ps=7.1e-07 pd=7.5e-07 nrd=1.16667 \
+        nrs=1.16667 sa=3.45e-07 sb=1.4e-07 sd=160n sca=10.1453 \
+        scb=0.00734814 scc=7.36798e-05 m=(1)
+PM2 (\9\:ison \1\:ISO \5\:VDD VDD) g45p1svt w=(2.15e-07) l=4.5e-08 nf=1 \
+        as=3.01e-14 ad=3.44e-14 ps=7.1e-07 pd=7.5e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=3.45e-07 sd=160n sca=10.1453 \
+        scb=0.00734814 scc=7.36798e-05 m=(1)
+C1 (VDD VSS) capacitor c=1.74627e-16
+C2 (ISO VSS) capacitor c=4.8906e-17
+C3 (Y VSS) capacitor c=7.13604e-17
+C4 (ison VSS) capacitor c=6.08964e-17
+C5 (GatedVSS VSS) capacitor c=1.72007e-16
+C6 (n0 VSS) capacitor c=5.47254e-17
+C7 (\1\:A VSS) capacitor c=5.56232e-17
+C8 (\1\:ISO VSS) capacitor c=1.01901e-16
+C9 (\4\:n0 VSS) capacitor c=2.87967e-17
+C10 (\4\:A VSS) capacitor c=3.31915e-17
+C11 (\3\:ISO VSS) capacitor c=2.27434e-17
+C12 (\3\:n0 VSS) capacitor c=4.06512e-17
+C13 (\4\:ison VSS) capacitor c=1.76333e-17
+C14 (\3\:A VSS) capacitor c=1.78489e-17
+C15 (\2\:ISO VSS) capacitor c=6.18108e-17
+C16 (\1\:Y VSS) capacitor c=3.26873e-17
+C17 (\1\:VDD VSS) capacitor c=1.01041e-16
+C18 (\12\:n0 VSS) capacitor c=2.97737e-17
+C19 (\10\:n0 VSS) capacitor c=3.05047e-17
+C20 (\5\:VDD VSS) capacitor c=5.32191e-17
+C21 (\9\:ison VSS) capacitor c=9.52239e-17
+C22 (\3\:Y VSS) capacitor c=4.19216e-17
+C23 (\5\:GatedVSS VSS) capacitor c=5.01261e-17
+C24 (\7\:n0 VSS) capacitor c=1.27014e-16
+C25 (\7\:ison VSS) capacitor c=1.68961e-16
+C26 (\2\:A VSS) capacitor c=6.72894e-17
+C27 (\2\:ison VSS) capacitor c=1.08794e-16
+C28 (\4\:ISO VSS) capacitor c=1.06917e-17
+C29 (\6\:A VSS) capacitor c=3.39841e-17
+C30 (\7\:A VSS) capacitor c=4.17123e-18
+C31 (\8\:A VSS) capacitor c=3.18264e-17
+C32 (\6\:ison VSS) capacitor c=1.18003e-16
+C33 (\5\:n0 VSS) capacitor c=4.33579e-17
+C34 (\6\:n0 VSS) capacitor c=1.068e-16
+C35 (\9\:n0 VSS) capacitor c=2.81039e-17
+C36 (\4\:VDD VSS) capacitor c=2.82328e-17
+Rk24 (\4\:VDD VDD) resistor r=0.03545 c=0
+Rk22 (\2\:VDD \4\:VDD) resistor r=0.636 c=0
+Rk23 (\4\:VDD \6\:VDD) resistor r=0.3106 c=0
+Rk2 (\4\:ISO ISO) resistor r=0.01055 c=0
+Rk1 (\4\:ISO \5\:ISO) resistor r=0.007408 c=0
+Rk25 (\2\:VSS VSS) resistor r=0.4966 c=0
+Rk26 (VSS \4\:VSS) resistor r=0.08066 c=0
+Rk27 (\4\:VSS \6\:VSS) resistor r=0.7732 c=0
+Rk28 (VSS \8\:VSS) resistor r=0.2298 c=0
+Rk20 (\2\:Y Y) resistor r=0.1256 c=0
+Rk21 (Y \4\:Y) resistor r=0.4017 c=0
+Rk5 (A \5\:A) resistor r=0.008776 c=0
+Rk6 (\6\:A \5\:A) resistor r=0.004301 c=0
+Rk7 (A \7\:A) resistor r=0.002581 c=0
+Rk8 (\6\:A \7\:A) resistor r=0.008776 c=0
+Rk9 (A \8\:A) resistor r=0.004301 c=0
+Rk10 (\7\:A \8\:A) resistor r=0.008562 c=0
+Rk11 (\6\:ison \8\:ison) resistor r=0.6586 c=0
+Rk12 (\8\:ison \10\:ison) resistor r=0.8928 c=0
+Rk14 (GatedVSS \6\:GatedVSS) resistor r=0.08877 c=0
+Rk15 (\5\:n0 \6\:n0) resistor r=0.2858 c=0
+Rk16 (\6\:n0 \8\:n0) resistor r=0.7154 c=0
+Rk17 (\6\:n0 \9\:n0) resistor r=0.3668 c=0
+Rk18 (\9\:n0 \11\:n0) resistor r=0.0272 c=0
+Rk19 (\9\:n0 \13\:n0) resistor r=0.03295 c=0
+Rl1 (\1\:ISO \2\:ISO) resistor r=377.693 c=0
+Rl2 (\2\:ISO \3\:ISO) resistor r=48.5227 c=0
+Rl3 (\1\:A \2\:A) resistor r=248.037 c=0
+Rl5 (\2\:A \4\:A) resistor r=117.068 c=0
+Rl4 (\2\:A \3\:A) resistor r=1.2666 c=0
+Rl6 (\2\:ison ison) resistor r=257.877 c=0
+Rl8 (\4\:ison \2\:ison) resistor r=77.0076 c=0
+Rl10 (n0 \2\:n0) resistor r=120.442 c=0
+Rl12 (\2\:n0 \4\:n0) resistor r=47.7469 c=0
+Rl11 (\2\:n0 \3\:n0) resistor r=0.6051 c=0
+Rz8 (\2\:VSS \1\:VSS) resistor r=37.5 c=0
+Rz9 (\6\:VSS \5\:VSS) resistor r=75 c=0
+Rz10 (\8\:VSS \7\:VSS) resistor r=75 c=0
+Rz6 (\3\:Y \4\:Y) resistor r=37.5 c=0
+Rz1 (\8\:ison \7\:ison) resistor r=75 c=0
+Rz4 (\6\:GatedVSS \5\:GatedVSS) resistor r=75 c=0
+Rz5 (\7\:n0 \8\:n0) resistor r=75 c=0
+Ry5 (\1\:VDD \2\:VDD) resistor r=20.6667 c=0
+Ry6 (\5\:VDD \6\:VDD) resistor r=62 c=0
+Ry4 (\1\:Y \2\:Y) resistor r=20.6667 c=0
+Ry1 (\10\:ison \9\:ison) resistor r=62 c=0
+Ry2 (\10\:n0 \11\:n0) resistor r=62 c=0
+Ry3 (\12\:n0 \13\:n0) resistor r=62 c=0
+Rx1 (\2\:ISO \5\:ISO) resistor r=45 c=0
+Rx2 (\3\:A \5\:A) resistor r=45 c=0
+Rx3 (\6\:ison \4\:ison) resistor r=45 c=0
+Rx4 (\3\:n0 \5\:n0) resistor r=45 c=0
+mn0 (\5\:GatedVSS \4\:A \7\:n0 VSS) g45n1svt w=(1.45e-07) l=4.5e-08 nf=1 \
+        as=2.03e-14 ad=2.03e-14 ps=5.7e-07 pd=5.7e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=1.4e-07 sd=160n sca=11.1906 \
+        scb=0.0108717 scc=0.000387468 m=(1)
+NM1 (\5\:VSS \3\:ISO \7\:ison VSS) g45n1svt w=(1.45e-07) l=4.5e-08 nf=1 \
+        as=2.03e-14 ad=2.03e-14 ps=5.7e-07 pd=5.7e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=1.4e-07 sd=160n sca=11.1906 \
+        scb=0.0108717 scc=0.000387468 m=(1)
+NM0 (\3\:Y \4\:n0 \1\:VSS VSS) g45n1svt w=(2.6e-07) l=4.5e-08 nf=1 \
+        as=3.64e-14 ad=3.64e-14 ps=8e-07 pd=8e-07 nrd=1.16667 nrs=1.16667 \
+        sa=1.4e-07 sb=1.4e-07 sd=160n sca=9.32128 scb=0.00786794 \
+        scc=0.000232361 m=(1)
+NM3 (GatedVSS \2\:ison \7\:VSS VSS) g45n1svt w=(2.6e-07) l=4.5e-08 nf=1 \
+        as=3.64e-14 ad=4.16e-14 ps=8e-07 pd=8.4e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=3.45e-07 sd=160n sca=9.32128 \
+        scb=0.00786794 scc=0.000232361 m=(2)
+PM0 (\1\:Y n0 \1\:VDD VDD) g45p1svt w=(3.9e-07) l=4.5e-08 nf=1 \
+        as=5.46e-14 ad=6.535e-14 ps=1.06e-06 pd=1.16e-06 nrd=1.16667 \
+        nrs=1.16667 sa=2.69551e-07 sb=1.4e-07 sd=160n sca=17.0626 \
+        scb=0.016739 scc=0.000580643 m=(1)
+ends LSHL_ISOL_X1_TO_ON
+// End of subcircuit definition.
+

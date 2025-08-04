@@ -1,0 +1,491 @@
+/************************************************************************
+* DISCLAIMER: The following code is provided for Cadence customers      *
+* to use at their own risk. The code may require modification to        *
+* satisfy the requirements of any user. The code and any modifications  *
+* to the code may not be compatible with current or future versions of  *
+* Cadence products. THE CODE IS PROVIDED "AS IS" AND WITH NO WARRANTIES,*
+* INCLUDING WITHOUT LIMITATION ANY EXPRESS WARRANTIES OR IMPLIED        *
+* WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR USE.        *
+*************************************************************************/
+
+;; Example SKILL to Create Metal Width Spacing Patterns for the Advanced
+;; Node GPDK 
+
+let((cv)
+   cv = geGetWindowCellView()
+   unless(cv
+      printf("VALE ERROR: Unable to find an active layout window to load WSPs ")
+      printf("into. Please locate or open a layout window and try again.\n")
+   )
+
+   when(cv
+
+      ;; Define Width Spacing Pattern Templates
+      ;;;;;;;;;;;
+      ;;;;; M1
+      ;;;;;;;;;;;
+
+      wspCreateWSP(cv "M1_w48_s48_template"
+         ?shiftColor t
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.048 0.096 "color:1"
+      )
+
+      wspCreateWSP(cv "M1_w48_s96_template"
+         ?shiftColor t
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.048 0.144 "color:1"
+      )
+     
+      wspCreateWSP(cv "M1_w48_s144_template"
+         ?shiftColor t
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.048 0.192 "color:1"
+      )
+     
+      wspCreateWSP(cv "M1_w48_s192_template"
+         ?shiftColor t
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.048 0.240 "color:1"
+      )
+    
+      wspCreateWSP(cv "M1_w36_w48_w52_template"
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.036 0.072 "color:2"
+         0.048 0.096 "color:1"
+         0.052 0.096 "color:2"
+         0.048 0.072 "color:1"
+      )
+
+      ;;;;;;;;;;;
+      ;;;;; M2
+      ;;;;;;;;;;;
+
+      wspCreateWSP(cv "M2_w32_s54_template"
+         ?shiftColor t
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.032 0.086 "color:1"
+      )
+
+      wspCreateWSP(cv "M2_w32_s58_template"
+         ?shiftColor t
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.032 0.090 "color:1" 
+      )
+
+      wspCreateWSP(cv "M2_w32_s62_template"
+         ?shiftColor t
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.032 0.094 "color:1"
+      )
+
+      wspCreateWSP(cv "M2_w32_s70_template"
+         ?shiftColor t
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.032 0.102 "color:1"
+      )
+
+      wspCreateWSP(cv "M2_w32_s72_template"
+         ?shiftColor t
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.032 0.104 "color:1" 
+      )
+      
+      wspCreateWSP(cv "M2_w36_s50_template"
+         ?shiftColor t
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.036 0.086 "color:1"
+      )
+
+      wspCreateWSP(cv "M2_w36_s54_template"
+         ?shiftColor t
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.036 0.090 "color:1" 
+      )
+
+      wspCreateWSP(cv "M2_w36_s58_template"
+         ?shiftColor t
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.036 0.094 "color:1"
+      )
+
+      wspCreateWSP(cv "M2_w36_s64_template"
+         ?shiftColor t
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.036 0.102 "color:1"
+      )
+
+      wspCreateWSP(cv "M2_w36_s66_template"
+         ?shiftColor t
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.036 0.104 "color:1"
+      )
+
+      wspCreateWSP(cv "M2_w48_s38_template"
+         ?shiftColor t
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.048 0.086 "color:1"
+      )
+    
+      wspCreateWSP(cv "M2_w48_s42_template"
+         ?shiftColor t
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.048 0.090 "color:1"
+      ) 
+      
+      wspCreateWSP(cv "M2_w48_s46_template"
+         ?shiftColor t
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.048 0.094 "color:1"
+      ) 
+ 
+      wspCreateWSP(cv "M2_w48_s54_template"
+         ?shiftColor t
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.048 0.102 "color:1"
+      )
+     
+      wspCreateWSP(cv "M2_w48_s56_template"
+         ?shiftColor t
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.048 0.104 "color:1"
+      )   
+
+      wspCreateWSP(cv "M2_w36_w48_w52_template"
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.036 0.086 "color:2"
+         0.048 0.094 "color:1"
+         0.052 0.094 "color:2"
+         0.048 0.086 "color:1"
+      )
+       
+      ;;;;;;;;;;;
+      ;;;;; M3
+      ;;;;;;;;;;;
+
+      wspCreateWSP(cv "M3_w48_s48_template"
+         ?shiftColor t
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.048 0.096 "color:1"
+      )
+
+      wspCreateWSP(cv "M3_w48_s96_template"
+         ?shiftColor t
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.048 0.144 "color:1"
+      )
+     
+      wspCreateWSP(cv "M3_w48_s144_template"
+         ?shiftColor t
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.048 0.192 "color:1"
+      )
+     
+      wspCreateWSP(cv "M3_w48_s192_template"
+         ?shiftColor t
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.048 0.240 "color:1"
+      )
+    
+      wspCreateWSP(cv "M3_w36_w48_w52_template"
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.036 0.096 "color:2"
+         0.048 0.144 "color:1"
+         0.052 0.144 "color:2"
+         0.048 0.096 "color:1"
+      )
+ 
+      ;;;;;;;;;;;
+      ;;;;; M4
+      ;;;;;;;;;;;
+      
+      wspCreateWSP(cv "M4_w32_s54_template"
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.032 0.086 
+      )
+
+      wspCreateWSP(cv "M4_w32_s58_template"
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.032 0.090 
+      )
+
+      wspCreateWSP(cv "M4_w32_s62_template"
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.032 0.094 
+      )
+
+      wspCreateWSP(cv "M4_w32_s70_template"
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.032 0.102 
+      )
+
+      wspCreateWSP(cv "M4_w32_s72_template"
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.032 0.104 
+      )
+      
+      wspCreateWSP(cv "M4_w36_s50_template"
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.036 0.086 
+      )
+    
+      wspCreateWSP(cv "M4_w48_s54_template"
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.048 0.102 
+      )
+     
+      wspCreateWSP(cv "M4_w48_s56_template"
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.048 0.104 
+      )  
+
+      wspCreateWSP(cv "M4_w48_s124_template"
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.048 0.172 
+      )
+
+      ;;;;;;;;;;;
+      ;;;;; M5
+      ;;;;;;;;;;;
+
+      wspCreateWSP(cv "M5_w58_s86_template"
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.058 0.144 
+      )
+
+      wspCreateWSP(cv "M5_w58_s134_template"
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.058 0.192 
+      )
+
+      wspCreateWSP(cv "M5_w90_s150_template"
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.09 0.240 
+      )
+
+      ;;;;;;;;;;;
+      ;;;;; M6
+      ;;;;;;;;;;;
+
+      wspCreateWSP(cv "M6_w58_s114_template"
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.058 0.172 
+      )
+
+      wspCreateWSP(cv "M6_w58_s20_template"
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.058 0.258 
+      )
+   
+      wspCreateWSP(cv "M6_w58_s122_template"
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.058 0.180 
+      )
+
+      wspCreateWSP(cv "M6_w58_s130_template"
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.058 0.188 
+      )
+
+      wspCreateWSP(cv "M6_w58_s146_template"
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.058 0.204 
+      )
+
+      wspCreateWSP(cv "M6_w58_s150_template"
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.058 0.208 
+      ) 
+      
+      ;;;;;;;;;;;
+      ;;;;; M7
+      ;;;;;;;;;;;
+
+      wspCreateWSP(cv "M7_w69_s123_template"
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.069 0.192 
+      )
+
+      wspCreateWSP(cv "M7_w69_s171_template"
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.069 0.240 
+      )
+
+      wspCreateWSP(cv "M7_w69_s219_template"
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.069 0.288 
+      )
+
+      ;;;;;;;;;;;
+      ;;;;; MT
+      ;;;;;;;;;;;
+
+      wspCreateWSP(cv "MT_w22_s21_template"
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.22 0.43 
+      ) 
+
+      wspCreateWSP(cv "MT_w22_s23_template"
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.22 0.45 
+      )
+
+      wspCreateWSP(cv "MT_w22_s25_template"
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.22 0.47 
+      ) 
+
+      wspCreateWSP(cv "MT_w22_s29_template"
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.22 0.51 
+      ) 
+
+      wspCreateWSP(cv "MT_w22_s30_template"
+         ?allowedRepeatMode "any"
+         ?defaultRepeatMode "stepped"
+         0.22 0.52 
+      ) 
+
+      ;; Define Width Spacing Pattern Regions
+      wspCreateWSSPDef(cv "M1_p96_w48_s48_region" "M1" "horizontal" 0.096
+         ?defaultActive "M1_w48_s48_template") 
+      wspCreateWSSPDef(cv "M1_p144_w48_s96_region" "M1" "horizontal" 0.144
+         ?defaultActive "M1_w48_s96_template") 
+      wspCreateWSSPDef(cv "M1_p192_w48_s144_region" "M1" "horizontal" 0.192
+         ?defaultActive "M1_w48_s144_template")
+      wspCreateWSSPDef(cv "M1_p240_w48_s192_region" "M1" "horizontal" 0.240
+         ?defaultActive "M1_w48_s192_template")
+      wspCreateWSSPDef(cv "M1_p336_w36w48w52_region" "M1" "horizontal" 0.336
+         ?defaultActive "M1_w36_w48_w52_template")
+
+      wspCreateWSSPDef(cv "M2_p086_region" "M2" "vertical" 0.086
+         ?defaultActive "M2_w32_s54_template" ?allowedPatterns list("M2_w32_s54_template" "M2_w36_s50_template" "M2_w48_s38_template") )
+      wspCreateWSSPDef(cv "M2_p090_region" "M2" "vertical" 0.090
+         ?defaultActive "M2_w32_s58_template" ?allowedPatterns list("M2_w32_s58_template" "M2_w36_s54_template" "M2_w48_s42_template") )
+      wspCreateWSSPDef(cv "M2_p094_region" "M2" "vertical" 0.094
+         ?defaultActive "M2_w32_s62_template" ?allowedPatterns list("M2_w32_s62_template" "M2_w36_s58_template" "M2_w48_s46_template") )
+      wspCreateWSSPDef(cv "M2_p102_region" "M2" "vertical" 0.102
+         ?defaultActive "M2_w32_s70_template" ?allowedPatterns list("M2_w32_s70_template" "M2_w36_s64_template" "M2_w48_s54_template") )
+      wspCreateWSSPDef(cv "M2_p104_region" "M2" "vertical" 0.104
+         ?defaultActive "M2_w32_s72_template" ?allowedPatterns list("M2_w32_s72_template" "M2_w36_s66_template" "M2_w48_s56_template") )
+      wspCreateWSSPDef(cv "M2_p360_w36w48w52_region" "M2" "vertical" 0.360
+         ?defaultActive "M2_w36_w48_w52_template")
+
+      wspCreateWSSPDef(cv "M3_p96_w48_s48_region" "M3" "horizontal" 0.096
+         ?defaultActive "M3_w48_s48_template")
+      wspCreateWSSPDef(cv "M3_p144_w48_s96_region" "M3" "horizontal" 0.144
+         ?defaultActive "M3_w48_s96_template")
+      wspCreateWSSPDef(cv "M3_p192_w48_s144_region" "M3" "horizontal" 0.192
+         ?defaultActive "M3_w48_s144_template")
+      wspCreateWSSPDef(cv "M3_p240_w48_s192_region" "M3" "horizontal" 0.240
+         ?defaultActive "M3_w48_s192_template")
+      wspCreateWSSPDef(cv "M3_p480_w36w48w52_region" "M3" "horizontal" 0.480
+         ?defaultActive "M3_w36_w48_w52_template")
+
+      wspCreateWSSPDef(cv "M4_p086_region" "M4" "vertical" 0.086
+         ?defaultActive "M4_w32_s54_template" ?allowedPatterns list("M4_w32_s54_template" "M4_w36_s50_template") )
+      wspCreateWSSPDef(cv "M4_p090_w32_s58_region" "M4" "vertical" 0.090
+         ?defaultActive "M4_w32_s58_template")
+      wspCreateWSSPDef(cv "M4_p094_w32_s62_region" "M4" "vertical" 0.094
+         ?defaultActive "M4_w32_s62_template")
+      wspCreateWSSPDef(cv "M4_p102_region" "M4" "vertical" 0.102
+         ?defaultActive "M4_w32_s70_template" ?allowedPatterns list("M4_w32_s70_template" "M4_w48_s54_template") )
+      wspCreateWSSPDef(cv "M4_p104_region" "M4" "vertical" 0.104
+         ?defaultActive "M4_w32_s72_template" ?allowedPatterns list("M4_w32_s72_template" "M4_w48_s56_template") )
+      wspCreateWSSPDef(cv "M4_p172_w48_s124_region" "M4" "vertical" 0.172
+         ?defaultActive "M4_w48_s124_template")
+
+      wspCreateWSSPDef(cv "M5_p144_w58_s68_region" "M5" "horizontal" 0.144
+         ?defaultActive "M5_w58_s86_template")
+      wspCreateWSSPDef(cv "M5_p192_w58_s134_region" "M5" "horizontal" 0.192
+         ?defaultActive "M5_w58_s134_template")
+      wspCreateWSSPDef(cv "M5_p240_w90_s150_region" "M5" "horizontal" 0.240
+         ?defaultActive "M5_w90_s150_template")
+
+      wspCreateWSSPDef(cv "M6_p172_w58_s114_region" "M6" "vertical" 0.172
+         ?defaultActive "M6_w58_s114_template")
+      wspCreateWSSPDef(cv "M6_p258_w58_s20_region" "M6" "vertical" 0.258
+         ?defaultActive "M6_w58_s20_template")
+      wspCreateWSSPDef(cv "M6_p180_w58_s122_region" "M6" "vertical" 0.180
+         ?defaultActive "M6_w58_s122_template")
+      wspCreateWSSPDef(cv "M6_p188_w58_s130_region" "M6" "vertical" 0.188
+         ?defaultActive "M6_w58_s130_template")
+      wspCreateWSSPDef(cv "M6_p208_w58_s146_region" "M6" "vertical" 0.204
+         ?defaultActive "M6_w58_s146_template")
+      wspCreateWSSPDef(cv "M6_p208_w58_s150_region" "M6" "vertical" 0.208
+         ?defaultActive "M6_w58_s150_template")
+
+      wspCreateWSSPDef(cv "M7_p192_w69_s123_region" "M7" "horizontal" 0.192
+         ?defaultActive "M7_w69_s123_template")
+      wspCreateWSSPDef(cv "M7_p240_w69_s171_region" "M7" "horizontal" 0.240
+         ?defaultActive "M7_w69_s171_template")
+      wspCreateWSSPDef(cv "M7_p288_w69_s219_region" "M7" "horizontal" 0.288
+         ?defaultActive "M7_w69_s219_template")
+     
+      wspCreateWSSPDef(cv "MT_p43_w22_s21_region" "MT" "vertical" 0.43
+         ?defaultActive "MT_w22_s21_template")
+      wspCreateWSSPDef(cv "MT_p45_w22_s23_region" "MT" "vertical" 0.45
+         ?defaultActive "MT_w22_s23_template")
+      wspCreateWSSPDef(cv "MT_p47_w22_s25_region" "MT" "vertical" 0.47
+         ?defaultActive "MT_w22_s25_template")
+      wspCreateWSSPDef(cv "MT_p51_w22_s29_region" "MT" "vertical" 0.51
+         ?defaultActive "MT_w22_s29_template") 
+      wspCreateWSSPDef(cv "MT_p52_w22_s30_region" "MT" "vertical" 0.52
+         ?defaultActive "MT_w22_s30_template") 
+
+   )
+)
+
+
+

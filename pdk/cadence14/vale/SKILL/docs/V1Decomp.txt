@@ -1,0 +1,13 @@
+VALE Framework Component Module:
+   xx Decomp 
+
+Description:
+   This Component Module runs the PDK decomposition deck and returns colored and locked shapes in the design. 
+
+Input Requirements:
+   An open cellview in Virtuoso Layout
+
+Development Notes:
+   All aspects of this Component Module were developed by Cadence.
+   Please contact Jonathan Fales for more information: jfales@cadence.com
+

@@ -1,0 +1,78 @@
+*SPEF "IEEE 1481-1999"
+*DESIGN  "ANTENNA"
+*DATE "Mon Sep 27 08:50:49 2010"
+*VENDOR "Cadence Design Systems"
+*PROGRAM "Assura RCX"
+*VERSION "3.2 Red Hat Linux release 7.2 (Enigma) - (09/09/2009-10:39)"
+*DESIGN_FLOW "Physical Verification"
+*DIVIDER /
+*DELIMITER :
+*BUS_DELIMITER []
+*T_UNIT 1 PS
+*C_UNIT 1e15 FF
+*R_UNIT 1 OHM
+*L_UNIT 1 MH
+// DeviceFingerDelim "@"
+// MATCHED
+// caps2d version: 10
+
+*NAME_MAP
+*1 D0
+*2 A
+*3 VSS
+*4 VDD
+*5 D1
+
+*GROUND_NETS VSS
+
+*PORTS
+*4 I
+*3 I
+*2 I
+
+*D_NET *4 9.59272e-18
+
+*CONN
+*P *4 I *C 0.1000 1.7100 
+*I *5:c B *C 0.3000 1.3250 
+
+*CAP
+0 *5:c 3.99973e-18
+1 *4 5.59299e-18
+
+*RES
+0 *4 *5:c 25.098169  // $metal1_conn
+
+*END
+
+*D_NET *3 0
+
+*CONN
+*P *3 I *C 0.1000 0.0000 
+*I *1:a B *C 0.3000 0.8800 
+
+
+*RES
+0 *3 *1:a 20.764835  // $metal1_conn
+
+*END
+
+*D_NET *2 2.64381e-17
+
+*CONN
+*P *2 I *C 0.3000 0.4750 
+*I *1:c B *C 0.3050 0.4250 
+*I *5:a B *C 0.3100 1.1750 
+*N *2:2 *C 0.3050 0.5250 
+
+*CAP
+0 *5:a 1.26925e-17
+1 *2 1.37455e-17
+
+*RES
+0 *2 *2:2 0.030125  // $metal1_conn
+1 *2:2 *5:a 20.987337  // $metal1_conn
+2 *1:c *2:2 37.5  // $metal1_conn
+
+*END
+

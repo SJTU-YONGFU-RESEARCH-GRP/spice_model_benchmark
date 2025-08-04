@@ -1,0 +1,47 @@
+// Generated for: spectre (Apr 19 14:31:05 2013 )
+// Library name: gsclib045_lvt
+// Cell name: TBUFX20
+// View name: schematic
+
+simulator lang=spectre
+
+subckt TBUFX20 A OE Y VSS VDD
+mp2 (non OEb net127 VDD) g45p1lvt w=(1.95u) l=45n nf=1 as=273f ad=273f \
+        ps=4.18u pd=4.18u nrd=71.7949m nrs=71.7949m sa=140n sb=140n \
+        sd=160n sca=57.40007 scb=0.05714 scc=0.00699 m=(1)
+mp1 (net127 A VDD VDD) g45p1lvt w=(1.95u) l=45n nf=1 as=273f ad=273f \
+        ps=4.18u pd=4.18u nrd=71.7949m nrs=71.7949m sa=140n sb=140n \
+        sd=160n sca=57.40007 scb=0.05714 scc=0.00699 m=(1)
+mp5 (Y pon VDD VDD) g45p1lvt w=(7.8u) l=45n nf=1 as=1.092p ad=1.092p \
+        ps=15.88u pd=15.88u nrd=17.9487m nrs=17.9487m sa=140n sb=140n \
+        sd=160n sca=45.05721 scb=0.05038 scc=0.00572 m=(1)
+mp3 (pon A VDD VDD) g45p1lvt w=(1.95u) l=45n nf=1 as=273f ad=273f \
+        ps=4.18u pd=4.18u nrd=71.7949m nrs=71.7949m sa=140n sb=140n \
+        sd=160n sca=57.40007 scb=0.05714 scc=0.00699 m=(1)
+mp4 (pon OE VDD VDD) g45p1lvt w=(1.95u) l=45n nf=1 as=273f ad=273f \
+        ps=4.18u pd=4.18u nrd=71.7949m nrs=71.7949m sa=140n sb=140n \
+        sd=160n sca=57.40007 scb=0.05714 scc=0.00699 m=(1)
+mp0 (OEb OE VDD VDD) g45p1lvt w=(780n) l=45n nf=1 as=109.2f ad=109.2f \
+        ps=1.84u pd=1.84u nrd=179.487m nrs=179.487m sa=140n sb=140n \
+        sd=160n sca=80.49887 scb=0.07059 scc=0.00954 m=(1)
+mn5 (Y non VSS VSS) g45n1lvt w=(5.2u) l=45n nf=1 as=728f ad=728f \
+        ps=10.68u pd=10.68u nrd=26.9231m nrs=26.9231m sa=140n sb=140n \
+        sd=160n sca=47.15346 scb=0.05151 scc=0.00593 m=(1)
+mn3 (net144 A VSS VSS) g45n1lvt w=(1.29u) l=45n nf=1 as=180.6f ad=180.6f \
+        ps=2.86u pd=2.86u nrd=108.527m nrs=108.527m sa=140n sb=140n \
+        sd=160n sca=65.50768 scb=0.06174 scc=0.00786 m=(1)
+mn0 (OEb OE VSS VSS) g45n1lvt w=(520n) l=45n nf=1 as=72.8f ad=72.8f \
+        ps=1.32u pd=1.32u nrd=269.231m nrs=269.231m sa=140n sb=140n \
+        sd=160n sca=98.28759 scb=0.08111 scc=0.01166 m=(1)
+mn4 (pon OE net144 VSS) g45n1lvt w=(1.29u) l=45n nf=1 as=180.6f ad=180.6f \
+        ps=2.86u pd=2.86u nrd=108.527m nrs=108.527m sa=140n sb=140n \
+        sd=160n sca=65.50768 scb=0.06174 scc=0.00786 m=(1)
+mn2 (non OEb VSS VSS) g45n1lvt w=(1.29u) l=45n nf=1 as=180.6f ad=180.6f \
+        ps=2.86u pd=2.86u nrd=108.527m nrs=108.527m sa=140n sb=140n \
+        sd=160n sca=65.50768 scb=0.06174 scc=0.00786 m=(1)
+mn1 (non A VSS VSS) g45n1lvt w=(1.29u) l=45n nf=1 as=180.6f ad=180.6f \
+        ps=2.86u pd=2.86u nrd=108.527m nrs=108.527m sa=140n sb=140n \
+        sd=160n sca=65.50768 scb=0.06174 scc=0.00786 m=(1)
+ends TBUFX20
+// End of subcircuit definition.
+

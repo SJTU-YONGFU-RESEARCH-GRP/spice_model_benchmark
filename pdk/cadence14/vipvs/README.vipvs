@@ -1,0 +1,41 @@
+GPDK "vipvs" directory contents:
+
+cdsinitVIPVS.il
+
+   Virtuoso .cdsinit load file for enabling VIPVS (GPDK_INSTALL_DIR must be
+   set):
+   load(strcat(getShellEnvVar("GPDK_INSTALL_DIR") "/vipvs/cdsinitVIPVS.il"))
+
+   Contains common VIPVS configuration features.
+
+createShapshot.csh
+
+   Example script for creating Snapshots from the presets below. PVS must be 
+   in the path.  For the Snapshots released in this version, PVS 16.12.000
+   was used.
+ 
+DRC_GPDK_v1p0.vipvs_preset
+FEOL_GPDK_v1p0.vipvs_preset
+BEOL_GPDK_v1p0.vipvs_preset
+CutMx_GPDK_v1p0.vipvs_preset
+ViaColorConflict_GPDK_v1p0.vipvs_preset
+
+   Preset files for the VIPVS Toolbar.
+
+   These originally generated from the VIPVS toolbar, then modified to be input
+   to the createSnapshot.csh script above.  To generated a new file, use the 
+   VIPVS toolbar settings menu.  Fill-in all the fields, and then do a
+   File->Save Preset.  Use a text editor to make any changes.
+
+Snapshots/
+<preset name>.cap
+<preset name>.layermap
+<preset name>.objectmap
+<preset name>.preset
+<preset name>.snp
+<preset name>.sum
+<preset name>.tag
+...
+
+   Generated files required for a VIPVS Snapshot, with PVS 16.12.000.
+

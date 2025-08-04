@@ -1,0 +1,206 @@
+
+                   GSCLIB045 Release Note
+	           ======================
+		   
+I. Revision and changed items:
+
+   gsclib045_v4.4  (Date: 2014-Sep-29)
+   ---------------------------------------------------------------------------------------------------------------------
+    Updated Items                             |  Description
+   ---------------------------------------------------------------------------------------------------------------------
+    gsclib045/oa22/gsclib045/DECAP2~10        | Added new 9 cells: DECAP2, DECAP3, DECAP4, .... DECAP9, DECAP10
+             /{spectre,cdl,gds,lef,timing,    | Generated the associated files to those 9 cells.
+	       verilog}                       |
+   ---------------------------------------------------------------------------------------------------------------------
+    Note: Two datasets: (a) gsclib045_svt_v4.4.tgz (Small set with standard Vt and gsclib045_tech)
+                        (b) gsclib045_all_v4.4.tgz (Complete set with svt, lvt, hvt, and _tech)
+      
+
+   gsclib045_v4.3  (Date: 2014-Jul-07)
+   ---------------------------------------------------------------------------------------------------------------------
+    Updated Items                             |  Description
+   ---------------------------------------------------------------------------------------------------------------------
+    gsclib045_svt_v4.3.tgz                    | Small dataset with: gsclib045 (SVT) and gsclib045_tech
+    gsclib045_all_v4.3.tgz                    | Full  dataset with: gsclib045, _tech, _backbias, _lvt, _hvt
+   ---------------------------------------------------------------------------------------------------------------------
+    Note: Repackage the database into two datasets 
+   
+ 
+   gsclib045_v4.2_20140623  (Date: 2014-Jun-23)
+   ---------------------------------------------------------------------------------------------------------------------
+    Updated Items                             |  Description
+   ---------------------------------------------------------------------------------------------------------------------
+   1. doc/GSCLIB045_user_guide.pdf            | User guide document
+   2. cds.lib                                 | Plain library definition without the 'COMBINE' structure. 
+   ---------------------------------------------------------------------------------------------------------------------
+   Important Note: The compress tar file of GSCLIB045 database is re-arranged into 5 tar files as following:
+                     1. gsclib045_v4.2_20140623_tech.tgz 
+		     2. gsclib045_v4.2_20140623_svt.tgz
+		     3. gsclib045_v4.2_20140623_lvt.tgz
+		     4. gsclib045_v4.2_20140623_hvt.tgz
+ 		     5. gsclib045_v4.2_20140623_backbias.tgz
+ 		   User should overlay obove tar file as needed; and the 'gsclib045_v4.2_20140623' folder will 
+		   be created.
+ 
+ 
+   gsclib045_v4.1 (Date: 2014-Feb-27)
+   ---------------------------------------------------------------------------------------------------------------------
+    Updated Items                             |  Description
+   ---------------------------------------------------------------------------------------------------------------------
+   1. lef/{gsclib045_macro.lef,               | Corrected "SITE" value to 'coreSite' (from 'coreSiteDouble') in these 
+           gsclib045_lvt_macro.lef,           | 10 cells: BUFX2*,DFFNSRX1*,DFFQX1*,DFFRX1*,DFFSRX1*,DFFSX1*,DFFX1*,    
+           gsclib045_hvt_macro.lef}           |           INVX1*,TLATSRX1*,TLATX1*.
+   2. gsclib045/*/abstract                    | Corrected SiteDef value to 'coreSite' in 10 cells above.
+   3. gsclib045/*/layout                      | Corrected terminal name inconsistency between layout and abstract view
+                                              | in these cells: ISOHX1_ON, LSHL_ISOL_X1_TO_ON, ISOHLDX1_ON,
+                                              | LSHL_ISONL_X1_TO_ON, LSHL_ISOH_X1_TO_ON, LSHL_ISONH_X1_TO_ON, LSHLX1_TO,
+					      | ISONLX1_ON, SPDFF2RX1, SPDFF4RX1.
+   ---------------------------------------------------------------------------------------------------------------------
+
+                                                  		   
+   gsclib045_v4.0 (Date: 2013-May-14)
+   ---------------------------------------------------------------------------------------------------------------------
+    Updated Items                             |  Description
+   ---------------------------------------------------------------------------------------------------------------------
+   1. oa22/gsclib045_tech                     | New derived ITDB library (needs 'gpdk045' as the baseline)
+   2. oa22/gsclib045_hvt                      | New standard cell library with high Vt devices
+   3. oa22/gsclib045_lvt                      | New standard cell library with low Vt devices
+   4. oa22/gsclib045_backbias                 | New standard cell library with back-bias to PMOS devices
+   5. oa22/gsclib045                          | Standard cell library with standard Vt devices
+      oa22/gsclib045/<cell>/layout            | Use a template cell: gsclib045_tech/cellTmpl/layout
+      oa22/gsclib045/<cell>/extracted         | The extracted view (from PVS-QRC)
+   6. oa22/gsclib045/MultiBits.Cat            | Added 16 multi-bits-DFF cells
+   7. spectre/<libName>/<cell>.scs            | Spectre netlist from the 'schematic' view
+      spectre/<libName>_extracted/<cell>.scs  | Spectre netlist from the 'extracted' view
+   8. cdl/<libName>.cdl                       | CDL netlist with power/ground pins (A single file with all cells)
+   9. timing/<corner>_<supplyV>_<libName>.lib | New Liberty timing file characterized from Altos Liberate
+  10. verilog/<corner>_<supplyV>_<libName>.v  | New Verilog file (from Altos Liberate )
+  11. lef/<libName>_macro.lef                 | Macro LEF file (from the 'abstract' view)
+      lef/gsclib045_tech.lef                  | A common technology LEF from 'gsclib045_tech' library
+  12. gds/<libName>.gds                       | The GDS data (from the 'layout' view)
+  13. dspf/<libName>/<cellName>.dspf          | The Detail Standard Parasitic Format file from PVS-QRC
+  ---------------------------------------------------------------------------------------------------------------------
+   Important: The GPDK used for generating above data: gpdk045_preRel_15DEC11 (+ local modification to models and pvs decks)
+   
+
+   gsclib045_v3.8 (Date: 2012-Nov-02)
+   ---------------------------------------------------------------------------------------------------------------------
+    Updated Items                             |  Description
+   ---------------------------------------------------------------------------------------------------------------------
+   1. gsclib045/<cell>/functional/netlist.oa  | The functional/netlist.oa file is needed by OSS netlister (Updated on 9/13/2011)
+   2. gsclib045/LPCells.Cat                   | Added a new category "LPCats" for Virtuoso Library Manager
+   3. gsclib045/<LP_cellName>/{abstract,      | Added 71 new standard cells for Low-Power functionality.
+      functional,layout,schematic,symbol}     | Those LP cells are catergorized into these groups (ref: LPCells.Cat): 
+					      | ALWAYSON, FSW, HSW, ISO, LS, RDFF, RTLAT, SRDFF
+   4. gsclib045/timing/slow_vdd*_extvdd*.lib  | Added 4 new liberty files for LP cells.
+   			 
+
+   gsclib045_v3.7 (Date: 2011-July-21)
+   ---------------------------------------------------------------------------------------------------------------------
+    Updated Items                       |  Description
+   ---------------------------------------------------------------------------------------------------------------------
+   1. cdl/<stdCellName>.cdl             | CDL netlist for a single cell
+   2. cdl/gsclib045_allCells.cdl        | A single CDL file for all cells
+   3. spectre/gsclib045_extracted.scs   | Recreated due to Spectre model name changed
+   4. spectre/gsclib045_schematic.scs   | Recreated due to Spectre model name changed
+   5. Pre-req PDK: gpdk045_v3_5         | GPDK045 released in July-2011.
+
+
+   gsclib045_v3.6 (Date: 2011-Apr-13)
+   ---------------------------------------------------------------------------------------------------------------------
+    Updated Items              |  Description
+   ---------------------------------------------------------------------------------------------------------------------
+   1. gds/<cellName>.gds       | Recreated GDS due to 'layout' changed in v3.4 & v3.5
+   2. lef/gsclib045_macro.lef  | (Same reason as above).
+
+
+   gsclib045_v3.5 (Date: 2011-Jan-28)
+   ---------------------------------------------------------------------------------------------------------------------
+    Updated Items              |  Description
+   ---------------------------------------------------------------------------------------------------------------------
+   1.gsclib045/*/functional    | Created 'functional' view from 'slow.v' file.
+   2.gsclib045/OAI22X1/layout  | Corrected Metal1 to fully cover the Y pin.
+
+
+   gsclib045_v3.4 (Date: 2010-Dec-09)
+   ---------------------------------------------------------------------------------------------------------------------
+    Updated Items          |  Description
+   ---------------------------------------------------------------------------------------------------------------------
+   1.gsclib045/*/layout    | For complying with PVS-ERC/LVS:
+                           | (a) Corrected pin label-origin to be inside of pin
+      			   | (b) Corrected pin label to LPP 'Metal1.dra'
+	
+   gsclib045_v3.3 (Date: 2010-Sep-27)
+   ---------------------------------------------------------------------------------------------------------------------
+    Updated Items          |  Description
+   ---------------------------------------------------------------------------------------------------------------------
+   1. gsclib045/*/layout   | Metal1 End-of-line (EOL) complied
+   2. gsclib045/*/abstract | New abstract view with Antenna info included
+   3. gsclib045_macro.lef  | New LEF based on the abstract view
+   4. gds/<cellName>.gds   | GDS data of each standard cell.
+   5. dspf/<cellName>.dspf | DSPF file
+   6. spef/<cellName>.spef | SPEF file
+
+	   
+   gsclib045_v3.2 (Date: 2010-May-20)
+   ---------------------------------------------------------------------------------------------------------------------
+    Updated Items          |  Description
+   ---------------------------------------------------------------------------------------------------------------------
+   1. gsclib045/*/abstract | New abstract with terminals and blockage  
+                           | polygons that work with Virtuoso router.
+   2. CLKINVX1/layout      | Enlarged the cell width for eleminate DRC spacing  
+                           | error (Oxide to PRboundary >= 0.04u).
+   3. gsclib045_macro.lef  | New macro lef base on new abstract views.
+   4. celtic/*             | Preliminary Celtic data
+   5. qrc/*                | Preliminary QRC data
+
+		 		 
+   gsclib045_v3.1 (Date: 2010-Apr-01)
+   ---------------------------------------------------------------------------------------------------------------------
+    Updated Items          |  Description
+   ---------------------------------------------------------------------------------------------------------------------
+   1. Thumbnail image      | Generated the 'thumbnail_128x128.png' image to all 
+                           | views in each cell. The image is visible on the
+                           | IC61x library manager.
+   2. Layout view update	| Manually optimized the layout view of cells that
+                           | utilyzed in PLL design. The updated cell list is 
+   			   | in 'gsclib045_update_31.htm' file.
+    --------------------------------------------------------------------------------------------------------------------
+  
+
+II. Recommended Directory Structure and Standard Cell Library Location:
+
+   <Project Root directory = $PROJECT>
+    |
+    |-- TECH                   (PDK Technology)
+    |   |-- GPDK045            
+    |       |-- gpdk045        (A symbolic link to specific PDK version )
+    |       |-- gpdk045_v_3_5  (A specific PDK version <=> ***Result of unpacking the PDK tarball***)
+    |
+    |-- LIBS                   (Standard cell library database)
+    |   |-- GPDK045            
+    |       |-- gsclib045      (A symbolic link to a specific version, Eg: gsclib045_v4.1 )
+    |       |-- gsclib045_v4.1 (A specific std.Cell database version <=> ***Result of unpacking std.Cell tarball***)
+    |
+    |-- DESIGNS                (Design databases that are subject to PDK dependence )
+    |   |-- GPDK045
+    |       |--<FRACNPLL>      (Eg: An IC design called "FRACNPLL" )
+    |           |-- cds.lib
+    |           |-- docs
+    |           |-- digital
+    |           |-- oa
+    |               |-- zambezi45     (Virtuoso design library)
+    |               |-- zambezi45_sim (Virtuoso test-bench library)
+    |
+    |-- WORK                  (Work-space or Work-area)
+    |   |-- <zambezi45>       (Eg: A work-space for 'zambezi45' design <=> A dedicated area for launching design tool/s)
+    |        |-- Makefile
+    |        |-- project.cshrc
+    |        |-- .cdsinit
+    |        |-- cds.lib
+    |  
+    |-- <bin>
+    |-- <etc>
+    |-- <doc>
+    |-- <setup>
+----------------------------------- End Of File -----------------------------------------------------------------------

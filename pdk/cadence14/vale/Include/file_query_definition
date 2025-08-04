@@ -1,0 +1,64 @@
+##########################################################################################################
+#                                                                                                        #
+#  Procedure to get the information required for setting up the commands for getting tool version:       #
+#                                                                                                        #
+#  Get the search and replace string :                                                                   #
+#  1. Execute the shell command(to get tool version info) in CIW using ipcBeginProcess and save the      #
+#     ipcid.                                                                                             #
+#     ipcid=ipcBeginProcess("pvs --version")                                                             #
+#  2. Wait till the above command is exec'ed. For waiting enter the below command in CIW:                #
+#     ipcWait(ipcid)                                                                                     #
+#  3. Read the output of the command using ipcReadProcess and save into a variable called ipcout.        #
+#     ipcout=ipcReadProcess(ipcid)                                                                       #
+#  4. If observed the ipcout variable value it shows complete version output in a single line            #
+#     with \n newline character. In order to get the version information from the ipcout variable        #
+#     we need to search the pattern and substitue the complete string in such a way that only the        #
+#     version information should be outputted.                                                           #
+#     For example in below search pattern I am saving the pvs version information in register            #
+#     one i.e. \1 by including the version pattern in between the first \( and \). The information       #
+#     stored in the \1 register can be later used to get the version info.                               #
+#     Use below command to compile the search pattern:                                                   #
+#        rexCompile("^.*\nVersion[ \t]*: \([^\n]+\)")                                                    #
+#     Execute the above compiled pattern for ipcout variable to match the pattern. If the result is      #
+#     nil then there is some issue with the pattern entered in above rexCompile command. Please review   #
+#     and correct the expression.                                                                        #
+#        rexExecute(ipcout)                                                                              #
+#     If above command results t then substitute entire ipcout string with the version information       #
+#     saved in register \1 using below command. Basically below command show the version information     #
+#        rexSubstitute("\1")                                                                             #
+#                                                                                                        #
+#  After getting the search and replace string, enter below values in this file:                         #
+#     Tool Name : Give the name using which you want to search the tool version.                         #
+#     Tool Version Command : Give the version command specfied with ipcBeginProcess command above.       #
+#     Tool Version search string : Enter the exact pattern given with rexCompile command above.          #
+#     Tool Version replace string : Enter the exact pattern given with rexSubstiture command above.      #
+#                                                                                                        #
+#  Example below:                                                                                        #
+#                                                                                                        #
+#  Tool Name : PVS                                                                                       #
+#  Tool Version Command : pvs --version                                                                  #
+#  Tool Version search string : ^.*\nVersion[ \t]*: \([^\n]+\)                                           #
+#  Tool Version replace string : \1                                                                      #
+#                                                                                                        #
+##########################################################################################################
+
+Tool Name : PEGASUS
+Tool Version Command : pegasus --version
+Tool Version search string : ^.*\nVersion[ \t]*: \([^\n]+\)
+Tool Version replace string : \1
+
+Tool Name : ECLAIR interactCLI
+Tool Version Command : eclair interactCLI --version
+Tool Version search string : ^.*[ \t]*version[ \t]*\([^ \t]+\)
+Tool Version replace string : \1
+
+Tool Name : LPA
+Tool Version Command : lpa -version
+Tool Version search string : ^Version[ \t]*: \([^\n]+\)
+Tool Version replace string : \1
+Tool Version read position : 4 
+
+Tool Name : EXT
+Tool Version Command : qrc --version
+Tool Version search string : ^.*\nVersion[ \t]*: \([^\n]+\)
+Tool Version replace string : \1

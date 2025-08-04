@@ -1,0 +1,90 @@
+// Generated for: spectre (May  1 11:31:54 2013 )
+// Library name: gsclib045_backbias
+// Cell name: OR2X8
+// View name: extracted
+
+simulator lang=spectre
+
+subckt OR2X8 A B NW VDD VSS Y
+mp0_1__rcx (2 \1\:A \13\:VDD NW) g45p1svt w=(3.9e-07) l=4.5e-08 nf=1 \
+        as=5.46e-14 ad=3.51e-14 ps=1.06e-06 pd=9.6e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=2e-06 sd=160n sca=18.0856 scb=0.0187649 \
+        scc=0.00060075 m=(1)
+mp1_1__rcx (\30\:n0 \5\:B 2 NW) g45p1svt w=(3.9e-07) l=4.5e-08 nf=1 \
+        as=3.51e-14 ad=6.24e-14 ps=9.6e-07 pd=1.1e-06 nrd=1.16667 \
+        nrs=1.16667 sa=2.75e-07 sb=1.955e-06 sd=160n sca=15.1734 \
+        scb=0.013698 scc=0.000458097 m=(1)
+mp1 (\30\:n0 \1\:B 5 NW) g45p1svt w=(3.9e-07) l=4.5e-08 nf=1 as=2.34e-14 \
+        ad=6.24e-14 ps=9e-07 pd=1.1e-06 nrd=1.16667 nrs=1.16667 sa=4.8e-07 \
+        sb=1.75e-06 sd=160n sca=13.4386 scb=0.0114697 scc=0.000444227 \
+        m=(1)
+mp0 (5 \6\:A \1\:VDD NW) g45p1svt w=(3.9e-07) l=4.5e-08 nf=1 as=9.57e-14 \
+        ad=2.34e-14 ps=1.36e-06 pd=9e-07 nrd=1.16667 nrs=1.16667 \
+        sa=5.85e-07 sb=1.645e-06 sd=160n sca=12.9998 scb=0.0111784 \
+        scc=0.000443945 m=(1)
+C1 (NW VSS) capacitor c=3.42298e-16
+C2 (A VSS) capacitor c=2.4612e-17
+C3 (Y VSS) capacitor c=1.97285e-17
+C4 (VDD VSS) capacitor c=2.87863e-17
+C5 (B VSS) capacitor c=3.56816e-17
+C6 (n0 VSS) capacitor c=6.31404e-16
+C7 (2 VSS) capacitor c=1.2068e-18
+C8 (5 VSS) capacitor c=1.33304e-18
+C9 (\6\:A VSS) capacitor c=8.68428e-17
+C10 (\1\:B VSS) capacitor c=7.69941e-17
+C11 (\5\:B VSS) capacitor c=4.23158e-17
+C12 (\1\:A VSS) capacitor c=5.95434e-17
+C13 (\2\:B VSS) capacitor c=2.91966e-17
+C14 (\2\:A VSS) capacitor c=3.58986e-16
+C15 (\1\:Y VSS) capacitor c=4.22009e-16
+C16 (\1\:VDD VSS) capacitor c=5.19337e-16
+C17 (\30\:n0 VSS) capacitor c=9.40942e-17
+C18 (\13\:VDD VSS) capacitor c=4.60997e-17
+C19 (\3\:B VSS) capacitor c=9.77709e-17
+C20 (\7\:B VSS) capacitor c=3.61177e-17
+C21 (\26\:n0 VSS) capacitor c=1.20283e-16
+C22 (\27\:n0 VSS) capacitor c=2.34589e-16
+C23 (\4\:Y VSS) capacitor c=4.37485e-16
+C24 (\6\:VDD VSS) capacitor c=4.15213e-17
+Rk35 (\2\:VSS VSS) resistor r=0.1605 c=0
+Rk47 (VSS \20\:VSS) resistor r=0.3178 c=0
+Rk3 (\2\:A A) resistor r=0.01429 c=0
+Rk25 (\4\:Y Y) resistor r=0.05758 c=0
+Rk12 (\1\:Y \4\:Y) resistor r=0.1288 c=0
+Rk30 (\6\:VDD VDD) resistor r=0.06483 c=0
+Rk29 (\1\:VDD \6\:VDD) resistor r=0.326 c=0
+Rk34 (\6\:VDD \14\:VDD) resistor r=0.3009 c=0
+Rk1 (B \7\:B) resistor r=0.04793 c=0
+Rk6 (n0 \26\:n0) resistor r=0.2362 c=0
+Rk7 (\26\:n0 \27\:n0) resistor r=0.3069 c=0
+Rk9 (\26\:n0 \31\:n0) resistor r=0.6715 c=0
+Rl9 (\2\:A \6\:A) resistor r=76.0989 c=0
+Rl1 (\2\:A \1\:A) resistor r=86.5157 c=0
+Rl3 (\2\:B \1\:B) resistor r=77.4283 c=0
+Rl6 (\2\:B \5\:B) resistor r=21.9171 c=0
+Rl4 (\3\:B \2\:B) resistor r=54.2909 c=0
+Rz12 (\20\:VSS \19\:VSS) resistor r=37.5 c=0
+Ry12 (VSS \1\:VSS) resistor r=5.1667 c=0
+Ry11 (\2\:VSS \1\:VSS) resistor r=62 c=0
+Ry10 (\14\:VDD \13\:VDD) resistor r=20.6667 c=0
+Ry1 (\31\:n0 \30\:n0) resistor r=31 c=0
+Rx1 (\7\:B \2\:B) resistor r=45 c=0
+mn0_1__rcx (\27\:n0 \2\:A VSS VSS) g45n1svt w=(2.6e-07) l=4.5e-08 nf=1 \
+        as=4.295e-14 ad=4.355e-14 ps=8.75e-07 pd=8.55e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=2e-06 sd=160n sca=12.8392 scb=0.0126987 \
+        scc=0.00074151 m=(2)
+mn1_1__rcx (\27\:n0 \3\:B \19\:VSS VSS) g45n1svt w=(2.6e-07) l=4.5e-08 \
+        nf=1 as=4.16e-14 ad=4.355e-14 ps=8.4e-07 pd=8.55e-07 nrd=1.16667 \
+        nrs=1.16667 sa=3.6e-07 sb=2e-06 sd=160n sca=12.8392 scb=0.0126987 \
+        scc=0.00074151 m=(2)
+mn2_1__rcx (\4\:Y n0 VSS VSS) g45n1svt w=(3e-07) l=4.5e-08 nf=1 \
+        as=4.821e-14 ad=4.714e-14 ps=9.2429e-07 pd=9.1429e-07 nrd=1.16667 \
+        nrs=1.16667 sa=8.71333e-07 sb=1.37e-06 sd=160n sca=15.1988 \
+        scb=0.0148036 scc=0.00121652 m=(7)
+mp2_1__rcx (\1\:Y n0 \1\:VDD NW) g45p1svt w=(4.5e-07) l=4.5e-08 nf=1 \
+        as=7.539e-14 ad=7.071e-14 ps=1.24e-06 pd=1.21429e-06 nrd=1.16667 \
+        nrs=1.16667 sa=7.58667e-07 sb=1.37e-06 sd=160n sca=15.101 \
+        scb=0.013378 scc=0.000967521 m=(7)
+ends OR2X8
+// End of subcircuit definition.
+

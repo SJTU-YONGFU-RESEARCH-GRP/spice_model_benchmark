@@ -1,0 +1,28 @@
+`include "discipline.h"
+`include "constants.h"
+
+ module res_va(plus,minus);
+   inout plus, minus;
+   electrical plus,minus,vpm;
+//  node(V,I) plus,minus;
+    real tempC,tfac,ReffV,Reff;
+    parameter real r=1;
+    parameter real w=1u;
+    parameter real l=1u;
+    parameter real dl=0.0u;
+    parameter real dw=0.0u;
+    parameter real tc1=0;
+    parameter real tc2=0;
+    parameter real vc1=0;
+    parameter real vc2=0;
+
+    analog begin
+
+    tempC = ($temperature-273.15)-25;
+
+    tfac=1+(tc1*tempC)+(tc2*tempC*tempC);
+    V(vpm) <+ V(plus, minus);
+    Reff=(r*(l-dl)/(w-dw))*(1+(vc1*abs(V(vpm)))+(vc2*V(vpm)*V(vpm)))*tfac;
+    V(plus,minus) <+ Reff*I(plus,minus)+ white_noise(4*`P_K * $temperature*Reff, "Thermal resistor noise");
+    end
+ endmodule

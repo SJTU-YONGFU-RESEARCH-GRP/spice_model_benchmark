@@ -1,0 +1,36 @@
+// Generated for: spectre (May  1 11:28:24 2013 )
+// Library name: gsclib045_backbias
+// Cell name: CLKINVX3
+// View name: extracted
+
+simulator lang=spectre
+
+subckt CLKINVX3 A NW VDD VSS Y
+mp0 (\1\:Y \1\:A \1\:VDD NW) g45p1svt w=(3.9e-07) l=4.5e-08 nf=1 \
+        as=5.98e-14 ad=5.98e-14 ps=1.08667e-06 pd=1.08667e-06 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=5.5e-07 sd=160n sca=36.7233 \
+        scb=0.0278991 scc=0.00349312 m=(3)
+C1 (A VSS) capacitor c=2.33216e-17
+C2 (VDD VSS) capacitor c=2.92231e-17
+C3 (NW VSS) capacitor c=1.54069e-16
+C4 (Y VSS) capacitor c=1.25926e-17
+C5 (\1\:A VSS) capacitor c=1.47104e-16
+C6 (\6\:A VSS) capacitor c=1.12727e-17
+C7 (\1\:Y VSS) capacitor c=1.20601e-16
+C8 (\1\:VDD VSS) capacitor c=2.19652e-16
+C9 (\4\:Y VSS) capacitor c=6.77057e-17
+C10 (\12\:A VSS) capacitor c=8.0783e-17
+Rk12 (\1\:VSS VSS) resistor r=0.06971 c=0
+Rk1 (A \12\:A) resistor r=0.05007 c=0
+Rk8 (\1\:VDD VDD) resistor r=0.06971 c=0
+Rk3 (\1\:Y Y) resistor r=0.02731 c=0
+Rk4 (Y \4\:Y) resistor r=0.1524 c=0
+Rl5 (\1\:A \6\:A) resistor r=4.3693 c=0
+Rx1 (\12\:A \6\:A) resistor r=45 c=0
+mn0 (\4\:Y \1\:A \1\:VSS VSS) g45n1svt w=(2.6e-07) l=4.5e-08 nf=1 \
+        as=3.987e-14 ad=3.987e-14 ps=8.2667e-07 pd=8.2667e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=5.5e-07 sd=160n sca=17.5885 \
+        scb=0.0172826 scc=0.00162584 m=(3)
+ends CLKINVX3
+// End of subcircuit definition.
+

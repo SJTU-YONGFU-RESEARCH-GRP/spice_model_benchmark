@@ -1,0 +1,18 @@
+VALE Framework Component Module:
+--------------------------------
+   Insert Missing Vias
+
+Description:
+------------
+   When a net crosses itself without a via, this Component Module adds a via
+according to the pattern specification in the Include directory.
+
+Input Requirements:
+-------------------
+   1. An open layout cellview
+
+Development Notes:
+------------------
+   All aspects of this Component Module were developed by Cadence.
+   Please contact Jonathan Fales for more information: jfales@cadence.com
+

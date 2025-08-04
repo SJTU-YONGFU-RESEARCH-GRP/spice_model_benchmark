@@ -1,0 +1,7 @@
+TDMCHECKPOINT="1.0"
+keepEmptyCategory type="unknown"
+analog/pcapacitor type="cell"
+analog/pdiode type="cell"
+analog/pinductor type="cell"
+analog/pmind type="cell"
+analog/presistor type="cell"

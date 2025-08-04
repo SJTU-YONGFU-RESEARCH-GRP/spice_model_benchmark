@@ -1,0 +1,76 @@
+#########################################################################################
+# SAED 32/28NM parameter visibility script												#
+#																						#
+# Revision History:																		#
+# Rev.		date			what				who										#
+# -------------------------------------------------------------------------------------	#	
+# 1.0		20/03/2014		(First draft)		edbab									#
+# 1.0		20/04/2016		LPE Auto Setup		edbab									#
+#########################################################################################
+
+
+source [oa::getPath [oa::LibFind SAED_PDK_32_28]]/pdk_version.tcl
+source [oa::getPath [oa::LibFind SAED_PDK_32_28]]/../scripts/callbacks/saed32_abut.tcl
+source [oa::getPath [oa::LibFind SAED_PDK_32_28]]/../scripts/callbacks/saed32_common.tcl
+source [oa::getPath [oa::LibFind SAED_PDK_32_28]]/../scripts/callbacks/mos_cbk.tcl
+source [oa::getPath [oa::LibFind SAED_PDK_32_28]]/../scripts/callbacks/AbutContact.tcl
+source [oa::getPath [oa::LibFind SAED_PDK_32_28]]/../scripts/callbacks/ArrayInstContact.tcl
+source [oa::getPath [oa::LibFind SAED_PDK_32_28]]/../scripts/callbacks/Contact.tcl
+source [oa::getPath [oa::LibFind SAED_PDK_32_28]]/../scripts/callbacks/Resistor.tcl
+source [oa::getPath [oa::LibFind SAED_PDK_32_28]]/../scripts/callbacks/ND.tcl
+source [oa::getPath [oa::LibFind SAED_PDK_32_28]]/../scripts/callbacks/PD.tcl
+source [oa::getPath [oa::LibFind SAED_PDK_32_28]]/../scripts/callbacks/VNPN.tcl
+source [oa::getPath [oa::LibFind SAED_PDK_32_28]]/../scripts/callbacks/VPNP.tcl
+source [oa::getPath [oa::LibFind SAED_PDK_32_28]]/../scripts/callbacks/Rndiff.tcl
+source [oa::getPath [oa::LibFind SAED_PDK_32_28]]/../scripts/callbacks/BandGap.tcl
+source [oa::getPath [oa::LibFind SAED_PDK_32_28]]/../scripts/callbacks/Ccap.tcl
+
+source [oa::getPath [oa::LibFind SAED_PDK_32_28]]/../scripts/common/saed32_parameter_visibility.tcl
+
+dr::loadDisplayResources -filePath [oa::getPath [oa::LibFind SAED_PDK_32_28]]/display.drf -format drf
+
+
+
+printPDKVersion
+
+#source nano-time/scripts/cdesigner/cd/startup.tcl
+
+set map_file [oa::getPath [oa::LibFind SAED_PDK_32_28]]/../techfiles/saed32nm_1p9m_gdsout.map
+db::setPrefValue dbExportStreamLayerMapFile -value $map_file
+db::setPrefValue dbImportStreamLayerMapFile -value $map_file
+db::setPrefValue  xtPVLayerMapFile -value $map_file
+
+proc set_pex_runset_path_on_context_change {window} {
+
+	set scope_count 0
+	set scope [db::getScopes pdk_pve]
+	db::foreach ss $scope {incr scope_count}
+
+	if {$scope_count == 0}  {
+		return
+	}
+
+
+	if [catch {de::getActiveEditorWindow}] {
+		return
+	}
+
+
+
+	set design [db::getAttr topDesign -of [de::getActiveContext] ]] 
+	set l [db::getAttr libName -of $design]
+	set c [db::getAttr cellName -of $design]
+	set t icv
+
+	db::setPrefValue  xtStarICVRunsetReportFile -value "./pvjob_$l.$c.$t.lvs/pex_runset_report_file" -scope $scope
+	db::setPrefValue  xtStarNetlistFile -value "star_$l\_$c.spf" -scope $scope
+}
+
+db::createCallback setPexRunset -priority 10 -callbackType onPostWindowActivated -procedure {set_pex_runset_path_on_context_change}
+
+## utilities
+proc dump_attributes {object} {
+	foreach attr [db::listAttrs -of $object] {
+		puts "$attr = [db::getAttr $attr -of $object] "
+	}	
+}

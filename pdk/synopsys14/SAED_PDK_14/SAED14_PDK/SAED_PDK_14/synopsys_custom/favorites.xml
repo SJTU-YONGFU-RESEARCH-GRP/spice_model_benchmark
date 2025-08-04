@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<!-- created by Custom Compiler (TM), build #, on Tue Jun  6 12:39:09 2017
+-->
+<synopsysFile version="1.0" name="synopsysFavoriteDevices">
+        <favoriteDevices viewType="maskLayout"/>
+        <favoriteDevices viewType="schematic"/>
+</synopsysFile>

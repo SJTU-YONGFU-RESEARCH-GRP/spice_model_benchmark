@@ -1,0 +1,53 @@
+// Generated for: spectre (Feb  2 16:40:48 2012 )
+// Library name: gsclib045
+// Cell name: HSWDX1
+// View name: schematic
+
+simulator lang=spectre
+
+subckt HSWDX1 PSO1 PSO1_out PSO2 PSO2_out VDD ExtVDD VSS
+PM5 (PSO2_out pso2n ExtVDD ExtVDD) g45p1svt w=(390n) l=45n nf=1 as=54.6f \
+        ad=54.6f ps=1.06u pd=1.06u nrd=358.974m nrs=358.974m sa=140n \
+        sb=140n sd=160n sca=114.89040 scb=0.09003 scc=0.01377 m=(1)
+PM2 (n2 pso2n ExtVDD ExtVDD) g45p1svt w=(450n) l=45n nf=1 as=63f ad=63f \
+        ps=1.18u pd=1.18u nrd=311.111m nrs=311.111m sa=140n sb=140n \
+        sd=160n sca=106.17580 scb=0.08550 scc=0.01265 m=(1)
+PM8 (pso1n PSO1 ExtVDD ExtVDD) g45p1svt w=(390n) l=45n nf=1 as=54.6f \
+        ad=54.6f ps=1.06u pd=1.06u nrd=358.974m nrs=358.974m sa=140n \
+        sb=140n sd=160n sca=114.89040 scb=0.09003 scc=0.01377 m=(1)
+PM7 (pso2n PSO2 ExtVDD ExtVDD) g45p1svt w=(390n) l=45n nf=1 as=54.6f \
+        ad=54.6f ps=1.06u pd=1.06u nrd=358.974m nrs=358.974m sa=140n \
+        sb=140n sd=160n sca=114.89040 scb=0.09003 scc=0.01377 m=(1)
+PM1 (n1 pso1n ExtVDD ExtVDD) g45p1svt w=(1.8u) l=45n nf=4 as=198f \
+        ad=144f ps=3.58u pd=2.44u nrd=44.4444m nrs=61.1111m sa=140n \
+        sb=140n sd=160n sca=106.17580 scb=0.08550 scc=0.01265 m=(1)
+PM6 (PSO1_out pso1n ExtVDD ExtVDD) g45p1svt w=(390n) l=45n nf=1 as=54.6f \
+        ad=54.6f ps=1.06u pd=1.06u nrd=358.974m nrs=358.974m sa=140n \
+        sb=140n sd=160n sca=114.89040 scb=0.09003 scc=0.01377 m=(1)
+NM5 (VSS PSO1 pso1n VSS) g45n1svt w=(260n) l=45n nf=1 as=36.4f ad=36.4f \
+        ps=800n pd=800n nrd=538.462m nrs=538.462m sa=140n sb=140n sd=160n \
+        sca=144.98299 scb=0.10251 scc=0.01780 m=(1)
+NM3 (VSS pso2n PSO2_out VSS) g45n1svt w=(260n) l=45n nf=1 as=36.4f \
+        ad=36.4f ps=800n pd=800n nrd=538.462m nrs=538.462m sa=140n sb=140n \
+        sd=160n sca=144.98299 scb=0.10251 scc=0.01780 m=(1)
+NM1 (VSS pso2n n2 VSS) g45n1svt w=(300n) l=45n nf=1 as=42f ad=42f \
+        ps=880n pd=880n nrd=466.667m nrs=466.667m sa=140n sb=140n sd=160n \
+        sca=133.40892 scb=0.09829 scc=0.01624 m=(1)
+NM2 (VSS PSO2 pso2n VSS) g45n1svt w=(260n) l=45n nf=1 as=36.4f ad=36.4f \
+        ps=800n pd=800n nrd=538.462m nrs=538.462m sa=140n sb=140n sd=160n \
+        sca=144.98299 scb=0.10251 scc=0.01780 m=(1)
+NM0 (VSS pso1n n1 VSS) g45n1svt w=(1.2u) l=45n nf=4 as=132f ad=96f \
+        ps=2.68u pd=1.84u nrd=66.6667m nrs=91.6667m sa=140n sb=140n \
+        sd=160n sca=133.40892 scb=0.09829 scc=0.01624 m=(1)
+NM4 (VSS pso1n PSO1_out VSS) g45n1svt w=(260n) l=45n nf=1 as=36.4f \
+        ad=36.4f ps=800n pd=800n nrd=538.462m nrs=538.462m sa=140n sb=140n \
+        sd=160n sca=144.98299 scb=0.10251 scc=0.01780 m=(1)
+PM3 (VDD n2 ExtVDD ExtVDD) g45p1hvt w=(450n) l=45n nf=1 as=63f ad=63f \
+        ps=1.18u pd=1.18u nrd=311.111m nrs=311.111m sa=140n sb=140n \
+        sd=160n sca=106.17580 scb=0.08550 scc=0.01265 m=(1)
+PM0 (VDD n1 ExtVDD ExtVDD) g45p1hvt w=(1.8u) l=45n nf=4 as=198f ad=144f \
+        ps=3.58u pd=2.44u nrd=44.4444m nrs=61.1111m sa=140n sb=140n \
+        sd=160n sca=106.17580 scb=0.08550 scc=0.01265 m=(12)
+ends HSWDX1
+// End of subcircuit definition.
+

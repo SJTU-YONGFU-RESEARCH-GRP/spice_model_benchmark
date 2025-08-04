@@ -1,0 +1,23 @@
+// Generated for: spectre (Apr 26 15:39:39 2013 )
+// Library name: gsclib045_backbias
+// Cell name: NAND2X8
+// View name: schematic
+
+simulator lang=spectre
+
+subckt NAND2X8 A B Y VSS NW VDD
+mn1 (Y B n0 VSS) g45n1svt w=(2.065u) l=45n nf=1 as=289.1f ad=289.1f \
+        ps=4.41u pd=4.41u nrd=67.7966m nrs=67.7966m sa=140n sb=140n \
+        sd=160n sca=56.50260 scb=0.05663 scc=0.00690 m=(1)
+mn0 (n0 A VSS VSS) g45n1svt w=(2.065u) l=45n nf=1 as=289.1f ad=289.1f \
+        ps=4.41u pd=4.41u nrd=67.7966m nrs=67.7966m sa=140n sb=140n \
+        sd=160n sca=56.50260 scb=0.05663 scc=0.00690 m=(1)
+mp1 (Y B VDD NW) g45p1svt w=(3.115u) l=45n nf=1 as=436.1f ad=436.1f \
+        ps=6.51u pd=6.51u nrd=44.9438m nrs=44.9438m sa=140n sb=140n \
+        sd=160n sca=51.31501 scb=0.05377 scc=0.00636 m=(1)
+mp0 (Y A VDD NW) g45p1svt w=(3.115u) l=45n nf=1 as=436.1f ad=436.1f \
+        ps=6.51u pd=6.51u nrd=44.9438m nrs=44.9438m sa=140n sb=140n \
+        sd=160n sca=51.31501 scb=0.05377 scc=0.00636 m=(1)
+ends NAND2X8
+// End of subcircuit definition.
+

@@ -1,0 +1,545 @@
+MACROS  
+/*
+#########################################################################################
+# SAED 32/28NM 1p9m hercules fill deck							#
+#											#
+# Revision History:									#
+# Rev.		date		what							#
+# ------------------------------------------------------------------------------------	#	
+# 1.0		02/Feb/2011	(First draft)						#
+#########################################################################################
+*/
+
+@define MilkyWay "N"
+
+IF (MilkyWay == "Y"){
+HEADER {
+    INLIB = MwLibName
+    BLOCK = TOPCELLNAME
+    FORMAT = MILKYWAY
+    OUTPUT_LAYOUT_PATH = .
+}
+
+}
+ELSE IF (MilkyWay == "N"){
+HEADER {
+    INLIB = GDSFILENAME
+    BLOCK = TOPCELLNAME
+    FORMAT = GDSII
+
+    OUTLIB = EV_OUT
+    OUTPUT_FORMAT = GDSII
+
+    GROUP_DIR = group 
+    LAYOUT_PATH = .
+}
+
+}
+
+OPTIONS {
+    PRINT_ERRSUM_FILE = TRUE
+    IGNORE_CASE=FALSE
+    RESOLUTION=0.001	    /* tool resolution, layout grid is 0.001 */
+    NET_PREFIX = N_
+    ERR_PREFIX = "ERR"
+    PROTOTYPE_PLACEMENTS = TRUE
+    GDSIN_OPTIONS = "-nl"
+    MAXIMUM_CELLNAME_LENGTH = 1274
+    /*EXPLORER_DATA = TRUE*/
+    CREATE_VUE_OUTPUT = TRUE
+    GRAPHICS_PREFIX = FILL_od_po
+}
+
+TECHNOLOGY_OPTIONS {
+        COMPRESS_MIN_PLACEMENT_COUNT = 10
+}
+
+@define gr_diff 0.75
+@define gr_poly 0.5
+@define wrm_diff 0.1
+@define wrm_poly 0.09
+@define wr_diff 0.9
+@define wr_poly 0.85
+@define w_window 1.1
+@define l_window 0.9
+@define stepX 1.0
+@define stepY 1.0
+@define w_tile 0.4
+@define l_tile 0.7
+@define w_tile_p 0.56
+@define l_tile_p 0.56
+@define d_tile 0.4
+@define d_tile_chip 0.2
+@define d_tile_chip_p 0.2
+@define stagger "Y"
+@define stagger_dir Y
+@define stagger_dist 0.2
+@define PcFillChip( layer, chipBoundary, ratio, w_tile, l_tile, d_tile, d_tile_chip, fillOutput )\
+DENSITY layer { \
+	VERBOSE = TRUE 		 \
+	COMMENT = "Fill candidates within chip" \
+	RATIO < ratio\
+    BOUNDARY_LAYER = chipBoundary \
+} temp = candidates \
+SIZE layer { OVERSIZE = d_tile_chip } temp = sized_layer \
+BOOLEAN candidates NOT sized_layer {} temp = fill_candidates \
+IF (stagger == "Y"){\
+FILL_PATTERN fill_candidates { \
+    WIDTH  = w_tile \
+    HEIGHT = l_tile \
+    SPACE_X = d_tile \
+    SPACE_Y = d_tile \
+    STAGGER_DIR = stagger_dir\
+    STAGGER_DIST = stagger_dist\
+	OUTPUT_AREF=TRUE\
+        } temp = fillOutput \
+} ELSE IF (stagger == "N"){\
+FILL_PATTERN fill_candidates { \
+    WIDTH  = w_tile \
+    HEIGHT = l_tile \
+    SPACE_X = d_tile \
+    SPACE_Y = d_tile \
+	OUTPUT_AREF=TRUE\
+        } temp = fillOutput \
+}\
+
+@define PcFillWindow_od( layer, layer_d, chipBoundary, ratio, w_tile, l_tile, d_tile, d_tile_chip,w_window, l_window, stepX, stepY,stagger, stagger_dir, stagger_dist, fillOutput)\
+DENSITY layer { \
+    VERBOSE = TRUE \
+    COMMENT = "Fill candidates within window" \
+    RATIO = [0.00000000001, ratio] \
+	DELTA_WINDOW = [0,0,w_window,l_window] \
+	DELTA_X = stepX \
+	DELTA_Y = stepY \
+    BOUNDARY_LAYER = chipBoundary \
+} temp = candidates1 \
+SIZE layer { OVERSIZE = d_tile_chip } temp = sized_layer \
+SIZE POi { OVERSIZE = d_tile_chip } temp = navs1 \
+SIZE PODMYi { OVERSIZE = d_tile_chip } temp = navs2 \
+SIZE DDMYi { OVERSIZE = d_tile_chip } temp = navs3 \
+BOOLEAN (navs1 OR navs2 OR navs3) {} temp = navs \
+BOOLEAN candidates1 NOT layer_d {} temp = candidates \
+BOOLEAN candidates NOT sized_layer {} temp = fill_candidates2 \
+BOOLEAN fill_candidates2 NOT navs {} temp = fill_candidates1 \
+SELECT fill_candidates1 INTERACT blockage {} temp = bad_fill \
+BOOLEAN fill_candidates1 NOT bad_fill {} temp = fill_candidates3 \
+SIZE fillOutput_PO { OVERSIZE = d_tile_chip } temp = syzed_PODMY \
+BOOLEAN fill_candidates3 NOT syzed_PODMY {} temp = fill_candidates \
+IF (stagger == "Y"){\
+FILL_PATTERN fill_candidates { \
+    WIDTH  = w_tile \
+    HEIGHT = l_tile \
+    SPACE_X = d_tile \
+    SPACE_Y = d_tile \
+    STAGGER_DIR = stagger_dir\
+    STAGGER_DIST = stagger_dist\
+	OUTPUT_AREF=TRUE\
+        } temp = fillOutput \
+} ELSE IF (stagger == "N"){\
+FILL_PATTERN fill_candidates { \
+    WIDTH  = w_tile \
+    HEIGHT = l_tile \
+    SPACE_X = d_tile \
+    SPACE_Y = d_tile \
+	OUTPUT_AREF=TRUE\
+        } temp = fillOutput \
+}\
+
+@define PcFillWindow_po( layer, layer_d, chipBoundary, ratio, w_tile, l_tile, d_tile, d_tile_chip,w_window, l_window, stepX, stepY,stagger, stagger_dir, stagger_dist, fillOutput)\
+DENSITY layer { \
+    VERBOSE = TRUE \
+    COMMENT = "Fill candidates within window" \
+    RATIO = [0.00000000001, ratio] \
+	DELTA_WINDOW = [0,0,w_window,l_window] \
+	DELTA_X = stepX \
+	DELTA_Y = stepY \
+    BOUNDARY_LAYER = chipBoundary \
+} temp = candidates1 \
+SIZE layer { OVERSIZE = d_tile_chip } temp = sized_layer \
+SIZE DIFFi { OVERSIZE = d_tile_chip } temp = navs1 \
+BOOLEAN navs1 OR layer {} temp = navs \
+BOOLEAN candidates1 NOT layer_d {} temp = candidates \
+BOOLEAN candidates NOT sized_layer {} temp = fill_candidates2 \
+BOOLEAN fill_candidates2 NOT navs {} temp = fill_candidates1 \
+SELECT fill_candidates1 INTERACT blockage {} temp = bad_fill \
+BOOLEAN fill_candidates1 NOT bad_fill {} temp = fill_candidates \
+IF (stagger == "Y"){\
+FILL_PATTERN fill_candidates { \
+    WIDTH  = w_tile \
+    HEIGHT = l_tile \
+    SPACE_X = d_tile \
+    SPACE_Y = d_tile \
+    STAGGER_DIR = stagger_dir\
+    STAGGER_DIST = stagger_dist\
+	OUTPUT_AREF=TRUE\
+        } temp = fillOutput1 \
+} ELSE IF (stagger == "N"){\
+FILL_PATTERN fill_candidates { \
+    WIDTH  = w_tile \
+    HEIGHT = l_tile \
+    SPACE_X = d_tile \
+    SPACE_Y = d_tile \
+	OUTPUT_AREF=TRUE\
+        } temp = fillOutput1 \
+}\
+IF (stagger == "Y"){\
+FILL_PATTERN fillOutput1 { \
+    WIDTH  = 0.4 \
+    HEIGHT = 0.4 \
+    SPACE_X = 0.08 \
+    SPACE_Y = 0.08 \
+    SHIFT_X = 0.08 \
+    SHIFT_Y = 0.08 \
+    STAGGER_DIR = stagger_dir\
+    STAGGER_DIST = stagger_dist\
+	OUTPUT_AREF=TRUE\
+        } temp = od_fill_rect \
+} ELSE IF (stagger == "N"){\
+FILL_PATTERN fillOutput1 { \
+    WIDTH  = 0.4 \
+    HEIGHT = 0.4 \
+    SPACE_X = 0.08 \
+    SPACE_Y = 0.08 \
+    SHIFT_X = 0.08 \
+    SHIFT_Y = 0.08 \
+	OUTPUT_AREF=TRUE\
+        } temp = od_fill_rect \
+}\
+SIZE fillOutput1 { OVERSIZE = 0.2 } temp = fillOutput_1 \
+BOOLEAN fill_candidates NOT fillOutput_1 {} temp = fill_candidates_1 \
+IF (stagger == "Y"){\
+FILL_PATTERN fill_candidates_1 { \
+    WIDTH  = 0.415 \
+    HEIGHT = 0.415 \
+    SPACE_X = 0.18 \
+    SPACE_Y = 0.18 \
+    STAGGER_DIR = Y\
+    STAGGER_DIST = 0.18\
+	OUTPUT_AREF=TRUE\
+        } temp = fillOutput2 \
+} ELSE IF (stagger == "N"){\
+FILL_PATTERN fill_candidates_1 { \
+    WIDTH  = 0.415 \
+    HEIGHT = 0.415 \
+    SPACE_X = 0.18 \
+    SPACE_Y = 0.18 \
+	OUTPUT_AREF=TRUE\
+        } temp = fillOutput2 \
+}\
+BOOLEAN fillOutput1 OR fillOutput2 {} temp = fillOutput \
+IF (stagger == "Y"){\
+FILL_PATTERN fillOutput2 { \
+    WIDTH  = 0.285 \
+    HEIGHT = 0.285 \
+    SPACE_X = 0.065 \
+    SPACE_Y = 0.065 \
+    SHIFT_X = 0.065 \
+    SHIFT_Y = 0.065 \
+    STAGGER_DIR = Y\
+    STAGGER_DIST = 0.065\
+	OUTPUT_AREF=TRUE\
+        } temp = od_fill_rect_1 \
+} ELSE IF (stagger == "N"){\
+FILL_PATTERN fillOutput2 { \
+    WIDTH  = 0.285 \
+    HEIGHT = 0.285 \
+    SPACE_X = 0.065 \
+    SPACE_Y = 0.065 \
+    SHIFT_X = 0.065 \
+    SHIFT_Y = 0.065 \
+	OUTPUT_AREF=TRUE\
+        } temp = od_fill_rect_1 \
+}\
+
+@define PcCheckChipDensity( layer, chipBoundary, ratio, reportFile, errorOutput ) \
+DENSITY layer {  \
+    VERBOSE = TRUE \
+    COMMENT = "Densisty across chip" \
+    RATIO >= ratio \
+    BOUNDARY_LAYER = chipBoundary \
+    WINDOW_STATISTICS_FILE = reportFile \
+} temp = errorOutput
+
+@define PcCheckWindowDensity( layer, chipBoundary, ratio, reportFile, errorOutput, w_window, l_window, stepX, stepY ) \
+DENSITY layer { \
+    VERBOSE = TRUE \
+    COMMENT = "Density across window" \
+    RATIO >=  ratio \
+    	DELTA_WINDOW = [0,0,w_window,l_window] \
+	DELTA_X = stepX \
+	DELTA_Y = stepY \
+    WINDOW_STATISTICS_FILE = reportFile \
+    BOUNDARY_LAYER = chipBoundary \
+} temp = errorOutput
+
+ASSIGN {
+	NWELLi	  (1)
+	DNWi	  (2)
+	DIFFi	  (3)
+	DDMYi	  (3;1)
+	PIMPi	  (4)
+	NIMPi	  (5)
+	DIFF_18i  (6)
+	PADi	  (7)
+	ESD_25	  (8)
+	SBLKi	  (9)
+	POi       (10)
+	PODMYi    (10;1)
+	M1i       (11)   
+	M1DMYi    (11;1)
+	VIA1i     (12)
+	M2i       (13)   
+	M2DMYi    (13;1)
+        VIA2i     (14)
+	M3i       (15)   
+        M3DMYi    (15;1)
+        VIA3i     (16)
+	M4i       (17)   
+        M4DMYi    (17;1)
+        VIA4i     (18)
+	M5i       (19)   
+        M5DMYi    (19;1)
+        VIA5i     (20)
+	M6i       (21)   
+	M6DMYi    (21;1)
+	VIA6i     (22)
+	M7i       (23)   
+	M7DMYi    (23;1)
+	VIA7i     (24)
+	M8i       (25)   
+	M8DMYi    (25;1)
+	VIA8i     (26)
+	M9i       (27)   
+	M9DMYi    (27;1)
+	COi       (28)
+	HVTIMPi   (29)   
+	LVTIMPi   (30)   
+	M1PIN     (31)   
+	M2PIN     (32)   
+	M3PIN     (33)   
+	M4PIN     (34)   
+	M5PIN     (35)   
+	M6PIN     (36)   
+	M7PIN     (37)   
+	M8PIN     (38)	 
+	M9PIN     (39)   
+	MRDLi     (41)
+	VIARDLi	  (42)
+	HOTNWLi   (44)
+	DIODi 	  (46)
+	BJTMYi 	  (47)
+	RNWi      (48)
+	RMARKi    (49)
+	LOGO      (51)
+	IP        (52)
+	RM1i      (53)
+	RM2i      (54)
+	RM3i      (55)
+	RM4i      (56)
+	RM5i      (57)
+	RM6i      (58)
+	RM7i      (59)
+	RM8i      (60)
+	RM9i      (61)
+	DM1EXCLi (64) 
+	DM2EXCLi (65) 
+	DM3EXCLi (66 )
+	DM4EXCLi (67 )
+	DM5EXCLi (68 )
+	DM6EXCLi (69 )
+	DM7EXCLi (70 )
+	DM8EXCLi (71 )
+	DM9EXCLi (72 )
+	DIFFEXCLi (73)
+	POEXCLi   (74)
+	DIFF_25i  (75)
+	DIFF_FMi (100)
+	PO_FMi	  (101)
+}
+
+GRID_CHECK {
+    ASSIGN_LAYERS = TRUE
+    GRID = 0.001
+    CHECK_45 = TRUE
+} TEMP=DEFAULT_GRID_CHECK_OUTPUT
+
+
+/*
+EXPLODE_OPTIONS{
+        NO_EXPLODE = {}
+}
+*/
+
+
+CELL_EXTENT { CELL_LIST = $EV_INPUT_BLOCK } TEMP = chip_extents
+CELL_EXTENT  { CELL_LIST = {} } temp = blockage
+SIZE blockage {OVERSIZE =  0.4 } TEMP = blockage
+
+/*
+First report global chip density
+*/
+PcCheckChipDensity( DIFFi, chip_extents, gr_diff, DIFF.global.start, DIFF.GD.S)
+PcCheckChipDensity( POi, chip_extents, gr_poly, PO.global.start, PO.GD.S)
+
+/*
+Second report local window density
+*/
+PcCheckWindowDensity( DIFFi, chip_extents, wr_diff, DIFF.window.start, DIFF.LD.S, w_window, l_window, stepX, stepY )
+PcCheckWindowDensity( POi, chip_extents, wr_poly, PO.window.start, PO.LD.S, w_window, l_window, stepX, stepY )
+
+
+/*
+Now fill the windows with tiles
+*/
+PcFillWindow_po( POi, PO_FMi, chip_extents, wrm_poly, w_tile_p, l_tile_p, d_tile, d_tile_chip_p, w_window, l_window, stepX, stepY, stagger, stagger_dir, stagger_dist, fillOutput_PO)
+PcFillWindow_od( DIFFi, DIFF_FMi, chip_extents, wrm_diff, w_tile, l_tile, d_tile, d_tile_chip, w_window, l_window, stepX, stepY, stagger, stagger_dir, stagger_dist, fillOutput_DIFF)
+
+BOOLEAN od_fill_rect OR od_fill_rect_1 OR fillOutput_DIFF {} temp = fillOutput_all_DIFF 
+
+
+COPY fillOutput_all_DIFF {} TEMP = DIFF_FILL
+COPY fillOutput_PO {} TEMP = PO_FILL
+
+/*
+Recreate ALL metal for final checks
+*/
+BOOLEAN DIFF_FILL OR DIFFi{} temp = DIFFD
+BOOLEAN PO_FILL OR POi {} temp = POD
+
+/*
+Lets see what the density over the full chip has become
+*/
+PcCheckChipDensity( DIFFD, chip_extents, gr_diff, DIFF.global.end, DIFF.GD.E)
+PcCheckChipDensity( POD, chip_extents, gr_poly, PO.global.end, PO.GD.E)
+
+
+/*
+Lets see what the density in any window has become
+*/
+PcCheckWindowDensity( DIFFD, chip_extents, wr_diff, DIFF.window.end, DIFF.LD.E, w_window, l_window, stepX, stepY )
+PcCheckWindowDensity( POD, chip_extents, wr_poly, PO.window.end, PO.LD.E, w_window, l_window, stepX, stepY )
+
+
+IF (MilkyWay == "Y"){
+WRITE_MILKYWAY {
+	LIBRARY_PATH = .
+        LIBRARY_NAME = FILL_OUTPUT
+	OUTPUT_BLOCK = test.out
+	VIEW_NAME = FILL
+        OUTPUT_MODE = OVERWRITE
+        OUTPUT_HIERARCHY = TRUE
+
+	NWELLi	  (1)
+	DNWi	  (2)
+	DIFFi	  (3)
+	DDMYi	  (3;1)
+	PIMPi	  (4)
+	NIMPi	  (5)
+	DIFF_18i  (6)
+	PADi	  (7)
+	ESD_25	  (8)
+	SBLKi	  (9)
+	POi       (10)
+	PODMYi    (10;1)
+	M1i       (11)   
+	M1DMYi    (11;1)
+	VIA1i     (12)
+	M2i       (13)   
+	M2DMYi    (13;1)
+        VIA2i     (14)
+	M3i       (15)   
+        M3DMYi    (15;1)
+        VIA3i     (16)
+	M4i       (17)   
+        M4DMYi    (17;1)
+        VIA4i     (18)
+	M5i       (19)   
+        M5DMYi    (19;1)
+        VIA5i     (20)
+	M6i       (21)   
+	M6DMYi    (21;1)
+	VIA6i     (22)
+	M7i       (23)   
+	M7DMYi    (23;1)
+	VIA7i     (24)
+	M8i       (25)   
+	M8DMYi    (25;1)
+	VIA8i     (26)
+	M9i       (27)   
+	M9DMYi    (27;1)
+	COi       (28)
+	HVTIMPi   (29)   
+	LVTIMPi   (30)   
+	M1PIN     (31)   
+	M2PIN     (32)   
+	M3PIN     (33)   
+	M4PIN     (34)   
+	M5PIN     (35)   
+	M6PIN     (36)   
+	M7PIN     (37)   
+	M8PIN     (38)	 
+	M9PIN     (39)   
+	MRDLi     (41)
+	VIARDLi	  (42)
+	HOTNWLi   (44)
+	DIODi 	  (46)
+	BJTMYi 	  (47)
+	RNWi      (48)
+	RMARKi    (49)
+	LOGO      (51)
+	IP        (52)
+	RM1i      (53)
+	RM2i      (54)
+	RM3i      (55)
+	RM4i      (56)
+	RM5i      (57)
+	RM6i      (58)
+	RM7i      (59)
+	RM8i      (60)
+	RM9i      (61)
+	DM1EXCLi (64) 
+	DM2EXCLi (65) 
+	DM3EXCLi (66 )
+	DM4EXCLi (67 )
+	DM5EXCLi (68 )
+	DM6EXCLi (69 )
+	DM7EXCLi (70 )
+	DM8EXCLi (71 )
+	DM9EXCLi (72 )
+	DIFFEXCLi (73)
+	POEXCLi   (74)
+	DIFF_25i  (75)
+        DIFF_FMi (100)
+	PO_FMi	  (101)
+	
+	
+       PO_FILL {
+		COMPRESS = TRUE
+                aref_cell_name_prefix = PO_FILL_array
+                aref_inst_name_prefix = PO_FILL_insty
+        } (10;1)
+       DIFF_FILL {
+		COMPRESS = TRUE
+                aref_cell_name_prefix = DIFF_FILL_array
+                aref_inst_name_prefix = DIFF_FILL_insty
+        } (3;1)
+   }
+}
+
+ELSE IF (MilkyWay == "N"){
+
+GRAPHICS {
+
+       MERGE_INPUT_LAYOUT = TRUE /*merges input gdsii with fill*/
+       PO_FILL {
+		COMPRESS = TRUE
+                aref_cell_name_prefix = PO_FILL_array
+                aref_inst_name_prefix = PO_FILL_insty
+        } (10;1)
+       DIFF_FILL {
+		COMPRESS = TRUE
+                aref_cell_name_prefix = DIFF_FILL_array
+                aref_inst_name_prefix = DIFF_FILL_insty
+        } (3;1)
+   }
+}

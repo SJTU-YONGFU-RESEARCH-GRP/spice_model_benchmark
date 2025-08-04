@@ -1,0 +1,29 @@
+/* $Id: inoisethu.ifs v2017.03.01 MD $ */
+
+NAME_TABLE:
+
+Spice_Model_Name: inoise_thu
+C_Function_Name:  cm_inoise_thu
+Description:      "thermal-noise (uniform distribution) transient current source"
+
+PORT_TABLE:
+
+Port_Name:        t_plus    		t_minus
+Description:      "plus terminal"   	"minus terminal"
+Direction:        out     		out
+Default_Type:     i        		i
+Allowed_Types:    [i]       		[i]
+Vector:           no        		no
+Vector_Bounds:    -         		-
+Null_Allowed:     no        		no
+
+PARAMETER_TABLE:
+
+Parameter_Name:   i_peak			t_generation_step			seed                
+Description:      "current peak scale factor"  	"time step for noise generation"	"generator seed" 
+Data_Type:        real				real					int
+Default_Value:    0.0				1e-9					1
+Limits:           [0 1]				[0 -]					[0 65535]
+Vector:           no				no					no
+Vector_Bounds:    -				-					-
+Null_Allowed:     no				no					no

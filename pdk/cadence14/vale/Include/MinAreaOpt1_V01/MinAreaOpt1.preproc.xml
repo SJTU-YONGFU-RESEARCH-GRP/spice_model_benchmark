@@ -1,0 +1,119 @@
+<deck version_str="1.0">
+
+  <!-- This pattern requires a base spacing of 64nm on each line end, for
+       same mask spacing, so the worst case situation is that there is a
+       small 32nm long, 32nm wide, piece of metal that only has 64nm of
+       of space on one side, which requires the other side to have 145nm
+       + 64nm = 209nm of space to fix minimum area.  However, only match
+       when the pattern matches 193 + 64 + 64.
+  -->
+
+  <operation rulename="M1_Area_Fix_1a" preserve_overlaps="1" produces_results="1" output_layer="M1FIXA">
+    <pattern_match engine="squish">
+      <report custom_orients="R90" />
+      <pattern_def type="squish"
+        signature="L2
+        0 0 0 /
+        0 1 0 /
+        0 0 0"
+        x_deltas="64-209 32-193 64-209"
+        y_deltas="32 32-60 32">
+        <pattern sel="M1MASK1" />
+        <pattern sel="M1TRIM1" />
+        <constraint>x2-x1 >= y2-y1</constraint>
+        <constraint>x2-x1 &lt; 193</constraint>
+        <constraint>area(x1, y1, x2, y2) &lt; 6176</constraint>
+        <overlay_scanline_range>
+          <overlay_box_expr
+            x1="
+            var area := 6176 ;
+            var width := y2-y1 ;
+            var min_legal_length := area / width ;
+            var right_space := (x3-x2-64) > 0 ? (x3-x2-64) : 0 ;
+            var left_space := (x1-x0-64) > 0 ? (x1-x0-64) : 0 ;
+            var amount_to_add := min_legal_length - (x2-x1) ;
+            var left_ext := (amount_to_add * left_space) / (right_space + left_space) ;
+            x1 - left_ext ;
+            "
+            x2="
+            var area := 6176 ;
+            var width := y2-y1 ;
+            var min_legal_length := area / width ;
+            var right_space := (x3-x2-64) > 0 ? (x3-x2-64) : 0 ;
+            var left_space := (x1-x0-64) > 0 ? (x1-x0-64) : 0 ;
+            var amount_to_add := min_legal_length - (x2-x1) ;
+            var right_ext := (amount_to_add * right_space) / (right_space + left_space) ;
+            x2 + right_ext ;
+            "
+            y1="y1"
+            y2="y2"
+            output_if="
+            var area := 6176 ;
+            var width := y2-y1 ;
+            var right_space := (x3-x2-64) > 0 ? (x3-x2-64) : 0 ;
+            var left_space := (x1-x0-64) > 0 ? (x1-x0-64) : 0 ;
+            var min_legal_length := area / width ;
+            (right_space + left_space + x2 - x1) >= min_legal_length ;
+            "
+            />
+        </overlay_scanline_range>
+      </pattern_def>
+    </pattern_match>
+  </operation>
+
+  <!-- Alternate Color -->
+
+  <operation rulename="M1_Area_Fix_1b" preserve_overlaps="1" produces_results="1" output_layer="M1FIXB">
+    <pattern_match engine="squish">
+      <report custom_orients="R90" />
+      <pattern_def type="squish"
+        signature="L2
+        0 0 0 /
+        0 1 0 /
+        0 0 0"
+        x_deltas="64-209 32-193 64-209"
+        y_deltas="32 32-60 32">
+        <pattern sel="M1MASK2" />
+        <pattern sel="M1TRIM2" />
+        <constraint>x2-x1 >= y2-y1</constraint>
+        <constraint>x2-x1 &lt; 193</constraint>
+        <constraint>area(x1, y1, x2, y2) &lt; 6176</constraint>
+        <overlay_scanline_range>
+          <overlay_box_expr
+            x1="
+            var area := 6176 ;
+            var width := y2-y1 ;
+            var min_legal_length := area / width ;
+            var right_space := (x3-x2-64) > 0 ? (x3-x2-64) : 0 ;
+            var left_space := (x1-x0-64) > 0 ? (x1-x0-64) : 0 ;
+            var amount_to_add := min_legal_length - (x2-x1) ;
+            var left_ext := (amount_to_add * left_space) / (right_space + left_space) ;
+            x1 - left_ext ;
+            "
+            x2="
+            var area := 6176 ;
+            var width := y2-y1 ;
+            var min_legal_length := area / width ;
+            var right_space := (x3-x2-64) > 0 ? (x3-x2-64) : 0 ;
+            var left_space := (x1-x0-64) > 0 ? (x1-x0-64) : 0 ;
+            var amount_to_add := min_legal_length - (x2-x1) ;
+            var right_ext := (amount_to_add * right_space) / (right_space + left_space) ;
+            x2 + right_ext ;
+            "
+            y1="y1"
+            y2="y2"
+            output_if="
+            var area := 6176 ;
+            var width := y2-y1 ;
+            var right_space := (x3-x2-64) > 0 ? (x3-x2-64) : 0 ;
+            var left_space := (x1-x0-64) > 0 ? (x1-x0-64) : 0 ;
+            var min_legal_length := area / width ;
+            (right_space + left_space + x2 - x1) >= min_legal_length ;
+            "
+            />
+        </overlay_scanline_range>
+      </pattern_def>
+    </pattern_match>
+  </operation>
+
+</deck>

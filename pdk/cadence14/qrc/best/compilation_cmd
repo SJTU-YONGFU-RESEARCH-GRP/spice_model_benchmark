@@ -1,0 +1,16 @@
+Techgen -compilation -cap_ground_layer psub -canonical_res_caps \
+-lexclude Poly \
+-length_units meters \
+-blocking qrcgate:0.001,Oxide \
+-blocking fin_marker_layer:0.001,Poly,Active,Oxide \
+-blocking NPNdmy:-0.001,Poly,Active,Oxide \
+-blocking mim_cap_dev:-0.001,M7,MT \
+-blocking nd1hvt_dev:0.001,Poly,Active,Oxide \
+-blocking nd1lvt_dev:0.001,Poly,Active,Oxide \
+-blocking nd1svt_dev:0.001,Poly,Active,Oxide \
+-blocking nd2svt_dev:0.001,Poly,Active,Oxide \
+-blocking pd1hvt_dev:0.001,Poly,Active,Oxide \
+-blocking pd1lvt_dev:0.001,Poly,Active,Oxide \
+-blocking pd1svt_dev:0.001,Poly,Active,Oxide \
+-blocking pd2svt_dev:0.001,Poly,Active,Oxide \
+-lvs lvsfile -layer_setup layer_setup .

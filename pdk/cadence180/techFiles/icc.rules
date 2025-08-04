@@ -1,0 +1,157 @@
+iccTechnologyFile = "gpdk180"
+
+iccLayers =
+  list(
+    list( '("Oxide" "drawing") "n_diffusion" "off" 0.6 0.3 nil t)
+    list( '("Poly" "drawing") "polysilicon" "vertical" 0.18 0.3 nil t)
+    list( '("Cont" "drawing") "cut" "off" 0.2 0.2 nil t)
+    list( '("Metal1" "drawing") "metal" "orthogonal" 0.3 0.3 nil t)
+    list( '("Via1" "drawing") "cut" "off" 0.2 0.1 nil t)
+    list( '("Metal2" "drawing") "metal" "orthogonal" 0.3 0.3 nil t)
+    list( '("Via2" "drawing") "cut" "off" 0.2 0.1 nil t)
+    list( '("Metal3" "drawing") "metal" "orthogonal" 0.3 0.3 nil t)
+    list( '("Via3" "drawing") "cut" "off" 0.2 0.1 nil t)
+    list( '("Metal4" "drawing") "metal" "orthogonal" 0.3 0.3 nil t)
+    list( '("Via4" "drawing") "cut" "off" 0.2 0.1 nil t)
+    list( '("Metal5" "drawing") "metal" "orthogonal" 0.3 0.3 nil t)
+    list( '("Via5" "drawing") "cut" "off" 0.2 0.1 nil t)
+    list( '("Metal6" "drawing") "metal" "orthogonal" 0.3 0.3 nil t)
+  )
+iccVias =
+  list(
+        list( '("gpdk180" "M1_POLY1" "symbolic") t)
+        list( '("gpdk180" "M2_M1" "symbolic") t)
+        list( '("gpdk180" "M3_M2" "symbolic") t)
+        list( '("gpdk180" "M4_M3" "symbolic") t)
+        list( '("gpdk180" "M5_M4" "symbolic") t)
+        list( '("gpdk180" "M6_M5" "symbolic") t)
+  )
+iccEquivalentLayers =
+  list(
+    list(
+      '("Poly" "drawing")
+      '("Poly" "boundary")
+      '("Poly" "pin")
+    )
+    list(
+      '("Metal1" "drawing")
+      '("Metal1" "boundary")
+      '("Metal1" "pin")
+    )
+    list(
+      '("Via1" "drawing")
+      '("Via1" "boundary")
+    )
+    list(
+      '("Metal2" "drawing")
+      '("Metal2" "boundary")
+      '("Metal2" "pin")
+    )
+    list(
+      '("Via2" "drawing")
+      '("Via2" "boundary")
+    )
+    list(
+      '("Metal3" "drawing")
+      '("Metal3" "boundary")
+      '("Metal3" "pin")
+    )
+    list(
+      '("Via3" "drawing")
+      '("Via3" "boundary")
+    )
+    list(
+      '("Metal4" "drawing")
+      '("Metal4" "boundary")
+      '("Metal4" "pin")
+    )
+    list(
+      '("Via4" "drawing")
+      '("Via4" "boundary")
+    )
+    list(
+      '("Metal5" "drawing")
+      '("Metal5" "boundary")
+      '("Metal5" "pin")
+    )
+    list(
+      '("Via5" "drawing")
+      '("Via5" "boundary")
+    )
+    list(
+      '("Metal6" "drawing")
+      '("Metal6" "boundary")
+      '("Metal6" "pin")
+    )
+    list(
+      '("Cont" "drawing")
+      '("Cont" "boundary")
+    )
+  )
+iccBoundaryLayers =
+  list(
+    list( '("Oxide" "drawing") '("prBoundary" "drawing") 0.0)
+    list( '("Poly" "drawing") '("prBoundary" "drawing") 0.0)
+    list( '("Cont" "drawing") '("prBoundary" "drawing") 0.0)
+    list( '("Metal1" "drawing") '("prBoundary" "drawing") 0.0)
+    list( '("Via1" "drawing") '("prBoundary" "drawing") 0.0)
+    list( '("Metal2" "drawing") '("prBoundary" "drawing") 0.0)
+    list( '("Via2" "drawing") '("prBoundary" "drawing") 0.0)
+    list( '("Metal3" "drawing") '("prBoundary" "drawing") 0.0)
+    list( '("Via3" "drawing") '("prBoundary" "drawing") 0.0)
+    list( '("Metal4" "drawing") '("prBoundary" "drawing") 0.0)
+    list( '("Via4" "drawing") '("prBoundary" "drawing") 0.0)
+    list( '("Metal5" "drawing") '("prBoundary" "drawing") 0.0)
+    list( '("Via5" "drawing") '("prBoundary" "drawing") 0.0)
+    list( '("Metal6" "drawing") '("prBoundary" "drawing") 0.0)
+  )
+iccKeepouts = list(
+  list( nil list(
+      list(
+            "or" list('("Oxide" "drawing") '("Poly" "drawing"))
+            '("Poly" "drawing") "routing" t
+        )
+      list(
+            "=>" list('("INDdummy" "drawing")) '("Metal6" "drawing")
+            "routing" t
+        )
+      list(
+            "=>" list('("INDdummy" "drawing")) '("Metal5" "drawing")
+            "routing" t
+        )
+      list(
+            "=>" list('("INDdummy" "drawing")) '("Metal4" "drawing")
+            "routing" t
+        )
+      list(
+            "=>" list('("INDdummy" "drawing")) '("Metal3" "drawing")
+            "routing" t
+        )
+      list(
+            "=>" list('("INDdummy" "drawing")) '("Metal2" "drawing")
+            "routing" t
+        )
+      list(
+            "=>" list('("INDdummy" "drawing")) '("Metal1" "drawing")
+            "routing" t
+        )
+      list(
+            "=>" list('("INDdummy" "drawing")) '("Poly" "drawing")
+            "routing" t
+        )
+      list(
+            "=>" list('("Capdum" "drawing")) '("Via1" "drawing")
+            "routing" t
+        )
+    )   32)
+)
+
+iccConductors = list(
+  list(nil list(
+    list(
+      "and" list('("Poly" "drawing") '("Oxide" "drawing"))
+      '("Poly" "drawing") "MOSFET" t
+    )
+  )   5)
+)
+

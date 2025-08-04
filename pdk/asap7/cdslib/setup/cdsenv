@@ -1,0 +1,10 @@
+ddserv	showWhatsNew	string	"6.1.5"
+license	VLSL_UseNextLicense	string	"always"
+license	ADEL_UseNextLicense	string	"always"
+license	VSEL_UseNextLicense	string	"always"
+designEditor.license	appsWhichAlwaysTryHigherTieredLicense	string	"Schematics L,ADE L,Layout L,"
+asimenv showWhatsNew string "6.1.3"
+asimenv showWhatsNew string "6.1.4"
+license VSELicenseCheckoutOrder    string "XL,L"
+layout	xSnapSpacing	float	0.001
+layout	ySnapSpacing	float	0.001

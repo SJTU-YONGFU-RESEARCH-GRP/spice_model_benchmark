@@ -1,0 +1,60 @@
+// Generated for: spectre (May  1 08:09:39 2013 )
+// Library name: gsclib045
+// Cell name: CLKBUFX2
+// View name: extracted
+
+simulator lang=spectre
+
+subckt CLKBUFX2 A VDD VSS Y
+mp1 (\1\:Y net44 \1\:VDD VDD) g45p1svt w=(3.9e-07) l=4.5e-08 nf=1 \
+        as=5.325e-14 ad=6.24e-14 ps=1.08e-06 pd=1.1e-06 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=4.97949e-07 sd=160n sca=30.8133 \
+        scb=0.0297121 scc=0.00267709 m=(2)
+C1 (VDD VSS) capacitor c=5.86893e-17
+C2 (A VSS) capacitor c=6.74307e-17
+C3 (Y VSS) capacitor c=1.04148e-17
+C4 (net44 VSS) capacitor c=1.64579e-16
+C5 (\1\:A VSS) capacitor c=4.4972e-17
+C6 (\3\:A VSS) capacitor c=4.26788e-17
+C7 (\2\:A VSS) capacitor c=4.6052e-17
+C8 (\7\:net44 VSS) capacitor c=4.73799e-17
+C9 (\1\:VDD VSS) capacitor c=1.06067e-16
+C10 (\1\:Y VSS) capacitor c=7.47009e-17
+C11 (\11\:net44 VSS) capacitor c=1.5353e-17
+C12 (\4\:Y VSS) capacitor c=2.18041e-17
+C13 (\3\:Y VSS) capacitor c=4.8699e-17
+C14 (\4\:A VSS) capacitor c=4.14314e-17
+C15 (\9\:net44 VSS) capacitor c=5.17197e-17
+C16 (\10\:net44 VSS) capacitor c=4.92894e-17
+Rk14 (\1\:VSS VSS) resistor r=0.03712 c=0
+Rk10 (\1\:VDD VDD) resistor r=0.03712 c=0
+Rk4 (\4\:A A) resistor r=0.1206 c=0
+Rk3 (\3\:Y Y) resistor r=0.002419 c=0
+Rk1 (\2\:Y \3\:Y) resistor r=0.421 c=0
+Rk2 (\3\:Y \5\:Y) resistor r=0.1064 c=0
+Rk5 (\8\:net44 \9\:net44) resistor r=0.3792 c=0
+Rk6 (\9\:net44 \10\:net44) resistor r=0.2891 c=0
+Rk7 (\9\:net44 \12\:net44) resistor r=0.12 c=0
+Rl6 (\1\:A \2\:A) resistor r=91.0764 c=0
+Rl7 (\2\:A \3\:A) resistor r=100.692 c=0
+Rz1 (\5\:Y \4\:Y) resistor r=75 c=0
+Rz2 (\12\:net44 \11\:net44) resistor r=75 c=0
+Ry1 (\2\:Y \1\:Y) resistor r=20.6667 c=0
+Ry2 (\8\:net44 \7\:net44) resistor r=62 c=0
+Rx1 (\2\:A \4\:A) resistor r=45 c=0
+Rx2 (\10\:net44 net44) resistor r=45 c=0
+mn1 (\4\:Y net44 \1\:VSS VSS) g45n1svt w=(2.6e-07) l=4.5e-08 nf=1 \
+        as=3.555e-14 ad=4.16e-14 ps=8.2e-07 pd=8.4e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=5.00192e-07 sd=160n sca=15.3338 \
+        scb=0.0153436 scc=0.00119435 m=(2)
+mn0 (\11\:net44 \3\:A \1\:VSS VSS) g45n1svt w=(1.45e-07) l=4.5e-08 nf=1 \
+        as=3.47e-14 ad=3.553e-14 ps=8.4e-07 pd=7.8e-07 nrd=1.16667 \
+        nrs=1.16667 sa=5.5e-07 sb=2.45e-07 sd=160n sca=10.4914 \
+        scb=0.00978575 scc=0.000300434 m=(1)
+mp0 (\7\:net44 \1\:A \1\:VDD VDD) g45p1svt w=(2.15e-07) l=4.5e-08 nf=1 \
+        as=5.19e-14 ad=5.267e-14 ps=1.1e-06 pd=9.2e-07 nrd=1.16667 \
+        nrs=1.16667 sa=5.5e-07 sb=2.45e-07 sd=160n sca=19.2351 \
+        scb=0.0201659 scc=0.000554323 m=(1)
+ends CLKBUFX2
+// End of subcircuit definition.
+

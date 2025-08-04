@@ -1,0 +1,47 @@
+// Generated for: spectre (Apr 26 15:36:07 2013 )
+// Library name: gsclib045_backbias
+// Cell name: AOI2BB2XL
+// View name: schematic
+
+simulator lang=spectre
+
+subckt AOI2BB2XL A0N A1N B0 B1 Y VDD VSS NW
+mn5 (net156 B1 VSS VSS) g45n1svt w=(145n) l=45n nf=1 as=20.3f ad=20.3f \
+        ps=570n pd=570n nrd=965.517m nrs=965.517m sa=140n sb=140n sd=160n \
+        sca=203.41795 scb=0.11509 scc=0.02523 m=(1)
+mn4 (Y B0 net156 VSS) g45n1svt w=(145n) l=45n nf=1 as=20.3f ad=20.3f \
+        ps=570n pd=570n nrd=965.517m nrs=965.517m sa=140n sb=140n sd=160n \
+        sca=203.41795 scb=0.11509 scc=0.02523 m=(1)
+mn3 (Y net164 net144 VSS) g45n1svt w=(145n) l=45n nf=1 as=20.3f ad=20.3f \
+        ps=570n pd=570n nrd=965.517m nrs=965.517m sa=140n sb=140n sd=160n \
+        sca=203.41795 scb=0.11509 scc=0.02523 m=(1)
+mn2 (net144 net146 VSS VSS) g45n1svt w=(145n) l=45n nf=1 as=20.3f \
+        ad=20.3f ps=570n pd=570n nrd=965.517m nrs=965.517m sa=140n sb=140n \
+        sd=160n sca=203.41795 scb=0.11509 scc=0.02523 m=(1)
+mn0 (net146 A0N VSS VSS) g45n1svt w=(145n) l=45n nf=1 as=20.3f ad=20.3f \
+        ps=570n pd=570n nrd=965.517m nrs=965.517m sa=140n sb=140n sd=160n \
+        sca=203.41795 scb=0.11509 scc=0.02523 m=(1)
+mn1 (net164 A1N VSS VSS) g45n1svt w=(145n) l=45n nf=1 as=20.3f ad=20.3f \
+        ps=570n pd=570n nrd=965.517m nrs=965.517m sa=140n sb=140n sd=160n \
+        sca=203.41795 scb=0.11509 scc=0.02523 m=(1)
+mp5 (Y B1 net124 NW) g45p1svt w=(215n) l=45n nf=1 as=30.1f ad=30.1f \
+        ps=710n pd=710n nrd=651.163m nrs=651.163m sa=140n sb=140n sd=160n \
+        sca=162.02845 scb=0.10751 scc=0.02009 m=(1)
+mp4 (Y B0 net124 NW) g45p1svt w=(215n) l=45n nf=1 as=30.1f ad=30.1f \
+        ps=710n pd=710n nrd=651.163m nrs=651.163m sa=140n sb=140n sd=160n \
+        sca=162.02845 scb=0.10751 scc=0.02009 m=(1)
+mp2 (net124 net146 VDD NW) g45p1svt w=(215n) l=45n nf=1 as=30.1f \
+        ad=30.1f ps=710n pd=710n nrd=651.163m nrs=651.163m sa=140n sb=140n \
+        sd=160n sca=162.02845 scb=0.10751 scc=0.02009 m=(1)
+mp0 (net146 A0N VDD NW) g45p1svt w=(215n) l=45n nf=1 as=30.1f ad=30.1f \
+        ps=710n pd=710n nrd=651.163m nrs=651.163m sa=140n sb=140n sd=160n \
+        sca=162.02845 scb=0.10751 scc=0.02009 m=(1)
+mp1 (net164 A1N VDD NW) g45p1svt w=(215n) l=45n nf=1 as=30.1f ad=30.1f \
+        ps=710n pd=710n nrd=651.163m nrs=651.163m sa=140n sb=140n sd=160n \
+        sca=162.02845 scb=0.10751 scc=0.02009 m=(1)
+mp3 (net124 net164 VDD NW) g45p1svt w=(215n) l=45n nf=1 as=30.1f \
+        ad=30.1f ps=710n pd=710n nrd=651.163m nrs=651.163m sa=140n sb=140n \
+        sd=160n sca=162.02845 scb=0.10751 scc=0.02009 m=(1)
+ends AOI2BB2XL
+// End of subcircuit definition.
+

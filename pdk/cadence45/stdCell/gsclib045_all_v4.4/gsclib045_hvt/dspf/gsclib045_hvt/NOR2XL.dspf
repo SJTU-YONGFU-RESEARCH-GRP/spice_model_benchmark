@@ -1,0 +1,87 @@
+*
+*|DSPF 1.5
+*
+*|DATE "Wed May  8 11:37:03 2013"
+*|VENDOR "Cadence Design Systems"
+*|PROGRAM "Cadence Extraction QRC"
+*|VERSION "12.1 Linux 64 bit - (Fri Mar 15 17:53:47 PDT 2013)"
+*|DESIGN "NOR2XL"
+*|DIVIDER /
+*|DELIMITER :
+*|DeviceFingerDelim "@"
+*|BUSBIT []
+** caps2d version: 10
+*
+.GLOBAL  VDD VSS
+*
+.SUBCKT  NOR2XL A Y B
+*
+*Net Section
+*
+*|GROUND_NET VSS
+*
+*|NET A 1.96536e-16
+*|P (A X 0 0.1100 0.7700)
+*|I (Mmn0:g Mmn0 g X 0 0.1975 0.5775)
+*|I (Mmp0:g Mmp0 g X 0 0.2575 1.1325)
+*|S (A:2 0.1975 0.7500)
+*|S (A:3 0.1400 0.7500)
+C1 Mmp0:g VSS 7.20664e-17
+C2 Mmn0:g VSS 2.35106e-17
+C3 A:2 VSS 2.44568e-17
+C4 A:3 VSS 1.19008e-17
+C5 A VSS 6.46009e-17
+Rl1 A:2 A:3 46.266560 $W=0.094
+Rl2 A:2 Mmn0:g 34.329510 $W=0.039
+Rl3 Mmp0:g A:2 106.972076 $W=0.039
+Rk4 A:3 A 0.016119 $W=0.1
+*
+*|NET Y 1.39215e-16
+*|P (Y X 0 0.4750 1.0900)
+*|I (Mmn0:d Mmn0 d X 0 0.3000 0.5775)
+*|I (Mmp1:d Mmp1 d X 0 0.4550 1.1325)
+*|S (Y:2 0.4650 1.0850)
+C6 Mmp1:d VSS 5.96858e-17
+C7 Mmn0:d VSS 7.95296e-17
+Rk5 Y Y:2 0.003074 $W=0.1
+Rk6 Y:2 Mmn0:d 75.489525 $W=0.08
+Rk7 Mmp1:d Y:2 62.000000 $W=0.1225
+*
+*|NET B 1.97877e-16
+*|P (B X 0 0.3100 0.9300)
+*|I (Mmn1:g Mmn1 g X 0 0.4025 0.5775)
+*|I (Mmp1:g Mmp1 g X 0 0.3625 1.1325)
+*|S (B:2 0.3750 0.7950)
+C8 Mmp1:g VSS 5.582e-17
+C9 Mmn1:g VSS 2.54707e-17
+C10 B:2 VSS 1.02826e-16
+C11 B VSS 1.37603e-17
+Rl8 Mmn1:g B:2 41.624191 $W=0.039
+Rl9 B:2 Mmp1:g 72.806778 $W=0.039
+Rk10 B:2 B 45.079147 $W=0.05
+*
+*|NET net41 0
+*|I (Mmp0:d Mmp0 d X 0 0.3100 1.1325)
+*|I (Mmp1:s Mmp1 s X 0 0.3100 1.1325)
+Rmw11 Mmp1:s Mmp0:d 0.001000 $W=1
+*
+*Instance Section
+*
+Mmn0	Mmn0:d	Mmn0:g	VSS	VSS	g45n1hvt	L=0.045U
++ W=0.145U
++ AD=0.0232P	AS=0.0536P	PD=0.61U	PS=1.48U
++ fw=1.45e-07 sa=1e-07 sb=3.05e-07 sca=21.4614 scb=0.0218523 scc=0.00230065
+Mmn1	Mmn0:d	Mmn1:g	VSS	VSS	g45n1hvt	L=0.045U
++ W=0.145U
++ AD=0.0232P	AS=0.0536P	PD=0.61U	PS=1.48U
++ fw=1.45e-07 sa=3.05e-07 sb=1e-07 sca=21.4614 scb=0.0218523 scc=0.00230065
+Mmp0	Mmp0:d	Mmp0:g	VDD	VDD	g45p1hvt	L=0.045U
++ W=0.215U
++ AD=0.0129P	AS=0.0301P	PD=0.55U	PS=0.71U
++ fw=2.15e-07 sa=1.4e-07 sb=2.45e-07 sca=29.8819 scb=0.0359119 scc=0.00165852
+Mmp1	Mmp1:d	Mmp1:g	Mmp1:s	VDD	g45p1hvt	L=0.045U
++ W=0.215U
++ AD=0.0301P	AS=0.0129P	PD=0.71U	PS=0.55U
++ fw=2.15e-07 sa=2.45e-07 sb=1.4e-07 sca=30.7015 scb=0.0368156 scc=0.00184473
+.ENDS
+.END

@@ -1,0 +1,140 @@
+// Generated for: spectre (May  1 08:11:43 2013 )
+// Library name: gsclib045
+// Cell name: LSHL_ISOH_X1_FROM_OFF
+// View name: extracted
+
+simulator lang=spectre
+
+subckt LSHL_ISOH_X1_FROM_OFF A ExtVDD ISO VSS Y
+PM1 (\9\:ison \1\:ISO \3\:ExtVDD ExtVDD) g45p1svt w=(2.15e-07) l=4.5e-08 \
+        nf=1 as=3.01e-14 ad=3.44e-14 ps=7.1e-07 pd=7.5e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=3.45e-07 sd=160n sca=25.1337 \
+        scb=0.0259132 scc=0.00265433 m=(1)
+mp0 (\9\:n0 \1\:A \3\:ExtVDD ExtVDD) g45p1svt w=(2.15e-07) l=4.5e-08 \
+        nf=1 as=3.01e-14 ad=3.44e-14 ps=7.1e-07 pd=7.5e-07 nrd=1.16667 \
+        nrs=1.16667 sa=3.45e-07 sb=1.4e-07 sd=160n sca=10.57 \
+        scb=0.00792753 scc=9.23989e-05 m=(1)
+C1 (VDD VSS) capacitor c=9.77832e-17
+C2 (ExtVDD VSS) capacitor c=1.6824e-16
+C3 (ISO VSS) capacitor c=3.82295e-17
+C4 (Y VSS) capacitor c=2.37638e-17
+C5 (A VSS) capacitor c=4.79026e-17
+C6 (ison VSS) capacitor c=7.84951e-17
+C7 (gatedVSS VSS) capacitor c=2.27689e-16
+C8 (n0 VSS) capacitor c=3.15847e-17
+C9 (\4\:n0 VSS) capacitor c=4.76016e-17
+C10 (\1\:A VSS) capacitor c=6.21766e-17
+C11 (\1\:ISO VSS) capacitor c=8.74857e-17
+C12 (\4\:A VSS) capacitor c=3.47995e-17
+C13 (\3\:ISO VSS) capacitor c=3.96268e-17
+C14 (\3\:n0 VSS) capacitor c=2.52388e-17
+C15 (\4\:ison VSS) capacitor c=1.71249e-17
+C16 (\3\:A VSS) capacitor c=1.77976e-17
+C17 (\2\:ISO VSS) capacitor c=6.82782e-17
+C18 (\1\:Y VSS) capacitor c=4.78485e-17
+C19 (\1\:ExtVDD VSS) capacitor c=1.58747e-16
+C20 (\6\:Y VSS) capacitor c=1.38928e-16
+C21 (\9\:n0 VSS) capacitor c=9.90784e-17
+C22 (\3\:ExtVDD VSS) capacitor c=1.22544e-16
+C23 (\9\:ison VSS) capacitor c=1.13074e-16
+C24 (\4\:Y VSS) capacitor c=3.00713e-17
+C25 (\7\:gatedVSS VSS) capacitor c=5.54147e-17
+C26 (\7\:n0 VSS) capacitor c=1.39161e-16
+C27 (\7\:ison VSS) capacitor c=1.53778e-16
+C28 (\2\:A VSS) capacitor c=6.59522e-17
+C29 (VDD VSS) capacitor c=2.20958e-16
+C30 (\2\:ison VSS) capacitor c=1.16842e-16
+C31 (\2\:n0 VSS) capacitor c=2.92531e-17
+C32 (\5\:ISO VSS) capacitor c=1.68336e-17
+C33 (\6\:A VSS) capacitor c=3.39715e-17
+C34 (\6\:ison VSS) capacitor c=1.19952e-16
+C35 (\6\:ExtVDD VSS) capacitor c=1.28381e-16
+C36 (\5\:n0 VSS) capacitor c=5.8316e-17
+C37 (\6\:n0 VSS) capacitor c=1.76842e-16
+C38 (\3\:Y VSS) capacitor c=6.776e-17
+Rk31 (VDD VDD) resistor r=0.4076 c=0
+Rk12 (\4\:ExtVDD ExtVDD) resistor r=0.272 c=0
+Rk11 (\2\:ExtVDD \4\:ExtVDD) resistor r=0.8362 c=0
+Rk13 (ExtVDD \6\:ExtVDD) resistor r=0.001553 c=0
+Rk14 (\6\:ExtVDD ExtVDD) resistor r=0.001553 c=0
+Rk2 (\5\:ISO ISO) resistor r=0.007154 c=0
+Rk1 (\4\:ISO \5\:ISO) resistor r=0.003308 c=0
+Rk22 (\3\:Y Y) resistor r=0.3125 c=0
+Rk21 (\2\:Y \3\:Y) resistor r=0.2073 c=0
+Rk23 (Y \5\:Y) resistor r=0.03076 c=0
+Rk24 (\3\:Y \7\:Y) resistor r=0.4957 c=0
+Rk25 (\2\:VSS VSS) resistor r=0.5855 c=0
+Rk26 (VSS \3\:VSS) resistor r=0.06351 c=0
+Rk28 (\4\:VSS VSS) resistor r=0.3658 c=0
+Rk27 (\3\:VSS \4\:VSS) resistor r=0.03398 c=0
+Rk29 (VSS \6\:VSS) resistor r=0.4338 c=0
+Rk30 (\3\:VSS \8\:VSS) resistor r=0.2093 c=0
+Rk32 (\10\:VSS VSS) resistor r=0.5855 c=0
+Rk34 (\11\:VSS VSS) resistor r=0.3658 c=0
+Rk33 (VSS \11\:VSS) resistor r=0.09787 c=0
+Rk6 (\6\:A A) resistor r=0.008148 c=0
+Rk5 (\5\:A \6\:A) resistor r=0.004284 c=0
+Rk9 (\6\:ison \8\:ison) resistor r=0.6364 c=0
+Rk10 (\8\:ison \10\:ison) resistor r=0.9089 c=0
+Rk17 (gatedVSS \8\:gatedVSS) resistor r=0.08692 c=0
+Rk18 (\5\:n0 \6\:n0) resistor r=0.2544 c=0
+Rk19 (\6\:n0 \8\:n0) resistor r=0.7784 c=0
+Rk20 (\6\:n0 \10\:n0) resistor r=0.4508 c=0
+Rl1 (\1\:ISO \2\:ISO) resistor r=264.957 c=0
+Rl2 (\2\:ISO \3\:ISO) resistor r=171.342 c=0
+Rl3 (\1\:A \2\:A) resistor r=248.037 c=0
+Rl5 (\2\:A \4\:A) resistor r=117.068 c=0
+Rl4 (\2\:A \3\:A) resistor r=1.2666 c=0
+Rl6 (\2\:ison ison) resistor r=208.445 c=0
+Rl8 (\4\:ison \2\:ison) resistor r=77.0076 c=0
+Rl12 (\2\:n0 \4\:n0) resistor r=89.0826 c=0
+Rl10 (n0 \2\:n0) resistor r=78.8553 c=0
+Rl11 (\2\:n0 \3\:n0) resistor r=1.2301 c=0
+Rz8 (\4\:Y \5\:Y) resistor r=37.5 c=0
+Rz9 (\6\:VSS \5\:VSS) resistor r=75 c=0
+Rz10 (\8\:VSS \7\:VSS) resistor r=75 c=0
+Rz1 (\8\:ison \7\:ison) resistor r=75 c=0
+Rz4 (gatedVSS \3\:gatedVSS) resistor r=37.5 c=0
+Rz6 (\8\:gatedVSS \7\:gatedVSS) resistor r=75 c=0
+Rz7 (\7\:n0 \8\:n0) resistor r=75 c=0
+Ry2 (\1\:ExtVDD \2\:ExtVDD) resistor r=20.6667 c=0
+Ry3 (\3\:ExtVDD \4\:ExtVDD) resistor r=62 c=0
+Ry5 (\1\:Y \2\:Y) resistor r=20.6667 c=0
+Ry6 (\6\:Y \7\:Y) resistor r=20.6667 c=0
+Ry7 (\2\:VSS \1\:VSS) resistor r=31 c=0
+Ry8 (\4\:VSS \1\:VSS) resistor r=5.1667 c=0
+Ry9 (\10\:VSS \9\:VSS) resistor r=31 c=0
+Ry10 (\11\:VSS \9\:VSS) resistor r=5.1667 c=0
+Ry1 (\10\:ison \9\:ison) resistor r=62 c=0
+Ry4 (\9\:n0 \10\:n0) resistor r=62 c=0
+Rx1 (\2\:ISO \4\:ISO) resistor r=45 c=0
+Rx2 (\3\:A \5\:A) resistor r=45 c=0
+Rx3 (\6\:ison \4\:ison) resistor r=45 c=0
+Rx4 (\3\:n0 \5\:n0) resistor r=45 c=0
+NM1 (\7\:ison \3\:ISO \5\:VSS VSS) g45n1svt w=(1.45e-07) l=4.5e-08 nf=1 \
+        as=2.03e-14 ad=2.03e-14 ps=5.7e-07 pd=5.7e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=1.4e-07 sd=160n sca=3.6606 \
+        scb=0.000125236 scc=4.16931e-09 m=(1)
+mn0 (\7\:n0 \4\:A \7\:gatedVSS VSS) g45n1svt w=(1.45e-07) l=4.5e-08 nf=1 \
+        as=2.03e-14 ad=2.03e-14 ps=5.7e-07 pd=5.7e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=1.4e-07 sd=160n sca=5.4629 \
+        scb=0.00240631 scc=0.000219187 m=(1)
+NM0 (\4\:Y n0 \3\:gatedVSS VSS) g45n1svt w=(2.6e-07) l=4.5e-08 nf=1 \
+        as=3.64e-14 ad=3.64e-14 ps=8e-07 pd=8e-07 nrd=1.16667 nrs=1.16667 \
+        sa=1.4e-07 sb=1.4e-07 sd=160n sca=15.3338 scb=0.0153436 \
+        scc=0.00119435 m=(1)
+NM3 (\7\:VSS \2\:ison gatedVSS VSS) g45n1svt w=(2.6e-07) l=4.5e-08 nf=1 \
+        as=4.16e-14 ad=3.64e-14 ps=8.4e-07 pd=8e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=3.45e-07 sd=160n sca=15.3338 \
+        scb=0.0153436 scc=0.00119435 m=(2)
+PM0 (\1\:Y \4\:n0 \1\:ExtVDD ExtVDD) g45p1svt w=(3.9e-07) l=4.5e-08 nf=1 \
+        as=5.46e-14 ad=6.24e-14 ps=1.06e-06 pd=1.1e-06 nrd=1.16667 \
+        nrs=1.16667 sa=3.45e-07 sb=1.4e-07 sd=160n sca=26.6928 \
+        scb=0.0286638 scc=0.00274044 m=(1)
+PM4 (\6\:Y ison \1\:ExtVDD ExtVDD) g45p1svt w=(3.9e-07) l=4.5e-08 nf=1 \
+        as=6.24e-14 ad=5.46e-14 ps=1.1e-06 pd=1.06e-06 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=3.45e-07 sd=160n sca=12.1292 \
+        scb=0.0106781 scc=0.000178505 m=(1)
+ends LSHL_ISOH_X1_FROM_OFF
+// End of subcircuit definition.
+

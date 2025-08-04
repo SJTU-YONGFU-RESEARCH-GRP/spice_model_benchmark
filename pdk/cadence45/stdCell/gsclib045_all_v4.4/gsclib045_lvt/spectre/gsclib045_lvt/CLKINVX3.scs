@@ -1,0 +1,17 @@
+// Generated for: spectre (Apr 19 14:31:34 2013 )
+// Library name: gsclib045_lvt
+// Cell name: CLKINVX3
+// View name: schematic
+
+simulator lang=spectre
+
+subckt CLKINVX3 A Y VDD VSS
+mp0 (Y A VDD VDD) g45p1lvt w=(1.17u) l=45n nf=1 as=163.8f ad=163.8f \
+        ps=2.62u pd=2.62u nrd=119.658m nrs=119.658m sa=140n sb=140n \
+        sd=160n sca=67.91660 scb=0.06314 scc=0.00813 m=(1)
+mn0 (Y A VSS VSS) g45n1lvt w=(780n) l=45n nf=1 as=109.2f ad=109.2f \
+        ps=1.84u pd=1.84u nrd=179.487m nrs=179.487m sa=140n sb=140n \
+        sd=160n sca=80.49887 scb=0.07059 scc=0.00954 m=(1)
+ends CLKINVX3
+// End of subcircuit definition.
+

@@ -1,0 +1,129 @@
+*SPEF "IEEE 1481-1999"
+*DESIGN  "INVX6"
+*DATE "Mon Sep 27 09:53:09 2010"
+*VENDOR "Cadence Design Systems"
+*PROGRAM "Assura RCX"
+*VERSION "3.2 Red Hat Linux release 7.2 (Enigma) - (09/09/2009-10:39)"
+*DESIGN_FLOW "Physical Verification"
+*DIVIDER /
+*DELIMITER :
+*BUS_DELIMITER []
+*T_UNIT 1 PS
+*C_UNIT 1e15 FF
+*R_UNIT 1 OHM
+*L_UNIT 1 MH
+// DeviceFingerDelim "@"
+// MATCHED
+// caps2d version: 10
+
+*NAME_MAP
+*1 mp0\@3
+*2 mp0\@4
+*3 mn0
+*4 Y
+*5 mn0\@1
+*6 mn0\@2
+*7 mn0\@3
+*8 mn0\@4
+*9 A
+*10 VDD
+*11 VSS
+*12 mp0
+*13 mp0\@1
+*14 mp0\@2
+
+*GROUND_NETS VSS
+
+*PORTS
+*10 I
+*11 I
+*9 I
+*4 O
+
+*D_NET *10 2.52765e-16
+
+*CONN
+*P *10 I *C 0.1000 1.7100 
+*I *12:s B *C 0.1100 1.1350 
+*I *13:s B *C 0.5100 1.1350 
+*I *14:s B *C 0.5100 1.1350 
+*I *1:s B *C 0.9200 1.1350 
+*I *2:s B *C 0.9200 1.1350 
+*N *10:2 *C 0.6000 1.7100 
+
+*CAP
+0 *10:2 4.01528e-17
+1 *10 2.12612e-16
+
+*RES
+0 *10:2 *10 12.5  // $metal1_conn
+
+*END
+
+*D_NET *11 0
+
+*CONN
+*P *11 I *C 0.1000 0.0000 
+*I *3:s B *C 0.1100 0.5050 
+*I *5:s B *C 0.5100 0.5050 
+*I *6:s B *C 0.5100 0.5050 
+*I *7:s B *C 0.9200 0.5050 
+*I *8:s B *C 0.9200 0.5050 
+*N *11:2 *C 0.6000 0.0000 
+
+
+*RES
+0 *11:2 *11 10.333333  // $metal1_conn
+
+*END
+
+*D_NET *9 4.63782e-16
+
+*CONN
+*P *9 I *C 0.1100 0.7600 
+*I *3:g B *C 0.2025 0.5050 
+*I *5:g B *C 0.4075 0.5050 
+*I *6:g B *C 0.6125 0.5050 
+*I *7:g B *C 0.8175 0.5050 
+*I *8:g B *C 1.0225 0.5050 
+*I *12:g B *C 0.2025 1.1350 
+*I *13:g B *C 0.4075 1.1350 
+*I *14:g B *C 0.6125 1.1350 
+*I *1:g B *C 0.8175 1.1350 
+*I *2:g B *C 1.0225 1.1350 
+
+*CAP
+0 *2:g 4.14801e-16
+1 *9 4.8981e-17
+
+*RES
+0 *2:g *9 0.026434  // $metal1_conn
+
+*END
+
+*D_NET *4 5.76785e-16
+
+*CONN
+*P *4 O *C 1.1150 0.7600 
+*I *3:d B *C 0.3050 0.5050 
+*I *5:d B *C 0.3050 0.5050 
+*I *6:d B *C 0.7150 0.5050 
+*I *7:d B *C 0.7150 0.5050 
+*I *8:d B *C 1.1150 0.5050 
+*I *12:d B *C 0.3050 1.1350 
+*I *13:d B *C 0.3050 1.1350 
+*I *14:d B *C 0.7150 1.1350 
+*I *1:d B *C 0.7150 1.1350 
+*I *2:d B *C 1.1150 1.1350 
+
+*CAP
+0 *2:d 3.14725e-16
+1 *3:d 2.47582e-16
+2 *4 1.4478e-17
+
+*RES
+0 *2:d *4 0.099184  // $metal1_conn
+1 *4 *3:d 0.065027  // $metal1_conn
+
+*END
+

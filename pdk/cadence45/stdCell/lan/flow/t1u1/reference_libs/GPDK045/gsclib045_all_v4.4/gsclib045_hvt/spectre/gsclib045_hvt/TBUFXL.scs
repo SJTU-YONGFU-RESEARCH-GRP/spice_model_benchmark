@@ -1,0 +1,47 @@
+// Generated for: spectre (Apr  5 14:20:19 2013 )
+// Library name: gsclib045_hvt
+// Cell name: TBUFXL
+// View name: schematic
+
+simulator lang=spectre
+
+subckt TBUFXL A OE Y VDD VSS
+mp2 (non OEb net127 VDD) g45p1hvt w=(215n) l=45n nf=1 as=30.1f ad=30.1f \
+        ps=710n pd=710n nrd=651.163m nrs=651.163m sa=140n sb=140n sd=160n \
+        sca=162.02845 scb=0.10751 scc=0.02009 m=(1)
+mp1 (net127 A VDD VDD) g45p1hvt w=(215n) l=45n nf=1 as=30.1f ad=30.1f \
+        ps=710n pd=710n nrd=651.163m nrs=651.163m sa=140n sb=140n sd=160n \
+        sca=162.02845 scb=0.10751 scc=0.02009 m=(1)
+mp5 (Y pon VDD VDD) g45p1hvt w=(215n) l=45n nf=1 as=30.1f ad=30.1f \
+        ps=710n pd=710n nrd=651.163m nrs=651.163m sa=140n sb=140n sd=160n \
+        sca=162.02845 scb=0.10751 scc=0.02009 m=(1)
+mp3 (pon A VDD VDD) g45p1hvt w=(215n) l=45n nf=1 as=30.1f ad=30.1f \
+        ps=710n pd=710n nrd=651.163m nrs=651.163m sa=140n sb=140n sd=160n \
+        sca=162.02845 scb=0.10751 scc=0.02009 m=(1)
+mp4 (pon OE VDD VDD) g45p1hvt w=(215n) l=45n nf=1 as=30.1f ad=30.1f \
+        ps=710n pd=710n nrd=651.163m nrs=651.163m sa=140n sb=140n sd=160n \
+        sca=162.02845 scb=0.10751 scc=0.02009 m=(1)
+mp0 (OEb OE VDD VDD) g45p1hvt w=(215n) l=45n nf=1 as=30.1f ad=30.1f \
+        ps=710n pd=710n nrd=651.163m nrs=651.163m sa=140n sb=140n sd=160n \
+        sca=162.02845 scb=0.10751 scc=0.02009 m=(1)
+mn5 (Y non VSS VSS) g45n1hvt w=(145n) l=45n nf=1 as=20.3f ad=20.3f \
+        ps=570n pd=570n nrd=965.517m nrs=965.517m sa=140n sb=140n sd=160n \
+        sca=203.41795 scb=0.11509 scc=0.02523 m=(1)
+mn3 (net144 A VSS VSS) g45n1hvt w=(145n) l=45n nf=1 as=20.3f ad=20.3f \
+        ps=570n pd=570n nrd=965.517m nrs=965.517m sa=140n sb=140n sd=160n \
+        sca=203.41795 scb=0.11509 scc=0.02523 m=(1)
+mn0 (OEb OE VSS VSS) g45n1hvt w=(145n) l=45n nf=1 as=20.3f ad=20.3f \
+        ps=570n pd=570n nrd=965.517m nrs=965.517m sa=140n sb=140n sd=160n \
+        sca=203.41795 scb=0.11509 scc=0.02523 m=(1)
+mn4 (pon OE net144 VSS) g45n1hvt w=(145n) l=45n nf=1 as=20.3f ad=20.3f \
+        ps=570n pd=570n nrd=965.517m nrs=965.517m sa=140n sb=140n sd=160n \
+        sca=203.41795 scb=0.11509 scc=0.02523 m=(1)
+mn2 (non OEb VSS VSS) g45n1hvt w=(145n) l=45n nf=1 as=20.3f ad=20.3f \
+        ps=570n pd=570n nrd=965.517m nrs=965.517m sa=140n sb=140n sd=160n \
+        sca=203.41795 scb=0.11509 scc=0.02523 m=(1)
+mn1 (non A VSS VSS) g45n1hvt w=(145n) l=45n nf=1 as=20.3f ad=20.3f \
+        ps=570n pd=570n nrd=965.517m nrs=965.517m sa=140n sb=140n sd=160n \
+        sca=203.41795 scb=0.11509 scc=0.02523 m=(1)
+ends TBUFXL
+// End of subcircuit definition.
+

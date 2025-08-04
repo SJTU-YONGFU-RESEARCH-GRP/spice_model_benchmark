@@ -1,0 +1,24 @@
+// Generated for: spectre (May  1 09:13:57 2013 )
+// Library name: gsclib045_hvt
+// Cell name: CLKINVX4
+// View name: extracted
+
+simulator lang=spectre
+
+subckt CLKINVX4 A VDD VSS Y
+mp0 (Y A VDD VDD) g45p1hvt w=(3.9e-07) l=4.5e-08 nf=1 as=6.054e-14 \
+        ad=6.24e-14 ps=1.245e-06 pd=1.1e-06 nrd=1.16667 nrs=1.16667 \
+        sa=1.4e-07 sb=7.15e-07 sd=160n sca=33.7975 scb=0.0358754 \
+        scc=0.00324911 m=(4)
+C1 (Y VSS) capacitor c=1.99055e-16
+C2 (A VSS) capacitor c=3.37398e-16
+C3 (VDD VSS) capacitor c=1.87879e-16
+C4 (\4\:Y VSS) capacitor c=1.92325e-16
+Rk4 (Y \4\:Y) resistor r=0.2069 c=0
+mn0 (\4\:Y A VSS VSS) g45n1hvt w=(2.6e-07) l=4.5e-08 nf=1 as=4.306e-14 \
+        ad=4.16e-14 ps=9.95e-07 pd=8.4e-07 nrd=1.16667 nrs=1.16667 \
+        sa=1.4e-07 sb=7.15e-07 sd=160n sca=16.9678 scb=0.0167861 \
+        scc=0.00150639 m=(4)
+ends CLKINVX4
+// End of subcircuit definition.
+

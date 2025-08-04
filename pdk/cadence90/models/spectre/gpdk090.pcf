@@ -1,0 +1,88 @@
+;; 16th May 2008:
+;; - modified acc. to new corners
+
+corAddProcess( "gpdk090" "./models" "multipleModelLib" )
+
+corAddModelFileAndSectionChoices( "gpdk090" "gpdk090_mos.scs" '("TT_s1v" "FF_s1v" "SS_s1v") )
+corAddModelFileAndSectionChoices( "gpdk090" "gpdk090_mos.scs" '("TT_lp" "FF_lp" "SS_lp") )
+corAddModelFileAndSectionChoices( "gpdk090" "gpdk090_mos.scs" '("TT_hv" "FF_hv" "SS_hv") )
+corAddModelFileAndSectionChoices( "gpdk090" "gpdk090_mos_iso.scs" '("ALL") )
+corAddModelFileAndSectionChoices( "gpdk090" "gpdk090_moscap.scs" '("TT_s1v" "FF_s1v" "SS_s1v") )
+corAddModelFileAndSectionChoices( "gpdk090" "gpdk090_moscap.scs" '("TT_lp" "FF_lp" "SS_lp") )
+corAddModelFileAndSectionChoices( "gpdk090" "gpdk090_moscap.scs" '("TT_hv" "FF_hv" "SS_hv") )
+corAddModelFileAndSectionChoices( "gpdk090" "gpdk090_resistor.scs" '("res_t" "res_l" "res_h") )
+corAddModelFileAndSectionChoices( "gpdk090" "gpdk090_capacitor.scs" '("cap_t" "cap_l" "cap_h") )
+corAddModelFileAndSectionChoices( "gpdk090" "gpdk090_diode.scs" '("dio_t") )
+;;corAddModelFileAndSectionChoices( "gpdk090" "gpdk090_diode.scs" '("dio_hvt") )
+;;corAddModelFileAndSectionChoices( "gpdk090" "gpdk090_diode.scs" '("dio_na") )
+;;corAddModelFileAndSectionChoices( "gpdk090" "gpdk090_diode.scs" '("dio_25") )
+;;corAddModelFileAndSectionChoices( "gpdk090" "gpdk090_diode.scs" '("dio_na25") )
+corAddModelFileAndSectionChoices( "gpdk090" "gpdk090_bipolar.scs" '("bjt_t") )
+
+;;;;;;;;;;;;;;;;;;;;;;  begin typ corner ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+corAddCorner( "gpdk090" "typ" )
+corSetCornerGroupVariant( "gpdk090" "typ" "gpdk090_mos.scs" "TT_s1v" )
+corSetCornerGroupVariant( "gpdk090" "typ" "gpdk090_mos.scs" "TT_lp" )
+corSetCornerGroupVariant( "gpdk090" "typ" "gpdk090_mos.scs" "TT_hv" )
+corSetCornerGroupVariant( "gpdk090" "typ" "gpdk090_mos_iso.scs" "ALL" )
+corSetCornerGroupVariant( "gpdk090" "typ" "gpdk090_moscap.scs" "TT_s1v" )
+corSetCornerGroupVariant( "gpdk090" "typ" "gpdk090_moscap.scs" "TT_lp" )
+corSetCornerGroupVariant( "gpdk090" "typ" "gpdk090_moscap.scs" "TT_hv" )
+corSetCornerGroupVariant( "gpdk090" "typ" "gpdk090_resistor.scs" "res_t" )
+corSetCornerGroupVariant( "gpdk090" "typ" "gpdk090_capacitor.scs" "cap_t" )
+corSetCornerGroupVariant( "gpdk090" "typ" "gpdk090_diode.scs" "dio_t" )
+;;corSetCornerGroupVariant( "gpdk090" "typ" "gpdk090_diode.scs" "dio_hvt" )
+;;corSetCornerGroupVariant( "gpdk090" "typ" "gpdk090_diode.scs" "dio_na" )
+;;corSetCornerGroupVariant( "gpdk090" "typ" "gpdk090_diode.scs" "dio_25" )
+;;corSetCornerGroupVariant( "gpdk090" "typ" "gpdk090_diode.scs" "dio_na25" )
+corSetCornerGroupVariant( "gpdk090" "typ" "gpdk090_bipolar.scs" "bjt_t" )
+corSetCornerRunTempVal( "gpdk090" "typ" 25 )
+
+;;;;;;;;;;;;;;;;;;;;;;  end typ corner ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;;;;;;;;  begin fastNP corner ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+corAddCorner( "gpdk090" "fastNP" )
+corSetCornerGroupVariant( "gpdk090" "fastNP" "gpdk090_mos.scs" "FF_s1v" )
+corSetCornerGroupVariant( "gpdk090" "fastNP" "gpdk090_mos.scs" "FF_lp" )
+corSetCornerGroupVariant( "gpdk090" "fastNP" "gpdk090_mos.scs" "FF_hv" )
+corSetCornerGroupVariant( "gpdk090" "fastNP" "gpdk090_mos_iso.scs" "ALL" )
+corSetCornerGroupVariant( "gpdk090" "fastNP" "gpdk090_moscap.scs" "FF_s1v" )
+corSetCornerGroupVariant( "gpdk090" "fastNP" "gpdk090_moscap.scs" "FF_lp" )
+corSetCornerGroupVariant( "gpdk090" "fastNP" "gpdk090_moscap.scs" "FF_hv" )
+corSetCornerGroupVariant( "gpdk090" "fastNP" "gpdk090_resistor.scs" "res_l" )
+corSetCornerGroupVariant( "gpdk090" "fastNP" "gpdk090_capacitor.scs" "cap_l" )
+corSetCornerGroupVariant( "gpdk090" "fastNP" "gpdk090_diode.scs" "dio_f" )
+;;corSetCornerGroupVariant( "gpdk090" "fastNP" "gpdk090_diode.scs" "dio_hvt" )
+;;corSetCornerGroupVariant( "gpdk090" "fastNP" "gpdk090_diode.scs" "dio_na" )
+;;corSetCornerGroupVariant( "gpdk090" "fastNP" "gpdk090_diode.scs" "dio_25" )
+;;corSetCornerGroupVariant( "gpdk090" "fastNP" "gpdk090_diode.scs" "dio_na25" )
+corSetCornerGroupVariant( "gpdk090" "fastNP" "gpdk090_bipolar.scs" "bjt_f" )
+corSetCornerRunTempVal( "gpdk090" "fastNP" 85 )
+
+;;;;;;;;;;;;;;;;;;;;;;  end fastNP corner ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;;;;;;;;  begin slowNP corner ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+corAddCorner( "gpdk090" "slowNP" )
+corSetCornerGroupVariant( "gpdk090" "slowNP" "gpdk090_mos.scs" "SS_s1v" )
+corSetCornerGroupVariant( "gpdk090" "slowNP" "gpdk090_mos.scs" "SS_lp" )
+corSetCornerGroupVariant( "gpdk090" "slowNP" "gpdk090_mos.scs" "SS_hv" )
+corSetCornerGroupVariant( "gpdk090" "slowNP" "gpdk090_mos_iso.scs" "ALL" )
+corSetCornerGroupVariant( "gpdk090" "slowNP" "gpdk090_moscap.scs" "SS_s1v" )
+corSetCornerGroupVariant( "gpdk090" "slowNP" "gpdk090_moscap.scs" "SS_lp" )
+corSetCornerGroupVariant( "gpdk090" "slowNP" "gpdk090_moscap.scs" "SS_hv" )
+corSetCornerGroupVariant( "gpdk090" "slowNP" "gpdk090_resistor.scs" "res_h" )
+corSetCornerGroupVariant( "gpdk090" "slowNP" "gpdk090_capacitor.scs" "cap_h" )
+corSetCornerGroupVariant( "gpdk090" "slowNP" "gpdk090_diode.scs" "dio_s" )
+;;corSetCornerGroupVariant( "gpdk090" "slowNP" "gpdk090_diode.scs" "dio_hvt" )
+;;corSetCornerGroupVariant( "gpdk090" "slowNP" "gpdk090_diode.scs" "dio_na" )
+;;corSetCornerGroupVariant( "gpdk090" "slowNP" "gpdk090_diode.scs" "dio_25" )
+;;corSetCornerGroupVariant( "gpdk090" "slowNP" "gpdk090_diode.scs" "dio_na25" )
+corSetCornerGroupVariant( "gpdk090" "slowNP" "gpdk090_bipolar.scs" "bjt_s" )
+corSetCornerRunTempVal( "gpdk090" "slowNP" 0 )
+
+;;;;;;;;;;;;;;;;;;;;;;  end slowNP corner ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

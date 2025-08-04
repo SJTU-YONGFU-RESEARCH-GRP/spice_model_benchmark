@@ -1,0 +1,209 @@
+// ****************************************************************************
+// 		  Advance Node PDK / Generic vertical Bipolar models
+//
+//  Copyright (c) 2014
+//  Cadence Design Systems, Inc.  All rights reserved.
+// 
+// These models represent a pseudo-process and are intended to be use
+// for demonstration purpose only.
+// *****************************************************************************
+//
+
+simulator lang=spectre
+library cds_ff_mpt
+
+//       1.LIB TT_BJT_NPN                                                      *
+//              SS_BJT_NPN                                                     *
+//              FF_BJT_NPN                                                     *
+//              MC_BJT_NPN                                                     *
+//         ( 0.8V N+/PW/DNW vertical NPN bipolar corner model)                 *
+
+
+
+//***************************************************************
+//                                                              *
+//         Vertical NPN BIPOLAR MODELS for 0.8V                 *
+//                                                              *
+//  *************************************************************
+ 
+//  ************************************************    
+//                     TYPICAL LIBRARY             *
+//  ************************************************
+
+section tt_bjt_npn
+parameters bf_npn=1
+parameters is_npn=1
+parameters nf_npn=1
+parameters rb_npn=1
+parameters re_npn=1
+parameters rc_npn=1
+parameters rbm_npn=1
+parameters cje_npn=1
+parameters cjc_npn=1
+include "cds_ff_mpt_bipolar.scs" section=bjt_npn
+endsection tt_bjt_npn
+ 
+
+//  ************************************************  
+//                  SLOW CORNER LIBRARY            *
+//  ************************************************
+
+section ss_bjt_npn
+parameters bf_npn=0.9
+parameters is_npn=0.8
+parameters nf_npn=1.003
+parameters rb_npn=1.2
+parameters re_npn=1.2
+parameters rc_npn=1.2
+parameters rbm_npn=1.2
+parameters cje_npn=1.1
+parameters cjc_npn=1.1
+include "cds_ff_mpt_bipolar.scs" section=bjt_npn
+endsection ss_bjt_npn
+ 
+//  ************************************************  
+//                  FAST CORNER LIBRARY            *
+//  ************************************************
+
+section ff_bjt_npn
+parameters bf_npn=1.1
+parameters is_npn=1.2
+parameters nf_npn=0.997
+parameters rb_npn=0.8
+parameters re_npn=0.8
+parameters rc_npn=0.8
+parameters rbm_npn=0.8
+parameters cje_npn=0.9
+parameters cjc_npn=0.9
+include "cds_ff_mpt_bipolar.scs" section=bjt_npn
+endsection ff_bjt_npn
+ 
+//  ************************************************  
+//                  STATISTICAL LIBRARY            *
+//  ************************************************
+
+section mc_bjt_npn
+parameters statis_bjt_npn=0
+parameters bjt_npn_stat=statis_bjt_npn
+parameters bf_npn=1.0000e+000 + ( -3.3333e-002) * bjt_npn_stat
+parameters is_npn=1.0000e+000 + ( -6.6666e-002) * bjt_npn_stat
+parameters nf_npn=1.0000e+000 + (1.0000e-003) * bjt_npn_stat
+parameters rb_npn=1.0000e+000 + (6.6666e-002) * bjt_npn_stat
+parameters re_npn=1.0000e+000 + (6.6666e-002) * bjt_npn_stat
+parameters rc_npn=1.0000e+000 + (6.6666e-002) * bjt_npn_stat
+parameters rbm_npn=1.0000e+000 + (6.6666e-002) * bjt_npn_stat
+parameters cje_npn=1.0000e+000 + (3.3333e-002) * bjt_npn_stat
+parameters cjc_npn=1.0000e+000 + (3.3333e-002) * bjt_npn_stat
+
+statistics {
+    process {
+        vary statis_bjt_npn dist=gauss std=1.0000e+000/1
+        }
+    }
+    
+include "cds_ff_mpt_bipolar.scs" section=bjt_npn
+endsection mc_bjt_npn
+
+
+section bjt_npn
+
+//*******************************************************************
+//            NPN with 1X1 effective emitter area                   *
+//*******************************************************************                     
+
+model cds_ff_mpt_npn1 bjt type=npn
++is = 1.084771E-18*is_npn      bf = 5.06438*bf_npn              nf = 1.014*nf_npn                
++vaf = 89.799145               ikf = 0.1421                     ise = 9.938318E-19*is_npn           
++ne = 1.214378                 br = 0.4055                      nr = 1                        
++var = 56.62                   ikr = 0.1                        isc = 8.24e-019*is_npn           
++nc = 1.13                     rb = 323.467944*rb_npn           irb = 1E-3                    
++rbm = 0.1*rbm_npn             re = 8.386475*re_npn             rc = 13.42*rc_npn                
++cje = 5.38E-15*cje_npn        vje = 0.55                       mje = 0.26                    
++cjc = 8.29E-14*cjc_npn        vjc = 0.74                       mjc = 0.37                    
++cjs = 0                       fc = 0                           tnom = 25                       
++xti = 3.438657                eg = 1.16                        tis1 = 0                      
++tis2 = 0                      tbf1 = 6.914862E-3               tbf2 = -2.153333E-5           
++tvaf1 = -4.227397E-4          tvaf2 = 7.438088E-6              tikf1 = -3.798624E-3          
++tikf2 = 8.936198E-4           tne1 = 5E-4                      tbr1 = 1E-3                   
++tbr2 = 0                      tvar1 = 0                        tvar2 = 0                     
++tikr1 = 0                     tikr2 = 0                        cte = 7.8E-4                  
++ctc = 9.9E-4                  tvje = 1E-3                      tvjc = 1.75E-3                
++tre1 = 5.4E-4                 tre2 = 0                         trb1 = 6.529291E-3            
++trb2 = 4.62196E-6             trc1 = 7.1E-4                    trc2 = 0   
++xtb = 0                       tlev = 1                         tlevc = 1                                             
++minr=1e-60         
+
+//*******************************************************************
+//            NPN with 2X2 effective emitter area                   *
+//*******************************************************************                      
+
+model cds_ff_mpt_npn2 bjt type=npn
++is = 5.569313E-18*is_npn      bf = 4.56047*bf_npn           nf = 1.014*nf_npn                
++vaf = 89.799145               ikf = 0.1421                  ise = 4.745226E-18*is_npn          
++ne = 1.214378                 br = 0.4055                   nr = 1                        
++var = 56.62                   ikr = 0.1                     isc = 3.9243E-018*is_npn         
++nc = 1.13                     rb = 176.08*rb_npn            irb = 1E-3                    
++rbm = 0.1*rbm_npn             re = 6.512*re_npn             rc = 7.26*rc_npn                 
++cje = 2.88E-14*cje_npn        vje = 0.55                    mje = 0.26                     
++cjc = 1.480E-13*cjc_npn       vjc = 0.74                    mjc = 0.37                    
++cjs = 0                       fc = 0                        tnom = 25                       
++xti = 3.438657                eg = 1.16                     tis1 = 0                      
++tis2 = 0                      tbf1 = 6.914862E-3            tbf2 = -2.153333E-5           
++tvaf1 = -4.227397E-4          tvaf2 = 7.438088E-6           tikf1 = -3.798624E-3          
++tikf2 = 8.936198E-4           tne1 = 5E-4                   tbr1 = 1E-3                   
++tbr2 = 0                      tvar1 = 0                     tvar2 = 0                     
++tikr1 = 0                     tikr2 = 0                     cte = 7.8E-4                  
++ctc = 9.9E-4                  tvje = 1E-3                   tvjc = 1.75E-3                
++tre1 = 5.4E-4                 tre2 = 0                      trb1 = 6.529291E-3            
++trb2 = 4.62196E-6             trc1 = 7.1E-4                 trc2 = 0   
++xtb = 0                       tlev = 1                      tlevc = 1                                             
++minr=1e-60                       
+
+//*********************************************
+//                NPN scalable                *
+//*********************************************
+                                                              
+subckt cds_ff_mpt_npns (1 2 3 4)                                                                                                          
+parameters area=1 areab=1 areac=1 
++dtemp=temp-25                                                                                            
++bf_s_n  = 5.54994-0.24562*sqrt(area)+0.00957*area                                                                                    
++is_s_n  = (0.47178+0.19529*area)*1E-18                                                                                              
++nf_s_n  = 1.014                                                                                                                     
++ise_s_n = (6.82395+1.48123*area)*1E-19                                                                                              
++isc_s_n = (3.64554+1.3771*area)*1E-19                                                                                              
++rb_s_n  = 283.17087-1.84298*area                                                                                                    
++rc_s_n  = 11.53048-0.06148*area                                                                                                     
++re_s_n  = 8.07913-0.03897*area                                                                                                     
++rbm_s_n = 0.1                                                                                                                       
++cje_s_n = (-0.19806+1.1998*area)*1E-15                                                                                              
++cjc_s_n = (6.90208+0.3529*area-0.00148*area*area)*1E-14                                                                           
+
+model cds_ff_mpt_npn bjt type=npn                                       
++is = is_s_n*is_npn            bf = bf_s_n*bf_npn            nf = nf_s_n*nf_npn                                                         
++vaf = 89.799145               ikf = 0.1421                  ise = ise_s_n*is_npn                                                           
++ne = 1.214378                 br = 0.4055                   nr = 1                                                                  
++var = 56.62                   ikr = 0.1                     isc = isc_s_n*is_npn                                                           
++nc = 1.13                     rb = rb_s_n*rb_npn            irb = 1E-3                                                              
++rbm = rbm_s_n*rbm_npn         re = re_s_n*re_npn            rc = rc_s_n*rc_npn                                                         
++cje = cje_s_n*cje_npn         vje = 0.55                    mje = 0.26                                                              
++cjc = cjc_s_n*cjc_npn         vjc = 0.74                    mjc = 0.37                                                             
++fc = 0                        xti = 3                       tnom = 25                       
++xti = 3.438657                eg = 1.16                     tis1 = 0                      
++tis2 = 0                      tbf1 = 6.914862E-3            tbf2 = -2.153333E-5           
++tvaf1 = -4.227397E-4          tvaf2 = 7.438088E-6           tikf1 = -3.798624E-3          
++tikf2 = 8.936198E-4           tne1 = 5E-4                   tbr1 = 1E-3                   
++tbr2 = 0                      tvar1 = 0                     tvar2 = 0                     
++tikr1 = 0                     tikr2 = 0                     cte = 7.8E-4                  
++ctc = 9.9E-4                  tvje = 1E-3                   tvjc = 1.75E-3                
++tre1 = 5.4E-4                 tre2 = 0                      trb1 = 6.529291E-3            
++trb2 = 4.62196E-6             trc1 = 7.1E-4                 trc2 = 0   
++xtb = 0                       tlev = 1                      tlevc = 1                                             
++minr=1e-60                                                                                             
+                                                                                                                                     
+q1 (1 2 3 4) cds_ff_mpt_npn area=area areab=areab areac=areac                                                                          
+ends cds_ff_mpt_npns   
+
+endsection bjt_npn 
+
+
+endlibrary cds_ff_mpt

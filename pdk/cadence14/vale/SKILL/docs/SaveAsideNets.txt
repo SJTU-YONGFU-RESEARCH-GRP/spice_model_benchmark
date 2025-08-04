@@ -1,0 +1,13 @@
+VALE Framework Component Module:
+   Save Aside Nets 
+
+Description:
+   Select a net from the user interface of available nets, and Net Tracer will run.  The result will be saved to a separate cellview.  More than one net may be selected and run at the same time. 
+
+Input Requirements:
+   An open cellview in Virtuoso Layout
+
+Development Notes:
+   All aspects of this Component Module were developed by Cadence.
+   Please contact Jonathan Fales for more information: jfales@cadence.com
+

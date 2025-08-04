@@ -1,0 +1,112 @@
+*SPEF "IEEE 1481-1999"
+*DESIGN  "CLKINVX1"
+*DATE "Mon Sep 27 09:18:13 2010"
+*VENDOR "Cadence Design Systems"
+*PROGRAM "Assura RCX"
+*VERSION "3.2 Red Hat Linux release 7.2 (Enigma) - (09/09/2009-10:39)"
+*DESIGN_FLOW "Physical Verification"
+*DIVIDER /
+*DELIMITER :
+*BUS_DELIMITER []
+*T_UNIT 1 PS
+*C_UNIT 1e15 FF
+*R_UNIT 1 OHM
+*L_UNIT 1 MH
+// DeviceFingerDelim "@"
+// MATCHED
+// caps2d version: 10
+
+*NAME_MAP
+*1 mn0
+*2 VSS
+*3 mp0
+*4 A
+*5 VDD
+*6 Y
+
+*GROUND_NETS VSS
+
+*PORTS
+*5 I
+*2 I
+*4 I
+*6 O
+
+*D_NET *5 6.58992e-17
+
+*CONN
+*P *5 I *C 0.1000 1.7100 
+*I *3:s B *C 0.1100 1.0950 
+*N *5:1 *C 0.3000 1.7100 
+
+*CAP
+0 *3:s 4.48617e-17
+1 *5:1 2.00351e-17
+2 *5 1.00247e-18
+
+*RES
+0 *5:1 *5 25.099483  // $metal1_conn
+1 *5 *3:s 21.052357  // $metal1_conn
+
+*END
+
+*D_NET *2 0
+
+*CONN
+*P *2 I *C 0.1000 0.0000 
+*I *1:s B *C 0.1100 0.5000 
+*N *2:1 *C 0.3000 0.0000 
+
+
+*RES
+0 *2:1 *2 20.76615  // $metal1_conn
+1 *2 *1:s 37.811539  // $metal1_conn
+
+*END
+
+*D_NET *4 1.33881e-16
+
+*CONN
+*P *4 I *C 0.0950 0.8250 
+*I *1:g B *C 0.2025 0.5000 
+*I *3:g B *C 0.2025 1.0950 
+*N *4:2 *C 0.2025 0.7300 
+*N *4:3 *C 0.1250 0.7300 
+*N *4:5 *C 0.1100 0.7300 
+*N *4:6 *C 0.1100 0.8250 
+
+*CAP
+0 *3:g 2.35303e-17
+1 *1:g 1.89123e-17
+2 *4:6 3.67101e-17
+3 *4:5 3.49685e-17
+4 *4:2 7.05068e-18
+5 *4:3 1.27094e-17
+
+*RES
+0 *3:g *4:2 40.835056  // $poly_conn
+1 *4:2 *4:3 47.826286  // $poly_conn
+2 *4:2 *1:g 22.886339  // $poly_conn
+3 *4:5 *4:3 0.004811  // $metal1_conn
+4 *4 *4:6 0.004651  // $metal1_conn
+5 *4:5 *4:6 0.043031  // $metal1_conn
+
+*END
+
+*D_NET *6 8.54549e-17
+
+*CONN
+*P *6 O *C 0.2950 0.6650 
+*I *1:d B *C 0.3450 0.5700 
+*I *3:d B *C 0.3450 1.0200 
+
+*CAP
+0 *3:d 3.77162e-17
+1 *6 4.77386e-17
+
+*RES
+0 *3:d *6 31.251808  // $metal1_conn
+1 *6 *1:d 75.060066  // $metal1_conn
+
+*END
+

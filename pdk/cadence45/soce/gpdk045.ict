@@ -1,0 +1,262 @@
+process "gpdk045" {
+	background_dielectric_constant 1.0
+}
+diffusion "N_SOURCE_DRAIN" {
+	thickness 0.33
+	resistivity 1.0
+}
+diffusion "P_SOURCE_DRAIN" {
+	thickness 0.33
+	resistivity 1.0
+}
+conductor "POLYCIDE" {
+	min_spacing 0.045
+	min_width 0.06
+	height 0.35
+	thickness 0.1
+	resistivity 10.0
+	gate_forming_layer true
+}
+conductor "METAL_1" {
+	min_spacing 0.06
+	min_width 0.06
+	height 0.78
+	thickness 0.15
+	resistivity 0.0736
+	gate_forming_layer false
+}
+conductor "METAL_2" {
+	min_spacing 0.07
+	min_width 0.08
+	height 1.23
+	thickness 0.15
+	resistivity 0.0604
+	gate_forming_layer false
+}
+conductor "METAL_3" {
+	min_spacing 0.07
+	min_width 0.08
+	height 1.68
+	thickness 0.15
+	resistivity 0.0604
+	gate_forming_layer false
+}
+conductor "METAL_4" {
+	min_spacing 0.07
+	min_width 0.08
+	height 2.13
+	thickness 0.15
+	resistivity 0.0604
+	gate_forming_layer false
+}
+conductor "METAL_5" {
+	min_spacing 0.07
+	min_width 0.08
+	height 2.58
+	thickness 0.15
+	resistivity 0.0604
+	gate_forming_layer false
+}
+conductor "METAL_6" {
+	min_spacing 0.07
+	min_width 0.08
+	height 3.03
+	thickness 0.15
+	resistivity 0.0604
+	gate_forming_layer false
+}
+conductor "METAL_7" {
+	min_spacing 0.07
+	min_width 0.08
+	height 3.48
+	thickness 0.15
+	resistivity 0.0604
+	gate_forming_layer false
+}
+conductor "METAL_8" {
+	min_spacing 0.07
+	min_width 0.08
+	height 3.93
+	thickness 0.15
+	resistivity 0.0214
+	gate_forming_layer false
+}
+conductor "METAL_9" {
+	min_spacing 0.07
+	min_width 0.08
+	height 4.38
+	thickness 1.0
+	resistivity 0.0214
+	gate_forming_layer false
+}
+conductor "METAL_10" {
+	min_spacing 0.2
+	min_width 0.22
+	height 5.98
+	thickness 1.0
+	resistivity 0.0214
+	gate_forming_layer false
+}
+conductor "METAL_11" {
+	min_spacing 0.2
+	min_width 0.22
+	height 7.58
+	thickness 1.4
+	resistivity 0.021
+	gate_forming_layer false
+}
+dielectric "STI" {
+	conformal FALSE
+	height 0.0
+	thickness 0.35
+	dielectric_constant 3.9
+}
+dielectric "ILD1" {
+	conformal FALSE
+	height 0.35
+	thickness 0.13
+	dielectric_constant 7.0
+}
+dielectric "ILD2" {
+	conformal FALSE
+	height 0.48
+	thickness 0.3
+	dielectric_constant 4.2
+}
+dielectric "IMD1" {
+	conformal FALSE
+	height 0.78
+	thickness 0.45
+	dielectric_constant 2.6
+}
+dielectric "IMD2" {
+	conformal FALSE
+	height 1.23
+	thickness 0.45
+	dielectric_constant 2.6
+}
+dielectric "IMD3" {
+	conformal FALSE
+	height 1.68
+	thickness 0.45
+	dielectric_constant 2.6
+}
+dielectric "IMD4" {
+	conformal FALSE
+	height 2.13
+	thickness 0.45
+	dielectric_constant 2.6
+}
+dielectric "IMD5" {
+	conformal FALSE
+	height 2.58
+	thickness 0.45
+	dielectric_constant 2.6
+}
+dielectric "IMD6" {
+	conformal FALSE
+	height 3.03
+	thickness 0.45
+	dielectric_constant 2.6
+}
+dielectric "IMD7" {
+	conformal FALSE
+	height 3.48
+	thickness 0.45
+	dielectric_constant 2.6
+}
+dielectric "IMD8" {
+	conformal FALSE
+	height 3.93
+	thickness 0.45
+	dielectric_constant 2.6
+}
+dielectric "IMD9" {
+	conformal FALSE
+	height 4.38
+	thickness 1.6
+	dielectric_constant 4.2
+}
+dielectric "IMD10" {
+	conformal FALSE
+	height 5.98
+	thickness 1.6
+	dielectric_constant 4.2
+}
+passivation "PASS1" {
+	conformal FALSE
+	height 7.58
+	thickness 2.05
+	dielectric_constant 4.2
+}
+passivation "PASS2" {
+	conformal FALSE
+	height 9.63
+	thickness 0.75
+	dielectric_constant 8
+}
+via "CONT" {
+	top_layer "METAL_1"
+	bottom_layer "N_SOURCE_DRAIN"
+	contact_resistance 75.0
+}
+via "CONT" {
+	top_layer "METAL_1"
+	bottom_layer "P_SOURCE_DRAIN"
+	contact_resistance 62.0
+}
+via "CONT" {
+	top_layer "METAL_1"
+	bottom_layer "POLYCIDE"
+	contact_resistance 45.0
+}
+via "VIA_1" {
+	top_layer "METAL_2"
+	bottom_layer "METAL_1"
+	contact_resistance 6.6
+}
+via "VIA_2" {
+	top_layer "METAL_3"
+	bottom_layer "METAL_2"
+	contact_resistance 6.6
+}
+via "VIA_3" {
+	top_layer "METAL_4"
+	bottom_layer "METAL_3"
+	contact_resistance 6.6
+}
+via "VIA_4" {
+	top_layer "METAL_5"
+	bottom_layer "METAL_4"
+	contact_resistance 6.6
+}
+via "VIA_5" {
+	top_layer "METAL_6"
+	bottom_layer "METAL_5"
+	contact_resistance 6.6
+}
+via "VIA_6" {
+	top_layer "METAL_7"
+	bottom_layer "METAL_6"
+	contact_resistance 6.6
+}
+via "VIA_7" {
+	top_layer "METAL_8"
+	bottom_layer "METAL_7"
+	contact_resistance 6.6
+}
+via "VIA_8" {
+	top_layer "METAL_9"
+	bottom_layer "METAL_8"
+	contact_resistance 0.28
+}
+via "VIA_9" {
+	top_layer "METAL_10"
+	bottom_layer "METAL_9"
+	contact_resistance 0.28
+}
+via "VIA_10" {
+	top_layer "METAL_11"
+	bottom_layer "METAL_10"
+	contact_resistance 0.06
+}

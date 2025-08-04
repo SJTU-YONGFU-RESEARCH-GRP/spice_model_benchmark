@@ -1,0 +1,39 @@
+####generated with SAED
+
+db::setPrefValue leActiveLPP -value "8 4294967295" -scope user
+
+source [oa::getPath [oa::LibFind SAED_PDK_32_28]]/pdk_version.tcl
+source [oa::getPath [oa::LibFind SAED_PDK_32_28]]/../scripts/callbacks/saed32_abut.tcl
+source [oa::getPath [oa::LibFind SAED_PDK_32_28]]/../scripts/callbacks/saed32_common.tcl
+source [oa::getPath [oa::LibFind SAED_PDK_32_28]]/../scripts/callbacks/mos_cbk.tcl
+source [oa::getPath [oa::LibFind SAED_PDK_32_28]]/../scripts/callbacks/AbutContact.tcl
+source [oa::getPath [oa::LibFind SAED_PDK_32_28]]/../scripts/callbacks/ArrayInstContact.tcl
+source [oa::getPath [oa::LibFind SAED_PDK_32_28]]/../scripts/callbacks/Contact.tcl
+source [oa::getPath [oa::LibFind SAED_PDK_32_28]]/../scripts/callbacks/Resistor.tcl
+source [oa::getPath [oa::LibFind SAED_PDK_32_28]]/../scripts/callbacks/ND.tcl
+source [oa::getPath [oa::LibFind SAED_PDK_32_28]]/../scripts/callbacks/PD.tcl
+source [oa::getPath [oa::LibFind SAED_PDK_32_28]]/../scripts/callbacks/VNPN.tcl
+source [oa::getPath [oa::LibFind SAED_PDK_32_28]]/../scripts/callbacks/VPNP.tcl
+source [oa::getPath [oa::LibFind SAED_PDK_32_28]]/../scripts/callbacks/Rndiff.tcl
+source [oa::getPath [oa::LibFind SAED_PDK_32_28]]/../scripts/callbacks/BandGap.tcl
+
+dr::loadDisplayResources -filePath [oa::getPath [oa::LibFind SAED_PDK_32_28]]/display.drf -format drf
+
+
+
+printPDKVersion
+
+#source nano-time/scripts/cdesigner/cd/startup.tcl
+
+
+#StarRC config
+#db::setPrefValue xtLPELVSTool -value ICV
+
+proc lpe_setup {tool contextGroup} {
+	set cell [db::getAttr cellName -of [db::getAttr topDesign -of [de::getActiveContext ]]]
+	set val $cell.icv.lvs/pex_runset_report_file 
+#	db::setPrefValue xtStarICVRunsetReportFile -value $val 
+}
+db::createCallback lpe_setup  -callbackType onPostToolActivated  -priority 10  -procedure {lpe_setup} -viewType leLayout
+
+

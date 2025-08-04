@@ -1,0 +1,2542 @@
+// ****************************************************************************
+// 		  Advance Node PDK / Generic FF (Mosfet) models
+//
+//  Copyright (c) 2014
+//  Cadence Design Systems, Inc.  All rights reserved.
+// 
+// These models represent a pseudo-process and are intended to be use
+// for demonstration purpose only.
+// *****************************************************************************
+//
+
+simulator lang = spectre
+library cds_ff_mpt
+ 
+section  tt
+parameters
++deot_n = 0                    dtoxp_n = 0                   dphig_n = 0                   
++du0_n = 0                     dvsat_n = 0                   dcgso_n = 0
++dcgdo_n = 0                   dcgsl_n = 0                   dcgdl_n = 0
++dcj_n = 0                     dcjsw_n = 0                   dcjswg_n = 0
++deot_p = 0                    dtoxp_p = 0                   dphig_p = 0                   
++du0_p = 0                     dvsat_p = 0                   dcgso_p = 0
++dcgdo_p = 0                   dcgsl_p = 0                   dcgdl_p = 0
++dcj_p = 0                     dcjsw_p = 0                   dcjswg_p = 0
++rn1=0 rn2=0 rp1=0 rp2=0
+include "cds_ff_mpt_mosfet.scs"   section = mos
+endsection  tt
+
+
+
+section  ff
+parameters
++deot_n = -4.5E-11             dtoxp_n = -6E-11              dphig_n = -0.04723                   
++du0_n = 4.75E-4               dvsat_n = 653                 dcgso_n = 5.53E-12
++dcgdo_n = 5.53E-12            dcgsl_n = 1.71E-12            dcgdl_n = 1.71E-12
++dcj_n = -8.61E-5              dcjsw_n = -4.87E-12           dcjswg_n = -2.56E-11
++deot_p = -4.5E-11             dtoxp_p = -6E-11              dphig_p = 0.0473                   
++du0_p = 2.311E-4              dvsat_p = 555                 dcgso_p = 3.1E-12
++dcgdo_p = 3.1E-12             dcgsl_p = 5.4E-12             dcgdl_p = 5.4E-12
++dcj_p = -9.98E-5              dcjsw_p = -6.21E-12           dcjswg_p = -2.53E-11  
++rn1=0 rn2=0 rp1=0 rp2=0
+include "cds_ff_mpt_mosfet.scs"   section = mos 
+endsection  ff
+
+
+
+section  ss
+parameters
++deot_n = 4.5E-11              dtoxp_n = 6E-11               dphig_n = 0.04596                   
++du0_n = -5.07E-4              dvsat_n = -1.402E3            dcgso_n = -5.53E-12
++dcgdo_n = -5.53E-12           dcgsl_n = -1.71E-12           dcgdl_n = -1.71E-12
++dcj_n = 8.61E-5               dcjsw_n = 4.87E-12            dcjswg_n = 2.56E-11
++deot_p = 4.5E-11              dtoxp_p = 6E-11               dphig_p = -0.04685                   
++du0_p = -2.367E-4             dvsat_p = -975                dcgso_p = -3.1E-12
++dcgdo_p = -3.1E-12            dcgsl_p = -5.4E-12            dcgdl_p = -5.4E-12
++dcj_p = 9.98E-5               dcjsw_p = 6.21E-12            dcjswg_p = 2.53E-11 
++rn1=0 rn2=0 rp1=0 rp2=0
+include "cds_ff_mpt_mosfet.scs"   section = mos
+endsection  ss
+
+
+
+section  fs
+parameters
++deot_n = 0                    dtoxp_n = 0                   dphig_n = -0.021235                   
++du0_n = 3.347E-4              dvsat_n = 781.75              dcgso_n = 0
++dcgdo_n = 0                   dcgsl_n = 0                   dcgdl_n = 0
++dcj_n = -8.61E-5              dcjsw_n = -4.87E-12           dcjswg_n = -2.56E-11
++deot_p = 0                    dtoxp_p = 0                   dphig_p = -0.023225                   
++du0_p = -1.4565E-4            dvsat_p = -615.5              dcgso_p = 0
++dcgdo_p = 0                   dcgsl_p = 0                   dcgdl_p = 0
++dcj_p = 9.98E-5               dcjsw_p = 6.21E-12            dcjswg_p = 2.53E-11               
++rn1=0 rn2=0 rp1=0 rp2=0
+include "cds_ff_mpt_mosfet.scs"   section = mos
+endsection  fs
+
+
+
+section  sf
+parameters
++deot_n = 0                    dtoxp_n = 0                   dphig_n = 0.021054                   
++du0_n = -3.332E-4             dvsat_n = -911.68             dcgso_n = 0
++dcgdo_n = 0                   dcgsl_n = 0                   dcgdl_n = 0
++dcj_n = 8.61E-5               dcjsw_n = 4.87E-12            dcjswg_n = 2.56E-11
++deot_p = 0                    dtoxp_p = 0                   dphig_p = 0.02295                   
++du0_p = 1.5425E-4             dvsat_p = 526.7               dcgso_p = 0
++dcgdo_p = 0                   dcgsl_p = 0                   dcgdl_p = 0
++dcj_p = -9.98E-5              dcjsw_p = -6.21E-12           dcjswg_p = -2.53E-11
++rn1=0 rn2=0 rp1=0 rp2=0
+include "cds_ff_mpt_mosfet.scs"   section = mos
+endsection  sf
+
+section  tt_lvt
+parameters
++deot_n_lvt = 0                dtoxp_n_lvt = 0               dphig_n_lvt = 0                   
++du0_n_lvt = 0                 dvsat_n_lvt = 0               dcgso_n_lvt = 0
++dcgdo_n_lvt = 0               dcgsl_n_lvt = 0               dcgdl_n_lvt = 0
++dcj_n_lvt = 0                 dcjsw_n_lvt = 0               dcjswg_n_lvt = 0   
++deot_p_lvt = 0                dtoxp_p_lvt = 0               dphig_p_lvt = 0                   
++du0_p_lvt = 0                 dvsat_p_lvt = 0               dcgso_p_lvt = 0
++dcgdo_p_lvt = 0               dcgsl_p_lvt = 0               dcgdl_p_lvt = 0
++dcj_p_lvt = 0                 dcjsw_p_lvt = 0               dcjswg_p_lvt = 0
++rn1_lvt=0 rn2_lvt=0 rp1_lvt=0 rp2_lvt=0
+include "cds_ff_mpt_mosfet.scs"   section = mos_lvt
+
+endsection  tt_lvt
+
+
+
+section  ff_lvt
+parameters
++deot_n_lvt = -4.5E-11         dtoxp_n_lvt = -6E-11          dphig_n_lvt = -0.04659                   
++du0_n_lvt = 5.87E-4           dvsat_n_lvt = 843             dcgso_n_lvt = 5.83E-12
++dcgdo_n_lvt = 5.83E-12        dcgsl_n_lvt = 2.1E-12         dcgdl_n_lvt = 2.1E-12
++dcj_n_lvt = -6.91E-5          dcjsw_n_lvt = -5.7E-12        dcjswg_n_lvt = -2E-11 
++deot_p_lvt = -4.5E-11         dtoxp_p_lvt = -6E-11          dphig_p_lvt = 0.0469                   
++du0_p_lvt = 2.821E-4          dvsat_p_lvt = 661             dcgso_p_lvt = 3.7E-12
++dcgdo_p_lvt = 3.7E-12         dcgsl_p_lvt = 4E-12           dcgdl_p_lvt = 4E-12
++dcj_p_lvt = -8.28E-5          dcjsw_p_lvt = -7.1E-12        dcjswg_p_lvt = -2.03E-11      
++rn1_lvt=0 rn2_lvt=0 rp1_lvt=0 rp2_lvt=0
+include "cds_ff_mpt_mosfet.scs"   section = mos_lvt
+
+endsection  ff_lvt
+
+
+
+section  ss_lvt
+parameters
++deot_n_lvt = 4.5E-11          dtoxp_n_lvt = 6E-11           dphig_n_lvt = 0.04535                   
++du0_n_lvt = -5.94E-4          dvsat_n_lvt = -1.503E3        dcgso_n_lvt = -5.83E-12
++dcgdo_n_lvt = -5.83E-12       dcgsl_n_lvt = -2.1E-12        dcgdl_n_lvt = -2.1E-12
++dcj_n_lvt = 6.91E-5           dcjsw_n_lvt = 5.7E-12         dcjswg_n_lvt = 2E-11 
++deot_p_lvt = 4.5E-11          dtoxp_p_lvt = 6E-11           dphig_p_lvt = -0.04649                   
++du0_p_lvt = -2.771E-4         dvsat_p_lvt = -1.215E3        dcgso_p_lvt = -3.7E-12
++dcgdo_p_lvt = -3.7E-12        dcgsl_p_lvt = -4E-12          dcgdl_p_lvt = -4E-12
++dcj_p_lvt = 8.28E-5           dcjsw_p_lvt = 7.1E-12         dcjswg_p_lvt = 2.03E-11                      
++rn1_lvt=0 rn2_lvt=0 rp1_lvt=0 rp2_lvt=0
+include "cds_ff_mpt_mosfet.scs"   section = mos_lvt
+
+endsection  ss_lvt
+
+
+
+section  fs_lvt
+parameters
++deot_n_lvt = 0                dtoxp_n_lvt = 0               dphig_n_lvt = -0.020935                   
++du0_n_lvt = 3.875E-4          dvsat_n_lvt = 901.75          dcgso_n_lvt = 0
++dcgdo_n_lvt = 0               dcgsl_n_lvt = 0               dcgdl_n_lvt = 0
++dcj_n_lvt = -6.91E-5          dcjsw_n_lvt = -5.7E-12        dcjswg_n_lvt = -2E-11 
++deot_p_lvt = 0                dtoxp_p_lvt = 0               dphig_p_lvt = -0.023095                   
++du0_p_lvt = -1.6595E-4        dvsat_p_lvt = -695.5          dcgso_p_lvt = 0
++dcgdo_p_lvt = 0               dcgsl_p_lvt = 0               dcgdl_p_lvt = 0
++dcj_p_lvt = 8.28E-5           dcjsw_p_lvt = 7.1E-12         dcjswg_p_lvt = 2.03E-11                     
++rn1_lvt=0 rn2_lvt=0 rp1_lvt=0 rp2_lvt=0
+include "cds_ff_mpt_mosfet.scs"   section = mos_lvt
+
+endsection  fs_lvt
+
+
+
+section  sf_lvt
+parameters
++deot_n_lvt = 0                dtoxp_n_lvt = 0               dphig_n_lvt = 0.020814                   
++du0_n_lvt = -3.812E-4         dvsat_n_lvt = -1.04468E3      dcgso_n_lvt = 0
++dcgdo_n_lvt = 0               dcgsl_n_lvt = 0               dcgdl_n_lvt = 0
++dcj_n_lvt = 6.91E-5           dcjsw_n_lvt = 5.7E-12         dcjswg_n_lvt = 2E-11
++deot_p_lvt = 0                dtoxp_p_lvt = 0               dphig_p_lvt = 0.02276                   
++du0_p_lvt = 1.7455E-4         dvsat_p_lvt = 609.7           dcgso_p_lvt = 0
++dcgdo_p_lvt = 0               dcgsl_p_lvt = 0               dcgdl_p_lvt = 0
++dcj_p_lvt = -8.28E-5          dcjsw_p_lvt = -7.1E-12        dcjswg_p_lvt = -2.03E-11  
++rn1_lvt=0 rn2_lvt=0 rp1_lvt=0 rp2_lvt=0
+include "cds_ff_mpt_mosfet.scs"   section = mos_lvt
+
+endsection  sf_lvt
+
+section  tt_hvt
+parameters
++deot_n_hvt = 0                dtoxp_n_hvt = 0               dphig_n_hvt = 0                   
++du0_n_hvt = 0                 dvsat_n_hvt = 0               dcgso_n_hvt = 0
++dcgdo_n_hvt = 0               dcgsl_n_hvt = 0               dcgdl_n_hvt = 0
++dcj_n_hvt = 0                 dcjsw_n_hvt = 0               dcjswg_n_hvt = 0 
++deot_p_hvt = 0                dtoxp_p_hvt = 0               dphig_p_hvt = 0                   
++du0_p_hvt = 0                 dvsat_p_hvt = 0               dcgso_p_hvt = 0
++dcgdo_p_hvt = 0               dcgsl_p_hvt = 0               dcgdl_p_hvt = 0
++dcj_p_hvt = 0                 dcjsw_p_hvt = 0               dcjswg_p_hvt = 0 
++rn1_hvt=0 rn2_hvt=0 rp1_hvt=0 rp2_hvt=0
+include "cds_ff_mpt_mosfet.scs"   section = mos_hvt
+
+endsection  tt_hvt
+
+
+
+section  ff_hvt
+parameters
++deot_n_hvt = -4.5E-11         dtoxp_n_hvt = -6E-11          dphig_n_hvt = -0.04803                   
++du0_n_hvt = 3.7E-4            dvsat_n_hvt = 333             dcgso_n_hvt = 5.03E-12
++dcgdo_n_hvt = 5.03E-12        dcgsl_n_hvt = 1.21E-12        dcgdl_n_hvt = 1.21E-12
++dcj_n_hvt = -1E-4             dcjsw_n_hvt = -4.1E-12        dcjswg_n_hvt = -3.12E-11 
++deot_p_hvt = -4.5E-11         dtoxp_p_hvt = -6E-11          dphig_p_hvt = 0.04784                   
++du0_p_hvt = 1.732E-4          dvsat_p_hvt = 425             dcgso_p_hvt = 2.9E-12
++dcgdo_p_hvt = 2.9E-12         dcgsl_p_hvt = 2.4E-12         dcgdl_p_hvt = 2.4E-12 
++dcj_p_hvt = -1.2E-5           dcjsw_p_hvt = -5.1E-12        dcjswg_p_hvt = -3.13E-10     
++rn1_hvt=0 rn2_hvt=0 rp1_hvt=0 rp2_hvt=0
+include "cds_ff_mpt_mosfet.scs"   section = mos_hvt
+
+endsection  ff_hvt
+
+
+
+section  ss_hvt
+parameters
++deot_n_hvt = 4.5E-11          dtoxp_n_hvt = 6E-11           dphig_n_hvt = 0.04666                   
++du0_n_hvt = -4.22E-4          dvsat_n_hvt = -1.153E3        dcgso_n_hvt = -5.03E-12
++dcgdo_n_hvt = -5.03E-12       dcgsl_n_hvt = -1.21E-12       dcgdl_n_hvt = -1.21E-12
++dcj_n_hvt = 1E-4              dcjsw_n_hvt = 4.1E-12         dcjswg_n_hvt = 3.12E-11 
++deot_p_hvt = 4.5E-11          dtoxp_p_hvt = 6E-11           dphig_p_hvt = -0.04725                   
++du0_p_hvt = -1.9E-4           dvsat_p_hvt = -805            dcgso_p_hvt = -2.9E-12
++dcgdo_p_hvt = -2.9E-12        dcgsl_p_hvt = -2.4E-12        dcgdl_p_hvt = -2.4E-12 
++dcj_p_hvt = 1.2E-5            dcjsw_p_hvt = 5.1E-12         dcjswg_p_hvt = 3.13E-10                   
++rn1_hvt=0 rn2_hvt=0 rp1_hvt=0 rp2_hvt=0
+include "cds_ff_mpt_mosfet.scs"   section = mos_hvt
+
+endsection  ss_hvt
+
+
+
+section  fs_hvt
+parameters
++deot_n_hvt = 0                dtoxp_n_hvt = 0               dphig_n_hvt = -0.021545                   
++du0_n_hvt = 2.855E-4          dvsat_n_hvt = 491.75          dcgso_n_hvt = 0
++dcgdo_n_hvt = 0               dcgsl_n_hvt = 0               dcgdl_n_hvt = 0
++dcj_n_hvt = -1E-4             dcjsw_n_hvt = -4.1E-12        dcjswg_n_hvt = -3.12E-11 
++deot_p_hvt = 0                dtoxp_p_hvt = 0               dphig_p_hvt = -0.023275                   
++du0_p_hvt = -1.3215E-4        dvsat_p_hvt = -492.5          dcgso_p_hvt = 0
++dcgdo_p_hvt = 0               dcgsl_p_hvt = 0               dcgdl_p_hvt = 0 
++dcj_p_hvt = 1.2E-5            dcjsw_p_hvt = 5.1E-12         dcjswg_p_hvt = 3.13E-10                         
++rn1_hvt=0 rn2_hvt=0 rp1_hvt=0 rp2_hvt=0
+include "cds_ff_mpt_mosfet.scs"   section = mos_hvt
+
+endsection  fs_hvt
+
+
+
+section  sf_hvt
+parameters
++deot_n_hvt = 0                dtoxp_n_hvt = 0               dphig_n_hvt = 0.021394                   
++du0_n_hvt = -2.862E-4         dvsat_n_hvt = -771.68         dcgso_n_hvt = 0
++dcgdo_n_hvt = 0               dcgsl_n_hvt = 0               dcgdl_n_hvt = 0
++dcj_n_hvt = 1E-4              dcjsw_n_hvt = 4.1E-12         dcjswg_n_hvt = 3.12E-11
++deot_p_hvt = 0                dtoxp_p_hvt = 0               dphig_p_hvt = 0.02325                   
++du0_p_hvt = 1.2265E-4         dvsat_p_hvt = 448.7           dcgso_p_hvt = 0
++dcgdo_p_hvt = 0               dcgsl_p_hvt = 0               dcgdl_p_hvt = 0 
++dcj_p_hvt = -1.2E-5           dcjsw_p_hvt = -5.1E-12        dcjswg_p_hvt = -3.13E-10     
++rn1_hvt=0 rn2_hvt=0 rp1_hvt=0 rp2_hvt=0
+include "cds_ff_mpt_mosfet.scs"   section = mos_hvt
+
+endsection  sf_hvt
+
+
+
+section  tt_18
+parameters
++deot_n_18 = 0                 dtoxp_n_18 = 0                dphig_n_18 = 0                   
++du0_n_18 = 0                  dvsat_n_18 = 0                dcgso_n_18 = 0
++dcgdo_n_18 = 0                dcgsl_n_18 = 0                dcgdl_n_18 = 0
++dcj_n_18 = 0                  dcjsw_n_18 = 0                dcjswg_n_18 = 0 
++deot_p_18 = 0                 dtoxp_p_18 = 0                dphig_p_18 = 0     
++du0_p_18 = 0                  dvsat_p_18 = 0                dcgso_p_18 = 0
++dcgdo_p_18 = 0                dcgsl_p_18 = 0                dcgdl_p_18 = 0
++dcj_p_18 = 0                  dcjsw_p_18 = 0                dcjswg_p_18 = 0   
++rn1_18=0 rn2_18=0 rp1_18=0 rp2_18=0
+include "cds_ff_mpt_mosfet.scs"   section = mos_18
+
+endsection  tt_18
+
+
+
+section  ff_18
+parameters
++deot_n_18 = -7.2E-11           dtoxp_n_18 = -9.6E-11         dphig_n_18 = -0.0359                   
++du0_n_18 = 5.97E-4             dvsat_n_18 = 2.57E3           dcgso_n_18 = 3.13E-12
++dcgdo_n_18 = 3.13E-12          dcgsl_n_18 = 2.71E-12         dcgdl_n_18 = 2.71E-12
++dcj_n_18 = -8.41E-5            dcjsw_n_18 = -1.02E-11        dcjswg_n_18 = -1.02E-11
++deot_p_18 = -7.2E-11           dtoxp_p_18 = -9.6E-11         dphig_p_18 = 0.0369
++du0_p_18 = 4.5E-4              dvsat_p_18 = 1.778E3          dcgso_p_18 = 2.2E-12
++dcgdo_p_18 = 2.2E-12           dcgsl_p_18 = 1E-11            dcgdl_p_18 = 1E-11
++dcj_p_18 = -9.7E-5             dcjsw_p_18 = -1.1E-11         dcjswg_p_18 = -2.3E-11  
++rn1_18=0 rn2_18=0 rp1_18=0 rp2_18=0
+include "cds_ff_mpt_mosfet.scs"   section = mos_18
+
+endsection  ff_18
+
+
+
+section  ss_18
+parameters
++deot_n_18 = 7.2E-11            dtoxp_n_18 = 9.6E-11          dphig_n_18 = 0.0352                   
++du0_n_18 = -6.14E-4            dvsat_n_18 = -3.194E3         dcgso_n_18 = -3.13E-12
++dcgdo_n_18 = -3.13E-12         dcgsl_n_18 = -2.71E-12        dcgdl_n_18 = -2.71E-12
++dcj_n_18 = 8.41E-5             dcjsw_n_18 = 1.02E-11         dcjswg_n_18 = 1.02E-11 
++deot_p_18 = 7.2E-11            dtoxp_p_18 = 9.6E-11          dphig_p_18 = -0.0365
++du0_p_18 = -4.489E-4           dvsat_p_18 = -2.27E3          dcgso_p_18 = -2.2E-12
++dcgdo_p_18 = -2.2E-12          dcgsl_p_18 = -1E-11           dcgdl_p_18 = -1E-11
++dcj_p_18 = 9.7E-5              dcjsw_p_18 = 1.1E-11          dcjswg_p_18 = 2.3E-11  
++rn1_18=0 rn2_18=0 rp1_18=0 rp2_18=0
+include "cds_ff_mpt_mosfet.scs"   section = mos_18
+
+endsection  ss_18
+
+
+
+section  fs_18
+parameters
++deot_n_18 = 0                  dtoxp_n_18 = 0                dphig_n_18 = -0.01725                   
++du0_n_18 = 4.005E-4            dvsat_n_18 = 1.845E3          dcgso_n_18 = 0
++dcgdo_n_18 = 0                 dcgsl_n_18 = 0                dcgdl_n_18 = 0
++dcj_n_18 = -8.41E-5            dcjsw_n_18 = -1.02E-11        dcjswg_n_18 = -1.02E-11             
++deot_p_18 = 0                  dtoxp_p_18 = 0                dphig_p_18 = -0.01815
++du0_p_18 = -2.59E-4            dvsat_p_18 = -1.429E3         dcgso_p_18 = 0
++dcgdo_p_18 = 0                 dcgsl_p_18 = 0                dcgdl_p_18 = 0
++dcj_p_18 = 9.7E-5              dcjsw_p_18 = 1.1E-11          dcjswg_p_18 = 2.3E-11               
++rn1_18=0 rn2_18=0 rp1_18=0 rp2_18=0
+include "cds_ff_mpt_mosfet.scs"   section = mos_18
+
+endsection  fs_18
+
+
+
+section  sf_18
+parameters
++deot_n_18 = 0                  dtoxp_n_18 = 0                dphig_n_18 = 0.01715                   
++du0_n_18 = -3.83E-4            dvsat_n_18 = -1.959E3         dcgso_n_18 = 0
++dcgdo_n_18 = 0                 dcgsl_n_18 = 0                dcgdl_n_18 = 0
++dcj_n_18 = 8.41E-5             dcjsw_n_18 = 1.02E-11         dcjswg_n_18 = 1.02E-11  
++deot_p_18 = 0                  dtoxp_p_18 = 0                dphig_p_18 = 0.01825
++du0_p_18 = 2.613E-4            dvsat_p_18 = 1.36E3           dcgso_p_18 = 0
++dcgdo_p_18 = 0                 dcgsl_p_18 = 0                dcgdl_p_18 = 0
++dcj_p_18 = -9.7E-5             dcjsw_p_18 = -1.1E-11         dcjswg_p_18 = -2.3E-11             
++rn1_18=0 rn2_18=0 rp1_18=0 rp2_18=0
+include "cds_ff_mpt_mosfet.scs"   section = mos_18
+
+endsection  sf_18
+
+
+
+
+section mos
+inline subckt cds_ff_mpt_n1svt ( d g s b ) 
+parameters
++l=1e-6 
++nfin=1 
++nf=1  
++ngcon=1 
++aseo=0 
++adeo=0 
++pseo=0 
++pdeo=0 
++asej=0 
++adej=0 
++psej=0 
++pdej=0 
++lrsd=1.8E-8
++mismod=0
++lef=l
++wef=4.8e-8
++misn1=rn1                     misn2=rn2   
++misp1=rp1                     misp2=rp2
++facn1=0.314*misn1+0.6132*misn2
++facn2=0.314*misn1-0.6132*misn2
++facp1=0.314*misp1+0.6132*misp2
++facp2=0.314*misp1-0.6132*misp2
++geo_fac = 1/sqrt(nf*lef*wef*1e12)
++phigmis_n= 0.001364*geo_fac*facn1*mismod 
++eotmis_n= 0.001015*geo_fac*1e-9*facn2*mismod
++toxpmis_n= 0.001015*geo_fac*1e-9*facn2*mismod
+
+parameters lgate_extend = 0
+parameters poly_width = 1E-8
+parameters extend_ratio=1+lgate_extend/poly_width
+
+//********************************
+//** l : Designed Gate Length (m)
+//** tfin : Fin Thickness (m)
+//** nfin : Number of Fins per Finger (-)
+//** nf :  Number of Fingers (-)
+//** fpitch : fin pitch (m)
+//** ngcon : Number of Gate Contacts (-)
+//** aseo : Source to substrate overlap area through oxide(all fingers) (m2)
+//** adeo : Drain to substrate overlap area through oxide(all fingers) (m2)
+//** pseo : Perimeter of source to substrate overlap region through oxide (m)
+//** pdeo : Perimeter of drain to substrate overlap region through oxide (m)
+//** asej : Source junction area (all Fingers) (m2)
+//** adej : Drain junction area (all Fingers) (m2)
+//** psej : Source junction perimeter (all Fingers) (m)
+//** pdej : Drain junction perimeter (all Fingers) (m)
+//** cdsp : Constant drain to source fringe capacitance
+//** lrsd : Length of the source/drain (m)
+//** lgate_extend : end-cap poly (gate) extension length (m)
+//** poly_width: the reference width of poly that is used to assess the length of gate extension (m)
+//**********************************
+ 
+cds_ff_mpt_n1svt ( d g s b ) cds_ff_mpt_nsvt l=l tfin=1.4e-8 nfin=nfin nf=nf fpitch=4.8e-8 ngcon=ngcon aseo=aseo adeo=adeo pseo=pseo pdeo=pdeo asej=asej adej=adej psej=psej pdej=pdej lrsd=lrsd
+
+model cds_ff_mpt_nsvt bsimcmg
+//*** flag parameter ***
++version = 107                 bulkmod = 1                   coremod = 0                   
++geomod = 1                    rdsmod = 1                    asymmod = 0                   
++igcmod = 1                    igbmod = 1                    gidlmod = 1                   
++iimod = 1                     nqsmod = 0                    shmod = 0                     
++rgatemod = 0                  rgeomod = 1                   cgeomod = 2                   
++capmod = 1                    cgeo1sw = 0                   devtype = 1                   
+//*** geometry parameter ***
++lint = 3E-10                  ll = 0                        lln = 1                       
++dlc = 0                       dlcacc = 0                    dlbin = 0                     
++llc = 0                       
+//*** process parameter ***
++eot = 1.5E-9+deot_n+eotmis_n           toxp = 2E-9+dtoxp_n+toxpmis_n           eotbox = 1.4E-7               
++hfin = 3.5E-8                 fech = 1                      deltaw = 0                    
++fechcv = 1                    deltawcv = 0                  nbody = 5E21                  
++nbodyn1 = 0                   nbodyn2 = 1E5                 nsd = 2E26                    
++phig = 4.4815+dphig_n+phigmis_n         phigl = 0                     phign1 = 0                    
++phign2 = 1E5                  epsrox = 3.9                  epsrsub = 11.9                
++easub = 4.05                  ni0sub = 1.1E16               bg0sub = 1.12                 
++nc0sub = 2.86E25              ngate = 0                     imin = 1E-15                  
+//*** short channel effects ***
++cit = 9E-4                    cdsc = 7E-3                   cdscn1 = 0                    
++cdscn2 = 1E5                  cdscdn1 = 0                   cdscdn2 = 1E5                 
++cdscdrn1 = 0                  cdscdrn2 = 1E5                cdscd = 7E-3                  
++cdscdr = 7E-3                 dvt0 = 1.72                   dvt1 = 0.6                    
++dvt1ss = 0.6                  phin = 0.05                   eta0 = 0.2982                 
++eta0n1 = 0                    eta0n2 = 1E5                  teta0 = 0                     
++teta0r = 0                    eta0r = 0.6                   dsub = 1.06                   
++dvtp0 = 0                     dvtp1 = 0                     k1rsce = 0                    
++lpe0 = 5E-9                   dvtshift = 0                  
+//*** lateral non-uniform doping effect ***
++k0 = 1E-3                     k01 = 1E-3                    k0si = 1                      
++k0si1 = 0                     k1si = 1                      k1si1 = 0                     
+//*** body effect for mg devices on bulk substrate ***
++phibe = 0.7                   k1 = 0.5                      k11 = 0.001                       
++k1sat = 0                     k1sat1 = 0                    
+//*** quantum mechanical effect ***
++qmfactor = 0                  qmtceniv = 0                  qmtcencv = 0                  
++qmtcencva = 0                 aqmtcen = 0                   bqmtcen = 1.2E-8              
++etaqm = 0.54                  qm0 = 1E-3                    pqm = 0.66                    
++qm0acc = 1E-3                 pqmacc = 0.66                 
+//*** velocity saturation ***
++vsat = 2.845E4+dvsat_n        lvsat = -90                   vsatn1 = 0                    
++vsatn2 = 1E5                  vsat1n1 = 0                   vsat1n2 = 1E5                 
++vsat1rn1 = 0                  vsat1rn2 = 1E5                avsat = 0                     
++bvsat = 1E-7                  vsat1 = 8.5E4                 vsat1r = 8.5E4                
++avsat1 = 0                    bvsat1 = 1E-7                 deltavsat = 1                 
++psat = 2                      apsat = 0                     bpsat = 1                     
++ksativ = 1                    vsatcv = 8.5E4                avsatcv = 0                   
++bvsatcv = 1E-7                deltavsatcv = 1               psatcv = 2                    
++apsatcv = 0                   bpsatcv = 1                   mexp = 4                      
++amexp = 0                     bmexp = 1                     mexpr = 4                     
++amexpr = 0                    bmexpr = 1                    ptwg = 0                      
++ptwgr = 0                     aptwg = 0                     bptwg = 1E-7                  
+//*** mobility model parameter ***
++u0 = 6.2186E-3+du0_n          u0n1 = 0                      u0n2 = 1E5                    
++etamob = 0.8                  up = 9.309E-9                 lpa = 1                       
++ua = 0.151525                 aua = 0                       bua = 1E-7                    
++uc = 0                        eu = 2.5                      aeu = 0                       
++beu = 1E-7                    ud = 0                        aud = 0                       
++bud = 5E-8                    ucs = 1                       ute = 0                       
++utl = 0                       emobt = 0                     ua1 = 1.032E-3                
++uc1 = 5.6E-11                 ud1 = 0                       ucste = -4.775E-3             
++chargewf = 0                  
+//*** access resistance model parameter ***
++rdswmin = 0                   rdsw = 100                    ardsw = 0                     
++brdsw = 1E-7                  rswmin = 0                    rsw = 80                      
++arsw = 0                      brsw = 1E-7                   rdwmin = 0                    
++rdw = 80                      ardw = 0                      brdw = 1E-7                   
++rsdr = 0                      rsdrr = 0                     rddr = 0                      
++rddrr = 0                     prsdr = 1                     prddr = 1                     
++prwgs = 0                     prwgd = 0                     wr = 1                        
++prt = 1E-3                    trsdr = 0                     trddr = 0                     
+//*** dibl model parameter ***
++pdibl1 = 0                    pdibl1r = 1.3                 pdibl2 = 2E-4                 
++drout = 1.06                  pvag = 1                      
+//*** channel length modulation effect ***
++pclm = 0.013                  apclm = 0                     bpclm = 1E-7                  
++pclmg = 0                     pclmcv = 0.013                
+//*** non-saturation effect ***
++a1 = 0                        a11 = 0                       a2 = 0                        
++a21 = 0                       
+//*** gate electrode resistance ***
++rgext = 0                     rgfin = 1E-3                  
+//*** geometry dependent source/drain resistance rgeomod=0 ***
++rshs = 10                     rshd = 10                      
+//*** geometry dependent source/drain resistance rgeomod=1 ***
++hepi = 1E-8                   tsili = 1E-8                  rhoc = 1E-12                  
++rhorsd = 2E-6                 cratio = 0.5                  deltaprsd = 0                 
++sdterm = 0                    lsp = 4E-9                    epsrsp = 3.9                  
++tgate = 1E-8                  tmask = 3E-8                  asiliend = 2.5E-15                  
++arsdend = 2.5E-15             prsdend = 2E-7                nsde = 2E25                   
++rgeoa = 1                     rgeob = 0                     rgeoc = 0                     
++rgeod = 0                     rgeoe = 0                     cgeoa = 1                     
++cgeob = 0                     cgeoc = 0                     cgeod = 0                     
++cgeoe = 1                             
+//*** gate current ***
++aigbinv = 1                   aigbinv1 = 0                  bigbinv = 9.49E-4             
++cigbinv = 6E-3                eigbinv = 1.1                 nigbinv = 3                   
++aigbacc = 0.0136              aigbacc1 = 0                  bigbacc = 1.71E-3             
++cigbacc = 0.075               nigbacc = 1                   aigc = 0.0136                 
++aigc1 = 0                     bigc = 1.71E-3                cigc = 0.075                  
++pigcd = 1                     dlcigs = 1E-9                 aigs = 0.0136                 
++aigs1 = 0                     bigs = 1.71E-3                cigs = 0.075                  
++dlcigd = 1E-9                 aigd = 0.0136                 aigd1 = 0                     
++bigd = 1.71E-3                cigd = 0.075                  toxref = 1.2E-9               
++toxg = 1.2E-9                 ntox = 1                      poxedge = 1                   
+//*** gidl/gisl current ***
++agidl = 4.06055E-10           bgidl = 3E8                   cgidl = 0.5                   
++egidl = 0.2                   pgidl = 1                     agisl = 6.055E-12             
++bgisl = 3E8                   cgisl = 0.5                   egisl = 0.2                   
+//*** impact ionization current ***
++alpha0 = 1E-8                 alpha01 = 1E-8                alpha1 = 1E-3                    
++alpha11 = 1E-6                beta0 = 6                     alphaii0 = 1E-8                  
++alphaii01 = 1E-8              alphaii1 = 1E-9               alphaii11 = 1E-7                 
++betaii0 = 1E-3                betaii1 = 1E-3                betaii2 = 0.1                 
++esatii = 1E7                  lii = 5E-10                   sii0 = 0.5                    
++sii1 = 0.1                    sii2 = 0                      siid = 0                      
+//*** accumulation capacitance (capmod=1) ***
++eotacc = 1E-9                 delvfbacc = 0                 
+//*** fringe capacitance ***
++cfs = 2.5E-11                 cfd = 2.5E-11                 
+//*** overlap capacitance (cgeomod=0 and 2) ***
++cgso = 5.53E-11+dcgso_n       cgdo = 5.53E-11+dcgdo_n       cgsl = 1.71E-11+dcgsl_n       
++cgdl = 1.71E-11+dcgdl_n       ckappas = 0.6                 ckappad = 0.6                 
++cgbo = 1E-11*extend_ratio     cgbn = 1E-12                  cgbl = 5E-12                      
++ckappab = 0.6                 
+//*** source/drain to substrate sidewall capacitance ***
++csdesw = 0.6                  
+//*** junction current and capacitance ***
++cjs = 8.61E-4+dcj_n           cjd = 8.61E-4+dcj_n           cjsws = 4.87E-11+dcjsw_n             
++cjswd = 4.87E-11+dcjsw_n      cjswgs = 2.56E-10+dcjswg_n    cjswgd = 2.56E-10+dcjswg_n            
++pbs = 0.511                   pbd = 0.511                   pbsws = 0.786                     
++pbswd = 0.786                 pbswgs = 0.464                pbswgd = 0.464                   
++mjs = 0.264                   mjd = 0.264                   mjsws = 0.011                 
++mjswd = 0.011                 mjswgs = 0.511                mjswgd = 0.511                
++sjs = 0                       sjd = 0                       sjsws = 0                     
++sjswd = 0                     sjswgs = 0                    sjswgd = 0                    
++mjs2 = 0.125                  mjd2 = 0.125                  mjsws2 = 0.083                
++mjswd2 = 0.083                mjswgs2 = 0.083               mjswgd2 = 0.083               
++jss = 2.1E-7                  jsd = 2.1E-7                  jsws = 3.4E-13                     
++jswd = 3.4E-13                jswgs = 1.2E-12               jswgd = 1.2E-12               
++njs = 1                       njd = 1                       ijthsfwd = 0.1                
++ijthdfwd = 0.1                ijthsrev = 0.1                ijthdrev = 0.1                
++bvs = 10.5                    bvd = 10.5                    xjbvs = 1                     
++xjbvd = 1                     
+//*** tunneling component of junction current ***
++jtss = 0                      jtsd = 0                      jtssws = 0                    
++jtsswd = 0                    jtsswgs = 0                   jtsswgd = 0                   
++jtweff = 0                    njts = 20                     njtsd = 20                    
++njtssw = 20                   njtsswd = 20                  njtsswg = 20                  
++njtsswgd = 20                 vtss = 10                     vtsd = 10                     
++vtssws = 10                   vtsswd = 10                   vtsswgs = 10                  
++vtsswgd = 10                  lintigen = 1E-10              ntgen = 1                     
++aigen = 0                     bigen = 0                     
+//*** nqs gate resistance model & nqs charge deficit model ***
++xrcrg1 = 9.6                  xrcrg2 = 1                    
+//*** nqs charge segementation model ***
++nseg = 5                      
+//*** flicker noise ***
++ef = 1                        em = 4.1E7                    noia = 6.25E39                
++noib = 3.125E24               noic = 8.75E7                 
+//*** thermal noise ***
++ntnoi = 1                     
+//*** temperature effects ***
++tnom = 25                     tbgasub = 7.02E-4             tbgbsub = 1.108E3             
++kt1 = -0.12                   kt1l = 0                      tss = 0                       
++iit = -0.5                    tii = 0                       tgidl = -3E-3                 
++igt = 2.5                     tcj = 6.52E-4                 tcjsw = 3.57E-4                     
++tcjswg = 1.5E-3               tpb = 1.1E-3                  tpbsw = 1.9E-3                     
++tpbswg = 1E-3                 xtis = 3                      xtid = 3                      
++xtss = 0.02                   xtsd = 0.02                   xtssws = 0.02                 
++xtsswd = 0.02                 xtsswgs = 0.02                xtsswgd = 0.02                
++tnjts = 0                     tnjtsd = 0                    tnjtssw = 0                   
++tnjtsswd = 0                  tnjtsswg = 0                  tnjtsswgd = 0                 
++at = 4.4E-4                   tmexp = 0                     tmexpr = 0                    
++ptwgt = 4E-3                  
+//*** self heating ***
++rth0 = 0.01                   cth0 = 1E-5                   wth0 = 0                      
+ends n1svt
+
+inline subckt cds_ff_mpt_p1svt ( d g s b ) 
+parameters
++l=1e-6  
++nfin=1 
++nf=1  
++ngcon=1 
++aseo=0 
++adeo=0 
++pseo=0 
++pdeo=0 
++asej=0 
++adej=0 
++psej=0 
++pdej=0 
++lrsd=1.8E-8
++mismod=0
++lef=l
++wef=4.8e-8
++misn1=rn1                     misn2=rn2   
++misp1=rp1                     misp2=rp2
++facn1=0.314*misn1+0.6132*misn2
++facn2=0.314*misn1-0.6132*misn2
++facp1=0.314*misp1+0.6132*misp2
++facp2=0.314*misp1-0.6132*misp2
++geo_fac =1/sqrt(nf*lef*wef*1e12)
++phigmis_p= 0.001364*geo_fac*facp1*mismod 
++eotmis_p= 0.001015*geo_fac*1e-9*facp2*mismod
++toxpmis_p= 0.001015*geo_fac*1e-9*facp2*mismod
+
+parameters lgate_extend = 0
+parameters poly_width = 1E-8
+parameters extend_ratio=1+lgate_extend/poly_width
+
+//********************************
+//** l : Designed Gate Length (m)
+//** tfin : Fin Thickness (m)
+//** nfin : Number of Fins per Finger (-)
+//** nf :  Number of Fingers (-)
+//** fpitch : fin pitch (m)
+//** ngcon : Number of Gate Contacts (-)
+//** aseo : Source to substrate overlap area through oxide(all fingers) (m2)
+//** adeo : Drain to substrate overlap area through oxide(all fingers) (m2)
+//** pseo : Perimeter of source to substrate overlap region through oxide (m)
+//** pdeo : Perimeter of drain to substrate overlap region through oxide (m)
+//** asej : Source junction area (all Fingers) (m2)
+//** adej : Drain junction area (all Fingers) (m2)
+//** psej : Source junction perimeter (all Fingers) (m)
+//** pdej : Drain junction perimeter (all Fingers) (m)
+//** cdsp : Constant drain to source fringe capacitance
+//** lrsd : Length of the source/drain (m)
+//** lgate_extend : end-cap poly (gate) extension length (m)
+//** poly_width: the reference width of poly that is used to assess the length of gate extension (m)
+//**********************************
+ 
+ 
+cds_ff_mpt_p1svt ( d g s b ) cds_ff_mpt_psvt l=l tfin=1.4e-8 nfin=nfin nf=nf fpitch=4.8e-8 ngcon=ngcon aseo=aseo adeo=adeo pseo=pseo pdeo=pdeo asej=asej adej=adej psej=psej pdej=pdej lrsd=lrsd
+
+model cds_ff_mpt_psvt bsimcmg
+//*** flag parameter ***
++version = 107                 bulkmod = 1                   coremod = 0                   
++geomod = 1                    rdsmod = 1                    asymmod = 0                   
++igcmod = 1                    igbmod = 1                    gidlmod = 1                   
++iimod = 1                     nqsmod = 0                    shmod = 0                     
++rgatemod = 0                  rgeomod = 1                   cgeomod = 2                   
++capmod = 1                    cgeo1sw = 0                   devtype = 0                   
+//*** geometry parameter ***
++lint = 3E-10                  ll = 0                        lln = 1                       
++dlc = 0                       dlcacc = 0                    dlbin = 0                     
++llc = 0                       
+//*** process parameter ***
++eot = 1.5E-9+deot_p+eotmis_p           toxp = 2E-9+dtoxp_p+toxpmis_p           eotbox = 1.4E-7               
++hfin = 3.5E-8                 fech = 1                      deltaw = 0                    
++fechcv = 1                    deltawcv = 0                  nbody = 5E21                  
++nbodyn1 = 0                   nbodyn2 = 1E5                 nsd = 2E26                    
++phig = 4.7234+dphig_p+phigmis_p         phigl = 0                     phign1 = 0                    
++phign2 = 1E5                  epsrox = 3.9                  epsrsub = 11.9                
++easub = 4.05                  ni0sub = 1.1E16               bg0sub = 1.12                 
++nc0sub = 2.86E25              ngate = 0                     imin = 1E-15                  
+//*** short channel effects ***
++cit = 0                       cdsc = 0                      cdscn1 = 0                    
++cdscn2 = 1E5                  cdscdn1 = 0                   cdscdn2 = 1E5                 
++cdscdrn1 = 0                  cdscdrn2 = 1E5                cdscd = 0                     
++cdscdr = 7E-3                 dvt0 = 0.3766                 dvt1 = 0.6                    
++dvt1ss = 0.6                  phin = 0.05                   eta0 = 8.8871E-1               
++eta0n1 = 0                    eta0n2 = 1E5                  teta0 = 0                     
++teta0r = 0                    eta0r = 0.6                   dsub = 1.06                   
++dvtp0 = 0                     dvtp1 = 0                     k1rsce = -0.3                 
++lpe0 = 9.1265E-9              dvtshift = 0                  
+//*** lateral non-uniform doping effect ***
++k0 = 1E-3                     k01 = 1E-3                    k0si = 1                      
++k0si1 = 0                     k1si = 1                      k1si1 = 0                     
+//*** body effect for mg devices on bulk substrate ***
++phibe = 0.7                   k1 = 0.5                      k11 = 0.001                       
++k1sat = 0                     k1sat1 = 0                    
+//*** quantum mechanical effect ***
++qmfactor = 0                  qmtceniv = 0                  qmtcencv = 0                  
++qmtcencva = 0                 aqmtcen = 0                   bqmtcen = 1.2E-8              
++etaqm = 0.54                  qm0 = 1E-3                    pqm = 0.66                    
++qm0acc = 1E-3                 pqmacc = 0.66                 
+//*** velocity saturation ***
++vsat = 1.44794E4+dvsat_p     lvsat = 0                     vsatn1 = 0                    
++vsatn2 = 1E5                  vsat1n1 = 0                   vsat1n2 = 1E5                 
++vsat1rn1 = 0                  vsat1rn2 = 1E5                avsat = 0                     
++bvsat = 1E-7                  vsat1 = 8.5E4                 vsat1r = 8.5E4                
++avsat1 = 0                    bvsat1 = 1E-7                 deltavsat = 1                 
++psat = 2                      apsat = 0                     bpsat = 1                     
++ksativ = 1                    vsatcv = 8.5E4                avsatcv = 0                   
++bvsatcv = 1E-7                deltavsatcv = 1               psatcv = 2                    
++apsatcv = 0                   bpsatcv = 1                   mexp = 2                      
++amexp = 0                     bmexp = 1                     mexpr = 4                     
++amexpr = 0                    bmexpr = 1                    ptwg = 0                      
++ptwgr = 0                     aptwg = 0                     bptwg = 1E-7                  
+//*** mobility model parameter ***
++u0 = 3.48985E-3+du0_p         u0n1 = 0                      u0n2 = 1E5                    
++etamob = 0.8                  up = 9.309E-9                 lpa = 0.9906                  
++ua = 1.967647                 aua = 0                       bua = 1E-7                    
++uc = 0                        eu = 2.5                      aeu = 0                       
++beu = 1E-7                    ud = 0                        aud = 0                       
++bud = 5E-8                    ucs = 1                       ute = 0                       
++utl = 0                       emobt = 0                     ua1 = 1.032E-3                
++uc1 = 5.6E-11                 ud1 = 0                       ucste = -4.775E-3             
++chargewf = 0                  
+//*** access resistance model parameter ***
++rdswmin = 0                   rdsw = 100                    ardsw = 0                     
++brdsw = 1E-7                  rswmin = 0                    rsw = 34.1                    
++arsw = 0                      brsw = 1E-7                   rdwmin = 0                    
++rdw = 33.1                    ardw = 0                      brdw = 1E-7                   
++rsdr = 0                      rsdrr = 0                     rddr = 0                      
++rddrr = 0                     prsdr = 1                     prddr = 1                     
++prwgs = 0                     prwgd = 0                     wr = 1                        
++prt = 1E-3                    trsdr = 0                     trddr = 0                     
+//*** dibl model parameter ***
++pdibl1 = 0                    pdibl1r = 1.3                 pdibl2 = 2E-4                 
++drout = 1.06                  pvag = 1                      
+//*** channel length modulation effect ***
++pclm = 0.013                  apclm = 0                     bpclm = 1E-7                  
++pclmg = 0                     pclmcv = 0.013                
+//*** non-saturation effect ***
++a1 = 0                        a11 = 0                       a2 = 0                        
++a21 = 0                       
+//*** gate electrode resistance ***
++rgext = 0                     rgfin = 1E-3                  
+//*** geometry dependent source/drain resistance rgeomod=0 ***
++rshs = 10                     rshd = 10                       
+//*** geometry dependent source/drain resistance rgeomod=1 ***
++hepi = 1E-8                   tsili = 1E-8                  rhoc = 1E-12                  
++rhorsd = 2E-6                 cratio = 0.5                  deltaprsd = 0                 
++sdterm = 0                    lsp = 4E-9                    epsrsp = 3.9                  
++tgate = 1E-8                  tmask = 3E-8                  asiliend = 2.5E-15                  
++arsdend = 2.5E-15             prsdend = 2E-7                nsde = 2E25                   
++rgeoa = 1                     rgeob = 0                     rgeoc = 0                     
++rgeod = 0                     rgeoe = 0                     cgeoa = 1                     
++cgeob = 0                     cgeoc = 0                     cgeod = 0                     
++cgeoe = 1                    
+//*** gate current ***
++aigbinv = 1                   aigbinv1 = 0                  bigbinv = 9.49E-4             
++cigbinv = 6E-3                eigbinv = 1.1                 nigbinv = 3                   
++aigbacc = 0.0136              aigbacc1 = 0                  bigbacc = 1.71E-3             
++cigbacc = 0.075               nigbacc = 1                   aigc = 0.0136                 
++aigc1 = 0                     bigc = 1.71E-3                cigc = 0.075                  
++pigcd = 1                     dlcigs = 1E-9                 aigs = 0.0136                 
++aigs1 = 0                     bigs = 1.71E-3                cigs = 0.075                  
++dlcigd = 1E-9                 aigd = 0.0136                 aigd1 = 0                     
++bigd = 1.71E-3                cigd = 0.075                  toxref = 1.2E-9               
++toxg = 1.2E-9                 ntox = 1                      poxedge = 1                   
+//*** gidl/gisl current ***
++agidl = 1E-12                 bgidl = 9E8                   cgidl = 0.5                   
++egidl = 0.2                   pgidl = 1                     agisl = 6.055E-12             
++bgisl = 3E8                   cgisl = 0.5                   egisl = 0.2                   
+//*** impact ionization current ***
++alpha0 = 1E-8                 alpha01 = 1E-8                alpha1 = 1E-3                    
++alpha11 = 1E-6                beta0 = 6                     alphaii0 = 1E-8                  
++alphaii01 = 1E-8              alphaii1 = 1E-9               alphaii11 = 1E-7                 
++betaii0 = 1E-3                betaii1 = 1E-3                betaii2 = 0.1                 
++esatii = 1E7                  lii = 5E-10                   sii0 = 0.5                    
++sii1 = 0.1                    sii2 = 0                      siid = 0                          
+//*** accumulation capacitance (capmod=1) ***
++eotacc = 1E-9                 delvfbacc = 0                 
+//*** fringe capacitance ***
++cfs = 2.5E-11                 cfd = 2.5E-11                 
+//*** overlap capacitance (cgeomod=0 and 2) ***
++cgso = 3.1E-11+dcgso_p        cgdo = 3.1E-11+dcgdo_p        cgsl = 0.54E-10+dcgsl_p
++cgdl = 0.54E-10+dcgdl_p       ckappas = 0.6                 ckappad = 0.6                 
++cgbo = 1E-11*extend_ratio     cgbn = 1E-12                  cgbl = 5E-12                     
++ckappab = 0.6                 
+//*** source/drain to substrate sidewall capacitance ***
++csdesw = 0.6                  
+//*** junction current and capacitance ***
++cjs = 9.98E-4+dcj_p           cjd = 9.98E-4+dcj_p           cjsws = 6.21E-11+dcjsw_p                 
++cjswd = 6.21E-11+dcjsw_p      cjswgs = 2.53E-10+dcjswg_p    cjswgd = 2.53E-10+dcjswg_p                    
++pbs = 0.75                    pbd = 0.75                    pbsws = 0.49                     
++pbswd = 0.49                  pbswgs = 0.71                 pbswgd = 0.71                    
++mjs = 0.34                    mjd = 0.34                    mjsws = 0.012                  
++mjswd = 0.012                 mjswgs = 0.86                 mjswgd = 0.86                 
++sjs = 0                       sjd = 0                       sjsws = 0                     
++sjswd = 0                     sjswgs = 0                    sjswgd = 0                    
++mjs2 = 0.125                  mjd2 = 0.125                  mjsws2 = 0.083                
++mjswd2 = 0.083                mjswgs2 = 0.083               mjswgd2 = 0.083               
++jss = 1.51E-7                 jsd = 1.51E-7                 jsws = 3.98E-13                      
++jswd = 3.98E-13               jswgs = 2.47E-12              jswgd = 2.47E-12                     
++njs = 1                       njd = 1                       ijthsfwd = 0.1                
++ijthdfwd = 0.1                ijthsrev = 0.1                ijthdrev = 0.1                
++bvs = 11.6                    bvd = 11.6                    xjbvs = 1                     
++xjbvd = 1                     
+//*** tunneling component of junction current ***
++jtss = 0                      jtsd = 0                      jtssws = 0                    
++jtsswd = 0                    jtsswgs = 0                   jtsswgd = 0                   
++jtweff = 0                    njts = 20                     njtsd = 20                    
++njtssw = 20                   njtsswd = 20                  njtsswg = 20                  
++njtsswgd = 20                 vtss = 10                     vtsd = 10                     
++vtssws = 10                   vtsswd = 10                   vtsswgs = 10                  
++vtsswgd = 10                  lintigen = 1E-10              ntgen = 1                     
++aigen = 0                     bigen = 0                     
+//*** nqs gate resistance model & nqs charge deficit model ***
++xrcrg1 = 18.75                xrcrg2 = 1                    
+//*** nqs charge segementation model ***
++nseg = 5                      
+//*** flicker noise ***
++ef = 1                        em = 4.1E7                    noia = 6.25E39                
++noib = 3.125E24               noic = 8.75E7                 
+//*** thermal noise ***
++ntnoi = 1                     
+//*** temperature effects ***
++tnom = 25                     tbgasub = 7.02E-4             tbgbsub = 1.108E3             
++kt1 = -0.12                   kt1l = 0                      tss = 0                       
++iit = -0.5                    tii = 0                       tgidl = -3E-3                 
++igt = 2.5                     tcj = 7.98E-4                 tcjsw = 2.4E-4                     
++tcjswg = 4.77E-3              tpb = 1.9E-3                  tpbsw = 1.9E-3                     
++tpbswg = 1.9E-3               xtis = 3                      xtid = 3                      
++xtss = 0.02                   xtsd = 0.02                   xtssws = 0.02                 
++xtsswd = 0.02                 xtsswgs = 0.02                xtsswgd = 0.02                
++tnjts = 0                     tnjtsd = 0                    tnjtssw = 0                   
++tnjtsswd = 0                  tnjtsswg = 0                  tnjtsswgd = 0                 
++at = 3E-3                     tmexp = 0                     tmexpr = 0                    
++ptwgt = 4E-3                  
+//*** self heating ***
++rth0 = 0.01                   cth0 = 1E-5                   wth0 = 0       
+
+ends p1svt
+endsection  mos
+
+section mos_lvt
+inline subckt cds_ff_mpt_n1lvt ( d g s b ) 
+parameters
++l=1e-6 
++nfin=1 
++nf=1 
++ngcon=1 
++aseo=0 
++adeo=0 
++pseo=0 
++pdeo=0 
++asej=0 
++adej=0 
++psej=0 
++pdej=0 
++lrsd=1.8E-8
++mismod=0
++lef=l
+// *** In our pseudo-process, a fin is 14nm wide, 35 nm hight -- 
+// *** the effective width is 35 + 14 + 35 = 84 nm.
++wef=8.4e-8
++misn1_lvt=rn1_lvt                     misn2_lvt=rn2_lvt   
++misp1_lvt=rp1_lvt                     misp2_lvt=rp2_lvt
+//+facn1_lvt=0.314*misn1_lvt+0.6132*misn2_lvt
+//+facn2_lvt=0.314*misn1_lvt-0.6132*misn2_lvt
+//+facp1_lvt=0.314*misp1_lvt+0.6132*misp2_lvt
+//+facp2_lvt=0.314*misp1_lvt-0.6132*misp2_lvt
++facn1_lvt=0.6132*misn2_lvt
++facn2_lvt=0.7132*misn2_lvt
++facp1_lvt=0.8132*misp2_lvt
++facp2_lvt=0.2132*misp2_lvt
++geo_fac =1/sqrt(nf*lef*wef*1e12)
++phigmis_n_lvt= 0.001364*geo_fac*facn1_lvt*mismod 
++eotmis_n_lvt= 0.001015*geo_fac*1e-9*facn2_lvt*mismod
++toxpmis_n_lvt= 0.001015*geo_fac*1e-9*facn2_lvt*mismod
+
+parameters lgate_extend = 0
+parameters poly_width = 1E-8
+parameters extend_ratio=1+lgate_extend/poly_width
+
+//********************************
+//** l : Designed Gate Length (m)
+//** tfin : Fin Thickness (m)
+//** nfin : Number of Fins per Finger (-)
+//** nf :  Number of Fingers (-)
+//** fpitch : fin pitch (m)
+//** ngcon : Number of Gate Contacts (-)
+//** aseo : Source to substrate overlap area through oxide(all fingers) (m2)
+//** adeo : Drain to substrate overlap area through oxide(all fingers) (m2)
+//** pseo : Perimeter of source to substrate overlap region through oxide (m)
+//** pdeo : Perimeter of drain to substrate overlap region through oxide (m)
+//** asej : Source junction area (all Fingers) (m2)
+//** adej : Drain junction area (all Fingers) (m2)
+//** psej : Source junction perimeter (all Fingers) (m)
+//** pdej : Drain junction perimeter (all Fingers) (m)
+//** cdsp : Constant drain to source fringe capacitance
+//** lrsd : Length of the source/drain (m)
+//** lgate_extend : end-cap poly (gate) extension length (m)
+//** poly_width: the reference width of poly that is used to assess the length of gate extension (m)
+//**********************************
+ 
+cds_ff_mpt_n1lvt ( d g s b ) cds_ff_mpt_nlvt l=l tfin=1.4e-8 nfin=nfin nf=nf fpitch=4.8e-8 ngcon=ngcon aseo=aseo adeo=adeo pseo=pseo pdeo=pdeo asej=asej adej=adej psej=psej pdej=pdej lrsd=lrsd
+
+model cds_ff_mpt_nlvt bsimcmg
+//*** flag parameter ***
++version = 107                 bulkmod = 1                   coremod = 0                   
++geomod = 1                    rdsmod = 1                    asymmod = 0                   
++igcmod = 1                    igbmod = 1                    gidlmod = 1                   
++iimod = 1                     nqsmod = 0                    shmod = 0                     
++rgatemod = 0                  rgeomod = 1                   cgeomod = 2                   
++capmod = 1                    cgeo1sw = 0                   devtype = 1                   
+//*** geometry parameter ***
++lint = 3E-10                  ll = 0                        lln = 1                       
++dlc = 0                       dlcacc = 0                    dlbin = 0                     
++llc = 0                       
+//*** process parameter ***
++eot = 1.5E-9+deot_n_lvt+eotmis_n_lvt       toxp = 2E-9+dtoxp_n_lvt+toxpmis_n_lvt       eotbox = 1.4E-7               
++hfin = 3.5E-8                 fech = 1                      deltaw = 0                    
++fechcv = 1                    deltawcv = 0                  nbody = 5E21                  
++nbodyn1 = 0                   nbodyn2 = 1E5                 nsd = 2E26                    
++phig = 4.4248+dphig_n_lvt+phigmis_n_lvt      phigl = 0                     phign1 = 0                    
++phign2 = 1E5                  epsrox = 3.9                  epsrsub = 11.9                
++easub = 4.05                  ni0sub = 1.1E16               bg0sub = 1.12                 
++nc0sub = 2.86E25              ngate = 0                     imin = 1E-15                  
+//*** short channel effects ***
++cit = 9E-4                    cdsc = 7E-3                   cdscn1 = 0                    
++cdscn2 = 1E5                  cdscdn1 = 0                   cdscdn2 = 1E5                 
++cdscdrn1 = 0                  cdscdrn2 = 1E5                cdscd = 7E-3                  
++cdscdr = 7E-3                 dvt0 = 1.72                   dvt1 = 0.6                    
++dvt1ss = 0.6                  phin = 0.05                   eta0 = 3.174E-1                
++eta0n1 = 0                    eta0n2 = 1E5                  teta0 = 0                     
++teta0r = 0                    eta0r = 0.6                   dsub = 1.06                   
++dvtp0 = 0                     dvtp1 = 0                     k1rsce = 0                    
++lpe0 = 5E-9                   dvtshift = 0                  
+//*** lateral non-uniform doping effect ***
++k0 = 1E-3                     k01 = 1E-3                    k0si = 1                      
++k0si1 = 0                     k1si = 1                      k1si1 = 0                     
+//*** body effect for mg devices on bulk substrate ***
++phibe = 0.7                   k1 = 0.5                      k11 = 0.001                       
++k1sat = 0                     k1sat1 = 0                    
+//*** quantum mechanical effect ***
++qmfactor = 0                  qmtceniv = 0                  qmtcencv = 0                  
++qmtcencva = 0                 aqmtcen = 0                   bqmtcen = 1.2E-8              
++etaqm = 0.54                  qm0 = 1E-3                    pqm = 0.66                    
++qm0acc = 1E-3                 pqmacc = 0.66                 
+//*** velocity saturation ***
++vsat = 2.9097E4+dvsat_n_lvt   lvsat = -90                   vsatn1 = 0                    
++vsatn2 = 1E5                  vsat1n1 = 0                   vsat1n2 = 1E5                 
++vsat1rn1 = 0                  vsat1rn2 = 1E5                avsat = 0                     
++bvsat = 1E-7                  vsat1 = 8.5E4                 vsat1r = 8.5E4                
++avsat1 = 0                    bvsat1 = 1E-7                 deltavsat = 1                 
++psat = 2                      apsat = 0                     bpsat = 1                     
++ksativ = 1                    vsatcv = 8.5E4                avsatcv = 0                   
++bvsatcv = 1E-7                deltavsatcv = 1               psatcv = 2                    
++apsatcv = 0                   bpsatcv = 1                   mexp = 4                      
++amexp = 0                     bmexp = 1                     mexpr = 4                     
++amexpr = 0                    bmexpr = 1                    ptwg = 0                      
++ptwgr = 0                     aptwg = 0                     bptwg = 1E-7                  
+//*** mobility model parameter ***
++u0 = 6.516E-3+du0_n_lvt       u0n1 = 0                      u0n2 = 1E5                    
++etamob = 0.8                  up = 9.309E-9                 lpa = 1                       
++ua = 0.126625                 aua = 0                       bua = 1E-7                    
++uc = 0                        eu = 2.5                      aeu = 0                       
++beu = 1E-7                    ud = 0                        aud = 0                       
++bud = 5E-8                    ucs = 1                       ute = 0                       
++utl = 0                       emobt = 0                     ua1 = 1.032E-3                
++uc1 = 5.6E-11                 ud1 = 0                       ucste = -4.775E-3             
++chargewf = 0                  
+//*** access resistance model parameter ***
++rdswmin = 0                   rdsw = 100                    ardsw = 0                     
++brdsw = 1E-7                  rswmin = 0                    rsw = 80                      
++arsw = 0                      brsw = 1E-7                   rdwmin = 0                    
++rdw = 80                      ardw = 0                      brdw = 1E-7                   
++rsdr = 0                      rsdrr = 0                     rddr = 0                      
++rddrr = 0                     prsdr = 1                     prddr = 1                     
++prwgs = 0                     prwgd = 0                     wr = 1                        
++prt = 1E-3                    trsdr = 0                     trddr = 0                     
+//*** dibl model parameter ***
++pdibl1 = 0                    pdibl1r = 1.3                 pdibl2 = 2E-4                 
++drout = 1.06                  pvag = 1                      
+//*** channel length modulation effect ***
++pclm = 0.013                  apclm = 0                     bpclm = 1E-7                  
++pclmg = 0                     pclmcv = 0.013                
+//*** non-saturation effect ***
++a1 = 0                        a11 = 0                       a2 = 0                        
++a21 = 0                       
+//*** gate electrode resistance ***
++rgext = 0                     rgfin = 1E-3                  
+//*** geometry dependent source/drain resistance rgeomod=0 ***
++rshs = 10                     rshd = 10                        
+//*** geometry dependent source/drain resistance rgeomod=1 ***
++hepi = 1E-8                   tsili = 1E-8                  rhoc = 1E-12                  
++rhorsd = 2E-6                 cratio = 0.5                  deltaprsd = 0                 
++sdterm = 0                    lsp = 4E-9                    epsrsp = 3.9                  
++tgate = 1E-8                  tmask = 3E-8                  asiliend = 2.5E-15                  
++arsdend = 2.5E-15             prsdend = 2E-7                nsde = 2E25                   
++rgeoa = 1                     rgeob = 0                     rgeoc = 0                     
++rgeod = 0                     rgeoe = 0                     cgeoa = 1                     
++cgeob = 0                     cgeoc = 0                     cgeod = 0                     
++cgeoe = 1                           
+//*** gate current ***
++aigbinv = 1                   aigbinv1 = 0                  bigbinv = 9.49E-4             
++cigbinv = 6E-3                eigbinv = 1.1                 nigbinv = 3                   
++aigbacc = 0.0136              aigbacc1 = 0                  bigbacc = 1.71E-3             
++cigbacc = 0.075               nigbacc = 1                   aigc = 0.0136                 
++aigc1 = 0                     bigc = 1.71E-3                cigc = 0.075                  
++pigcd = 1                     dlcigs = 1E-9                 aigs = 0.0136                 
++aigs1 = 0                     bigs = 1.71E-3                cigs = 0.075                  
++dlcigd = 1E-9                 aigd = 0.0136                 aigd1 = 0                     
++bigd = 1.71E-3                cigd = 0.075                  toxref = 1.2E-9               
++toxg = 1.2E-9                 ntox = 1                      poxedge = 1                   
+//*** gidl/gisl current ***
++agidl = 4.06055E-10           bgidl = 3E8                   cgidl = 0.5                   
++egidl = 0.2                   pgidl = 1                     agisl = 6.055E-12             
++bgisl = 3E8                   cgisl = 0.5                   egisl = 0.2                   
+//*** impact ionization current ***
++alpha0 = 1E-8                 alpha01 = 1E-8                alpha1 = 1E-3                    
++alpha11 = 1E-6                beta0 = 6                     alphaii0 = 1E-8                  
++alphaii01 = 1E-8              alphaii1 = 1E-9               alphaii11 = 1E-7                 
++betaii0 = 1E-3                betaii1 = 1E-3                betaii2 = 0.1                 
++esatii = 1E7                  lii = 5E-10                   sii0 = 0.5                    
++sii1 = 0.1                    sii2 = 0                      siid = 0                           
+//*** accumulation capacitance (capmod=1) ***
++eotacc = 1E-9                 delvfbacc = 0                 
+//*** fringe capacitance ***
++cfs = 2.5E-11                 cfd = 2.5E-11                 
+//*** overlap capacitance (cgeomod=0 and 2) ***
++cgso = 5.83E-11+dcgso_n_lvt   cgdo = 5.83E-11+dcgdo_n_lvt   cgsl = 2.1E-11+dcgsl_n_lvt
++cgdl = 2.1E-11+dcgdl_n_lvt    ckappas = 0.6                 ckappad = 0.6                 
++cgbo = 1E-11*extend_ratio     cgbn = 1E-12                  cgbl = 5E-12                  
++ckappab = 0.6                 
+//*** source/drain to substrate sidewall capacitance ***
++csdesw = 0.6                  
+//*** junction current and capacitance ***
++cjs = 6.91E-4+dcj_n_lvt       cjd = 6.91E-4+dcj_n_lvt       cjsws = 5.7E-11+dcjsw_n_lvt               
++cjswd = 5.7E-11+dcjsw_n_lvt   cjswgs = 2E-10+dcjswg_n_lvt   cjswgd = 2E-10+dcjswg_n_lvt                    
++pbs = 0.511                   pbd = 0.511                   pbsws = 0.786                     
++pbswd = 0.786                 pbswgs = 0.44                 pbswgd = 0.44                     
++mjs = 0.247                   mjd = 0.247                   mjsws = 0.011                 
++mjswd = 0.011                 mjswgs = 0.498                mjswgd = 0.498                 
++sjs = 0                       sjd = 0                       sjsws = 0                     
++sjswd = 0                     sjswgs = 0                    sjswgd = 0                    
++mjs2 = 0.125                  mjd2 = 0.125                  mjsws2 = 0.083                
++mjswd2 = 0.083                mjswgs2 = 0.083               mjswgd2 = 0.083               
++jss = 3E-7                    jsd = 3E-7                    jsws = 4.7E-13                     
++jswd = 4.7E-13                jswgs = 2E-12                 jswgd = 2E-12                  
++njs = 1                       njd = 1                       ijthsfwd = 0.1                
++ijthdfwd = 0.1                ijthsrev = 0.1                ijthdrev = 0.1                
++bvs = 10.5                    bvd = 10.5                    xjbvs = 1                     
++xjbvd = 1                     
+//*** tunneling component of junction current ***
++jtss = 0                      jtsd = 0                      jtssws = 0                    
++jtsswd = 0                    jtsswgs = 0                   jtsswgd = 0                   
++jtweff = 0                    njts = 20                     njtsd = 20                    
++njtssw = 20                   njtsswd = 20                  njtsswg = 20                  
++njtsswgd = 20                 vtss = 10                     vtsd = 10                     
++vtssws = 10                   vtsswd = 10                   vtsswgs = 10                  
++vtsswgd = 10                  lintigen = 1E-10              ntgen = 1                     
++aigen = 0                     bigen = 0                     
+//*** nqs gate resistance model & nqs charge deficit model ***
++xrcrg1 = 9.6                  xrcrg2 = 1                    
+//*** nqs charge segementation model ***
++nseg = 5                      
+//*** flicker noise ***
++ef = 1                        em = 4.1E7                    noia = 6.25E39                
++noib = 3.125E24               noic = 8.75E7                 
+//*** thermal noise ***
++ntnoi = 1                     
+//*** temperature effects ***
++tnom = 25                     tbgasub = 7.02E-4             tbgbsub = 1.108E3             
++kt1 = -0.12                   kt1l = 0                      tss = 0                       
++iit = -0.5                    tii = 0                       tgidl = -3E-3                 
++igt = 2.5                     tcj = 6.52E-4                 tcjsw = 3.57E-4                     
++tcjswg = 1.5E-3               tpb = 1.1E-3                  tpbsw = 1.9E-3                     
++tpbswg = 1E-3                 xtis = 3                      xtid = 3                      
++xtss = 0.02                   xtsd = 0.02                   xtssws = 0.02                 
++xtsswd = 0.02                 xtsswgs = 0.02                xtsswgd = 0.02                
++tnjts = 0                     tnjtsd = 0                    tnjtssw = 0                   
++tnjtsswd = 0                  tnjtsswg = 0                  tnjtsswgd = 0                 
++at = 4.4E-4                   tmexp = 0                     tmexpr = 0                    
++ptwgt = 4E-3                  
+//*** self heating ***
++rth0 = 0.01                   cth0 = 1E-5                   wth0 = 0    
+ends n1lvt
+
+inline subckt cds_ff_mpt_p1lvt ( d g s b ) 
+parameters
++l=1e-6 
++nfin=1 
++nf=1  
++ngcon=1 
++aseo=0 
++adeo=0 
++pseo=0 
++pdeo=0 
++asej=0 
++adej=0 
++psej=0 
++pdej=0 
++lrsd=1.8E-8
++mismod=0
++lef=l
++wef=8.4e-8
++misn1_lvt=rn1_lvt                     misn2_lvt=rn2_lvt   
++misp1_lvt=rp1_lvt                     misp2_lvt=rp2_lvt
+//+facn1_lvt=0.314*misn1_lvt+0.6132*misn2_lvt
+//+facn2_lvt=0.314*misn1_lvt-0.6132*misn2_lvt
+//+facp1_lvt=0.314*misp1_lvt+0.6132*misp2_lvt
+//+facp2_lvt=0.314*misp1_lvt-0.6132*misp2_lvt
++facn1_lvt=0.6132*misn2_lvt
++facn2_lvt=0.7132*misn2_lvt
++facp1_lvt=0.8132*misp2_lvt
++facp2_lvt=0.2132*misp2_lvt
++geo_fac =1/sqrt(nf*lef*wef*1e12)
++phigmis_p_lvt= 0.001364*geo_fac*facp1_lvt*mismod 
++eotmis_p_lvt= 0.001015*geo_fac*1e-9*facp2_lvt*mismod
++toxpmis_p_lvt= 0.001015*geo_fac*1e-9*facp2_lvt*mismod
+
+parameters lgate_extend = 0
+parameters poly_width = 1E-8
+parameters extend_ratio=1+lgate_extend/poly_width
+
+//********************************
+//** l : Designed Gate Length (m)
+//** tfin : Fin Thickness (m)
+//** nfin : Number of Fins per Finger (-)
+//** nf :  Number of Fingers (-)
+//** fpitch : fin pitch (m)
+//** ngcon : Number of Gate Contacts (-)
+//** aseo : Source to substrate overlap area through oxide(all fingers) (m2)
+//** adeo : Drain to substrate overlap area through oxide(all fingers) (m2)
+//** pseo : Perimeter of source to substrate overlap region through oxide (m)
+//** pdeo : Perimeter of drain to substrate overlap region through oxide (m)
+//** asej : Source junction area (all Fingers) (m2)
+//** adej : Drain junction area (all Fingers) (m2)
+//** psej : Source junction perimeter (all Fingers) (m)
+//** pdej : Drain junction perimeter (all Fingers) (m)
+//** cdsp : Constant drain to source fringe capacitance
+//** lrsd : Length of the source/drain (m)
+//** lgate_extend : end-cap poly (gate) extension length (m)
+//** poly_width: the reference width of poly that is used to assess the length of gate extension (m)
+//**********************************
+ 
+cds_ff_mpt_p1lvt ( d g s b ) cds_ff_mpt_plvt l=l tfin=1.4e-8 nfin=nfin nf=nf fpitch=4.8e-8 ngcon=ngcon aseo=aseo adeo=adeo pseo=pseo pdeo=pdeo asej=asej adej=adej psej=psej pdej=pdej lrsd=lrsd
+
+model cds_ff_mpt_plvt bsimcmg
+//*** flag parameter ***
++version = 107                 bulkmod = 1                   coremod = 0                   
++geomod = 1                    rdsmod = 1                    asymmod = 0                   
++igcmod = 1                    igbmod = 1                    gidlmod = 1                   
++iimod = 1                     nqsmod = 0                    shmod = 0                     
++rgatemod = 0                  rgeomod = 1                   cgeomod = 2                   
++capmod = 1                    cgeo1sw = 0                   devtype = 0                   
+//*** geometry parameter ***
++lint = 3E-10                  ll = 0                        lln = 1                       
++dlc = 0                       dlcacc = 0                    dlbin = 0                     
++llc = 0                       
+//*** process parameter ***
++eot = 1.5E-9+deot_p_lvt+eotmis_p_lvt       toxp = 2E-9+dtoxp_p_lvt+toxpmis_p_lvt                   eotbox = 1.4E-7               
++hfin = 3.5E-8                 fech = 1                      deltaw = 0                    
++fechcv = 1                    deltawcv = 0                  nbody = 5E21                  
++nbodyn1 = 0                   nbodyn2 = 1E5                 nsd = 2E26                    
++phig = 4.7818+dphig_p_lvt+phigmis_p_lvt     phigl = 0                     phign1 = 0                    
++phign2 = 1E5                  epsrox = 3.9                  epsrsub = 11.9                
++easub = 4.05                  ni0sub = 1.1E16               bg0sub = 1.12                 
++nc0sub = 2.86E25              ngate = 0                     imin = 1E-15                  
+//*** short channel effects ***
++cit = 0                       cdsc = 0                      cdscn1 = 0                    
++cdscn2 = 1E5                  cdscdn1 = 0                   cdscdn2 = 1E5                 
++cdscdrn1 = 0                  cdscdrn2 = 1E5                cdscd = 0                     
++cdscdr = 7E-3                 dvt0 = 0.3766                 dvt1 = 0.6                    
++dvt1ss = 0.6                  phin = 0.05                   eta0 = 8.9301E-1                
++eta0n1 = 0                    eta0n2 = 1E5                  teta0 = 0                     
++teta0r = 0                    eta0r = 0.6                   dsub = 1.06                   
++dvtp0 = 0                     dvtp1 = 0                     k1rsce = -0.3                 
++lpe0 = 9.1265E-9              dvtshift = 0                  
+//*** lateral non-uniform doping effect ***
++k0 = 1E-3                     k01 = 1E-3                    k0si = 1                      
++k0si1 = 0                     k1si = 1                      k1si1 = 0                     
+//*** body effect for mg devices on bulk substrate ***
++phibe = 0.7                   k1 = 0.5                      k11 = 0.001                       
++k1sat = 0                     k1sat1 = 0                    
+//*** quantum mechanical effect ***
++qmfactor = 0                  qmtceniv = 0                  qmtcencv = 0                  
++qmtcencva = 0                 aqmtcen = 0                   bqmtcen = 1.2E-8              
++etaqm = 0.54                  qm0 = 1E-3                    pqm = 0.66                    
++qm0acc = 1E-3                 pqmacc = 0.66                 
+//*** velocity saturation ***
++vsat = 1.51964E4+dvsat_p_lvt lvsat = 0                     vsatn1 = 0                    
++vsatn2 = 1E5                  vsat1n1 = 0                   vsat1n2 = 1E5                 
++vsat1rn1 = 0                  vsat1rn2 = 1E5                avsat = 0                     
++bvsat = 1E-7                  vsat1 = 8.5E4                 vsat1r = 8.5E4                
++avsat1 = 0                    bvsat1 = 1E-7                 deltavsat = 1                 
++psat = 2                      apsat = 0                     bpsat = 1                     
++ksativ = 1                    vsatcv = 8.5E4                avsatcv = 0                   
++bvsatcv = 1E-7                deltavsatcv = 1               psatcv = 2                    
++apsatcv = 0                   bpsatcv = 1                   mexp = 2                      
++amexp = 0                     bmexp = 1                     mexpr = 4                     
++amexpr = 0                    bmexpr = 1                    ptwg = 0                      
++ptwgr = 0                     aptwg = 0                     bptwg = 1E-7                  
+//*** mobility model parameter ***
++u0 = 3.62212E-3+du0_p_lvt     u0n1 = 0                      u0n2 = 1E5                    
++etamob = 0.8                  up = 9.309E-9                 lpa = 0.9906                  
++ua = 1.864647                 aua = 0                       bua = 1E-7                    
++uc = 0                        eu = 2.5                      aeu = 0                       
++beu = 1E-7                    ud = 0                        aud = 0                       
++bud = 5E-8                    ucs = 1                       ute = 0                       
++utl = 0                       emobt = 0                     ua1 = 1.032E-3                
++uc1 = 5.6E-11                 ud1 = 0                       ucste = -4.775E-3             
++chargewf = 0                  
+//*** access resistance model parameter ***
++rdswmin = 0                   rdsw = 100                    ardsw = 0                     
++brdsw = 1E-7                  rswmin = 0                    rsw = 34.1                    
++arsw = 0                      brsw = 1E-7                   rdwmin = 0                    
++rdw = 33.1                    ardw = 0                      brdw = 1E-7                   
++rsdr = 0                      rsdrr = 0                     rddr = 0                      
++rddrr = 0                     prsdr = 1                     prddr = 1                     
++prwgs = 0                     prwgd = 0                     wr = 1                        
++prt = 1E-3                    trsdr = 0                     trddr = 0                     
+//*** dibl model parameter ***
++pdibl1 = 0                    pdibl1r = 1.3                 pdibl2 = 2E-4                 
++drout = 1.06                  pvag = 1                      
+//*** channel length modulation effect ***
++pclm = 0.013                  apclm = 0                     bpclm = 1E-7                  
++pclmg = 0                     pclmcv = 0.013                
+//*** non-saturation effect ***
++a1 = 0                        a11 = 0                       a2 = 0                        
++a21 = 0                       
+//*** gate electrode resistance ***
++rgext = 0                     rgfin = 1E-3                  
+//*** geometry dependent source/drain resistance rgeomod=0 ***
++rshs = 10                     rshd = 10                      
+//*** geometry dependent source/drain resistance rgeomod=1 ***
++hepi = 1E-8                   tsili = 1E-8                  rhoc = 1E-12                  
++rhorsd = 2E-6                 cratio = 0.5                  deltaprsd = 0                 
++sdterm = 0                    lsp = 4E-9                    epsrsp = 3.9                  
++tgate = 1E-8                  tmask = 3E-8                  asiliend = 2.5E-15                  
++arsdend = 2.5E-15             prsdend = 2E-7                nsde = 2E25                   
++rgeoa = 1                     rgeob = 0                     rgeoc = 0                     
++rgeod = 0                     rgeoe = 0                     cgeoa = 1                     
++cgeob = 0                     cgeoc = 0                     cgeod = 0                     
++cgeoe = 1          
+//*** gate current ***
++aigbinv = 1                   aigbinv1 = 0                  bigbinv = 9.49E-4             
++cigbinv = 6E-3                eigbinv = 1.1                 nigbinv = 3                   
++aigbacc = 0.0136              aigbacc1 = 0                  bigbacc = 1.71E-3             
++cigbacc = 0.075               nigbacc = 1                   aigc = 0.0136                 
++aigc1 = 0                     bigc = 1.71E-3                cigc = 0.075                  
++pigcd = 1                     dlcigs = 1E-9                 aigs = 0.0136                 
++aigs1 = 0                     bigs = 1.71E-3                cigs = 0.075                  
++dlcigd = 1E-9                 aigd = 0.0136                 aigd1 = 0                     
++bigd = 1.71E-3                cigd = 0.075                  toxref = 1.2E-9               
++toxg = 1.2E-9                 ntox = 1                      poxedge = 1                   
+//*** gidl/gisl current ***
++agidl = 1E-12                 bgidl = 9E8                   cgidl = 0.5                   
++egidl = 0.2                   pgidl = 1                     agisl = 6.055E-12             
++bgisl = 3E8                   cgisl = 0.5                   egisl = 0.2                   
+//*** impact ionization current ***
++alpha0 = 1E-8                 alpha01 = 1E-8                alpha1 = 1E-3                    
++alpha11 = 1E-6                beta0 = 6                     alphaii0 = 1E-8                  
++alphaii01 = 1E-8              alphaii1 = 1E-9               alphaii11 = 1E-7                 
++betaii0 = 1E-3                betaii1 = 1E-3                betaii2 = 0.1                 
++esatii = 1E7                  lii = 5E-10                   sii0 = 0.5                    
++sii1 = 0.1                    sii2 = 0                      siid = 0                         
+//*** accumulation capacitance (capmod=1) ***
++eotacc = 1E-9                 delvfbacc = 0                 
+//*** fringe capacitance ***
++cfs = 2.5E-11                 cfd = 2.5E-11                 
+//*** overlap capacitance (cgeomod=0 and 2) ***
++cgso = 3.7E-11+dcgso_p_lvt    cgdo = 3.7E-11+dcgdo_p_lvt    cgsl = 0.4E-10+dcgsl_p_lvt
++cgdl = 0.4E-10+dcgdl_p_lvt    ckappas = 0.6                 ckappad = 0.6                 
++cgbo = 1E-11*extend_ratio     cgbn = 1E-12                  cgbl = 5E-12                        
++ckappab = 0.6                 
+//*** source/drain to substrate sidewall capacitance ***
++csdesw = 0.6                  
+//*** junction current and capacitance ***
++cjs = 8.28E-4+dcj_p_lvt       cjd = 8.28E-4+dcj_p_lvt       cjsws = 7.1E-11+dcjsw_p_lvt                
++cjswd = 7.1E-11+dcjsw_p_lvt   cjswgs = 2.03E-10+dcjswg_p_lvt    cjswgd = 2.03E-10+dcjswg_p_lvt                    
++pbs = 0.75                    pbd = 0.75                    pbsws = 0.49                     
++pbswd = 0.49                  pbswgs = 0.54                 pbswgd = 0.54                    
++mjs = 0.31                    mjd = 0.31                    mjsws = 0.012                 
++mjswd = 0.012                 mjswgs = 0.81                 mjswgd = 0.81                 
++sjs = 0                       sjd = 0                       sjsws = 0                     
++sjswd = 0                     sjswgs = 0                    sjswgd = 0                    
++mjs2 = 0.125                  mjd2 = 0.125                  mjsws2 = 0.083                
++mjswd2 = 0.083                mjswgs2 = 0.083               mjswgd2 = 0.083               
++jss = 2.81E-7                 jsd = 2.81E-7                 jsws = 7.98E-13                    
++jswd = 7.98E-13               jswgs = 4.47E-12              jswgd = 4.47E-12                   
++njs = 1                       njd = 1                       ijthsfwd = 0.1                
++ijthdfwd = 0.1                ijthsrev = 0.1                ijthdrev = 0.1                
++bvs = 11.6                    bvd = 11.6                    xjbvs = 1                     
++xjbvd = 1                     
+//*** tunneling component of junction current ***
++jtss = 0                      jtsd = 0                      jtssws = 0                    
++jtsswd = 0                    jtsswgs = 0                   jtsswgd = 0                   
++jtweff = 0                    njts = 20                     njtsd = 20                    
++njtssw = 20                   njtsswd = 20                  njtsswg = 20                  
++njtsswgd = 20                 vtss = 10                     vtsd = 10                     
++vtssws = 10                   vtsswd = 10                   vtsswgs = 10                  
++vtsswgd = 10                  lintigen = 1E-10              ntgen = 1                     
++aigen = 0                     bigen = 0                     
+//*** nqs gate resistance model & nqs charge deficit model ***
++xrcrg1 = 18.75                xrcrg2 = 1                    
+//*** nqs charge segementation model ***
++nseg = 5                      
+//*** flicker noise ***
++ef = 1                        em = 4.1E7                    noia = 6.25E39                
++noib = 3.125E24               noic = 8.75E7                 
+//*** thermal noise ***
++ntnoi = 1                     
+//*** temperature effects ***
++tnom = 25                     tbgasub = 7.02E-4             tbgbsub = 1.108E3             
++kt1 = -0.12                   kt1l = 0                      tss = 0                       
++iit = -0.5                    tii = 0                       tgidl = -3E-3                 
++igt = 2.5                     tcj = 7.98E-4                 tcjsw = 2.4E-4                     
++tcjswg = 4.77E-3              tpb = 1.9E-3                  tpbsw = 1.9E-3                     
++tpbswg = 1.9E-3               xtis = 3                      xtid = 3                      
++xtss = 0.02                   xtsd = 0.02                   xtssws = 0.02                 
++xtsswd = 0.02                 xtsswgs = 0.02                xtsswgd = 0.02                
++tnjts = 0                     tnjtsd = 0                    tnjtssw = 0                   
++tnjtsswd = 0                  tnjtsswg = 0                  tnjtsswgd = 0                 
++at = 7.4E-4                   tmexp = 0                     tmexpr = 0                    
++ptwgt = 4E-3                  
+//*** self heating ***
++rth0 = 0.01                   cth0 = 1E-5                   wth0 = 0  
+ends p1lvt   
+endsection  mos_lvt
+
+section mos_hvt
+inline subckt cds_ff_mpt_n1hvt ( d g s b ) 
+parameters
++l=1e-6  
++nfin=1 
++nf=1 
++ngcon=1 
++aseo=0 
++adeo=0 
++pseo=0 
++pdeo=0 
++asej=0 
++adej=0 
++psej=0 
++pdej=0 
++lrsd=1.8E-8
++mismod=0
++lef=l
++wef=8.4e-8
++misn1_hvt=rn1_hvt                     misn2_hvt=rn2_hvt   
++misp1_hvt=rp1_hvt                     misp2_hvt=rp2_hvt
++facn1_hvt=0.314*misn1_hvt+0.6132*misn2_hvt
++facn2_hvt=0.314*misn1_hvt-0.6132*misn2_hvt
++facp1_hvt=0.314*misp1_hvt+0.6132*misp2_hvt
++facp2_hvt=0.314*misp1_hvt-0.6132*misp2_hvt
++geo_fac =1/sqrt(nf*lef*wef*1e12)
++phigmis_n_hvt= 0.001364*geo_fac*facn1_hvt*mismod 
++eotmis_n_hvt= 0.001015*geo_fac*1e-9*facn2_hvt*mismod
++toxpmis_n_hvt= 0.001015*geo_fac*1e-9*facn2_hvt*mismod
+
+parameters lgate_extend = 0
+parameters poly_width = 1E-8
+parameters extend_ratio=1+lgate_extend/poly_width
+
+//********************************
+//** l : Designed Gate Length (m)
+//** tfin : Fin Thickness (m)
+//** nfin : Number of Fins per Finger (-)
+//** nf :  Number of Fingers (-)
+//** fpitch : fin pitch (m)
+//** ngcon : Number of Gate Contacts (-)
+//** aseo : Source to substrate overlap area through oxide(all fingers) (m2)
+//** adeo : Drain to substrate overlap area through oxide(all fingers) (m2)
+//** pseo : Perimeter of source to substrate overlap region through oxide (m)
+//** pdeo : Perimeter of drain to substrate overlap region through oxide (m)
+//** asej : Source junction area (all Fingers) (m2)
+//** adej : Drain junction area (all Fingers) (m2)
+//** psej : Source junction perimeter (all Fingers) (m)
+//** pdej : Drain junction perimeter (all Fingers) (m)
+//** cdsp : Constant drain to source fringe capacitance
+//** lrsd : Length of the source/drain (m)
+//** lgate_extend : end-cap poly (gate) extension length (m)
+//** poly_width: the reference width of poly that is used to assess the length of gate extension (m)
+//**********************************
+ 
+cds_ff_mpt_n1hvt ( d g s b ) cds_ff_mpt_nhvt l=l tfin=1.4e-8 nfin=nfin nf=nf fpitch=4.88e-8 ngcon=ngcon aseo=aseo adeo=adeo pseo=pseo pdeo=pdeo asej=asej adej=adej psej=psej pdej=pdej lrsd=lrsd
+
+model cds_ff_mpt_nhvt bsimcmg
+//*** flag parameter ***
++version = 107                 bulkmod = 1                   coremod = 0                   
++geomod = 1                    rdsmod = 1                    asymmod = 0                   
++igcmod = 1                    igbmod = 1                    gidlmod = 1                   
++iimod = 1                     nqsmod = 0                    shmod = 0                     
++rgatemod = 0                  rgeomod = 1                   cgeomod = 2                   
++capmod = 1                    cgeo1sw = 0                   devtype = 1                   
+//*** geometry parameter ***
++lint = 3E-10                  ll = 0                        lln = 1                       
++dlc = 0                       dlcacc = 0                    dlbin = 0                     
++llc = 0                       
+//*** process parameter ***
++eot = 1.5E-9+deot_n_hvt+eotmis_n_hvt       toxp = 2E-9+dtoxp_n_hvt+toxpmis_n_hvt       eotbox = 1.4E-7               
++hfin = 3.5E-8                 fech = 1                      deltaw = 0                    
++fechcv = 1                    deltawcv = 0                  nbody = 5E21                  
++nbodyn1 = 0                   nbodyn2 = 1E5                 nsd = 2E26                    
++phig = 4.53798+dphig_n_hvt+phigmis_n_hvt    phigl = 0                     phign1 = 0                    
++phign2 = 1E5                  epsrox = 3.9                  epsrsub = 11.9                
++easub = 4.05                  ni0sub = 1.1E16               bg0sub = 1.12                 
++nc0sub = 2.86E25              ngate = 0                     imin = 1E-15                  
+//*** short channel effects ***
++cit = 9E-4                    cdsc = 7E-3                   cdscn1 = 0                    
++cdscn2 = 1E5                  cdscdn1 = 0                   cdscdn2 = 1E5                 
++cdscdrn1 = 0                  cdscdrn2 = 1E5                cdscd = 7E-3                  
++cdscdr = 7E-3                 dvt0 = 1.72                   dvt1 = 0.6                    
++dvt1ss = 0.6                  phin = 0.05                   eta0 = 3.078E-1                 
++eta0n1 = 0                    eta0n2 = 1E5                  teta0 = 0                     
++teta0r = 0                    eta0r = 0.6                   dsub = 1.06                   
++dvtp0 = 0                     dvtp1 = 0                     k1rsce = 0                    
++lpe0 = 5E-9                   dvtshift = 0                  
+//*** lateral non-uniform doping effect ***
++k0 = 1E-3                     k01 = 1E-3                    k0si = 1                      
++k0si1 = 0                     k1si = 1                      k1si1 = 0                     
+//*** body effect for mg devices on bulk substrate ***
++phibe = 0.7                   k1 = 0.5                      k11 = 0.001                       
++k1sat = 0                     k1sat1 = 0                    
+//*** quantum mechanical effect ***
++qmfactor = 0                  qmtceniv = 0                  qmtcencv = 0                  
++qmtcencva = 0                 aqmtcen = 0                   bqmtcen = 1.2E-8              
++etaqm = 0.54                  qm0 = 1E-3                    pqm = 0.66                    
++qm0acc = 1E-3                 pqmacc = 0.66                 
+//*** velocity saturation ***
++vsat = 2.7122E4+dvsat_n_hvt   lvsat = -90                   vsatn1 = 0                    
++vsatn2 = 1E5                  vsat1n1 = 0                   vsat1n2 = 1E5                 
++vsat1rn1 = 0                  vsat1rn2 = 1E5                avsat = 0                     
++bvsat = 1E-7                  vsat1 = 8.5E4                 vsat1r = 8.5E4                
++avsat1 = 0                    bvsat1 = 1E-7                 deltavsat = 1                 
++psat = 2                      apsat = 0                     bpsat = 1                     
++ksativ = 1                    vsatcv = 8.5E4                avsatcv = 0                   
++bvsatcv = 1E-7                deltavsatcv = 1               psatcv = 2                    
++apsatcv = 0                   bpsatcv = 1                   mexp = 4                      
++amexp = 0                     bmexp = 1                     mexpr = 4                     
++amexpr = 0                    bmexpr = 1                    ptwg = 0                      
++ptwgr = 0                     aptwg = 0                     bptwg = 1E-7                  
+//*** mobility model parameter ***
++u0 = 5.925E-3+du0_n_hvt       u0n1 = 0                      u0n2 = 1E5                    
++etamob = 0.8                  up = 9.309E-9                 lpa = 1                       
++ua = 0.188525                 aua = 0                       bua = 1E-7                    
++uc = 0                        eu = 2.5                      aeu = 0                       
++beu = 1E-7                    ud = 0                        aud = 0                       
++bud = 5E-8                    ucs = 1                       ute = 0                       
++utl = 0                       emobt = 0                     ua1 = 1.032E-3                
++uc1 = 5.6E-11                 ud1 = 0                       ucste = -4.775E-3             
++chargewf = 0                  
+//*** access resistance model parameter ***
++rdswmin = 0                   rdsw = 100                    ardsw = 0                     
++brdsw = 1E-7                  rswmin = 0                    rsw = 80                      
++arsw = 0                      brsw = 1E-7                   rdwmin = 0                    
++rdw = 80                      ardw = 0                      brdw = 1E-7                   
++rsdr = 0                      rsdrr = 0                     rddr = 0                      
++rddrr = 0                     prsdr = 1                     prddr = 1                     
++prwgs = 0                     prwgd = 0                     wr = 1                        
++prt = 1E-3                    trsdr = 0                     trddr = 0                     
+//*** dibl model parameter ***
++pdibl1 = 0                    pdibl1r = 1.3                 pdibl2 = 2E-4                 
++drout = 1.06                  pvag = 1                      
+//*** channel length modulation effect ***
++pclm = 0.013                  apclm = 0                     bpclm = 1E-7                  
++pclmg = 0                     pclmcv = 0.013                
+//*** non-saturation effect ***
++a1 = 0                        a11 = 0                       a2 = 0                        
++a21 = 0                       
+//*** gate electrode resistance ***
++rgext = 0                     rgfin = 1E-3                  
+//*** geometry dependent source/drain resistance rgeomod=0 ***
++rshs = 10                     rshd = 10                       
+//*** geometry dependent source/drain resistance rgeomod=1 ***
++hepi = 1E-8                   tsili = 1E-8                  rhoc = 1E-12                  
++rhorsd = 2E-6                 cratio = 0.5                  deltaprsd = 0                 
++sdterm = 0                    lsp = 4E-9                    epsrsp = 3.9                  
++tgate = 1E-8                  tmask = 3E-8                  asiliend = 2.5E-15                  
++arsdend = 2.5E-15             prsdend = 2E-7                nsde = 2E25                   
++rgeoa = 1                     rgeob = 0                     rgeoc = 0                     
++rgeod = 0                     rgeoe = 0                     cgeoa = 1                     
++cgeob = 0                     cgeoc = 0                     cgeod = 0                     
++cgeoe = 1                
+//*** gate current ***
++aigbinv = 1                   aigbinv1 = 0                  bigbinv = 9.49E-4             
++cigbinv = 6E-3                eigbinv = 1.1                 nigbinv = 3                   
++aigbacc = 0.0136              aigbacc1 = 0                  bigbacc = 1.71E-3             
++cigbacc = 0.075               nigbacc = 1                   aigc = 0.0136                 
++aigc1 = 0                     bigc = 1.71E-3                cigc = 0.075                  
++pigcd = 1                     dlcigs = 1E-9                 aigs = 0.0136                 
++aigs1 = 0                     bigs = 1.71E-3                cigs = 0.075                  
++dlcigd = 1E-9                 aigd = 0.0136                 aigd1 = 0                     
++bigd = 1.71E-3                cigd = 0.075                  toxref = 1.2E-9               
++toxg = 1.2E-9                 ntox = 1                      poxedge = 1                   
+//*** gidl/gisl current ***
++agidl = 4.06055E-10           bgidl = 3E8                   cgidl = 0.5                   
++egidl = 0.2                   pgidl = 1                     agisl = 6.055E-12             
++bgisl = 3E8                   cgisl = 0.5                   egisl = 0.2                   
+//*** impact ionization current ***
++alpha0 = 1E-8                 alpha01 = 1E-8                alpha1 = 1E-3                    
++alpha11 = 1E-6                beta0 = 6                     alphaii0 = 1E-8                  
++alphaii01 = 1E-8              alphaii1 = 1E-9               alphaii11 = 1E-7                 
++betaii0 = 1E-3                betaii1 = 1E-3                betaii2 = 0.1                 
++esatii = 1E7                  lii = 5E-10                   sii0 = 0.5                    
++sii1 = 0.1                    sii2 = 0                      siid = 0                            
+//*** accumulation capacitance (capmod=1) ***
++eotacc = 1E-9                 delvfbacc = 0                 
+//*** fringe capacitance ***
++cfs = 2.5E-11                 cfd = 2.5E-11                 
+//*** overlap capacitance (cgeomod=0 and 2) ***
++cgso = 5.03E-11+dcgso_n_hvt   cgdo = 5.03E-11+dcgdo_n_hvt   cgsl = 1.21E-11+dcgsl_n_hvt
++cgdl = 1.21E-11+dcgdl_n_hvt   ckappas = 0.6                 ckappad = 0.6                 
++cgbo = 1E-11*extend_ratio     cgbn = 1E-12                  cgbl = 5E-12                   
++ckappab = 0.6                 
+//*** source/drain to substrate sidewall capacitance ***
++csdesw = 0.6                  
+//*** junction current and capacitance ***
++cjs = 0.0010+dcj_n_hvt        cjd = 0.0010+dcj_n_hvt        cjsws = 4.1E-11+dcjsw_n_hvt                
++cjswd = 4.1E-11+dcjsw_n_hvt   cjswgs = 3.12E-10+dcjswg_n_hvt     cjswgd = 3.12E-10+dcjswg_n_hvt                    
++pbs = 0.511                   pbd = 0.511                   pbsws = 0.786                      
++pbswd = 0.786                 pbswgs = 0.71                 pbswgd = 0.71                    
++mjs = 0.287                   mjd = 0.287                   mjsws = 0.011                  
++mjswd = 0.011                 mjswgs = 0.53                 mjswgd = 0.53                 
++sjs = 0                       sjd = 0                       sjsws = 0                     
++sjswd = 0                     sjswgs = 0                    sjswgd = 0                    
++mjs2 = 0.125                  mjd2 = 0.125                  mjsws2 = 0.083                
++mjswd2 = 0.083                mjswgs2 = 0.083               mjswgd2 = 0.083               
++jss = 1E-7                    jsd = 1E-7                    jsws = 8.4E-14                      
++jswd = 8.4E-14                jswgs = 5E-13                 jswgd = 5E-13                     
++njs = 1                       njd = 1                       ijthsfwd = 0.1                
++ijthdfwd = 0.1                ijthsrev = 0.1                ijthdrev = 0.1                
++bvs = 10.5                    bvd = 10.5                    xjbvs = 1                     
++xjbvd = 1                     
+//*** tunneling component of junction current ***
++jtss = 0                      jtsd = 0                      jtssws = 0                    
++jtsswd = 0                    jtsswgs = 0                   jtsswgd = 0                   
++jtweff = 0                    njts = 20                     njtsd = 20                    
++njtssw = 20                   njtsswd = 20                  njtsswg = 20                  
++njtsswgd = 20                 vtss = 10                     vtsd = 10                     
++vtssws = 10                   vtsswd = 10                   vtsswgs = 10                  
++vtsswgd = 10                  lintigen = 1E-10              ntgen = 1                     
++aigen = 0                     bigen = 0                     
+//*** nqs gate resistance model & nqs charge deficit model ***
++xrcrg1 = 9.6                  xrcrg2 = 1                    
+//*** nqs charge segementation model ***
++nseg = 5                      
+//*** flicker noise ***
++ef = 1                        em = 4.1E7                    noia = 6.25E39                
++noib = 3.125E24               noic = 8.75E7                 
+//*** thermal noise ***
++ntnoi = 1                     
+//*** temperature effects ***
++tnom = 25                     tbgasub = 7.02E-4             tbgbsub = 1.108E3             
++kt1 = -0.12                   kt1l = 0                      tss = 0                       
++iit = -0.5                    tii = 0                       tgidl = -3E-3                 
++igt = 2.5                     tcj = 6.52E-4                 tcjsw = 3.57E-4                     
++tcjswg = 1.5E-3               tpb = 1.1E-3                  tpbsw = 1.9E-3                     
++tpbswg = 1E-3                 xtis = 3                      xtid = 3                      
++xtss = 0.02                   xtsd = 0.02                   xtssws = 0.02                 
++xtsswd = 0.02                 xtsswgs = 0.02                xtsswgd = 0.02                
++tnjts = 0                     tnjtsd = 0                    tnjtssw = 0                   
++tnjtsswd = 0                  tnjtsswg = 0                  tnjtsswgd = 0                 
++at = 3E-3                     tmexp = 0                     tmexpr = 0                    
++ptwgt = 4E-3                  
+//*** self heating ***
++rth0 = 0.01                   cth0 = 1E-5                   wth0 = 0   
+ends n1hvt
+
+inline subckt cds_ff_mpt_p1hvt ( d g s b ) 
+parameters
++l=1e-6 
++nfin=1 
++nf=1  
++ngcon=1 
++aseo=0 
++adeo=0 
++pseo=0 
++pdeo=0 
++asej=0 
++adej=0 
++psej=0 
++pdej=0 
++lrsd=1.8E-8
++mismod=0
++lef=l
++wef=8.4e-8
++misn1_hvt=rn1_hvt                     misn2_hvt=rn2_hvt   
++misp1_hvt=rp1_hvt                     misp2_hvt=rp2_hvt
++facn1_hvt=0.314*misn1_hvt+0.6132*misn2_hvt
++facn2_hvt=0.314*misn1_hvt-0.6132*misn2_hvt
++facp1_hvt=0.314*misp1_hvt+0.6132*misp2_hvt
++facp2_hvt=0.314*misp1_hvt-0.6132*misp2_hvt
++geo_fac =1/sqrt(nf*lef*wef*1e12)
++phigmis_p_hvt= 0.001364*geo_fac*facp1_hvt*mismod 
++eotmis_p_hvt= 0.001015*geo_fac*1e-9*facp2_hvt*mismod
++toxpmis_p_hvt= 0.001015*geo_fac*1e-9*facp2_hvt*mismod
+
+parameters lgate_extend = 0
+parameters poly_width = 1E-8
+parameters extend_ratio=1+lgate_extend/poly_width
+
+//********************************
+//** l : Designed Gate Length (m)
+//** tfin : Fin Thickness (m)
+//** nfin : Number of Fins per Finger (-)
+//** nf :  Number of Fingers (-)
+//** fpitch : fin pitch (m)
+//** ngcon : Number of Gate Contacts (-)
+//** aseo : Source to substrate overlap area through oxide(all fingers) (m2)
+//** adeo : Drain to substrate overlap area through oxide(all fingers) (m2)
+//** pseo : Perimeter of source to substrate overlap region through oxide (m)
+//** pdeo : Perimeter of drain to substrate overlap region through oxide (m)
+//** asej : Source junction area (all Fingers) (m2)
+//** adej : Drain junction area (all Fingers) (m2)
+//** psej : Source junction perimeter (all Fingers) (m)
+//** pdej : Drain junction perimeter (all Fingers) (m)
+//** cdsp : Constant drain to source fringe capacitance
+//** lrsd : Length of the source/drain (m)
+//** lgate_extend : end-cap poly (gate) extension length (m)
+//** poly_width: the reference width of poly that is used to assess the length of gate extension (m)
+//**********************************
+ 
+cds_ff_mpt_p1hvt ( d g s b ) cds_ff_mpt_phvt l=l tfin=1.4e-8 nfin=nfin nf=nf fpitch=4.8e-8 ngcon=ngcon aseo=aseo adeo=adeo pseo=pseo pdeo=pdeo asej=asej adej=adej psej=psej pdej=pdej lrsd=lrsd
+
+model cds_ff_mpt_phvt bsimcmg
+//*** flag parameter ***
++version = 107                 bulkmod = 1                   coremod = 0                   
++geomod = 1                    rdsmod = 1                    asymmod = 0                   
++igcmod = 1                    igbmod = 1                    gidlmod = 1                   
++iimod = 1                     nqsmod = 0                    shmod = 0                     
++rgatemod = 0                  rgeomod = 1                   cgeomod = 2                   
++capmod = 1                    cgeo1sw = 0                   devtype = 0                   
+//*** geometry parameter ***
++lint = 3E-10                  ll = 0                        lln = 1                       
++dlc = 0                       dlcacc = 0                    dlbin = 0                     
++llc = 0                       
+//*** process parameter ***
++eot = 1.5E-9+deot_p_hvt+eotmis_p_hvt       toxp = 2E-9+dtoxp_p_hvt+toxpmis_p_hvt       eotbox = 1.4E-7               
++hfin = 3.5E-8                 fech = 1                      deltaw = 0                    
++fechcv = 1                    deltawcv = 0                  nbody = 5E21                  
++nbodyn1 = 0                   nbodyn2 = 1E5                 nsd = 2E26                    
++phig = 4.66548+dphig_p_hvt+phigmis_p_hvt    phigl = 0                     phign1 = 0                    
++phign2 = 1E5                  epsrox = 3.9                  epsrsub = 11.9                
++easub = 4.05                  ni0sub = 1.1E16               bg0sub = 1.12                 
++nc0sub = 2.86E25              ngate = 0                     imin = 1E-15                  
+//*** short channel effects ***
++cit = 0                       cdsc = 0                      cdscn1 = 0                    
++cdscn2 = 1E5                  cdscdn1 = 0                   cdscdn2 = 1E5                 
++cdscdrn1 = 0                  cdscdrn2 = 1E5                cdscd = 0                     
++cdscdr = 7E-3                 dvt0 = 0.3766                 dvt1 = 0.6                    
++dvt1ss = 0.6                  phin = 0.05                   eta0 = 8.0271E-1               
++eta0n1 = 0                    eta0n2 = 1E5                  teta0 = 0                     
++teta0r = 0                    eta0r = 0.6                   dsub = 1.06                   
++dvtp0 = 0                     dvtp1 = 0                     k1rsce = -0.3                 
++lpe0 = 9.1265E-9              dvtshift = 0                  
+//*** lateral non-uniform doping effect ***
++k0 = 1E-3                     k01 = 1E-3                    k0si = 1                      
++k0si1 = 0                     k1si = 1                      k1si1 = 0                     
+//*** body effect for mg devices on bulk substrate ***
++phibe = 0.7                   k1 = 0.5                      k11 = 0.001                       
++k1sat = 0                     k1sat1 = 0                    
+//*** quantum mechanical effect ***
++qmfactor = 0                  qmtceniv = 0                  qmtcencv = 0                  
++qmtcencva = 0                 aqmtcen = 0                   bqmtcen = 1.2E-8              
++etaqm = 0.54                  qm0 = 1E-3                    pqm = 0.66                    
++qm0acc = 1E-3                 pqmacc = 0.66                 
+//*** velocity saturation ***
++vsat = 1.37874E4+dvsat_p_hvt  lvsat = 0                     vsatn1 = 0                    
++vsatn2 = 1E5                  vsat1n1 = 0                   vsat1n2 = 1E5                 
++vsat1rn1 = 0                  vsat1rn2 = 1E5                avsat = 0                     
++bvsat = 1E-7                  vsat1 = 8.5E4                 vsat1r = 8.5E4                
++avsat1 = 0                    bvsat1 = 1E-7                 deltavsat = 1                 
++psat = 2                      apsat = 0                     bpsat = 1                     
++ksativ = 1                    vsatcv = 8.5E4                avsatcv = 0                   
++bvsatcv = 1E-7                deltavsatcv = 1               psatcv = 2                    
++apsatcv = 0                   bpsatcv = 1                   mexp = 2                      
++amexp = 0                     bmexp = 1                     mexpr = 4                     
++amexpr = 0                    bmexpr = 1                    ptwg = 0                      
++ptwgr = 0                     aptwg = 0                     bptwg = 1E-7                  
+//*** mobility model parameter ***
++u0 = 3.34035E-3+du0_p_hvt     u0n1 = 0                      u0n2 = 1E5                    
++etamob = 0.8                  up = 9.309E-9                 lpa = 0.9906                  
++ua = 1.984647                 aua = 0                       bua = 1E-7                    
++uc = 0                        eu = 2.5                      aeu = 0                       
++beu = 1E-7                    ud = 0                        aud = 0                       
++bud = 5E-8                    ucs = 1                       ute = 0                       
++utl = 0                       emobt = 0                     ua1 = 1.032E-3                
++uc1 = 5.6E-11                 ud1 = 0                       ucste = -4.775E-3             
++chargewf = 0                  
+//*** access resistance model parameter ***
++rdswmin = 0                   rdsw = 100                    ardsw = 0                     
++brdsw = 1E-7                  rswmin = 0                    rsw = 34.1                    
++arsw = 0                      brsw = 1E-7                   rdwmin = 0                    
++rdw = 33.1                    ardw = 0                      brdw = 1E-7                   
++rsdr = 0                      rsdrr = 0                     rddr = 0                      
++rddrr = 0                     prsdr = 1                     prddr = 1                     
++prwgs = 0                     prwgd = 0                     wr = 1                        
++prt = 1E-3                    trsdr = 0                     trddr = 0                     
+//*** dibl model parameter ***
++pdibl1 = 0                    pdibl1r = 1.3                 pdibl2 = 2E-4                 
++drout = 1.06                  pvag = 1                      
+//*** channel length modulation effect ***
++pclm = 0.013                  apclm = 0                     bpclm = 1E-7                  
++pclmg = 0                     pclmcv = 0.013                
+//*** non-saturation effect ***
++a1 = 0                        a11 = 0                       a2 = 0                        
++a21 = 0                       
+//*** gate electrode resistance ***
++rgext = 0                     rgfin = 1E-3                  
+//*** geometry dependent source/drain resistance rgeomod=0 ***
++rshs = 10                     rshd = 10                       
+//*** geometry dependent source/drain resistance rgeomod=1 ***
++hepi = 1E-8                   tsili = 1E-8                  rhoc = 1E-12                  
++rhorsd = 2E-6                 cratio = 0.5                  deltaprsd = 0                 
++sdterm = 0                    lsp = 4E-9                    epsrsp = 3.9                  
++tgate = 1E-8                  tmask = 3E-8                  asiliend = 2.5E-15                  
++arsdend = 2.5E-15             prsdend = 2E-7                nsde = 2E25                   
++rgeoa = 1                     rgeob = 0                     rgeoc = 0                     
++rgeod = 0                     rgeoe = 0                     cgeoa = 1                     
++cgeob = 0                     cgeoc = 0                     cgeod = 0                     
++cgeoe = 1                         
+//*** gate current ***
++aigbinv = 1                   aigbinv1 = 0                  bigbinv = 9.49E-4             
++cigbinv = 6E-3                eigbinv = 1.1                 nigbinv = 3                   
++aigbacc = 0.0136              aigbacc1 = 0                  bigbacc = 1.71E-3             
++cigbacc = 0.075               nigbacc = 1                   aigc = 0.0136                 
++aigc1 = 0                     bigc = 1.71E-3                cigc = 0.075                  
++pigcd = 1                     dlcigs = 1E-9                 aigs = 0.0136                 
++aigs1 = 0                     bigs = 1.71E-3                cigs = 0.075                  
++dlcigd = 1E-9                 aigd = 0.0136                 aigd1 = 0                     
++bigd = 1.71E-3                cigd = 0.075                  toxref = 1.2E-9               
++toxg = 1.2E-9                 ntox = 1                      poxedge = 1                   
+//*** gidl/gisl current ***
++agidl = 1E-12                 bgidl = 9E8                   cgidl = 0.5                   
++egidl = 0.2                   pgidl = 1                     agisl = 6.055E-12             
++bgisl = 3E8                   cgisl = 0.5                   egisl = 0.2                   
+//*** impact ionization current ***
++alpha0 = 1E-8                 alpha01 = 1E-8                alpha1 = 1E-3                    
++alpha11 = 1E-6                beta0 = 6                     alphaii0 = 1E-8                  
++alphaii01 = 1E-8              alphaii1 = 1E-9               alphaii11 = 1E-7                 
++betaii0 = 1E-3                betaii1 = 1E-3                betaii2 = 0.1                 
++esatii = 1E7                  lii = 5E-10                   sii0 = 0.5                    
++sii1 = 0.1                    sii2 = 0                      siid = 0                            
+//*** accumulation capacitance (capmod=1) ***
++eotacc = 1E-9                 delvfbacc = 0                 
+//*** fringe capacitance ***
++cfs = 2.5E-11                 cfd = 2.5E-11                 
+//*** overlap capacitance (cgeomod=0 and 2) ***
++cgso = 2.9E-11+dcgso_p_hvt    cgdo = 2.9E-11+dcgdo_p_hvt    cgsl = 0.24E-10+dcgsl_p_hvt
++cgdl = 0.24E-10+dcgdl_p_hvt   ckappas = 0.6                 ckappad = 0.6                 
++cgbo = 1E-11*extend_ratio     cgbn = 1E-12                  cgbl = 5E-12                       
++ckappab = 0.6                 
+//*** source/drain to substrate sidewall capacitance ***
++csdesw = 0.6                  
+//*** junction current and capacitance ***
++cjs = 1.2E-4+dcj_p_hvt        cjd = 1.2E-4+dcj_p_hvt        cjsws = 5.1E-11+dcjsw_p_hvt              
++cjswd = 5.1E-11+dcjsw_p_hvt   cjswgs = 3.13E-10+dcjswg_p_hvt      cjswgd = 3.13E-10+dcjswg_p_hvt                   
++pbs = 0.75                    pbd = 0.75                    pbsws = 0.49                     
++pbswd = 0.49                  pbswgs = 0.84                 pbswgd = 0.84                    
++mjs = 0.37                    mjd = 0.37                    mjsws = 0.012                  
++mjswd = 0.012                 mjswgs = 0.87                 mjswgd = 0.87                 
++sjs = 0                       sjd = 0                       sjsws = 0                     
++sjswd = 0                     sjswgs = 0                    sjswgd = 0                    
++mjs2 = 0.125                  mjd2 = 0.125                  mjsws2 = 0.083                
++mjswd2 = 0.083                mjswgs2 = 0.083               mjswgd2 = 0.083               
++jss = 9E-8                    jsd = 9E-8                    jsws = 1E-13                      
++jswd = 1E-13                  jswgs = 8E-13                 jswgd = 8E-13                     
++njs = 1                       njd = 1                       ijthsfwd = 0.1                
++ijthdfwd = 0.1                ijthsrev = 0.1                ijthdrev = 0.1                
++bvs = 11.6                    bvd = 11.6                    xjbvs = 1                     
++xjbvd = 1                     
+//*** tunneling component of junction current ***
++jtss = 0                      jtsd = 0                      jtssws = 0                    
++jtsswd = 0                    jtsswgs = 0                   jtsswgd = 0                   
++jtweff = 0                    njts = 20                     njtsd = 20                    
++njtssw = 20                   njtsswd = 20                  njtsswg = 20                  
++njtsswgd = 20                 vtss = 10                     vtsd = 10                     
++vtssws = 10                   vtsswd = 10                   vtsswgs = 10                  
++vtsswgd = 10                  lintigen = 1E-10              ntgen = 1                     
++aigen = 0                     bigen = 0                     
+//*** nqs gate resistance model & nqs charge deficit model ***
++xrcrg1 = 18.75                xrcrg2 = 1                    
+//*** nqs charge segementation model ***
++nseg = 5                      
+//*** flicker noise ***
++ef = 1                        em = 4.1E7                    noia = 6.25E39                
++noib = 3.125E24               noic = 8.75E7                 
+//*** thermal noise ***
++ntnoi = 1                     
+//*** temperature effects ***
++tnom = 25                     tbgasub = 7.02E-4             tbgbsub = 1.108E3             
++kt1 = -0.12                   kt1l = 0                      tss = 0                       
++iit = -0.5                    tii = 0                       tgidl = -3E-3                 
++igt = 2.5                     tcj = 7.98E-4                 tcjsw = 2.4E-4                     
++tcjswg = 4.77E-3              tpb = 1.9E-3                  tpbsw = 1.9E-3                     
++tpbswg = 1.9E-3               xtis = 3                      xtid = 3                      
++xtss = 0.02                   xtsd = 0.02                   xtssws = 0.02                 
++xtsswd = 0.02                 xtsswgs = 0.02                xtsswgd = 0.02                
++tnjts = 0                     tnjtsd = 0                    tnjtssw = 0                   
++tnjtsswd = 0                  tnjtsswg = 0                  tnjtsswgd = 0                 
++at = 3E-3                     tmexp = 0                     tmexpr = 0                    
++ptwgt = 4E-3                  
+//*** self heating ***
++rth0 = 0.01                   cth0 = 1E-5                   wth0 = 0  
+ends  p1hvt      
+endsection  mos_hvt
+
+section mos_18
+
+inline subckt cds_ff_mpt_n2svt ( d g s b ) 
+parameters
++l=1e-6  
++nfin=1 
++nf=1  
++ngcon=1 
++aseo=0 
++adeo=0 
++pseo=0 
++pdeo=0 
++asej=0 
++adej=0 
++psej=0 
++pdej=0 
++lrsd=1.8E-8
++mismod=0
++lef=l
++wef=8.4e-8
++misn1_18=rn1_18                     misn2_18=rn2_18   
++misp1_18=rp1_18                     misp2_18=rp2_18
++facn1_18=0.314*misn1_18+0.6132*misn2_18
++facn2_18=0.314*misn1_18-0.6132*misn2_18
++facp1_18=0.314*misp1_18+0.6132*misp2_18
++facp2_18=0.314*misp1_18-0.6132*misp2_18
++geo_fac =1/sqrt(nf*lef*wef*1e12)
++phigmis_n_18= 0.001364*geo_fac*facn1_18*mismod 
++eotmis_n_18= 0.001015*geo_fac*1e-9*facn2_18*mismod
++toxpmis_n_18= 0.001015*geo_fac*1e-9*facn2_18*mismod
+
+parameters lgate_extend = 0
+parameters poly_width = 1E-8
+parameters extend_ratio=1+lgate_extend/poly_width
+
+//********************************
+//** l : Designed Gate Length (m)
+//** tfin : Fin Thickness (m)
+//** nfin : Number of Fins per Finger (-)
+//** nf :  Number of Fingers (-)
+//** fpitch : fin pitch (m)
+//** ngcon : Number of Gate Contacts (-)
+//** aseo : Source to substrate overlap area through oxide(all fingers) (m2)
+//** adeo : Drain to substrate overlap area through oxide(all fingers) (m2)
+//** pseo : Perimeter of source to substrate overlap region through oxide (m)
+//** pdeo : Perimeter of drain to substrate overlap region through oxide (m)
+//** asej : Source junction area (all Fingers) (m2)
+//** adej : Drain junction area (all Fingers) (m2)
+//** psej : Source junction perimeter (all Fingers) (m)
+//** pdej : Drain junction perimeter (all Fingers) (m)
+//** cdsp : Constant drain to source fringe capacitance
+//** lrsd : Length of the source/drain (m)
+//** lgate_extend : end-cap poly (gate) extension length (m)
+//** poly_width: the reference width of poly that is used to assess the length of gate extension (m)
+//**********************************
+ 
+cds_ff_mpt_n2svt ( d g s b ) cds_ff_mpt_nch18 l=l tfin=1.4e-8 nfin=nfin nf=nf fpitch=4.8e-8 ngcon=ngcon aseo=aseo adeo=adeo pseo=pseo pdeo=pdeo asej=asej adej=adej psej=psej pdej=pdej lrsd=lrsd
+model cds_ff_mpt_nch18 bsimcmg
+//*** flag parameter ***
++version = 107                 bulkmod = 1                   coremod = 0                   
++geomod = 1                    rdsmod = 1                    asymmod = 0                   
++igcmod = 1                    igbmod = 1                    gidlmod = 1                   
++iimod = 1                     nqsmod = 0                    shmod = 0                     
++rgatemod = 0                  rgeomod = 1                   cgeomod = 2                   
++capmod = 1                    cgeo1sw = 0                   devtype = 1                   
+//*** geometry parameter ***
++lint = 3E-10                  ll = 0                        lln = 1                       
++dlc = 0                       dlcacc = 0                    dlbin = 0                     
++llc = 0                       
+//*** process parameter ***
++eot = 2.4E-9 + deot_n_18+eotmis_n_18      toxp = 3.2E-9 + dtoxp_n_18+toxpmis_n_18    eotbox = 1.4E-7               
++hfin = 3.5E-8                 fech = 1                      deltaw = 0                    
++fechcv = 1                    deltawcv = 0                  nbody = 5E21                  
++nbodyn1 = 0                   nbodyn2 = 1E5                 nsd = 2E26                    
++phig = 4.5044 + dphig_n_18+phigmis_n_18    phigl = 0                     phign1 = 0                    
++phign2 = 1E5                  epsrox = 3.9                  epsrsub = 11.9                
++easub = 4.05                  ni0sub = 1.1E16               bg0sub = 1.12                 
++nc0sub = 2.86E25              ngate = 0                     imin = 1E-15                  
+//*** short channel effects ***
++cit = 9E-4                    cdsc = 7E-3                   cdscn1 = 0                    
++cdscn2 = 1E5                  cdscdn1 = 0                   cdscdn2 = 1E5                 
++cdscdrn1 = 0                  cdscdrn2 = 1E5                cdscd = 7E-3                  
++cdscdr = 7E-3                 dvt0 = 1.72                   dvt1 = 0.6                    
++dvt1ss = 0.6                  phin = 0.05                   eta0 = 0.6882                 
++eta0n1 = 0                    eta0n2 = 1E5                  teta0 = 0                     
++teta0r = 0                    eta0r = 0.6                   dsub = 1.06                   
++dvtp0 = 0                     dvtp1 = 0                     k1rsce = 0                    
++lpe0 = 5E-9                   dvtshift = 0                  
+//*** lateral non-uniform doping effect ***
++k0 = 1E-3                     k01 = 1E-3                    k0si = 1                      
++k0si1 = 0                     k1si = 1                      k1si1 = 0                     
+//*** body effect for mg devices on bulk substrate ***
++phibe = 0.7                   k1 = 0.5                      k11 = 0.001                       
++k1sat = 0                     k1sat1 = 0                    
+//*** quantum mechanical effect ***
++qmfactor = 0                  qmtceniv = 0                  qmtcencv = 0                  
++qmtcencva = 0                 aqmtcen = 0                   bqmtcen = 1.2E-8              
++etaqm = 0.54                  qm0 = 1E-3                    pqm = 0.66                    
++qm0acc = 1E-3                 pqmacc = 0.66                 
+//*** velocity saturation ***
++vsat = 2.8981E4 + dvsat_n_18  lvsat = -90                   vsatn1 = 0                    
++vsatn2 = 1E5                  vsat1n1 = 0                   vsat1n2 = 1E5                 
++vsat1rn1 = 0                  vsat1rn2 = 1E5                avsat = 0                     
++bvsat = 1E-7                  vsat1 = 8.5E4                 vsat1r = 8.5E4                
++avsat1 = 0                    bvsat1 = 1E-7                 deltavsat = 1                 
++psat = 2                      apsat = 0                     bpsat = 1                     
++ksativ = 1                    vsatcv = 8.5E4                avsatcv = 0                   
++bvsatcv = 1E-7                deltavsatcv = 1               psatcv = 2                    
++apsatcv = 0                   bpsatcv = 1                   mexp = 4                      
++amexp = 0                     bmexp = 1                     mexpr = 4                     
++amexpr = 0                    bmexpr = 1                    ptwg = 0                      
++ptwgr = 0                     aptwg = 0                     bptwg = 1E-7                  
+//*** mobility model parameter ***
++u0 = 7.4846E-3 + du0_n_18     u0n1 = 0                      u0n2 = 1E5                    
++etamob = 0.8                  up = 9.309E-9                 lpa = 1                       
++ua = 0.151525                 aua = 0                       bua = 1E-7                    
++uc = 0                        eu = 2.5                      aeu = 0                       
++beu = 1E-7                    ud = 0                        aud = 0                       
++bud = 5E-8                    ucs = 1                       ute = 0                       
++utl = 0                       emobt = 0                     ua1 = 1.032E-3                
++uc1 = 5.6E-11                 ud1 = 0                       ucste = -4.775E-3             
++chargewf = 0                  
+//*** access resistance model parameter ***
++rdswmin = 0                   rdsw = 100                    ardsw = 0                     
++brdsw = 1E-7                  rswmin = 0                    rsw = 80                      
++arsw = 0                      brsw = 1E-7                   rdwmin = 0                    
++rdw = 80                      ardw = 0                      brdw = 1E-7                   
++rsdr = 0                      rsdrr = 0                     rddr = 0                      
++rddrr = 0                     prsdr = 1                     prddr = 1                     
++prwgs = 0                     prwgd = 0                     wr = 1                        
++prt = 1E-3                    trsdr = 0                     trddr = 0                     
+//*** dibl model parameter ***
++pdibl1 = 0                    pdibl1r = 1.3                 pdibl2 = 3.93E-3                 
++drout = 1.06                  pvag = 1                      
+//*** channel length modulation effect ***
++pclm = 0.013                  apclm = 0                     bpclm = 1E-7                  
++pclmg = 0                     pclmcv = 0.013                
+//*** non-saturation effect ***
++a1 = 0                        a11 = 0                       a2 = 0                        
++a21 = 0                       
+//*** gate electrode resistance ***
++rgext = 0                     rgfin = 1E-3                  
+//*** geometry dependent source/drain resistance rgeomod=0 ***
++rshs = 10                     rshd = 10                       
+//*** geometry dependent source/drain resistance rgeomod=1 ***
++hepi = 1E-8                   tsili = 1E-8                  rhoc = 1E-12                  
++rhorsd = 2E-6                 cratio = 0.5                  deltaprsd = 0                 
++sdterm = 0                    lsp = 4E-9                    epsrsp = 3.9                  
++tgate = 1E-8                  tmask = 3E-8                  asiliend = 2.5E-15                  
++arsdend = 2.5E-15             prsdend = 2E-7                nsde = 2E25                   
++rgeoa = 1                     rgeob = 0                     rgeoc = 0                     
++rgeod = 0                     rgeoe = 0                     cgeoa = 1                     
++cgeob = 0                     cgeoc = 0                     cgeod = 0                     
++cgeoe = 1                   
+//*** gate current ***
++aigbinv = 1                   aigbinv1 = 0                  bigbinv = 9.49E-4             
++cigbinv = 6E-3                eigbinv = 1.1                 nigbinv = 3                   
++aigbacc = 0.0136              aigbacc1 = 0                  bigbacc = 1.71E-3             
++cigbacc = 0.075               nigbacc = 1                   aigc = 0.0136                 
++aigc1 = 0                     bigc = 1.71E-3                cigc = 0.075                  
++pigcd = 1                     dlcigs = 1E-9                 aigs = 0.0136                 
++aigs1 = 0                     bigs = 1.71E-3                cigs = 0.075                  
++dlcigd = 1E-9                 aigd = 0.0136                 aigd1 = 0                     
++bigd = 1.71E-3                cigd = 0.075                  toxref = 1.2E-9               
++toxg = 1.2E-9                 ntox = 1                      poxedge = 1                   
+//*** gidl/gisl current ***
++agidl = 4.06055E-10           bgidl = 3E8                   cgidl = 0.5                   
++egidl = 0.2                   pgidl = 1                     agisl = 6.055E-12             
++bgisl = 3E8                   cgisl = 0.5                   egisl = 0.2                   
+//*** impact ionization current ***
++alpha0 = 1E-8                 alpha01 = 1E-8                alpha1 = 1E-3                    
++alpha11 = 1E-6                beta0 = 6                     alphaii0 = 1E-8                  
++alphaii01 = 1E-8              alphaii1 = 1E-9               alphaii11 = 1E-7                 
++betaii0 = 1E-3                betaii1 = 1E-3                betaii2 = 0.1                 
++esatii = 1E7                  lii = 5E-10                   sii0 = 0.5                    
++sii1 = 0.1                    sii2 = 0                      siid = 0                        
+//*** accumulation capacitance (capmod=1) ***
++eotacc = 1E-9                 delvfbacc = 0                 
+//*** fringe capacitance ***
++cfs = 2.5E-11                 cfd = 2.5E-11                 
+//*** overlap capacitance (cgeomod=0 and 2) ***
++cgso = 3.13E-11+dcgso_n_18    cgdo = 3.13E-11+dcgdo_n_18    cgsl = 2.71E-11+dcgsl_n_18
++cgdl = 2.71E-11+dcgdl_n_18    ckappas = 0.6                 ckappad = 0.6                 
++cgbo = 1E-11*extend_ratio     cgbn = 1E-12                  cgbl = 5E-12                  
++ckappab = 0.6                 
+//*** source/drain to substrate sidewall capacitance ***
++csdesw = 0.6                  
+//*** junction current and capacitance ***
++cjs = 8.41E-4+dcj_n_18        cjd = 8.41E-4+dcj_n_18        cjsws = 1.02E-10+dcjsw_n_18               
++cjswd = 1.02E-10+dcjsw_n_18   cjswgs = 1.2E-10+dcjswg_n_18  cjswgd = 1.2E-10+dcjswg_n_18                    
++pbs = 0.511                   pbd = 0.511                   pbsws = 0.786                     
++pbswd = 0.786                 pbswgs = 0.7                  pbswgd = 0.7                    
++mjs = 0.31                    mjd = 0.31                    mjsws = 0.081                  
++mjswd = 0.081                 mjswgs = 0.511                mjswgd = 0.511                 
++sjs = 0                       sjd = 0                       sjsws = 0                     
++sjswd = 0                     sjswgs = 0                    sjswgd = 0                    
++mjs2 = 0.125                  mjd2 = 0.125                  mjsws2 = 0.083                
++mjswd2 = 0.083                mjswgs2 = 0.083               mjswgd2 = 0.083               
++jss = 4.14E-7                 jsd = 4.14E-7                 jsws = 9.7E-13                      
++jswd = 9.7E-13                jswgs = 1.4E-12               jswgd = 1.4E-12                    
++njs = 1                       njd = 1                       ijthsfwd = 0.1                
++ijthdfwd = 0.1                ijthsrev = 0.1                ijthdrev = 0.1                
++bvs = 10.5                    bvd = 10.5                    xjbvs = 1                     
++xjbvd = 1                     
+//*** tunneling component of junction current ***
++jtss = 0                      jtsd = 0                      jtssws = 0                    
++jtsswd = 0                    jtsswgs = 0                   jtsswgd = 0                   
++jtweff = 0                    njts = 20                     njtsd = 20                    
++njtssw = 20                   njtsswd = 20                  njtsswg = 20                  
++njtsswgd = 20                 vtss = 10                     vtsd = 10                     
++vtssws = 10                   vtsswd = 10                   vtsswgs = 10                  
++vtsswgd = 10                  lintigen = 1E-10              ntgen = 1                     
++aigen = 0                     bigen = 0                     
+//*** nqs gate resistance model & nqs charge deficit model ***
++xrcrg1 = 9.6                  xrcrg2 = 1                    
+//*** nqs charge segementation model ***
++nseg = 5                      
+//*** flicker noise ***
++ef = 1                        em = 4.1E7                    noia = 6.25E39                
++noib = 3.125E24               noic = 8.75E7                 
+//*** thermal noise ***
++ntnoi = 1                     
+//*** temperature effects ***
++tnom = 25                     tbgasub = 7.02E-4             tbgbsub = 1.108E3             
++kt1 = -0.12                   kt1l = 0                      tss = 0                       
++iit = -0.5                    tii = 0                       tgidl = -3E-3                 
++igt = 2.5                     tcj = 6.52E-4                 tcjsw = 3.57E-4                     
++tcjswg = 1.5E-3               tpb = 1.1E-3                  tpbsw = 1.9E-3                     
++tpbswg = 1E-3                 xtis = 3                      xtid = 3                      
++xtss = 0.02                   xtsd = 0.02                   xtssws = 0.02                 
++xtsswd = 0.02                 xtsswgs = 0.02                xtsswgd = 0.02                
++tnjts = 0                     tnjtsd = 0                    tnjtssw = 0                   
++tnjtsswd = 0                  tnjtsswg = 0                  tnjtsswgd = 0                 
++at = 4.4E-4                   tmexp = 0                     tmexpr = 0                    
++ptwgt = 4E-3                  
+//*** self heating ***
++rth0 = 0.01                   cth0 = 1E-5                   wth0 = 0      
+ends n2svt
+
+inline subckt cds_ff_mpt_p2svt ( d g s b ) 
+parameters
++l=1e-6  
++nfin=1 
++nf=1  
++ngcon=1 
++aseo=0 
++adeo=0 
++pseo=0 
++pdeo=0 
++asej=0 
++adej=0 
++psej=0 
++pdej=0 
++lrsd=1.8E-8
++mismod=0
++lef=l
++wef=8.4e-8
++misn1_18=rn1_18                     misn2_18=rn2_18   
++misp1_18=rp1_18                     misp2_18=rp2_18
++facn1_18=0.314*misn1_18+0.6132*misn2_18
++facn2_18=0.314*misn1_18-0.6132*misn2_18
++facp1_18=0.314*misp1_18+0.6132*misp2_18
++facp2_18=0.314*misp1_18-0.6132*misp2_18
++geo_fac =1/sqrt(nf*lef*wef*1e12)
++phigmis_p_18= 0.001364*geo_fac*facp1_18*mismod 
++eotmis_p_18= 0.001015*geo_fac*1e-9*facp2_18*mismod
++toxpmis_p_18= 0.001015*geo_fac*1e-9*facp2_18*mismod
+
+parameters lgate_extend = 0
+parameters poly_width = 1E-8
+parameters extend_ratio=1+lgate_extend/poly_width
+
+//********************************
+//** l : Designed Gate Length (m)
+//** tfin : Fin Thickness (m)
+//** nfin : Number of Fins per Finger (-)
+//** nf :  Number of Fingers (-)
+//** fpitch : fin pitch (m)
+//** ngcon : Number of Gate Contacts (-)
+//** aseo : Source to substrate overlap area through oxide(all fingers) (m2)
+//** adeo : Drain to substrate overlap area through oxide(all fingers) (m2)
+//** pseo : Perimeter of source to substrate overlap region through oxide (m)
+//** pdeo : Perimeter of drain to substrate overlap region through oxide (m)
+//** asej : Source junction area (all Fingers) (m2)
+//** adej : Drain junction area (all Fingers) (m2)
+//** psej : Source junction perimeter (all Fingers) (m)
+//** pdej : Drain junction perimeter (all Fingers) (m)
+//** cdsp : Constant drain to source fringe capacitance
+//** lrsd : Length of the source/drain (m)
+//** lgate_extend : end-cap poly (gate) extension length (m)
+//** poly_width: the reference width of poly that is used to assess the length of gate extension (m)
+//**********************************
+ 
+cds_ff_mpt_p2svt ( d g s b ) cds_ff_mpt_pch18 l=l tfin=1.4e-8 nfin=nfin nf=nf fpitch=4.8e-8 ngcon=ngcon aseo=aseo adeo=adeo pseo=pseo pdeo=pdeo asej=asej adej=adej psej=psej pdej=pdej lrsd=lrsd
+model cds_ff_mpt_pch18 bsimcmg
+//*** flag parameter ***
++version = 107                 bulkmod = 1                   coremod = 0                   
++geomod = 1                    rdsmod = 1                    asymmod = 0                   
++igcmod = 1                    igbmod = 1                    gidlmod = 1                   
++iimod = 1                     nqsmod = 0                    shmod = 0                     
++rgatemod = 0                  rgeomod = 1                   cgeomod = 2                   
++capmod = 1                    cgeo1sw = 0                   devtype = 0                   
+//*** geometry parameter ***
++lint = 3E-10                  ll = 0                        lln = 1                       
++dlc = 0                       dlcacc = 0                    dlbin = 0                     
++llc = 0                       
+//*** process parameter ***
++eot = 2.4E-9 + deot_p_18+eotmis_p_18      toxp = 3.2E-9 + dtoxp_p_18+toxpmis_p_18    eotbox = 1.4E-7               
++hfin = 3.5E-8                 fech = 1                      deltaw = 0                    
++fechcv = 1                    deltawcv = 0                  nbody = 5E21                  
++nbodyn1 = 0                   nbodyn2 = 1E5                 nsd = 2E26                    
++phig = 4.6549 + dphig_p_18+phigmis_p_18    phigl = 0                     phign1 = 0                    
++phign2 = 1E5                  epsrox = 3.9                  epsrsub = 11.9                
++easub = 4.05                  ni0sub = 1.1E16               bg0sub = 1.12                 
++nc0sub = 2.86E25              ngate = 0                     imin = 1E-15                  
+//*** short channel effects ***
++cit = 0                       cdsc = 0                      cdscn1 = 0                    
++cdscn2 = 1E5                  cdscdn1 = 0                   cdscdn2 = 1E5                 
++cdscdrn1 = 0                  cdscdrn2 = 1E5                cdscd = 0                     
++cdscdr = 7E-3                 dvt0 = 0.3766                 dvt1 = 0.6                    
++dvt1ss = 0.6                  phin = 0.05                   eta0 = 0.88871                
++eta0n1 = 0                    eta0n2 = 1E5                  teta0 = 0                     
++teta0r = 0                    eta0r = 0.6                   dsub = 1.06                   
++dvtp0 = 0                     dvtp1 = 0                     k1rsce = -0.3                 
++lpe0 = 9.1265E-9              dvtshift = 0                  
+//*** lateral non-uniform doping effect ***
++k0 = 1E-3                     k01 = 1E-3                    k0si = 1                      
++k0si1 = 0                     k1si = 1                      k1si1 = 0                     
+//*** body effect for mg devices on bulk substrate ***
++phibe = 0.7                   k1 = 0.5                      k11 = 0.001                       
++k1sat = 0                     k1sat1 = 0                    
+//*** quantum mechanical effect ***
++qmfactor = 0                  qmtceniv = 0                  qmtcencv = 0                  
++qmtcencva = 0                 aqmtcen = 0                   bqmtcen = 1.2E-8              
++etaqm = 0.54                  qm0 = 1E-3                    pqm = 0.66                    
++qm0acc = 1E-3                 pqmacc = 0.66                 
+//*** velocity saturation ***
++vsat = 2.025527E4 + dvsat_p_18  lvsat = 0                     vsatn1 = 0                    
++vsatn2 = 1E5                  vsat1n1 = 0                   vsat1n2 = 1E5                 
++vsat1rn1 = 0                  vsat1rn2 = 1E5                avsat = 0                     
++bvsat = 1E-7                  vsat1 = 8.5E4                 vsat1r = 8.5E4                
++avsat1 = 0                    bvsat1 = 1E-7                 deltavsat = 1                 
++psat = 2                      apsat = 0                     bpsat = 1                     
++ksativ = 1                    vsatcv = 8.5E4                avsatcv = 0                   
++bvsatcv = 1E-7                deltavsatcv = 1               psatcv = 2                    
++apsatcv = 0                   bpsatcv = 1                   mexp = 2                      
++amexp = 0                     bmexp = 1                     mexpr = 4                     
++amexpr = 0                    bmexpr = 1                    ptwg = 0                      
++ptwgr = 0                     aptwg = 0                     bptwg = 1E-7                  
+//*** mobility model parameter ***
++u0 = 5.51209E-3 + du0_p_18    u0n1 = 0                      u0n2 = 1E5                    
++etamob = 0.8                  up = 9.309E-9                 lpa = 0.9906                  
++ua = 1.967647                 aua = 0                       bua = 1E-7                    
++uc = 0                        eu = 2.5                      aeu = 0                       
++beu = 1E-7                    ud = 0                        aud = 0                       
++bud = 5E-8                    ucs = 1                       ute = 0                       
++utl = 0                       emobt = 0                     ua1 = 1.032E-3                
++uc1 = 5.6E-11                 ud1 = 0                       ucste = -4.775E-3             
++chargewf = 0                  
+//*** access resistance model parameter ***
++rdswmin = 0                   rdsw = 100                    ardsw = 0                     
++brdsw = 1E-7                  rswmin = 0                    rsw = 34.1                    
++arsw = 0                      brsw = 1E-7                   rdwmin = 0                    
++rdw = 33.1                    ardw = 0                      brdw = 1E-7                   
++rsdr = 0                      rsdrr = 0                     rddr = 0                      
++rddrr = 0                     prsdr = 1                     prddr = 1                     
++prwgs = 0                     prwgd = 0                     wr = 1                        
++prt = 1E-3                    trsdr = 0                     trddr = 0                     
+//*** dibl model parameter ***
++pdibl1 = 0                    pdibl1r = 1.3                 pdibl2 = 7.2E-3               
++drout = 1.06                  pvag = 1                      
+//*** channel length modulation effect ***
++pclm = 0.013                  apclm = 0                     bpclm = 1E-7                  
++pclmg = 0                     pclmcv = 0.013                
+//*** non-saturation effect ***
++a1 = 0                        a11 = 0                       a2 = 0                        
++a21 = 0                       
+//*** gate electrode resistance ***
++rgext = 0                     rgfin = 1E-3                  
+//*** geometry dependent source/drain resistance rgeomod=0 ***
++rshs = 10                     rshd = 10                       
+//*** geometry dependent source/drain resistance rgeomod=1 ***
++hepi = 1E-8                   tsili = 1E-8                  rhoc = 1E-12                  
++rhorsd = 2E-6                 cratio = 0.5                  deltaprsd = 0                 
++sdterm = 0                    lsp = 4E-9                    epsrsp = 3.9                  
++tgate = 1E-8                  tmask = 3E-8                  asiliend = 2.5E-15                  
++arsdend = 2.5E-15             prsdend = 2E-7                nsde = 2E25                   
++rgeoa = 1                     rgeob = 0                     rgeoc = 0                     
++rgeod = 0                     rgeoe = 0                     cgeoa = 1                     
++cgeob = 0                     cgeoc = 0                     cgeod = 0                     
++cgeoe = 1    
+//*** gate current ***
++aigbinv = 1                   aigbinv1 = 0                  bigbinv = 9.49E-4             
++cigbinv = 6E-3                eigbinv = 1.1                 nigbinv = 3                   
++aigbacc = 0.0136              aigbacc1 = 0                  bigbacc = 1.71E-3             
++cigbacc = 0.075               nigbacc = 1                   aigc = 0.0136                 
++aigc1 = 0                     bigc = 1.71E-3                cigc = 0.075                  
++pigcd = 1                     dlcigs = 1E-9                 aigs = 0.0136                 
++aigs1 = 0                     bigs = 1.71E-3                cigs = 0.075                  
++dlcigd = 1E-9                 aigd = 0.0136                 aigd1 = 0                     
++bigd = 1.71E-3                cigd = 0.075                  toxref = 1.2E-9               
++toxg = 1.2E-9                 ntox = 1                      poxedge = 1                   
+//*** gidl/gisl current ***
++agidl = 1E-12                 bgidl = 9E8                   cgidl = 0.5                   
++egidl = 0.2                   pgidl = 1                     agisl = 6.055E-12             
++bgisl = 3E8                   cgisl = 0.5                   egisl = 0.2                   
+//*** impact ionization current ***
++alpha0 = 1E-8                 alpha01 = 1E-8                alpha1 = 1E-3                    
++alpha11 = 1E-6                beta0 = 6                     alphaii0 = 1E-8                  
++alphaii01 = 1E-8              alphaii1 = 1E-9               alphaii11 = 1E-7                 
++betaii0 = 1E-3                betaii1 = 1E-3                betaii2 = 0.1                 
++esatii = 1E7                  lii = 5E-10                   sii0 = 0.5                    
++sii1 = 0.1                    sii2 = 0                      siid = 0                         
+//*** accumulation capacitance (capmod=1) ***
++eotacc = 1E-9                 delvfbacc = 0                 
+//*** fringe capacitance ***
++cfs = 2.5E-11                 cfd = 2.5E-11                 
+//*** overlap capacitance (cgeomod=0 and 2) ***
++cgso = 2.2E-11+dcgso_p_18     cgdo = 2.2E-11+dcgdo_p_18     cgsl = 1E-10+dcgsl_p_18
++cgdl = 1E-10+dcgdl_p_18       ckappas = 0.6                 ckappad = 0.6                 
++cgbo = 1E-11*extend_ratio     cgbn = 1E-12                  cgbl = 5E-12                
++ckappab = 0.6                 
+//*** source/drain to substrate sidewall capacitance ***
++csdesw = 0.6                  
+//*** junction current and capacitance ***
++cjs = 9.7E-4+dcj_p_18         cjd = 9.7E-4+dcj_p_18         cjsws = 1.1E-10+dcjsw_p_18                
++cjswd = 1.1E-10+dcjsw_p_18    cjswgs = 2.3E-10+dcjswg_p_18  cjswgd = 2.3E-10+dcjswg_p_18                    
++pbs = 0.75                    pbd = 0.75                    pbsws = 0.49                     
++pbswd = 0.49                  pbswgs = 0.8                  pbswgd = 0.8                    
++mjs = 0.41                    mjd = 0.41                    mjsws = 0.097                  
++mjswd = 0.097                 mjswgs = 0.88                 mjswgd = 0.88                 
++sjs = 0                       sjd = 0                       sjsws = 0                     
++sjswd = 0                     sjswgs = 0                    sjswgd = 0                    
++mjs2 = 0.125                  mjd2 = 0.125                  mjsws2 = 0.083                
++mjswd2 = 0.083                mjswgs2 = 0.083               mjswgd2 = 0.083               
++jss = 3.1E-7                  jsd = 3.1E-7                  jsws = 1E-12                      
++jswd = 1E-12                  jswgs = 2.87E-12              jswgd = 2.87E-12                     
++njs = 1                       njd = 1                       ijthsfwd = 0.1                
++ijthdfwd = 0.1                ijthsrev = 0.1                ijthdrev = 0.1                
++bvs = 11.6                    bvd = 11.6                    xjbvs = 1                     
++xjbvd = 1                     
+//*** tunneling component of junction current ***
++jtss = 0                      jtsd = 0                      jtssws = 0                    
++jtsswd = 0                    jtsswgs = 0                   jtsswgd = 0                   
++jtweff = 0                    njts = 20                     njtsd = 20                    
++njtssw = 20                   njtsswd = 20                  njtsswg = 20                  
++njtsswgd = 20                 vtss = 10                     vtsd = 10                     
++vtssws = 10                   vtsswd = 10                   vtsswgs = 10                  
++vtsswgd = 10                  lintigen = 1E-10              ntgen = 1                     
++aigen = 0                     bigen = 0                     
+//*** nqs gate resistance model & nqs charge deficit model ***
++xrcrg1 = 18.75                xrcrg2 = 1                    
+//*** nqs charge segementation model ***
++nseg = 5                      
+//*** flicker noise ***
++ef = 1                        em = 4.1E7                    noia = 6.25E39                
++noib = 3.125E24               noic = 8.75E7                 
+//*** thermal noise ***
++ntnoi = 1                     
+//*** temperature effects ***
++tnom = 25                     tbgasub = 7.02E-4             tbgbsub = 1.108E3             
++kt1 = -0.12                   kt1l = 0                      tss = 0                       
++iit = -0.5                    tii = 0                       tgidl = -3E-3                 
++igt = 2.5                     tcj = 7.98E-4                 tcjsw = 2.4E-4                     
++tcjswg = 4.77E-3              tpb = 1.9E-3                  tpbsw = 1.9E-3                     
++tpbswg = 1.9E-3               xtis = 3                      xtid = 3                      
++xtss = 0.02                   xtsd = 0.02                   xtssws = 0.02                 
++xtsswd = 0.02                 xtsswgs = 0.02                xtsswgd = 0.02                
++tnjts = 0                     tnjtsd = 0                    tnjtssw = 0                   
++tnjtsswd = 0                  tnjtsswg = 0                  tnjtsswgd = 0                 
++at = 7.4E-4                   tmexp = 0                     tmexpr = 0                    
++ptwgt = 4E-3                  
+//*** self heating ***
++rth0 = 0.01                   cth0 = 1E-5                   wth0 = 0     
+ends p2svt
+endsection mos_18
+
+section stat_mis
+parameters
++rn1=0 	rn2=0   rp1=0	rp2=0
+statistics { 
+ mismatch { 
+  vary rn1 dist=gauss std=1/1 
+  vary rn2 dist=gauss std=1/1 
+  vary rp1 dist=gauss std=1/1 
+  vary rp2 dist=gauss std=1/1 
+  } 
+ }
+endsection stat_mis
+
+section stat_mis_lvt
+parameters
++rn1_lvt=0 	rn2_lvt=0   rp1_lvt=0	rp2_lvt=0
+statistics { 
+ mismatch { 
+  vary rn1_lvt dist=gauss std=1/1 
+  vary rn2_lvt dist=gauss std=1/1 
+  vary rp1_lvt dist=gauss std=1/1 
+  vary rp2_lvt dist=gauss std=1/1 
+  } 
+ }
+endsection stat_mis_lvt
+
+
+section stat_mis_hvt                         
+parameters                                   
++rn1_hvt=0 	rn2_hvt=0   rp1_hvt=0	rp2_hvt=0  
+statistics {                                 
+ mismatch {                                  
+  vary rn1_hvt dist=gauss std=1/1            
+  vary rn2_hvt dist=gauss std=1/1            
+  vary rp1_hvt dist=gauss std=1/1            
+  vary rp2_hvt dist=gauss std=1/1            
+  }                                          
+ }                                           
+endsection stat_mis_hvt                      
+
+
+section stat_mis_18                         
+parameters                                   
++rn1_18=0 	rn2_18=0   rp1_18=0	rp2_18=0  
+statistics {                                 
+ mismatch {                                  
+  vary rn1_18 dist=gauss std=1/1            
+  vary rn2_18 dist=gauss std=1/1            
+  vary rp1_18 dist=gauss std=1/1            
+  vary rp2_18 dist=gauss std=1/1            
+  }                                          
+ }                                           
+endsection stat_mis_18                     
+
+
+section stat
+parameters 
++random1 = 0                   random2 = 0                   random3 = 0                   
++random4 = 0    
++random5 = 0                   random6 = 0                   random7 = 0                   
++random8 = 0    
++random9 = 0                   random10 = 0                   random11 = 0                   
++random12 = 0 
++random13 = 0                   random14 = 0                   random15 = 0                   
++random16 = 0  
+   
+statistics {  
+    process {
+        vary random1 dist=gauss std=1/1
+        vary random2 dist=gauss std=1/1
+        vary random3 dist=gauss std=1/1
+        vary random4 dist=gauss std=1/1
+        vary random5 dist=gauss std=1/1
+        vary random6 dist=gauss std=1/1
+        vary random7 dist=gauss std=1/1
+        vary random8 dist=gauss std=1/1
+        vary random9 dist=gauss std=1/1
+        vary random10 dist=gauss std=1/1
+        vary random11 dist=gauss std=1/1
+        vary random12 dist=gauss std=1/1
+        vary random13 dist=gauss std=1/1
+        vary random14 dist=gauss std=1/1
+        vary random15 dist=gauss std=1/1
+        vary random16 dist=gauss std=1/1                       
+        }
+        correlate param=[random1 random2] cc=0.6 
+    }                         
+endsection stat
+
+
+
+section mc            
+parameters
++a1 = random1                  a2 = random2                  
++a3 = random3                  a4 = random4       
+parameters
++deot_n = 0-3.4e-13*a1-1.1903e-11*a2-5.1e-13*a3+5.7697e-12*a4
++dtoxp_n = 0-3.4e-13*a1-1.1903e-11*a2-5.1e-13*a3+5.7697e-12*a4 
++dphig_n = 0-6.3e-3*a1-4.9519e-3*a2+6.3164e-3*a3+3.8623e-3*a4 
++du0_n = 0+8e-5*a1-4.848e-5*a2-7.86e-5*a3+2.8e-17*a4  
++dvsat_n = 0+0*a1+0*a2+0*a3+0*a4 
++dcgso_n = -0.1245*(-3.4e-13*a1-1.1903e-11*a2-5.1e-13*a3+5.7697e-12*a4) 
++dcgdo_n = -0.1245*(-3.4e-13*a1-1.1903e-11*a2-5.1e-13*a3+5.7697e-12*a4) 
++dcgsl_n = -0.0385*(-3.4e-13*a1-1.1903e-11*a2-5.1e-13*a3+5.7697e-12*a4) 
++dcgdl_n = -0.0385*(-3.4e-13*a1-1.1903e-11*a2-5.1e-13*a3+5.7697e-12*a4) 
++dcj_n = 1.14e-5*a1-5.2e-6*a2-1.31e-5*a3+1.34e-6*a4 
++dcjsw_n = 5.66e-8*(1.14e-5*a1-5.2e-6*a2-1.31e-5*a3+1.34e-6*a4) 
++dcjswg_n = 2.975e-7*(1.14e-5*a1-5.2e-6*a2-1.31e-5*a3+1.34e-6*a4)
++deot_p = 0-3.4e-13*a1-1.1903e-11*a2-5.1e-13*a3+5.7697e-12*a4
++dtoxp_p = 0-3.4e-13*a1-1.1903e-11*a2-5.1e-13*a3+5.7697e-12*a4 
++dphig_p = 0-6.3e-3*a1-4.9519e-3*a2+6.3164e-3*a3+3.8623e-3*a4 
++du0_p = 0+8e-5*a1-4.848e-5*a2-7.86e-5*a3+2.8e-17*a4  
++dvsat_p = 0+0*a1+0*a2+0*a3+0*a4 
++dcgso_p = -0.1245*(-3.4e-13*a1-1.1903e-11*a2-5.1e-13*a3+5.7697e-12*a4) 
++dcgdo_p = -0.1245*(-3.4e-13*a1-1.1903e-11*a2-5.1e-13*a3+5.7697e-12*a4) 
++dcgsl_p = -0.0385*(-3.4e-13*a1-1.1903e-11*a2-5.1e-13*a3+5.7697e-12*a4) 
++dcgdl_p = -0.0385*(-3.4e-13*a1-1.1903e-11*a2-5.1e-13*a3+5.7697e-12*a4) 
++dcj_p = 1.14e-5*a1-5.2e-6*a2-1.31e-5*a3+1.34e-6*a4 
++dcjsw_p = 5.66e-8*(1.14e-5*a1-5.2e-6*a2-1.31e-5*a3+1.34e-6*a4) 
++dcjswg_p = 2.975e-7*(1.14e-5*a1-5.2e-6*a2-1.31e-5*a3+1.34e-6*a4)
+include "cds_ff_mpt_mosfet.scs"   section = mos
+include "cds_ff_mpt_mosfet.scs"   section = stat_mis 
+endsection mc
+
+section mc_lvt            
+parameters
++a5 = random5                  a6 = random6                  
++a7 = random7                  a8 = random8       
+parameters
++deot_n_lvt = 0-3.4e-13*a5-1.1903e-11*a6-5.1e-13*a7+5.7697e-12*a8
++dtoxp_n_lvt = 0-3.4e-13*a5-1.1903e-11*a6-5.1e-13*a7+5.7697e-12*a8 
++dphig_n_lvt = 0-6.3e-3*a5-4.9519e-3*a6+6.3164e-3*a7+3.8623e-3*a8 
++du0_n_lvt = 0+8e-5*a5-4.848e-5*a6-7.86e-5*a7+2.8e-17*a8  
++dvsat_n_lvt = 0+0*a5+0*a6+0*a7+0*a8 
++dcgso_n_lvt = -0.1245*(-3.4e-13*a5-1.1903e-11*a6-5.1e-13*a7+5.7697e-12*a8) 
++dcgdo_n_lvt = -0.1245*(-3.4e-13*a5-1.1903e-11*a6-5.1e-13*a7+5.7697e-12*a8) 
++dcgsl_n_lvt = -0.0385*(-3.4e-13*a5-1.1903e-11*a6-5.1e-13*a7+5.7697e-12*a8) 
++dcgdl_n_lvt = -0.0385*(-3.4e-13*a5-1.1903e-11*a6-5.1e-13*a7+5.7697e-12*a8) 
++dcj_n_lvt = 1.14e-5*a5-5.2e-6*a6-1.31e-5*a7+1.34e-6*a8 
++dcjsw_n_lvt = 5.66e-8*(1.14e-5*a5-5.2e-6*a6-1.31e-5*a7+1.34e-6*a8) 
++dcjswg_n_lvt = 2.975e-7*(1.14e-5*a5-5.2e-6*a6-1.31e-5*a7+1.34e-6*a8)
++deot_p_lvt = 0-3.4e-13*a5-1.1903e-11*a6-5.1e-13*a7+5.7697e-12*a8
++dtoxp_p_lvt = 0-3.4e-13*a5-1.1903e-11*a6-5.1e-13*a7+5.7697e-12*a8 
++dphig_p_lvt = 0-6.3e-3*a5-4.9519e-3*a6+6.3164e-3*a7+3.8623e-3*a8 
++du0_p_lvt = 0+8e-5*a5-4.848e-5*a6-7.86e-5*a7+2.8e-17*a8  
++dvsat_p_lvt = 0+0*a5+0*a6+0*a7+0*a8 
++dcgso_p_lvt = -0.1245*(-3.4e-13*a5-1.1903e-11*a6-5.1e-13*a7+5.7697e-12*a8) 
++dcgdo_p_lvt = -0.1245*(-3.4e-13*a5-1.1903e-11*a6-5.1e-13*a7+5.7697e-12*a8) 
++dcgsl_p_lvt = -0.0385*(-3.4e-13*a5-1.1903e-11*a6-5.1e-13*a7+5.7697e-12*a8) 
++dcgdl_p_lvt = -0.0385*(-3.4e-13*a5-1.1903e-11*a6-5.1e-13*a7+5.7697e-12*a8) 
++dcj_p_lvt = 1.14e-5*a5-5.2e-6*a6-1.31e-5*a7+1.34e-6*a8 
++dcjsw_p_lvt = 5.66e-8*(1.14e-5*a5-5.2e-6*a6-1.31e-5*a7+1.34e-6*a8) 
++dcjswg_p_lvt = 2.975e-7*(1.14e-5*a5-5.2e-6*a6-1.31e-5*a7+1.34e-6*a8)
+include "cds_ff_mpt_mosfet.scs"   section = mos_lvt
+include "cds_ff_mpt_mosfet.scs"   section = stat_mis_lvt 
+endsection mc_lvt
+
+
+section mc_hvt            
+parameters
++a9 = random9                  a10 = random10                  
++a11 = random11                  a12 = random12       
+parameters
++deot_n_hvt = 0-3.4e-13*a9-1.1903e-11*a10-5.1e-13*a11+5.7697e-12*a12
++dtoxp_n_hvt = 0-3.4e-13*a9-1.1903e-11*a10-5.1e-13*a11+5.7697e-12*a12 
++dphig_n_hvt = 0-6.3e-3*a9-4.9519e-3*a10+6.3164e-3*a11+3.8623e-3*a12 
++du0_n_hvt = 0+8e-5*a9-4.848e-5*a10-7.86e-5*a11+2.8e-17*a12  
++dvsat_n_hvt = 0+0*a9+0*a10+0*a11+0*a12 
++dcgso_n_hvt = -0.1245*(-3.4e-13*a9-1.1903e-11*a10-5.1e-13*a11+5.7697e-12*a12) 
++dcgdo_n_hvt = -0.1245*(-3.4e-13*a9-1.1903e-11*a10-5.1e-13*a11+5.7697e-12*a12) 
++dcgsl_n_hvt = -0.0385*(-3.4e-13*a9-1.1903e-11*a10-5.1e-13*a11+5.7697e-12*a12) 
++dcgdl_n_hvt = -0.0385*(-3.4e-13*a9-1.1903e-11*a10-5.1e-13*a11+5.7697e-12*a12) 
++dcj_n_hvt = 1.14e-5*a9-5.2e-6*a10-1.31e-5*a11+1.34e-6*a12 
++dcjsw_n_hvt = 5.66e-8*(1.14e-5*a9-5.2e-6*a10-1.31e-5*a11+1.34e-6*a12) 
++dcjswg_n_hvt = 2.975e-7*(1.14e-5*a9-5.2e-6*a10-1.31e-5*a11+1.34e-6*a12)
++deot_p_hvt = 0-3.4e-13*a9-1.1903e-11*a10-5.1e-13*a11+5.7697e-12*a12
++dtoxp_p_hvt = 0-3.4e-13*a9-1.1903e-11*a10-5.1e-13*a11+5.7697e-12*a12 
++dphig_p_hvt = 0-6.3e-3*a9-4.9519e-3*a10+6.3164e-3*a11+3.8623e-3*a12 
++du0_p_hvt = 0+8e-5*a9-4.848e-5*a10-7.86e-5*a11+2.8e-17*a12  
++dvsat_p_hvt = 0+0*a9+0*a10+0*a11+0*a12 
++dcgso_p_hvt = -0.1245*(-3.4e-13*a9-1.1903e-11*a10-5.1e-13*a11+5.7697e-12*a12) 
++dcgdo_p_hvt = -0.1245*(-3.4e-13*a9-1.1903e-11*a10-5.1e-13*a11+5.7697e-12*a12) 
++dcgsl_p_hvt = -0.0385*(-3.4e-13*a9-1.1903e-11*a10-5.1e-13*a11+5.7697e-12*a12) 
++dcgdl_p_hvt = -0.0385*(-3.4e-13*a9-1.1903e-11*a10-5.1e-13*a11+5.7697e-12*a12) 
++dcj_p_hvt = 1.14e-5*a9-5.2e-6*a10-1.31e-5*a11+1.34e-6*a12 
++dcjsw_p_hvt = 5.66e-8*(1.14e-5*a9-5.2e-6*a10-1.31e-5*a11+1.34e-6*a12) 
++dcjswg_p_hvt = 2.975e-7*(1.14e-5*a9-5.2e-6*a10-1.31e-5*a11+1.34e-6*a12)
+include "cds_ff_mpt_mosfet.scs"   section = mos_hvt
+include "cds_ff_mpt_mosfet.scs"   section = stat_mis_hvt 
+endsection mc_hvt
+
+
+section mc_18            
+parameters
++a13 = random13                  a14 = random14                  
++a15 = random15                 a16 = random16       
+parameters
++deot_n_18 = 0-3.4e-13*a13-1.1903e-11*a14-5.1e-13*a15+5.7697e-12*a16
++dtoxp_n_18 = 0-3.4e-13*a13-1.1903e-11*a14-5.1e-13*a15+5.7697e-12*a16 
++dphig_n_18 = 0-6.3e-3*a13-4.9519e-3*a14+6.3164e-3*a15+3.8623e-3*a16 
++du0_n_18 = 0+8e-5*a13-4.848e-5*a14-7.86e-5*a15+2.8e-17*a16  
++dvsat_n_18 = 0+0*a13+0*a14+0*a15+0*a16 
++dcgso_n_18 = -0.1245*(-3.4e-13*a13-1.1903e-11*a14-5.1e-13*a15+5.7697e-12*a16) 
++dcgdo_n_18 = -0.1245*(-3.4e-13*a13-1.1903e-11*a14-5.1e-13*a15+5.7697e-12*a16) 
++dcgsl_n_18 = -0.0385*(-3.4e-13*a13-1.1903e-11*a14-5.1e-13*a15+5.7697e-12*a16) 
++dcgdl_n_18 = -0.0385*(-3.4e-13*a13-1.1903e-11*a14-5.1e-13*a15+5.7697e-12*a16) 
++dcj_n_18 = 1.14e-5*a13-5.2e-6*a14-1.31e-5*a15+1.34e-6*a16 
++dcjsw_n_18 = 5.66e-8*(1.14e-5*a13-5.2e-6*a14-1.31e-5*a15+1.34e-6*a16) 
++dcjswg_n_18 = 2.975e-7*(1.14e-5*a13-5.2e-6*a14-1.31e-5*a15+1.34e-6*a16)
++deot_p_18 = 0-3.4e-13*a13-1.1903e-11*a14-5.1e-13*a15+5.7697e-12*a16
++dtoxp_p_18 = 0-3.4e-13*a13-1.1903e-11*a14-5.1e-13*a15+5.7697e-12*a16 
++dphig_p_18 = 0-6.3e-3*a13-4.9519e-3*a14+6.3164e-3*a15+3.8623e-3*a16 
++du0_p_18 = 0+8e-5*a13-4.848e-5*a14-7.86e-5*a15+2.8e-17*a16  
++dvsat_p_18 = 0+0*a13+0*a14+0*a15+0*a16 
++dcgso_p_18 = -0.1245*(-3.4e-13*a13-1.1903e-11*a14-5.1e-13*a15+5.7697e-12*a16) 
++dcgdo_p_18 = -0.1245*(-3.4e-13*a13-1.1903e-11*a14-5.1e-13*a15+5.7697e-12*a16) 
++dcgsl_p_18 = -0.0385*(-3.4e-13*a13-1.1903e-11*a14-5.1e-13*a15+5.7697e-12*a16) 
++dcgdl_p_18 = -0.0385*(-3.4e-13*a13-1.1903e-11*a14-5.1e-13*a15+5.7697e-12*a16) 
++dcj_p_18 = 1.14e-5*a13-5.2e-6*a14-1.31e-5*a15+1.34e-6*a16 
++dcjsw_p_18 = 5.66e-8*(1.14e-5*a13-5.2e-6*a14-1.31e-5*a15+1.34e-6*a16) 
++dcjswg_p_18 = 2.975e-7*(1.14e-5*a13-5.2e-6*a14-1.31e-5*a15+1.34e-6*a16)
+include "cds_ff_mpt_mosfet.scs"   section = mos_18
+include "cds_ff_mpt_mosfet.scs"   section = stat_mis_18 
+endsection mc_18
+
+section mc_mis            
+parameters
++misn1=rn1                     misn2=rn2   
++misp1=rp1                     misp2=rp2
++facn1=0.314*misn1+0.6132*misn2
++facn2=0.314*misn1-0.6132*misn2
++facp1=0.314*misp1+0.6132*misp2
++facp2=0.314*misp1-0.6132*misp2
+include "cds_ff_mpt_mosfet.scs"   section = stat_mis 
+endsection mc_mis
+
+section mc_lvt_mis            
+parameters     
++misn1_lvt=rn1_lvt                     misn2_lvt=rn2_lvt   
++misp1_lvt=rp1_lvt                     misp2_lvt=rp2_lvt
++facn1_lvt=0.314*misn1_lvt+0.6132*misn2_lvt
++facn2_lvt=0.314*misn1_lvt-0.6132*misn2_lvt
++facp1_lvt=0.314*misp1_lvt+0.6132*misp2_lvt
++facp2_lvt=0.314*misp1_lvt-0.6132*misp2_lvt
+include "cds_ff_mpt_mosfet.scs"   section = stat_mis_lvt 
+endsection mc_lvt_mis
+
+
+section mc_hvt_mis            
+parameters      
++misn1_hvt=rn1_hvt                     misn2_hvt=rn2_hvt   
++misp1_hvt=rp1_hvt                     misp2_hvt=rp2_hvt
++facn1_hvt=0.314*misn1_hvt+0.6132*misn2_hvt
++facn2_hvt=0.314*misn1_hvt-0.6132*misn2_hvt
++facp1_hvt=0.314*misp1_hvt+0.6132*misp2_hvt
++facp2_hvt=0.314*misp1_hvt-0.6132*misp2_hvt
+include "cds_ff_mpt_mosfet.scs"   section = stat_mis_hvt 
+endsection mc_hvt_mis
+
+
+section mc_18_mis            
+parameters     
++misn1_18=rn1_18                     misn2_18=rn2_18   
++misp1_18=rp1_18                     misp2_18=rp2_18
++facn1_18=0.314*misn1_18+0.6132*misn2_18
++facn2_18=0.314*misn1_18-0.6132*misn2_18
++facp1_18=0.314*misp1_18+0.6132*misp2_18
++facp2_18=0.314*misp1_18-0.6132*misp2_18
+include "cds_ff_mpt_mosfet.scs"   section = stat_mis_18 
+endsection mc_18_mis
+
+library cds_ff_mpt
+

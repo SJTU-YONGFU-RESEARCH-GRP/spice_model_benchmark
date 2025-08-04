@@ -1,0 +1,8 @@
+TDMCHECKPOINT="1.0"
+gsclib045_backbias/XOR2X1 type="cell"
+gsclib045_backbias/XOR2X2 type="cell"
+gsclib045_backbias/XOR2X4 type="cell"
+gsclib045_backbias/XOR2XL type="cell"
+gsclib045_backbias/XOR3X1 type="cell"
+gsclib045_backbias/XOR3XL type="cell"
+keepEmptyCategory type="unknown"

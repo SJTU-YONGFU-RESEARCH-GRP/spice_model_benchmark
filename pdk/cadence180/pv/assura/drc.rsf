@@ -1,0 +1,67 @@
+; GENERIC PDK Process Assura LVS Rules v2.0 1/10/02
+
+/*************************************************************************
+
+ Assura Sample RSF File for DRC
+
+ Title:  Assura Sample RSF File for DRC
+         GENERIC PDK Process
+         Use with GENERIC PDK version 1.8 (09/30/2002)
+
+ Notes:  Cadence Design Systems, Inc.
+         PDK Technology Center, Melbourne, FL
+
+ Reference Document:
+
+   Library Specification No. GPDK, Version 1.8
+
+*************************************************************************
+
+ Support Information:
+
+ This rule file is supported by Cadence Design Systems customer support.
+ For contact information consult http://www.cadence.com/support/
+
+*************************************************************************
+
+ Revision History:
+
+  01/10/2002  mo  v 1.0  First Release
+
+  Sample RSF file for running Assura DRC
+
+*************************************************************************
+
+   ______________________________________________________________
+ * Cadence Design Systems shall not be liable for the accuracy   *
+ * of this DRC rule file or it's ability to capture errors.      *
+ * The user is responsible for thoroughly testing and            *
+ * implementing it's features.                                   *
+ *---------------------------------------------------------------*
+
+
+*************************************************************************/
+
+
+avParameters(
+  ?inputLayout ( "df2" "<lib_name>" )
+  ?cellName "<cell_name>"
+  ?viewName "layout"
+  ?rulesFile "./drc.rul"
+  ?runName "<cell_name>"
+  ?workingDirectory "./assura_drc"
+
+; Switches
+;
+;?set "Skip_Latch-Up_Checks"  ; Switch to skip latch-up checks
+
+   ?flagNon45 t
+   ?flagOffGrid .005
+   ?userUnits "micron"
+   ?overwrite t
+   ?textPriOnly nil
+   ?joinPins top
+   ?modifyHierarchy nil
+   ?avrpt t
+
+) ; avParameters completed

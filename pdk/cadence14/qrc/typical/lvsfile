@@ -1,0 +1,145 @@
+;| version 1
+text text_LiAct attach LiAct
+layer NPNdmy
+text text_nw_conn attach nw_conn
+text text_nw_term attach nw_term
+text text_npoly_conn attach npoly_conn
+text text_ppoly_conn attach ppoly_conn
+text text_m1_conn_mask1 attach m1_conn_mask1
+text text_m1_conn_mask2 attach m1_conn_mask2
+text text_m2_conn_mask1 attach m2_conn_mask1
+text text_m2_conn_mask2 attach m2_conn_mask2
+text text_m3_conn_mask1 attach m3_conn_mask1
+text text_m3_conn_mask2 attach m3_conn_mask2
+text text_m4_conn attach m4_conn
+text text_m5_conn attach m5_conn
+text text_m6_conn attach m6_conn
+text text_m7_conn attach m7_conn
+text text_mt_conn attach mt_conn
+layer fin_marker_layer
+connect m1_conn_mask1 LiAct by V0_Act
+connect m1_conn_mask2 LiAct by V0_Act
+connect ndiff_conn ndiffres_term
+connect LiAct ndiff_conn by cont_ndiff
+connect LiAct nsd by cont_ndiff
+connect LiAct ntap by cont_ndiff
+connect LiAct npn_emit by cont_ndiff
+connect pdiff_conn pdiffres_term
+connect LiAct pdiff_conn by cont_pdiff
+connect LiAct psd by cont_pdiff
+connect LiAct ptap by cont_pdiff
+connect LiAct ttap by cont_pdiff
+connect m1_conn_mask1 LiPo by V0_Po
+connect m1_conn_mask2 LiPo by V0_Po
+connect LiPo npoly_conn by cont_poly
+connect LiPo ppoly_conn by cont_poly
+connect m2_conn_mask1 m1_conn_mask1 by V1
+connect m2_conn_mask2 m1_conn_mask1 by V1
+connect m2_conn_mask1 m1_conn_mask2 by V1
+connect m2_conn_mask2 m1_conn_mask2 by V1
+connect m3_conn_mask1 m2_conn_mask1 by V2
+connect m3_conn_mask2 m2_conn_mask1 by V2
+connect m3_conn_mask1 m2_conn_mask2 by V2
+connect m3_conn_mask2 m2_conn_mask2 by V2
+connect m4_conn m3_conn_mask1 by V3
+connect m4_conn m3_conn_mask2 by V3
+connect m5_conn m4_conn by V4
+connect m6_conn m5_conn by V5
+connect m7_conn m6_conn by V6
+connect mt_conn m7_conn by VT_nomim
+connect mt_conn CMT by VT_mim
+connect ntap nw_term
+connect npoly_conn ngate
+connect ppoly_conn pgate
+stamp nw_conn by ntap
+stamp iso_pwell by ttap
+stamp psub by ptap
+stamp BuriedNWell by nw_conn
+model=res[resm1],cds_ff_mpt_resm1
+element res[resm1] m1res_dev m1_conn_mask1
+model=res[resm1],cds_ff_mpt_resm1
+element res[resm1] m1res_dev m1_conn_mask2
+model=res[resm2],cds_ff_mpt_resm2
+element res[resm2] m2res_dev m2_conn_mask1
+model=res[resm2],cds_ff_mpt_resm2
+element res[resm2] m2res_dev m2_conn_mask2
+model=res[resm3],cds_ff_mpt_resm3
+element res[resm3] m3res_dev m3_conn_mask1
+model=res[resm3],cds_ff_mpt_resm3
+element res[resm3] m3res_dev m3_conn_mask2
+model=res[resm4],cds_ff_mpt_resm4
+element res[resm4] m4res_dev m4_conn
+model=res[resm5],cds_ff_mpt_resm5
+element res[resm5] m5res_dev m5_conn
+model=res[resm6],cds_ff_mpt_resm6
+element res[resm6] m6res_dev m6_conn
+model=res[resm7],cds_ff_mpt_resm7
+element res[resm7] m7res_dev m7_conn
+model=res[resmt],cds_ff_mpt_resm8
+element res[resmt] mtres_dev mt_conn
+model=res[rsnp],cds_ff_mpt_rsnp
+element res[rsnp] rsnp_dev npoly_conn
+model=res[rsnp],cds_ff_mpt_rsnp
+element res[rsnp] rsnp_dev ppoly_conn
+model=res[rnsnp],cds_ff_mpt_rnsnp
+element res[rnsnp] rnsnp_dev npoly_conn
+model=res[rnsnp],cds_ff_mpt_rnsnp
+element res[rnsnp] rnsnp_dev ppoly_conn
+model=res[rspp],cds_ff_mpt_rspp
+element res[rspp] rspp_dev ppoly_conn
+model=res[rspp],cds_ff_mpt_rspp
+element res[rspp] rspp_dev npoly_conn
+model=res[rnspp],cds_ff_mpt_rnspp
+element res[rnspp] rnspp_dev ppoly_conn
+model=res[rnspp],cds_ff_mpt_rnspp
+element res[rnspp] rnspp_dev npoly_conn
+model=res[rnsnd],cds_ff_mpt_rnsnd
+element res[rnsnd] rnsnd_dev ndiffres_term
+model=res[rsnd],cds_ff_mpt_rsnd
+element res[rsnd] rsnd_dev ndiffres_term
+model=res[rnspd],cds_ff_mpt_rnspd
+element res[rnspd] rnspd_dev pdiffres_term
+model=res[rspd],cds_ff_mpt_rspd
+element res[rspd] rspd_dev pdiffres_term
+model=res[rnwo],cds_ff_mpt_rnwo
+element res[rnwo] rnwo_dev nw_term
+model=res[rnws],cds_ff_mpt_rnws
+element res[rnws] rnws_dev nw_term
+model=cap[cmim],cds_ff_mpt_cmim
+element cap[cmim] mim_cap_dev CMT m7_conn
+model=bjt[npn],cds_ff_mpt_npn1
+element bjt[npn] npn_dev_1x1 BuriedNWell iso_pwell npn_emit psub
+model=bjt[npn],cds_ff_mpt_npn2
+element bjt[npn] npn_dev_2x2 BuriedNWell iso_pwell npn_emit psub
+model=diode[nd1hvt],cds_ff_mpt_nd1hvt
+element diode[nd1hvt] nd1hvt_dev psub ndiff_conn
+model=diode[nd1lvt],cds_ff_mpt_nd1lvt
+element diode[nd1lvt] nd1lvt_dev psub ndiff_conn
+model=diode[nd1svt],cds_ff_mpt_nd1svt
+element diode[nd1svt] nd1svt_dev psub ndiff_conn
+model=diode[nd2svt],cds_ff_mpt_nd2svt
+element diode[nd2svt] nd2svt_dev psub ndiff_conn
+model=diode[pd1hvt],cds_ff_mpt_pd1hvt
+element diode[pd1hvt] pd1hvt_dev pdiff_conn nw_conn
+model=diode[pd1lvt],cds_ff_mpt_pd1lvt
+element diode[pd1lvt] pd1lvt_dev pdiff_conn nw_conn
+model=diode[pd1svt],cds_ff_mpt_pd1svt
+element diode[pd1svt] pd1svt_dev pdiff_conn nw_conn
+model=diode[pd2svt],cds_ff_mpt_pd2svt
+element diode[pd2svt] pd2svt_dev pdiff_conn nw_conn
+model=mos[n1hvt],cds_ff_mpt_n1hvt
+element mos[n1hvt] n1hvt_dev ngate nsd psub
+model=mos[n1lvt],cds_ff_mpt_n1lvt
+element mos[n1lvt] n1lvt_dev ngate nsd psub
+model=mos[n1svt],cds_ff_mpt_n1svt
+element mos[n1svt] n1svt_dev ngate nsd psub
+model=mos[n2svt],cds_ff_mpt_n2svt
+element mos[n2svt] n2svt_dev ngate nsd psub
+model=mos[p1hvt],cds_ff_mpt_p1hvt
+element mos[p1hvt] p1hvt_dev pgate psd nw_conn
+model=mos[p1lvt],cds_ff_mpt_p1lvt
+element mos[p1lvt] p1lvt_dev pgate psd nw_conn
+model=mos[p1svt],cds_ff_mpt_p1svt
+element mos[p1svt] p1svt_dev pgate psd nw_conn
+model=mos[p2svt],cds_ff_mpt_p2svt
+element mos[p2svt] p2svt_dev pgate psd nw_conn

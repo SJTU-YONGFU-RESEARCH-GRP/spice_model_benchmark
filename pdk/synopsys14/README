@@ -1,0 +1,40 @@
+SAED_PDK_14 v1.0 01 August 2017
+
+HOW TO INSTALL AND USE PDK
+=====================================
+1. Place this folder (containing README and other files) 
+   somewhere in your file system. Preferable in a shared 
+   location accessible by all users with read-only permissions. 
+
+2. Define SAED14_PDK environment variable pointing to PDK,
+   use SOURCEME file for reference (variable should be set in a 
+   way that $SAED14_PDK/techfiles is a valid path for example)
+   
+3. Copy install/lib.defs files to  your home or project 
+   directory and start Custom Designer.  This lib.defs is 
+   written in a way to include PDK's main  lib.defs file, 
+   this is is REQUIRED for automatic setup of DRC/LVS/LPE 
+   dialogues. Please instruct user not to setup PDK in 
+   any other possible way.
+
+
+SYSTEM REQUIREMENTS 
+======================================
+Custom Designer	L-2016.06-3
+IC Validator	M-2016.12-1
+StarRC		M-2016.12
+
+Note: This are the tools used for testing of the current version
+other versions could also work.
+
+CONTENT
+=====================================
+PDK distribution contains:
+ 1. IPL Python Codes
+ 2. 14nm Standard Cells
+ 3. IC Validator DRC antenna, drc & lvs runsets
+ 4. HSPICE 14nm technology library
+ 5. Custom Designer callbacks
+ 6. StarRC runset for IC Validator tool
+ 7. Techfiles
+ 8. Documentation

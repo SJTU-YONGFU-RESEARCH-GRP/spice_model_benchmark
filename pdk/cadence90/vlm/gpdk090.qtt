@@ -1,0 +1,1460 @@
+technology gpdk090
+grid 0.005
+
+parameters
+a=1
+end
+
+scale parameters
+    ScaleFactor = 0.5
+    TapScaleFactor = 0.15/0.22
+    M1Scale = ScaleFactor
+    M1Scalepath = 0.12/0.30 // wires to [np]mos pcells need to be similar
+    MxScale = ScaleFactor
+    MxScalepath = 0.3 //0.14/0.23
+    VxScale = 0.5
+    VxArrayLengthScale = 0.35
+    VxSizeScale = 0.14/0.20
+end
+
+layers
+    BONDPAD     alias Bondpad/drawing
+    CAPMETAL    alias CapMetal/drawing
+    NBURIED     alias Nburied/drawing
+    NHVT        alias Nhvt/drawing
+    NIMP        alias Nimp/drawing
+    NWELL       alias Nwell/drawing
+    NZVT        alias Nzvt/drawing
+    OXIDE       alias Oxide/drawing
+    OXIDE_THK   alias ThickOxide/drawing target Oxide_thk/drawing
+    PHVT        alias Phvt/drawing
+    PIMP        alias Pimp/drawing
+    POLY        alias Poly/drawing
+    SIPROT      alias SiProt/drawing
+    CONT        alias Cont/drawing
+    METAL1      alias Metal1/drawing
+    METAL1PIN   alias Metal1/pin
+    METAL2      alias Metal2/drawing
+    METAL2_SLOT alias Metal2/slot
+    METAL3      alias Metal3/drawing
+    METAL3_SLOT alias Metal3/slot
+    METAL4      alias Metal4/drawing
+    METAL4_SLOT alias Metal4/slot
+    METAL5      alias Metal5/drawing
+    METAL5_SLOT alias Metal5/slot
+    METAL6      alias Metal6/drawing
+    METAL6_SLOT alias Metal6/slot
+    METAL7      alias Metal7/drawing
+    METAL7_SLOT alias Metal7/slot
+    METAL8      alias Metal8/drawing
+    METAL8_SLOT alias Metal8/slot
+    METAL9      alias Metal9/drawing
+    METAL9_SLOT alias Metal9/slot
+    VIA1        alias Via1/drawing
+    VIA2        alias Via2/drawing
+    VIA3        alias Via3/drawing
+    VIA4        alias Via4/drawing
+    VIA5        alias Via5/drawing
+    VIA6        alias Via6/drawing
+    VIA7        alias Via7/drawing
+    VIA8        alias Via8/drawing
+    CAPDUM      alias Capdum/drawing
+    RESDUM      alias Resdum/drawing
+    RESWDUM     alias ResWdum/drawing
+    TEXT        alias text/drawing
+    ABOX        alias prBoundary/drawing
+    ALLGEO      alias allGeoShare/GeoShare
+    WBODY       alias WellBody/drawing
+    TEMP        alias y0/drawing
+end
+
+stipples
+    solid           ff ff ff ff ff ff ff ff
+    empty           00 00 00 00 00 00 00 00
+    checker_odd     aa 55 aa 55 aa 55 aa 55
+    checker_even    55 aa 55 aa 55 aa 55 aa
+    horzstripe_x    ff 00 ff 00 ff 00 ff 00
+    horzstripe_y    00 ff 00 ff 00 ff 00 ff
+    vertstripe_odd  55 55 55 55 55 55 55 55
+    vertstripe_even aa aa aa aa aa aa aa aa
+    knight_oddx1    11 44 11 44 11 44 11 44
+    knight_evenx1   22 88 22 88 22 88 22 88
+    knight_oddy1    55 00 aa 00 55 00 aa 00
+    knight_eveny1   aa 00 55 00 aa 00 55 00
+    knight_oddx2    44 11 44 11 44 11 44 11
+    knight_evenx2   88 22 88 22 88 22 88 22
+    knight_oddy2    00 aa 00 55 00 aa 00 55
+    knight_eveny2   00 55 00 aa 00 55 00 aa
+    sparse_oddx     55 00 55 00 55 00 55 00
+    sparse_evenx    aa 00 aa 00 aa 00 aa 00
+    sparse_oddy     00 55 00 55 00 55 00 55
+    sparse_eveny    00 aa 00 aa 00 aa 00 aa
+    supersparse1    11 00 44 00 11 00 44 00
+    supersparse2    22 00 88 00 22 00 88 00
+    supersparse3    00 44 00 11 00 44 00 11
+    supersparse4    00 88 00 22 00 88 00 22
+end
+
+display
+    NWELL        fill empty   0   0   0 border 0 0 0
+    OXIDE        fill solid   0 255   0 border 0 0 0
+    PIMP         fill empty   0   0   0 border 255 128 0
+    NIMP         fill empty   0   0   0 border 0   255 0
+    POLY         fill solid 255   0   0 border 0 0 0
+    CONT         fill checker_even   0   0  32 border 0 0 0
+    METAL1       fill sparse_oddx    0   0 255 border 0 0 0
+    VIA1         fill checker_odd   32   0  32 border 0 0 0
+    METAL2       fill sparse_oddy  255   0 255 border 0 0 0
+    VIA2         fill checker_even   0  32  32 border 0 0 0
+    METAL3       fill sparse_evenx   0 255 255 border 0 0 0
+    VIA3         fill checker_odd   32  32   0 border 0 0 0
+    METAL4       fill sparse_eveny 128 128   0 border 0 0 0
+    VIA4         fill checker_even  32  32   0 border 0 0 0
+    METAL5       fill sparse_oddx  128 128   0 border 0 0 0
+    ABOX         fill empty   0   0   0 border 0 0 0
+    METAL1PIN    fill empty   0   0   0 border 255 255 0
+    selection    fill  supersparse3 255 255 255 border 255 255 255
+    constraint   fill  solid    0   0 0 border 0 0 0
+    infeasible   fill  solid  255 255 0 border 255 255 0
+    unbounded    fill  solid  255 255 0 border 255 255 0
+    relaxed      fill  solid  255 255 0 border 255 255 0
+end
+
+gds_input_map
+    BONDPAD     36  0        
+    CAPMETAL    14  0        
+    NBURIED     19  0        
+    NHVT        18  0        
+    NIMP         4  0        
+    NWELL        2  0        
+    NZVT        52  0        
+    OXIDE        1  0        
+    OXIDE_THK   24  0        
+    PHVT        23  0        
+    PIMP         5  0        
+    POLY         3  0        
+    SIPROT      72  0        
+    CONT         6  0        
+    METAL1       7  0        
+    METAL1PIN    7  2        
+    METAL2       9  0        
+    METAL2_SLOT  9  2        
+    METAL3      11  0        
+    METAL3_SLOT 11  2        
+    METAL4      31  0        
+    METAL4_SLOT 31  2        
+    METAL5      33  0        
+    METAL5_SLOT 33  2        
+    METAL6      35  0        
+    METAL6_SLOT 35  2        
+    METAL7      38  0        
+    METAL7_SLOT 38  2        
+    METAL8      40  0        
+    METAL8_SLOT 40  2        
+    METAL9      42  0        
+    METAL9_SLOT 42  2        
+    VIA1         8  0        
+    VIA2        10  0        
+    VIA3        30  0        
+    VIA4        32  0        
+    VIA5        34  0        
+    VIA6        37  0        
+    VIA7        39  0        
+    VIA8        41  0        
+    CAPDUM      12  0
+    RESDUM      13  0
+    RESWDUM     71  0
+    TEXT        63  0        
+end
+
+gds_output_map
+    BONDPAD     36  0        
+    CAPMETAL    14  0        
+    NBURIED     19  0        
+    NHVT        18  0        
+    NIMP         4  0        
+    NWELL        2  0        
+    NZVT        52  0        
+    OXIDE        1  0        
+    OXIDE_THK   24  0        
+    PHVT        23  0        
+    PIMP         5  0        
+    POLY         3  0        
+    SIPROT      72  0        
+    CONT         6  0        
+    METAL1       7  0        
+    METAL1PIN    7  2        
+    METAL2       9  0        
+    METAL2_SLOT  9  2        
+    METAL3      11  0        
+    METAL3_SLOT 11  2        
+    METAL4      31  0        
+    METAL4_SLOT 31  2        
+    METAL5      33  0        
+    METAL5_SLOT 33  2        
+    METAL6      35  0        
+    METAL6_SLOT 35  2        
+    METAL7      38  0        
+    METAL7_SLOT 38  2        
+    METAL8      40  0        
+    METAL8_SLOT 40  2        
+    METAL9      42  0        
+    METAL9_SLOT 42  2        
+    VIA1         8  0        
+    VIA2        10  0        
+    VIA3        30  0        
+    VIA4        32  0        
+    VIA5        34  0        
+    VIA6        37  0        
+    VIA7        39  0        
+    VIA8        41  0        
+    CAPDUM      12  0
+    RESDUM      13  0
+    RESWDUM     71  0
+    TEXT        63  0        
+end
+
+planes
+    base ( BONDPAD CAPMETAL NBURIED NHVT NIMP NWELL NZVT OXIDE OXIDE_THK PHVT PIMP POLY CONT SIPROT CAPDUM RESDUM RESWDUM TEXT ABOX ALLGEO WBODY) encroach 30
+    metal1 ( CONT METAL1 METAL1PIN VIA1 ABOX TEMP)
+    metal2 ( VIA1 METAL2 METAL2_SLOT VIA2 ABOX TEMP)
+    metal3 ( VIA2 METAL3 METAL3_SLOT VIA3 ABOX )
+    metal4 ( VIA3 METAL4 METAL4_SLOT VIA4 ABOX )
+    metal5 ( VIA4 METAL5 METAL5_SLOT VIA5 ABOX )
+    metal6 ( VIA5 METAL6 METAL6_SLOT VIA6 ABOX )
+    metal7 ( VIA6 METAL7 METAL7_SLOT VIA7 ABOX )
+    metal8 ( VIA7 METAL8 METAL8_SLOT VIA8 ABOX )
+    metal9 ( VIA8 METAL9 METAL9_SLOT ABOX )
+end
+
+labels
+    TEXT text_for POLY or METAL1PIN or METAL1 or METAL2 or METAL3 or METAL4 or METAL5 or METAL6 or METAL7 or METAL8 or METAL9
+end
+
+functions
+    base = POLY | OXIDE
+    ndiff = OXIDE & NIMP
+    pdiff = OXIDE & PIMP
+
+    sd_ndiff = ndiff & ~NWELL
+    sd_pdiff = pdiff & NWELL
+
+    ntap = ndiff & NWELL
+    ptap = pdiff & ~NWELL
+    tap = ntap | ptap
+    tapcont = tap & CONT
+    implants = PIMP | NIMP
+
+    salNW = NWELL # RESWDUM
+    salNwCont = CONT # salNW
+
+    oxide_in_res = OXIDE # RESDUM
+    poly_in_res = POLY # RESDUM
+
+    ndiff2.5 = ndiff & OXIDE_THK
+    pdiff2.5 = pdiff & OXIDE_THK
+
+    gate = POLY & OXIDE
+    gate1.2 = gate & ~OXIDE_THK
+    gate2.5 = gate & OXIDE_THK
+    ngate = POLY & OXIDE & NIMP & ~NWELL
+    pgate = POLY & OXIDE & PIMP & NWELL
+    ngate1.2 = ngate & ~NZVT & ~NHVT & ~OXIDE_THK
+    pgate1.2 = pgate & ~NZVT & ~PHVT & ~OXIDE_THK
+    ngate2.5 = ngate & ~NZVT & ~NHVT & OXIDE_THK
+    pgate2.5 = pgate & ~NZVT & ~PHVT & OXIDE_THK
+    nativenmos1.2 = ngate & NZVT & ~NHVT & ~OXIDE_THK
+    nativenmos2.5 = ngate & NZVT & ~NHVT & OXIDE_THK
+
+    contRegion = CONT + 1.0/M1Scale
+
+    m10.14       = METAL1 > 0.14/M1Scale
+    m10.18       = METAL1 > 0.18/M1Scale
+    m10.4        = METAL1 > 0.4/M1Scale
+    m11.0        = METAL1 > 1.0/M1Scale
+    m11.5        = METAL1 > 1.5/M1Scale
+    m13.0        = METAL1 > 3.0/M1Scale
+    m14.5        = METAL1 > 4.5/M1Scale
+    m17.5        = METAL1 > 7.5/M1Scale
+
+    v1region = VIA1 + 0.4/MxScale
+    doubleV1 = VIA1 & m10.4
+    v1array = VIA1 > 0.15/VxSizeScale
+
+    m20.14       = METAL2 > 0.14/MxScale
+    m20.18       = METAL2 > 0.18/MxScale
+    m20.2        = METAL2 > 0.2/MxScale
+    m20.4        = METAL2 > 0.4/MxScale
+    m21.0        = METAL2 > 1.0/MxScale
+    m21.5        = METAL2 > 1.5/MxScale
+    m23.0        = METAL2 > 3.0/MxScale
+    m24.5        = METAL2 > 4.5/MxScale
+    m27.5        = METAL2 > 7.5/MxScale
+
+    v2region = VIA2 + 0.4/MxScale
+    doubleV2 = VIA2 & m20.4
+    v2array = VIA2 > 0.15/VxSizeScale
+
+    m30.14       = METAL3 > 0.14/MxScale
+    m30.18       = METAL3 > 0.18/MxScale
+    m30.2        = METAL3 > 0.2/MxScale
+    m30.4        = METAL3 > 0.4/MxScale
+    m31.0        = METAL3 > 1.0/MxScale
+    m31.5        = METAL3 > 1.5/MxScale
+    m33.0        = METAL3 > 3.0/MxScale
+    m34.5        = METAL3 > 4.5/MxScale
+    m37.5        = METAL3 > 7.5/MxScale
+
+    v3region = VIA3 + 0.4/MxScale
+    doubleV3 = VIA3 & m30.4
+    v3array = VIA3 > 0.15/VxSizeScale
+
+    m40.14       = METAL4 > 0.14/MxScale
+    m40.18       = METAL4 > 0.18/MxScale
+    m40.2        = METAL4 > 0.2/MxScale
+    m40.4        = METAL4 > 0.4/MxScale
+    m41.0        = METAL4 > 1.0/MxScale
+    m41.5        = METAL4 > 1.5/MxScale
+    m43.0        = METAL4 > 3.0/MxScale
+    m44.5        = METAL4 > 4.5/MxScale
+    m47.5        = METAL4 > 7.5/MxScale
+
+    v4region = VIA4 + 0.4/MxScale
+    doubleV4 = VIA4 & m40.4
+    v4array = VIA4 > 0.15/VxSizeScale
+
+
+    m50.14       = METAL5 > 0.14/MxScale
+    m50.18       = METAL5 > 0.18/MxScale
+    m50.2        = METAL5 > 0.2/MxScale
+    m50.4        = METAL5 > 0.4/MxScale
+    m51.0        = METAL5 > 1.0/MxScale
+    m51.5        = METAL5 > 1.5/MxScale
+    m53.0        = METAL5 > 3.0/MxScale
+    m54.5        = METAL5 > 4.5/MxScale
+    m57.5        = METAL5 > 7.5/MxScale
+
+    v5region = VIA5 + 0.4/MxScale
+    doubleV5 = VIA5 & m50.4
+    v5array = VIA5 > 0.15/VxSizeScale
+
+
+    m60.14       = METAL6 > 0.14/MxScale
+    m60.18       = METAL6 > 0.18/MxScale
+    m60.2        = METAL6 > 0.2/MxScale
+    m60.4        = METAL6 > 0.4/MxScale
+    m61.0        = METAL6 > 1.0/MxScale
+    m61.5        = METAL6 > 1.5/MxScale
+    m63.0        = METAL6 > 3.0/MxScale
+    m64.5        = METAL6 > 4.5/MxScale
+    m67.5        = METAL6 > 7.5/MxScale
+
+    v6region = VIA6 + 0.4/MxScale
+    doubleV6 = VIA6 & m60.4
+    v6array = VIA6 > 0.15/VxSizeScale
+
+
+    m70.14       = METAL7 > 0.14/MxScale
+    m70.18       = METAL7 > 0.18/MxScale
+    m70.2        = METAL7 > 0.2/MxScale
+    m70.4        = METAL7 > 0.4/MxScale
+    m71.0        = METAL7 > 1.0/MxScale
+    m71.5        = METAL7 > 1.5/MxScale
+    m73.0        = METAL7 > 3.0/MxScale
+    m74.5        = METAL7 > 4.5/MxScale
+    m77.5        = METAL7 > 7.5/MxScale
+
+    v7region = VIA7 + 0.4/MxScale
+    doubleV7 = VIA7 & m70.4
+
+    m80.5        = METAL8 > 0.5/MxScale
+    m81.0        = METAL8 > 1.0/MxScale
+    m81.5        = METAL8 > 1.5/MxScale
+    m83.0        = METAL8 > 3.0/MxScale
+    m84.5        = METAL8 > 4.5/MxScale
+    m87.5        = METAL8 > 7.5/MxScale
+
+    v8region = VIA8 + 0.4/MxScale
+
+    m90.5        = METAL9 > 0.5/MxScale
+    m91.5        = METAL9 > 1.5/MxScale
+    m93.0        = METAL9 > 3.0/MxScale
+    m94.5        = METAL9 > 4.5/MxScale
+    m97.5        = METAL9 > 7.5/MxScale
+
+
+    // 2x/4x via rules
+    //
+    m1_le_0.4        = METAL1 & ~m10.4
+    m1_gt_0.4_le_1.0 = m10.4 & ~m11.0
+    m1_gt_1.0_le_1.5 = m11.0 & ~m11.5
+    m1_gt_1.5_le_3.0 = m11.5 & ~m13.0
+
+    m2_le_0.4        = METAL2 & ~m20.4
+    m2_gt_0.4_le_1.0 = m20.4 & ~m21.0
+    m2_gt_1.0_le_1.5 = m21.0 & ~m21.5
+    m2_gt_1.5_le_3.0 = m21.5 & ~m23.0
+
+    m3_le_0.4        = METAL3 & ~m30.4
+    m3_gt_0.4_le_1.0 = m30.4 & ~m31.0
+    m3_gt_1.0_le_1.5 = m31.0 & ~m31.5
+    m3_gt_1.5_le_3.0 = m31.5 & ~m33.0
+
+    m4_le_0.4        = METAL4 & ~m40.4
+    m4_gt_0.4_le_1.0 = m40.4 & ~m41.0
+    m4_gt_1.0_le_1.5 = m41.0 & ~m41.5
+    m4_gt_1.5_le_3.0 = m41.5 & ~m43.0
+
+    m5_le_0.4        = METAL5 & ~m50.4
+    m5_gt_0.4_le_1.0 = m50.4 & ~m51.0
+    m5_gt_1.0_le_1.5 = m51.0 & ~m51.5
+    m5_gt_1.5_le_3.0 = m51.5 & ~m53.0
+
+    m6_le_0.4        = METAL6 & ~m60.4
+    m6_gt_0.4_le_1.0 = m60.4 & ~m61.0
+    m6_gt_1.0_le_1.5 = m61.0 & ~m61.5
+    m6_gt_1.5_le_3.0 = m61.5 & ~m63.0
+
+    m7_le_0.4        = METAL7 & ~m70.4
+    m7_gt_0.4_le_1.0 = m70.4 & ~m71.0
+    m7_gt_1.0_le_1.5 = m71.0 & ~m71.5
+    m7_gt_1.5_le_3.0 = m71.5 & ~m73.0
+
+    // Shared source/drain for fingered mos don't have notches
+    //
+    oxideC = (OXIDE & ~POLY) # CONT
+    oxide0.08  = OXIDE + 0.08
+    poly0.1 = POLY + 0.1 xonly
+    growShrinkGateRegion = gate +- 0.4
+    oxideC_growShrinkGateRegion = growShrinkGateRegion &~gate & oxideC
+    sharedContactedSDRegion = oxideC_growShrinkGateRegion + 0.1 yonly
+    srcNIMP = ~NWELL & (oxide0.08 | (poly0.1) | sharedContactedSDRegion)
+    srcPIMP = NWELL & (oxide0.08 | (poly0.1) | sharedContactedSDRegion)
+
+    // pimpnimp notch fill
+    //
+    fillNotchPimp = PIMP +- 0.5 notchonly
+    fillNotchNimp = NIMP +- 0.5 notchonly
+
+    // Fill diffusion notches
+    //
+    gsOXIDE_0.7 = OXIDE +- 0.7 notchonly
+       
+    // Trim contact enclosure on endcaps
+    //
+    fieldPOLY = POLY & ~OXIDE
+    gate_gs_0.4 = gate +- 0.4
+    gate_py_0.9 = gate_gs_0.4 + 0.9 y_only
+    newPOLY = (gate_py_0.9 & fieldPOLY) | gate
+
+    // Source nmos pcell abstraction to remove notch at gate region due to 
+    // contacted diffusion enclosure
+    //
+    OXIDE_ge_0.6 = OXIDE > 0.60
+    OXIDE_lt_0.6 = OXIDE & ~OXIDE_ge_0.6
+    OXIDE_lt_0.6_py_1 = OXIDE_lt_0.6 + 1 yonly
+    nonGate_OXIDE = OXIDE & ~gate
+    nonGate_OXIDE_px_1.0 = nonGate_OXIDE + 1 xonly
+    srcNmosPcellOXIDE = nonGate_OXIDE_px_1.0 & OXIDE_lt_0.6_py_1
+end
+
+objectives
+    OXIDE   shrinkforce 2.5
+    POLY    shrinkforce 3.0
+    CONT    growforce   1.0
+    tapcont growforce   10.0
+    NWELL   shrinkforce 0.1
+    NZVT    shrinkforce 2.0
+    NIMP    shrinkforce 0.1
+    PIMP    shrinkforce 0.1
+    METAL1  shrinkforce 0.4
+    VIA1    growforce   0.1
+    METAL2  shrinkforce 0.2
+    VIA2    growforce   0.1
+    METAL3  shrinkforce 0.2
+    VIA3    growforce   0.1
+    METAL4  shrinkforce 0.2
+    VIA4    growforce   0.1
+    METAL5  shrinkforce 0.2
+    VIA5    growforce   0.1
+    METAL6  shrinkforce 0.2
+    VIA6    growforce   0.1
+    METAL7  shrinkforce 0.2
+    VIA7    growforce   0.1
+    METAL8  shrinkforce 0.2
+    VIA8    growforce   0.1
+    METAL9  shrinkforce 0.2
+end
+
+connections
+  //ntap inside NWELL electrical
+  //ptap inside SUBSTRATE electrical
+    METAL1 to METAL1PIN electrical
+end
+
+alignment_locks
+    NHVT OXIDE
+    PHVT OXIDE
+    METAL1 ABOX
+    METAL2 ABOX
+    METAL3 ABOX
+    METAL4 ABOX
+    METAL5 ABOX
+    METAL6 ABOX
+    METAL7 ABOX
+    METAL8 ABOX
+    METAL9 ABOX
+end
+
+power_supplies
+        VDD
+        VSS SUBSTRATE
+end
+
+wires
+    OXIDE  width 0.2  scale ScaleFactor
+    POLY   width 0.1  scale ScaleFactor
+    NIMP   width 0.24 scale ScaleFactor
+    PIMP   width 0.24 scale ScaleFactor
+    NWELL  width 0.6  scale ScaleFactor
+    METAL1 width 0.12 scale M1Scalepath
+    METAL2 width 0.14 scale MxScalepath
+    METAL3 width 0.14 scale MxScalepath
+    METAL4 width 0.14 scale MxScalepath
+    METAL5 width 0.14 scale MxScalepath
+    METAL6 width 0.14 scale MxScalepath
+    METAL7 width 0.14 scale MxScalepath
+    METAL8 width 0.44 scale MxScalepath
+    METAL9 width 0.44 scale MxScalepath
+end
+
+vias
+    CONT base METAL1 size 0.12
+    VIA1 METAL1 METAL2 size 0.14 mingrowsize 0.1
+    VIA2 METAL2 METAL3 size 0.14 mingrowsize 0.1
+    VIA3 METAL3 METAL4 size 0.14
+    VIA4 METAL4 METAL5 size 0.14
+    VIA5 METAL5 METAL6 size 0.14
+    VIA6 METAL6 METAL7 size 0.14
+    VIA7 METAL7 METAL8 size 0.36
+    VIA8 METAL8 METAL9 size 0.36
+end
+
+devices
+    NMOS NMOS12 ngate1.2 OXIDE POLY SUBSTRATE width scale ScaleFactor length scale ScaleFactor
+    PMOS PMOS12 pgate1.2 OXIDE POLY NWELL width scale ScaleFactor length scale ScaleFactor
+
+    NMOS NMOS25 ngate2.5 OXIDE POLY SUBSTRATE
+    PMOS PMOS25 pgate2.5 OXIDE POLY NWELL
+      
+    NMOS NATIVENMOS12 nativenmos1.2 OXIDE POLY SUBSTRATE
+    NMOS NATIVENMOS25 nativenmos2.5 OXIDE POLY NWELL
+end
+
+abutment_boundaries
+    ABOX
+    POLY TEMP
+end
+
+design_rules
+    //
+    // NBURIED rules
+    //
+    rule NBL.W.1         "Min NBURIED width 3.2"
+        widen NBURIED by 3.2
+    rule NBL.E.1         "Min NBURIED to NWELL enclosure 0.4"
+        enclose NWELL with NBURIED by 0.4
+    rule NBL.SP.1        "Min NBURIED spacing 5.0"
+        space NBURIED by 5.0
+    rule NBL.SE.1        "Min NBURIED to nonrelated NWELL spacing 4.4"
+        space NBURIED by 4.4
+    rule NBL.SE.2        "Min NBURIED to nonrelated OXIDE spacing 2.2"
+        space NBURIED from OXIDE by 2.2
+    rule NBL.SE.3        "Min NWELL ring on NBURIED to pdiff spacing 0.5"
+        space NWELL from pdiff over NBURIED by 0.5
+    rule NBL.SE.4        "Min NWELL ring on NBURIED to ndiff spacing 0.4"
+        space NWELL from ndiff over NBURIED by 0.4
+    //
+    // NWELL rules
+    //
+    rule NW.W.1          "Min NWELL width 0.6"
+        widen NWELL by 0.6
+    rule NW.SP.1_2       "Min NWELL spacing 1.2 (same potential 0.6) "
+        space NWELL by 1.2 same_net 0.6
+    rule NW.SE.1         "Min NWELL spacing to ndiff 0.3"
+        space NWELL from ndiff by 0.3
+    rule NW.SE.2         "Min NWELL Spacing tp pdiff 0.3"
+        space NWELL from pdiff by 0.3
+    // rule NW.SE.3         "Min NWELL spacing to ndiff2.5 0.5"
+// 04/07/05
+// Trina changed from 0.5 to 0.7 04/07/05
+    rule NW.SE.3         "Min NWELL spacing to ndiff2.5 0.7"
+        space NWELL from ndiff2.5 by 0.7
+    rule NW.SE.4         "Min NWELL spacing to pdiff2.5 0.7"
+        space NWELL from pdiff2.5 by 0.7
+    rule NW.E.1          "Min NWELL enclosure of ndiff 0.12"
+//      enclose ndiff with NWELL by 0.12
+        enclose ndiff with NWELL by 0.17 // gdpk090 calls out 0.17
+    rule NW.E.2          "Min NWELL enclosure of pdiff 0.12"
+        enclose pdiff with NWELL by 0.12
+    rule NW.E.3          "Min NWELL enclosure of ndiff2.5 0.7"
+        enclose ndiff2.5 with NWELL by 0.7
+    rule NW.E.4          "Min NWELL enclosure of pdiff2.5 0.7"
+        enclose pdiff2.5 with NWELL by 0.7
+    //
+    // NWELL resistor rules (needs ResWdum layer)
+    //
+    rule NWR.E.1         "Min OXIDE enclosure of RESWDUM 1.2"
+        enclose RESWDUM with OXIDE by 1.2
+    rule NWR.E.2         "Min Salicided NWELL enclosure of CONT 0.32"
+        enclose salNwCont with NWELL by 0.32
+    rule NWR.SE.1        "Min Resist Protect OXIDE to NWELL spacing 0.32"
+        space SIPROT from NWELL over OXIDE by  0.32
+//  rule NWR.E.3        "Min Resist Protect OXIDE to OXIDE enclosure 0.25"
+//      covered in SIPROT.E.1
+    rule NWR.O.1         "MIn NIMP to Resist Protect OXIDE overlap 0.45"
+        extend NIMP over ~SIPROT by 0.45
+    rule NWR.X.1         "OXIDE_THK not allowerd over NWELL resistor"
+        space OXIDE_THK from RESWDUM by 0
+//  rule NWR.SP.1       "Min NWELL resistor to other NWELL spacing 1.2"
+//      covered by NW.SP.2
+    //
+    // DIFFUSION rules
+    //
+    rule OXIDE.W.1       "Min Active Area width 0.1  45s 0.13"
+//      widen OXIDE by 0.1 diagonal 0.13
+        widen OXIDE by 0.16 // rules N[P]IMP.O.1 checked incorrectly, set to .16
+    rule OXIDE.W.2.1.1   "Min 1.2V ngate width 0.12"
+        widen ndiff over (POLY & ~OXIDE_THK) by 0.12
+    rule OXIDE.W.2.1.2   "Min 2.5V ngate width 0.15"
+        widen ndiff over (POLY & OXIDE_THK) by 0.15
+    rule OXIDE.W.2.2.1   "Min 1.2V pgate width 0.12"
+        widen pdiff over (POLY & ~OXIDE_THK) by 0.12
+    rule OXIDE.W.2.2.2   "Min 2.5V pgate width 0.15"
+        widen pdiff over (POLY & OXIDE_THK) by 0.15
+    rule OXIDE.SP.1      "Min ndiff spacing 0.15"
+        space ndiff by 0.15
+    rule OXIDE.SP.2      "Min pdiff spacing 0.15"
+        space pdiff by 0.15
+    rule OXIDE.SP.3      "Min  ndiff to pdiff spacing 0.18"
+        space ndiff from pdiff unless butted by 0.18
+    rule OXIDE.SP.4      "Min OXIDE 45 degree to OXIDE spacing 0.18"
+        space OXIDE by 0.15 diagonal 0.18
+    rule OXIDE.SE.1      "Min OXIDE to OXIDE_THK spacing 0.28"
+        space OXIDE from OXIDE_THK by 0.28 // 1.8 is too freaking big
+    rule OXIDE.A.1       "Min area OXIDE 0.06"
+        expand area OXIDE by 0.06
+    rule OXIDE.EA.1      "Min enclosed area OXIDE 0.1"
+        expand hole OXIDE by 0.1
+    //
+    // DIFFUSION resistor rules (needs resdum_sz layer)
+    //
+    rule OXIDER.W.1.1    "Min OXIDE resistor width 0.2 recommended 1.5"
+        widen oxide_in_res over RESDUM by 1.5
+    rule OXIDER.L.1      "Min suggested OXIDE resistor length 8.0"
+        widen RESDUM over OXIDE by 8.0
+    rule OXIDER.SE.1     "Min Salicide Block to CONT spacing 0.25"
+        space SIPROT from CONT over OXIDE by 0.25
+    rule OXIDER.E.1      "Min SIPROT to OXIDE resistor enclosure 0.25"
+        extend SIPROT over OXIDE by 0.25
+    rule OXIDER.SE.2a    "Min OXIDE resistor to PIMP spacing 0.3"
+        space oxide_in_res from PIMP by 0.3
+    rule OXIDER.SE.2b    "Min OXIDE resistor to NIMP spacing 0.3"
+        space oxide_in_res from NIMP by 0.3
+    rule OXIDER.X.1      "Active resistors must have NIMP or PIMP"
+        extend implants over oxide_in_res by 0
+    rule OXIDER.X.2      "Active resistors must have SIPROT"
+        extend SIPROT over oxide_in_res by 0
+    //
+    // HIGH VOLTAGE DIFFUSION rules
+    //
+    rule OXIDETHK.W.1    "Min OXIDE_THK width 0.7"
+        widen OXIDE_THK by 0.7
+    rule OXIDETHK.SP.1   "Min OXIDE_THK spacing 0.35 45s 0.75"
+        space OXIDE_THK by 0.35 diagonal 0.75
+    rule OXIDETHK.SE.1   "Min ndiff2.5 spacing 0.2"
+        space ndiff2.5 by 0.2
+    rule OXIDETHK.SE.2   "Min pdiff2.5 spacing 0.2"
+        space pdiff2.5 by 0.2
+    rule OXIDETHK.SE.3   "Min ndiff2.5 to pdiff2.5 spacing 0.25"
+        space ndiff2.5 from pdiff2.5 unless butted by 0.25
+    rule OXIDETHK.E.1    "Min OXIDE_THK enclosure of OXIDE 0.3"
+        enclose OXIDE with OXIDE_THK by 0.3
+    rule OXIDETHK.SE.5   "Min OXIDE_THK to gate1.2 spacing 0.34"
+        space OXIDE_THK from gate1.2 by 0.34
+    rule OXIDETHK.E.2    "Min OXIDE_THK enclosure of gate2.5 0.30"
+        enclose gate2.5 with OXIDE_THK by 0.30 // pcell 2.5 usles 0.3
+    //
+    // NATIVE IMPLANT rules
+    //
+    rule NZVT.W.1        "Min NZVT width 0.7"
+        widen NZVT by 0.7
+    rule NZVT.SP.1       "Min NZVT spacing 0.6"
+        space NZVT by 0.6
+    rule NZVT.O.1        "Min & Max NZVT to OXIDE overlap 0.3"
+        enclose OXIDE with NZVT by 0.3
+    rule NZVT.SE.1       "Min NZVT to OXIDE spacing 0.4"
+        space NZVT from OXIDE by 0.4
+    rule NZVT.SE.2       "Min NZVT to NWELL spacing 1.2"
+        space NZVT from NWELL by 1.2
+    rule NZVT.E.1        "Min N+ POLY gate endcap to Native OXIDE enclosure 0.2"
+        extend POLY over OXIDE beside NZVT by 0.2
+    rule NZVT.L.1        "Min Native device POLY gate length 0.9"
+        widen POLY over (OXIDE & NZVT) by 0.9
+    rule NZVT.W.2        "Min Native device POLY gate width 0.65"
+        widen OXIDE over (POLY & NZVT) by 0.65
+    //
+    // POLYSILICON rules
+    //
+    rule POLY.W.1        "Min POLY width 0.1 (W.1,W.2,&W.5) 45s 0.18"
+        widen POLY by 0.1 diagonal 0.18
+    rule POLY.W.3        "Min 2.5 gate length 0.28 (W.3 & W.4)"
+        widen POLY over OXIDE_THK by 0.28
+    rule POLY.SP.1       "Min POLY resistor space 0.6"
+        space POLY over RESDUM by 0.6
+    rule POLY.SP.2       "Min gate space 0.12 45s 0.22"
+        space POLY by 0.12 diagonal 0.22
+    rule POLY.E.1        "Min POLY endcap 0.18"
+        extend POLY over OXIDE by 0.18
+    rule POLY.SE.1       "Min POLY to OXIDE space 0.1"
+        space POLY from OXIDE by 0.1
+    rule POLY.E.3        "Min OXIDE to gate enclosure 0.2"
+        extend OXIDE over POLY by 0.2
+    rule POLY.A.1        "Min area POLY interconnect 0.1"
+        expand area POLY by 0.1 
+    //
+    // POLYSILICON resistor rules (uses resdum_sz)
+    //
+    rule POLYR.W.1.1     "Min POLY resistor width 0.2 recommended 1.5"
+        widen poly_in_res by 1.5
+    rule POLYR.L.1       "Min suggested POLY resistor length 8.0"
+        widen RESDUM over POLY by 8.0
+    rule POLYR.SE.1      "Min SIPROT to CONT spacing 0.25"
+        space SIPROT from CONT over POLY by 0.25
+    rule POLYR.E.1       "Min SIPROT to POLY resistor enclosure 0.28"
+        extend SIPROT over poly_in_res by 0.28
+    rule POLYR.E.2       "Min NIMP to POLY used in resistor enclosure 0.15"
+        enclose poly_in_res with NIMP by 0.15
+    rule POLYR.E.3       "Min PIMP to POLY used in resistor enclosure 0.15"
+        enclose poly_in_res with PIMP by 0.15
+    rule POLYR.SE.2a     "Min POLY resistor to PIMP spacing 0.3"
+        space poly_in_res from PIMP unless butted by 0.3
+    rule POLYR.SE.2b     "Min POLY resistor to NIMP spacing 0.3"
+        space poly_in_res from NIMP unless butted by 0.3
+    rule POLYR.X.1       "POLY resistors must have NIMP or PIMP"
+        extend implants over poly_in_res by 0
+    rule POLYR.X.2       "POLY resistors must have SIPROT"
+        extend SIPROT over poly_in_res by 0
+    //
+    // N IMPLANT rules
+    //
+    rule NIMP.W.1        "Min NIMP width 0.24"
+        widen NIMP by 0.24
+    rule NIMP.SP.1       "Min NIMP space 0.24"
+        space NIMP by 0.24
+    rule NIMP.E.1        "Min NIMP enclosure of OXIDE 0.16"
+        enclose sd_ndiff with NIMP by 0.14
+    rule NIMP.O.1        "Min NIMP to OXIDE overlap 0.16"
+        extend NIMP over ~OXIDE by 0.16
+    rule NIMP.SE.1       "Min NIMP to pdiff (inside NWELL) spacing 0.16"
+        space NIMP from pdiff over NWELL  unless butted by 0.16
+    rule NIMP.E.2        "Min NIMP enclosure of ntap 0.02"
+        extend NIMP over ntap by 0.02
+    rule NIMP.E.3        "Min NIMP to gate side enclosure 0.18"
+        extend NIMP over gate beside OXIDE by 0.18
+    rule NIMP.SE.2       "Min NIMP to ptap spacing 0.02"
+        space NIMP from ptap by 0.02
+    rule NIMP.E.4        "Min NIMP to gate (endcap) enclosure 0.18"
+        extend NIMP over gate beside POLY by 0.18
+    rule NIMP.SE.3       "Min NIMP to pgate side spacing 0.18"
+        space NIMP from pgate over OXIDE by 0.18
+    rule NIMP.A.1        "Min area NIMP 0.15"
+        expand area NIMP by 0.15
+    rule NIMP.EA.1       "Min hole NIMP 0.16"
+        expand hole NIMP by 0.16
+    rule NIMP.X.1        "NIMP not allowed to overlap PIMP"
+        space NIMP from PIMP by 0
+    //
+    // P IMPLANT rules
+    //
+    rule PIMP.W.1        "Min PIMP width 0.24"
+        widen PIMP by 0.24
+    rule PIMP.SP.1       "Min PIMP space 0.24"
+        space PIMP by 0.24
+    rule PIMP.E.1        "Min PIMP enclosure of OXIDE 0.14"
+        enclose sd_pdiff with PIMP by 0.14
+    rule PIMP.O.1        "Min PIMP to OXIDE overlap 0.16"
+        extend PIMP over ~OXIDE by 0.16
+    rule PIMP.SE.1       "Min PIMP to ndiff (outside NWELL) spacing 0.16"
+        space PIMP from ndiff & ~NWELL unless butted by 0.16
+    rule PIMP.E.2        "Min PIMP enclosure of ptap 0.02"
+        extend PIMP over ptap by 0.02
+    rule PIMP.E.3        "Min PIMP to gate side enclosure 0.18"
+        extend PIMP over gate beside OXIDE by 0.18
+    rule PIMP.SE.2       "Min PIMP to ntap spacing 0.02"
+        space PIMP from ntap by 0.02
+    rule PIMP.E.4        "Min PIMP to gate (endcap) enclosure 0.18"
+        extend PIMP over gate beside POLY by 0.18
+    rule PIMP.SE.3       "Min PIMP to ngate side spacing 0.18"
+        space PIMP from ngate over OXIDE by 0.18
+    rule PIMP.A.1        "Min area PIMP 0.15"
+        expand area PIMP by 0.15
+    rule PIMP.EA.1       "Min hole PIMP 0.16"
+        expand hole PIMP by 0.16
+    //
+    // CONTACT rules
+    //
+    rule CONT.W.1        "CONT size 0.12"
+        widen CONT by 0.12
+    rule CONT.SP.1       "Min CONT spacing 0.14"
+        space CONT over contRegion by 0.16 // use array spacing
+    rule CONT.SE.1       "Min CONT to gate spacing 0.1"
+        space CONT from gate1.2 over OXIDE by 0.1
+    rule CONT.SE.2       "Min CONT to gate2.5 spacing 0.12"
+        space CONT from gate2.5 over OXIDE_THK by 0.12
+    rule CONT.SE.3       "Min gate CONT to OXIDE spacing 0.12"
+        space CONT from gate1.2 over POLY by 0.12
+    rule CONT.SE.4       "Min gate CONT to gate2.5 spacing 0.14"
+         space CONT from gate2.5 over POLY by 0.14
+    rule CONT.X.2        "Active area CONT not allowed on NIMP/PIMP border"
+        space CONT from NIMP over OXIDE by 0
+    rule CONT.X.2        "Active area CONT not allowed on NIMP/PIMP border"
+        space CONT from PIMP over OXIDE by 0
+    rule CONT.X.3        "CONT must be covered by OXIDE by 0.06"
+        enclose CONT with OXIDE by 0.06
+    rule CONT.X.3        "CONT must be covered by POLY by 0.04 end of line 0.06"
+//      enclose CONT with POLY by 0.04 end-of-line 0.06
+        enclose CONT with POLY by 0.06 // larger to be compatible with symbolics
+    //
+    // SALICIDE BLOCK (SIPROT) rules
+    //
+    rule SIPROT.W.1      "Min SIPROT width 0.44"
+        widen SIPROT by 0.44
+    rule SIPROT.SP.1     "Min SIPROT space 0.44"
+        space SIPROT by 0.44
+    rule SIPROT.SE.1     "Min SIPROT to CONT spacing 0.24"
+        space SIPROT from CONT by 0.24
+    rule SIPROT.SE.2     "Min SIPROT to unrelated OXIDE spacing 0.24"
+        space SIPROT from OXIDE by 0.24
+    rule SIPROT.SE.3     "Min SIPROT to gate spacing 0.44"
+        space SIPROT from POLY over OXIDE by 0.44
+    rule SIPROT.E.1      "Min SIPROT to OXIDE enclosure 0.25"
+        extend SIPROT over OXIDE by 0.25
+    rule SIPROT.E.2      "Min OXIDE to SIPROT enclosure 0.24"
+        extend OXIDE over SIPROT by 0.24
+    rule SIPROT.E.3      "Min SIPROT to POLY (on field) enclosure 0.28"
+        extend SIPROT over POLY beside ~OXIDE by 0.28
+    rule SIPROT.A.1      "Min SIPROT area 1.2"
+        expand area SIPROT by 1.2
+    rule SIPROT.EA.1     "Min SIPROT enclosure area 1.2"
+        expand hole SIPROT by 1.2
+    rule SIPROT.SE.4     "Min SIPROT to POLY (on field) spacing 0.35"
+        extend ~SIPROT over POLY beside ~OXIDE by 0.35
+    //
+    // METAL 1 rules
+    //
+    rule METAL1.W.1      "Min METAL1 width 0.12"
+        widen METAL1 by 0.12
+    rule METAL1.SP.1.1   "Min METAL1 spacing 0.12"
+        space METAL1 by 0.12
+    rule METAL1P.W.1     "Min METAL1 width 0.12"
+        widen METAL1PIN by 0.12
+    rule METAL1P.SP.1.1  "Min METAL1 spacing 0.12"
+        space METAL1PIN by 0.12
+    rule METAL1P.enc     "Enclose METAL1PIN with METAL1"
+        enclose METAL1PIN with METAL1 by 0
+    rule METAL1.SP.1.2   "METAL1 spacing - one > 0.18 parallel length > 0.5 0.18"
+        space METAL1 by 0.12 common-run > 0.5 by 0.18 scale M1Scale
+    rule METAL1.SP.1.3   "METAL1 spacing - one > 1.5 parallel length > 1.5 0.50"
+        space m11.5 from METAL1 by 0.2 common-run > 1.5 by 0.50 scale M1Scale
+    rule METAL1.SP.1.4   "METAL1 spacing - one > 3.0 parallel length > 3.0 0.90"
+        space m13.0 from METAL1 by 0.2 common-run > 3.0 by 0.90 scale M1Scale
+    rule METAL1.SP.1.5   "METAL1 spacing - one > 4.5 parallel length > 4.5 1.50"
+        space m14.5 from METAL1 by 0.2 common-run > 4.5 by 1.50 scale M1Scale
+    rule METAL1.SP.1.6   "METAL1 spacing - one > 7.5 parallel length > 7.5 2.50"
+        space m17.5 from METAL1 by 0.2 common-run > 7.5 by 2.50 scale M1Scale
+    rule METAL1.E.1      "Min METAL1 to CONT enclosure 0 eol 0.06"
+        enclose CONT with METAL1 by 0 end-of-line 0.06
+    rule METAL1.A.1      "Min METAL1 area 0.07"
+        expand area METAL1 by 0.07
+    rule METAL1.EA.1.1   "Min METAL1 hole for M1<=0.14 is 0.05"
+        expand hole METAL1 by 0.05
+    rule METAL1.EA.1.2   "Min METAL1 hole for M1 > 0.14 is 0.2"
+        expand hole m10.14 by 0.2 minimum_space 0.12
+    rule METAL1.EA.1.3    "Min METAL1 hole for M1 > 0.18 is 0.8"
+        expand hole m10.18 by 0.8 minimum_space 0.18
+    rule METAL1.EA.1.4   "Min METAL1 hole for M1 > 1.5 is 3.2"
+        expand hole m11.5 by 3.2 minimum_space 0.5
+    rule METAL1.EA.1.5   "Min METAL1 hole for M1 > 3.0 is 7.2"
+        expand hole m13.0 by 7.2 minimum_space 0.9
+    rule METAL1.EA.1.6   "Min METAL1 hole for M1 > 4.5 is 21"
+        expand hole m14.5 by 21 minimum_space 1.5
+    rule METAL1.EA.1.7   "Min METAL1 hole for M1 > 7.5 is 50" 
+        expand hole m17.5 by 50 minimum_space 2.5
+    //
+    // VIA 1 rules
+    //
+    rule VIA1.W.1        "VIA1 size 0.14"
+        widen VIA1 by 0.14
+    rule VIA1.SP.1       "Min VIA1 spacing 0.20"
+        space VIA1 over v1region by 0.20 // use array spacing
+    rule VIA1.SP.1       "Min VIA1 spacing 0.20"
+        space VIA1 over METAL1 by 0.20 // use array spacing
+    rule VIA1.SP.1       "Min VIA1 spacing 0.20"
+        space VIA1 over METAL2 by 0.20 // use array spacing
+    rule VIA1.E.1        "Min METAL1 enclosure of VIA1 0.005 eol 0.06"
+//      enclose VIA1 with METAL1 by 0.005 end-of-line 0.06
+        enclose VIA1 with METAL1 by 0.06 // larger to be compatible with symbolics
+    rule VIA1.X.1a       "Min  of 2 VIA1 with spacing <= 0.3 for M>0.4"
+        expand segment per pair VIA1 & m10.4 by 0.46
+    rule VIA1.X.1b       "Min  of 2 VIA1 with spacing <= 0.3 for M>0.4"
+        expand segment per pair VIA1 & m20.4 by 0.46
+    rule VIA1.X.2a       "Min  of 4 VIA1 with spacing <= 0.3 for M>0.4"
+        expand segment per pair VIA1 & m11.0 by 0.14+3*0.16+4*0.14
+    rule VIA1.X.2b       "Min  of 4 VIA1 with spacing <= 0.3 for M>0.4"
+        expand segment per pair VIA1 & m21.0 by 0.14+3*0.16+4*0.14
+    //
+    // METAL 2 rules
+    //
+    rule METAL2.W.1      "Min METAL2 width 0.14 45s 0.16"
+        widen METAL2 by 0.14 diagonal 0.16
+    rule METAL2.SP.1.1   "Min METAL2 spacing 0.14 45s 0.18"
+        space METAL2 by 0.14 diagonal 0.18
+    rule METAL2.SP.1.2   "METAL2 spacing = one > 0.2 parallel length > 0.5 0.2"
+        space m20.2 from METAL2 by 0.14 common-run > 0.5 by 0.2 scale MxScale
+    rule METAL2.SP.1.3   "METAL2 spacing - one > 1.5 parallel length > 1.5 0.5"
+        space m21.5 from METAL2 by 0.14 common-run > 1.5 by 0.5 scale MxScale
+    rule METAL2.SP.1.4   "METAL2 spacing - one > 1.5 parallel length > 1.5 0.9"
+        space m23.0 from METAL2 by 0.14 common-run > 3.0 by 0.9 scale MxScale
+    rule METAL2.SP.1.5   "METAL2 spacing - one > 1.5 parallel length > 1.5 1.5"
+        space m24.5 from METAL2 by 0.14 common-run > 4.5 by 1.5 scale MxScale
+    rule METAL2.SP.1.6   "METAL2 spacing - one > 1.5 parallel length > 1.5 2.5"
+        space m27.5 from METAL2 by 0.14 common-run > 7.5 by 2.5 scale MxScale
+    rule METAL2.E.1      "Min METAL2 enclosure of VIA1 0.005 eol 0.06"
+//      enclose VIA1 with METAL2 by 0.005 end-of-line 0.06
+        enclose VIA1 with METAL2 by 0.06 // larger to be compatible with symbolics
+    rule METAL2.A.1      "Min METAL2 area 0.09"
+        expand area METAL2 by 0.09
+    rule METAL2.EA.1     "Min METAL2 enclose area 0.07"
+        expand hole METAL2 by 0.07
+    rule METAL2.EA.1.2   "Min METAL2 hole for M2 > 0.14 0.2"
+        expand hole m20.14 by 0.2 minimum_space 0.14
+    rule METAL2.EA.1.3   "Min METAL2 hole for M2 > 0.18 0.8"
+        expand hole m20.18 by 0.8 minimum_space 0.14
+    rule METAL2.EA.1.4   "Min METAL2 hole for M2 > 1.5 3.2"
+        expand hole m21.5 by 3.2 minimum_space 0.5
+    rule METAL2.EA.1.5   "Min METAL2 hole for M2 > 3.0 7.2"
+        expand hole m23.0 by 7.2 minimum_space 0.9
+    rule METAL2.EA.1.6   "Min METAL2 hole for M2 > 4.5 21"
+        expand hole m24.5 by 21 minimum_space 1.5
+    rule METAL2.EA.1.7   "Min METAL2 hole for M2 > 7.5 50" 
+        expand hole m27.5 by 50 minimum_space 2.5
+    //
+    // VIA 2 rules
+    //
+    rule VIA2.W.1        "VIA2 size 0.14"
+        widen VIA2 by 0.14
+    rule VIA2.SP.1a      "Min VIA2 spacing 0.20"
+        space VIA2 over v2region by 0.20 // use array spacing
+    rule VIA2.SP.1b      "Min VIA2 spacing 0.20"
+        space VIA2 over METAL2 by 0.20 // use array spacing
+    rule VIA2.SP.1c      "Min VIA2 spacing 0.20"
+        space VIA2 over METAL3 by 0.20 // use array spacing
+    rule VIA2.E.1        "Min METAL2 enclosure of VIA2 0.005 eol 0.06"
+//      enclose VIA2 with METAL2 by 0.005 end-of-line 0.06
+        enclose VIA2 with METAL2 by 0.06 // larger to be compatible with symbolics
+    rule VIA2.X.1a       "Min  of 2 VIA2 with spacing <= 0.3 for M>0.4"
+        expand segment per pair VIA2 & m20.4 by 0.46
+    rule VIA2.X.1b       "Min  of 2 VIA2 with spacing <= 0.3 for M>0.4"
+        expand segment per pair VIA2 & m30.4 by 0.46
+    rule VIA2.X.2a       "Min  of 4 VIA2 with spacing <= 0.3 for M>1.0"
+        expand segment per pair VIA2 & m21.0 by 0.14+3*0.16+4*0.14
+    rule VIA2.X.2b       "Min  of 4 VIA2 with spacing <= 0.3 for M>1.0"
+        expand segment per pair VIA2 & m31.0 by 0.14+3*0.16+4*0.14
+    //
+    // METAL 3 rules
+    //
+    rule METAL3.W.1      "Min METAL3 width 0.14 45s 0.16"
+        widen METAL3 by 0.14 diagonal 0.16
+    rule METAL3.SP.1.1   "Min METAL3 spacing 0.14 45s 0.18"
+        space METAL3 by 0.14 diagonal 0.18
+    rule METAL3.SP.1.2   "METAL3 spacing = one > 0.2 parallel length > 0.5 0.2"
+        space m30.2 from METAL3 by 0.14 common-run > 0.5 by 0.2 scale MxScale
+    rule METAL3.SP.1.3   "METAL3 spacing - one > 1.5 parallel length > 1.5 0.5"
+        space m31.5 from METAL3 by 0.14 common-run > 1.5 by 0.5 scale MxScale
+    rule METAL3.SP.1.4   "METAL3 spacing - one > 1.5 parallel length > 1.5 0.9"
+        space m33.0 from METAL3 by 0.14 common-run > 3.0 by 0.9 scale MxScale
+    rule METAL3.SP.1.5   "METAL3 spacing - one > 1.5 parallel length > 1.5 1.5"
+        space m34.5 from METAL3 by 0.14 common-run > 4.5 by 1.5 scale MxScale
+    rule METAL3.SP.1.6   "METAL3 spacing - one > 1.5 parallel length > 1.5 2.5"
+        space m37.5 from METAL3 by 0.14 common-run > 7.5 by 2.5 scale MxScale
+    rule METAL3.E.1      "Min METAL3 enclosure of VIA2 0.005 eol 0.06"
+//      enclose VIA2 with METAL3 by 0.005 end-of-line 0.06
+        enclose VIA2 with METAL3 by 0.06 // larger to be compatible with symbolics
+    rule METAL3.A.1      "Min METAL3 area 0.09"
+        expand area METAL3 by 0.09
+    rule METAL3.EA.1     "Min METAL3 enclose area 0.07"
+        expand hole METAL3 by 0.07
+    rule METAL3.EA.1.2   "Min METAL3 hole for M3 > 0.14 0.2"
+        expand hole m30.14 by 0.2 minimum_space 0.14
+    rule METAL3.EA.1.3   "Min METAL3 hole for M3 > 0.18 0.8"
+        expand hole m30.18 by 0.8 minimum_space 0.14
+    rule METAL3.EA.1.4   "Min METAL3 hole for M3 > 1.5 3.2"
+        expand hole m31.5 by 3.2 minimum_space 0.5
+    rule METAL3.EA.1.5   "Min METAL3 hole for M3 > 3.0 7.2"
+        expand hole m33.0 by 7.2 minimum_space 0.9
+    rule METAL3.EA.1.6   "Min METAL3 hole for M3 > 4.5 21"
+        expand hole m34.5 by 21 minimum_space 1.5
+    rule METAL3.EA.1.7   "Min METAL3 hole for M3 > 7.5 50" 
+        expand hole m37.5 by 50 minimum_space 2.5
+    //
+    // VIA 3 rules
+    //
+    rule VIA3.W.1        "VIA3 size 0.14"
+        widen VIA3 by 0.14
+    rule VIA3.SP.1a      "Min VIA3 spacing 0.20"
+        space VIA3 over METAL3 by 0.20 // use array spacing
+    rule VIA3.SP.1b      "Min VIA3 spacing 0.20"
+        space VIA3 over METAL4 by 0.20 // use array spacing
+    rule VIA3.E.1        "Min METAL3 enclosure of VIA3 0.005 eol 0.06"
+//      enclose VIA3 with METAL3 by 0.005 end-of-line 0.06
+        enclose VIA3 with METAL3 by 0.06 // larger to be compatible with symbolics
+    rule VIA3.X.1a       "Min  of 2 VIA3 with spacine <= 0.3 for M>0.4"
+        expand segment per pair VIA3 & m30.4  by 0.46
+    rule VIA3.X.1b       "Min  of 2 VIA3 with spacine <= 0.3 for M>0.4"
+        expand segment per pair VIA3 & m40.4 by 0.46
+    rule VIA3.X.2a       "Min  of 4 VIA3 with spacing <= 0.3 for M>1.0"
+        expand segment per pair VIA3 & m31.0 by 0.14+3*0.16+4*0.14
+    rule VIA3.X.2b       "Min  of 4 VIA3 with spacing <= 0.3 for M>1.0"
+        expand segment per pair VIA3 & m41.0 by 0.14+3*0.16+4*0.14
+    //
+    // METAL 4 rules
+    //
+    rule METAL4.W.1      "Min METAL4 width 0.14 45s 0.16"
+        widen METAL4 by 0.14 diagonal 0.16
+    rule METAL4.SP.1.1   "Min METAL4 spacing 0.14 45s 0.18"
+        space METAL4 by 0.14 diagonal 0.18
+    rule METAL4.SP.1.2   "METAL4 spacing = one > 0.2 parallel length > 0.5 0.2"
+        space m40.2 from METAL4 by 0.14 common-run > 0.5 by 0.2 scale MxScale
+    rule METAL4.SP.1.3   "METAL4 spacing - one > 1.5 parallel length > 1.5 0.5"
+        space m41.5 from METAL4 by 0.14 common-run > 1.5 by 0.5 scale MxScale
+    rule METAL4.SP.1.4   "METAL4 spacing - one > 1.5 parallel length > 1.5 0.9"
+        space m43.0 from METAL4 by 0.14 common-run > 3.0 by 0.9 scale MxScale
+    rule METAL4.SP.1.5   "METAL4 spacing - one > 1.5 parallel length > 1.5 1.5"
+        space m44.5 from METAL4 by 0.14 common-run > 4.5 by 1.5 scale MxScale
+    rule METAL4.SP.1.6   "METAL4 spacing - one > 1.5 parallel length > 1.5 2.5"
+        space m47.5 from METAL4 by 0.14 common-run > 7.5 by 2.5 scale MxScale
+    rule METAL4.E.1      "Min METAL4 enclosure of VIA3 0.005 eol 0.06"
+//      enclose VIA3 with METAL4 by 0.005 end-of-line 0.06
+        enclose VIA3 with METAL4 by 0.06 // larger to be compatible with symbolics
+    rule METAL4.A.1      "Min METAL4 area 0.09"
+        expand area METAL4 by 0.09
+    rule METAL4.EA.1     "Min METAL4 enclose area 0.07"
+        expand hole METAL4 by 0.07
+    rule METAL4.EA.1.2   "Min METAL4 hole for M4 > 0.14 0.2"
+        expand hole m40.14 by 0.2 minimum_space 0.14
+    rule METAL4.EA.1.3   "Min METAL4 hole for M4 > 0.18 0.8"
+        expand hole m40.18 by 0.8 minimum_space 0.14
+    rule METAL4.EA.1.4   "Min METAL4 hole for M4 > 1.5 3.2"
+        expand hole m41.5 by 3.2 minimum_space 0.5
+    rule METAL4.EA.1.5   "Min METAL4 hole for M4 > 3.0 7.2"
+        expand hole m43.0 by 7.2 minimum_space 0.9
+    rule METAL4.EA.1.6   "Min METAL4 hole for M4 > 4.5 21"
+        expand hole m44.5 by 21 minimum_space 1.5
+    rule METAL4.EA.1.7   "Min METAL4 hole for M4 > 7.5 50" 
+        expand hole m47.5 by 50 minimum_space 2.5
+    //
+    // VIA 4 rules
+    //
+    rule VIA4.W.1        "VIA4 size 0.14"
+        widen VIA4 by 0.14
+    rule VIA4.SP.1a      "Min VIA4 spacing 0.20"
+        space VIA4 over METAL4 by 0.20 // use array spacing
+    rule VIA4.SP.1b      "Min VIA4 spacing 0.20"
+        space VIA4 over METAL5 by 0.20 // use array spacing
+    rule VIA4.E.1        "Min METAL4 enclosure of VIA4 0.005 eol 0.06"
+//      enclose VIA4 with METAL4 by 0.005 end-of-line 0.06
+        enclose VIA4 with METAL4 by 0.06 // larger to be compatible with symbolics
+    rule VIA4.X.1a       "Min  of 2 VIA4 with spacing <= 0.3 for M>0.4"
+        expand segment per pair VIA4 & m40.4  by 0.46
+    rule VIA4.X.1b       "Min  of 2 VIA4 with spacing <= 0.3 for M>0.4"
+        expand segment per pair VIA4 & m50.4  by 0.46
+    rule VIA4.X.2a       "Min  of 4 VIA4 with spacing <= 0.3 for M>1.0"
+        expand segment per pair VIA4 & m41.0 by 0.14+3*0.16+4*0.14
+    rule VIA4.X.2b       "Min  of 4 VIA1 with spacing <= 0.3 for M>1.0"
+        expand segment per pair VIA4 & m51.0 by 0.14+3*0.16+4*0.14
+    //
+    // METAL 5 rules
+    //
+    rule METAL5.W.1      "Min METAL5 width 0.14 45s 0.16"
+        widen METAL5 by 0.14 diagonal 0.16
+    rule METAL5.SP.1.1   "Min METAL5 spacing 0.14 45s 0.18"
+        space METAL5 by 0.14 diagonal 0.18
+    rule METAL5.SP.1.2   "METAL5 spacing = one > 0.2 parallel length > 0.5 0.2"
+        space m50.2 from METAL5 by 0.14 common-run > 0.5 by 0.2 scale MxScale
+    rule METAL5.SP.1.3   "METAL5 spacing - one > 1.5 parallel length > 1.5 0.5"
+        space m51.5 from METAL5 by 0.14 common-run > 1.5 by 0.5 scale MxScale
+    rule METAL5.SP.1.4   "METAL5 spacing - one > 1.5 parallel length > 1.5 0.9"
+        space m53.0 from METAL5 by 0.14 common-run > 3.0 by 0.9 scale MxScale
+    rule METAL5.SP.1.5   "METAL5 spacing - one > 1.5 parallel length > 1.5 1.5"
+        space m54.5 from METAL5 by 0.14 common-run > 4.5 by 1.5 scale MxScale
+    rule METAL5.SP.1.6   "METAL5 spacing - one > 1.5 parallel length > 1.5 2.5"
+        space m57.5 from METAL5 by 0.14 common-run > 7.5 by 2.5 scale MxScale
+    rule METAL5.E.1      "Min METAL5 enclosure of VIA4 0.005 eol 0.06"
+//      enclose VIA4 with METAL5 by 0.005 end-of-line 0.06
+        enclose VIA4 with METAL5 by 0.06 // larger to be compatible with symbolics
+    rule METAL5.A.1      "Min METAL5 area 0.09"
+        expand area METAL5 by 0.09
+    rule METAL5.EA.1     "Min METAL5 enclose area 0.07"
+        expand hole METAL5 by 0.07
+    rule METAL5.EA.1.2   "Min METAL5 hole for M5 > 0.14 0.2"
+        expand hole m50.14 by 0.2 minimum_space 0.14
+    rule METAL5.EA.1.3   "Min METAL5 hole for M5 > 0.18 0.8"
+        expand hole m50.18 by 0.8 minimum_space 0.14
+    rule METAL5.EA.1.4   "Min METAL5 hole for M5 > 1.5 3.2"
+        expand hole m51.5 by 3.2 minimum_space 0.5
+    rule METAL5.EA.1.5   "Min METAL5 hole for M5 > 3.0 7.2"
+        expand hole m53.0 by 7.2 minimum_space 0.9
+    rule METAL5.EA.1.6   "Min METAL5 hole for M5 > 4.5 21"
+        expand hole m54.5 by 21 minimum_space 1.5
+    rule METAL5.EA.1.7   "Min METAL5 hole for M5 > 7.5 50" 
+        expand hole m57.5 by 50 minimum_space 2.5
+    //
+    // VIA 5 rules
+    //
+    rule VIA5.W.1        "VIA5 size 0.14"
+        widen VIA5 by 0.14
+    rule VIA5.SP.1a       "Min VIA5 spacing 0.20"
+        space VIA5 over METAL5 by 0.20 // use array spacing
+    rule VIA5.SP.1b       "Min VIA5 spacing 0.20"
+        space VIA5 over METAL6 by 0.20 // use array spacing
+    rule VIA5.E.1        "Min METAL5 enclosure of VIA5 0.005 eol 0.06"
+//      enclose VIA5 with METAL5 by 0.005 end-of-line 0.60
+        enclose VIA5 with METAL5 by 0.06 // larger to be compatible with symbolics
+    rule VIA5.X.1a       "Min  of 2 VIA5 with spacing <= 0.3 for M>0.4"
+        expand segment per pair VIA5 & m50.4  by 0.46
+    rule VIA5.X.1b       "Min  of 2 VIA5 with spacing <= 0.3 for M>0.4"
+        expand segment per pair VIA5 & m60.4  by 0.46
+    rule VIA5.X.2a       "Min  of 4 VIA5 with spacing <= 0.3 for M>1.0"
+        expand segment per pair VIA5 & m51.0 by 0.14+3*0.16+4*0.14
+    rule VIA5.X.2b       "Min  of 4 VIA5 with spacing <= 0.3 for M>1.0"
+        expand segment per pair VIA5 & m61.0 by 0.14+3*0.16+4*0.14
+    //
+    // METAL 6 rules
+    //
+    rule METAL6.W.1      "Min METAL6 width 0.14 45s 0.16"
+        widen METAL6 by 0.14 diagonal 0.16
+    rule METAL6.SP.1.1   "Min METAL6 spacing 0.14 45s 0.18"
+        space METAL6 by 0.14 diagonal 0.18
+    rule METAL6.SP.1.2   "METAL6 spacing = one > 0.2 parallel length > 0.5 0.2"
+        space m60.2 from METAL6 by 0.14 common-run > 0.5 by 0.2 scale MxScale
+    rule METAL6.SP.1.3   "METAL6 spacing - one > 1.5 parallel length > 1.5 0.5"
+        space m61.5 from METAL6 by 0.14 common-run > 1.5 by 0.5 scale MxScale
+    rule METAL6.SP.1.4   "METAL6 spacing - one > 1.5 parallel length > 1.5 0.9"
+        space m63.0 from METAL6 by 0.14 common-run > 3.0 by 0.9 scale MxScale
+    rule METAL6.SP.1.5   "METAL6 spacing - one > 1.5 parallel length > 1.5 1.5"
+        space m64.5 from METAL6 by 0.14 common-run > 4.5 by 1.5 scale MxScale
+    rule METAL6.SP.1.6   "METAL6 spacing - one > 1.5 parallel length > 1.5 2.5"
+        space m67.5 from METAL6 by 0.14 common-run > 7.5 by 2.5 scale MxScale
+    rule METAL6.E.1      "Min METAL6 enclosure of VIA5 0.005 eol 0.06"
+//      enclose VIA5 with METAL6 by 0.005 end-of-line 0.06
+        enclose VIA5 with METAL6 by 0.06 // larger to be compatible with symbolics
+    rule METAL6.A.1      "Min METAL6 area 0.09"
+        expand area METAL6 by 0.09
+    rule METAL6.EA.1     "Min METAL6 enclose area 0.07"
+        expand hole METAL6 by 0.07
+    rule METAL6.EA.1.2   "Min METAL6 hole for M6 > 0.14 0.2"
+        expand hole m60.14 by 0.2 minimum_space 0.14
+    rule METAL6.EA.1.3   "Min METAL6 hole for M6 > 0.18 0.8"
+        expand hole m60.18 by 0.8 minimum_space 0.14
+    rule METAL6.EA.1.4   "Min METAL6 hole for M6 > 1.5 3.2"
+        expand hole m61.5 by 3.2 minimum_space 0.5
+    rule METAL6.EA.1.5   "Min METAL6 hole for M6 > 3.0 7.2"
+        expand hole m63.0 by 7.2 minimum_space 0.9
+    rule METAL6.EA.1.6   "Min METAL6 hole for M6 > 4.5 21"
+        expand hole m64.5 by 21 minimum_space 1.5
+    rule METAL6.EA.1.7   "Min METAL6 hole for M6 > 7.5 50" 
+        expand hole m67.5 by 50 minimum_space 2.5
+    //
+    // VIA 6 rules
+    //
+    rule VIA6.W.1        "VIA6 size 0.14"
+        widen VIA6 by 0.14
+    rule VIA6.SP.1       "Min VIA6 spacing 0.20"
+        space VIA6 over METAL6 by 0.20 // use array spacing
+    rule VIA6.SP.1       "Min VIA6 spacing 0.20"
+        space VIA6 over METAL7 by 0.20 // use array spacing
+    rule VIA6.E.1        "Min METAL6 enclosure of VIA6 0.005 eol 0.06"
+//      enclose VIA6 with METAL6 by 0.005 end-of-line 0.06
+        enclose VIA6 with METAL6 by 0.06 // larger to be compatible with symbolics
+    rule VIA6.X.1a       "Min  of 2 VIA6 with spacing <= 0.3 for M>0.4"
+        expand segment per pair VIA6 & m60.4 by 0.46
+    rule VIA6.X.1b       "Min  of 2 VIA6 with spacing <= 0.3 for M>0.4"
+        expand segment per pair VIA6 & m70.4 by 0.46
+    rule VIA6.X.2a       "Min  of 4 VIA6 with spacing <= 0.3 for M>1.0"
+        expand segment per pair VIA6 & m61.0 by 0.14+3*0.16+4*0.14
+    rule VIA6.X.2b       "Min  of 4 VIA6 with spacing <= 0.3 for M>1.0"
+        expand segment per pair VIA6 & m71.0 by 0.14+3*0.16+4*0.14
+    //
+    // METAL 7 rules
+    //
+    rule METAL7.W.1      "Min METAL7 width 0.14 45s 0.16"
+        widen METAL7 by 0.14 diagonal 0.16
+    rule METAL7.SP.1.1   "Min METAL7 spacing 0.14 45s 0.18"
+        space METAL7 by 0.14 diagonal 0.18
+    rule METAL7.SP.1.2   "METAL7 spacing = one > 0.2 parallel length > 0.5 0.2"
+        space m70.2 from METAL7 by 0.14 common-run > 0.5 by 0.2 scale MxScale
+    rule METAL7.SP.1.3   "METAL7 spacing - one > 1.5 parallel length > 1.5 0.5"
+        space m71.5 from METAL7 by 0.14 common-run > 1.5 by 0.5 scale MxScale
+    rule METAL7.SP.1.4   "METAL7 spacing - one > 1.5 parallel length > 1.5 0.9"
+        space m73.0 from METAL7 by 0.14 common-run > 3.0 by 0.9 scale MxScale
+    rule METAL7.SP.1.5   "METAL7 spacing - one > 1.5 parallel length > 1.5 1.5"
+        space m74.5 from METAL7 by 0.14 common-run > 4.5 by 1.5 scale MxScale
+    rule METAL7.SP.1.6   "METAL7 spacing - one > 1.5 parallel length > 1.5 2.5"
+        space m77.5 from METAL7 by 0.14 common-run > 7.5 by 2.5 scale MxScale
+    rule METAL7.E.1      "Min METAL7 enclosure of VIA6 0.005 eol 0.06"
+//      enclose VIA6 with METAL7 by 0.005 end-of-line 0.06
+        enclose VIA6 with METAL7 by 0.06 // larger to be compatible with symbolics
+    rule METAL7.A.1      "Min METAL7 area 0.09"
+        expand area METAL7 by 0.09
+    rule METAL7.EA.1     "Min METAL7 enclose area 0.07"
+        expand hole METAL7 by 0.07
+    rule METAL7.EA.1.2   "Min METAL7 hole for M7 > 0.14 0.2"
+        expand hole m70.14 by 0.2 minimum_space 0.14
+    rule METAL7.EA.1.3   "Min METAL7 hole for M7 > 0.18 0.8"
+        expand hole m70.18 by 0.8 minimum_space 0.14
+    rule METAL7.EA.1.4   "Min METAL7 hole for M7 > 1.5 3.2"
+        expand hole m71.5 by 3.2 minimum_space 0.5
+    rule METAL7.EA.1.5   "Min METAL7 hole for M7 > 3.0 7.2"
+        expand hole m73.0 by 7.2 minimum_space 0.9
+    rule METAL7.EA.1.6   "Min METAL7 hole for M7 > 4.5 21"
+        expand hole m74.5 by 21 minimum_space 1.5
+    rule METAL7.EA.1.7   "Min METAL7 hole for M7 > 7.5 50" 
+        expand hole m77.5 by 50 minimum_space 2.5
+    //
+    // VIA 7 rules
+    //
+    rule VIA7.W.1        "VIA7 size 0.36"
+        widen VIA7 by 0.36
+    rule VIA7.SP.1a      "Min VIA7 spacing 0.36"
+        space VIA7 over METAL7 by 0.36
+    rule VIA7.SP.1b      "Min VIA7 spacing 0.36"
+        space VIA7 over METAL8 by 0.36
+    rule VIA7.E.1        "Min METAL7 enclosure of VIA7 0.03 eol 0.08"
+//      enclose VIA7 with METAL7 by 0.03 end-of-line 0.08
+        enclose VIA7 with METAL7 by 0.08 // larger to be compatible with symbolics
+    //
+    // METAL 8 rules
+    //
+    rule METAL8.W.1      "Min METAL8 width 0.44"
+        widen METAL8 by 0.44
+    rule METAL8.SP.1.1   "Min METAL8 spacing 0.44"
+        space METAL8 by 0.44
+    rule METAL8.SP.1.2   "METAL8 spacing - one > 1.5 parallel length > 1.5 0.5"
+        space m81.5 from METAL8 by 0.44 common-run > 1.5 by 0.5 scale MxScale
+    rule METAL8.SP.1.3   "METAL8 spacing - one > 1.5 parallel length > 1.5 0.9"
+        space m83.0 from METAL8 by 0.44 common-run > 3.0 by 0.9 scale MxScale
+    rule METAL8.SP.1.4   "METAL8 spacing - one > 1.5 parallel length > 1.5 1.5"
+        space m84.5 from METAL8 by 0.44 common-run > 4.5 by 1.5 scale MxScale
+    rule METAL8.SP.1.5   "METAL8 spacing - one > 1.5 parallel length > 1.5 2.5"
+        space m87.5 from METAL8 by 0.44 common-run > 7.5 by 2.5 scale MxScale
+    rule METAL8.E.1      "Min METAL8 enclosure of VIA7 0.05 eol 0.1"
+//      enclose VIA7 with METAL8 by 0.05 end-of-line 0.1
+        enclose VIA7 with METAL8 by 0.1 // larger to be compatible with symbolics
+    rule METAL8.A.1      "Min METAL8 area 0.2"
+        expand area METAL8 by 0.2
+    rule METAL8.EA.1     "Min METAL8 enclose area 0.5"
+        expand hole METAL8 by 0.5
+    rule METAL8.EA.1.2   "Min METAL8 hole for M8 > 0.5 0.8"
+        expand hole m80.5 by 0.8 minimum_space 0.44
+    rule METAL8.EA.1.3   "Min METAL8 hole for M8 > 1.5 3.2"
+        expand hole m81.5 by 3.2 minimum_space 0.5
+    rule METAL8.EA.1.4   "Min METAL8 hole for M8 > 3.0 7.2"
+        expand hole m83.0 by 7.2 minimum_space 0.9
+    rule METAL8.EA.1.5   "Min METAL8 hole for M8 > 4.5 21"
+        expand hole m84.5 by 21 minimum_space 1.5
+    rule METAL8.EA.1.6   "Min METAL8 hole for M8 > 7.5 50" 
+        expand hole m87.5 by 50 minimum_space 2.5
+    //
+    // VIA 8 rules
+    //
+    rule VIA8.W.1        "VIA8 size 0.36"
+        widen VIA8 by 0.36
+    rule VIA8.SP.1       "Min VIA8 spacing 0.36"
+        space VIA8 over v8region by 0.36
+    rule VIA8.E.1        "Min METAL8 enclosure of VIA8 0.03 eol 0.08"
+//      enclose VIA8 with METAL8 by 0.03 end-of-line 0.08
+        enclose VIA8 with METAL8 by 0.08 // larger to be compatible with symbolics
+    //
+    // METAL 9 rules
+    //
+    rule METAL9.W.1      "Min METAL9 width 0.44"
+        widen METAL9 by 0.44
+    rule METAL9.SP.1.1   "Min METAL9 spacing 0.44"
+        space METAL9 by 0.44
+    rule METAL9.SP.1.2   "METAL9 spacing - one > 1.5 parallel length > 1.5 0.5"
+        space m91.5 from METAL9 by 0.44 common-run > 1.5 by 0.5 scale MxScale
+    rule METAL9.SP.1.3   "METAL9 spacing - one > 1.5 parallel length > 1.5 0.9"
+        space m93.0 from METAL9 by 0.44 common-run > 3.0 by 0.9 scale MxScale
+    rule METAL9.SP.1.4   "METAL9 spacing - one > 1.5 parallel length > 1.5 1.5"
+        space m94.5 from METAL9 by 0.44 common-run > 4.5 by 1.5 scale MxScale
+    rule METAL9.SP.1.5   "METAL9 spacing - one > 1.5 parallel length > 1.5 2.5"
+        space m97.5 from METAL9 by 0.44 common-run > 7.5 by 2.5 scale MxScale
+    rule METAL9.E.1      "Min METAL9 enclosure of VIA8 0.05 eol 0.1"
+//      enclose VIA8 with METAL9 by 0.05 end-of-line 0.1
+        enclose VIA8 with METAL9 by 0.1 // larger to be compatible with symbolics
+    rule METAL9.A.1      "Min METAL9 area 0.2"
+        expand area METAL9 by 0.2
+    rule METAL9.EA.1     "Min METAL9 enclose area 0.5"
+        expand hole METAL9 by 0.5
+    rule METAL9.EA.1.2   "Min METAL9 hole for M9 > 0.5 0.8"
+        expand hole m90.5 by 0.8 minimum_space 0.44
+    rule METAL9.EA.1.3   "Min METAL9 hole for M9 > 1.5 3.2"
+        expand hole m91.5 by 3.2 minimum_space 0.5
+    rule METAL9.EA.1.4   "Min METAL9 hole for M9 > 3.0 7.2"
+        expand hole m93.0 by 7.2 minimum_space 0.9
+    rule METAL9.EA.1.5   "Min METAL9 hole for M9 > 4.5 21"
+        expand hole m94.5 by 21 minimum_space 1.5
+    rule METAL9.EA.1.6   "Min METAL9 hole for M9 > 7.5 50" 
+        expand hole m97.5 by 50 minimum_space 2.5
+end
+
+//
+//  Non-foundry rules
+//
+rules
+    rule ABOX.base.E "Enclose base with ABOX"
+        enclose base with ABOX by 0
+    rule ABOX.W "Widen ABOX by 0"
+        widen ABOX by 0
+    rule ABOX.M1.E "Enclose METAL1 with ABOX"
+        enclose METAL1 with ABOX unless coincident by 0.01
+    rule ABOX.M1.O "Keep METAL1 on ABOX"
+        extend METAL1 over ABOX by 0
+    rule ABOX.M2.E "Enclose METAL2 with ABOX"
+        enclose METAL2 with ABOX unless coincident by 0.01
+    rule ABOX.M3.E "Enclose METAL3 with ABOX"
+        enclose METAL3 with ABOX unless coincident by 0.01
+    rule ABOX.M4.E "Enclose METAL4 with ABOX"
+        enclose METAL4 with ABOX unless coincident by 0.01
+    rule ABOX.M5.E "Enclose METAL5 with ABOX"
+        enclose METAL5 with ABOX unless coincident by 0.01
+    rule ABOX.M6.E "Enclose METAL6 with ABOX"
+        enclose METAL6 with ABOX unless coincident by 0.01
+
+    rule Scale.via1 "Scale large via1 regions"
+        scale VIA1 & v1array by VxScale length by VxArrayLengthScale
+    rule Scale.via1 "Scale large via1 regions"
+        scale VIA1 & ~v1array by VxScale length by VxScale
+    rule Scale.via2 "Scale large via2 regions"
+        scale VIA2 & v2array by VxScale length by VxArrayLengthScale
+    rule Scale.via2 "Scale large via2 regions"
+        scale VIA2 & ~v2array by VxScale length by VxScale
+    rule Scale.via3 "Scale large via3 regions"
+        scale VIA3 & v3array by VxScale length by VxArrayLengthScale
+    rule Scale.via3 "Scale large via3 regions"
+        scale VIA3 & ~v3array by VxScale length by VxScale
+    rule Scale.via4 "Scale large via4 regions"
+        scale VIA4 & v4array by VxScale length by VxArrayLengthScale
+    rule Scale.via4 "Scale large via4 regions"
+        scale VIA4 & ~v4array by VxScale length by VxScale
+    rule Scale.via5 "Scale large via5 regions"
+        scale VIA5 & v5array by VxScale length by VxArrayLengthScale
+    rule Scale.via5 "Scale large via5 regions"
+        scale VIA5 & ~v5array by VxScale length by VxScale
+    rule Scale.via6 "Scale large via6 regions"
+        scale VIA6 & v6array by VxScale length by VxArrayLengthScale
+    rule Scale.via6 "Scale large via6 regions"
+        scale VIA6 & ~v6array by VxScale length by VxScale
+
+    rule Allgeo.w "Allgeo width is 0"
+        widen ALLGEO by 0
+    rule Allgeo.sp "Allgeom spacing is 0"
+        space ALLGEO by 0
+end
+
+//
+// Preserve bus widths and prevent metals from getting wider than the current
+// width bin based on spacing and redundant via design rules
+//
+design_rules
+    rule M1.scale_0.4 "Prevent M1 < 0.4 from getting larger"
+        scale m1_le_0.4 by 0 maximum 0.4
+    rule M1.scale_1.0 "Prevent M1 < 1.0 from getting larger"
+        scale m1_gt_0.4_le_1.0 by M1Scale maximum 1.0
+    rule M1.scale_1.0 "Prevent M1 < 1.5 from getting larger"
+        scale m1_gt_1.0_le_1.5 by M1Scale maximum 1.5
+    rule M1.scale_3.0 "Prevent M1 < 3.0 from getting larger"
+        scale m1_gt_1.5_le_3.0 by M1Scale maximum 3.0
+    rule M2.scale_0.4 "Prevent M2 < 0.4 from getting larger"
+        scale m2_le_0.4 by 0 maximum 0.4
+    rule M2.scale_1.0 "Prevent M2 < 1.0 from getting larger"
+        scale m2_gt_0.4_le_1.0 by MxScale maximum 1.0
+    rule M2.scale_1.5 "Prevent M2 < 1.5 from getting larger"
+        scale m2_gt_1.0_le_1.5 by MxScale maximum 1.5
+    rule M2.scale_3.0 "Prevent M2 < 3.0 from getting larger"
+        scale m2_gt_1.5_le_3.0 by MxScale maximum 3.0
+    rule M3.scale_0.4 "Prevent M3 < 0.4 from getting larger"
+        scale m3_le_0.4 by 0 maximum 0.4
+    rule M3.scale_1.0 "Prevent M3 < 1.0 from getting larger"
+        scale m3_gt_0.4_le_1.0 by MxScale maximum 1.0
+    rule M3.scale_1.5 "Prevent M3 < 1.5 from getting larger"
+        scale m3_gt_1.0_le_1.5 by MxScale maximum 1.5
+    rule M3.scale_3.0 "Prevent M3 < 3.0 from getting larger"
+        scale m3_gt_1.5_le_3.0 by MxScale maximum 3.0
+    rule M3.scale_3 "Prevent M3 > 3.0 from getting too large"
+        scale m33.0 by MxScale maximum 12.0
+    rule M4.scale_0.4 "Prevent M4 < 0.4 from getting larger"
+        scale m4_le_0.4 by 0 maximum 0.4
+    rule M4.scale_1.0 "Prevent M4 < 1.0 from getting larger"
+        scale m4_gt_0.4_le_1.0 by MxScale maximum 1.0
+    rule M4.scale_1.5 "Prevent M4 < 1.5 from getting larger"
+        scale m4_gt_1.0_le_1.5 by MxScale maximum 1.5
+    rule M4.scale_3.0 "Prevent M4 < 3.0 from getting larger"
+        scale m4_gt_1.5_le_3.0 by MxScale maximum 3.0
+    rule M4.scale_3 "Prevent M4 > 3.0 from getting too large"
+        scale m43.0 by MxScale maximum 12.0
+    rule M5.scale_0.4 "Prevent M5 < 0.4 from getting larger"
+        scale m5_le_0.4 by 0 maximum 0.4
+    rule M5.scale_1.0 "Prevent M5 < 1.0 from getting larger"
+        scale m5_gt_0.4_le_1.0 by MxScale maximum 1.0
+    rule M5.scale_1.5 "Prevent M5 < 1.5 from getting larger"
+        scale m5_gt_1.0_le_1.5 by MxScale maximum 1.5
+    rule M5.scale_3.0 "Prevent M5 < 3.0 from getting larger"
+        scale m5_gt_1.5_le_3.0 by MxScale maximum 3.0
+    rule M5.scale_3 "Prevent M5 > 3.0 from getting too large"
+        scale m53.0 by MxScale maximum 12.0
+    rule M6.scale_0.4 "Prevent M6 < 0.4 from getting larger"
+        scale m6_le_0.4 by 0 maximum 0.4
+    rule M6.scale_1.0 "Prevent M6 < 1.0 from getting larger"
+        scale m6_gt_0.4_le_1.0 by MxScale maximum 1.0
+    rule M6.scale_1.5 "Prevent M6 < 1.5 from getting larger"
+        scale m6_gt_1.0_le_1.5 by MxScale maximum 1.5
+    rule M6.scale_3.0 "Prevent M6 < 3.0 from getting larger"
+        scale m6_gt_1.5_le_3.0 by MxScale maximum 3.0
+    rule M6.scale_3 "Prevent M6 > 3.0 from getting too large"
+        scale m63.0 by MxScale maximum 12.0
+    rule M7.scale_0.4 "Prevent M7 < 0.4 from getting larger"
+        scale m7_le_0.4 by 0 maximum 0.4
+    rule M7.scale_1.0 "Prevent M7 < 1.0 from getting larger"
+        scale m7_gt_0.4_le_1.0 by MxScale maximum 1.0
+    rule M7.scale_1.5 "Prevent M7 < 1.5 from getting larger"
+        scale m7_gt_1.0_le_1.5 by MxScale maximum 1.5
+    rule M7.scale_3.0 "Prevent M7 < 3.0 from getting larger"
+        scale m7_gt_1.5_le_3.0 by MxScale maximum 3.0
+    rule M7.scale_3 "Prevent M7 > 3.0 from getting too large"
+        scale m73.0 by MxScale maximum 12.0
+end
+rules
+    rule TEMP.W.1        "Min TEMP width 0.1 (W.1,W.2,&W.5) 45s 0.18"
+        widen TEMP by 0.1 
+    rule TEMP.SP.1       "Min TEMP space 0.12 45s 0.22"
+        space TEMP by 0.12 
+    rule TEMP.SP.2       "Min TEMP and METAL1 spacing is 0"
+        space TEMP from METAL1 by 0
+    rule TEMP.SP.3       "Min TEMP and METAL2 spacing is 0"
+        space TEMP from METAL2 by 0
+    rule FATMETAL        "  for fat metal"
+        space VIA1 from m2_gt_1.5_le_3.0 & METAL2 by 0 // to prevent via insertion on large METAL2
+        
+end

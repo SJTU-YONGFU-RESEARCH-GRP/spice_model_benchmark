@@ -1,0 +1,32 @@
+// Generated for: spectre (Feb  2 16:40:45 2012 )
+// Library name: gsclib045
+// Cell name: FSWNX1
+// View name: schematic
+
+simulator lang=spectre
+
+subckt FSWNX1 PSOn PSOn_out VSS VDD ExtVSS
+PM2 (pso PSOn VDD VDD) g45p1svt w=(390n) l=45n nf=1 as=54.6f ad=54.6f \
+        ps=1.06u pd=1.06u nrd=358.974m nrs=358.974m sa=140n sb=140n \
+        sd=160n sca=114.89040 scb=0.09003 scc=0.01377 m=(1)
+PM1 (PSOn_out pso VDD VDD) g45p1svt w=(390n) l=45n nf=1 as=54.6f \
+        ad=54.6f ps=1.06u pd=1.06u nrd=358.974m nrs=358.974m sa=140n \
+        sb=140n sd=160n sca=114.89040 scb=0.09003 scc=0.01377 m=(1)
+mp0 (n0 pso VDD VDD) g45p1svt w=(900n) l=45n nf=2 as=126f ad=72f \
+        ps=2.36u pd=1.22u nrd=88.8889m nrs=155.556m sa=140n sb=140n \
+        sd=160n sca=106.17580 scb=0.08550 scc=0.01265 m=(1)
+NM2 (ExtVSS PSOn pso ExtVSS) g45n1svt w=(260n) l=45n nf=1 as=36.4f \
+        ad=36.4f ps=800n pd=800n nrd=538.462m nrs=538.462m sa=140n sb=140n \
+        sd=160n sca=144.98299 scb=0.10251 scc=0.01780 m=(1)
+NM0 (ExtVSS pso PSOn_out ExtVSS) g45n1svt w=(260n) l=45n nf=1 as=36.4f \
+        ad=36.4f ps=800n pd=800n nrd=538.462m nrs=538.462m sa=140n sb=140n \
+        sd=160n sca=144.98299 scb=0.10251 scc=0.01780 m=(1)
+mn0 (ExtVSS pso n0 ExtVSS) g45n1svt w=(600n) l=45n nf=2 as=84f ad=48f \
+        ps=1.76u pd=920n nrd=133.333m nrs=233.333m sa=140n sb=140n sd=160n \
+        sca=133.40892 scb=0.09829 scc=0.01624 m=(1)
+NM1 (ExtVSS n0 VSS ExtVSS) g45n1hvt w=(1.2u) l=45n nf=4 as=132f ad=96f \
+        ps=2.68u pd=1.84u nrd=66.6667m nrs=91.6667m sa=140n sb=140n \
+        sd=160n sca=133.40892 scb=0.09829 scc=0.01624 m=(20)
+ends FSWNX1
+// End of subcircuit definition.
+

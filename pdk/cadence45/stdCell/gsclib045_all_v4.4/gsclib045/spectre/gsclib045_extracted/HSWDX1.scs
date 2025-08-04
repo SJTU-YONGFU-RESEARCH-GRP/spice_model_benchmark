@@ -1,0 +1,243 @@
+// Generated for: spectre (May  1 08:11:28 2013 )
+// Library name: gsclib045
+// Cell name: HSWDX1
+// View name: extracted
+
+simulator lang=spectre
+
+subckt HSWDX1 ExtVDD PSO1 PSO1_out PSO2 PSO2_out VDD VSS
+PM3 (\56\:VDD n2 \13\:ExtVDD ExtVDD) g45p1hvt w=(4.5e-07) l=4.5e-08 \
+        nf=1 as=6.3e-14 ad=6.3e-14 ps=1.18e-06 pd=1.18e-06 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=1.4e-07 sd=160n sca=12.0912 \
+        scb=0.0107219 scc=0.000815487 m=(1)
+PM0_41__rcx (\1\:VDD n1 ExtVDD ExtVDD) g45p1hvt w=(4.5e-07) l=4.5e-08 \
+        nf=1 as=7.136e-14 ad=7.136e-14 ps=1.21714e-06 pd=1.21714e-06 \
+        nrd=1.16667 nrs=1.16667 sa=1.165e-06 sb=1.37e-06 sd=160n \
+        sca=4.07325 scb=0.000378105 scc=2.57733e-07 m=(14)
+PM0_17__rcx (\1\:VDD n1 ExtVDD ExtVDD) g45p1hvt w=(4.5e-07) l=4.5e-08 \
+        nf=1 as=7.071e-14 ad=7.2e-14 ps=1.21429e-06 pd=1.22e-06 \
+        nrd=1.16667 nrs=1.16667 sa=1.165e-06 sb=1.37e-06 sd=160n \
+        sca=4.07325 scb=0.000378105 scc=2.57733e-07 m=(14)
+PM0_44__rcx (\1\:VDD n1 ExtVDD ExtVDD) g45p1hvt w=(4.5e-07) l=4.5e-08 \
+        nf=1 as=7.065e-14 ad=7.155e-14 ps=1.214e-06 pd=1.218e-06 \
+        nrd=1.16667 nrs=1.16667 sa=1.4e-07 sb=2e-06 sd=160n sca=4.07325 \
+        scb=0.000378105 scc=2.57733e-07 m=(20)
+PM8 (\16\:pso1n \1\:PSO1 \67\:ExtVDD ExtVDD) g45p1svt w=(3.9e-07) \
+        l=4.5e-08 nf=1 as=5.46e-14 ad=5.46e-14 ps=1.06e-06 pd=1.06e-06 \
+        nrd=1.16667 nrs=1.16667 sa=1.4e-07 sb=1.4e-07 sd=160n sca=38.4244 \
+        scb=0.0401517 scc=0.00462137 m=(1)
+PM7 (\10\:pso2n \3\:PSO2 \18\:ExtVDD ExtVDD) g45p1svt w=(3.9e-07) \
+        l=4.5e-08 nf=1 as=5.46e-14 ad=5.46e-14 ps=1.06e-06 pd=1.06e-06 \
+        nrd=1.16667 nrs=1.16667 sa=1.4e-07 sb=1.4e-07 sd=160n sca=28.2012 \
+        scb=0.0315683 scc=0.00281009 m=(1)
+PM5 (\1\:PSO2_out \5\:pso2n \46\:ExtVDD ExtVDD) g45p1svt w=(3.9e-07) \
+        l=4.5e-08 nf=1 as=5.46e-14 ad=5.46e-14 ps=1.06e-06 pd=1.06e-06 \
+        nrd=1.16667 nrs=1.16667 sa=1.4e-07 sb=1.4e-07 sd=160n sca=13.1375 \
+        scb=0.0121086 scc=0.000940231 m=(1)
+PM6 (\3\:PSO1_out pso1n \89\:ExtVDD ExtVDD) g45p1svt w=(3.9e-07) \
+        l=4.5e-08 nf=1 as=5.46e-14 ad=5.46e-14 ps=1.06e-06 pd=1.06e-06 \
+        nrd=1.16667 nrs=1.16667 sa=1.4e-07 sb=1.4e-07 sd=160n sca=12.3799 \
+        scb=0.0113799 scc=0.000804813 m=(1)
+C1 (PSO1_out VSS) capacitor c=3.01507e-17
+C2 (ExtVDD VSS) capacitor c=2.00009e-15
+C3 (PSO1 VSS) capacitor c=4.39691e-17
+C4 (VDD VSS) capacitor c=2.98588e-16
+C5 (PSO2 VSS) capacitor c=7.99439e-17
+C6 (PSO2_out VSS) capacitor c=4.30565e-17
+C7 (pso2n VSS) capacitor c=3.53116e-17
+C8 (n2 VSS) capacitor c=8.75781e-17
+C9 (pso1n VSS) capacitor c=5.07915e-17
+C10 (n1 VSS) capacitor c=1.17757e-15
+C11 (\5\:pso2n VSS) capacitor c=2.98527e-17
+C12 (\6\:pso2n VSS) capacitor c=3.2615e-17
+C13 (\3\:PSO2 VSS) capacitor c=4.17307e-17
+C14 (\1\:PSO1 VSS) capacitor c=3.58323e-17
+C15 (\7\:pso1n VSS) capacitor c=2.71642e-17
+C16 (\7\:pso2n VSS) capacitor c=3.33106e-17
+C17 (\1\:PSO2 VSS) capacitor c=2.82299e-17
+C18 (\4\:PSO1 VSS) capacitor c=2.87625e-17
+C19 (\15\:n1 VSS) capacitor c=1.11508e-16
+C20 (\2\:n2 VSS) capacitor c=8.76834e-17
+C21 (\4\:pso2n VSS) capacitor c=1.10749e-17
+C22 (\1\:ExtVDD VSS) capacitor c=1.57425e-17
+C23 (\2\:ExtVDD VSS) capacitor c=8.94372e-18
+C24 (\2\:PSO2 VSS) capacitor c=2.89862e-17
+C25 (\3\:PSO1 VSS) capacitor c=1.45477e-17
+C26 (\1\:VDD VSS) capacitor c=2.52388e-15
+C27 (\3\:PSO1_out VSS) capacitor c=7.8456e-17
+C28 (\89\:ExtVDD VSS) capacitor c=6.29621e-17
+C29 (\56\:VDD VSS) capacitor c=9.12347e-17
+C30 (\13\:ExtVDD VSS) capacitor c=1.30151e-16
+C31 (\1\:PSO2_out VSS) capacitor c=8.29458e-17
+C32 (\62\:n1 VSS) capacitor c=4.06693e-16
+C33 (\46\:ExtVDD VSS) capacitor c=6.98402e-17
+C34 (\5\:n2 VSS) capacitor c=1.03684e-16
+C35 (\48\:ExtVDD VSS) capacitor c=7.88798e-17
+C36 (\10\:pso2n VSS) capacitor c=7.96228e-17
+C37 (\16\:pso1n VSS) capacitor c=7.21478e-17
+C38 (\18\:ExtVDD VSS) capacitor c=6.15679e-17
+C39 (\67\:ExtVDD VSS) capacitor c=5.7033e-17
+C40 (\1\:PSO1_out VSS) capacitor c=6.39315e-17
+C41 (\3\:PSO2_out VSS) capacitor c=4.12401e-17
+C42 (\3\:n2 VSS) capacitor c=6.89222e-17
+C43 (\12\:pso2n VSS) capacitor c=5.09679e-17
+C44 (\19\:pso1n VSS) capacitor c=5.22635e-17
+C45 (\2\:PSO1 VSS) capacitor c=1.76987e-17
+C46 (\2\:pso2n VSS) capacitor c=2.47745e-17
+C47 (\3\:pso2n VSS) capacitor c=2.12217e-17
+C48 (\2\:pso1n VSS) capacitor c=2.79414e-17
+C49 (\3\:pso1n VSS) capacitor c=2.79905e-16
+C50 (VDD VSS) capacitor c=6.41555e-17
+C51 (ExtVDD VSS) capacitor c=8.77306e-16
+C52 (ExtVDD VSS) capacitor c=9.08154e-16
+C53 (\5\:PSO1 VSS) capacitor c=2.63831e-17
+C54 (\8\:pso2n VSS) capacitor c=3.48991e-17
+C55 (\9\:pso2n VSS) capacitor c=4.4732e-17
+C56 (\18\:pso1n VSS) capacitor c=5.35459e-17
+C57 (\21\:pso1n VSS) capacitor c=4.98985e-17
+C58 (\7\:n2 VSS) capacitor c=4.95254e-17
+C59 (\70\:n1 VSS) capacitor c=7.22649e-17
+C60 (\12\:ExtVDD VSS) capacitor c=6.44178e-17
+C61 (\15\:ExtVDD VSS) capacitor c=7.62542e-17
+C62 (\16\:ExtVDD VSS) capacitor c=4.65908e-17
+C63 (\17\:ExtVDD VSS) capacitor c=5.89521e-17
+C64 (\62\:ExtVDD VSS) capacitor c=6.29856e-17
+C65 (\63\:ExtVDD VSS) capacitor c=3.8319e-16
+C66 (\66\:ExtVDD VSS) capacitor c=3.7242e-17
+C67 (\11\:VDD VSS) capacitor c=1.90558e-16
+Rk19 (PSO1_out \2\:PSO1_out) resistor r=0.2779 c=0
+Rk20 (PSO1_out \4\:PSO1_out) resistor r=0.2761 c=0
+Rk29 (ExtVDD \12\:ExtVDD) resistor r=0.2032 c=0
+Rk30 (\12\:ExtVDD \14\:ExtVDD) resistor r=0.5738 c=0
+Rk31 (\14\:ExtVDD \15\:ExtVDD) resistor r=0.5917 c=0
+Rk32 (\15\:ExtVDD \16\:ExtVDD) resistor r=0.3575 c=0
+Rk33 (\16\:ExtVDD \17\:ExtVDD) resistor r=0.122 c=0
+Rk34 (\17\:ExtVDD \19\:ExtVDD) resistor r=0.4259 c=0
+Rk48 (\15\:ExtVDD \47\:ExtVDD) resistor r=0.244 c=0
+Rk49 (\16\:ExtVDD \49\:ExtVDD) resistor r=0.233 c=0
+Rk59 (ExtVDD \62\:ExtVDD) resistor r=0.4763 c=0
+Rk60 (\62\:ExtVDD \63\:ExtVDD) resistor r=0.2821 c=0
+Rk63 (\63\:ExtVDD \66\:ExtVDD) resistor r=0.1226 c=0
+Rk64 (\66\:ExtVDD \68\:ExtVDD) resistor r=0.4894 c=0
+Rk75 (\62\:ExtVDD \90\:ExtVDD) resistor r=0.2208 c=0
+Rk113 (\3\:VSS VSS) resistor r=0.2001 c=0
+Rk112 (\2\:VSS \3\:VSS) resistor r=1.0018 c=0
+Rk114 (VSS \4\:VSS) resistor r=0.3557 c=0
+Rk115 (\4\:VSS \5\:VSS) resistor r=0.1799 c=0
+Rk118 (\5\:VSS \8\:VSS) resistor r=0.0549 c=0
+Rk120 (\9\:VSS VSS) resistor r=0.225 c=0
+Rk119 (\8\:VSS \9\:VSS) resistor r=0.1676 c=0
+Rk121 (\4\:VSS \11\:VSS) resistor r=0.2253 c=0
+Rk125 (\9\:VSS \19\:VSS) resistor r=0.2253 c=0
+Rk127 (\22\:VSS VSS) resistor r=0.2001 c=0
+Rk126 (\21\:VSS \22\:VSS) resistor r=1.0018 c=0
+Rk129 (\23\:VSS VSS) resistor r=0.2365 c=0
+Rk128 (VSS \23\:VSS) resistor r=0.7163 c=0
+Rk130 (VSS \24\:VSS) resistor r=0.0505 c=0
+Rk131 (\24\:VSS \26\:VSS) resistor r=0.5041 c=0
+Rk132 (\23\:VSS \28\:VSS) resistor r=0.3103 c=0
+Rk133 (VSS \30\:VSS) resistor r=0.3743 c=0
+Rk2 (\5\:PSO1 PSO1) resistor r=0.01431 c=0
+Rk86 (\1\:VDD VDD) resistor r=0.02132 c=0
+Rk88 (\11\:VDD VDD) resistor r=0.6207 c=0
+Rk87 (VDD \11\:VDD) resistor r=0.3908 c=0
+Rk111 (\11\:VDD \57\:VDD) resistor r=0.3589 c=0
+Rk11 (\2\:PSO2_out PSO2_out) resistor r=0.3878 c=0
+Rk12 (PSO2_out \4\:PSO2_out) resistor r=0.02008 c=0
+Rk3 (\8\:pso2n \9\:pso2n) resistor r=0.165 c=0
+Rk4 (\9\:pso2n \11\:pso2n) resistor r=0.3003 c=0
+Rk5 (\9\:pso2n \13\:pso2n) resistor r=0.2251 c=0
+Rk9 (\4\:n2 \6\:n2) resistor r=0.4947 c=0
+Rk10 (\4\:n2 \7\:n2) resistor r=0.1893 c=0
+Rk6 (\17\:pso1n \18\:pso1n) resistor r=0.3047 c=0
+Rk7 (\18\:pso1n \20\:pso1n) resistor r=0.2202 c=0
+Rk8 (\18\:pso1n \21\:pso1n) resistor r=0.1554 c=0
+Rk17 (\62\:n1 \70\:n1) resistor r=0.4316 c=0
+Rl6 (\2\:ExtVDD \1\:ExtVDD) resistor r=52.7912 c=0
+Rl1 (\1\:PSO1 \2\:PSO1) resistor r=80.5599 c=0
+Rl3 (\2\:PSO1 \4\:PSO1) resistor r=61.6718 c=0
+Rl2 (\2\:PSO1 \3\:PSO1) resistor r=3.1183 c=0
+Rl5 (\2\:PSO2 \3\:PSO2) resistor r=72.3229 c=0
+Rl4 (\1\:PSO2 \2\:PSO2) resistor r=53.4808 c=0
+Rl10 (\2\:pso2n \5\:pso2n) resistor r=58.7731 c=0
+Rl7 (pso2n \2\:pso2n) resistor r=64.9794 c=0
+Rl11 (\3\:pso2n \6\:pso2n) resistor r=60.3603 c=0
+Rl12 (\3\:pso2n \7\:pso2n) resistor r=66.1296 c=0
+Rl9 (\3\:pso2n \4\:pso2n) resistor r=8.6686 c=0
+Rl8 (\2\:pso2n \3\:pso2n) resistor r=147.121 c=0
+Rl13 (n2 \2\:n2) resistor r=516.588 c=0
+Rl14 (\2\:pso1n pso1n) resistor r=97.9777 c=0
+Rl19 (\2\:pso1n \7\:pso1n) resistor r=67.7766 c=0
+Rl15 (\3\:pso1n \2\:pso1n) resistor r=184.691 c=0
+Rl41 (n1 \15\:n1) resistor r=286.043 c=0
+Rz7 (\1\:PSO1_out \2\:PSO1_out) resistor r=37.5 c=0
+Rz9 (\11\:VSS \10\:VSS) resistor r=37.5 c=0
+Rz13 (\19\:VSS \18\:VSS) resistor r=37.5 c=0
+Rz14 (\26\:VSS \25\:VSS) resistor r=37.5 c=0
+Rz15 (\28\:VSS \27\:VSS) resistor r=37.5 c=0
+Rz16 (\30\:VSS \29\:VSS) resistor r=37.5 c=0
+Rz4 (\3\:PSO2_out \4\:PSO2_out) resistor r=37.5 c=0
+Rz1 (\12\:pso2n \13\:pso2n) resistor r=37.5 c=0
+Rz3 (\3\:n2 \4\:n2) resistor r=37.5 c=0
+Rz2 (\20\:pso1n \19\:pso1n) resistor r=37.5 c=0
+Ry7 (\3\:PSO1_out \4\:PSO1_out) resistor r=20.6667 c=0
+Ry10 (\14\:ExtVDD \13\:ExtVDD) resistor r=20.6667 c=0
+Ry11 (\19\:ExtVDD \18\:ExtVDD) resistor r=20.6667 c=0
+Ry24 (\47\:ExtVDD \46\:ExtVDD) resistor r=20.6667 c=0
+Ry25 (\49\:ExtVDD \48\:ExtVDD) resistor r=20.6667 c=0
+Ry30 (\68\:ExtVDD \67\:ExtVDD) resistor r=20.6667 c=0
+Ry41 (\90\:ExtVDD \89\:ExtVDD) resistor r=20.6667 c=0
+Ry70 (\2\:VSS \1\:VSS) resistor r=7.75 c=0
+Ry71 (\3\:VSS \1\:VSS) resistor r=5.1667 c=0
+Ry72 (\8\:VSS \1\:VSS) resistor r=5.1667 c=0
+Ry73 (\21\:VSS \20\:VSS) resistor r=7.75 c=0
+Ry74 (\22\:VSS \20\:VSS) resistor r=5.1667 c=0
+Ry75 (\24\:VSS \20\:VSS) resistor r=5.1667 c=0
+Ry69 (\57\:VDD \56\:VDD) resistor r=20.6667 c=0
+Ry4 (\1\:PSO2_out \2\:PSO2_out) resistor r=20.6667 c=0
+Ry1 (\10\:pso2n \11\:pso2n) resistor r=20.6667 c=0
+Ry3 (\5\:n2 \6\:n2) resistor r=20.6667 c=0
+Ry2 (\17\:pso1n \16\:pso1n) resistor r=20.6667 c=0
+Rx7 (\17\:ExtVDD \1\:ExtVDD) resistor r=45 c=0
+Rx8 (\66\:ExtVDD \2\:ExtVDD) resistor r=45 c=0
+Rx2 (\3\:PSO1 \5\:PSO1) resistor r=45 c=0
+Rx1 (\2\:PSO2 PSO2) resistor r=45 c=0
+Rx3 (\4\:pso2n \8\:pso2n) resistor r=45 c=0
+Rx5 (\2\:n2 \7\:n2) resistor r=45 c=0
+Rx4 (\21\:pso1n \3\:pso1n) resistor r=22.5 c=0
+Rx6 (\70\:n1 \15\:n1) resistor r=22.5 c=0
+NM5 (\19\:pso1n \4\:PSO1 \18\:VSS VSS) g45n1svt w=(2.6e-07) l=4.5e-08 \
+        nf=1 as=3.64e-14 ad=3.64e-14 ps=8e-07 pd=8e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=1.4e-07 sd=160n sca=8.81533 \
+        scb=0.00706435 scc=0.000179997 m=(1)
+NM2 (\12\:pso2n \1\:PSO2 \25\:VSS VSS) g45n1svt w=(2.6e-07) l=4.5e-08 \
+        nf=1 as=3.64e-14 ad=3.64e-14 ps=8e-07 pd=8e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=1.4e-07 sd=160n sca=14.8545 \
+        scb=0.0148797 scc=0.00110433 m=(1)
+NM3 (\3\:PSO2_out pso2n \27\:VSS VSS) g45n1svt w=(2.6e-07) l=4.5e-08 \
+        nf=1 as=3.64e-14 ad=3.64e-14 ps=8e-07 pd=8e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=1.4e-07 sd=160n sca=14.8545 \
+        scb=0.0148797 scc=0.00110433 m=(1)
+NM4 (\1\:PSO1_out \7\:pso1n \10\:VSS VSS) g45n1svt w=(2.6e-07) l=4.5e-08 \
+        nf=1 as=3.64e-14 ad=3.64e-14 ps=8e-07 pd=8e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=1.4e-07 sd=160n sca=10.271 \
+        scb=0.00920849 scc=0.00026297 m=(1)
+NM1 (\3\:n2 \7\:pso2n \29\:VSS VSS) g45n1svt w=(3e-07) l=4.5e-08 nf=1 \
+        as=4.2e-14 ad=4.2e-14 ps=8.8e-07 pd=8.8e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=1.4e-07 sd=160n sca=13.8283 \
+        scb=0.0135012 scc=0.000962877 m=(1)
+NM0_1__rcx (\62\:n1 \3\:pso1n \5\:VSS VSS) g45n1svt w=(3e-07) l=4.5e-08 \
+        nf=1 as=4.8e-14 ad=4.5e-14 ps=9.2e-07 pd=9e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=7.55e-07 sd=160n sca=9.749 \
+        scb=0.00848113 scc=0.000308397 m=(4)
+PM2 (\5\:n2 \6\:pso2n \48\:ExtVDD ExtVDD) g45p1svt w=(4.5e-07) l=4.5e-08 \
+        nf=1 as=6.3e-14 ad=6.3e-14 ps=1.18e-06 pd=1.18e-06 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=1.4e-07 sd=160n sca=13.3479 \
+        scb=0.0114967 scc=0.000816483 m=(1)
+PM1_1__rcx (\62\:n1 \3\:pso1n \63\:ExtVDD ExtVDD) g45p1svt w=(4.5e-07) \
+        l=4.5e-08 nf=1 as=7.2e-14 ad=6.75e-14 ps=1.22e-06 pd=1.2e-06 \
+        nrd=1.16667 nrs=1.16667 sa=1.4e-07 sb=7.55e-07 sd=160n sca=18.5134 \
+        scb=0.0151225 scc=0.00171389 m=(4)
+ends HSWDX1
+// End of subcircuit definition.
+

@@ -1,0 +1,7 @@
+qtrek
+
+ split_vias * CONT ntap spacing 0.14 maximum 0.14
+ split_vias * CONT ptap spacing 0.14 maximum 0.14
+ split_vias * CONT CONT spacing 0.06
+
+

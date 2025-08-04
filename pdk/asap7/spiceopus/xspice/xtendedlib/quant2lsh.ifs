@@ -1,0 +1,41 @@
+/* $Id: quant2lsh.ifs v2013.10.04 FSG $ */
+
+NAME_TABLE:
+
+Spice_Model_Name: quant2lsh
+C_Function_Name:  cm_quant2lsh
+Description:      "2-level quantizer with S/H"
+
+PORT_TABLE:
+
+Port_Name:        inp       clk       out
+Description:      "input"   "clock"   "output"
+Direction:        in        in        out
+Default_Type:     v         d         d
+Allowed_Types:    [v]       [d]       [d]
+Vector:           no        no        no
+Vector_Bounds:    -         -         -
+Null_Allowed:     no        no        no
+
+PARAMETER_TABLE:
+
+Parameter_Name:     inp_th             out_ic   
+Description:        "input threshold"  "output initial condition" 
+Data_Type:          real               int      
+Default_Value:      0.0                0     
+Limits:             -                  [0 1]          
+Vector:             no                 no        
+Vector_Bounds:      -                  -         
+Null_Allowed:       no                 no      
+
+PARAMETER_TABLE:
+
+Parameter_Name:     pos_edge          t_rise        t_fall	
+Description:        "L->H edge out?"  "rise delay"  "fall delay"
+Data_Type:          int               real          real   
+Default_Value:      0                 1.0e-9        1.0e-9  
+Limits:             [0 1]             [1e-12 -]     [1e-12 -]       
+Vector:             no                no            no
+Vector_Bounds:      -                 -             -
+Null_Allowed:       no                no            no    
+

@@ -1,0 +1,12 @@
+DEFINE sample $(compute:THIS_TOOL_INST_ROOT)/tools/dfII/samples/cdslib/sample
+DEFINE US_8ths $(compute:THIS_TOOL_INST_ROOT)/tools/dfII/etc/cdslib/sheets/US_8ths
+DEFINE basic $(compute:THIS_TOOL_INST_ROOT)/tools/dfII/etc/cdslib/basic
+DEFINE analogLib $(compute:THIS_TOOL_INST_ROOT)/tools/dfII/etc/cdslib/artist/analogLib
+
+DEFINE cds_ff_mpt /home/jfales/Public/GPDK/cds_ff_mpt_v_1.0/cds_ff_mpt 
+
+DEFINE gpdk045 /home/jfales/Public/GPDK/gpdk045_v_5_0_libOnly/gpdk045
+
+DEFINE VALE_Framework_Examples_ff_mpt ./libs18.1/VALE_Framework_Examples_ff_mpt
+DEFINE VALE_Framework_Examples_45 ./libs18.1/VALE_Framework_Examples_45
+DEFINE FastXORImportLib ./VALE_RUNDIR/wd.fastXOR/FastXORImportLib

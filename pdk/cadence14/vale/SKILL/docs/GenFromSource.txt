@@ -1,0 +1,11 @@
+VALE Framework Component Module:
+   Generate from Source 
+
+Description:
+   This Component Module provides a line-item in the VALE Framework flow for opening the Generate All From Source menu.  Additional settings for the flow could be made in this module as well.
+
+   NOTE: In any design flow, it is important to follow a set/reset model for environment variables. In this way, multiple flows may co-exist in the single environment.
+
+Development Notes:
+   All aspects of this Component Module were developed by Cadence.
+   Please contact Jonathan Fales for more information: jfales@cadence.com

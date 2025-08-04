@@ -1,0 +1,309 @@
+<!DOCTYPE LAM_FILE>
+<LIBRARY_DATA>
+  <VERSION NUMBER="0.3" />
+  <LOGICAL>
+    <LIB NAME="gpdk180" >
+      <CELL NAME="nmos" >
+        <VIEW NAME="symbol" >
+          <PARAMETERS>
+            <IGNORE>
+              <CHECK>threshold applyThresh connectGates connectSD sdMtlWidth mtlCvg switchSD leftAbut rightAbut tap leftTap rightTap bottomTap topTap tapExtension tapCntRows showSimParams editAreaPerim ad as pd ps nrd nrs ld ls region degradation</CHECK>
+              <GEN>simM</GEN>
+            </IGNORE>
+          </PARAMETERS>
+        </VIEW>
+      </CELL>
+      <CELL NAME="nmos3" >
+        <VIEW NAME="symbol" >
+          <PARAMETERS>
+            <IGNORE>
+              <CHECK>threshold applyThresh connectGates connectSD sdMtlWidth mtlCvg switchSD leftAbut rightAbut tap leftTap rightTap bottomTap topTap tapExtension tapCntRows showSimParams editAreaPerim ad as pd ps nrd nrs ld ls region degradation</CHECK>
+              <GEN>simM</GEN>
+            </IGNORE>
+          </PARAMETERS>
+        </VIEW>
+      </CELL>
+      <CELL NAME="nmoshv" >
+        <VIEW NAME="symbol" >
+          <PARAMETERS>
+            <IGNORE>
+              <CHECK>threshold applyThresh connectGates connectSD sdMtlWidth mtlCvg switchSD leftAbut rightAbut tap leftTap rightTap bottomTap topTap tapExtension tapCntRows showSimParams editAreaPerim ad as pd ps nrd nrs ld ls region degradation</CHECK>
+              <GEN>simM</GEN>
+            </IGNORE>
+          </PARAMETERS>
+        </VIEW>
+      </CELL>
+      <CELL NAME="nmos3hv" >
+        <VIEW NAME="symbol" >
+          <PARAMETERS>
+            <IGNORE>
+              <CHECK>threshold applyThresh connectGates connectSD sdMtlWidth mtlCvg switchSD leftAbut rightAbut tap leftTap rightTap bottomTap topTap tapExtension tapCntRows showSimParams editAreaPerim ad as pd ps nrd nrs ld ls region degradation</CHECK>
+              <GEN>simM</GEN>
+            </IGNORE>
+          </PARAMETERS>
+        </VIEW>
+      </CELL>
+      <CELL NAME="pmos" >
+        <VIEW NAME="symbol" >
+          <PARAMETERS>
+            <IGNORE>
+              <CHECK>threshold applyThresh connectGates connectSD sdMtlWidth mtlCvg switchSD leftAbut rightAbut tap leftTap rightTap bottomTap topTap tapExtension tapCntRows showSimParams editAreaPerim ad as pd ps nrd nrs ld ls region degradation</CHECK>
+              <GEN>simM</GEN>
+            </IGNORE>
+          </PARAMETERS>
+        </VIEW>
+      </CELL>
+      <CELL NAME="pmos3" >
+        <VIEW NAME="symbol" >
+          <PARAMETERS>
+            <IGNORE>
+              <CHECK>threshold applyThresh connectGates connectSD sdMtlWidth mtlCvg switchSD leftAbut rightAbut tap leftTap rightTap bottomTap topTap tapExtension tapCntRows showSimParams editAreaPerim ad as pd ps nrd nrs ld ls region degradation</CHECK>
+              <GEN>simM</GEN>
+            </IGNORE>
+          </PARAMETERS>
+        </VIEW>
+      </CELL>
+      <CELL NAME="pmoshv" >
+        <VIEW NAME="symbol" >
+          <PARAMETERS>
+            <IGNORE>
+              <CHECK>threshold applyThresh connectGates connectSD sdMtlWidth mtlCvg switchSD leftAbut rightAbut tap leftTap rightTap bottomTap topTap tapExtension tapCntRows showSimParams editAreaPerim ad as pd ps nrd nrs ld ls region degradation</CHECK>
+              <GEN>simM</GEN>
+            </IGNORE>
+          </PARAMETERS>
+        </VIEW>
+      </CELL>
+      <CELL NAME="pmos3hv" >
+        <VIEW NAME="symbol" >
+          <PARAMETERS>
+            <IGNORE>
+              <CHECK>threshold applyThresh connectGates connectSD sdMtlWidth mtlCvg switchSD leftAbut rightAbut tap leftTap rightTap bottomTap topTap tapExtension tapCntRows showSimParams editAreaPerim ad as pd ps nrd nrs ld ls region degradation</CHECK>
+              <GEN>simM</GEN>
+            </IGNORE>
+          </PARAMETERS>
+        </VIEW>
+      </CELL>
+      <CELL NAME="nmoscap" >
+        <VIEW NAME="symbol" >
+          <PARAMETERS>
+            <IGNORE>
+              <CHECK>connectGates leftTap bottomTap rightTap topTap</CHECK>
+              <GEN>simM</GEN>
+            </IGNORE>
+          </PARAMETERS>
+        </VIEW>
+      </CELL>
+      <CELL NAME="nmoscap3" >
+        <VIEW NAME="symbol" >
+          <PARAMETERS>
+            <IGNORE>
+              <CHECK>connectGates leftTap bottomTap rightTap topTap</CHECK>
+              <GEN>simM</GEN>
+            </IGNORE>
+          </PARAMETERS>
+        </VIEW>
+      </CELL>
+      <CELL NAME="pmoscap" >
+        <VIEW NAME="symbol" >
+          <PARAMETERS>
+            <IGNORE>
+              <CHECK>connectGates leftTap bottomTap rightTap topTap</CHECK>
+              <GEN>simM</GEN>
+            </IGNORE>
+          </PARAMETERS>
+        </VIEW>
+      </CELL>
+      <CELL NAME="pmoscap3" >
+        <VIEW NAME="symbol" >
+          <PARAMETERS>
+            <IGNORE>
+              <CHECK>connectGates leftTap bottomTap rightTap topTap</CHECK>
+              <GEN>simM</GEN>
+            </IGNORE>
+          </PARAMETERS>
+        </VIEW>
+      </CELL>
+      <CELL NAME="m1res" >
+        <VIEW NAME="symbol" >
+          <PARAMETERS>
+            <IGNORE>
+              <CHECK>leftDummy rightDummy showOtherParams</CHECK>
+            </IGNORE>
+          </PARAMETERS>
+        </VIEW>
+      </CELL>
+      <CELL NAME="m2res" >
+        <VIEW NAME="symbol" >
+          <PARAMETERS>
+            <IGNORE>
+              <CHECK>leftDummy rightDummy showOtherParams</CHECK>
+            </IGNORE>
+          </PARAMETERS>
+        </VIEW>
+      </CELL>
+      <CELL NAME="m3res" >
+        <VIEW NAME="symbol" >
+          <PARAMETERS>
+            <IGNORE>
+              <CHECK>leftDummy rightDummy showOtherParams</CHECK>
+            </IGNORE>
+          </PARAMETERS>
+        </VIEW>
+      </CELL>
+      <CELL NAME="m4res" >
+        <VIEW NAME="symbol" >
+          <PARAMETERS>
+            <IGNORE>
+              <CHECK>leftDummy rightDummy showOtherParams</CHECK>
+            </IGNORE>
+          </PARAMETERS>
+        </VIEW>
+      </CELL>
+      <CELL NAME="m5res" >
+        <VIEW NAME="symbol" >
+          <PARAMETERS>
+            <IGNORE>
+              <CHECK>leftDummy rightDummy showOtherParams</CHECK>
+            </IGNORE>
+          </PARAMETERS>
+        </VIEW>
+      </CELL>
+      <CELL NAME="m6res" >
+        <VIEW NAME="symbol" >
+          <PARAMETERS>
+            <IGNORE>
+              <CHECK>leftDummy rightDummy showOtherParams</CHECK>
+            </IGNORE>
+          </PARAMETERS>
+        </VIEW>
+      </CELL>
+      <CELL NAME="nplusres" >
+        <VIEW NAME="symbol" >
+          <PARAMETERS>
+            <IGNORE>
+              <CHECK>leftDummy rightDummy showOtherParams</CHECK>
+            </IGNORE>
+          </PARAMETERS>
+        </VIEW>
+      </CELL>
+      <CELL NAME="nwellres" >
+        <VIEW NAME="symbol" >
+          <PARAMETERS>
+            <IGNORE>
+              <CHECK>leftDummy rightDummy showOtherParams</CHECK>
+            </IGNORE>
+          </PARAMETERS>
+        </VIEW>
+      </CELL>
+      <CELL NAME="polyhres" >
+        <VIEW NAME="symbol" >
+          <PARAMETERS>
+            <IGNORE>
+              <CHECK>leftDummy rightDummy showOtherParams</CHECK>
+            </IGNORE>
+          </PARAMETERS>
+        </VIEW>
+      </CELL>
+      <CELL NAME="polyres" >
+        <VIEW NAME="symbol" >
+          <PARAMETERS>
+            <IGNORE>
+              <CHECK>leftDummy rightDummy showOtherParams</CHECK>
+            </IGNORE>
+          </PARAMETERS>
+        </VIEW>
+      </CELL>
+      <CELL NAME="pplusres" >
+        <VIEW NAME="symbol" >
+          <PARAMETERS>
+            <IGNORE>
+              <CHECK>leftDummy rightDummy showOtherParams</CHECK>
+            </IGNORE>
+          </PARAMETERS>
+        </VIEW>
+      </CELL>
+    </LIB>
+  </LOGICAL>
+  <PHYSICAL>
+    <COMPONENT_TYPE_GROUPS>
+      <LIB NAME="gpdk180" >
+        <COMPONENT_TYPE_GROUP NAME="nmos1" >
+          <COMP_CLASS>NMOS</COMP_CLASS>
+          <WIDTH>w</WIDTH>
+          <ACTIVE_LP>Oxide drawing</ACTIVE_LP>
+          <FOLD_THRESH>1e-05</FOLD_THRESH>
+        </COMPONENT_TYPE_GROUP>
+        <COMPONENT_TYPE_GROUP NAME="nmos2" >
+          <COMP_CLASS>NMOS</COMP_CLASS>
+          <WIDTH>w</WIDTH>
+          <ACTIVE_LP>Oxide drawing</ACTIVE_LP>
+          <FOLD_THRESH>1e-05</FOLD_THRESH>
+        </COMPONENT_TYPE_GROUP>
+        <COMPONENT_TYPE_GROUP NAME="pmos1" >
+          <COMP_CLASS>PMOS</COMP_CLASS>
+          <WIDTH>w</WIDTH>
+          <ACTIVE_LP>Oxide drawing</ACTIVE_LP>
+          <FOLD_THRESH>1e-05</FOLD_THRESH>
+        </COMPONENT_TYPE_GROUP>
+        <COMPONENT_TYPE_GROUP NAME="pmos2" >
+          <COMP_CLASS>PMOS</COMP_CLASS>
+          <WIDTH>w</WIDTH>
+          <ACTIVE_LP>Oxide drawing</ACTIVE_LP>
+          <FOLD_THRESH>1e-05</FOLD_THRESH>
+        </COMPONENT_TYPE_GROUP>
+      </LIB>
+    </COMPONENT_TYPE_GROUPS>
+    <MAPPINGS>
+      <LIB NAME="gpdk180" >
+        <CELL NAME="nmos" >
+          <COMPONENT_TYPE>
+            <NAME>nmos1</NAME>
+            <LIB>gpdk180</LIB>
+          </COMPONENT_TYPE>
+        </CELL>
+        <CELL NAME="nmos3" >
+          <COMPONENT_TYPE>
+            <NAME>nmos1</NAME>
+            <LIB>gpdk180</LIB>
+          </COMPONENT_TYPE>
+        </CELL>
+        <CELL NAME="nmoshv" >
+          <COMPONENT_TYPE>
+            <NAME>nmos2</NAME>
+            <LIB>gpdk180</LIB>
+          </COMPONENT_TYPE>
+        </CELL>
+        <CELL NAME="nmos3hv" >
+          <COMPONENT_TYPE>
+            <NAME>nmos2</NAME>
+            <LIB>gpdk180</LIB>
+          </COMPONENT_TYPE>
+        </CELL>
+        <CELL NAME="pmos" >
+          <COMPONENT_TYPE>
+            <NAME>pmos1</NAME>
+            <LIB>gpdk180</LIB>
+          </COMPONENT_TYPE>
+        </CELL>
+        <CELL NAME="pmos3" >
+          <COMPONENT_TYPE>
+            <NAME>pmos1</NAME>
+            <LIB>gpdk180</LIB>
+          </COMPONENT_TYPE>
+        </CELL>
+        <CELL NAME="pmoshv" >
+          <COMPONENT_TYPE>
+            <NAME>pmos2</NAME>
+            <LIB>gpdk180</LIB>
+          </COMPONENT_TYPE>
+        </CELL>
+        <CELL NAME="pmos3hv" >
+          <COMPONENT_TYPE>
+            <NAME>pmos2</NAME>
+            <LIB>gpdk180</LIB>
+          </COMPONENT_TYPE>
+        </CELL>
+      </LIB>
+    </MAPPINGS>
+  </PHYSICAL>
+</LIBRARY_DATA>

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!-- created by Custom Compiler build#  ,on -->
+<file-format version="1.0" name="synopsysPrefs">
+        <preferences>
+                <pref value="false" name="dmShowVersions"/>
+                <pref value="true" name="giPromptCloseMultipleTabs"/>
+                <pref value="true" name="leCheckViasDialogMode"/>
+                <pref value="true" name="seCreateInstDialogMode"/>
+                <pref value="true" name="seCreateLabelDialogMode"/>
+                <pref value="true" name="seCreateNoteDialogMode"/>
+                <pref value="true" name="seImportSymbolDialogMode"/>
+                <pref value="background_netlisting" name="xtNetlistingPrefixes"/>
+                <pref value="HSIM HSPICE Nanosim Spectre VHDL Verilog XA" name="xtSimulationPrefixes"/>
+        </preferences>
+</file-format>

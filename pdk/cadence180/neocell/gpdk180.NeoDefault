@@ -1,0 +1,110 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;  NEOCELL DEFAULT FILE                                   ;;;
+;;;  Process:       Generic PDK 180nm                       ;;;
+;;;  Version:       2.1.6                                   ;;;
+;;;  Release Date:  05/24/2004                              ;;;
+;;;  Author:        L.Beumer-Gray                           ;;;
+;;;  History:       Inital release 10/01/04                 ;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(RoutingLayerConfig       Poly
+	(LayerUsage	PinEscape)
+	(LayerDirection	HV)
+	(LayerWidths	(baseWidth 180) (2x 360) (3x 540) (4x 720) (5x 900) (6x 1080) (7x 1260) (8x 1440) (9x 1620) (10x 1800) (11x 1980) (12x 2160))
+)
+(RoutingLayerConfig     Metal1
+	(LayerUsage	PinEscape)
+	(LayerDirection	VMostly)
+	(LayerWidths	(baseWidth 300) (2x 600) (3x 900) (4x 1200) (5x 1500) (6x 1800) (7x 2100) (8x 2400) (9x 2700) (10x 3000) (11x 3300) (12x 3600))
+)
+(RoutingLayerConfig     Metal2
+	(LayerUsage	anywhere)
+	(LayerDirection	HMostly)
+	(LayerWidths	(baseWidth 300) (2x 600) (3x 900) (4x 1200) (5x 1500) (6x 1800) (7x 2100) (8x 2400) (9x 2700) (10x 3000) (11x 3300) (12x 3600))
+)
+(RoutingLayerConfig     Metal3
+	(LayerUsage	anywhere)
+	(LayerDirection	VMostly)
+	(LayerWidths	(baseWidth 300) (2x 600) (3x 900) (4x 1200) (5x 1500) (6x 1800) (7x 2100) (8x 2400) (9x 2700) (10x 3000) (11x 3300) (12x 3600))
+)
+(RoutingLayerConfig     Metal4
+	(LayerUsage	anywhere)
+	(LayerDirection	HMostly)
+	(LayerWidths	(baseWidth 300) (2x 600) (3x 900) (4x 1200) (5x 1500) (6x 1800) (7x 2100) (8x 2400) (9x 2700) (10x 3000) (11x 3300) (12x 3600))
+)
+(RoutingLayerConfig     Metal5
+	(LayerUsage	anywhere)
+	(LayerDirection	VMostly)
+	(LayerWidths	(baseWidth 300) (2x 600) (3x 900) (4x 1200) (5x 1500) (6x 1800) (7x 2100) (8x 2400) (9x 2700) (10x 3000) (11x 3300) (12x 3600))
+)
+(RoutingLayerConfig     Metal6
+	(LayerUsage	anywhere)
+	(LayerDirection	HMostly)
+	(LayerWidths	(baseWidth 300) (2x 600) (3x 900) (4x 1200) (5x 1500) (6x 1800) (7x 2100) (8x 2400) (9x 2700) (10x 3000) (11x 3300) (12x 3600))
+)
+
+(viaContactStyle	M1_POLY1	(minnumcuts	2))
+(viaContactStyle	M1_NIMP	(minnumcuts	2))
+(viaContactStyle	M1_NWELL	(minnumcuts	2))
+(viaContactStyle	M1_PIMP	(minnumcuts	2))
+(viaContactStyle	M1_PSUB	(minnumcuts	2))
+(viaContactStyle	M2_M1	(minnumcuts	2))
+(viaContactStyle	M3_M2	(minnumcuts	2))
+(viaContactStyle  M4_M3 (minnumcuts 2))
+(viaContactStyle  M5_M4 (minnumcuts 2))
+(viaContactStyle  M6_M5 (minnumcuts 2))
+
+(placerDefaults
+	(WireSpaceScaleFactor	1.0)
+	(TerminalGeometryShareDefault	MERGEABUT)
+	(IPAllowDRCIllegal	TRUE)
+	;(AllowMergingOverSymmetryLine	FALSE)
+	(AllowMergingOverSymmetryLine	TRUE)
+	(AllowDeviceRailMerging	TRUE)
+	(PlacerOptimizationTarget	auto)
+        ;(DefaultOrientations (R0 R0MX R0MY R0MXMY)) ;; Default Orientation syntax
+)
+
+;;; Default Constraint section 
+;(constraintDefaults
+        ;(defaultDevGen nil mos nil "VXL Cell")
+        ;(defaultDevGen gpdk res nil "PMRA")
+        ;(defaultDevGen gpdk cap nil "VXL Cell")
+         
+        ;(defaultOrient nil mos nil (r0 r0mx r0my r0mxmy))
+        ;(defaultOrient gpdk res nil (r0 r90 r0mx r90mx r0my r90 my r0mxmy r90mxmy))
+        ;(defaultOrient gpdk cap nil (r0 r90 r0mx r90mx r0my r90my r0mxmy r90mxmy))
+
+        ;(pinStyle layer Metal2)
+        ;(pinStyle width 600)
+        ;(pinStyle length 600)
+        ;(pinStyle halo None)
+
+        ;(railStyle netDetection vss vdd vssa vdda pckg)
+        ;(railStyle layer Metal2)
+        ;(railStyle width 600)
+        ;(railStyle halo None)
+        ;(railStyle distanceTop 200)
+        ;(railStyle distanceBottom 200)
+
+        ;(orientation fet vertical)
+        ;(orientation res horizontal)
+        ;(orientation cap schematic)
+;)
+
+; Rail synonyms make it possible to have multiple rails on the same net.
+; They also enable you to use a name for a rail that is not a valid net
+; name in your design, if you're into that sort of thing.
+(railSynonym vdd (avd! vdd! vdda!))
+(railSynonym vdd1 (avd! vdd vdda!))
+(railSynonym vdd2 (avd! vdd vdda!))
+
+(railSynonym vss (avs! vss! vssa!))
+(railSynonym gnd (gnd! gnda))
+(railSynonym vss2 (avs! vss vssa!))
+
+
+(gdsiiOutputHierarchy devsOnly)
+(rerunGeneratorsOnApply FALSE)
+(rectilinearizationGrid 5)
+(outputPinLabelLocation DRAWING)

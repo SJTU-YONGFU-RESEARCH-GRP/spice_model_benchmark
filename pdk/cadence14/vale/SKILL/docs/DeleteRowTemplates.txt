@@ -1,0 +1,12 @@
+VALE Framework Component Module:
+   Delete Row Templates 
+
+Description:
+   If there are any Row Templates saved IN the current cellview, it will remove them. This is needed when loading custom Row Templates from a SKILL file, if the loaded template has an error in it.  Subsequent re-loads will not fix the Row Template.  First the defective Row Template must be deleted with this function, then the correct Row Template may be loaded.
+
+Input Requirements:
+   An open cellview.
+
+Development Notes:
+   All aspects of this Component Module were developed by Cadence.
+   Please contact Jonathan Fales for more information: jfales@cadence.com

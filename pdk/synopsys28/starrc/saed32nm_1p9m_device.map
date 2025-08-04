@@ -1,0 +1,45 @@
+
+//#########################################################################################
+//# SAED 32/28NM 1p9m STAR-RC device mapping file					  #
+//#											  #
+//# Revision History:									  #
+//# Rev.		date		what						  #
+//# --------------------------------------------------------------------------------------#	
+//# 1.0		02/Feb/2011	(First draft)						  #
+//#########################################################################################
+
+
+// Fields:
+// dev_netlist_model   dev_lib   dev_cell   dev_view  pin_1 pin_2 [pin_3 pin_4 ....] 
+
+pres  analogLib   presistor  ivpcell  PLUS MINUS MAG=1.0
+pcap  analogLib   pcapacitor ivpcell  PLUS MINUS MAG=1.0
+
+
+n105	 SAED_PDK_32_28    nmos3t       ivpcell  	D G S B  MAG=1.5   PROPMAP w=wtot
+n18	 SAED_PDK_32_28    nmos3t_18    ivpcell  	D G S B  MAG=1.5   PROPMAP w=wtot
+n25	 SAED_PDK_32_28    nmos3t_25    ivpcell  	D G S B  MAG=1.5   PROPMAP w=wtot
+n105	 SAED_PDK_32_28    nmos4t       ivpcell  	D G S B  MAG=1.5   PROPMAP w=wtot
+n18	 SAED_PDK_32_28    nmos4t_18    ivpcell  	D G S B  MAG=1.5   PROPMAP w=wtot
+n25	 SAED_PDK_32_28    nmos4t_25    ivpcell  	D G S B  MAG=1.5   PROPMAP w=wtot
+n105_hvt	SAED_PDK_32_28    nmos4t_hvt   ivpcell  	D G S B  MAG=1.5   PROPMAP w=wtot
+n105_lvt	SAED_PDK_32_28    nmos4t_lvt   ivpcell  	D G S B  MAG=1.5   PROPMAP w=wtot
+
+p105	 SAED_PDK_32_28   pmos3t       ivpcell      D G S B  MAG=1.5   PROPMAP w=wtot	       
+p105	 SAED_PDK_32_28   pmos4t       ivpcell      D G S B  MAG=1.5   PROPMAP w=wtot
+p18	 SAED_PDK_32_28   pmos4t_25    ivpcell      D G S B  MAG=1.5   PROPMAP w=wtot	       
+p25	 SAED_PDK_32_28   pmos4t_33    ivpcell      D G S B  MAG=1.5   PROPMAP w=wtot	       
+p105_hvt	SAED_PDK_32_28   pmos4t_hvt   ivpcell	   D G S B  MAG=1.5   PROPMAP w=wtot	       
+p105_lvt	SAED_PDK_32_28   pmos4t_lvt   ivpcell	   D G S B  MAG=1.5   PROPMAP w=wtot	      
+
+nd	SAED_PDK_32_28 ND  ivpcell	   PLUS MINUS MAG=1.5	    
+pd	SAED_PDK_32_28 PD  ivpcell	   PLUS MINUS MAG=1.5	    
+
+rnpoly	    SAED_PDK_32_28 rnpoly  ivpcell	   PLUS MINUS MAG=1.5  PROPMAP l=Leff
+rppoly	    SAED_PDK_32_28 rppoly  ivpcell	   PLUS MINUS MAG=1.5  PROPMAP l=Leff
+
+rnpoly_wos	SAED_PDK_32_28 rnpoly_wos ivpcell	   PLUS MINUS MAG=1.5  PROPMAP l=Leff
+rppoly_wos	SAED_PDK_32_28 rppoly_wos ivpcell	   PLUS MINUS MAG=1.5  PROPMAP l=Leff
+
+vpnp	    SAED_PDK_32_28  vpnp       ivpcell     C B E MAG=1.5
+hnpn	    SAED_PDK_32_28  hnpn       ivpcell     C B E MAG=1.5

@@ -1,0 +1,368 @@
+<deck version_str="1.0">
+ <properties lpa_xml_version="2.0"/>
+
+ <rule>
+  <rulename>Row528SideP1</rulename>
+  <report custom_orients="R0" />
+  <pattern_def type="squish"
+    signature="L3
+               5 4 6 4 0 "
+    x_deltas="15 19 18 34 344"
+    y_deltas="528" >
+   <pattern sel="LiAct" />
+   <pattern sel="Poly" />
+   <pattern sel="PolyTrack" />
+   <overlay_scanline_range range_str="x1 y0 x3 y1" output_layer="MARKER" />
+   <properties primary_layer="LiAct" hotspot_type="WIDTH" hotspot_level="1" >
+    <repair>
+     <hint>
+      <group>
+       <overlay_scanline_range range_str="x1 x3 y0 y1" 
+          output_layer="NOPATTERNREF_LiAct/drawing" action="ADDPATH"/>
+
+       <overlay_scanline_range range_str="x1 x3 y0 y1" 
+          output_layer="PROPERTY_imfGenerated:string:RowTermination" action="ADDPATH"/>
+
+       <overlay_scanline_range range_str="x4+34 x4+52 y0 y1"
+          output_layer="Poly/dummy" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x4+120 x4+138 y0 y1"
+          output_layer="Poly/dummy" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x4+206 x4+224 y0 y1"
+          output_layer="Poly/dummy" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x4+292 x4+310 y0 y1"
+          output_layer="Poly/dummy" action="ADDPATH"/>
+
+       <overlay_scanline_range range_str="x4-15 x4+15 y0 y1"
+          output_layer="LiAct/drawing" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x4+71 x4+101 y0 y1"
+          output_layer="LiAct/drawing" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x4+157 x4+187 y0 y1"
+          output_layer="LiAct/drawing" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x4+243 x4+273 y0 y1"
+          output_layer="LiAct/drawing" action="ADDPATH"/>
+
+      </group>
+     </hint>
+    </repair>
+   </properties>
+  </pattern_def>
+ </rule>
+
+ <rule>
+  <rulename>Row528SideP15</rulename>
+  <report custom_orients="R0 MYR180" />
+  <pattern_def type="squish"
+    signature="L2
+               3 1 0 "
+    x_deltas="15 15 416"
+    y_deltas="246" >
+   <pattern sel="LiAct" />
+   <pattern sel="PolyTrack" />
+   <overlay_scanline_range range_str="x1 y0 x2 y1" output_layer="MARKER" />
+   <properties primary_layer="LiAct" hotspot_type="WIDTH" hotspot_level="1" >
+    <repair>
+     <hint>
+      <group>
+       <overlay_scanline_range range_str="x1 x2 y0 y1" 
+          output_layer="NOPATTERNREF_LiAct/drawing" action="ADDPATH"/>
+
+       <overlay_scanline_range range_str="x1 x2 y0 y1" 
+          output_layer="PROPERTY_imfGenerated:string:RowTermination" action="ADDPATH"/>
+
+       <overlay_scanline_range range_str="x1+37 x1+67 y0-28 y1+28"
+          output_layer="Poly/dummy" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x1+141 x1+171 y0-28 y1+28"
+          output_layer="Poly/dummy" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x1+245 x1+275 y0-28 y1+28"
+          output_layer="Poly/dummy" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x1+349 x1+379 y0-28 y1+28"
+          output_layer="Poly/dummy" action="ADDPATH"/>
+
+       <overlay_scanline_range range_str="x1+89 x1+119 y0 y1"
+          output_layer="LiAct/drawing" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x1+193 x1+223 y0 y1"
+          output_layer="LiAct/drawing" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x1+297 x1+327 y0 y1"
+          output_layer="LiAct/drawing" action="ADDPATH"/>
+
+      </group>
+     </hint>
+    </repair>
+   </properties>
+  </pattern_def>
+ </rule>
+
+ <rule>
+  <rulename>Row528CornerP1</rulename>
+  <report custom_orients="R0 MYR0" />
+  <pattern_def type="squish"
+    signature="L3
+               0 0 0 0 0 /
+               4 4 4 4 0 /
+               4 4 6 4 0 /
+               5 4 6 4 0 "
+    x_deltas="15 19 18 34 344"
+    y_deltas="387 28 113 528" >
+   <pattern sel="LiAct" />
+   <pattern sel="Poly" />
+   <pattern sel="PolyTrack" />
+   <overlay_scanline_range range_str="x3 y2 x4 y3" output_layer="MARKER" />
+   <properties primary_layer="LiAct" hotspot_type="WIDTH" hotspot_level="1" >
+    <repair>
+     <hint>
+      <group>
+       <overlay_scanline_range range_str="x3 x4 y2 y3" 
+          output_layer="NOPATTERNREF_LiAct/drawing" action="ADDPATH"/>
+
+       <overlay_scanline_range range_str="x3 x4 y2 y3" 
+          output_layer="PROPERTY_imfGenerated:string:RowTermination" action="ADDPATH"/>
+
+       <overlay_scanline_range range_str="x4+34 x4+52 y0 y2+528"
+          output_layer="Poly/dummy" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x4+120 x4+138 y0 y2+528"
+          output_layer="Poly/dummy" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x4+206 x4+224 y0 y2+528"
+          output_layer="Poly/dummy" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x4+292 x4+310 y0 y2+528"
+          output_layer="Poly/dummy" action="ADDPATH"/>
+
+       <overlay_scanline_range range_str="x4-15 x4+15 y0 y2+500"
+          output_layer="LiAct/drawing" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x4+71 x4+101 y0 y2+500"
+          output_layer="LiAct/drawing" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x4+157 x4+187 y0 y2+500"
+          output_layer="LiAct/drawing" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x4+243 x4+273 y0 y2+500"
+          output_layer="LiAct/drawing" action="ADDPATH"/>
+
+      </group>
+     </hint>
+    </repair>
+   </properties>
+  </pattern_def>
+ </rule>
+
+ <rule>
+  <rulename>Row528CornerP15</rulename>
+  <report custom_orients="R0 MYR0" />
+  <pattern_def type="squish"
+    signature="L3
+               0 0 0 0 0 /
+               0 0 4 4 4 /
+               0 0 4 4 6 /
+               0 1 5 4 6 "
+    x_deltas="416 15 15 22 1"
+    y_deltas="246 28 113 830" >
+   <pattern sel="LiAct" />
+   <pattern sel="Poly" />
+   <pattern sel="PolyTrack" />
+   <overlay_scanline_range range_str="x1 y2 x2 y3" output_layer="MARKER" />
+   <properties primary_layer="LiAct" hotspot_type="WIDTH" hotspot_level="1" >
+    <repair>
+     <hint>
+      <group>
+       <overlay_scanline_range range_str="x1 x2 y1 y2" 
+          output_layer="NOPATTERNREF_LiAct/drawing" action="ADDPATH"/>
+
+       <overlay_scanline_range range_str="x1 x2 y1 y2" 
+          output_layer="PROPERTY_imfGenerated:string:RowTermination" action="ADDPATH"/>
+
+       <overlay_scanline_range range_str="x2-37 x2-67 y2+226 y2+528"
+          output_layer="Poly/dummy" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x2-141 x2-171 y2+226 y2+528"
+          output_layer="Poly/dummy" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x2-245 x2-275 y2+226 y2+528"
+          output_layer="Poly/dummy" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x2-349 x2-379 y2+226 y2+528"
+          output_layer="Poly/dummy" action="ADDPATH"/>
+
+       <overlay_scanline_range range_str="x2-89 x2-119 y1+292 y1+528"
+          output_layer="LiAct/drawing" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x2-193 x2-223 y1+292 y1+528"
+          output_layer="LiAct/drawing" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x2-297 x2-327 y1+292 y1+528"
+          output_layer="LiAct/drawing" action="ADDPATH"/>
+
+      </group>
+     </hint>
+    </repair>
+   </properties>
+  </pattern_def>
+ </rule>
+
+ <rule>
+  <rulename>Row528TxP1ToP15</rulename>
+  <report custom_orients="R0 MYR0" />
+  <pattern_def type="squish"
+    signature="L2
+               0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 /
+               0 0 2 0 0 0 2 0 0 0 2 0 0 0 2 /
+               1 0 2 0 1 0 2 0 1 0 2 0 1 0 2 "
+    x_deltas="30 22 30 22 30 20 24 20 30 18 24 18 30 19 18"
+    y_deltas="1 28 528" >
+   <pattern sel="LiAct" />
+   <pattern sel="Poly" />
+   <overlay_scanline_range range_str="x8 y1 x9 y2" output_layer="MARKER" />
+   <properties primary_layer="LiAct" hotspot_type="WIDTH" hotspot_level="1" >
+    <repair>
+     <hint>
+      <group>
+       <overlay_scanline_range range_str="x8 x9 y1 y2" 
+          output_layer="NOPATTERNREF_LiAct/drawing" action="ADDPATH"/>
+
+       <overlay_scanline_range range_str="x8 x9 y1 y2" 
+          output_layer="PROPERTY_imfGenerated:string:RowTermination" action="ADDPATH"/>
+
+       <overlay_scanline_range range_str="x2 x3 y2+226 y2+528"
+          output_layer="Poly/dummy" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x6 x7 y2+226 y2+528"
+          output_layer="Poly/dummy" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x10 x11 y2+226 y2+528"
+          output_layer="Poly/dummy" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x14 x15 y2+226 y2+528"
+          output_layer="Poly/dummy" action="ADDPATH"/>
+
+       <overlay_scanline_range range_str="x0 x1 y1+292 y1+528"
+          output_layer="LiAct/drawing" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x4 x5 y1+292 y1+528"
+          output_layer="LiAct/drawing" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x8 x9 y1+292 y1+528"
+          output_layer="LiAct/drawing" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x12 x13 y1+292 y1+528"
+          output_layer="LiAct/drawing" action="ADDPATH"/>
+
+      </group>
+     </hint>
+    </repair>
+   </properties>
+  </pattern_def>
+ </rule>
+
+ <rule>
+  <rulename>Row528TopP15</rulename>
+  <report custom_orients="R0 MYR0" />
+  <pattern_def type="squish"
+    signature="L3
+               0 0 0 /
+               4 4 4 /
+               4 4 6 /
+               5 4 6 "
+    x_deltas="15 22 15"
+    y_deltas="1 28 113 528" >
+   <pattern sel="LiAct" />
+   <pattern sel="Poly" />
+   <pattern sel="PolyTrack" />
+   <overlay_scanline_range range_str="x1 y2 x2 y3" output_layer="MARKER" />
+   <properties primary_layer="LiAct" hotspot_type="WIDTH" hotspot_level="1" >
+    <repair>
+     <hint>
+      <group>
+       <overlay_scanline_range range_str="x1 x2 y2 y3" 
+          output_layer="NOPATTERNREF_LiAct/drawing" action="ADDPATH"/>
+
+       <overlay_scanline_range range_str="x1 x2 y2 y3" 
+          output_layer="PROPERTY_imfGenerated:string:RowTermination" action="ADDPATH"/>
+
+       <overlay_scanline_range range_str="x2 x2+30 y2+226 y2+528"
+          output_layer="Poly/dummy" action="ADDPATH"/>
+
+       <overlay_scanline_range range_str="x0-15 x1 y1+292 y1+528"
+          output_layer="LiAct/drawing" action="ADDPATH"/>
+
+      </group>
+     </hint>
+    </repair>
+   </properties>
+  </pattern_def>
+ </rule>
+
+ <rule>
+  <rulename>Row528TopEdge</rulename>
+  <report custom_orients="R0" />
+  <pattern_def type="squish"
+    signature="L3
+               0 0 0 0 /
+               4 4 4 4 /
+               4 4 6 4 /
+               5 4 6 4 "
+    x_deltas="15 19 18 1"
+    y_deltas="1 28 113 528" >
+   <pattern sel="LiAct" />
+   <pattern sel="Poly" />
+   <pattern sel="PolyTrack" />
+   <overlay_scanline_range range_str="x1 y1 x2 y2" output_layer="MARKER" />
+   <properties primary_layer="LiAct" hotspot_type="WIDTH" hotspot_level="1" >
+    <repair>
+     <hint>
+      <group>
+       <overlay_scanline_range range_str="x1 x2 y1 y2" 
+          output_layer="NOPATTERNREF_LiAct/drawing" action="ADDPATH"/>
+
+       <overlay_scanline_range range_str="x1 x2 y1 y2" 
+          output_layer="PROPERTY_imfGenerated:string:RowTermination" action="ADDPATH"/>
+
+       <overlay_scanline_range range_str="x0-15 x1 y1 y1+528"
+          output_layer="LiAct/drawing" action="ADDPATH"/>
+
+       <overlay_scanline_range range_str="x0 x0+86 y2+274 y2+480"
+          output_layer="Active/dummy" action="ADDRECT"/>
+
+       <overlay_scanline_range range_str="x2 x3 y2 y2+528"
+          output_layer="Poly/dummy" action="ADDPATH"/>
+       
+       <overlay_scanline_range range_str="x0 x0+86 y2+113 y2+640"
+          output_layer="Nhvt/drawing" action="ADDRECT"/>
+       
+      </group>
+     </hint>
+    </repair>
+   </properties>
+  </pattern_def>
+ </rule>
+
+ <rule>
+  <rulename>Row528BottomEdge</rulename>
+  <report custom_orients="R0" />
+  <pattern_def type="squish"
+    signature="L3
+               5 4 6 4 /
+               4 4 6 4 /
+               4 4 4 4 /
+               0 0 0 0 "
+    x_deltas="15 19 18 1"
+    y_deltas="528 113 28 1" >
+   <pattern sel="LiAct" />
+   <pattern sel="Poly" />
+   <pattern sel="PolyTrack" />
+   <overlay_scanline_range range_str="x1 y2 x2 y3" output_layer="MARKER" />
+   <properties primary_layer="LiAct" hotspot_type="WIDTH" hotspot_level="1" >
+    <repair>
+     <hint>
+      <group>
+       <overlay_scanline_range range_str="x1 x2 y2 y3" 
+          output_layer="NOPATTERNREF_LiAct/drawing" action="ADDPATH"/>
+
+       <overlay_scanline_range range_str="x1 x2 y2 y3" 
+          output_layer="PROPERTY_imfGenerated:string:RowTermination" action="ADDPATH"/>
+
+       <overlay_scanline_range range_str="x0-15 x1 y3 y3-528"
+          output_layer="LiAct/drawing" action="ADDPATH"/>
+
+       <overlay_scanline_range range_str="x0 x0+86 y2-274 y2-480"
+          output_layer="Active/dummy" action="ADDRECT"/>
+
+       <overlay_scanline_range range_str="x2 x3 y2 y2-528"
+          output_layer="Poly/dummy" action="ADDPATH"/>
+       
+       <overlay_scanline_range range_str="x0 x0+86 y2-113 y2-640"
+          output_layer="Nhvt/drawing" action="ADDRECT"/>
+       
+      </group>
+     </hint>
+    </repair>
+   </properties>
+  </pattern_def>
+ </rule>
+
+</deck>
+

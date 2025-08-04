@@ -1,0 +1,106 @@
+// Generated for: spectre (May  1 08:17:29 2013 )
+// Library name: gsclib045
+// Cell name: OAI31XL
+// View name: extracted
+
+simulator lang=spectre
+
+subckt OAI31XL A0 A1 A2 B0 VDD VSS Y
+mp0 (n1 \1\:A0 \6\:VDD VDD) g45p1svt w=(2.15e-07) l=4.5e-08 nf=1 \
+        as=3.01e-14 ad=1.29e-14 ps=7.1e-07 pd=5.5e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=7.05e-07 sd=160n sca=16.0188 \
+        scb=0.015713 scc=0.000313368 m=(1)
+mp1 (n2 \1\:A1 n1 VDD) g45p1svt w=(2.15e-07) l=4.5e-08 nf=1 as=1.29e-14 \
+        ad=3.44e-14 ps=5.5e-07 pd=7.5e-07 nrd=1.16667 nrs=1.16667 \
+        sa=2.45e-07 sb=6e-07 sd=160n sca=14.06 scb=0.0122317 \
+        scc=0.00023485 m=(1)
+mp2 (\3\:Y \1\:A2 n2 VDD) g45p1svt w=(2.15e-07) l=4.5e-08 nf=1 \
+        as=3.44e-14 ad=4.515e-14 ps=7.5e-07 pd=8.5e-07 nrd=1.16667 \
+        nrs=1.16667 sa=4.5e-07 sb=3.95e-07 sd=160n sca=12.9232 \
+        scb=0.0102558 scc=0.000221094 m=(1)
+mp3 (\3\:Y \1\:B0 \1\:VDD VDD) g45p1svt w=(2.15e-07) l=4.5e-08 nf=1 \
+        as=3.01e-14 ad=4.515e-14 ps=7.1e-07 pd=8.5e-07 nrd=1.16667 \
+        nrs=1.16667 sa=7.05e-07 sb=1.4e-07 sd=160n sca=14.0029 \
+        scb=0.0121262 scc=0.000233621 m=(1)
+C1 (B0 VSS) capacitor c=1.31791e-16
+C2 (A0 VSS) capacitor c=5.71047e-17
+C3 (Y VSS) capacitor c=7.91239e-17
+C4 (A2 VSS) capacitor c=7.58989e-17
+C5 (A1 VSS) capacitor c=1.60082e-17
+C6 (VDD VSS) capacitor c=1.01819e-16
+C7 (n0 VSS) capacitor c=6.53882e-17
+C8 (\1\:B0 VSS) capacitor c=4.05708e-17
+C9 (\1\:A2 VSS) capacitor c=5.50587e-17
+C10 (\1\:A1 VSS) capacitor c=5.3828e-17
+C11 (\1\:A0 VSS) capacitor c=7.8497e-17
+C12 (\3\:B0 VSS) capacitor c=3.30888e-17
+C13 (\3\:A2 VSS) capacitor c=4.05185e-17
+C14 (\3\:A1 VSS) capacitor c=6.12855e-17
+C15 (\4\:A0 VSS) capacitor c=3.13973e-17
+C16 (\2\:B0 VSS) capacitor c=4.83348e-17
+C17 (\2\:A2 VSS) capacitor c=5.84417e-17
+C18 (\2\:A1 VSS) capacitor c=6.72111e-17
+C19 (\3\:A0 VSS) capacitor c=1.16046e-17
+C20 (\1\:VDD VSS) capacitor c=3.43504e-17
+C21 (\3\:Y VSS) capacitor c=7.44147e-17
+C22 (\6\:VDD VSS) capacitor c=1.74867e-17
+C23 (\1\:Y VSS) capacitor c=6.73446e-17
+C24 (\3\:n0 VSS) capacitor c=7.84467e-17
+C25 (\2\:A0 VSS) capacitor c=3.7137e-17
+C26 (\4\:A1 VSS) capacitor c=7.6366e-17
+C27 (\4\:A2 VSS) capacitor c=4.52873e-17
+C28 (\4\:VDD VSS) capacitor c=2.39671e-17
+C29 (\5\:VDD VSS) capacitor c=5.75697e-18
+Rk1 (\5\:A0 A0) resistor r=0.002987 c=0
+Rk6 (\2\:Y Y) resistor r=0.5268 c=0
+Rk7 (Y \4\:Y) resistor r=0.2612 c=0
+Rk3 (A2 \4\:A2) resistor r=0.1105 c=0
+Rk2 (\4\:A1 A1) resistor r=0.0239 c=0
+Rk13 (\3\:VSS VSS) resistor r=0.2349 c=0
+Rk14 (VSS \5\:VSS) resistor r=0.181 c=0
+Rk15 (\3\:VSS \7\:VSS) resistor r=0.1774 c=0
+Rk8 (\2\:VDD \4\:VDD) resistor r=0.4422 c=0
+Rk10 (\5\:VDD VDD) resistor r=0.07956 c=0
+Rk9 (\4\:VDD \5\:VDD) resistor r=0.2198 c=0
+Rk11 (\5\:VDD \7\:VDD) resistor r=0.2712 c=0
+Rk4 (\2\:n0 \4\:n0) resistor r=0.4883 c=0
+Rl8 (\1\:B0 \2\:B0) resistor r=162.23 c=0
+Rl9 (\2\:B0 \3\:B0) resistor r=96.8456 c=0
+Rl1 (\1\:A0 \2\:A0) resistor r=213.83 c=0
+Rl3 (\2\:A0 \4\:A0) resistor r=104.649 c=0
+Rl2 (\2\:A0 \3\:A0) resistor r=5.6709 c=0
+Rl6 (\1\:A2 \2\:A2) resistor r=158.384 c=0
+Rl7 (\2\:A2 \3\:A2) resistor r=100.692 c=0
+Rl4 (\1\:A1 \2\:A1) resistor r=29.5379 c=0
+Rl5 (\2\:A1 \3\:A1) resistor r=229.538 c=0
+Rz3 (\1\:Y \2\:Y) resistor r=75 c=0
+Rz5 (\4\:VSS \5\:VSS) resistor r=75 c=0
+Rz6 (\6\:VSS \7\:VSS) resistor r=75 c=0
+Rz1 (n0 \2\:n0) resistor r=75 c=0
+Rz2 (\3\:n0 \4\:n0) resistor r=75 c=0
+Ry1 (\3\:Y \4\:Y) resistor r=62 c=0
+Ry2 (\1\:VDD \2\:VDD) resistor r=62 c=0
+Ry3 (\6\:VDD \7\:VDD) resistor r=62 c=0
+Rx4 (\2\:B0 B0) resistor r=45 c=0
+Rx1 (\3\:A0 \5\:A0) resistor r=45 c=0
+Rx3 (\2\:A2 \4\:A2) resistor r=45 c=0
+Rx2 (\2\:A1 \4\:A1) resistor r=45 c=0
+mn0 (n0 \4\:A0 \4\:VSS VSS) g45n1svt w=(1.45e-07) l=4.5e-08 nf=1 \
+        as=2.03e-14 ad=3.19e-14 ps=5.7e-07 pd=7.3e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=9.45e-07 sd=160n sca=6.59604 \
+        scb=0.00318587 scc=2.16275e-05 m=(1)
+mn1 (n0 \3\:A1 \6\:VSS VSS) g45n1svt w=(1.45e-07) l=4.5e-08 nf=1 \
+        as=2.32e-14 ad=3.19e-14 ps=6.1e-07 pd=7.3e-07 nrd=1.16667 \
+        nrs=1.16667 sa=4.05e-07 sb=6.8e-07 sd=160n sca=6.59604 \
+        scb=0.00318587 scc=2.16275e-05 m=(1)
+mn2 (\3\:n0 \3\:A2 \6\:VSS VSS) g45n1svt w=(1.45e-07) l=4.5e-08 nf=1 \
+        as=2.32e-14 ad=3.045e-14 ps=6.1e-07 pd=7.1e-07 nrd=1.16667 \
+        nrs=1.16667 sa=6.1e-07 sb=4.75e-07 sd=160n sca=6.59604 \
+        scb=0.00318587 scc=2.16275e-05 m=(1)
+mn3 (\1\:Y \3\:B0 \3\:n0 VSS) g45n1svt w=(1.45e-07) l=4.5e-08 nf=1 \
+        as=3.045e-14 ad=3.19e-14 ps=7.1e-07 pd=7.3e-07 nrd=1.16667 \
+        nrs=1.16667 sa=8.65e-07 sb=2.2e-07 sd=160n sca=6.59604 \
+        scb=0.00318587 scc=2.16275e-05 m=(1)
+ends OAI31XL
+// End of subcircuit definition.
+

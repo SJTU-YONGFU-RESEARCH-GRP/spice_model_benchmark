@@ -1,0 +1,47 @@
+// Generated for: spectre (Mar 20 14:11:50 2013 )
+// Library name: gsclib045
+// Cell name: OAI222X1
+// View name: schematic
+
+simulator lang=spectre
+
+subckt OAI222X1 A0 A1 B0 B1 C0 C1 Y VSS VDD
+mn5 (Y C1 n0 VSS) g45n1svt w=(260n) l=45n nf=1 as=36.4f ad=36.4f ps=800n \
+        pd=800n nrd=538.462m nrs=538.462m sa=140n sb=140n sd=160n \
+        sca=144.98299 scb=0.10251 scc=0.01780 m=(1)
+mn4 (Y C0 n0 VSS) g45n1svt w=(260n) l=45n nf=1 as=36.4f ad=36.4f ps=800n \
+        pd=800n nrd=538.462m nrs=538.462m sa=140n sb=140n sd=160n \
+        sca=144.98299 scb=0.10251 scc=0.01780 m=(1)
+mn3 (n0 B1 n1 VSS) g45n1svt w=(260n) l=45n nf=1 as=36.4f ad=36.4f ps=800n \
+        pd=800n nrd=538.462m nrs=538.462m sa=140n sb=140n sd=160n \
+        sca=144.98299 scb=0.10251 scc=0.01780 m=(1)
+mn2 (n0 B0 n1 VSS) g45n1svt w=(260n) l=45n nf=1 as=36.4f ad=36.4f ps=800n \
+        pd=800n nrd=538.462m nrs=538.462m sa=140n sb=140n sd=160n \
+        sca=144.98299 scb=0.10251 scc=0.01780 m=(1)
+mn0 (n1 A0 VSS VSS) g45n1svt w=(260n) l=45n nf=1 as=36.4f ad=36.4f \
+        ps=800n pd=800n nrd=538.462m nrs=538.462m sa=140n sb=140n sd=160n \
+        sca=144.98299 scb=0.10251 scc=0.01780 m=(1)
+mn1 (n1 A1 VSS VSS) g45n1svt w=(260n) l=45n nf=1 as=36.4f ad=36.4f \
+        ps=800n pd=800n nrd=538.462m nrs=538.462m sa=140n sb=140n sd=160n \
+        sca=144.98299 scb=0.10251 scc=0.01780 m=(1)
+mp5 (Y C1 n4 VDD) g45p1svt w=(390n) l=45n nf=1 as=54.6f ad=54.6f ps=1.06u \
+        pd=1.06u nrd=358.974m nrs=358.974m sa=140n sb=140n sd=160n \
+        sca=114.89040 scb=0.09003 scc=0.01377 m=(1)
+mp4 (n4 C0 VDD VDD) g45p1svt w=(390n) l=45n nf=1 as=54.6f ad=54.6f \
+        ps=1.06u pd=1.06u nrd=358.974m nrs=358.974m sa=140n sb=140n \
+        sd=160n sca=114.89040 scb=0.09003 scc=0.01377 m=(1)
+mp3 (Y B1 n3 VDD) g45p1svt w=(390n) l=45n nf=1 as=54.6f ad=54.6f ps=1.06u \
+        pd=1.06u nrd=358.974m nrs=358.974m sa=140n sb=140n sd=160n \
+        sca=114.89040 scb=0.09003 scc=0.01377 m=(1)
+mp2 (n3 B0 VDD VDD) g45p1svt w=(390n) l=45n nf=1 as=54.6f ad=54.6f \
+        ps=1.06u pd=1.06u nrd=358.974m nrs=358.974m sa=140n sb=140n \
+        sd=160n sca=114.89040 scb=0.09003 scc=0.01377 m=(1)
+mp1 (Y A1 n2 VDD) g45p1svt w=(390n) l=45n nf=1 as=54.6f ad=54.6f ps=1.06u \
+        pd=1.06u nrd=358.974m nrs=358.974m sa=140n sb=140n sd=160n \
+        sca=114.89040 scb=0.09003 scc=0.01377 m=(1)
+mp0 (n2 A0 VDD VDD) g45p1svt w=(390n) l=45n nf=1 as=54.6f ad=54.6f \
+        ps=1.06u pd=1.06u nrd=358.974m nrs=358.974m sa=140n sb=140n \
+        sd=160n sca=114.89040 scb=0.09003 scc=0.01377 m=(1)
+ends OAI222X1
+// End of subcircuit definition.
+

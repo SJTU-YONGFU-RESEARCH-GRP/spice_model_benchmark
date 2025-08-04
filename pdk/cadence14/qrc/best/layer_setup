@@ -1,0 +1,38 @@
+pro_layer=Oxide  ext_layer=iso_pwell,nw_conn,BuriedNWell,psub stamp=2
+pro_layer=Active  ext_layer=nsd,psd finfet_marker=fin_marker_layer sheet_res=0.000001 
+pro_layer=NActive  ext_layer=ndiff_conn
+pro_layer=PActive  ext_layer=pdiff_conn
+pro_layer=NActive  ext_layer=npn_emit sheet_res=0.000001
+pro_layer=NActive  ext_layer=ntap
+pro_layer=PActive  ext_layer=ptap,ttap
+pro_layer=NPOLY  ext_layer=npoly_conn
+pro_layer=PPOLY  ext_layer=ppoly_conn
+pro_layer=NGATE  ext_layer=ngate
+pro_layer=PGATE  ext_layer=pgate
+pro_layer=LiAct  ext_layer=LiAct
+pro_layer=LiPo  ext_layer=LiPo
+pro_layer=M1  pro_color=1 ext_layer=m1_conn_mask1 color_layer=m1_conn_mask1
+pro_layer=M1  pro_color=2 ext_layer=m1_conn_mask2 color_layer=m1_conn_mask2
+pro_layer=M2  pro_color=1 ext_layer=m2_conn_mask1 color_layer=m2_conn_mask1
+pro_layer=M2  pro_color=2 ext_layer=m2_conn_mask2 color_layer=m2_conn_mask2
+pro_layer=M3  pro_color=1 ext_layer=m3_conn_mask1 color_layer=m3_conn_mask1
+pro_layer=M3  pro_color=2 ext_layer=m3_conn_mask2 color_layer=m3_conn_mask2
+pro_layer=M4  ext_layer=m4_conn
+pro_layer=M5  ext_layer=m5_conn
+pro_layer=M6  ext_layer=m6_conn
+pro_layer=M7  ext_layer=m7_conn
+pro_layer=MT  ext_layer=mt_conn
+
+pro_cont=Nactive_LiAct ext_cont=cont_ndiff
+pro_cont=Pactive_LiAct ext_cont=cont_pdiff
+pro_cont=Poly_LiPo ext_cont=cont_poly
+pro_cont=V0 ext_cont=V0_Act
+pro_cont=V0_LiPo ext_cont=V0_Po
+pro_cont=V1 ext_cont=V1
+pro_cont=V2 ext_cont=V2
+pro_cont=V3 ext_cont=V3
+pro_cont=V4 ext_cont=V4
+pro_cont=V5 ext_cont=V5
+pro_cont=V6 ext_cont=V6
+pro_cont=VT ext_cont=VT_mim
+pro_cont=VT ext_cont=VT_nomim

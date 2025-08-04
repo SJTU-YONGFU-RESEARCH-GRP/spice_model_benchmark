@@ -1,0 +1,328 @@
+**************************************************************
+*   Generic PDK Resistor models                       02/02/06
+*                                              PDK Tech Center
+*
+* 11/16/04: Moved stat. block out of inline subckt. by Kenn
+*           Included only resistor models used in RFIC2.
+* 11/17/04: Added "parameters"
+*           Added Nplus, Plus resistors.
+*           Added Process&Mismatch to Low Poly Resistor.
+*           Added Process&Mismatch to Nplus & Pplus Resistors.
+*           Added Process&Mismatch to Metal1 resistor.
+*           Added Process&Mismatch to Metal2-6 resistors..
+* 01/23/06  Removed model declaration from first line in file
+*	    Removed several "commented" lines
+*	    Moved all "model" statements such that "parameters" precede
+* 02/02/06  Changed resistor model names to include pdk name to
+*             fix problem with ams simulation
+**************************************************************
+
+simulator lang=spectre
+library gpdk
+
+section res
+*
+*
+* Nplus Resistor
+*
+*
+parameters       rshnplus=50 
+parameters       rshnplus_std=5 
+parameters       mrshnplus_std=0.5
+  statistics {
+        process{
+             vary rshnplus dist=gauss std=rshnplus_std
+           }
+        mismatch {
+             vary rshnplus dist=gauss std=mrshnplus_std
+           }
+  }
+
+
+inline subckt gpdk180_nplusres(PLUS MINUS B)
+  parameters \
+       sl = 0.6e-6 \
+       w = 0.6e-6 \
+       rcont =  15/int(((w*1e6)-0.19999)/0.4)
+  model nplusreslw rdiff level=1 tr=27 dta=0 rshr=rshnplus tcr1=3e-3 tcr2=-2e-6
+  rcont1 PLUS PLUSHEAD resistor r=rcont/2
+  gpdk180_nplusres PLUSHEAD MINUSHEAD B nplusreslw l=sl w=w
+  rcont2 MINUSHEAD MINUS resistor r=rcont/2
+ends gpdk180_nplusres
+*
+*
+* Pplus Resistor
+*
+*
+parameters       rshpplus=158 
+parameters       rshpplus_std=16 
+parameters       mrshpplus_std=1.6
+  statistics {
+        process{
+             vary rshpplus dist=gauss std=rshpplus_std
+           }
+        mismatch {
+             vary rshpplus dist=gauss std=mrshpplus_std
+           }
+  }
+
+
+inline subckt gpdk180_pplusres(PLUS MINUS B)
+  parameters \
+       sl = 0.6e-6 \
+       w = 0.6e-6 \
+       rcont =  15/int(((w*1e6)-0.19999)/0.4)
+  model pplusreslw rdiff level=1 tr=27 dta=0 rshr=rshpplus tcr1=3e-3 tcr2=-4e-6
+  rcont1 PLUS PLUSHEAD resistor r=rcont/2
+  gpdk180_pplusres PLUSHEAD MINUSHEAD B pplusreslw l=sl w=w
+  rcont2 MINUSHEAD MINUS resistor r=rcont/2
+ends gpdk180_pplusres
+*
+*
+* Low Poly Resistor
+*
+*
+parameters      rshlowp=7.5
+parameters      rshlowp_std=0.75
+parameters      mrshlowp_std=0.075
+parameters      cjlowp=1.33e-3
+parameters      cjlowp_std=0.133e-3
+parameters      mcjlowp_std=0.0133e-3
+parameters      cjswlowp=3.15e-10
+parameters      cjswlowp_std=0.315e-10
+parameters      mcjswlowp_std=0.0315e-10
+
+  statistics {
+        process{
+             vary rshlowp  dist=gauss std=rshlowp_std
+             vary cjlowp   dist=gauss std=cjlowp_std
+             vary cjswlowp dist=gauss std=cjswlowp_std
+           }
+        mismatch {
+             vary rshlowp  dist=gauss std=mrshlowp_std
+             vary cjlowp   dist=gauss std=mcjlowp_std
+             vary cjswlowp dist=gauss std=mcjswlowp_std
+           }
+  }
+
+inline subckt gpdk180_polyres(PLUS MINUS)
+  parameters \
+       sl = 0.6e-6 \
+       w = 0.6e-6 \
+       rcont =  10/int(((w*1e6)-0.19999)/0.4)
+  model polyreslw phy_res subtype=poly rsh=rshlowp cj=cjlowp cjsw=cjswlowp tc1=3e-3 tc2=-2e-6 tc1c=9.26e-4
+  rcont1 PLUS PLUSHEAD resistor r=rcont/2
+  gpdk180_polyres PLUSHEAD MINUSHEAD polyreslw l=sl w=w
+  rcont2 MINUSHEAD MINUS resistor r=rcont/2
+ends gpdk180_polyres
+*
+*
+* High Poly Resistor
+*
+*
+parameters       rshhip=352 
+parameters       rshhip_std=35 
+parameters       mrshhip_std=3.5 
+parameters       cjhip=1.33e-3
+parameters       cjhip_std=0.133e-3 
+parameters       mcjhip_std=0.0133e-3 
+parameters       cjswhip=3.15e-10 
+parameters       cjswhip_std=0.315e-10 
+parameters       mcjswhip_std=0.0315e-10
+
+  statistics {
+        process{
+             vary rshhip  dist=gauss std=rshhip_std
+             vary cjhip   dist=gauss std=cjhip_std
+             vary cjswhip dist=gauss std=cjswhip_std
+           }
+        mismatch {
+             vary rshhip  dist=gauss std=mrshhip_std
+             vary cjhip   dist=gauss std=mcjhip_std
+             vary cjswhip dist=gauss std=mcjswhip_std
+           }
+  }
+
+inline subckt gpdk180_polyhres(PLUS MINUS)
+
+parameters \
+       sl = 0.6e-6 \
+       w = 0.6e-6 \
+       rend = 15/(w*1e6) \
+       rcont = 10/int(((w*1e6)-0.19999)/0.4)
+
+  model polyhreslw phy_res subtype=poly rsh=rshhip cj=cjhip cjsw=cjswhip tc1=3e-3 tc2=-2e-6 tc1c=9.26e-4
+  rcont1 PLUS PLUSHEAD resistor r=rcont/2
+  rend1 PLUSHEAD PLUSEND resistor r=rend/2
+  gpdk180_polyhres PLUSEND MINUSEND polyhreslw l=sl w=w
+  rend2 MINUSEND MINUSHEAD resistor r=rend/2
+  rcont2 MINUSHEAD MINUS resistor r=rcont/2
+ends gpdk180_polyhres
+
+*
+*
+* Nwell resistor
+*
+*
+parameters       rshnwell=415 
+parameters       rshnwell_std=42
+parameters       mrshnwell_std=4.2
+
+  statistics {
+        process {
+             vary rshnwell dist=gauss std=rshnwell_std
+           }
+        mismatch {
+             vary rshnwell dist=gauss std=mrshnwell_std
+           }
+  }
+
+inline subckt gpdk180_nwellres(PLUS MINUS)
+parameters \
+       sl = 2.0e-6 \
+       w = 1.6e-6 \
+       rend = 320/(w*1e6) \
+       rcont = 15/int(((w*1e6)-1.199999)/0.4)
+  model nwellreslw phy_res subtype=p rsh=rshnwell etch=0 tc1=3e-3 tc2=-2e-6
+  rcont1 PLUS PLUSHEAD resistor r=rcont/2
+  rend1 PLUSHEAD PLUSEND resistor r=rend/2
+  gpdk180_nwellres PLUSEND MINUSEND nwellreslw l=sl w=w
+  rend2 MINUSEND MINUSHEAD resistor r=rend/2
+  rcont2 MINUSHEAD MINUS resistor r=rcont/2
+ends gpdk180_nwellres
+*
+*
+* metal1 resistor
+*
+*
+parameters      rshm1=0.01 
+parameters      rshm1_std=0.001 
+parameters      mrshm1_std=0.0001
+  statistics {
+        process{
+             vary rshm1 dist=gauss std=rshm1_std
+           }
+        mismatch {
+             vary rshm1 dist=gauss std=mrshm1_std
+           }
+  }
+
+inline subckt gpdk180_m1res(PLUS MINUS)
+  parameters sl w
+  model m1reslw resistor rsh=rshm1 tnom=27 tc1=3e-3 tc2=-2e-6
+  gpdk180_m1res PLUS MINUS m1reslw l=sl w=w
+
+ends gpdk180_m1res
+*
+*
+* metal2 resistor
+*
+*
+parameters       rshm2=0.01 
+parameters       rshm2_std=0.001 
+parameters       mrshm2_std=0.0001
+  statistics {
+        process{
+             vary rshm2 dist=gauss std=rshm2_std
+           }
+        mismatch {
+             vary rshm2 dist=gauss std=mrshm2_std
+           }
+  }
+inline subckt gpdk180_m2res(PLUS MINUS)
+  parameters sl w
+  model m2reslw resistor rsh=rshm2 tnom=27 tc1=3e-3 tc2=-2e-6
+  gpdk180_m2res PLUS MINUS m2reslw l=sl w=w
+ends gpdk180_m2res
+*
+*
+* metal3 resistor
+*
+*
+parameters    rshm3=0.01
+parameters    rshm3_std=0.001 
+parameters    mrshm3_std=0.0001
+  statistics {
+        process{
+             vary rshm3 dist=gauss std=rshm3_std
+           }
+        mismatch {
+             vary rshm3 dist=gauss std=mrshm3_std
+           }
+  }
+
+inline subckt gpdk180_m3res(PLUS MINUS)
+  parameters sl w
+  model m3reslw resistor rsh=rshm3 tnom=27 tc1=3e-3 tc2=-2e-6
+  gpdk180_m3res PLUS MINUS m3reslw l=sl w=w
+ends gpdk180_m3res
+*
+*
+* metal4 resistor
+*
+*
+parameters       rshm4=0.01 
+parameters       rshm4_std=0.001 
+parameters       mrshm4_std=0.0001
+  statistics {
+        process{
+             vary rshm4 dist=gauss std=rshm4_std
+           }
+        mismatch {
+             vary rshm4 dist=gauss std=mrshm4_std
+           }
+  }
+inline subckt gpdk180_m4res(PLUS MINUS)
+  parameters sl w
+  model m4reslw resistor rsh=rshm4 tnom=27 tc1=3e-3 tc2=-2e-6
+  gpdk180_m4res PLUS MINUS m4reslw l=sl w=w
+ends gpdk180_m4res
+*
+*
+* metal5 resistor
+*
+*
+parameters       rshm5=0.01 
+parameters       rshm5_std=0.001 
+parameters       mrshm5_std=0.0001
+  statistics {
+        process{
+             vary rshm5 dist=gauss std=rshm5_std
+           }
+        mismatch {
+             vary rshm5 dist=gauss std=mrshm5_std
+           }
+  }
+inline subckt gpdk180_m5res(PLUS MINUS)
+  parameters sl w
+  model m5reslw resistor rsh=rshm5 tnom=27 tc1=3e-3 tc2=-2e-6
+  gpdk180_m5res PLUS MINUS m5reslw l=sl w=w
+ends gpdk180_m5res
+
+* 
+*
+* metal6 resistor
+*
+*
+parameters       rshm6=0.01 
+parameters       rshm6_std=0.001 
+parameters       mrshm6_std=0.0001
+  statistics {
+        process{
+             vary rshm6 dist=gauss std=rshm6_std
+           }
+        mismatch {
+             vary rshm6 dist=gauss std=mrshm6_std
+           }
+  }
+inline subckt gpdk180_m6res(PLUS MINUS)
+  parameters  sl w
+  model m6reslw resistor rsh=rshm6 tnom=27 tc1=3e-3 tc2=-2e-6
+  gpdk180_m6res PLUS MINUS m6reslw l=sl w=w
+ends gpdk180_m6res
+*
+*
+*
+endsection res
+
+endlibrary gpdk

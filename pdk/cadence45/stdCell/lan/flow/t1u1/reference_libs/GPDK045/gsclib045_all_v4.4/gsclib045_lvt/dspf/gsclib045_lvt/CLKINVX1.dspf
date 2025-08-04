@@ -1,0 +1,62 @@
+*
+*|DSPF 1.5
+*
+*|DATE "Wed May  8 09:36:55 2013"
+*|VENDOR "Cadence Design Systems"
+*|PROGRAM "Cadence Extraction QRC"
+*|VERSION "12.1 Linux 64 bit - (Fri Mar 15 17:53:47 PDT 2013)"
+*|DESIGN "CLKINVX1"
+*|DIVIDER /
+*|DELIMITER :
+*|DeviceFingerDelim "@"
+*|BUSBIT []
+** caps2d version: 10
+*
+.GLOBAL  VDD VSS
+*
+.SUBCKT  CLKINVX1 A Y
+*
+*Net Section
+*
+*|GROUND_NET VSS
+*
+*|NET A 1.54171e-16
+*|P (A X 0 0.0950 0.8250)
+*|I (Mmn0:g Mmn0 g X 0 0.2025 0.5000)
+*|I (Mmp0:g Mmp0 g X 0 0.2025 1.0950)
+*|S (A:2 0.2025 0.7300)
+*|S (A:3 0.1250 0.7300)
+*|S (A:5 0.1100 0.7300)
+*|S (A:6 0.1100 0.8250)
+C1 Mmp0:g VSS 2.93118e-17
+C2 Mmn0:g VSS 2.40487e-17
+C3 A:6 VSS 3.87881e-17
+C4 A:5 VSS 3.68997e-17
+C5 A:2 VSS 9.53353e-18
+C6 A:3 VSS 1.55886e-17
+Rl1 A:2 A:3 49.314430 $W=0.094
+Rl2 A:2 Mmn0:g 34.329510 $W=0.039
+Rl3 Mmp0:g A:2 61.252586 $W=0.039
+Rk4 A:5 A:3 0.004811 $W=0.195
+Rk5 A A:6 0.004651 $W=0.195
+Rk6 A:5 A:6 0.043031 $W=0.138
+*
+*|NET Y 9.01341e-17
+*|P (Y X 0 0.2950 0.6650)
+*|I (Mmn0:d Mmn0 d X 0 0.3450 0.5700)
+*|I (Mmp0:d Mmp0 d X 0 0.3450 1.0200)
+C7 Mmp0:d VSS 4.02946e-17
+C8 Y VSS 4.98396e-17
+Rk7 Y Mmn0:d 75.060471 $W=0.09
+Rk8 Mmp0:d Y 31.247652 $W=0.09
+*
+*Instance Section
+*
+Mmn0	Mmn0:d	Mmn0:g	VSS	VSS	g45n1lvt	L=0.045U	W=0.26U
++ AD=0.0308P	AS=0.0364P	PD=0.8U	PS=0.8U
++ sa=1.4e-07 sb=1.18462e-07 sca=14.4034 scb=0.0144248 scc=0.00102063
+Mmp0	Mmp0:d	Mmp0:g	VDD	VDD	g45p1lvt	L=0.045U	W=0.39U
++ AD=0.0486P	AS=0.0546P	PD=1.06U	PS=1.06U
++ fw=3.9e-07 sa=1.4e-07 sb=1.24615e-07 sca=47.9961 scb=0.0439169 scc=0.00481722
+.ENDS
+.END

@@ -1,0 +1,180 @@
+// *************************************************************************
+//  GPDK045 Safe Operating Area (SOA) Checks
+//
+//  Copyright (c) 2015
+//  by Cadence Design Systems, Inc.  All rights reserved.
+//
+// $Source: $
+// $Author: james $
+// $Revision: 1.1 $
+// $Date: 2015/01/25 13:30:34 $
+// $State: Exp $
+//
+// *************************************************************************
+library soa
+
+section OFF
+endsection OFF
+
+section ON
+parameters
++ max_vdd_1v=1.1	// max gate voltage for 1v devices (1v+10% -- soft breakdown limit)
++ max_vdd_2v=1.8	// max gate voltage for 2v devices (1.8v -- hard breakdown limit)
++ max_npps1_vf=0.8 	// max N+/P-sub forward junction voltage (1v diode)
++ max_npps1_vr=9.8 	// max N+/P-sub reverse junction voltage (1v diode)
++ max_npps2_vf=0.8 	// max N+/P-sub forward junction voltage (2v diode)
++ max_npps2_vr=10.5	// max N+/P-sub reverse junction voltage (2v diode)
++ max_npps3_vr=17.0	// max N+/P-sub reverse junction voltage (1v native diode)
++ max_npps4_vr=22.0	// max N+/P-sub reverse junction voltage (2v native diode)
++ max_ppnw1_vf=0.7	// max P+/N-well forward junction voltage (1v diode)
++ max_ppnw1_vr=9.0	// max P+/N-well reverse junction voltage (1v diode)
++ max_ppnw2_vf=0.7	// max P+/N-well forward junction voltage (2v diode)
++ max_ppnw2_vr=9.6	// max P+/N-well reverse junction voltage (2v diode)
++ max_nwps_vf=0.7	// max N-Nwell/P-sub forward junction voltage
++ max_nwps_vr=7.5	// max N-Nwell/P-sub reverse junction voltage
+
+*** MOS Transistors ***
+gpdk045_check_g45n1svt_vgs assert sub=g45n1svt expr="V(g,s)" min=-max_vdd_1v max=max_vdd_1v level=warning
+gpdk045_check_g45n1svt_vgd assert sub=g45n1svt expr="V(g,d)" min=-max_vdd_1v max=max_vdd_1v level=warning 
+gpdk045_check_g45n1svt_vds assert sub=g45n1svt expr="V(d,s)" min=-max_vdd_1v max=max_vdd_1v level=warning
+gpdk045_check_g45n1svt_vdb assert sub=g45n1svt expr="V(d,b)" min=-max_npps1_vf max=max_vdd_1v level=warning
+gpdk045_check_g45n1svt_vgb assert sub=g45n1svt expr="V(g,b)" min=-max_vdd_1v max=max_vdd_1v level=warning
+gpdk045_check_g45n1svt_vsb assert sub=g45n1svt expr="V(s,b)" min=-max_npps1_vf max=max_vdd_1v level=warning
+
+gpdk045_check_g45n1hvt_vgs assert sub=g45n1hvt expr="V(g,s)" min=-max_vdd_1v max=max_vdd_1v level=warning
+gpdk045_check_g45n1hvt_vgd assert sub=g45n1hvt expr="V(g,d)" min=-max_vdd_1v max=max_vdd_1v level=warning 
+gpdk045_check_g45n1hvt_vds assert sub=g45n1hvt expr="V(d,s)" min=-max_vdd_1v max=max_vdd_1v level=warning
+gpdk045_check_g45n1hvt_vdb assert sub=g45n1hvt expr="V(d,b)" min=-max_npps1_vf max=max_vdd_1v level=warning
+gpdk045_check_g45n1hvt_vgb assert sub=g45n1hvt expr="V(g,b)" min=-max_vdd_1v max=max_vdd_1v level=warning
+gpdk045_check_g45n1hvt_vsb assert sub=g45n1hvt expr="V(s,b)" min=-max_npps1_vf max=max_vdd_1v level=warning
+
+gpdk045_check_g45n1lvt_vgs assert sub=g45n1lvt expr="V(g,s)" min=-max_vdd_1v max=max_vdd_1v level=warning
+gpdk045_check_g45n1lvt_vgd assert sub=g45n1lvt expr="V(g,d)" min=-max_vdd_1v max=max_vdd_1v level=warning 
+gpdk045_check_g45n1lvt_vds assert sub=g45n1lvt expr="V(d,s)" min=-max_vdd_1v max=max_vdd_1v level=warning
+gpdk045_check_g45n1lvt_vdb assert sub=g45n1lvt expr="V(d,b)" min=-max_npps1_vf max=max_vdd_1v level=warning
+gpdk045_check_g45n1lvt_vgb assert sub=g45n1lvt expr="V(g,b)" min=-max_vdd_1v max=max_vdd_1v level=warning
+gpdk045_check_g45n1lvt_vsb assert sub=g45n1lvt expr="V(s,b)" min=-max_npps1_vf max=max_vdd_1v level=warning
+
+gpdk045_check_g45n1nvt_vgs assert sub=g45n1nvt expr="V(g,s)" min=-max_vdd_1v max=max_vdd_1v level=warning
+gpdk045_check_g45n1nvt_vgd assert sub=g45n1nvt expr="V(g,d)" min=-max_vdd_1v max=max_vdd_1v level=warning 
+gpdk045_check_g45n1nvt_vds assert sub=g45n1nvt expr="V(d,s)" min=-max_vdd_1v max=max_vdd_1v level=warning
+gpdk045_check_g45n1nvt_vdb assert sub=g45n1nvt expr="V(d,b)" min=-max_npps1_vf max=max_vdd_1v level=warning
+gpdk045_check_g45n1nvt_vgb assert sub=g45n1nvt expr="V(g,b)" min=-max_vdd_1v max=max_vdd_1v level=warning
+gpdk045_check_g45n1nvt_vsb assert sub=g45n1nvt expr="V(s,b)" min=-max_npps1_vf max=max_vdd_1v level=warning
+
+gpdk045_check_g45p1svt_vgs assert sub=g45p1svt expr="V(g,s)" min=-max_vdd_1v max=max_vdd_1v level=warning
+gpdk045_check_g45p1svt_vgd assert sub=g45p1svt expr="V(g,d)" min=-max_vdd_1v max=max_vdd_1v level=warning 
+gpdk045_check_g45p1svt_vds assert sub=g45p1svt expr="V(d,s)" min=-max_vdd_1v max=max_vdd_1v level=warning
+gpdk045_check_g45p1svt_vdb assert sub=g45p1svt expr="V(b,d)" min=-max_ppnw1_vf max=max_vdd_1v level=warning
+gpdk045_check_g45p1svt_vgb assert sub=g45p1svt expr="V(g,b)" min=-max_vdd_1v max=max_vdd_1v level=warning
+gpdk045_check_g45p1svt_vsb assert sub=g45p1svt expr="V(b,s)" min=-max_ppnw1_vf max=max_vdd_1v level=warning
+
+gpdk045_check_g45p1hvt_vgs assert sub=g45p1hvt expr="V(g,s)" min=-max_vdd_1v max=max_vdd_1v level=warning
+gpdk045_check_g45p1hvt_vgd assert sub=g45p1hvt expr="V(g,d)" min=-max_vdd_1v max=max_vdd_1v level=warning 
+gpdk045_check_g45p1hvt_vds assert sub=g45p1hvt expr="V(d,s)" min=-max_vdd_1v max=max_vdd_1v level=warning
+gpdk045_check_g45p1hvt_vdb assert sub=g45p1hvt expr="V(b,d)" min=-max_ppnw1_vf max=max_vdd_1v level=warning
+gpdk045_check_g45p1hvt_vgb assert sub=g45p1hvt expr="V(g,b)" min=-max_vdd_1v max=max_vdd_1v level=warning
+gpdk045_check_g45p1hvt_vsb assert sub=g45p1hvt expr="V(b,s)" min=-max_ppnw1_vf max=max_vdd_1v level=warning
+
+gpdk045_check_g45p1lvt_vgs assert sub=g45p1lvt expr="V(g,s)" min=-max_vdd_1v max=max_vdd_1v level=warning
+gpdk045_check_g45p1lvt_vgd assert sub=g45p1lvt expr="V(g,d)" min=-max_vdd_1v max=max_vdd_1v level=warning 
+gpdk045_check_g45p1lvt_vds assert sub=g45p1lvt expr="V(d,s)" min=-max_vdd_1v max=max_vdd_1v level=warning
+gpdk045_check_g45p1lvt_vdb assert sub=g45p1lvt expr="V(b,d)" min=-max_ppnw1_vf max=max_vdd_1v level=warning
+gpdk045_check_g45p1lvt_vgb assert sub=g45p1lvt expr="V(g,b)" min=-max_vdd_1v max=max_vdd_1v level=warning
+gpdk045_check_g45p1lvt_vsb assert sub=g45p1lvt expr="V(b,s)" min=-max_ppnw1_vf max=max_vdd_1v level=warning
+
+gpdk045_check_g45n2svt_vgs assert sub=g45n2svt expr="V(g,s)" min=-max_vdd_2v max=max_vdd_2v level=warning
+gpdk045_check_g45n2svt_vgd assert sub=g45n2svt expr="V(g,d)" min=-max_vdd_2v max=max_vdd_2v level=warning 
+gpdk045_check_g45n2svt_vds assert sub=g45n2svt expr="V(d,s)" min=-max_vdd_2v max=max_vdd_2v level=warning
+gpdk045_check_g45n2svt_vdb assert sub=g45n2svt expr="V(d,b)" min=-max_npps2_vf max=max_vdd_1v level=warning
+gpdk045_check_g45n2svt_vgb assert sub=g45n2svt expr="V(g,b)" min=-max_vdd_1v max=max_vdd_1v level=warning
+gpdk045_check_g45n2svt_vsb assert sub=g45n2svt expr="V(s,b)" min=-max_npps2_vf max=max_vdd_1v level=warning
+
+gpdk045_check_g45n2nvt_vgs assert sub=g45n2nvt expr="V(g,s)" min=-max_vdd_2v max=max_vdd_2v level=warning
+gpdk045_check_g45n2nvt_vgd assert sub=g45n2nvt expr="V(g,d)" min=-max_vdd_2v max=max_vdd_2v level=warning 
+gpdk045_check_g45n2nvt_vds assert sub=g45n2nvt expr="V(d,s)" min=-max_vdd_2v max=max_vdd_2v level=warning
+gpdk045_check_g45n2nvt_vdb assert sub=g45n2svt expr="V(d,b)" min=-max_npps2_vf max=max_vdd_1v level=warning
+gpdk045_check_g45n2nvt_vgb assert sub=g45n2svt expr="V(g,b)" min=-max_vdd_1v max=max_vdd_1v level=warning
+gpdk045_check_g45n2nvt_vsb assert sub=g45n2svt expr="V(s,b)" min=-max_npps2_vf max=max_vdd_1v level=warning
+
+gpdk045_check_g45p2svt_vgs assert sub=g45p2svt expr="V(g,s)" min=-max_vdd_2v max=max_vdd_2v level=warning
+gpdk045_check_g45p2svt_vgd assert sub=g45p2svt expr="V(g,d)" min=-max_vdd_2v max=max_vdd_2v level=warning 
+gpdk045_check_g45p2svt_vds assert sub=g45p2svt expr="V(d,s)" min=-max_vdd_2v max=max_vdd_2v level=warning
+gpdk045_check_g45p2svt_vdb assert sub=g45p2svt expr="V(b,d)" min=-max_ppnw2_vf max=max_vdd_1v level=warning
+gpdk045_check_g45p2svt_vgb assert sub=g45p2svt expr="V(g,b)" min=-max_vdd_1v max=max_vdd_1v level=warning
+gpdk045_check_g45p2svt_vsb assert sub=g45p2svt expr="V(b,s)" min=-max_ppnw2_vf max=max_vdd_1v level=warning
+
+*** MOS Capacitors ***
+gpdk045_check_g45ncap1_vgs assert sub=g45ncap1 expr="V(g,s)" min=-max_vdd_1v max=max_vdd_1v level=warning
+gpdk045_check_g45ncap1_vgd assert sub=g45ncap1 expr="V(g,d)" min=-max_vdd_1v max=max_vdd_1v level=warning 
+gpdk045_check_g45ncap1_vds assert sub=g45ncap1 expr="V(d,s)" min=-max_vdd_1v max=max_vdd_1v level=warning
+gpdk045_check_g45ncap1_vdb assert sub=g45ncap1 expr="V(d,b)" min=-max_npps1_vf max=max_vdd_1v level=warning
+gpdk045_check_g45ncap1_vgb assert sub=g45ncap1 expr="V(g,b)" min=-max_vdd_1v max=max_vdd_1v level=warning
+gpdk045_check_g45ncap1_vsb assert sub=g45ncap1 expr="V(s,b)" min=-max_npps1_vf max=max_vdd_1v level=warning
+
+gpdk045_check_g45pcap1_vgs assert sub=g45pcap1 expr="V(g,s)" min=-max_vdd_1v max=max_vdd_1v level=warning
+gpdk045_check_g45pcap1_vgd assert sub=g45pcap1 expr="V(g,d)" min=-max_vdd_1v max=max_vdd_1v level=warning 
+gpdk045_check_g45pcap1_vds assert sub=g45pcap1 expr="V(d,s)" min=-max_vdd_1v max=max_vdd_1v level=warning
+gpdk045_check_g45pcap1_vdb assert sub=g45pcap1 expr="V(b,d)" min=-max_ppnw1_vf max=max_vdd_1v level=warning
+gpdk045_check_g45pcap1_vgb assert sub=g45pcap1 expr="V(g,b)" min=-max_vdd_1v max=max_vdd_1v level=warning
+gpdk045_check_g45pcap1_vsb assert sub=g45pcap1 expr="V(b,s)" min=-max_ppnw1_vf max=max_vdd_1v level=warning
+
+gpdk045_check_g45ncap2_vgs assert sub=g45ncap2 expr="V(g,s)" min=-max_vdd_2v max=max_vdd_2v level=warning
+gpdk045_check_g45ncap2_vgd assert sub=g45ncap2 expr="V(g,d)" min=-max_vdd_2v max=max_vdd_2v level=warning 
+gpdk045_check_g45ncap2_vds assert sub=g45ncap2 expr="V(d,s)" min=-max_vdd_2v max=max_vdd_2v level=warning
+gpdk045_check_g45ncap2_vdb assert sub=g45ncap2 expr="V(d,b)" min=-max_npps2_vf max=max_vdd_2v level=warning
+gpdk045_check_g45ncap2_vgb assert sub=g45ncap2 expr="V(g,b)" min=-max_vdd_2v max=max_vdd_2v level=warning
+gpdk045_check_g45ncap2_vsb assert sub=g45ncap2 expr="V(s,b)" min=-max_npps2_vf max=max_vdd_2v level=warning
+
+gpdk045_check_g45pcap2_vgs assert sub=g45pcap2 expr="V(g,s)" min=-max_vdd_2v max=max_vdd_2v level=warning
+gpdk045_check_g45pcap2_vgd assert sub=g45pcap2 expr="V(g,d)" min=-max_vdd_2v max=max_vdd_2v level=warning 
+gpdk045_check_g45pcap2_vds assert sub=g45pcap2 expr="V(d,s)" min=-max_vdd_2v max=max_vdd_2v level=warning
+gpdk045_check_g45pcap2_vdb assert sub=g45pcap2 expr="V(b,d)" min=-max_ppnw2_vf max=max_vdd_2v level=warning
+gpdk045_check_g45pcap2_vgb assert sub=g45pcap2 expr="V(g,b)" min=-max_vdd_2v max=max_vdd_2v level=warning
+gpdk045_check_g45pcap2_vsb assert sub=g45pcap2 expr="V(b,s)" min=-max_ppnw2_vf max=max_vdd_2v level=warning
+
+*** Resistors ****
+gpdk045_check_g45rnws_vn1b assert sub=g45rnws expr="V(n1,body)" min=-max_nwps_vf max=max_nwps_vr level=warning
+gpdk045_check_g45rnws_vn2b assert sub=g45rnws expr="V(n2,body)" min=-max_nwps_vf max=max_nwps_vr level=warning
+
+gpdk045_check_g45rnwo_vn1b assert sub=g45rnwo expr="V(n1,body)" min=-max_nwps_vf max=max_nwps_vr level=warning
+gpdk045_check_g45rnwo_vn2b assert sub=g45rnwo expr="V(n2,body)" min=-max_nwps_vf max=max_nwps_vr level=warning
+
+gpdk045_check_g45rsnd_vn1b assert sub=g45rsnd expr="V(n1,body)" min=-max_npps1_vf max=max_npps1_vr level=warning
+gpdk045_check_g45rsnd_vn2b assert sub=g45rsnd expr="V(n2,body)" min=-max_npps1_vf max=max_npps1_vr level=warning
+
+gpdk045_check_g45rspd_vn1b assert sub=g45rspd expr="V(body,n1)" min=-max_ppnw1_vf max=max_ppnw1_vr level=warning
+gpdk045_check_g45rspd_vn2b assert sub=g45rspd expr="V(body,n2)" min=-max_ppnw1_vf max=max_ppnw1_vr level=warning
+
+gpdk045_check_g45rnsnd_vn1b assert sub=g45rnsnd expr="V(n1,body)" min=-max_npps1_vf max=max_npps1_vr level=warning
+gpdk045_check_g45rnsnd_vn2b assert sub=g45rnsnd expr="V(n2,body)" min=-max_npps1_vf max=max_npps1_vr level=warning
+
+gpdk045_check_g45rnspd_vn1b assert sub=g45rnspd expr="V(body,n1)" min=-max_ppnw1_vf max=max_ppnw1_vr level=warning
+gpdk045_check_g45rnspd_vn2b assert sub=g45rnspd expr="V(body,n2)" min=-max_ppnw1_vf max=max_ppnw1_vr level=warning
+
+*** Diodes ***
+gpdk045_check_g45nd1svt_vac assert mod=g45nd1svt expr="V(c,a)" max=max_npps1_vr level=warning
+
+gpdk045_check_g45nd1hvt_vac assert mod=g45nd1hvt expr="V(c,a)" max=max_npps1_vr level=warning
+
+gpdk045_check_g45nd1lvt_vac assert mod=g45nd1lvt expr="V(c,a)" max=max_npps1_vr level=warning
+
+gpdk045_check_g45nd1nvt_vac assert mod=g45nd1nvt expr="V(c,a)" max=max_npps3_vr level=warning
+
+gpdk045_check_g45nd2nvt_vac assert mod=g45nd2nvt expr="V(c.a)" max=max_npps4_vr level=warning
+
+gpdk045_check_g45pd1svt_vac assert mod=g45pd1svt expr="V(c,a)" max=max_ppnw1_vr level=warning
+
+gpdk045_check_g45pd1hvt_vac assert mod=g45pd1hvt expr="V(c,a)" max=max_ppnw1_vr level=warning
+
+gpdk045_check_g45pd1lvt_vac assert mod=g45pd1lvt expr="V(c,a)" max=max_ppnw1_vr level=warning
+
+gpdk045_check_g45pd2svt_vac assert mod=g45pd2svt expr="V(a,c)" max=max_ppnw2_vr level=warning
+
+*** MIMCAP ***
+** Dielectric strength ~110MV/m ... Assume thickness ~2000A
+gpdk045_check_g45cmim_vmax assert sub=g45cmim expr="V(n1,n2)" min=-20.0 max=20.0 level=warning
+
+endsection ON
+
+endlibrary soa

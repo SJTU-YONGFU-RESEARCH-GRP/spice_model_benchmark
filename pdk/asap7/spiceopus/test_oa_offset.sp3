@@ -1,0 +1,51 @@
+test_oa_offset.sp3
+* Offset voltage
+
+.control
+delcirc all
+destroy all
+delete all
+
+setplot new
+nameplot mc
+let voff=0
+
+repeat 1000
+ source oa_follower_ac.cir
+ save v(vin) v(vout)
+ op
+ let mc.voff=(mc.voff;v(vin)-v(vout))
+ echo run #{length(mc.voff)} {round(1e5*(v(vin)-v(vout)))/100} mV
+ destroy op1
+ delcirc all
+ end
+
+* Gaussian fitting
+let voff=voff[1,length(voff)-1]
+let mn=mean(voff)*1e3
+let std=sqrt(mean((voff-mean(voff))^2))*1e3
+echo
+echo Voffset = {round(100*mn)/100} mV +/- {round(100*std)/100} mV
+echo
+
+* Histogram (25-bin)
+let dbin=(max(voff)-min(voff))/25
+let ybin=vector(25)
+let xbin=vector(25)
+let counter=0
+while counter le 24
+ let voffleft=min(voff)+{counter}*dbin
+ let voffright=voffleft+dbin
+ let xbin[{counter}]=voffleft
+ let ybin[{counter}]=sum((voff ge voffleft) and (voff lt voffright))
+ let counter=counter+1
+ endwhile
+set plottype=comb
+set linewidth=10
+plot ybin vs xbin*1e3 xlabel 'Input Offset [mV]' ylabel 'Samples []' title 'Montecarlo mismatching'
+set plottype=line
+set linewidth=1
+
+.endc
+
+.end

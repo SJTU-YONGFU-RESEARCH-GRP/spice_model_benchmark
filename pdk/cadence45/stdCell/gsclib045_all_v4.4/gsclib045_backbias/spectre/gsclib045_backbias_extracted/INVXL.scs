@@ -1,0 +1,42 @@
+// Generated for: spectre (May  1 11:29:42 2013 )
+// Library name: gsclib045_backbias
+// Cell name: INVXL
+// View name: extracted
+
+simulator lang=spectre
+
+subckt INVXL A NW VDD VSS Y
+mp0 (\3\:Y \1\:A \1\:VDD NW) g45p1svt w=(2.15e-07) l=4.5e-08 nf=1 \
+        as=4.962e-14 ad=2.87e-14 ps=1.44e-06 pd=7.5e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1e-07 sb=1.33488e-07 sd=160n sca=40.8937 \
+        scb=0.0499242 scc=0.00347111 m=(1)
+C1 (VDD VSS) capacitor c=5.69682e-17
+C2 (A VSS) capacitor c=1.56261e-17
+C3 (NW VSS) capacitor c=9.42454e-17
+C4 (Y VSS) capacitor c=4.25547e-17
+C5 (\1\:A VSS) capacitor c=3.2597e-17
+C6 (\3\:A VSS) capacitor c=2.17731e-17
+C7 (\2\:A VSS) capacitor c=3.41996e-17
+C8 (\3\:Y VSS) capacitor c=1.83815e-17
+C9 (\1\:VDD VSS) capacitor c=6.87777e-18
+C10 (\1\:Y VSS) capacitor c=2.3558e-17
+C11 (\4\:A VSS) capacitor c=3.66254e-17
+Rk4 (\2\:VDD VDD) resistor r=0.06594 c=0
+Rk1 (A \4\:A) resistor r=0.01335 c=0
+Rk6 (VSS \4\:VSS) resistor r=0.08469 c=0
+Rk2 (Y \2\:Y) resistor r=0.1764 c=0
+Rk3 (Y \4\:Y) resistor r=0.2302 c=0
+Rl1 (\1\:A \2\:A) resistor r=117.519 c=0
+Rl2 (\2\:A \3\:A) resistor r=67.5189 c=0
+Rz2 (\3\:VSS \4\:VSS) resistor r=75 c=0
+Rz1 (\1\:Y \2\:Y) resistor r=75 c=0
+Ry2 (\1\:VDD \2\:VDD) resistor r=62 c=0
+Ry1 (\3\:Y \4\:Y) resistor r=62 c=0
+Rx1 (\2\:A \4\:A) resistor r=45 c=0
+mn0 (\1\:Y \3\:A \3\:VSS VSS) g45n1svt w=(1.45e-07) l=4.5e-08 nf=1 \
+        as=3.86e-14 ad=2.32e-14 ps=1.23e-06 pd=6.1e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1e-07 sb=1.6e-07 sd=160n sca=10.4914 scb=0.00978575 \
+        scc=0.000300434 m=(1)
+ends INVXL
+// End of subcircuit definition.
+

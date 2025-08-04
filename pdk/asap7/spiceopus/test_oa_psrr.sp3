@@ -1,0 +1,21 @@
+test_oa_psrr.sp3
+* Power supply rejection ratio
+
+.control
+
+delcirc all
+destroy all
+delete all
+save all
+
+source oa_follower_sin.cir
+let @vi2[acmag]=0
+let @vi6[acmag]=1
+ac dec 50 1 1e7
+
+let PSRRP=-20*log10(mag(v(vout)))
+plot PSRRP xlog xlabel 'Frequency [Hz]' ylabel 'PSRR+ [dB]'
+
+.endc
+
+.end

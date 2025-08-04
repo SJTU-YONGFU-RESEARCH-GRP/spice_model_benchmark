@@ -1,0 +1,100 @@
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;  Copy this entire file for every VALE framework LPA Component Module
+;;  Modify the compModXX number below for each Component Module, where XX is 
+;;   the integer number for the Component Module defined in the config file
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; LPA init with global variables
+_IMF_Component_Module_Name = 
+   strcat(_IMFdat->compMod36->name "_" _IMFdat->compMod36->version)
+
+;; Find the include files from the CM, CM2, or local dir
+_IMF_Component_Module_Dir = getShellEnvVar("CDS_MVS_IMF_CM")
+if(_IMF_Component_Module_Dir then
+   _IMF_Component_Module_Path =
+      strcat(_IMF_Component_Module_Dir "/Include/"
+         _IMF_Component_Module_Name ".conf")
+   unless(isFile(_IMF_Component_Module_Path)
+      _IMF_Component_Module_Dir = getShellEnvVar("CDS_MVS_IMF_CM2")
+      _IMF_Component_Module_Path =
+         strcat(_IMF_Component_Module_Dir "/Include/"
+            _IMF_Component_Module_Name ".conf")
+      unless(isFile(_IMF_Component_Module_Path)
+         printf("IMF WARNING: Failed to locate the LPA conf file. Using the ")
+         printf("current directory \"./\" as default.\n")
+         _IMF_Component_Module_Dir = "./"
+         _IMF_Component_Module_Path = 
+            strcat(_IMF_Component_Module_Dir "/Include/"
+            _IMF_Component_Module_Name ".conf")
+      )
+   )
+else
+   _IMF_Component_Module_Dir = getShellEnvVar("CDS_MVS_IMF_CM2")
+   if(_IMF_Component_Module_Dir then
+      _IMF_Component_Module_Path =
+         strcat(_IMF_Component_Module_Dir "/Include/"
+             _IMF_Component_Module_Name ".conf")
+      unless(isFile(_IMF_Component_Module_Path)
+         printf("IMF WARNING: Failed to locate the LPA conf file. Using the ")
+         printf("current directory \"./\" as default.\n")
+         _IMF_Component_Module_Dir = "./"
+         _IMF_Component_Module_Path = 
+         strcat(_IMF_Component_Module_Dir "/Include/"
+            _IMF_Component_Module_Name ".conf")
+      )
+   else
+      printf("IMF WARNING: Failed to locate the LPA conf file. Using the ")
+      printf("current directory \"./\" as default.\n")
+      _IMF_Component_Module_Dir = "./"
+      _IMF_Component_Module_Path = 
+         strcat(_IMF_Component_Module_Dir "/Include/"
+         _IMF_Component_Module_Name ".conf")
+   )
+)
+_IMF_Component_Module_Map = strcat(_IMF_Component_Module_Dir "/Include/"
+   _IMF_Component_Module_Name ".streamout_map")
+_IMF_Component_Module_Outdir = 
+   strcat("./VALE_RUNDIR/wd." _IMF_Component_Module_Name)
+
+DFM_DP_env = (list 'dp_env
+                   'method "Local"
+                   'jobname "LPAJOB"
+                   'args sprintf(nil "-P %s -W 2:00" "MYPROJ:16.20:RD:Test")
+                   'queue (list "lnx64" "queue")
+                   'resource "mem > 2048"
+                   'local 1
+                   'nhost 1
+                   'hosts (list "localhost:1")
+             )
+
+LPA_env = (list 'lpa_env
+                'workdir _IMF_Component_Module_Outdir
+                'conffile _IMF_Component_Module_Path
+                'conftextfield ""
+                'confrootcell t
+                'selection "cellview"
+                'alllayers nil
+                'guideline t
+                'markersonly nil
+                'streamoutmap _IMF_Component_Module_Map
+                'popup "default"
+                'signoff nil
+                'hsspopup nil
+                'logcmd "tail -n 1000"
+                'maxwait 5
+                'mergeresult nil
+                'launchqv t
+           )
+
+LPA_signoff = (list 'lpa_signoff
+                    'workdir (list "LPA_signoff_40" nil )
+                    'conffile (list "./LPA_signoff.conf" t)
+                    'selection (list "entire" t)
+                    'alllayers (list t t)
+                    'guideline (list nil nil)
+                    'markersonly (list nil t)
+                    'mergeresult (list nil t)
+              )

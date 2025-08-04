@@ -1,0 +1,185 @@
+*
+*|DSPF 1.5
+*
+*|DATE "Wed May  8 08:46:12 2013"
+*|VENDOR "Cadence Design Systems"
+*|PROGRAM "Cadence Extraction QRC"
+*|VERSION "12.1 Linux 64 bit - (Fri Mar 15 17:53:47 PDT 2013)"
+*|DESIGN "NOR2X6"
+*|DIVIDER /
+*|DELIMITER :
+*|DeviceFingerDelim "@"
+*|BUSBIT []
+** caps2d version: 10
+*
+.GLOBAL  NW VDD VSS
+*
+.SUBCKT  NOR2X6 A Y B
+*
+*Net Section
+*
+*|GROUND_NET VSS
+*
+*|NET A 1.39409e-15
+*|P (A X 0 0.3400 0.7650)
+*|I (Mmp0@1:g Mmp0@1 g X 0 0.4025 1.2000)
+*|I (Mmp0@2:g Mmp0@2 g X 0 0.8175 1.2000)
+*|I (Mmp0@3:g Mmp0@3 g X 0 1.0225 1.2000)
+*|I (Mmp0@4:g Mmp0@4 g X 0 1.4375 1.2000)
+*|I (Mmp0@5:g Mmp0@5 g X 0 1.6475 1.2000)
+*|I (Mmp0:g Mmp0 g X 0 2.0625 1.2000)
+*|S (A:18 2.1000 0.8300)
+C1 Mmp0:g VSS 6.81279e-17
+C2 Mmp0@5:g VSS 6.80467e-17
+C3 Mmp0@4:g VSS 7.21747e-17
+C4 Mmp0@3:g VSS 6.75678e-17
+C5 Mmp0@2:g VSS 6.78362e-17
+C6 Mmp0@1:g VSS 7.8883e-17
+C7 A:18 VSS 1.20084e-16
+C8 A VSS 8.51373e-16
+Rl1 Mmp0@1:g A 107.280876 $W=0.039
+Rl2 A Mmp0@2:g 89.264214 $W=0.039
+Rl3 Mmp0@3:g A 89.264214 $W=0.039
+Rl4 A Mmp0@4:g 109.534683 $W=0.039
+Rl5 A Mmp0@5:g 93.995636 $W=0.039
+Rl6 Mmp0:g A:18 96.098007 $W=0.039
+Rk7 A A:18 0.567688 $W=0.06
+*
+*|NET Y 1.14327e-15
+*|P (Y X 0 1.8450 1.0500)
+*|I (Mmn0@1:d Mmn0@1 d X 0 0.3050 0.4550)
+*|I (Mmp1@1:d Mmp1@1 d X 0 0.6100 1.2000)
+*|I (Mmp1@3:d Mmp1@3 d X 0 1.2300 1.2000)
+*|I (Mmp1@5:d Mmp1@5 d X 0 1.8550 1.2000)
+*|S (Y:10 0.6100 1.0575)
+*|S (Y:12 1.2300 1.0575)
+C9 Mmp1@5:d VSS 3.78579e-17
+C10 Mmp1@3:d VSS 3.7669e-17
+C11 Mmp1@1:d VSS 3.77199e-17
+C12 Mmn0@1:d VSS 7.11433e-16
+C13 Y:12 VSS 9.75423e-17
+C14 Y:10 VSS 1.52036e-16
+C15 Y VSS 6.90111e-17
+Rk8 Y:12 Y 0.447761 $W=0.0775
+Rk9 Y:12 Y:10 0.459970 $W=0.0775
+Rk10 Y:10 Mmn0@1:d 0.809758 $W=0.07
+Rk11 Y:10 Mmp1@1:d 20.757399 $W=0.1
+Rk12 Y:12 Mmp1@3:d 20.757399 $W=0.1
+Rk13 Mmp1@5:d Y 20.781086 $W=0.1
+*
+*|NET B 1.16773e-15
+*|P (B X 0 1.0950 0.8850)
+*|I (Mmp1@1:g Mmp1@1 g X 0 0.5075 1.2000)
+*|I (Mmp1@2:g Mmp1@2 g X 0 0.7125 1.2000)
+*|I (Mmp1@3:g Mmp1@3 g X 0 1.1275 1.2000)
+*|I (Mmp1@4:g Mmp1@4 g X 0 1.3325 1.2000)
+*|I (Mmp1@5:g Mmp1@5 g X 0 1.7525 1.2000)
+*|I (Mmp1:g Mmp1 g X 0 1.9575 1.2000)
+C16 Mmp1:g VSS 6.04022e-17
+C17 Mmp1@5:g VSS 6.13752e-17
+C18 Mmp1@4:g VSS 6.39588e-17
+C19 Mmp1@3:g VSS 6.08102e-17
+C20 Mmp1@2:g VSS 6.08638e-17
+C21 Mmp1@1:g VSS 6.5086e-17
+C22 B VSS 7.95236e-16
+Rl14 B Mmp1@1:g 52.565865 $W=0.039
+Rl15 Mmp1@2:g B 45.369026 $W=0.039
+Rl16 B Mmp1@3:g 46.232239 $W=0.039
+Rl17 B Mmp1@4:g 52.565865 $W=0.039
+Rl18 B Mmp1@5:g 48.078053 $W=0.039
+Rl19 B Mmp1:g 45.162624 $W=0.039
+*
+*|NET 1 1.86356e-18
+*|I (Mmp0@1:d Mmp0@1 d X 0 0.4550 1.2000)
+*|I (Mmp1@1:s Mmp1@1 s X 0 0.4550 1.2000)
+C23 Mmp0@1:d VSS 1.86356e-18
+Rmw20 Mmp1@1:s Mmp0@1:d 0.001000 $W=1
+*
+*|NET 3 1.9638e-18
+*|I (Mmp1@2:s Mmp1@2 s X 0 0.7650 1.2000)
+*|I (Mmp0@2:d Mmp0@2 d X 0 0.7650 1.2000)
+C24 Mmp1@2:s VSS 1.9638e-18
+Rmw21 Mmp0@2:d Mmp1@2:s 0.001000 $W=1
+*
+*|NET 2 1.87598e-18
+*|I (Mmp0@3:d Mmp0@3 d X 0 1.0750 1.2000)
+*|I (Mmp1@3:s Mmp1@3 s X 0 1.0750 1.2000)
+C25 Mmp0@3:d VSS 1.87598e-18
+Rmw22 Mmp1@3:s Mmp0@3:d 0.001000 $W=1
+*
+*|NET 5 1.9638e-18
+*|I (Mmp1@4:s Mmp1@4 s X 0 1.3850 1.2000)
+*|I (Mmp0@4:d Mmp0@4 d X 0 1.3850 1.2000)
+C26 Mmp1@4:s VSS 1.9638e-18
+Rmw23 Mmp0@4:d Mmp1@4:s 0.001000 $W=1
+*
+*|NET 4 1.9638e-18
+*|I (Mmp0@5:d Mmp0@5 d X 0 1.7000 1.2000)
+*|I (Mmp1@5:s Mmp1@5 s X 0 1.7000 1.2000)
+C27 Mmp0@5:d VSS 1.9638e-18
+Rmw24 Mmp1@5:s Mmp0@5:d 0.001000 $W=1
+*
+*|NET 6 0
+*|I (Mmp1:s Mmp1 s X 0 2.0100 1.2000)
+*|I (Mmp0:d Mmp0 d X 0 2.0100 1.2000)
+Rmw25 Mmp0:d Mmp1:s 0.001000 $W=1
+*
+*Instance Section
+*
+Mmn0@1	Mmn0@1:d	A	VSS	VSS	g45n1svt	L=0.045U
++ W=0.31U
++ AD=0.0496P	AS=0.04898P	PD=0.94U	PS=0.936U	M=5
++ fw=3.1e-07 sa=1.4e-07 sb=2e-06 sca=11.8347 scb=0.0112322 scc=0.000626052
+Mmn1@1	Mmn0@1:d	B	VSS	VSS	g45n1svt	L=0.045U
++ W=0.31U
++ AD=0.0496P	AS=0.0496P	PD=0.94U	PS=0.94U	M=5
++ fw=3.1e-07 sa=3.45e-07 sb=1.805e-06 sca=11.8347 scb=0.0112322 scc=0.000626052
+Mmp0@1	Mmp0@1:d	Mmp0@1:g	VDD	NW	g45p1svt
++ L=0.045U	W=0.39U
++ AD=0.0234P	AS=0.0546P	PD=0.9U	PS=1.06U
++ fw=3.9e-07 sa=1.4e-07 sb=1.82e-06 sca=17.8302 scb=0.0172414 scc=0.000800052
+Mmp1@1	Mmp1@1:d	Mmp1@1:g	Mmp1@1:s	NW	g45p1svt
++ L=0.045U	W=0.39U
++ AD=0.0624P	AS=0.0234P	PD=1.1U	PS=0.9U
++ fw=3.9e-07 sa=2.45e-07 sb=1.715e-06 sca=16.2541 scb=0.014643 scc=0.000761282
+Mmp1@2	Mmp1@1:d	Mmp1@2:g	Mmp1@2:s	NW	g45p1svt
++ L=0.045U	W=0.39U
++ AD=0.0624P	AS=0.0234P	PD=1.1U	PS=0.9U
++ fw=3.9e-07 sa=4.5e-07 sb=1.51e-06 sca=14.8213 scb=0.0130288 scc=0.000754571
+Mmp0@2	Mmp0@2:d	Mmp0@2:g	VDD	NW	g45p1svt
++ L=0.045U	W=0.39U
++ AD=0.0234P	AS=0.0624P	PD=0.9U	PS=1.1U
++ fw=3.9e-07 sa=5.55e-07 sb=1.405e-06 sca=14.4437 scb=0.0128219 scc=0.000754437
+Mmp0@3	Mmp0@3:d	Mmp0@3:g	VDD	NW	g45p1svt
++ L=0.045U	W=0.39U
++ AD=0.0234P	AS=0.0624P	PD=0.9U	PS=1.1U
++ fw=3.9e-07 sa=7.6e-07 sb=1.2e-06 sca=14.1011 scb=0.0127228 scc=0.000754417
+Mmp1@3	Mmp1@3:d	Mmp1@3:g	Mmp1@3:s	NW	g45p1svt
++ L=0.045U	W=0.39U
++ AD=0.0624P	AS=0.0234P	PD=1.1U	PS=0.9U
++ fw=3.9e-07 sa=8.65e-07 sb=1.095e-06 sca=14.1011 scb=0.0127228 scc=0.000754417
+Mmp1@4	Mmp1@3:d	Mmp1@4:g	Mmp1@4:s	NW	g45p1svt
++ L=0.045U	W=0.39U
++ AD=0.0624P	AS=0.0234P	PD=1.1U	PS=0.9U
++ fw=3.9e-07 sa=1.07e-06 sb=8.9e-07 sca=14.1011 scb=0.0127228 scc=0.000754417
+Mmp0@4	Mmp0@4:d	Mmp0@4:g	VDD	NW	g45p1svt
++ L=0.045U	W=0.39U
++ AD=0.0234P	AS=0.06435P	PD=0.9U	PS=1.11U
++ fw=3.9e-07 sa=1.175e-06 sb=7.85e-07 sca=14.1011 scb=0.0127228 scc=0.000754417
+Mmp0@5	Mmp0@5:d	Mmp0@5:g	VDD	NW	g45p1svt
++ L=0.045U	W=0.39U
++ AD=0.0234P	AS=0.06435P	PD=0.9U	PS=1.11U
++ fw=3.9e-07 sa=1.385e-06 sb=5.75e-07 sca=14.6601 scb=0.0129275 scc=0.000754489
+Mmp1@5	Mmp1@5:d	Mmp1@5:g	Mmp1@5:s	NW	g45p1svt
++ L=0.045U	W=0.39U
++ AD=0.0624P	AS=0.0234P	PD=1.1U	PS=0.9U
++ fw=3.9e-07 sa=1.49e-06 sb=4.7e-07 sca=15.1439 scb=0.0132876 scc=0.000754937
+Mmp1	Mmp1@5:d	Mmp1:g	Mmp1:s	NW	g45p1svt	L=0.045U
++ W=0.39U
++ AD=0.0624P	AS=0.0234P	PD=1.1U	PS=0.9U
++ fw=3.9e-07 sa=1.695e-06 sb=2.65e-07 sca=17.1124 scb=0.0160045 scc=0.000776708
+Mmp0	Mmp0:d	Mmp0:g	VDD	NW	g45p1svt	L=0.045U	W=0.39U
++ AD=0.0234P	AS=0.0624P	PD=0.9U	PS=1.1U
++ fw=3.9e-07 sa=1.8e-06 sb=1.6e-07 sca=19.4933 scb=0.0201815 scc=0.000898164
+.ENDS
+.END

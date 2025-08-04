@@ -1,0 +1,36 @@
+/* $Id: vsource_file.ifs v2017.10.26 FSG $ */
+
+NAME_TABLE:
+
+Spice_Model_Name: vsource_file
+C_Function_Name:  cm_vsource_file
+Description:      "voltage source from SPICE3 raw file"
+
+PORT_TABLE:
+
+Port_Name:        out       
+Description:      "output"   
+Direction:        out        
+Default_Type:     vd         
+Allowed_Types:    [vd]       
+Vector:           no        
+Vector_Bounds:    -         
+Null_Allowed:     no        
+
+PARAMETER_TABLE:
+
+Parameter_Name:     fname
+Description:        "filename"
+Data_Type:          string
+Default_Value:      "tran.raw"
+Limits:             -
+Vector:             no
+Vector_Bounds:      -
+Null_Allowed:       no
+
+STATIC_VAR_TABLE:
+
+Static_Var_Name:       infile         tnext                  vnext                        vprev
+Data_Type:             pointer        pointer                pointer                      pointer
+Description:           "file pointer" "next time breakpoint" "voltage at next breakpoint" "voltage at previous breakpoint"
+

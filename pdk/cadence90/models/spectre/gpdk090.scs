@@ -1,0 +1,149 @@
+* GPDK Corner Definitions
+* This is an example file showing how to define corners
+* using model files for individual components as the
+* building blocks.
+
+* TODO:
+* - dcmatch and MC for all devices (also for diodes, res,..)
+* - check iso model
+* - mc for caps
+* - bottom plate cap for MIM cap
+* - Csub for BJT
+* - Check mc & dcmatch for consistency
+* - diode Rs & Cj seems to be large, Cj of BJT reduced acc. to be more realistic
+
+simulator lang=spectre
+library gpdk090
+
+section NN
+include "gpdk090_mos.scs" section=TT_s1v
+include "gpdk090_mos.scs" section=TT_lp
+include "gpdk090_mos.scs" section=TT_hv
+include "gpdk090_mos_iso.scs" section=ALL
+include "gpdk090_resistor.scs"  section=res_t
+include "gpdk090_capacitor.scs"  section=cap_t
+include "gpdk090_diode.scs"  section=dio_t
+//include "gpdk090_diode.scs"  section=dio_hvt
+//include "gpdk090_diode.scs"  section=dio_na
+//include "gpdk090_diode.scs"  section=dio_25
+//include "gpdk090_diode.scs"  section=dio_na25
+include "gpdk090_bipolar.scs"  section=bjt_t
+endsection NN
+
+section SS
+include "gpdk090_mos.scs" section=SS_s1v
+include "gpdk090_mos.scs" section=SS_lp
+include "gpdk090_mos.scs" section=SS_hv
+include "gpdk090_mos_iso.scs" section=ALL
+include "gpdk090_resistor.scs"  section=res_h
+include "gpdk090_capacitor.scs"  section=cap_h
+include "gpdk090_diode.scs"  section=dio_s
+//include "gpdk090_diode.scs"  section=dio_hvt
+//include "gpdk090_diode.scs"  section=dio_na
+//include "gpdk090_diode.scs"  section=dio_25
+//include "gpdk090_diode.scs"  section=dio_na25
+include "gpdk090_bipolar.scs"  section=bjt_s
+endsection SS
+
+section SF
+include "gpdk090_mos.scs" section=SF_s1v
+include "gpdk090_mos.scs" section=SF_lp
+include "gpdk090_mos.scs" section=SF_hv
+include "gpdk090_mos_iso.scs" section=ALL
+include "gpdk090_resistor.scs"  section=res_t
+include "gpdk090_capacitor.scs"  section=cap_t
+include "gpdk090_diode.scs"  section=dio_t
+//include "gpdk090_diode.scs"  section=dio_hvt
+//include "gpdk090_diode.scs"  section=dio_na
+//include "gpdk090_diode.scs"  section=dio_25
+//include "gpdk090_diode.scs"  section=dio_na25
+include "gpdk090_bipolar.scs"  section=bjt_t
+endsection SF
+
+section FS
+include "gpdk090_mos.scs" section=FS_s1v
+include "gpdk090_mos.scs" section=FS_lp
+include "gpdk090_mos.scs" section=FS_hv
+include "gpdk090_mos_iso.scs" section=ALL
+include "gpdk090_resistor.scs"  section=res_t
+include "gpdk090_capacitor.scs"  section=cap_t
+include "gpdk090_diode.scs"  section=dio_t
+//include "gpdk090_diode.scs"  section=dio_hvt
+//include "gpdk090_diode.scs"  section=dio_na
+//include "gpdk090_diode.scs"  section=dio_25
+//include "gpdk090_diode.scs"  section=dio_na25
+include "gpdk090_bipolar.scs"  section=bjt_t
+endsection FS
+
+section FF
+include "gpdk090_mos.scs" section=FF_s1v
+include "gpdk090_mos.scs" section=FF_lp
+include "gpdk090_mos.scs" section=FF_hv
+include "gpdk090_mos_iso.scs" section=ALL
+include "gpdk090_resistor.scs"  section=res_l
+include "gpdk090_capacitor.scs"  section=cap_l
+include "gpdk090_diode.scs"  section=dio_f
+//include "gpdk090_diode.scs"  section=dio_hvt
+//include "gpdk090_diode.scs"  section=dio_na
+//include "gpdk090_diode.scs"  section=dio_25
+//include "gpdk090_diode.scs"  section=dio_na25
+include "gpdk090_bipolar.scs"  section=bjt_f
+endsection FF
+
+section NN_highPerf
+include "gpdk090_mos.scs" section=TT_s1v
+include "gpdk090_mos.scs" section=TT_lp
+include "gpdk090_mos.scs" section=TT_hv
+include "gpdk090_mos_iso.scs" section=ALL
+include "gpdk090_resistor.scs"  section=res_t
+include "gpdk090_capacitor.scs"  section=cap_t
+include "gpdk090_diode.scs"  section=dio_t
+include "gpdk090_bipolar.scs"  section=highperf_bjt_t
+endsection NN_highPerf
+
+section SS_highPerf
+include "gpdk090_mos.scs" section=SS_s1v
+include "gpdk090_mos.scs" section=SS_lp
+include "gpdk090_mos.scs" section=SS_hv
+include "gpdk090_mos_iso.scs" section=ALL
+include "gpdk090_resistor.scs"  section=res_h
+include "gpdk090_capacitor.scs"  section=cap_h
+include "gpdk090_diode.scs"  section=dio_s
+include "gpdk090_bipolar.scs"  section=highperf_bjt_s
+endsection SS_highPerf
+
+section SF_highPerf
+include "gpdk090_mos.scs" section=SF_s1v
+include "gpdk090_mos.scs" section=SF_lp
+include "gpdk090_mos.scs" section=SF_hv
+include "gpdk090_mos_iso.scs" section=ALL
+include "gpdk090_resistor.scs"  section=res_t
+include "gpdk090_capacitor.scs"  section=cap_t
+include "gpdk090_diode.scs"  section=dio_t
+include "gpdk090_bipolar.scs"  section=highperf_bjt_t
+endsection SF_highPerf
+
+section FS_highPerf
+include "gpdk090_mos.scs" section=FS_s1v
+include "gpdk090_mos.scs" section=FS_lp
+include "gpdk090_mos.scs" section=FS_hv
+include "gpdk090_mos_iso.scs" section=ALL
+include "gpdk090_resistor.scs"  section=res_t
+include "gpdk090_capacitor.scs"  section=cap_t
+include "gpdk090_diode.scs"  section=dio_t
+include "gpdk090_bipolar.scs"  section=highperf_bjt_t
+endsection FS_highPerf
+
+section FF_highPerf
+include "gpdk090_mos.scs" section=FF_s1v
+include "gpdk090_mos.scs" section=FF_lp
+include "gpdk090_mos.scs" section=FF_hv
+include "gpdk090_mos_iso.scs" section=ALL
+include "gpdk090_resistor.scs"  section=res_l
+include "gpdk090_capacitor.scs"  section=cap_l
+include "gpdk090_diode.scs"  section=dio_f
+include "gpdk090_bipolar.scs"  section=highperf_bjt_f
+endsection FF_highPerf
+
+endlibrary gpdk090
+

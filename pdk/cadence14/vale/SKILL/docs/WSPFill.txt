@@ -1,0 +1,32 @@
+VALE Framework Component Module:
+--------------------------------
+   Insert WSP Fill
+
+Description:
+------------
+   Translate Width-spacing Patterns to shapes in the design.
+
+   A local WSP is defined by a layer and purpose pair specific for that wiring
+pattern.  For example, if a layer "PC18" purpose "track" rectangle defines the
+boundary of the local WSP, then the lines of the track pattern are visible in
+that region only.  WSPFill generates shapes within the PC18 track rectangle.
+
+   A global WSP has the track pattern lines visible over the entire canvas.
+In order for WSPFill to generate shapes, a prBoundary is required to "contain"
+the generated shapes in a specific area.
+
+   If a local WSP exists, WSPFill will expect all WSPs to be local.  Either
+use all global WSPs or all local WSPs when using WSPFill.
+
+   WSPFill ignores gray wires.
+      
+Dependencies:
+-------------
+   A Width-spacing Pattern (WSP) must be defined in the current cellview, or
+technology file.
+
+Development Notes:
+------------------
+   All aspects of this Component Module were developed by Cadence.
+   Please contact Jonathan Fales for more information: jfales@cadence.com
+

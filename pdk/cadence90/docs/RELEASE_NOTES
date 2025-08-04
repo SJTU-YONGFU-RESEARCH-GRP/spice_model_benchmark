@@ -1,0 +1,925 @@
+RELEASE NOTES FOR THE 90nm GPDK
+--------------------------------------------------------------------------------
+VERSION v4.6
+--------------------------------------------------------------------------------
+- gpdk090 OA22 library built natively with IC6.1.5 release code
+- gpdk090 CDB library built natively with IC5.10.41_USR6.127.29 release code
+- Modified assura deck to stop multiple errors in metal spacing (704367)
+- min width rule for VIA1 has been added to techfile (721963)
+- substrate key added to M1_PSUB in techfile (744957)
+- Updated cph.lam file to ignore 4 term device attributes (744967)
+- prBoundary is no more valid layer (744956)
+- mos callback modified to handle the string values properly (789994)
+- modified soce_gds.map file based on peider's input (811750)
+
+--------------------------------------------------------------------------------
+VERSION v4.5
+--------------------------------------------------------------------------------
+- gpdk090 OA22 library built natively with IC6.1.3.500.13 release code
+- gpdk090 CDB library built natively with IC5.10.41_USR6.127.29 release code
+- Modified assura/diva ruledeck not to show error in NWELL RES for NW.SP.2
+- Fixed DRC issue in Metal resistors for Metalk.SP.4,5,6 rules
+- MOSCAP faced following DRC errors OXIDE.L.1 and POLY.SE.3. Modified max value
+  of length and width from 30u to 20u
+- MOS also faced issue in OXIDE.L.1. Modified the callback of MOS to handle the
+  issue and reset value of length to 21.68, if width is less than 0.18u
+- Fixed stretch handles issues, now src/drn metal stretch for nf>10 
+- Fixed callback issue in MOS, which was issue in fingers (646535)
+- Modified SIPROT.SE.1 (0.25 to 0.24) to have same value as POLYR.SE.1
+  Also modified the assura/diva DRC ruledeck (704362)
+- Modified CDL netlist of nmos1v_iso to have empty subcircuit (680369)
+- Changed PRboundary stream layer mapping (62 to 99) (671980)
+- PWdummy is added as pwell function in techfile (669825)
+- Added siteDef samples to techfile (626779)
+- Added bulk terminals to be ignored and added more sim parameters to ignore in
+  LAM file to avoid mismatch messages (693841)
+- Added model management file in library to avoid clobber in modelfile set-up
+  (637962)
+- Removed cdsenv and added it in libInitCustomExit.il 
+  Custom Filter file is also added in library for ADEXL usage
+--------------------------------------------------------------------------------
+VERSION v4.4
+--------------------------------------------------------------------------------
+- gpdk090 OA22 library built natively with IC6.1.3.500.1 release code
+- gpdk090 CDB library built natively with IC5.10.41_USR5.90.69 release code
+- Removed extraneous subckt parameters from mimcap spectre model
+- Removed extraneous subckt parameters from diode spectre model
+- Updated Circuit prospector entries in libInitCustomExit.il (CCR 605869)
+- Updated ijth settings in MOS models to remove extraneous warnings
+- Updated Assura compare rules for CDL netlister (CCR 607542)
+- Added must connect group for pcell body tie pins (CCR 609600)
+- Resistor contact resistance set to zero to avoid double counting in RCX
+
+--------------------------------------------------------------------------------
+VERSION v4.3
+--------------------------------------------------------------------------------
+- gpdk090 OA22 library built natively with IC6.1.2.500.17 release code
+- gpdk090 CDB library built natively with IC5.10.41_USR5.90.69 release code
+- Renamed LEFDefaultRouteSpec to LEFDefaultRouteSpec_gpdk090 (CCR 594263)
+- Spectre models updated for corners, MC, mismatch, and noise
+- Techfile updates made in preparation for IC6.1.3 release
+- Removed CDF extraneous simulation MOS parameters (CCR 595042)
+- Created new QRC database with 3d field solver information (CCR 582163)
+- Added missing 2 terminal resistor pcell schematics (CCR 537806)
+
+--------------------------------------------------------------------------------
+VERSION v4.2
+--------------------------------------------------------------------------------
+- gpdk090 OA22 library built natively with IC6.1.2.500.9 release code
+- gpdk090 CDB library built natively with IC5.10.41_USR5.90.69 release code
+- Added transistorDSPF option for the extraction in the GPDK090 (CCR 551957)
+- Changed Assura compare.rul file to fix parallel cap combine error (CCR 553798)
+- Updated Poly to Oxide spacing for DFM to fix inadvertent change (CCR 555400)
+
+--------------------------------------------------------------------------------
+VERSION v4.1
+--------------------------------------------------------------------------------
+- gpdk090 OA22 library built natively with IC6.1.2.500.8 release code
+- gpdk090 CDB library built natively with IC5.10.41_USR5.90.69 release code
+- Added several MOS and Res devices with Inherted Connections (CCR 537806)
+- Renamed the ASCII techfiles to support the DFII GUI file lookup (CCR 542850)
+- Added CDF AreaFormula parameter to support ADE-GXL optimization (CCR 468274)
+- Added Metal Layer CurrentDensity information to the IC61 techfile
+- Fixed issue with multi-abutment of MOS devices (CCR 530084)
+- The following model updates made: (CCR 549179)
+        1. Resistor corners fixed and corner names changed to "h" and "l"
+                Note: h=high, l=low (old values are "b" and "w").
+        2. MIMCAP corners added
+        3. MOS gate leakage added/fixed
+        4. MOS 1/f noise added
+        5. Native NMOS devices changes:
+                (a) "vth" and "k1"
+                (b) Update model name in CDF of nmos1v_nat and nmos2v_nat
+        6. MOSCAP gate leakage: MOSCAP now points to MOS model
+        7. Monte Carlo device matching models:
+                (a) Resistor and MOS model changed
+                (b) simM added to MOS CDFs.
+
+--------------------------------------------------------------------------------
+VERSION v4.0
+--------------------------------------------------------------------------------
+- gpdk090 OA22 library built natively with IC6.1.1.500.42 release code
+- gpdk090 CDB library built natively with IC5.10.41_USR5.90.69 release code
+- Updated MOS abutment code to rodGetObj issue (CCR 475621)
+- Updated device display form code to avoid CPH warnings (CCR 402104)
+- Tweaked Mos abutment connecitvity to avoid weak connect warning (CCR 498072)
+- Updated MOS callback code to avoid width looping issue (CCR 509902)
+
+--------------------------------------------------------------------------------
+VERSION v3.9
+--------------------------------------------------------------------------------
+- gpdk090 OA22 library built natively with IC6.1.1.500.14 release code
+- gpdk090 CDB library built natively with IC5.10.41_USR4.54.77 USR4 release code
+- Updated gate to contact spacing for high voltage MOS with DFM (CCR 439638)
+- Updated implant spacing on high voltage MOS with abuttment (CCR 439659)
+- Added wide metal spacing support in MOS devices (CCR 444271)
+- Added 1u maximum to source/drain metal width in MOS devices
+- Added wide metal spacing support to diode devices
+- Added contact array spacing support to MOS devices
+- Removed integrated body tie support for HVT MOS devices due to DRC issues
+- Updated minimum length to 1.2u for NW resistors due to DRC issues
+- Removed dummy device support for metal resistors due to wide metal issues
+- Updated MOSCAP devices to fix callback error when DFM option was chosen
+
+--------------------------------------------------------------------------------
+VERSION v3.8
+--------------------------------------------------------------------------------
+- gpdk090 OA22 library built natively with IC6.1.1.64 Baseline release code
+- gpdk090 CDB library built natively with IC5.10.41_USR4.54.77 USR4 release code
+- Updated techfile via spacing check from .5 to .55 for VIA7&VIA8 (CCR 399115)
+- Added gpdk090.lef (Technology only) LEF file to the PDK release
+- Update QX files and added sensitivity corner data file for QX (PCR 938680)
+- Updated process techfile by doing a LefIn of the process LEF file(CCR 403244)
+- Updated DRC deck to Merge Metal purposes before non45 check (CCR 403988)
+- Updated MOS abuttment code to allow renaming of butted devices (CCR 387160)
+
+--------------------------------------------------------------------------------
+VERSION v3.7
+--------------------------------------------------------------------------------
+- gpdk090 OA22 library built natively with IC6.1.1.56 preFCS code
+- Added parasitc AD/AS/PD/PS calculations to the Assura extract rules
+- Changed PD/PS calculations to include gate periphery
+- Added ignore of "simM" to the CPH lam file to solve back annotation problem
+- Recompiled OA22 library with IC611 to fix issue with OA2LEF (PCR 939362)
+- Added rcx corner files for Assura using Techgen in EXT62 (PCR 938680)
+- Updated Circuit prospector libInit settings to match new format (PCR 941231)
+- Updated libInit to resolve issue with gpdk090 version printing (PCR 943345)
+
+--------------------------------------------------------------------------------
+VERSION v3.6
+--------------------------------------------------------------------------------
+- Gpdk090 OA22 library built natively with IC6.1.0 FCS code
+- Changed adjacent via 3x3 check halo from 0.22 to 0.21 (PCR 932720)
+- Updated Assura cumulative antenna checks to use the new CAR model (PCR 928771)
+- Removed default simulator setting from libInit for the IC61 PDK (PCR 939589)
+- Removed validLayer and validVia from foundry constraint group (PCR 931826)
+- Updated libInit print version to use relative paths (PCR 934335)
+- Updated hitlite display from solid to thickline (PCR 934336)
+- Removed site defs from gpkd090 techfile because defined in gsclib (PCR 939321)
+- Added prBoundary to set the metal fill region area (PCR 933613)
+
+--------------------------------------------------------------------------------
+VERSION v3.5
+--------------------------------------------------------------------------------
+- Gpdk090 OA22 library built natively with IC6.1.0 FCS code
+- Removed DBU settings in the library cdsenv file
+- Removed incorrect cdsParameter and instParameter settings for the Moscaps
+- Updated the CPH Lam file with VXL ignore check parameters
+- Added a PDK version print statement to the library libinit file
+- Changed the Nzvt to Oxide spacing from 0.4 to 0.28 to fix Mos tie error
+- Created the missing 64 bit PDK context file (PCR 931826)
+- Fixed issue with MPP techfile definition in last release
+- Added a PDK specification to the docs directory
+- Added Circuit Prospector default settings in PDK init files
+
+--------------------------------------------------------------------------------
+VERSION v3.4
+--------------------------------------------------------------------------------
+- Changed model files that hd "0." values to "0.0" values (PCR 925054)
+- Changed the function for Oxide_thk to recongnition for IC61 (PCR 926006)
+- Updated the default display.drf file to match the AMS kit (PCR 927746)
+- Reran Assura 316 capgen with cap_ground_layer psubstrate option (PCR 925065)
+- Added DFM constraint group to the IC61 techfile
+- Updated DRC check CONT.E.4 to fix conditional check (PV 2720)
+- Added IC61 techfile support of VLO (PCR 909691)
+- Added CPH required LAM file to the IC61 hierarchy (PCR 927469)
+
+--------------------------------------------------------------------------------
+VERSION v3.3
+--------------------------------------------------------------------------------
+- Added TurboToolBox support to the OA2.2 IC6.1 library.
+- Added Fill purpose to the metal layers for density support
+- Update the Assura fill routines to use the Metal fill purpose
+
+---------------------------------------------------------------------------------------------------
+VERSION v3.2
+--------------------------------------------------------------------------------
+- Updated IC61 constraint rules to fix routing error in CCAR (PCR 891924)
+- Created new standardViaDefs in IC61 to take advantage of new definition capability
+- Moved CDB symbolics and cdsVias into cdsVias in IC61 to support legacy design
+- Removed LEF constraint group from IC61 techfile. This should be part of gsclib
+- Updated MosCap callback to fix logic error in parameter evaluation
+- Updated Assura and Diva DRC to make via stacking a suggested check (PCR 900777)
+
+-------------------------------------------------------------
+VERSION v3.1
+--------------------------------------------------------------------------------
+- Removed OA2.0 library from release. Only CDB and OA2.2 will be supported going forward.
+- Native built OA2.2 / IC61 library created for this release
+- Valid layers updated in OA2.2 techfile (PCR 892211)
+- OA2.2 techfile updated to support IC61 CCAR (PCR 891924)
+- 4th terminal added to nmos devices created without body tie (PCR 877377)
+- Diva and Assura files updated to support added dummy layers
+- Revised Assura Antenna rules added to this release (PCR 874705)
+- Updated OA2.2 techfile to support turbo toolbox (PCR 894521)
+- Updated procfile and Assura RCX data
+- Merged CDB symbolics and CDB cdsVias into common standardVia for OA2.2 techfile
+- Updated CDL netlisting to match Assura LVS rules
+- Updated parameter checking for Assura and Diva LVS
+- Added stream directory in build for OA2.2 capability
+
+--------------------------------------------------------------------------------
+VERSION v3.0
+--------------------------------------------------------------------------------
+- Removed SiProt to Nwell spacing rule from OA2.0 techfile (PCR 871780)
+- Added updated display.drf file to all gpdk090 pdk libraries (PCR 871782)
+- Updated hspiceD device netlisting (PCR 878593)
+- Created and added Metal fill rules to the Assura tool suite (PCR 874707)
+- Updated Antenna rules for the Assura tool suite (PCR 874705)
+- Added new pin connectivity model to OA22 pcells
+- Added boundry spacing rules to the OA22 techfile (PCR 881405)
+- Updated CDB table spacing techfile rules for Vias (PCR 883964)
+- Updated procfile and Assura RCX data (PCR 881571)
+- Updated ignore params in OA22 pdk to use new property names (PCR 877381)
+- Updated the fireIce files with the latest data from AMS kit team
+- Updated the vavo files with the latest data from AMS kit team
+- Updated the soce cap files with the latest data from AMS kit team
+
+--------------------------------------------------------------------------------
+VERSION v2.9
+--------------------------------------------------------------------------------
+- Corrected netlisting error for schematic pcells using OA22
+
+--------------------------------------------------------------------------------
+VERSION v2.8
+--------------------------------------------------------------------------------
+Changes:
+- Added DFM to MOS pcells and DRC rules
+- Corrected snap to grid issue with mimcap callback calculations
+- Modified the Nhvt and Phvt rules to allow integrated body ties
+- Recompiled Assura RCX data to exclude MOS gate resistance
+- Added updated fireIce file for resistance extraction
+
+--------------------------------------------------------------------------------
+VERSION v2.7
+--------------------------------------------------------------------------------
+Changes:
+- Recompiled rcx capgen files using Assura version 3.1.4 USR2
+- Added a simple mim capacitor to the PDK
+- Updated the block ICC rules
+- Returned table spacing rules to their original high to low order
+- Updated VLM rules to match AMS Flow Kit data
+- Updated Neocell rules to match AMS Flow Kit data
+- Updated Neocircuit rules to match AMS Flow Kit data
+
+--------------------------------------------------------------------------------
+VERSION v2.6
+--------------------------------------------------------------------------------
+Changes:
+- Updated table spacing rules to go from low to high instead of the other way
+- Renamed masco directory to pvs
+
+--------------------------------------------------------------------------------
+VERSION v2.5
+--------------------------------------------------------------------------------
+Changes:
+- Changed resistor schematic pcell code to support AMS in the OA22 library
+- Translated a new OA22 library using the 5.2.51 (270) build
+
+--------------------------------------------------------------------------------
+VERSION v2.4
+--------------------------------------------------------------------------------
+Changes:
+- Added a gds map file for SOC encounter (PCR 811195)
+- Added SOC encounter cap table files to PDK
+- Removed invalid minEnclosure rules from techfile (PCR 811741)
+- Updated layerFunctions in the techfile
+- Updated maximum via stack rules (PCR 811179)
+- Replaced fire and ice techfile with updated version (PCR 811187)
+- Added LVSInclude file to the default assura techRuleSets file (PCR 811182)
+- Reordered assura grid checks to avoid symbolic pin error (PCR 811180)
+- Removed the gpdk090 LEF file from the tar kit. Use the one located in the CDK
+- Translated a new OA22 library using the 5.2.51 (262) build
+
+--------------------------------------------------------------------------------
+VERSION v2.3
+--------------------------------------------------------------------------------
+Changes:
+- Corrected values in the cdb table spacing rules for wide metal
+- Changed the minimum area rules for Metal2 thru Metal7 from .09 to .08
+- Renamed all references of *.cdba to *.cdb
+
+--------------------------------------------------------------------------------
+VERSION v2.2
+--------------------------------------------------------------------------------
+Changes:
+- Added "gec3DBUPerUU" property to cdb library for SOCE
+- Removed LEF information from DFII techfiles shipped with PDK
+- Layer Function order in techfiles was updated
+- Translated a new OA22 library using the 5.2.51 (212) build
+
+--------------------------------------------------------------------------------
+VERSION v2.1
+--------------------------------------------------------------------------------
+Changes:
+- Converted a new OA22 library using the 5.2.51 (194) build
+- Updated Reference Manual to match latest revisions
+- Changed viaRule definition in the techfile to avoid an issue in OA2.2
+- Changed via definition in the LEF file to avoid an issue in OA2.2
+- Changed layer routing direction error in the techfile
+- Updated Diva, Assura, and Masco PV rules for pin layer issue
+- Updated the hilite definitions is the display.drf file
+
+--------------------------------------------------------------------------------
+VERSION v2.0
+--------------------------------------------------------------------------------
+Changes:
+- Changed Thick Oxide to Oxide spacing to 0.28um (PCR 769709)
+- Converted a new OA22 library using the 5.2.51_Beta1 (170) build
+- Changed the mos simulation values for hv_u0_ne and hv_u0_pe (PCR 782125)
+- Added initial release of the Masco DRC rules
+- Corrected inconsistency with vertical pnp LVS netlisting (PCR773581)
+
+--------------------------------------------------------------------------------
+VERSION v1.1.2
+--------------------------------------------------------------------------------
+Changes:
+- Added OA22 version of the gpdk090 library to the hierarchy
+- Added missing display.drf files to OA libraries
+
+--------------------------------------------------------------------------------
+VERSION v1.1.1
+--------------------------------------------------------------------------------
+Changes:
+- Added library name to Diva and Assura extract decks
+- Changed auCdl names to match auLvs names
+- Updated MergePinAndNet switch in verification rules (PCR 765134)
+- Added net purpoese to stream map for Metal1-9 layers 
+- Changed Bondpad width from 55um to 52um
+- Updated and included ascii techfiles for cdb and oa2.0 to include icc.rules
+- Added icc.block.rules for vcr routing at the top level
+- Included reliability analysis mos scs model file for spectre
+- Updated LVSinclude.rsf file to include bus binding
+- Updated technology lef file and read the new lef into the OA2.0 techfile
+- Added Row Boundary lpp to the valid layer list but turned display off
+- Added library name to extraction statements for Diva and Assura (PCR 661962)
+- Excluded bond pads from slot DRC checks
+- Updated rule NWR.O.1 for the nwell resistor
+
+--------------------------------------------------------------------------------
+VERSION v1.1.0
+--------------------------------------------------------------------------------
+Changes:
+- Updated Nwell to Nburied spacing rules to allow for isolated guardrings
+- Fixed AMS error in diode CDF's
+- Updated callback checks for vpnp's and diodes
+- Updated via stacking rules to fix false errors in standard cell library
+- Added MergePinAndNet switch to assura rules
+- Fixed DRC spacing errors in resistor guardrings
+- Removed butting body tie option for Native Nmos devices
+- Changed OXIDE.SP.3 from 0.18um to 0.15um
+
+--------------------------------------------------------------------------------
+VERSION v1.0.9
+--------------------------------------------------------------------------------
+Changes:
+- Changed location of the cds.lib, assura_tech.lib, and VERSION files(PCR 739543)
+- Moved the location of the SNA files to reduce the hierarchy (PCR 739543)
+- Added "RowBnd" to the display.drf
+- Changed minimum bond pad width from 55um to 52um
+- Added Oxide-thk to the avextracted view created by Assura (PCR 723424)
+- Added geomCat to extract deck for RCX issue (PCR 757885)
+- Added stretchable bipolar npn and pnp devices to the PDK (PCR 753173)
+- Added PAS generated NEOCELL files to the PDK
+- Removed old voltageStorm data and linked to appropriate FireIce file
+
+--------------------------------------------------------------------------------
+VERSION v1.0.8
+--------------------------------------------------------------------------------
+Changes:
+- Fixed problem in VXL with Moscap Abuttment (PCR 749878)
+- Added extra enclosure rules in the techfile for Qcells (PCR 703810)
+- Added extra net layers to Assura extract for Oxide and Nwell (PCR 723424)
+- Updated icc.rules file to allow wire editor routing (PCR 709239)
+- Updated compare rules to allow for iterated dummy resistors (PCR 745597)
+- Updated compare rules to fix problem with moscap "m" factors (PCR 752307)
+- Added Assura LVS support for isolated mos devices (PCR 738123)
+- Fixed false DRC errors related to LATCHUP.3 rule
+- LEF technology file is compiled into the DFII binary for OA2.0 (PCR 749574)
+- Added Voltage Storm data file to pdk hierarchy (PCR 718488)
+
+--------------------------------------------------------------------------------
+VERSION v1.0.7
+--------------------------------------------------------------------------------
+Changes:
+- Updated Assura and Diva LVS rules for series and parallel resistor(PCR 742782)
+- Added MOS capacitor entry modes for the MOS capacitors (PCR 742414)
+- Added missing net purposes for Assura extracted view (PCR 723424)
+- Added missing display.drf references in the OA2.0 techfile
+
+--------------------------------------------------------------------------------
+VERSION v1.0.6
+--------------------------------------------------------------------------------
+Changes:
+- Updated Assura and Diva LVS support for vpnp2, vpnp5, vpnp10 (PCRs 722588, 721948) 
+- Updated icc.rules file (PCR 726635)
+- Added LVSinclude.rsf file to Assura (PCR 737155)
+- Updated prRules to add contact definition for Abstract tool (PCR 739914)
+- Added VLM support in directory "vlm" (PCR 718487)
+- Added VAVO support in directory "vavo"
+
+--------------------------------------------------------------------------------
+VERSION v1.0.5
+--------------------------------------------------------------------------------
+Changes:
+- Remove Bondpad metals from MSLOT1_W_1_MSLOT2_L_1 (M1-M9).
+- Changed bondpad_metalx and appended andnot metalx_slot.
+- Changed bondpad_sq def. to size down/up rather than >.
+- Added missing metal and via in bondpad checks.
+- Rewrote BONDPAD_L_1
+- Corrected definition of bomdpad_metalx_filled
+- Removed bondpad metals from METALx_SLOT.E.1 checks
+- Split BONDPAD_B1 into two macros.
+- Reworded comments at top of Bondpad DRC.
+- Updated MOSCAP symbols per PCR 721436
+- Added ams simInfo/view to res.
+
+--------------------------------------------------------------------------------
+VERSION v1.0.4
+--------------------------------------------------------------------------------
+Changes:
+- ESD.14 rule was changed from 0.4 to 0.3 
+- ESD.4 for p-type corrected
+
+--------------------------------------------------------------------------------
+VERSION v1.0.3
+--------------------------------------------------------------------------------
+Changes:
+- Changed device extraction to extract 'fw' (finger width) and 'simW' for mos devices in addition to w & l.
+- Changed device extraction to extract segL, segW and segR for resistors in addition to w & l.
+
+--------------------------------------------------------------------------------
+VERSION v1.0.2
+--------------------------------------------------------------------------------
+Changes:
+- Merge metal drawing and pin purposes
+
+--------------------------------------------------------------------------------
+VERSION v1.0.1
+--------------------------------------------------------------------------------
+Changes:
+- Updated existing Bondpad rules and added additional rules
+- Added missing design rules to DFII techfile (PCR#703810)
+- Updated icc.rules file (PCR#703789)
+- Updated 'minSpacing Nimp to Pimp' in DFII techfile from 18.0 to 0.18
+- Fixed resistor callback problem when switching instance masters
+- Fixed cdsVias in DFII techfile
+ 
+--------------------------------------------------------------------------------
+VERSION v1.0.0
+--------------------------------------------------------------------------------
+New:
+- Pin purpose support for LVS
+- Subcircuit model for nmos1v_iso
+- Added Fire & Ice technology file and layermaps
+- Added SNA technology files
+- Added PDK reference manual
+- Added LPPs required by NeoCell to DFII techfile
+
+Changes:
+- Updated Resistor Pcell for PAS 2.8
+- Updated MOS devices: added QCell abutment compatibility, added
+ abutClass device property, added upper limits for m, tapCntRows,
+ and fingers. Updated implant enclosure for compatibility with QCells.
+- Updated dielectric table add Pass1 & Pass2
+- Change default value for region to " " (MOSFETs)
+
+--------------------------------------------------------------------------------
+VERSION v0.5.7
+--------------------------------------------------------------------------------
+New:
+- Added 3-term moscap device
+- Added SNA layer and layer purposes required by SNA tool
+
+Changes:
+- Removed gpdk090_tech_9lm-lite.lef file and resulting vias from GPDK
+- Included latest gpdk090_tech_9lm.lef (v 0.6) 
+- Re-ran LEFIN with latest lef file.
+- Fixed generated techfile sections.
+- Fixed metal9 layer function.
+- Change Assura decks to include 'pin' purpose
+
+--------------------------------------------------------------------------------
+VERSION v0.5.6
+--------------------------------------------------------------------------------
+Changes:
+- Added prBoundary to stream file
+- Fixed resistor netlist problem
+- Added material to layerRules for CCAR
+
+--------------------------------------------------------------------------------
+VERSION v0.5.5
+--------------------------------------------------------------------------------
+New: 
+- Added gpdk090_tech_9lm-lite.lef file from M. Linnik to work around via issues.
+
+Changes:
+- Added missing layer purposes to cdb version of techfile.
+- Ran lef-in with gpdk090_tech_9lm-lite.lef file
+
+--------------------------------------------------------------------------------
+VERSION v0.5.4
+--------------------------------------------------------------------------------
+New:
+- Added vpnps (2x2,5x5,10x10)
+- Added metal resistors
+- Added LEF technology file
+- Added SOC Encounter cap tables
+
+Changes:
+- Changed METALk.SP.1.1 (k=8,9) from 0.44u to 0.40um.
+- Changed parallel run length for METALk.SP.1.2 (k=1..7) from 0.50u to 0.56u (spacing stayed the same)
+- Fixed error message for VIAk.X.1 and VIAk.X2 (k=1..6)
+- Added missing ivpcell view for resistors
+- Added layer stream map table
+- Removed rule POLYR.X.2 (Poly resistors must have Salicide Block)
+- Fixed contact poly spacing violation in salicided poly resistors
+- Added post lef-in sections to DFII techfile
+
+--------------------------------------------------------------------------------
+VERSION v0.5.3
+--------------------------------------------------------------------------------
+Changes:
+- Added recognition layer to moscaps
+- Added moscaps to LVS
+- Updated LVS for nmos/pmos 1.2/2.5
+
+--------------------------------------------------------------------------------
+VERSION v0.5.2
+--------------------------------------------------------------------------------
+New: 
+- Added 2v moscaps.
+
+Changes:
+- Fixed LVS to recognize poly resistors on nwell.
+- Fix problem with wrong model references.
+- Fixed resistor pcells. Removed recognition layer from dummy resistors
+
+--------------------------------------------------------------------------------
+VERSION v0.5.1
+--------------------------------------------------------------------------------
+Changes:
+- Moved dbu/uu setting in .cdsenv to top of file because of Assura issue.
+
+--------------------------------------------------------------------------------
+VERSION v0.5.0
+--------------------------------------------------------------------------------
+New:
+- Added initial version of moscaps
+- Added extract & compare rules for resistors, diode and moscaps.
+- Updated the device model names on mos device CDFs to match model files.
+- Added revison history to rule decks
+
+Changes:
+- Replaced icc.rules file with version from OBAX
+- Removed METALk.EA.1 (k=1..9) rules
+- Removed METALk.SP.3 (k=1..9) rules
+
+--------------------------------------------------------------------------------
+VERSION v0.4.2
+--------------------------------------------------------------------------------
+Changes:
+- Fixed false error in rule METAL1.SP.3
+- Fixed false error in METLAk.SP.3 (k=2..7) 
+- Changed VIAk.SP.1 from 0.18u to 0.15u to allow smaller routing grid
+ 
+--------------------------------------------------------------------------------
+VERSION v0.4.1
+--------------------------------------------------------------------------------
+New:
+- Added 90nm spectre models for MOS devices
+
+Changes:
+- Updated the gpdk090_DRM.pdf file under docs directory.
+- Changed VIAk.E.1 from 0.02 to 0.005
+- Changed METALk.E.1 from 0.03 to 0.005
+- Changed METALk.E.2 from 0.08 to 0.06
+- Changed Tox for MOS devices
+- Changed layout grid spacing from 0.01 to 0.005 to match mfg grid
+
+--------------------------------------------------------------------------------
+VERSION v0.4.0
+--------------------------------------------------------------------------------
+New:
+- Added Resistor and diodes (Pcells, Symbols, CDF and SimViews)
+- Added Bondpad rules to DRC
+- Added icc.rules file to techFiles directory
+
+Changes:
+- Changed max gate width and lenght to 30u for mos devices
+- Fixed inconsistent dbu/uu on symbolics
+
+--------------------------------------------------------------------------------
+VERSION v0.3.2 
+--------------------------------------------------------------------------------
+New:
+- Added Ntap (M1_NWELL) and Ptab (M1_PSUB) symbolic contacts 
+  (can not implement them with cdsViaDevices since they only support 3 layers)
+
+Changes/Fixes:
+- Changed POLY.SP.2 and POLY.SP.3 from 0.2u to 0.12u (per Shufans request)
+- Changed NIMP.SE.3 and PIMP.SE.3 from 0.28um to 0.18u (per Shufans request)
+- Fixed problem with nmos/pmos devices SD/Gate connection in VXL
+- Fixed M2_M1 cdsViaDevice Metal1-Via1 Enclosure
+
+--------------------------------------------------------------------------------
+VERSION v0.3.1 
+--------------------------------------------------------------------------------
+New:
+- prRules section
+- ccar rules section
+- cdsViaDevices
+- multiPartPath 
+
+
+Changes:
+- Changed stipple patterns for Nimp and Pimp
+- Added prefix to model names in CDF and model files
+- Removed metal spacing rule for w <= 0.18 and l <=0.5
+- Changed CONT.E.4 from 0.08 to 0.06.
+- Changed METAL1.E.1 from 0.02 to 0.00.
+- Changed NIMP.E.2 from 0.04 to 0.02.
+- Changed PIMP.E.2 from 0.04 to 0.02.
+- Changed NIMP.SE.2 from 0.04 to 0.02.
+- Changed PIMP.SE.2 from 0.04 to 0.02.
+- Changed OXIDE.SP.3 fro 0.20 to 0.18.
+
+--------------------------------------------------------------------------------
+VERSION v0.3.0 
+--------------------------------------------------------------------------------
+New:
+- Added prelim. device models to PDK
+- Initial PDK release with MOS devices (CDF, callbacks, PCells, SimViews) OA2.0 and CDB
+- Added Psub layer
+
+Bug fixes
+- Removed Pwell from Assura Extract file
+
+--------------------------------------------------------------------------------
+VERSION v0.2.0 
+--------------------------------------------------------------------------------
+New:
+- Initial Assura LVS/RCX
+
+--------------------------------------------------------------------------------
+VERSION v0.1.0 (initial version)
+--------------------------------------------------------------------------------
+New:
+- Basic Assura DRC (no pad and esd rules)
+
+Bug fixes:
+-
+DRC and LVS and TECHFILE 
+RELEASE NOTES FOR THE 90nm GPDK
+--------------------------------------------------------------------------------
+VERSION v0.5.2
+--------------------------------------------------------------------------------
+New: 
+- Added 2v moscaps.
+
+Changes:
+- Fixed LVS to recognize poly resistors on nwell.
+- Fix problem with wrong model references.
+- Fixed resistor pcell problem. Removed recognition layer from dummy resistors.
+
+--------------------------------------------------------------------------------
+VERSION v0.5.1
+--------------------------------------------------------------------------------
+Changes:
+- Moved dbu/uu setting in .cdsenv to top of file because of Assura issue.
+
+--------------------------------------------------------------------------------
+VERSION v0.5.0
+--------------------------------------------------------------------------------
+New:
+- Added initial version of moscaps
+- Added extract & compare rules for resistors, diode and moscaps.
+- Updated the device model names on mos device CDFs to match model files.
+- Added revison history to rule decks
+
+Changes:
+- Replaced icc.rules file with version from OBAX
+- Removed METALk.EA.1 (k=1..9) rules
+- Removed METALk.SP.3 (k=1..9) rules
+
+--------------------------------------------------------------------------------
+VERSION v0.4.2
+--------------------------------------------------------------------------------
+Changes:
+- Fixed false error in rule METAL1.SP.3
+- Fixed false error in METLAk.SP.3 (k=2..7) 
+- Changed VIAk.SP.1 from 0.18u to 0.15u to allow smaller routing grid
+ 
+--------------------------------------------------------------------------------
+VERSION v0.4.1
+--------------------------------------------------------------------------------
+New:
+- Added 90nm spectre models for MOS devices
+
+Changes:
+- Updated the gpdk090_DRM.pdf file under docs directory.
+- Changed VIAk.E.1 from 0.02 to 0.005
+- Changed METALk.E.1 from 0.03 to 0.005
+- Changed METALk.E.2 from 0.08 to 0.06
+- Changed Tox for MOS devices
+- Changed layout grid spacing from 0.01 to 0.005 to match mfg grid
+
+--------------------------------------------------------------------------------
+VERSION v0.4.0
+--------------------------------------------------------------------------------
+New:
+- Added Resistor and diodes (Pcells, Symbols, CDF and SimViews)
+- Added Bondpad rules to DRC
+- Added icc.rules file to techFiles directory
+
+Changes:
+- Changed max gate width and lenght to 30u for mos devices
+- Fixed inconsistent dbu/uu on symbolics
+
+--------------------------------------------------------------------------------
+VERSION v0.3.2 
+--------------------------------------------------------------------------------
+New:
+- Added Ntap (M1_NWELL) and Ptab (M1_PSUB) symbolic contacts 
+  (can not implement them with cdsViaDevices since they only support 3 layers)
+
+Changes/Fixes:
+- Changed POLY.SP.2 and POLY.SP.3 from 0.2u to 0.12u (per Shufans request)
+- Changed NIMP.SE.3 and PIMP.SE.3 from 0.28um to 0.18u (per Shufans request)
+- Fixed problem with nmos/pmos devices SD/Gate connection in VXL
+- Fixed M2_M1 cdsViaDevice Metal1-Via1 Enclosure
+
+--------------------------------------------------------------------------------
+VERSION v0.3.1 
+--------------------------------------------------------------------------------
+New:
+- prRules section
+- ccar rules section
+- cdsViaDevices
+- multiPartPath 
+
+
+Changes:
+- Changed stipple patterns for Nimp and Pimp
+- Added prefix to model names in CDF and model files
+- Removed metal spacing rule for w <= 0.18 and l <=0.5
+- Changed CONT.E.4 from 0.08 to 0.06.
+- Changed METAL1.E.1 from 0.02 to 0.00.
+- Changed NIMP.E.2 from 0.04 to 0.02.
+- Changed PIMP.E.2 from 0.04 to 0.02.
+- Changed NIMP.SE.2 from 0.04 to 0.02.
+- Changed PIMP.SE.2 from 0.04 to 0.02.
+- Changed OXIDE.SP.3 fro 0.20 to 0.18.
+
+--------------------------------------------------------------------------------
+VERSION v0.3.0 
+--------------------------------------------------------------------------------
+New:
+- Added prelim. device models to PDK
+- Initial PDK release with MOS devices (CDF, callbacks, PCells, SimViews) OA2.0 and CDB
+- Added Psub layer
+
+Bug fixes
+- Removed Pwell from Assura Extract file
+
+--------------------------------------------------------------------------------
+VERSION v0.2.0 
+--------------------------------------------------------------------------------
+New:
+- Initial Assura LVS/RCX
+
+--------------------------------------------------------------------------------
+VERSION v0.1.0 (initial version)
+--------------------------------------------------------------------------------
+New:
+- Basic Assura DRC (no pad and esd rules)
+
+Bug fixes:
+-
+DRC and LVS and TECHFILE 
+RELEASE NOTES FOR THE 90nm GPDK
+--------------------------------------------------------------------------------
+VERSION v0.5.2
+--------------------------------------------------------------------------------
+New: 
+- Added 2v moscaps.
+
+Changes:
+- Fixed LVS to recognize poly resistors on nwell.
+- Fix problem with wrong model references.
+- Fixed resistor pcell problem. Removed recognition layer from dummy resistors.
+
+--------------------------------------------------------------------------------
+VERSION v0.5.1
+--------------------------------------------------------------------------------
+Changes:
+- Moved dbu/uu setting in .cdsenv to top of file because of Assura issue.
+
+--------------------------------------------------------------------------------
+VERSION v0.5.0
+--------------------------------------------------------------------------------
+New:
+- Added initial version of moscaps
+- Added extract & compare rules for resistors, diode and moscaps.
+- Updated the device model names on mos device CDFs to match model files.
+- Added revison history to rule decks
+
+Changes:
+- Replaced icc.rules file with version from OBAX
+- Removed METALk.EA.1 (k=1..9) rules
+- Removed METALk.SP.3 (k=1..9) rules
+
+--------------------------------------------------------------------------------
+VERSION v0.4.2
+--------------------------------------------------------------------------------
+Changes:
+- Fixed false error in rule METAL1.SP.3
+- Fixed false error in METLAk.SP.3 (k=2..7) 
+- Changed VIAk.SP.1 from 0.18u to 0.15u to allow smaller routing grid
+ 
+--------------------------------------------------------------------------------
+VERSION v0.4.1
+--------------------------------------------------------------------------------
+New:
+- Added 90nm spectre models for MOS devices
+
+Changes:
+- Updated the gpdk090_DRM.pdf file under docs directory.
+- Changed VIAk.E.1 from 0.02 to 0.005
+- Changed METALk.E.1 from 0.03 to 0.005
+- Changed METALk.E.2 from 0.08 to 0.06
+- Changed Tox for MOS devices
+- Changed layout grid spacing from 0.01 to 0.005 to match mfg grid
+
+--------------------------------------------------------------------------------
+VERSION v0.4.0
+--------------------------------------------------------------------------------
+New:
+- Added Resistor and diodes (Pcells, Symbols, CDF and SimViews)
+- Added Bondpad rules to DRC
+- Added icc.rules file to techFiles directory
+
+Changes:
+- Changed max gate width and lenght to 30u for mos devices
+- Fixed inconsistent dbu/uu on symbolics
+
+--------------------------------------------------------------------------------
+VERSION v0.3.2 
+--------------------------------------------------------------------------------
+New:
+- Added Ntap (M1_NWELL) and Ptab (M1_PSUB) symbolic contacts 
+  (can not implement them with cdsViaDevices since they only support 3 layers)
+
+Changes/Fixes:
+- Changed POLY.SP.2 and POLY.SP.3 from 0.2u to 0.12u (per Shufans request)
+- Changed NIMP.SE.3 and PIMP.SE.3 from 0.28um to 0.18u (per Shufans request)
+- Fixed problem with nmos/pmos devices SD/Gate connection in VXL
+- Fixed M2_M1 cdsViaDevice Metal1-Via1 Enclosure
+
+--------------------------------------------------------------------------------
+VERSION v0.3.1 
+--------------------------------------------------------------------------------
+New:
+- prRules section
+- ccar rules section
+- cdsViaDevices
+- multiPartPath 
+
+
+Changes:
+- Changed stipple patterns for Nimp and Pimp
+- Added prefix to model names in CDF and model files
+- Removed metal spacing rule for w <= 0.18 and l <=0.5
+- Changed CONT.E.4 from 0.08 to 0.06.
+- Changed METAL1.E.1 from 0.02 to 0.00.
+- Changed NIMP.E.2 from 0.04 to 0.02.
+- Changed PIMP.E.2 from 0.04 to 0.02.
+- Changed NIMP.SE.2 from 0.04 to 0.02.
+- Changed PIMP.SE.2 from 0.04 to 0.02.
+- Changed OXIDE.SP.3 fro 0.20 to 0.18.
+
+--------------------------------------------------------------------------------
+VERSION v0.3.0 
+--------------------------------------------------------------------------------
+New:
+- Added prelim. device models to PDK
+- Initial PDK release with MOS devices (CDF, callbacks, PCells, SimViews) OA2.0 and CDB
+- Added Psub layer
+
+Bug fixes
+- Removed Pwell from Assura Extract file
+
+--------------------------------------------------------------------------------
+VERSION v0.2.0 
+--------------------------------------------------------------------------------
+New:
+- Initial Assura LVS/RCX
+
+--------------------------------------------------------------------------------
+VERSION v0.1.0 (initial version)
+--------------------------------------------------------------------------------
+New:
+- Basic Assura DRC (no pad and esd rules)
+
+Bug fixes:
+-

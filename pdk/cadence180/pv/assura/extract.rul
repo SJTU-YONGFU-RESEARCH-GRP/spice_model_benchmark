@@ -1,0 +1,1035 @@
+
+; Sample runset for 180 nm
+; technology
+; ASSURA(r) version 3.1.6 LVS file
+; PDK versino 3.3
+
+drcExtractRules(
+
+layerDefs("GDS2"
+
+    BJTdum=layer( 15 type(0) )
+
+    CapMetal=layer( 14 type(0) )
+    CapMetal_pin=pinLayer( 14 type(0) )
+
+    Capdum=layer( 12 type(0) )
+
+    Cont=layer( 6 type(0) )
+
+    DIOdummy=layer( 22 type(0) )
+
+    IND2dummy=layer( 17 type(0) )
+
+    IND3dummy=layer( 70 type(0) )
+
+    INDdummy=layer( 16 type(0) )
+    INDdummy_pin=pinLayer( 16 type(0) )
+
+    JVAR1dummy=layer( 43 type(0) )
+    JVAR1dummy_pin=pinLayer( 43 type(0) )
+
+    JVAR2dummy=layer( 44 type(0) )
+
+    JVAR3dummy=layer( 48 type(0) )
+
+    M1dummy=layer( 37 type(0) )
+
+    M2dummy=layer( 38 type(0) )
+
+    M3dummy=layer( 39 type(0) )
+
+    M4dummy=layer( 40 type(0) )
+
+    M5dummy=layer( 41 type(0) )
+
+    M6dummy=layer( 42 type(0) )
+
+    Metal1_d=layer( 7 type(0) )
+    Metal1_f=layer( 7 type(5) )
+    Metal1_pin=pinLayer( 7 type(0) )
+    Metal1_text=textToPin( 7 type(3) )
+    Metal1_pintext=text( 7 type(3) )
+
+    Metal2_d=layer( 9 type(0) )
+    Metal2_f=layer( 9 type(5) )
+    Metal2_pin=pinLayer( 9 type(0) )
+    Metal2_text=textToPin( 9 type(3) )
+    Metal2_pintext=text( 9 type(3) )
+
+    Metal3_d=layer( 11 type(0) )
+    Metal3_f=layer( 11 type(5) )
+    Metal3_pin=pinLayer( 11 type(0) )
+    Metal3_text=textToPin( 11 type(3) )
+    Metal3_pintext=text( 11 type(3) )
+
+    Metal4_d=layer( 31 type(0) )
+    Metal4_f=layer( 31 type(5) )
+    Metal4_pin=pinLayer( 31 type(0) )
+    Metal4_text=textToPin( 31 type(3) )
+    Metal4_pintext=text( 31 type(3) )
+
+    Metal5_d=layer( 33 type(0) )
+    Metal5_f=layer( 33 type(5) )
+    Metal5_pin=pinLayer( 33 type(0) )
+    Metal5_text=textToPin( 33 type(3) )
+    Metal5_pintext=text( 33 type(3) )
+
+    Metal6_d=layer( 35 type(0) )
+    Metal6_f=layer( 35 type(5) )
+    Metal6_pin=pinLayer( 35 type(0) )
+    Metal6_text=textToPin( 35 type(3) )
+    Metal6_pintext=text( 35 type(3) )
+
+    NPNdummy=layer( 20 type(0) )
+
+    Nburied=layer( 19 type(0) )
+    Nburied_pin=pinLayer( 19 type(0) )
+
+    Nimp=layer( 4 type(0) )
+    Nimp_pin=pinLayer( 4 type(0) )
+
+    Nwell=layer( 2 type(0) )
+    Nwell_pin=pinLayer( 2 type(0) )
+
+    Oxide=layer( 1 type(0) )
+
+    PNPdummy=layer( 21 type(0) )
+
+    Pimp=layer( 5 type(0) )
+    Pimp_pin=pinLayer( 5 type(0) )
+
+    Poly=layer( 3 type(0) )
+    Poly_pin=pinLayer( 3 type(0) )
+
+    Pwell=layer( 18 type(0) )
+    Pwell_pin=pinLayer( 18 type(0) )
+
+    RFdummy=layer( 69 type(0) )
+
+    ResWdum=layer( 71 type(0) )
+
+    Resdum=layer( 13 type(0) )
+
+    SiProt=layer( 72 type(0) )
+
+    ThickOxide=layer( 24 type(0) )
+
+    Via1=layer( 8 type(0) )
+
+    Via2=layer( 10 type(0) )
+
+    Via3=layer( 30 type(0) )
+
+    Via4=layer( 32 type(0) )
+
+    Via5=layer( 34 type(0) )
+
+    bulk=cellBoundary(root)
+)
+
+layerDefs("df2"
+
+    BJTdum=layer("BJTdum" type("drawing"))
+
+    CapMetal=layer("CapMetal" type("drawing"))
+    CapMetal_pin=pinLayer("CapMetal")
+
+    Capdum=layer("Capdum" type("drawing"))
+
+    Cont=layer("Cont" type("drawing"))
+
+    DIOdummy=layer("DIOdummy" type("drawing"))
+
+    IND2dummy=layer("IND2dummy" type("drawing"))
+
+    IND3dummy=layer("IND3dummy" type("drawing"))
+
+    INDdummy=layer("INDdummy" type("drawing"))
+    INDdummy_pin=pinLayer("INDdummy")
+
+    JVAR1dummy=layer("JVAR1dummy" type("drawing"))
+    JVAR1dummy_pin=pinLayer("JVAR1dummy")
+
+    JVAR2dummy=layer("JVAR2dummy" type("drawing"))
+
+    JVAR3dummy=layer("JVAR3dummy" type("drawing"))
+
+    M1dummy=layer("M1dummy" type("drawing"))
+
+    M2dummy=layer("M2dummy" type("drawing"))
+
+    M3dummy=layer("M3dummy" type("drawing"))
+
+    M4dummy=layer("M4dummy" type("drawing"))
+
+    M5dummy=layer("M5dummy" type("drawing"))
+
+    M6dummy=layer("M6dummy" type("drawing"))
+
+    Metal1_d=layer("Metal1" type("drawing"))
+    Metal1_f=layer("Metal1" type("fill"))
+    Metal1_pin=pinLayer("Metal1")
+    Metal1_text=textToPin("Metal1" type("label"))
+    Metal1_pintext=pinText("Metal1")
+
+    Metal2_d=layer("Metal2" type("drawing"))
+    Metal2_f=layer("Metal2" type("fill"))
+    Metal2_pin=pinLayer("Metal2")
+    Metal2_text=textToPin("Metal2" type("label"))
+    Metal2_pintext=pinText("Metal2")
+
+    Metal3_d=layer("Metal3" type("drawing"))
+    Metal3_f=layer("Metal3" type("fill"))
+    Metal3_pin=pinLayer("Metal3")
+    Metal3_text=textToPin("Metal3" type("label"))
+    Metal3_pintext=pinText("Metal3")
+
+    Metal4_d=layer("Metal4" type("drawing"))
+    Metal4_f=layer("Metal4" type("fill"))
+    Metal4_pin=pinLayer("Metal4")
+    Metal4_text=textToPin("Metal4" type("label"))
+    Metal4_pintext=pinText("Metal4")
+
+    Metal5_d=layer("Metal5" type("drawing"))
+    Metal5_f=layer("Metal5" type("fill"))
+    Metal5_pin=pinLayer("Metal5")
+    Metal5_text=textToPin("Metal5" type("label"))
+    Metal5_pintext=pinText("Metal5")
+
+    Metal6_d=layer("Metal6" type("drawing"))
+    Metal6_f=layer("Metal6" type("fill"))
+    Metal6_pin=pinLayer("Metal6")
+    Metal6_text=textToPin("Metal6" type("label"))
+    Metal6_pintext=pinText("Metal6")
+
+    NPNdummy=layer("NPNdummy" type("drawing"))
+
+    Nburied=layer("Nburied" type("drawing"))
+    Nburied_pin=pinLayer("Nburied")
+
+    Nimp=layer("Nimp" type("drawing"))
+    Nimp_pin=pinLayer("Nimp")
+
+    Nwell=layer("Nwell" type("drawing"))
+    Nwell_pin=pinLayer("Nwell")
+
+    Oxide=layer("Oxide" type("drawing"))
+
+    PNPdummy=layer("PNPdummy" type("drawing"))
+
+    Pimp=layer("Pimp" type("drawing"))
+    Pimp_pin=pinLayer("Pimp")
+
+    Poly=layer("Poly" type("drawing"))
+    Poly_pin=pinLayer("Poly")
+
+    Pwell=layer("Pwell" type("drawing"))
+    Pwell_pin=pinLayer("Pwell")
+
+    RFdummy=layer("RFdummy" type("drawing"))
+
+    ResWdum=layer("ResWdum" type("drawing"))
+
+    Resdum=layer("Resdum" type("drawing"))
+
+    SiProt=layer("SiProt" type("drawing"))
+
+    ThickOxide=layer("ThickOxide" type("drawing"))
+
+    Via1=layer("Via1" type("drawing"))
+
+    Via2=layer("Via2" type("drawing"))
+
+    Via3=layer("Via3" type("drawing"))
+
+    Via4=layer("Via4" type("drawing"))
+
+    Via5=layer("Via5" type("drawing"))
+
+    bulk=cellBoundary(root)
+)
+
+CapMetal=geomOr(CapMetal CapMetal_pin)
+INDdummy=geomOr(INDdummy INDdummy_pin)
+JVAR1dummy=geomOr(JVAR1dummy JVAR1dummy_pin)
+
+Metal1=geomOr(Metal1_d Metal1_f)
+Metal2=geomOr(Metal2_d Metal2_f)
+Metal3=geomOr(Metal3_d Metal3_f)
+Metal4=geomOr(Metal4_d Metal4_f)
+Metal5=geomOr(Metal5_d Metal5_f)
+Metal6=geomOr(Metal6_d Metal6_f)
+
+Metal1=geomOr(Metal1 Metal1_pin)
+Metal2=geomOr(Metal2 Metal2_pin)
+Metal3=geomOr(Metal3 Metal3_pin)
+Metal4=geomOr(Metal4 Metal4_pin)
+Metal5=geomOr(Metal5 Metal5_pin)
+Metal6=geomOr(Metal6 Metal6_pin)
+Nburied=geomOr(Nburied Nburied_pin)
+Nimp=geomOr(Nimp Nimp_pin)
+Nwell=geomOr(Nwell Nwell_pin)
+Pimp=geomOr(Pimp Pimp_pin)
+Poly=geomOr(Poly Poly_pin)
+Pwell=geomOr(Pwell Pwell_pin)
+
+
+; INDterm1=INDdummy and IND2dummy
+INDterm1=geomAnd(IND2dummy INDdummy)
+
+; INDterm2=INDdummy and IND3dummy
+INDterm2=geomAnd(IND3dummy INDdummy)
+
+; JVARNF=JVAR1dummy and Nwell
+JVARNF=geomAnd(JVAR1dummy Nwell)
+
+; JVARW40=JVAR2dummy and Nwell
+JVARW40=geomAnd(JVAR2dummy Nwell)
+
+; M1res=Metal1 and M1dummy
+M1res=geomAnd(M1dummy Metal1)
+
+; M1term=Metal1 andnot M1dummy
+M1term=geomAndNot(Metal1 M1dummy)
+
+; M2res=Metal2 and M2dummy
+M2res=geomAnd(M2dummy Metal2)
+
+; M2term=Metal2 andnot M2dummy
+M2term=geomAndNot(Metal2 M2dummy)
+
+; M3res=Metal3 and M3dummy
+M3res=geomAnd(M3dummy Metal3)
+
+; M3term=Metal3 andnot M3dummy
+M3term=geomAndNot(Metal3 M3dummy)
+
+; M4res=Metal4 and M4dummy
+M4res=geomAnd(M4dummy Metal4)
+
+; M4term=Metal4 andnot M4dummy
+M4term=geomAndNot(Metal4 M4dummy)
+
+; M5res=Metal5 and M5dummy
+M5res=geomAnd(M5dummy Metal5)
+
+; M5term=Metal5 andnot M5dummy
+M5term=geomAndNot(Metal5 M5dummy)
+
+; M6res=Metal6 and M6dummy
+M6res=geomAnd(M6dummy Metal6)
+
+; M6term=Metal6 andnot M6dummy
+M6term=geomAndNot(Metal6 M6dummy)
+
+; NPLUS=Nimp and Oxide
+NPLUS=geomAnd(Nimp Oxide)
+
+; NSD=NPLUS andnot Poly
+NSD=geomAndNot(NPLUS Poly)
+
+; NSDcont=Cont and NPLUS
+NSDcont=geomAnd(Cont NPLUS)
+
+; NSDterm=NSD andnot Resdum
+NSDterm=geomAndNot(NSD Resdum)
+
+; NWELLRES=Nwell and ResWdum
+NWELLRES=geomAnd(Nwell ResWdum)
+
+; NWELLterm=Nwell andnot ResWdum
+NWELLterm=geomAndNot(Nwell ResWdum)
+
+; NBVIA=NWELLterm and Nburied
+NBVIA=geomAnd(NWELLterm Nburied)
+
+; NWVIA=NSDterm and NWELLterm
+NWVIA=geomAnd(NSDterm NWELLterm)
+
+; POLYcont=Cont and Poly
+POLYcont=geomAnd(Cont Poly)
+
+; POLYterm=Poly andnot Resdum
+POLYterm=geomAndNot(Poly Resdum)
+
+; PPLUS=Pimp and Oxide
+PPLUS=geomAnd(Oxide Pimp)
+
+; PSD=PPLUS andnot Poly
+PSD=geomAndNot(PPLUS Poly)
+
+; PSDcont=Cont and PPLUS
+PSDcont=geomAnd(Cont PPLUS)
+
+; PSDterm=PSD andnot Resdum
+PSDterm=geomAndNot(PSD Resdum)
+
+; Via2Cap=Via2 and CapMetal
+Via2Cap=geomAnd(CapMetal Via2)
+
+; INDterm1Cont=Metal2 and INDdummy and IND2dummy
+L41497=geomAnd(INDdummy Metal2)
+INDterm1Cont=geomAnd(IND2dummy L41497)
+
+; INDterm2Cont=Metal2 and INDdummy and IND3dummy
+INDterm2Cont=geomAnd(IND3dummy L41497)
+
+; ISONSDRES=NSD and Resdum and Nburied
+L29658=geomAnd(NSD Resdum)
+ISONSDRES=geomAnd(L29658 Nburied)
+
+; JVARanode=(JVAR1dummy or JVAR2dummy) andnot NSDterm
+L74850=geomOr(JVAR1dummy JVAR2dummy)
+JVARanode=geomAndNot(L74850 NSDterm)
+
+; MIMCAP=CapMetal and Metal2 and Capdum
+L62925=geomAnd(CapMetal Metal2)
+MIMCAP=geomAnd(Capdum L62925)
+
+; NDIODE=DIOdummy and ( NSDterm andnot Nwell )
+L83619=geomAndNot(NSDterm Nwell)
+NDIODE=geomAnd(DIOdummy L83619)
+
+; NSDRES=NSD and Resdum andnot Nburied
+NSDRES=geomAndNot(L29658 Nburied)
+
+; PDIODE=DIOdummy and PSDterm and Nwell
+L33580=geomAnd(DIOdummy PSDterm)
+PDIODE=geomAnd(L33580 Nwell)
+
+; POLYHRES=Poly and Resdum and SiProt
+L99065=geomAnd(Poly Resdum)
+POLYHRES=geomAnd(L99065 SiProt)
+
+; POLYRES=Poly and Resdum andnot SiProt
+POLYRES=geomAndNot(L99065 SiProt)
+
+; PSDRES=PPLUS and Resdum and Nwell
+L77701=geomAnd(PPLUS Resdum)
+PSDRES=geomAnd(L77701 Nwell)
+
+; PWVIA=(PSDterm and Pwell) andnot Nwell
+L33566=geomAnd(PSDterm Pwell)
+PWVIA=geomAndNot(L33566 Nwell)
+
+; INDUCTOR=(Metal3 or IND2dummy or IND3dummy) and INDdummy
+L32940=geomOr(IND2dummy Metal3)
+L19763=geomOr(IND3dummy L32940)
+INDUCTOR=geomAnd(INDdummy L19763)
+
+; JVARterm=PSDterm and (JVAR1dummy or JVAR2dummy) and JVAR3dummy
+L40384=geomAnd(L74850 PSDterm)
+JVARterm=geomAnd(JVAR3dummy L40384)
+
+; NPN=NPNdummy and Pwell and Nburied and NSDterm
+L77885=geomAnd(NPNdummy Pwell)
+L63415=geomAnd(L77885 Nburied)
+NPN=geomAnd(L63415 NSDterm)
+
+; PMOSCAP=POLYterm and Nwell and PPLUS and Capdum
+L8539=geomAnd(Nwell POLYterm)
+L93040=geomAnd(L8539 PPLUS)
+PMOSCAP=geomAnd(Capdum L93040)
+
+; Via2NoCapInd=Via2 and Metal2 andnot (CapMetal or INDdummy)
+L98704=geomAnd(Metal2 Via2)
+L47735=geomOr(CapMetal INDdummy)
+Via2NoCapInd=geomAndNot(L98704 L47735)
+
+; ISONMOSCAP=POLYterm andnot Nwell and NPLUS and Capdum and Nburied
+L26152=geomAndNot(POLYterm Nwell)
+L2255=geomAnd(L26152 NPLUS)
+L68673=geomAnd(Capdum L2255)
+ISONMOSCAP=geomAnd(L68673 Nburied)
+
+; NMOSCAP=POLYterm andnot Nwell and NPLUS and Capdum andnot Nburied
+NMOSCAP=geomAndNot(L68673 Nburied)
+
+; PMOS=POLYterm and Nwell and PPLUS andnot ThickOxide andnot Capdum
+L56230=geomAndNot(L93040 ThickOxide)
+PMOS=geomAndNot(L56230 Capdum)
+
+; PNP=PNPdummy and Nwell and Pwell and Nburied and PSDterm
+L99549=geomAnd(Nwell PNPdummy)
+L64651=geomAnd(L99549 Pwell)
+L49368=geomAnd(L64651 Nburied)
+PNP=geomAnd(L49368 PSDterm)
+
+; PSUB=(bulk andnot (Nburied or Nwell or Pwell)) or BJTdum
+L43094=geomOr(Nburied Nwell)
+L15547=geomOr(L43094 Pwell)
+L71054=geomAndNot(bulk L15547)
+PSUB=geomOr(BJTdum L71054)
+
+; SUBVIA=(PSUB and PSDterm) andnot Nburied andnot Nwell
+L6892=geomAnd(PSDterm PSUB)
+L56122=geomAndNot(L6892 Nburied)
+SUBVIA=geomAndNot(L56122 Nwell)
+
+; ISONMOS=POLYterm andnot Nwell and NPLUS andnot ThickOxide andnot Capdum and Nburied
+L53692=geomAndNot(L2255 ThickOxide)
+L70081=geomAndNot(L53692 Capdum)
+ISONMOS=geomAnd(L70081 Nburied)
+
+; ISOPWELL=((Nburied enclose (holes Nwell)) and (holes Nwell))andnot Pwell
+L85630=geomHoles(Nwell)
+L90545=geomAndNot(L85630 Nwell)
+L50707=geomEnclose(Nburied L90545)
+L9133=geomAnd(L50707 L90545)
+ISOPWELL=geomAndNot(L9133 Pwell)
+
+; PWNBVIA=(PSDterm and ISOPWELL)
+PWNBVIA=geomAnd(ISOPWELL PSDterm)
+
+; NMOS=POLYterm andnot Nwell and NPLUS andnot ThickOxide andnot Capdum andnot Nburied
+NMOS=geomAndNot(L70081 Nburied)
+
+; PMOSHV=POLYterm and Nwell and PPLUS and ThickOxide andnot Capdum andnot RFdummy
+L68469=geomAnd(L93040 ThickOxide)
+L24157=geomAndNot(L68469 Capdum)
+PMOSHV=geomAndNot(L24157 RFdummy)
+
+; PMOSRF=POLYterm and Nwell and PPLUS and ThickOxide andnot Capdum and RFdummy
+PMOSRF=geomAnd(L24157 RFdummy)
+
+; ISONMOSHV=POLYterm andnot Nwell and NPLUS and ThickOxide andnot Capdum and Nburied
+;  andnot RFdummy
+L28865=geomAnd(L2255 ThickOxide)
+L34783=geomAndNot(L28865 Capdum)
+L93445=geomAnd(L34783 Nburied)
+ISONMOSHV=geomAndNot(L93445 RFdummy)
+
+; ISONMOSRF=POLYterm andnot Nwell and NPLUS and ThickOxide andnot Capdum and Nburied
+;  and RFdummy
+ISONMOSRF=geomAnd(L93445 RFdummy)
+
+; NMOSHV=POLYterm andnot Nwell and NPLUS and ThickOxide andnot Capdum andnot Nburied
+;  andnot RFdummy
+L21312=geomAndNot(L34783 Nburied)
+NMOSHV=geomAndNot(L21312 RFdummy)
+
+; NMOSRF=POLYterm andnot Nwell and NPLUS and ThickOxide andnot Capdum andnot Nburied
+;  and RFdummy
+NMOSRF=geomAnd(L21312 RFdummy)
+
+; VPNP=(PSDterm and Nwell) interact (holes(PSDterm) interact holes(NSDterm) notInteract
+;  Poly) and BJTdum
+L22688=geomAnd(Nwell PSDterm)
+L98291=geomHoles(PSDterm)
+L40992=geomAndNot(L98291 PSDterm)
+L48335=geomHoles(NSDterm)
+L66370=geomAndNot(L48335 NSDterm)
+L20204=geomButtOrOver(L40992 L66370)
+L80937=geomAvoiding(L20204 Poly)
+L48389=geomButtOrOver(L22688 L80937)
+VPNP=geomAnd(BJTdum L48389)
+
+geomConnect(
+    via(Via5 M6term M5term)
+    via(Via4 M5term M4term)
+    via(Via3 M4term M3term)
+    via(Via2NoCapInd M3term M2term)
+    via(Via2Cap M3term CapMetal)
+    via(Via1 M2term M1term)
+    via(INDterm1Cont M2term INDterm1)
+    via(INDterm2Cont M2term INDterm2)
+    via(POLYcont M1term POLYterm)
+    via(PSDcont M1term PSDterm)
+    via(NSDcont M1term NSDterm)
+    label(Metal6_text M6term)
+    label(Metal6_pintext M6term)
+    label(Metal5_text M5term)
+    label(Metal5_pintext M5term)
+    label(Metal4_text M4term)
+    label(Metal4_pintext M4term)
+    label(Metal3_text M3term)
+    label(Metal3_pintext M3term)
+    label(Metal2_text M2term)
+    label(Metal2_pintext M2term)
+    label(Metal1_text M1term)
+    label(Metal1_pintext M1term)
+)
+geomStamp(NWVIA NSDterm error)
+geomStamp(NWELLterm NWVIA error)
+geomStamp(JVARterm PSDterm error)
+geomStamp(JVARanode JVARterm error)
+geomStamp(PWVIA PSDterm error)
+geomStamp(Pwell PWVIA error)
+geomStamp(PWNBVIA PSDterm error)
+geomStamp(ISOPWELL PWNBVIA error)
+geomStamp(SUBVIA PSDterm error)
+geomStamp(PSUB SUBVIA error)
+geomStamp(NBVIA NWELLterm error)
+geomStamp(Nburied NBVIA error)
+
+saveInterconnect((M6term "Metal6"))
+saveInterconnect((M5term "Metal5"))
+saveInterconnect((M4term "Metal4"))
+saveInterconnect((M3term "Metal3"))
+saveInterconnect((M2term "Metal2"))
+saveInterconnect((M1term "Metal1"))
+saveInterconnect((NSDterm "Nimp"))
+saveInterconnect((PSDterm "Pimp"))
+saveInterconnect((NWELLterm "Nwell"))
+saveInterconnect((CapMetal "CapMetal"))
+saveInterconnect((INDterm1 "INDdummy"))
+saveInterconnect((INDterm2 "INDdummy"))
+saveInterconnect((POLYterm "Poly"))
+saveInterconnect((JVARanode "JVAR1dummy"))
+saveInterconnect((Pwell "Pwell"))
+saveInterconnect((ISOPWELL "Nburied"))
+saveInterconnect((Nburied "Nburied"))
+
+
+extractRES("polyres" POLYRES POLYterm("PLUS" "MINUS")
+    cellView("polyres ivpcell gpdk180") flagMalformed)
+width=measureParameter(length (POLYRES butting POLYterm) 0.5)
+length=measureParameter(length (POLYRES outside POLYterm) 0.5)
+w=calculateParameter(width*1e-6)
+attachParameter(w "w" POLYRES)
+l=calculateParameter(length*1e-6)
+attachParameter(l "l" POLYRES)
+sl=calculateParameter(length*1e-6)
+attachParameter(sl "sl" POLYRES)
+effL=calculateParameter(length*1e-6)
+attachParameter(effL "effL" POLYRES)
+r=calculateParameter(7.5*length/width)
+attachParameter(r "r" POLYRES)
+
+extractRES("polyhres" POLYHRES POLYterm("PLUS" "MINUS")
+    cellView("polyhres ivpcell gpdk180") flagMalformed)
+width=measureParameter(length (POLYHRES butting POLYterm) 0.5)
+length=measureParameter(length (POLYHRES outside POLYterm) 0.5)
+w=calculateParameter(width*1e-6)
+attachParameter(w "w" POLYHRES)
+l=calculateParameter(length*1e-6)
+attachParameter(l "l" POLYHRES)
+sl=calculateParameter(length*1e-6)
+attachParameter(sl "sl" POLYHRES)
+effL=calculateParameter(length*1e-6)
+attachParameter(effL "effL" POLYHRES)
+r=calculateParameter(352*length/width)
+attachParameter(r "r" POLYHRES)
+
+extractRES("nplusres" NSDRES NSDterm("PLUS" "MINUS") PSUB("B")
+    cellView("nplusres ivpcell gpdk180") flagMalformed)
+width=measureParameter(length (NSDRES butting NSDterm) 0.5)
+length=measureParameter(length (NSDRES outside NSDterm) 0.5)
+w=calculateParameter(width*1e-6)
+attachParameter(w "w" NSDRES)
+l=calculateParameter(length*1e-6)
+attachParameter(l "l" NSDRES)
+sl=calculateParameter(length*1e-6)
+attachParameter(sl "sl" NSDRES)
+effL=calculateParameter(length*1e-6)
+attachParameter(effL "effL" NSDRES)
+r=calculateParameter(50*length/width)
+attachParameter(r "r" NSDRES)
+
+extractRES("nplusres" ISONSDRES NSDterm("PLUS" "MINUS") ISOPWELL("B")
+    cellView("nplusres ivpcell gpdk180") flagMalformed)
+width=measureParameter(length (ISONSDRES butting NSDterm) 0.5)
+length=measureParameter(length (ISONSDRES outside NSDterm) 0.5)
+w=calculateParameter(width*1e-6)
+attachParameter(w "w" ISONSDRES)
+l=calculateParameter(length*1e-6)
+attachParameter(l "l" ISONSDRES)
+sl=calculateParameter(length*1e-6)
+attachParameter(sl "sl" ISONSDRES)
+effL=calculateParameter(length*1e-6)
+attachParameter(effL "effL" ISONSDRES)
+r=calculateParameter(50*length/width)
+attachParameter(r "r" ISONSDRES)
+
+extractRES("pplusres" PSDRES PSDterm("PLUS" "MINUS") NWELLterm("B")
+    cellView("pplusres ivpcell gpdk180") flagMalformed)
+width=measureParameter(length (PSDRES butting PSDterm) 0.5)
+length=measureParameter(length (PSDRES outside PSDterm) 0.5)
+w=calculateParameter(width*1e-6)
+attachParameter(w "w" PSDRES)
+l=calculateParameter(length*1e-6)
+attachParameter(l "l" PSDRES)
+sl=calculateParameter(length*1e-6)
+attachParameter(sl "sl" PSDRES)
+effL=calculateParameter(length*1e-6)
+attachParameter(effL "effL" PSDRES)
+r=calculateParameter(158*length/width)
+attachParameter(r "r" PSDRES)
+
+extractRES("nwellres" NWELLRES NWELLterm("PLUS" "MINUS")
+    cellView("nwellres ivpcell gpdk180") flagMalformed)
+width=measureParameter(length (NWELLRES butting NWELLterm) 0.5)
+length=measureParameter(length (NWELLRES outside NWELLterm) 0.5)
+w=calculateParameter(width*1e-6)
+attachParameter(w "w" NWELLRES)
+l=calculateParameter(length*1e-6)
+attachParameter(l "l" NWELLRES)
+sl=calculateParameter(length*1e-6)
+attachParameter(sl "sl" NWELLRES)
+effL=calculateParameter(length*1e-6)
+attachParameter(effL "effL" NWELLRES)
+r=calculateParameter(415*length/width)
+attachParameter(r "r" NWELLRES)
+
+extractRES("m1res" M1res M1term("PLUS" "MINUS")
+    cellView("m1res ivpcell gpdk180") flagMalformed)
+width=measureParameter(length (M1res butting M1term) 0.5)
+length=measureParameter(length (M1res outside M1term) 0.5)
+w=calculateParameter(width*1e-6)
+attachParameter(w "w" M1res)
+l=calculateParameter(length*1e-6)
+attachParameter(l "l" M1res)
+sl=calculateParameter(length*1e-6)
+attachParameter(sl "sl" M1res)
+effL=calculateParameter(length*1e-6)
+attachParameter(effL "effL" M1res)
+r=calculateParameter(0.01*length/width)
+attachParameter(r "r" M1res)
+
+extractRES("m2res" M2res M2term("PLUS" "MINUS")
+    cellView("m2res ivpcell gpdk180") flagMalformed)
+width=measureParameter(length (M2res butting M2term) 0.5)
+length=measureParameter(length (M2res outside M2term) 0.5)
+w=calculateParameter(width*1e-6)
+attachParameter(w "w" M2res)
+l=calculateParameter(length*1e-6)
+attachParameter(l "l" M2res)
+sl=calculateParameter(length*1e-6)
+attachParameter(sl "sl" M2res)
+effL=calculateParameter(length*1e-6)
+attachParameter(effL "effL" M2res)
+r=calculateParameter(0.01*length/width)
+attachParameter(r "r" M2res)
+
+extractRES("m3res" M3res M3term("PLUS" "MINUS")
+    cellView("m3res ivpcell gpdk180") flagMalformed)
+width=measureParameter(length (M3res butting M3term) 0.5)
+length=measureParameter(length (M3res outside M3term) 0.5)
+w=calculateParameter(width*1e-6)
+attachParameter(w "w" M3res)
+l=calculateParameter(length*1e-6)
+attachParameter(l "l" M3res)
+sl=calculateParameter(length*1e-6)
+attachParameter(sl "sl" M3res)
+effL=calculateParameter(length*1e-6)
+attachParameter(effL "effL" M3res)
+r=calculateParameter(0.01*length/width)
+attachParameter(r "r" M3res)
+
+extractRES("m4res" M4res M4term("PLUS" "MINUS")
+    cellView("m4res ivpcell gpdk180") flagMalformed)
+width=measureParameter(length (M4res butting M4term) 0.5)
+length=measureParameter(length (M4res outside M4term) 0.5)
+w=calculateParameter(width*1e-6)
+attachParameter(w "w" M4res)
+l=calculateParameter(length*1e-6)
+attachParameter(l "l" M4res)
+sl=calculateParameter(length*1e-6)
+attachParameter(sl "sl" M4res)
+effL=calculateParameter(length*1e-6)
+attachParameter(effL "effL" M4res)
+r=calculateParameter(0.01*length/width)
+attachParameter(r "r" M4res)
+
+extractRES("m5res" M5res M5term("PLUS" "MINUS")
+    cellView("m5res ivpcell gpdk180") flagMalformed)
+width=measureParameter(length (M5res butting M5term) 0.5)
+length=measureParameter(length (M5res outside M5term) 0.5)
+w=calculateParameter(width*1e-6)
+attachParameter(w "w" M5res)
+l=calculateParameter(length*1e-6)
+attachParameter(l "l" M5res)
+sl=calculateParameter(length*1e-6)
+attachParameter(sl "sl" M5res)
+effL=calculateParameter(length*1e-6)
+attachParameter(effL "effL" M5res)
+r=calculateParameter(0.01*length/width)
+attachParameter(r "r" M5res)
+
+extractRES("m6res" M6res M6term("PLUS" "MINUS")
+    cellView("m6res ivpcell gpdk180") flagMalformed)
+width=measureParameter(length (M6res butting M6term) 0.5)
+length=measureParameter(length (M6res outside M6term) 0.5)
+w=calculateParameter(width*1e-6)
+attachParameter(w "w" M6res)
+l=calculateParameter(length*1e-6)
+attachParameter(l "l" M6res)
+sl=calculateParameter(length*1e-6)
+attachParameter(sl "sl" M6res)
+effL=calculateParameter(length*1e-6)
+attachParameter(effL "effL" M6res)
+r=calculateParameter(0.01*length/width)
+attachParameter(r "r" M6res)
+
+extractCAP("mimcap" MIMCAP CapMetal("PLUS") M2term("MINUS")
+    cellView("mimcap ivpcell gpdk180") flagMalformed)
+area=measureParameter(area (MIMCAP))
+perimeter=measureParameter(perimeter (MIMCAP))
+w=calculateParameter(((perimeter*0.25) + 0.5*sqrt( (0.25*power(perimeter 2) -
+    (4)*area) ))*1e-6)
+attachParameter(w "w" MIMCAP)
+l=calculateParameter(((perimeter*0.25) - 0.5*sqrt( (0.25*power(perimeter 2) -
+    (4)*area) ))*1e-6)
+attachParameter(l "l" MIMCAP)
+c=calculateParameter(area*1e-15 + perimeter*1e-16)
+attachParameter(c "c" MIMCAP)
+area=calculateParameter(area*1e-12)
+attachParameter(area "area" MIMCAP)
+perim=calculateParameter(perimeter*1e-6)
+attachParameter(perim "perim" MIMCAP)
+
+extractMOS("pmoscap" PMOSCAP POLYterm("G") PSDterm("S" "D") NWELLterm("B")
+    cellView("pmoscap ivpcell gpdk180") flagMalformed)
+width=measureParameter(length (PMOSCAP butting PSDterm) 0.5)
+length=measureParameter(length (PMOSCAP outside PSDterm) 0.5)
+w=calculateParameter(width*1e-6)
+attachParameter(w "w" PMOSCAP)
+fw=calculateParameter(width*1e-6)
+attachParameter(fw "fw" PMOSCAP)
+simW=calculateParameter(width*1e-6)
+attachParameter(simW "simW" PMOSCAP)
+l=calculateParameter(length*1e-6)
+attachParameter(l "l" PMOSCAP)
+
+extractMOS("nmoscap" NMOSCAP POLYterm("G") NSDterm("S" "D") PSUB("B")
+    cellView("nmoscap ivpcell gpdk180") flagMalformed)
+width=measureParameter(length (NMOSCAP butting NSDterm) 0.5)
+length=measureParameter(length (NMOSCAP outside NSDterm) 0.5)
+w=calculateParameter(width*1e-6)
+attachParameter(w "w" NMOSCAP)
+fw=calculateParameter(width*1e-6)
+attachParameter(fw "fw" NMOSCAP)
+simW=calculateParameter(width*1e-6)
+attachParameter(simW "simW" NMOSCAP)
+l=calculateParameter(length*1e-6)
+attachParameter(l "l" NMOSCAP)
+
+extractMOS("nmoscap" ISONMOSCAP POLYterm("G") NSDterm("S" "D") ISOPWELL("B")
+    cellView("nmoscap ivpcell gpdk180") flagMalformed)
+width=measureParameter(length (ISONMOSCAP butting NSDterm) 0.5)
+length=measureParameter(length (ISONMOSCAP outside NSDterm) 0.5)
+w=calculateParameter(width*1e-6)
+attachParameter(w "w" ISONMOSCAP)
+fw=calculateParameter(width*1e-6)
+attachParameter(fw "fw" ISONMOSCAP)
+simW=calculateParameter(width*1e-6)
+attachParameter(simW "simW" ISONMOSCAP)
+l=calculateParameter(length*1e-6)
+attachParameter(l "l" ISONMOSCAP)
+
+extractDevice("ind" INDUCTOR INDterm1("PLUS") INDterm2("MINUS")
+    cellView("ind ivpcell gpdk180") flagMalformed)
+
+extractBJT("vpnp" VPNP PSUB("C") NWELLterm("B") PSDterm("E")
+    cellView("vpnp ivpcell gpdk180") flagMalformed)
+area=measureParameter(area (VPNP))
+attachParameter(area "area" VPNP)
+
+extractBJT("pnp" PNP Pwell("C") NWELLterm("B") PSDterm("E")
+    cellView("pnp ivpcell gpdk180") flagMalformed)
+area=measureParameter(area (PNP))
+attachParameter(area "area" PNP)
+
+extractBJT("npn" NPN Nburied("C") Pwell("B") NSDterm("E")
+    cellView("npn ivpcell gpdk180") flagMalformed)
+area=measureParameter(area (NPN))
+attachParameter(area "area" NPN)
+
+extractMOS("nmos" NMOS POLYterm("G") NSDterm("S" "D") PSUB("B")
+    cellView("nmos ivpcell gpdk180") flagMalformed)
+width=measureParameter(length (NMOS butting NSDterm) 0.5)
+length=measureParameter(length (NMOS outside NSDterm) 0.5)
+w=calculateParameter(width*1e-6)
+attachParameter(w "w" NMOS)
+fw=calculateParameter(width*1e-6)
+attachParameter(fw "fw" NMOS)
+simW=calculateParameter(width*1e-6)
+attachParameter(simW "simW" NMOS)
+l=calculateParameter(length*1e-6)
+attachParameter(l "l" NMOS)
+sd_area=measureParameter(area (NSDterm))
+sd_perimeter=measureParameter(perimeter (NSDterm))
+sdarea=calculateParameter(sd_area*1.0e-12)
+sdperimeter=calculateParameter(sd_perimeter*1.0e-6)
+attachParameter(sdarea ("as" "S")("ad" "D") NMOS shared)
+attachParameter(sdperimeter ("ps" "S")("pd" "D") NMOS shared)
+
+extractMOS("nmos" ISONMOS POLYterm("G") NSDterm("S" "D") ISOPWELL("B")
+    cellView("nmos ivpcell gpdk180") flagMalformed)
+width=measureParameter(length (ISONMOS butting NSDterm) 0.5)
+length=measureParameter(length (ISONMOS outside NSDterm) 0.5)
+w=calculateParameter(width*1e-6)
+attachParameter(w "w" ISONMOS)
+fw=calculateParameter(width*1e-6)
+attachParameter(fw "fw" ISONMOS)
+simW=calculateParameter(width*1e-6)
+attachParameter(simW "simW" ISONMOS)
+l=calculateParameter(length*1e-6)
+attachParameter(l "l" ISONMOS)
+sd_area=measureParameter(area (NSDterm))
+sd_perimeter=measureParameter(perimeter (NSDterm))
+sdarea=calculateParameter(sd_area*1.0e-12)
+sdperimeter=calculateParameter(sd_perimeter*1.0e-6)
+attachParameter(sdarea ("as" "S")("ad" "D") ISONMOS shared)
+attachParameter(sdperimeter ("ps" "S")("pd" "D") ISONMOS shared)
+
+extractMOS("nmoshv" NMOSHV POLYterm("G") NSDterm("S" "D") PSUB("B")
+    cellView("nmoshv ivpcell gpdk180") flagMalformed)
+width=measureParameter(length (NMOSHV butting NSDterm) 0.5)
+length=measureParameter(length (NMOSHV outside NSDterm) 0.5)
+w=calculateParameter(width*1e-6)
+attachParameter(w "w" NMOSHV)
+fw=calculateParameter(width*1e-6)
+attachParameter(fw "fw" NMOSHV)
+simW=calculateParameter(width*1e-6)
+attachParameter(simW "simW" NMOSHV)
+l=calculateParameter(length*1e-6)
+attachParameter(l "l" NMOSHV)
+sd_area=measureParameter(area (NSDterm))
+sd_perimeter=measureParameter(perimeter (NSDterm))
+sdarea=calculateParameter(sd_area*1.0e-12)
+sdperimeter=calculateParameter(sd_perimeter*1.0e-6)
+attachParameter(sdarea ("as" "S")("ad" "D") NMOSHV shared)
+attachParameter(sdperimeter ("ps" "S")("pd" "D") NMOSHV shared)
+
+extractMOS("nmoshv" ISONMOSHV POLYterm("G") NSDterm("S" "D") ISOPWELL("B")
+    cellView("nmoshv ivpcell gpdk180") flagMalformed)
+width=measureParameter(length (ISONMOSHV butting NSDterm) 0.5)
+length=measureParameter(length (ISONMOSHV outside NSDterm) 0.5)
+w=calculateParameter(width*1e-6)
+attachParameter(w "w" ISONMOSHV)
+fw=calculateParameter(width*1e-6)
+attachParameter(fw "fw" ISONMOSHV)
+simW=calculateParameter(width*1e-6)
+attachParameter(simW "simW" ISONMOSHV)
+l=calculateParameter(length*1e-6)
+attachParameter(l "l" ISONMOSHV)
+sd_area=measureParameter(area (NSDterm))
+sd_perimeter=measureParameter(perimeter (NSDterm))
+sdarea=calculateParameter(sd_area*1.0e-12)
+sdperimeter=calculateParameter(sd_perimeter*1.0e-6)
+attachParameter(sdarea ("as" "S")("ad" "D") ISONMOSHV shared)
+attachParameter(sdperimeter ("ps" "S")("pd" "D") ISONMOSHV shared)
+
+extractMOS("nmosrf" NMOSRF POLYterm("G") NSDterm("S" "D") PSUB("B")
+    cellView("nmosrf ivpcell gpdk180") flagMalformed)
+width=measureParameter(length (NMOSRF butting NSDterm) 0.5)
+length=measureParameter(length (NMOSRF outside NSDterm) 0.5)
+w=calculateParameter(width*1e-6)
+attachParameter(w "w" NMOSRF)
+fw=calculateParameter(width*1e-6)
+attachParameter(fw "fw" NMOSRF)
+simW=calculateParameter(width*1e-6)
+attachParameter(simW "simW" NMOSRF)
+l=calculateParameter(length*1e-6)
+attachParameter(l "l" NMOSRF)
+sd_area=measureParameter(area (NSDterm))
+sd_perimeter=measureParameter(perimeter (NSDterm))
+sdarea=calculateParameter(sd_area*1.0e-12)
+sdperimeter=calculateParameter(sd_perimeter*1.0e-6)
+attachParameter(sdarea ("as" "S")("ad" "D") NMOSRF shared)
+attachParameter(sdperimeter ("ps" "S")("pd" "D") NMOSRF shared)
+
+extractMOS("nmosrf" ISONMOSRF POLYterm("G") NSDterm("S" "D") ISOPWELL("B")
+    cellView("nmosrf ivpcell gpdk180") flagMalformed)
+width=measureParameter(length (ISONMOSRF butting NSDterm) 0.5)
+length=measureParameter(length (ISONMOSRF outside NSDterm) 0.5)
+w=calculateParameter(width*1e-6)
+attachParameter(w "w" ISONMOSRF)
+fw=calculateParameter(width*1e-6)
+attachParameter(fw "fw" ISONMOSRF)
+simW=calculateParameter(width*1e-6)
+attachParameter(simW "simW" ISONMOSRF)
+l=calculateParameter(length*1e-6)
+attachParameter(l "l" ISONMOSRF)
+sd_area=measureParameter(area (NSDterm))
+sd_perimeter=measureParameter(perimeter (NSDterm))
+sdarea=calculateParameter(sd_area*1.0e-12)
+sdperimeter=calculateParameter(sd_perimeter*1.0e-6)
+attachParameter(sdarea ("as" "S")("ad" "D") ISONMOSRF shared)
+attachParameter(sdperimeter ("ps" "S")("pd" "D") ISONMOSRF shared)
+
+extractMOS("pmos" PMOS POLYterm("G") PSDterm("S" "D") NWELLterm("B")
+    cellView("pmos ivpcell gpdk180") flagMalformed)
+width=measureParameter(length (PMOS butting PSDterm) 0.5)
+length=measureParameter(length (PMOS outside PSDterm) 0.5)
+w=calculateParameter(width*1e-6)
+attachParameter(w "w" PMOS)
+fw=calculateParameter(width*1e-6)
+attachParameter(fw "fw" PMOS)
+simW=calculateParameter(width*1e-6)
+attachParameter(simW "simW" PMOS)
+l=calculateParameter(length*1e-6)
+attachParameter(l "l" PMOS)
+sd_area=measureParameter(area (PSDterm))
+sd_perimeter=measureParameter(perimeter (PSDterm))
+sdarea=calculateParameter(sd_area*1.0e-12)
+sdperimeter=calculateParameter(sd_perimeter*1.0e-6)
+attachParameter(sdarea ("as" "S")("ad" "D") PMOS shared)
+attachParameter(sdperimeter ("ps" "S")("pd" "D") PMOS shared)
+
+extractMOS("pmoshv" PMOSHV POLYterm("G") PSDterm("S" "D") NWELLterm("B")
+    cellView("pmoshv ivpcell gpdk180") flagMalformed)
+width=measureParameter(length (PMOSHV butting PSDterm) 0.5)
+length=measureParameter(length (PMOSHV outside PSDterm) 0.5)
+w=calculateParameter(width*1e-6)
+attachParameter(w "w" PMOSHV)
+fw=calculateParameter(width*1e-6)
+attachParameter(fw "fw" PMOSHV)
+simW=calculateParameter(width*1e-6)
+attachParameter(simW "simW" PMOSHV)
+l=calculateParameter(length*1e-6)
+attachParameter(l "l" PMOSHV)
+sd_area=measureParameter(area (PSDterm))
+sd_perimeter=measureParameter(perimeter (PSDterm))
+sdarea=calculateParameter(sd_area*1.0e-12)
+sdperimeter=calculateParameter(sd_perimeter*1.0e-6)
+attachParameter(sdarea ("as" "S")("ad" "D") PMOSHV shared)
+attachParameter(sdperimeter ("ps" "S")("pd" "D") PMOSHV shared)
+
+extractMOS("pmosrf" PMOSRF POLYterm("G") PSDterm("S" "D") NWELLterm("B")
+    cellView("pmosrf ivpcell gpdk180") flagMalformed)
+width=measureParameter(length (PMOSRF butting PSDterm) 0.5)
+length=measureParameter(length (PMOSRF outside PSDterm) 0.5)
+w=calculateParameter(width*1e-6)
+attachParameter(w "w" PMOSRF)
+fw=calculateParameter(width*1e-6)
+attachParameter(fw "fw" PMOSRF)
+simW=calculateParameter(width*1e-6)
+attachParameter(simW "simW" PMOSRF)
+l=calculateParameter(length*1e-6)
+attachParameter(l "l" PMOSRF)
+sd_area=measureParameter(area (PSDterm))
+sd_perimeter=measureParameter(perimeter (PSDterm))
+sdarea=calculateParameter(sd_area*1.0e-12)
+sdperimeter=calculateParameter(sd_perimeter*1.0e-6)
+attachParameter(sdarea ("as" "S")("ad" "D") PMOSRF shared)
+attachParameter(sdperimeter ("ps" "S")("pd" "D") PMOSRF shared)
+
+extractDIODE("ndio" NDIODE PSUB("PLUS") NSDterm("MINUS")
+    cellView("ndio ivpcell gpdk180") flagMalformed)
+area=measureParameter(area (NDIODE))
+area=calculateParameter(area*1e-12)
+attachParameter(area "area" NDIODE)
+
+extractDIODE("pdio" PDIODE PSDterm("PLUS") NWELLterm("MINUS")
+    cellView("pdio ivpcell gpdk180") flagMalformed)
+area=measureParameter(area (PDIODE))
+area=calculateParameter(area*1e-12)
+attachParameter(area "area" PDIODE)
+
+extractDIODE("xjvar_w40" JVARNF JVARanode("ANODE") NWELLterm("CATHODE")
+    PSUB("BULK") cellView("xjvar_w40 ivpcell gpdk180") flagMalformed)
+perimeter=measureParameter(perimeter (JVARNF))
+nf=calculateParameter((perimeter - 85.2) / 3.6)
+attachParameter(nf "nf" JVARNF)
+
+extractDIODE("xjvar_nf36" JVARW40 JVARanode("ANODE") NWELLterm("CATHODE")
+    PSUB("BULK") cellView("xjvar_nf36 ivpcell gpdk180") flagMalformed)
+perimeter=measureParameter(perimeter (JVARW40))
+w=calculateParameter((perimeter - 134.8) / 2.0 * 1e-6)
+attachParameter(w "w" JVARW40)
+
+)
+

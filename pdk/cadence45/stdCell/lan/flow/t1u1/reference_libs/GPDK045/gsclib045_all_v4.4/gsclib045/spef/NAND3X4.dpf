@@ -1,0 +1,64 @@
+*
+*|DSPF 1.5
+*
+*|DATE "Mon Sep 27 10:12:24 2010"
+*|VENDOR "Cadence Design Systems"
+*|PROGRAM "Assura RCX"
+*|VERSION "3.2 Red Hat Linux release 7.2 (Enigma) - (09/09/2009-10:39)"
+*|DESIGN "NAND3X4"
+*|DIVIDER /
+*|DELIMITER :
+*|DeviceFingerDelim "@"
+*|BUSBIT []
+** MATCHED
+** caps2d version: 10
+*
+.GLOBAL 
+*
+.SUBCKT  NAND3X4 VDD VSS A B C Y
+*
+*Instance Section
+*
+mn0	mn0:d	mn0:g	mn0:s	VSS:3	nmos1v	L=0.045U	W=0.26U
++ AD=0.05505P	AS=0.05505P	PD=1.07U	PS=1.07U
+mn1	mn1:d	mn1:g	mn1:s	VSS:3	nmos1v	L=0.045U	W=0.26U
++ AD=0.03705P	AS=0.03705P	PD=0.805U	PS=0.805U
+mn2	mn2:d	mn2:g	mn2:s	VSS:3	nmos1v	L=0.045U	W=0.26U
++ AD=0.0455P	AS=0.0455P	PD=0.87U	PS=0.87U
+mn2@1	mn2:d	mn2@1:g	mn2@1:s	VSS:3	nmos1v	L=0.045U
++ W=0.26U
++ AD=0.0442P	AS=0.0442P	PD=0.86U	PS=0.86U
+mn1@1	mn1@1:d	mn1@1:g	mn1@1:s	VSS:3	nmos1v
++ L=0.045U	W=0.26U
++ AD=0.0312P	AS=0.0312P	PD=0.76U	PS=0.76U
+mn0@1	mn0@1:d	mn0@1:g	mn0@1:s	VSS:3	nmos1v
++ L=0.045U	W=0.26U
++ AD=0.044P	AS=0.044P	PD=0.985U	PS=0.985U
+mn0@2	mn0@2:d	mn0@2:g	mn0@2:s	VSS:3	nmos1v
++ L=0.045U	W=0.26U
++ AD=0.026P	AS=0.026P	PD=0.72U	PS=0.72U
+mn1@2	mn1@2:d	mn1@2:g	mn1@2:s	VSS:3	nmos1v
++ L=0.045U	W=0.26U
++ AD=0.0416P	AS=0.0416P	PD=0.84U	PS=0.84U
+mn2@2	mn2@2:d	mn2@2:g	mn2@2:s	VSS:3	nmos1v
++ L=0.045U	W=0.26U
++ AD=0.0546P	AS=0.0546P	PD=0.94U	PS=0.94U
+mn2@3	mn2@2:d	mn2@3:g	mn2@3:s	VSS:3	nmos1v
++ L=0.045U	W=0.26U
++ AD=0.0286P	AS=0.0286P	PD=0.74U	PS=0.74U
+mn1@3	mn1@3:d	mn1@3:g	mn1@3:s	VSS:3	nmos1v
++ L=0.045U	W=0.26U
++ AD=0.02275P	AS=0.02275P	PD=0.695U	PS=0.695U
+mn0@3	mn0@3:d	mn0@3:g	mn0:s	VSS:3	nmos1v	L=0.045U
++ W=0.26U
++ AD=0.05765P	AS=0.05765P	PD=1.09U	PS=1.09U
+mp0	mp1@1:d	mp0@1:g	mp0@1:s	VDD:3	pmos1v
++ L=0.045U	W=0.39U
++ AD=0.06045P	AS=0.06045P	PD=1.09U	PS=1.09U	M=4
+mp1	mp1@1:d	B	mp0@1:s	VDD:3	pmos1v	L=0.045U
++ W=0.39U
++ AD=0.0624P	AS=0.0624P	PD=1.1U	PS=1.1U	M=4
+mp2	mp1@1:d	C	mp0@1:s	VDD:3	pmos1v	L=0.045U
++ W=0.39U
++ AD=0.0624P	AS=0.0624P	PD=1.1U	PS=1.1U	M=4
+.ENDS

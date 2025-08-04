@@ -1,0 +1,64 @@
+#!/usr/bin/perl
+$debug = 0;
+$cnt = 1;
+$infeascnt = 0;
+
+while(<>) {
+print "**$_" if $debug;
+
+  if (/i OptCellsInFile/) { 
+
+    if ($prevname ne "") {
+    	printf "%3d %-20s %-10s $grids\n", $cnt, $name, $status;
+    	$cnt++;
+	printf "Infeasible count: %d\n", $infeascnt;
+	$infeascnt = 0;
+    }
+    $status = "None";
+    $name = "";
+    $prevname = "";
+
+    print $_; 
+
+  }
+
+  if (/Loading cell (\S+)\./) { 
+   $prevname = $name; $name = $1; 
+   print " OP . $prevname . $name\n" if $debug;
+    if ($prevname ne $name && $prevname ne "") { 
+      printf "%3d %-20s %-10s $grids\n", $cnt, $prevname, $status; 
+      $cnt++;
+    }
+    if($status =~ "Infeasible") {  $infeascnt++; }
+    $status = "None";
+  }
+
+  if (/Optimization completed successfully\s*$/) { $status = "Sucess"; }
+  if (/Optimization completed successfully but not on grid/) { 
+	if ($status !~ /IORelax/) { $status = "IOGrid"; }
+  }
+  if (/Optimization completed but not on grid after relaxing (.*) constraints/) {
+	$status = "IORelax $1";
+  }
+  if (/Optimization completed after relaxing (.*) constraints/) {
+	$status = "Relax $1";
+  }
+  if (/Solution unbounded/) {
+	$status = "Unbounded XXX";
+  }
+  if (/Net infeasible distance: (.*)/) { $status = "Infeasible $1";  }
+  if (/Optimization result infeasible/) { $status = "Infeasible XXX"; }
+  if (/fatal error/i) { $status = "Fatal Inf"; }
+
+  if (/WIDTH after snapping is (.*) microns \((.*) grids\)/) {
+	$width = $1;
+	$grids = $2;
+  }
+
+
+}
+
+if($status =~ "Infeasible") {  $infeascnt++; }
+printf "%3d %-20s %-10s $grids\n", $cnt++, $name, $status;
+printf "Infeasible count: %d\n", $infeascnt;
+

@@ -1,0 +1,167 @@
+device        g45n1svt  M          _nmos1v          nmos1v  ivpcell     gpdk045  D G S B
+device        g45n1hvt  M      _nmos1v_hvt      nmos1v_hvt  ivpcell     gpdk045  D G S B
+device        g45n1lvt  M      _nmos1v_lvt      nmos1v_lvt  ivpcell     gpdk045  D G S B
+device        g45n1nvt  M  _nmos_12_native      nmos1v_nat  ivpcell     gpdk045  D G S B
+device        g45n2svt  M         _nmos_25          nmos2v  ivpcell     gpdk045  D G S B
+device        g45n2nvt  M  _nmos_25_native      nmos2v_nat  ivpcell     gpdk045  D G S B
+device        g45ncap1  M       _nmoscap1v       nmoscap1v  ivpcell     gpdk045  D G S B
+device        g45ncap2  M       _nmoscap2v       nmoscap2v  ivpcell     gpdk045  D G S B
+device        g45p1svt  M          _pmos1v          pmos1v  ivpcell     gpdk045  D G S B
+device        g45p1hvt  M      _pmos1v_hvt      pmos1v_hvt  ivpcell     gpdk045  D G S B
+device        g45p1lvt  M      _pmos1v_lvt      pmos1v_lvt  ivpcell     gpdk045  D G S B
+device        g45p2svt  M          _pmos2v          pmos2v  ivpcell     gpdk045  D G S B
+device        g45pcap1  M       _pmoscap1v       pmoscap1v  ivpcell     gpdk045  D G S B
+device        g45pcap2  M       _pmoscap2v       pmoscap2v  ivpcell     gpdk045  D G S B
+device          g45rm1  R           _resm1           resm1  ivpcell     gpdk045  PLUS MINUS
+device          g45rm2  R           _resm2           resm2  ivpcell     gpdk045  PLUS MINUS
+device          g45rm3  R           _resm3           resm3  ivpcell     gpdk045  PLUS MINUS
+device          g45rm4  R           _resm4           resm4  ivpcell     gpdk045  PLUS MINUS
+device          g45rm5  R           _resm5           resm5  ivpcell     gpdk045  PLUS MINUS
+device          g45rm6  R           _resm6           resm6  ivpcell     gpdk045  PLUS MINUS
+device          g45rm7  R           _resm7           resm7  ivpcell     gpdk045  PLUS MINUS
+device          g45rm8  R           _resm8           resm8  ivpcell     gpdk045  PLUS MINUS
+device          g45rm9  R           _resm9           resm9  ivpcell     gpdk045  PLUS MINUS
+device         g45rm10  R          _resm10          resm10  ivpcell     gpdk045  PLUS MINUS
+device         g45rm11  R          _resm11          resm11  ivpcell     gpdk045  PLUS MINUS
+device         g45rsnd  R       _ressndiff       ressndiff  ivpcell     gpdk045  PLUS MINUS B
+device        g45rnsnd  R      _resnsndiff      resnsndiff  ivpcell     gpdk045  PLUS MINUS B
+device         g45rsnp  R       _ressnpoly       ressnpoly  ivpcell     gpdk045  PLUS MINUS B
+device         g45rsnp  R    _ressnpoly_nw       ressnpoly  ivpcell     gpdk045  PLUS MINUS B
+device        g45rnsnp  R      _resnsnpoly      resnsnpoly  ivpcell     gpdk045  PLUS MINUS B
+device        g45rnsnp  R   _resnsnpoly_nw      resnsnpoly  ivpcell     gpdk045  PLUS MINUS B
+device         g45rspd  R       _resspdiff       resspdiff  ivpcell     gpdk045  PLUS MINUS B
+device        g45rnspd  R      _resnspdiff      resnspdiff  ivpcell     gpdk045  PLUS MINUS B
+device         g45rspp  R       _ressppoly       ressppoly  ivpcell     gpdk045  PLUS MINUS B
+device         g45rspp  R    _ressppoly_nw       ressppoly  ivpcell     gpdk045  PLUS MINUS B
+device        g45rnspp  R      _resnsppoly      resnsppoly  ivpcell     gpdk045  PLUS MINUS B
+device        g45rnspp  R   _resnsppoly_nw      resnsppoly  ivpcell     gpdk045  PLUS MINUS B
+device         g45rnws  R        _resnwsti        resnwsti  ivpcell     gpdk045  PLUS MINUS B
+device         g45rnwo  R      _resnwoxide      resnwoxide  ivpcell     gpdk045  PLUS MINUS B
+device       g45nd1svt  D            _ndio            ndio  ivpcell     gpdk045  PLUS MINUS
+device       g45nd1lvt  D        _ndio_lvt        ndio_lvt  ivpcell     gpdk045  PLUS MINUS
+device       g45nd1hvt  D        _ndio_hvt        ndio_hvt  ivpcell     gpdk045  PLUS MINUS
+device       g45nd1nvt  D        _ndio_nvt        ndio_nvt  ivpcell     gpdk045  PLUS MINUS
+device       g45nd2svt  D         _ndio_2v         ndio_2v  ivpcell     gpdk045  PLUS MINUS
+device       g45nd2nvt  D     _ndio_2v_nvt     ndio_2v_nvt  ivpcell     gpdk045  PLUS MINUS
+device       g45pd1svt  D            _pdio            pdio  ivpcell     gpdk045  PLUS MINUS
+device       g45pd1lvt  D        _pdio_lvt        pdio_lvt  ivpcell     gpdk045  PLUS MINUS
+device       g45pd1hvt  D        _pdio_hvt        pdio_hvt  ivpcell     gpdk045  PLUS MINUS
+device       g45pd2svt  D         _pdio_2v         pdio_2v  ivpcell     gpdk045  PLUS MINUS
+device        g45vpnp2  Q           _vpnp2           vpnp2  ivpcell     gpdk045  C B E
+device        g45vpnp5  Q           _vpnp5           vpnp5  ivpcell     gpdk045  C B E
+device       g45vpnp10  Q          _vpnp10          vpnp10  ivpcell     gpdk045  C B E
+device        g45vnpn2  Q            _npn2            npn2  ivpcell     gpdk045  C B E
+device        g45vnpn5  Q            _npn5            npn5  ivpcell     gpdk045  C B E
+device       g45vnpn10  Q           _npn10           npn10  ivpcell     gpdk045  C B E
+device         g45cmim  C          _mimcap          mimcap  ivpcell     gpdk045  PLUS MINUS B
+device         g45inda  X           _ind_a           ind_a  ivpcell     gpdk045  PLUS MINUS B
+device         g45inds  X           _ind_s           ind_s  ivpcell     gpdk045  PLUS MINUS B
+
+recognition         _nmos1v    device
+recognition     _nmos1v_hvt    device
+recognition     _nmos1v_lvt    device
+recognition _nmos_12_native    device
+recognition        _nmos_25    device
+recognition _nmos_25_native    device
+recognition      _nmoscap1v    device
+recognition      _nmoscap2v    device
+recognition         _pmos1v    device
+recognition     _pmos1v_hvt    device
+recognition     _pmos1v_lvt    device
+recognition         _pmos2v    device
+recognition      _pmoscap1v    device
+recognition      _pmoscap2v    device
+recognition          _resm1    device
+recognition          _resm2    device
+recognition          _resm3    device
+recognition          _resm4    device
+recognition          _resm5    device
+recognition          _resm6    device
+recognition          _resm7    device
+recognition          _resm8    device
+recognition          _resm9    device
+recognition         _resm10    device
+recognition         _resm11    device
+recognition      _ressndiff    device
+recognition     _resnsndiff    device
+recognition      _ressnpoly    device
+recognition   _ressnpoly_nw    device
+recognition     _resnsnpoly    device
+recognition  _resnsnpoly_nw    device
+recognition      _resspdiff    device
+recognition     _resnspdiff    device
+recognition      _ressppoly    device
+recognition   _ressppoly_nw    device
+recognition     _resnsppoly    device
+recognition  _resnsppoly_nw    device
+recognition       _resnwsti    device
+recognition     _resnwoxide    device
+recognition           _ndio    device
+recognition       _ndio_lvt    device
+recognition       _ndio_hvt    device
+recognition       _ndio_nvt    device
+recognition        _ndio_2v    device
+recognition    _ndio_2v_nvt    device
+recognition           _pdio    device
+recognition       _pdio_lvt    device
+recognition       _pdio_hvt    device
+recognition        _pdio_2v    device
+recognition          _vpnp2    device
+recognition          _vpnp5    device
+recognition         _vpnp10    device
+recognition           _npn2    device
+recognition           _npn5    device
+recognition          _npn10    device
+recognition         _mimcap    device
+recognition          _ind_a    device
+recognition          _ind_s    device
+
+interconnect         Bondpad           Bondpad  net
+//interconnect          bp_tap           Bondpad  net
+//interconnect          bp_tap            Metal9  net
+interconnect           ind11           Metal11  net
+interconnect        CapMetal          CapMetal  net
+interconnect       via10_cap             Via10  net
+interconnect    metal10_conn           Metal10  net
+interconnect     via10_nocap             Via10  net
+interconnect           ind10           Metal10  net
+interconnect    ind_via_diva             Via10  net
+interconnect     via10_nodev             Via10  net
+interconnect          ind_ct             Via10  net
+interconnect     metal9_conn            Metal9  net
+interconnect            Via9              Via9  net
+interconnect     metal8_conn            Metal8  net
+interconnect            Via8              Via8  net
+interconnect     metal7_conn            Metal7  net
+interconnect            Via7              Via7  net
+interconnect     metal6_conn            Metal6  net
+interconnect            Via6              Via6  net
+interconnect     metal5_conn            Metal5  net
+interconnect            Via5              Via5  net
+interconnect     metal4_conn            Metal4  net
+interconnect            Via4              Via4  net
+interconnect     metal3_conn            Metal3  net
+interconnect            Via3              Via3  net
+interconnect     metal2_conn            Metal2  net
+interconnect            Via2              Via2  net
+interconnect     metal1_conn            Metal1  net
+interconnect            Via1              Via1  net
+interconnect       poly_conn              Poly  net
+interconnect       cont_poly              Cont  net
+interconnect      pdiff_conn             Oxide  net
+interconnect      pdiff_conn              Pimp  net
+interconnect      cont_pdiff              Cont  net
+interconnect        npn_emit             Oxide  net
+interconnect      cont_ndiff              Cont  net
+interconnect      ndiff_conn             Oxide  net
+interconnect      ndiff_conn              Nimp  net
+interconnect        pnp_emit              Poly  net
+interconnect      psubstrate              Psub  net
+//interconnect            ptap             Oxide  net
+//interconnect            ptap              Pimp  net
+interconnect      nwell_conn             Nwell  net
+//interconnect            ntap             Oxide  net
+//interconnect            ntap              Nimp  net
+interconnect         Nburied           Nburied  net
+interconnect          nb_tap             Nwell  net
+//interconnect          nb_tap           Nburied  net

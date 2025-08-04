@@ -1,0 +1,55 @@
+A 1:0   1:0     ;FIN
+A 3:0   3:0     ;NWELL
+A 4:0   4:0     ;DNW
+A 5:0   5:0     ;DIFF
+A 6:0   6:0     ;PIMP
+A 7:0   7:0     ;NIMP
+A 8:0   8:0     ;DIFF_15
+A 9:0   9:0     ;DIFF_18
+A 10:0  10:0    ;PAD
+A 11:0  11:0    ;ESD
+A 12:0  12:0    ;SBLK
+A 13:0  13:0    ;PO
+A 18:0  81:0	;VIA0
+A 170 17:0	;CTM1
+A 180 18:0	;CPO
+A 38 38:0 ;M1PIN
+A 39 39:0 ;M2PIN
+A 40 40:0 ;M3PIN
+A 41 41:0 ;M4PIN
+A 42 42:0 ;M5PIN
+A 43 43:0 ;M6PIN
+A 44 44:0 ;M7PIN
+A 45 45:0 ;M8PIN
+A 46 46:0 ;M9PIN
+
+
+D 25 25 ; M4
+D 27 27 ; M5
+D 29 29 ; M6
+D 31 31 ; M7
+D 33 33 ; M8
+D 35 35 ; M9
+
+
+data 19:::mask_one  19:0 ;M1
+data 19:::mask_two  90:0 ;M1_3
+
+data 21:::mask_one  21:0 ;M2
+data 21:::mask_two  91:0 ;M2_3
+
+data 23:::mask_one  23:0    ;M3
+data 23:::mask_two  92:0  ;M3_3
+
+T 19  38:0    ;M1PIN
+T 21  39:0    ;M2PIN
+T 23  40:0    ;M3PIN
+T 25  41:0    ;M4PIN
+T 27  42:0    ;M5PIN
+T 29  43:0    ;M6PIN
+T 31  44:0    ;M7PIN
+T 33  45:0    ;M8PIN
+T 35  46:0    ;M9PIN
+188:0:boundary  55:0    ;Boundary
+
+

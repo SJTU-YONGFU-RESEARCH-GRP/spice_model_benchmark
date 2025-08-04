@@ -1,0 +1,60 @@
+;----------------------------------------------------------------------------
+; @(#)$CDS: virtuoso version 6.1.3 06/24/2009 14:12 (cic612lnx) $
+;----------------------------------------------------------------------------
+
+;----------------------------------------------------------------------------
+; avParameter Section
+; Created by the QRC UI
+;----------------------------------------------------------------------------
+
+avParameters(
+	?workingDirectory "/usr1/alanw/migrate90to45/CELLNAME"
+	?runName "CELLNAME"
+	?inputLayout ( "df2" "gsclib045" )
+	?cellName "CELLNAME"
+	?viewName "layout"
+	?technology "gpdk045"
+	?techRuleSet "default"
+	?techLib "/usr1/alanw/migrate90to45/gpdk045_v_2_0/assura_tech.lib"
+	?cdslib "/usr1/alanw/migrate90to45/cds.lib"
+)
+
+;----------------------------------------------------------------------------
+; rcxParameter Section
+; Created by the QRC UI
+;----------------------------------------------------------------------------
+
+rcxParameters(
+	?outputFormat   "dfII"
+	?extractedView  "av_extracted"
+	?checkCellView	t
+	?resistor	"presistor"
+	?resPropName	"r"
+	?capacitor	"pcapacitor"
+	?capPropName	"c"
+	?extract    "both"
+	?netNameSpace   "layout"
+	?maxFractureLength  "infinite"
+	?fractureLengthUnits    "microns"
+	?temperature    25.0
+	?capExtractMode "decoupled"
+	?capGround  "VSS"
+	?capCouplingFactor  1.0
+	?type	"full"
+	?rcxfsType  "full"
+	?rcxfsHigh      t
+	?minR  0.001
+	?maxMergedViaSize  "auto"
+	?arrayViasSpacing  "auto"
+	?capModels  "no"
+	?parasiticCapModels  "no"
+	?resModels  "no"
+	?parasiticResModels  "comment"
+	?parasiticResWidth  nil
+	?parasiticResWidthDrawn  nil
+	?addExplicitVias  t
+	?runName  "CELLNAME"
+	?multiCPU 2
+)
+setShellEnvVar("CDS_AUTO_CKOUT=all")
+avRCX()

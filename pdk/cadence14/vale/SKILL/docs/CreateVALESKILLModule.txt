@@ -1,0 +1,42 @@
+VALE Framework Component Module:
+________________________________
+
+   CreateVALESKILLModule.txt 
+
+
+Description
+___________
+
+   CreateVALESKILLModule creates a new menu item and creates the 
+   <vale directory>/SKILL/IMFcompMod<moduleNumber>.il file. Edit file 
+   to add your SKILL code. Builds basic templates for VALE modules. 
+
+
+Dependencies
+____________
+
+   Works with default VALE setup.
+
+Input Requirements:
+___________________
+
+   Provide new module name (a string with no white space), module description (which 
+   will be the menu item), and the module slider (VALE menu item to be added to).
+
+Output:
+_______
+
+   New VALE module configured in your existing VALE setup. Edit 
+   <vale directory>/SKILL/IMFcompMod<moduleNumber>.il to add SKILL functionality.
+
+Development Notes:
+__________________
+
+   All aspects of the CreateVALESKILLModule VALE Framework Component Module were developed by
+   Cadence Physical Verification and DFM Services Team.  Please contact Jac Condella for more 
+   information (jac@cadence.com).
+
+Known Issues:
+____________:
+
+   To use SKILL++ (use MVS 19.2) and move created file to have an ".ils" ending. 

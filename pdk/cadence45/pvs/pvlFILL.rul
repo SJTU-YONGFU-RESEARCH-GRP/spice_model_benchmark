@@ -1,0 +1,109 @@
+// PVS FILL RULE DECK FOR GPDK 45nm 
+// -----------------------------------------------------------------------------
+// VERSION v1.0 (Updated and tested from cas_flow team) 
+// -----------------------------------------------------------------------------
+// Use-Model for Metal-Fill in Virtuoso: 
+// 1. Draw a rectangle or polygon with "prBoundary.dra" layer for specifying
+//    the metal fill region.
+// 2. Run PVS-DRC with using this rule deck (see 'techRulseSets' file)
+//    -On DRC Submission from, Set '[x] Flatten Input Hierarchy' for creating
+//     mosiac instances with single hierarchy on the output 
+//    -The metal fill output is "fill.gds" file
+// 3. Import the 'fill.gds' into Virtuoso with view name: layout_fills
+// 4. Instantiate the 'layout_fills' view into 'layout' view for creating an
+//    overlay.
+// -----------------------------------------------------------------------------
+
+results_db -drc "fill.gds" -gdsii;
+layer_def prBoundary 1099;
+layer_map 99 -datatype 0 1099;//Caution: The 'prBoundary.dra' LPP is used here.
+and prBoundary prBoundary L99999; 
+not prBoundary L99999 bulk;
+//create_polygon 0 0 282.565 148.000  bulk;//Alternative: bBox for metal fill.
+layout_allow_duplicate_cell YES;
+exception_severity missing_reference 1;
+input_scale 2000;
+grid 5;
+unit -length u;
+text_depth -primary;
+flag -nonsimple yes;
+variable fillLPP 5; // datatype for '.fil' LPP: 5
+
+// -----------------------------------------------------------------------------
+layer_def empty 999;
+
+layer_def Metal1 1016;
+layer_map 7 -datatype -le 5 1016;
+
+layer_def Metal2 1017;
+layer_map 9 -datatype -le 5 1017;
+
+layer_def Metal3 1018;
+layer_map 11 -datatype -le 5 1018;
+
+layer_def Metal4 1019;
+layer_map 31 -datatype -le 5 1019;
+
+layer_def Metal5 1020;
+layer_map 33 -datatype -le 5 1020;
+
+layer_def Metal6 1021;
+layer_map 35 -datatype -le 5 1021;
+
+layer_def Metal7 1022;
+layer_map 38 -datatype -le 5 1022;
+
+layer_def Metal8 1023;
+layer_map 40 -datatype -le 5 1023;
+
+layer_def Metal9 1024;
+layer_map 42 -datatype -le 5 1024;
+
+layer_def Metal10 1025;
+layer_map 152 -datatype -le 5 1025;
+
+layer_def Metal11 1026;
+layer_map 162 -datatype -le 5 1026;
+
+//layer_def prBoundary 1099;
+//layer_map 99 -datatype -le 5 1099;
+
+PVS_READ_TCL_BLOCK
+
+set tmpcnt 0
+
+proc fill {layer w l f2f d2f offset layernum datatype} {
+    global tmpcnt
+    puts "size ${layer} -by ${d2f} _TMP[incr tmpcnt];"
+    puts "not bulk _TMP${tmpcnt} _TMP[incr tmpcnt];"
+    puts "rule ${layer}_FILL { rect_gen -width ${w} -length ${l} -spacing ${f2f} -offset ${offset} -inside_of_layer _TMP${tmpcnt}; }"
+    puts "output ${layer}_FILL -gdsii ${layernum} ${fillLPP} -maximum all -aref ${layer}_FILL ${w} ${l};"
+}
+
+set length_small 0.450
+set width_small 0.100
+set f2f_space_small 0.120
+set d2f_space_small 0.150
+set offset_small 0.040
+
+set length_large 1.500
+set width_large 0.220
+set f2f_space_large 0.220
+set d2f_space_large 0.350
+set offset_large 0.075
+
+fill Metal1  ${length_small} ${width_small} ${f2f_space_small} ${d2f_space_small} ${offset_small}   7 1
+fill Metal2  ${width_small} ${length_small} ${f2f_space_small} ${d2f_space_small} ${offset_small}   9 1
+fill Metal3  ${length_small} ${width_small} ${f2f_space_small} ${d2f_space_small} ${offset_small}  11 1
+fill Metal4  ${width_small} ${length_small} ${f2f_space_small} ${d2f_space_small} ${offset_small}  31 1
+fill Metal5  ${length_small} ${width_small} ${f2f_space_small} ${d2f_space_small} ${offset_small}  33 1
+fill Metal6  ${width_small} ${length_small} ${f2f_space_small} ${d2f_space_small} ${offset_small}  35 1
+fill Metal7  ${length_small} ${width_small} ${f2f_space_small} ${d2f_space_small} ${offset_small}  38 1
+fill Metal8  ${width_small} ${length_small} ${f2f_space_small} ${d2f_space_small} ${offset_small}  40 1
+fill Metal9  ${length_small} ${width_small} ${f2f_space_small} ${d2f_space_small} ${offset_small}  42 1
+fill Metal10 ${width_large} ${length_large} ${f2f_space_large} ${d2f_space_large} ${offset_large} 152 1
+fill Metal11 ${length_large} ${width_large} ${f2f_space_large} ${d2f_space_large} ${offset_large} 162 1
+
+PVS_END_TCL_BLOCK
+
+

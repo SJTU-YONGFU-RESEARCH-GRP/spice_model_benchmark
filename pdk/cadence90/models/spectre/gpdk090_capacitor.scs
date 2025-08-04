@@ -1,0 +1,53 @@
+**************************************************************
+*   Generic PDK Capacitor model
+**************************************************************
+
+* 16th May 2008:
+* - series r added for more realistic Q
+* - simple mc mismatch modeling added, 0.2% sigma assumed for 5um x 5um device, scaled to sqrt(sqrt(A*m))
+
+simulator lang=spectre
+library gpdk090
+
+section stat_mis
+parameters 
++ pc_mc=0
+
+statistics { 
+ mismatch { 
+  vary pc_mc  dist=gauss std=1/1 
+  } 
+ }
+ 
+endsection stat_mis
+
+section cap_t
+  parameters cap_var=1
+  include "gpdk090_capacitor.scs" section=cap
+
+endsection cap_t
+
+section cap_l
+  parameters cap_var=0.9
+  include "gpdk090_capacitor.scs" section=cap
+endsection cap_l
+
+section cap_h
+  parameters cap_var=1.1
+  include "gpdk090_capacitor.scs" section=cap
+endsection cap_h
+
+
+section cap
+  include "gpdk090_capacitor.scs" section=stat_mis
+  
+ inline subckt gpdk090_mimcap (P M)
+parameters area=1 perim=1 geo_fac=1/sqrt(sqrt(area/5u/5u))
+gpdk090_mimcap (P M2)  gpdk090_mimcap_x area=area perim=perim 
+Rs (M2 M) resistor r=1
+model gpdk090_mimcap_x capacitor cj=(1-2m*pc_mc*geo_fac)*cap_var*1e-3 cjsw=(1-2m*pc_mc*geo_fac)*1e-10 tc2=-0.008e-6 tc1=-13e-6
+ends gpdk090_mimcap
+
+endsection cap
+
+endlibrary gpdk090

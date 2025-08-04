@@ -1,0 +1,98 @@
+
+*#########################################################################################
+*# SAED 14NM 1p9m STAR-RC Output layer mapping file					 #
+*#											 #
+*# Revision History:									 #
+*# Rev.		date		what							 #
+*# --------------------------------------------------------------------------------------#	
+*# 1.0		10/Jan/2018	(First draft)						 #
+*#########################################################################################
+
+
+
+
+psub                    pwell drawing    pwell net   pwell subnode
+nwell                   nwell drawing    nwell net   nwell subnode
+pwell                   pwell drawing    pwell net   pwell subnode
+nwnr                    nwell drawing    nwell net   nwell subnode
+
+m1                      m1    drawing    m1    net   m1    subnode
+m1_3                    m1_3  drawing    m1_3  net   m1_3  subnode
+m2                      m2    drawing    m2    net   m2    subnode
+m2_3                    m2_3  drawing    m2_3  net   m2_3  subnode
+m3                      m3    drawing    m3    net   m3    subnode
+m3_3                    m3_3  drawing    m3_3  net   m3_3    subnode
+m4                      m4    drawing    m4    net   m4    subnode
+m5                      m5    drawing    m5    net   m5    subnode
+m6                      m6    drawing    m6    net   m6    subnode
+m7                      m7    drawing    m7    net   m7    subnode
+m8                      m8    drawing    m8    net   m8    subnode
+m9                      m9    drawing    m9    net   m9    subnode
+
+m1res           m1    drawing    m1    net   m1    subnode
+m2res			m2    drawing	 m2    net   m2    subnode
+m3res			m3    drawing	 m3    net   m3    subnode
+m4res			m4    drawing	 m4    net   m4    subnode
+m5res			m5    drawing	 m5    net   m5    subnode
+m6res			m6    drawing	 m6    net   m6    subnode
+m7res			m7    drawing	 m7    net   m7    subnode
+m8res			m8    drawing	 m8    net   m8    subnode
+m9res  			m9    drawing	 m9    net   m9    subnode
+
+ponr                    poly  drawing    poly  net   poly  subnode
+ppores                  poly  drawing    poly  net   poly  subnode
+npores                  poly  drawing    poly  net   poly  subnode
+ppores_sblk             poly  drawing    poly  net   poly  subnode
+npores_sblk             poly  drawing    poly  net   poly  subnode
+
+ngate_08                poly  drawing    poly  net   poly  subnode
+pgate_08                poly  drawing    poly  net   poly  subnode
+ngate_15                 poly  drawing    poly  net   poly  subnode
+pgate_15                 poly  drawing    poly  net   poly  subnode
+ngate_08_lvt            poly  drawing    poly  net   poly  subnode
+pgate_08_lvt            poly  drawing    poly  net   poly  subnode
+ngate_08_hvt            poly  drawing    poly  net   poly  subnode
+pgate_08_hvt            poly  drawing    poly  net   poly  subnode
+ngate_08_slvt            poly  drawing    poly  net   poly  subnode
+pgate_08_slvt            poly  drawing    poly  net   poly  subnode
+
+ngatepl                  poly  drawing    poly  net   poly  subnode
+pgatepl                  poly  drawing    poly  net   poly  subnode
+
+nsd                     diff  drawing    diff  net   diff  subnode
+psd                     diff  drawing    diff  net   diff  subnode
+pdores            	diff  drawing    diff  net   diff  subnode
+ndores			diff  drawing    diff  net   diff  subnode
+psdr			pplus drawing    pplus net   pplus subnode
+nsdr			nplus drawing    nplus net   nplus subnode
+
+
+pdiffdio                DIFF  drawing    DIFF  text   diff  subnode
+ndiffdio                diff  drawing    diff  net   diff  subnode
+
+1_0V_BJT_COLL           diff  drawing    diff  net   diff  subnode
+
+1_0V_BJT_EMIT           diff  drawing    diff  net   diff  subnode
+
+1_0V_BJT_BASE           diff  drawing    diff  net   diff  subnode
+
+1_0V_BJT_COLL_NPN       diff  drawing    diff  net   diff  subnode
+1_0V_BJT_EMIT_NPN       diff  drawing    diff  net   diff  subnode
+1_0V_BJT_BASE_NPN       diff  drawing    diff  net   diff  subnode
+
+subtie                  diff  drawing    diff  net   diff  subnode
+
+nodcon                  nplus drawing    nplus net   nplus subnode
+tiod                    diff  drawing    diff  net   diff  subnode
+
+podcon                  pplus drawing    pplus net   pplus subnode
+
+1_0V_BJT_COLL_cont      cont  drawing    cont  net   cont  subnode
+
+1_0V_BJT_EMIT_cont      cont  drawing    cont  net   cont  subnode
+
+1_0V_BJT_BASE_cont      cont  drawing    cont  net   cont  subnode
+
+1_0V_BJT_BASE_cont_NPN  cont  drawing    cont  net   cont  subnode
+1_0V_BJT_EMIT_cont_NPN  cont  drawing    cont  net   cont  subnode
+1_0V_BJT_COLL_cont_NPN  cont  drawing    cont  net   cont  subnode

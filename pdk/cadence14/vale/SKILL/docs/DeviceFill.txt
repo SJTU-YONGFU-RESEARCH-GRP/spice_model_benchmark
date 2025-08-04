@@ -1,0 +1,13 @@
+VALE Framework Component Module:
+   Device Fill 
+
+Description:
+   Device Fill uses the PVS or Pegasus runset in Include/DeviceFill_V01.pvl to generate layers in the design that are regular.  Typically these are repetitive fill shapes needed to support the device for DRC. 
+
+Input Requirements:
+   An open cellview with a known PCell in it (known to the DeviceFill_V01.pvl runset).
+
+Development Notes:
+   All aspects of this Component Module were developed by Cadence.
+   Please contact Jonathan Fales for more information: jfales@cadence.com
+

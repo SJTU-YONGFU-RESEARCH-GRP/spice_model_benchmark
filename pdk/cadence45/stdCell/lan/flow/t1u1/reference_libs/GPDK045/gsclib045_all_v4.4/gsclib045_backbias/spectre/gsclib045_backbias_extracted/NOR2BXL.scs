@@ -1,0 +1,90 @@
+// Generated for: spectre (May  1 11:30:43 2013 )
+// Library name: gsclib045_backbias
+// Cell name: NOR2BXL
+// View name: extracted
+
+simulator lang=spectre
+
+subckt NOR2BXL AN B NW VDD VSS Y
+mp2 (\3\:Y \1\:B net59 NW) g45p1svt w=(2.15e-07) l=4.5e-08 nf=1 \
+        as=1.29e-14 ad=3.01e-14 ps=5.5e-07 pd=7.1e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=4.5e-07 sd=160n sca=16.4797 \
+        scb=0.0152074 scc=0.000231472 m=(1)
+mp1 (net59 \4\:net76 \1\:VDD NW) g45p1svt w=(2.15e-07) l=4.5e-08 nf=1 \
+        as=3.44e-14 ad=1.29e-14 ps=7.5e-07 pd=5.5e-07 nrd=1.16667 \
+        nrs=1.16667 sa=2.45e-07 sb=3.45e-07 sd=160n sca=15.2571 \
+        scb=0.0126505 scc=0.000156674 m=(1)
+mp0 (\5\:net76 \1\:AN \1\:VDD NW) g45p1svt w=(2.15e-07) l=4.5e-08 nf=1 \
+        as=3.44e-14 ad=3.01e-14 ps=7.5e-07 pd=7.1e-07 nrd=1.16667 \
+        nrs=1.16667 sa=4.5e-07 sb=1.4e-07 sd=160n sca=17.3518 \
+        scb=0.0169054 scc=0.000309574 m=(1)
+C1 (AN VSS) capacitor c=6.92591e-17
+C2 (VDD VSS) capacitor c=7.01395e-17
+C3 (B VSS) capacitor c=8.48518e-17
+C4 (NW VSS) capacitor c=2.02296e-16
+C5 (Y VSS) capacitor c=8.07788e-17
+C6 (net76 VSS) capacitor c=2.19087e-17
+C7 (\1\:AN VSS) capacitor c=4.13467e-17
+C8 (\4\:net76 VSS) capacitor c=9.95998e-17
+C9 (\1\:B VSS) capacitor c=7.56791e-17
+C10 (\4\:AN VSS) capacitor c=4.90859e-17
+C11 (\3\:net76 VSS) capacitor c=3.28222e-17
+C12 (\3\:B VSS) capacitor c=3.65758e-17
+C13 (\3\:AN VSS) capacitor c=2.28238e-17
+C14 (\2\:B VSS) capacitor c=6.84446e-17
+C15 (\5\:net76 VSS) capacitor c=5.38384e-17
+C16 (\1\:VDD VSS) capacitor c=9.98182e-17
+C17 (\3\:Y VSS) capacitor c=2.7097e-17
+C18 (\9\:net76 VSS) capacitor c=2.52391e-17
+C19 (\1\:Y VSS) capacitor c=1.21188e-16
+C20 (\2\:net76 VSS) capacitor c=7.35498e-17
+C21 (\2\:AN VSS) capacitor c=4.22525e-17
+C22 (\4\:B VSS) capacitor c=3.75715e-17
+C23 (\5\:AN VSS) capacitor c=4.69078e-17
+C24 (\7\:net76 VSS) capacitor c=5.16359e-17
+C25 (\8\:net76 VSS) capacitor c=4.20844e-17
+Rk4 (\5\:AN AN) resistor r=0.1908 c=0
+Rk8 (\2\:VDD VDD) resistor r=0.4889 c=0
+Rk1 (B \4\:B) resistor r=0.09278 c=0
+Rk9 (\2\:VSS \4\:VSS) resistor r=0.2363 c=0
+Rk11 (\5\:VSS VSS) resistor r=0.02962 c=0
+Rk10 (\4\:VSS \5\:VSS) resistor r=0.1702 c=0
+Rk12 (\5\:VSS \7\:VSS) resistor r=0.1954 c=0
+Rk2 (\2\:Y Y) resistor r=0.8073 c=0
+Rk3 (Y \4\:Y) resistor r=0.1143 c=0
+Rk5 (\6\:net76 \7\:net76) resistor r=0.4575 c=0
+Rk6 (\7\:net76 \8\:net76) resistor r=0.1556 c=0
+Rk7 (\7\:net76 \10\:net76) resistor r=0.1626 c=0
+Rl6 (\1\:AN \2\:AN) resistor r=138.176 c=0
+Rl8 (\2\:AN \4\:AN) resistor r=138.176 c=0
+Rl7 (\2\:AN \3\:AN) resistor r=1.2666 c=0
+Rl1 (\1\:B \2\:B) resistor r=161.516 c=0
+Rl2 (\2\:B \3\:B) resistor r=95.9489 c=0
+Rl5 (\2\:net76 \4\:net76) resistor r=227.726 c=0
+Rl4 (\2\:net76 \3\:net76) resistor r=46.9565 c=0
+Rl3 (net76 \2\:net76) resistor r=1.2334 c=0
+Rz3 (\1\:VSS \2\:VSS) resistor r=75 c=0
+Rz4 (\6\:VSS \7\:VSS) resistor r=75 c=0
+Rz1 (\1\:Y \2\:Y) resistor r=75 c=0
+Rz2 (\9\:net76 \10\:net76) resistor r=75 c=0
+Ry3 (\1\:VDD \2\:VDD) resistor r=62 c=0
+Ry1 (\3\:Y \4\:Y) resistor r=62 c=0
+Ry2 (\5\:net76 \6\:net76) resistor r=62 c=0
+Rx2 (\3\:AN \5\:AN) resistor r=45 c=0
+Rx1 (\2\:B \4\:B) resistor r=45 c=0
+Rx3 (net76 \8\:net76) resistor r=45 c=0
+mn2 (\1\:Y \3\:B \6\:VSS VSS) g45n1svt w=(1.45e-07) l=4.5e-08 nf=1 \
+        as=2.03e-14 ad=2.32e-14 ps=5.7e-07 pd=6.1e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=5.5e-07 sd=160n sca=7.09016 \
+        scb=0.00401586 scc=3.69756e-05 m=(1)
+mn1 (\1\:Y \3\:net76 \1\:VSS VSS) g45n1svt w=(1.45e-07) l=4.5e-08 nf=1 \
+        as=2.32e-14 ad=2.32e-14 ps=6.1e-07 pd=6.1e-07 nrd=1.16667 \
+        nrs=1.16667 sa=3.45e-07 sb=3.45e-07 sd=160n sca=7.09016 \
+        scb=0.00401586 scc=3.69756e-05 m=(1)
+mn0 (\9\:net76 \4\:AN \1\:VSS VSS) g45n1svt w=(1.45e-07) l=4.5e-08 nf=1 \
+        as=2.32e-14 ad=2.03e-14 ps=6.1e-07 pd=5.7e-07 nrd=1.16667 \
+        nrs=1.16667 sa=5.5e-07 sb=1.4e-07 sd=160n sca=7.09016 \
+        scb=0.00401586 scc=3.69756e-05 m=(1)
+ends NOR2BXL
+// End of subcircuit definition.
+

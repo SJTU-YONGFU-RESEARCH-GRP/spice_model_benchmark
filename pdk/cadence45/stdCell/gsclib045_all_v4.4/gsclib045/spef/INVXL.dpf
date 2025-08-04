@@ -1,0 +1,26 @@
+*
+*|DSPF 1.5
+*
+*|DATE "Mon Sep 27 09:53:54 2010"
+*|VENDOR "Cadence Design Systems"
+*|PROGRAM "Assura RCX"
+*|VERSION "3.2 Red Hat Linux release 7.2 (Enigma) - (09/09/2009-10:39)"
+*|DESIGN "INVXL"
+*|DIVIDER /
+*|DELIMITER :
+*|DeviceFingerDelim "@"
+*|BUSBIT []
+** MATCHED
+** caps2d version: 10
+*
+.GLOBAL 
+*
+.SUBCKT  INVXL VDD VSS A Y
+*
+*Instance Section
+*
+mn0	mn0:d	mn0:g	mn0:s	VSS:1	nmos1v	L=0.045U	W=0.145U
++ AD=0.0309P	AS=0.0309P	PD=0.92U	PS=0.92U
+mp0	mp0:d	mp0:g	mp0:s	VDD:2	pmos1v	L=0.045U	W=0.215U
++ AD=0.03916P	AS=0.03916P	PD=1.095U	PS=1.095U
+.ENDS

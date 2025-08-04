@@ -1,0 +1,92 @@
+// Generated for: spectre (May  1 08:11:26 2013 )
+// Library name: gsclib045
+// Cell name: FSWX1
+// View name: extracted
+
+simulator lang=spectre
+
+subckt FSWX1 ExtVSS PSO PSO_out VDD VSS
+mp0_1__rcx (\118\:n0 \1\:PSO \13\:VDD VDD) g45p1svt w=(4.5e-07) \
+        l=4.5e-08 nf=1 as=7.2e-14 ad=6.3e-14 ps=1.22e-06 pd=1.18e-06 \
+        nrd=1.16667 nrs=1.16667 sa=1.4e-07 sb=3.45e-07 sd=160n sca=18.9162 \
+        scb=0.0187423 scc=0.000867404 m=(2)
+PM1 (PSO_out n0 \1\:VDD VDD) g45p1svt w=(4.5e-07) l=4.5e-08 nf=1 \
+        as=7.2e-14 ad=6.75e-14 ps=1.22e-06 pd=1.2e-06 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=7.55e-07 sd=160n sca=18.9162 \
+        scb=0.0187423 scc=0.000867404 m=(4)
+NM1_7__rcx (ExtVSS \7\:n0 VSS ExtVSS) g45n1hvt w=(3e-07) l=4.5e-08 nf=1 \
+        as=4.768e-14 ad=4.8e-14 ps=9.1789e-07 pd=9.2e-07 nrd=1.16667 \
+        nrs=1.16667 sa=3.45e-07 sb=2e-06 sd=160n sca=3.55731 \
+        scb=0.000119604 scc=4.49056e-09 m=(38)
+NM1_5__rcx (ExtVSS \7\:n0 VSS ExtVSS) g45n1hvt w=(3e-07) l=4.5e-08 nf=1 \
+        as=4.768e-14 ad=4.8e-14 ps=9.1789e-07 pd=9.2e-07 nrd=1.16667 \
+        nrs=1.16667 sa=3.45e-07 sb=2e-06 sd=160n sca=7.82774 \
+        scb=0.00401892 scc=2.05211e-05 m=(38)
+NM1_1__rcx (ExtVSS \7\:n0 VSS ExtVSS) g45n1hvt w=(3e-07) l=4.5e-08 nf=1 \
+        as=4.2e-14 ad=4.8e-14 ps=8.8e-07 pd=9.2e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=2e-06 sd=160n sca=11.9124 scb=0.0109939 \
+        scc=0.000240529 m=(2)
+NM1_3__rcx (ExtVSS \7\:n0 VSS ExtVSS) g45n1hvt w=(3e-07) l=4.5e-08 nf=1 \
+        as=4.2e-14 ad=4.8e-14 ps=8.8e-07 pd=9.2e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=2e-06 sd=160n sca=3.55731 \
+        scb=0.000119604 scc=4.49056e-09 m=(2)
+C1 (VSS ExtVSS) capacitor c=2.8807e-16
+C2 (PSO ExtVSS) capacitor c=2.27949e-17
+C3 (PSO_out ExtVSS) capacitor c=3.74697e-16
+C4 (VDD ExtVSS) capacitor c=1.02774e-16
+C5 (n0 ExtVSS) capacitor c=3.14803e-16
+C6 (\1\:PSO ExtVSS) capacitor c=1.80221e-16
+C7 (\35\:n0 ExtVSS) capacitor c=5.12985e-17
+C8 (\1\:VDD ExtVSS) capacitor c=2.34006e-16
+C9 (\13\:VDD ExtVSS) capacitor c=1.48142e-16
+C10 (\118\:n0 ExtVSS) capacitor c=8.71611e-17
+C11 (\4\:VDD ExtVSS) capacitor c=2.81841e-16
+C12 (\15\:VDD ExtVSS) capacitor c=2.87681e-16
+C13 (\114\:n0 ExtVSS) capacitor c=6.72658e-17
+C14 (VSS ExtVSS) capacitor c=3.72265e-15
+C15 (ExtVSS ExtVSS) capacitor c=1.93878e-15
+C16 (ExtVSS ExtVSS) capacitor c=1.96338e-15
+C17 (\6\:n0 ExtVSS) capacitor c=5.892e-17
+C18 (\7\:n0 ExtVSS) capacitor c=1.99946e-15
+C19 (\116\:n0 ExtVSS) capacitor c=5.49733e-17
+C20 (\117\:n0 ExtVSS) capacitor c=7.0918e-17
+C21 (\8\:PSO ExtVSS) capacitor c=5.10752e-17
+Rk47 (\57\:ExtVSS ExtVSS) resistor r=0.6558 c=0
+Rk5 (\1\:ExtVSS ExtVSS) resistor r=1.1715 c=0
+Rk44 (PSO \8\:PSO) resistor r=0.05823 c=0
+Rk84 (\1\:VDD \7\:VDD) resistor r=0.809 c=0
+Rk85 (\7\:VDD VDD) resistor r=0.2518 c=0
+Rk87 (\8\:VDD VDD) resistor r=0.3224 c=0
+Rk86 (VDD \8\:VDD) resistor r=0.9582 c=0
+Rk92 (\13\:VDD \18\:VDD) resistor r=0.809 c=0
+Rk93 (\18\:VDD VDD) resistor r=0.2518 c=0
+Rk95 (\19\:VDD VDD) resistor r=0.3224 c=0
+Rk94 (VDD \19\:VDD) resistor r=0.9582 c=0
+Rk1 (\115\:n0 \116\:n0) resistor r=0.2767 c=0
+Rk2 (\116\:n0 \117\:n0) resistor r=0.3941 c=0
+Rk3 (\116\:n0 \119\:n0) resistor r=0.3337 c=0
+Rl5 (\6\:PSO \1\:PSO) resistor r=4.4477 c=0
+Rl11 (\6\:n0 n0) resistor r=41.5959 c=0
+Rl40 (\6\:n0 \35\:n0) resistor r=54.3811 c=0
+Rl12 (\7\:n0 \6\:n0) resistor r=82.8994 c=0
+Rz49 (\1\:VDD \4\:VDD) resistor r=10.7143 c=0
+Rz52 (\13\:VDD \15\:VDD) resistor r=10.7143 c=0
+Rz50 (\7\:VDD \4\:VDD) resistor r=6.25 c=0
+Rz51 (\8\:VDD \4\:VDD) resistor r=6.25 c=0
+Rz53 (\18\:VDD \15\:VDD) resistor r=6.25 c=0
+Rz54 (\19\:VDD \15\:VDD) resistor r=6.25 c=0
+Rz1 (\115\:n0 \114\:n0) resistor r=37.5 c=0
+Ry1 (\119\:n0 \118\:n0) resistor r=20.6667 c=0
+Rx2 (\8\:PSO \6\:PSO) resistor r=22.5 c=0
+Rx1 (\117\:n0 \35\:n0) resistor r=11.25 c=0
+NM0_1__rcx (\57\:ExtVSS n0 PSO_out ExtVSS) g45n1svt w=(3e-07) l=4.5e-08 \
+        nf=1 as=4.5e-14 ad=4.8e-14 ps=9e-07 pd=9.2e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=7.55e-07 sd=160n sca=11.7145 \
+        scb=0.0111322 scc=0.000596114 m=(4)
+mn0 (\1\:ExtVSS \1\:PSO \114\:n0 ExtVSS) g45n1svt w=(3e-07) l=4.5e-08 \
+        nf=1 as=4.2e-14 ad=4.8e-14 ps=8.8e-07 pd=9.2e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=3.45e-07 sd=160n sca=11.7145 \
+        scb=0.0111322 scc=0.000596114 m=(2)
+ends FSWX1
+// End of subcircuit definition.
+

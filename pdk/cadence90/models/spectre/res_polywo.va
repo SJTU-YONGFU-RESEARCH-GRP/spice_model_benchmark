@@ -1,0 +1,38 @@
+`include "discipline.h"
+`include "constants.h"
+
+ module res_polywo(plus,minus);
+   inout plus, minus;
+   electrical plus,minus,vpm;
+    real tempC,tfac,Rcomp;
+    parameter real res=0;	//0:Rpure, 1:Rend, 2:Rx
+    parameter real r=1;
+    parameter real w=1u;
+    parameter real l=1u;
+    parameter real dl=0.0u;
+    parameter real dw=0.0u;
+    parameter real tc1=0;
+    parameter real tc2=0;
+    parameter real vc1=0;
+    parameter real vc2=0;
+    parameter real vc3=0;
+    analog begin
+
+    tempC = ($temperature-273.15)-25;
+
+    tfac=1+(tc1*tempC)+(tc2*tempC*tempC);
+    V(vpm) <+ V(plus, minus);
+    
+    Rcomp=0;
+    
+    if (res == 0)	//for Rpure 
+    	Rcomp=(r*(l-dl)/(w-dw))*(1+vc1*(tanh(vc2*(abs(V(vpm)/(l-dl)))+vc3)-tanh(vc3)))*tfac;
+    else if (res == 1)	//for Rend
+     	Rcomp=(r/(w-dw))*(1+vc1*(tanh(vc2*(abs(V(vpm)))+vc3)-tanh(vc3)))*tfac;
+     else 		//for Rx
+     	Rcomp=r*(1+vc1*(tanh(vc2*(abs(V(vpm)/(w-dw)))+vc3)-tanh(vc3)))*tfac;
+   
+     V(plus,minus) <+ Rcomp*I(plus,minus)+ white_noise(4*`P_K * $temperature*Rcomp, "Thermal resistor noise");
+    
+    end
+ endmodule

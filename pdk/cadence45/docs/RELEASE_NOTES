@@ -1,0 +1,196 @@
+RELEASE NOTES FOR THE 45nm GPDK
+--------------------------------------------------------------------------------
+VERSION 6.0 (09 SEPT 2019)
+--------------------------------------------------------------------------------
+- The gpdk045 IC618 library is built natively with IC6.1.8 ISR4 release code.
+- Following CCRs have been fixed (12 ccrs):
+  2106278, 2105969, 2106032, 2062149, 2033331, 1980929, 1862626
+  1814820, 1718230, 1587369, 1571694, 1556332.
+- The moscap device has been modified with different calculation parameter 
+  choice based on CCR1571694 inputs.
+- The cph.lam file has been modified to better support Virtuoso XL 
+  Gen-From-Source.
+- EAD related files, eadTechFiles (includes em data) and ictfiles have been 
+  developed for different corners (worst, best and typical).ICT files were 
+  modified properly to have correct corners and then EAD technology files were 
+  generated.
+- EAD technology files are placed in a seperate package named 
+  "gpdk045_ead_v_6_0.tar.gz" found on support.cadence.com. Untar this file into
+  the 'ead' directory of the GPDK. See the ...ead/README.txt for details.
+- Modified Virtuoso techfile to remove qcells that are no longer supported and
+  modified some constraints to include new support.
+- Fixed dtemp variable issue in resistor/capacitor for spectre/ams run.
+
+--------------------------------------------------------------------------------
+VERSION 5.0 (22 FEB 2016)
+--------------------------------------------------------------------------------
+- gpdk045 IC617 library built natively with IC6.1.7 ISR1 release code
+- Following CCRs has been fixed (16 ccrs)
+  1515221,1515134,1515215,1513805,1503698,1485808,1480053,1471257,
+  1445571,1429834,1400157,1345956,1324264,1304331,1302228,1291339
+- Modified PVL LVS deck for post-layout check. Removed "R" from 
+  property check and netlist
+- CDL netlist of resistor modified. Removed "R" parameter from netlist
+- File cph.lam has been modified
+--------------------------------------------------------------------------------
+VERSION 4.0 (17 JUNE 2014)
+--------------------------------------------------------------------------------
+- gpdk045 IC615 library built natively with IC6.1.5 ISR17 release code
+- Following CCRs has been fixed (27 ccrs)
+  1287271,1283169,1256253,1254045,1254038,1245309,1237646,1183733,
+  1170331,1126098,1113873,1101516,1094783,1090381,1079752,1037745,
+  1035602,1027840,1027316,997831,990813,987559,981093,980054,980053,
+  980051,959147
+- Major changes:-
+  MOS gates are now weak connect instead of must connect.
+  Modified pvlLVS deck, few new features has been added.
+  pvlFILL deck by Ray/Nalayini has been included.
+  Model (resistor) file modified according to CCR 1245309
+--------------------------------------------------------------------------------
+VERSION pre-release (15 DEC 2011)
+--------------------------------------------------------------------------------
+- gpdk045 IC615 library built natively with IC6.1.5 ISR8 release code
+- Following CCRs has been fixed,
+  914090, 916997, 919813, 919964, 933415, 934958, 940090, 
+  940191, 962137 
+--------------------------------------------------------------------------------
+VERSION 3.5
+--------------------------------------------------------------------------------
+- gpdk045 IC615 library built natively with IC6.1.5 ISR4 release code
+- Added Fluid Guardring support to technology file (CCR884149)
+- Modified libInit files to set various tool defaults (CCR910688)
+- Added techDerivedLayers to techfile to support substrate extraction
+  and poly cutting diffusion. Added new layers to virtuosoDefaultExtractor
+  Setup Constraint Group (CCR875571/911171))
+- Modified MOS pcell to add additional gate pin when GateConnection != None
+  (CCR911205)
+- Added ASCII techfile named tech_gpdk045.tf in the gpdk045 library 
+  (CCR869154)
+- Modified PDK to have/use hspiceD views instead of hspiced (CCR887688) (only mimcap)
+- Added 'soce' directory and data to support digital place and route
+  (CCR869153)
+- Corrected Assura DRC rule deck for end-of-line space (CCR868717)
+- Corrected PVS LVS rules for the symmetric inductor (CCR890569)
+- Moved rcx data from assura to qrc directory. It can be used for PVS/assura.
+--------------------------------------------------------------------------------
+VERSION 3.0
+--------------------------------------------------------------------------------
+- gpdk045 IC615 library built natively with IC6.1.5 release code
+- Added WPE parameter in assura, pvs LVS decks.
+- Added new antenna rules in tech file (815543)
+- Added taperHalo constraint in virtuosoDefaultTaper in techfile (820934)
+- Added minWidth and minSpacing rule for all 4 VT layers.
+  Modified techfile and DRC deck to adopt this adddition.
+- Modified the assura_tech.lib file and also added pvtech.lib for PVS.
+  (847441)
+- Modified sheet resistance of Metals to match the spectre model files
+  Change will affect the structure of Metal resistors.
+- Modified sheet resistance of resnsnpoly to match the spectre model files
+  Change will affect the structure of resnsnpoly resistors.
+- Model name of all the cells has been made unique to gpdk045 (CCR652663)
+  and short names. Model name change will reflect in 
+  PCells, CDF, assura LVS/QRC, pvl LVS.
+- Fixed mimcap CDF computation parameter (CCR773058)
+- Modified mask numbers for layer in tech file (CCR783353)
+- Fixed DRC assura decks to remove stamp errors (CCR795365)
+- Description of rules ('ref arg) has been added in techfile (CCR778281)
+- Added minEndOfLineSpacing rules in DRC (both assura & PVS) (CCR698679)
+
+- Fixed the error on axlregisterCustomDeviceFilter in skill code 
+  gpdk045_customFilter.il file (CCR 705077).
+- Techfile modifications:
+   o Made prBoundary layer invalid (CCR 744942)
+   o Added layer purposed required to run abstract generator without error 
+     and without tech.db modification (CCR 705019,797004)
+   o Added minPRBoundaryInteriorHalo constraint with half spacing values
+     (CCR 755483)
+- Added LVSinclude.rsf file in assura directory (CCR 713666)
+- Fixed the stretch handle issue with f>10 (CCR 698370)
+- Added new boolean CDF parameter to switch on/off diffusion contact.
+  (Diff Cont) (CCR 724449)
+- This release includes PVS rule deck for DRC, LVS and ANTENNA
+  - pvlDRC.rul - DRC and Density check
+  - pvlAnt.rul - Antenna check (pre-liminary)
+  - pvlLVS.rul - Extraction and Comparison deck
+
+--------------------------------------------------------------------------------
+VERSION v2.0
+--------------------------------------------------------------------------------
+- gpdk045 IC613 library built natively with IC6.1.3 ISR 12 release code
+- Thumbnail views used in Library Manager of IC614 are added.
+- Preliminary version of PVS DRC ruledeck has been added.
+- Syntax change in minEndOfLineSpacing in techfile (CCR 696167)
+- cdsenv file has been removed from PDK library and the env settings has been 
+  added to libInitCustomExit.il file. The env varibale in file will be set if 
+  the corresponding variable is not already set.  (CCR 695637)
+- customFilter register command will be invoked only with ADEXL 
+  gpdk045_customFilter.il file has been modified (CCR 692872)
+- Modified cphlam file to ignore more terminals and parameters (CCR 693272, 
+  693838)
+- Nwell enclosure of 1.8v N+/P+ value made lesser from 0.34 to 0.24.
+  The assura ruledeck and PCell has been updated with new value (CCR 676734)
+- Added Metal Fill assura deck (CCR 664648)
+- Marker layer priority has been modified to match the cdsTechLib (CCR 670494)
+- LEFDefaultRouteSpec has been added as type for "LEFDefaultRouteSpec_gpdk045" 
+  CG (CCR 665511)
+- MOS tap will also have termName (CCR 669205)
+- tox parameter for mc corner has modified (CCR 673641)
+- Nwell enclosure to N+/P+ active area has been modified to 0.24 (CCR 676734)
+- Added Symmetric/Asymmetric Inductors (ind_s & ind_a)
+- Added preliminary DIVA EXT & DIVA LVS ruledeck.
+- Added Inductor extraction in assura ruledeck.
+- Corrected Following Rules to check in Inductor area also.
+  METALk.E.2, METALk.W.1, METALk.W.2 & VIA10.E.1 (k=10,11)
+- Modified MOS netlist to have nf & m as used in spectre model files. (CCR 
+  652658)
+- Mainly added assura QRC files and QRC setup template in assura directory. 
+  (CCR 652664)
+- Corrected GDS layer definitions for metal#_conn, poly_conn
+- Added model management file into gpdk045 PDK library (CCR 652668)
+- The default corner for model files has been modified to "mc" (CCR 652662)
+- Prefix of few instances modified to maintain consistency (CCR 652647)
+- libInitCustomExit.il file modified to add all devices to be registered for 
+  Circuit Prospector (CCR 613815)
+- Electrical parameter information is available in gpdk045_PDK_Model_Report.pdf
+  (CCR 652641)
+- Techfile changes - spacing value between OxideThk and Oxide changed from 0.9 
+  to 0.18 (CCR 663205)
+- Modified minEnclosure to minExtension (POLY.E.1) (CCR 659257)
+- Reduce minArea values for Poly and Metals in GPDK045 (CCR 653102)
+- nmoscap1v pcell introduces DRC errors when tap contact rows is 2 (CCR 663386)
+- gpdk045 techfile issue - OXIDE.SE.1 and OXIDETHK.SE.4 modified to have single
+  value 0.18
+- CONTW1 value changed in techParams from 0.12 to 0.06 (CCR 664236)
+- Gate Spacing too high in Thick Oxide (CCR 667025).  Gate to Gate spacing 
+  modified from 0.45 to 0.2u. Also assura ruledeck modified.
+- N-Tap multiPartPath DRC issue resolved (CCR 668127)
+- Removed divaDRC.rul file from the gpdk045 package.
+- Changed the max Width value of moscaps from 30u to 10u to overcome DRC issue 
+  from POLY.SE.3.
+
+--------------------------------------------------------------------------------
+VERSION v1.0 
+--------------------------------------------------------------------------------
+- gpdk045 IC612 library built natively with IC6.1.2.500.16 release code
+- Accelicon generated 45nm spectre models with monte carlo and corners included
+- Added Capacitor Metal Rules to DRM
+- Renamed LEFDefaultRouteSpec to pdkLEFDefaultRouteSpec in constraint group
+- Added all possible DRC rules to foundry constaint group
+- Inherited connection support of Bulk nodes added for resistors and mos devices
+- Changed Mx.D.1 o match DRM was 30x30 step 15 - now 120x120 step 60
+- Updated MOS abutment code to rodGetObj issue (CCR 475621)
+- Updated device display form code to avoid CPH warnings (CCR 402104)
+- Tweaked Mos abutment connectivity to avoid weak connect warning (CCR 498072)
+- Updated MOS callback code to avoid width looping issue (CCR 509902)template
+- Added Metal Layer CurrentDensity information to the IC61 techfile
+- Fixed issue with multi-abutment of MOS devices (CCR 530084)
+
+
+--------------------------------------------------------------------------------
+VERSION v0.1 (initial version)
+--------------------------------------------------------------------------------
+- Basic Assura DRC (no pad and esd rules)
+- Basic Assura LVS
+- Simple device level Spectre models
+- Initial 45nm process devices created
+- gpdk045 IC611 library built natively with IC6.1.1.500.28 release code

@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!-- created by Custom Compiler (TM), build #, on Tue Jun  6 11:32:33 2017
+-->
+<synopsysFile version="1.0" name="synopsysWorkspace">
+    <workspace title="SDL" default="0" name="lxSDL">
+        <overlay windowType="leLayout">
+            <dockArea size="230 661" side="left">
+                <assistantGroup>
+                    <assistant floating="false" name="heDesignNavigator" before="lxSchematicAssistant"/>
+                </assistantGroup>
+                <assistantGroup>
+                    <assistant position="452" length="318" floating="false" name="lxSchematicAssistant"/>
+                </assistantGroup>
+            </dockArea>
+        </overlay>
+        <metadata name="deActiveTools">
+            <attribute value="true" name="lxSDL"/>
+        </metadata>
+    </workspace>
+    <workspace title="Library Manager" default="1" name="dmLibraryManager">
+        <overlay windowType="dmLibraryManager">
+            <menuBar>
+                <menu title="View" name="dmViewMenu" before="giWindowMenu">
+                    <action name="dmShowVersions" show="false"/>
+                </menu>
+            </menuBar>
+        </overlay>
+        <metadata name="__default__metadata__">
+            <attribute value="24.6154" name="cellCategorySplitter"/>
+            <attribute value="24.6154" name="cellSplitter"/>
+            <attribute value="false" name="deOpenRead"/>
+            <attribute value="3" name="dmLibraryManagerStandard"/>
+            <attribute value="true" name="dmShowCellCategories"/>
+            <attribute value="24.6154" name="librarySplitter"/>
+            <attribute value="66.3877" name="previewHeight"/>
+            <attribute value="30.265" name="viewHeight"/>
+            <attribute value="22.9808" name="viewSplitter"/>
+            <attribute value="98.3264" name="viewSplitterViewsColumn"/>
+        </metadata>
+    </workspace>
+</synopsysFile>

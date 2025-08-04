@@ -1,0 +1,145 @@
+; Translated with ADS Netlist Translator (*) 270.day Jul 17 2004
+;
+;
+;***************************************************
+;***************************************************
+;
+;simulator lang=spectre
+
+;library gpdk
+
+;  *************** TT CORNER MODEL ***************
+#ifdef tt
+deltox_25=0
+delvthn_25=0
+delvthp_25=0
+delxl_25=0
+delxw_25=0
+cscalejn=1.0
+cscalego=1.0
+#define mos25 mos25
+#endif
+;  *************** SS CORNER MODEL ***************
+#ifdef ss
+deltox_25=0.4e-9
+delvthn_25=.07
+delvthp_25=-.05
+delxl_25=2e-08
+delxw_25=-1e-08
+cscalejn=1.05
+cscalego=0.95
+#define mos25 mos25
+#endif
+;  *************** FF CORNER MODEL ***************
+#ifdef ff
+deltox_25=-0.4e-9
+delvthn_25=-.07
+delvthp_25=.05
+delxl_25=-2e-08
+delxw_25=1e-08
+cscalejn=0.95
+cscalego=1.05
+#define mos25 mos25
+#endif
+;  *************** SF  CORNER MODEL ***************
+#ifdef sf
+deltox_25=0
+delvthn_25=.07
+delvthp_25=.05
+delxl_25=0
+delxw_25=0
+cscalejn=1.0
+cscalego=1.0
+#define mos25 mos25
+#endif
+;  *************** FS CORNER MODEL ***************
+#ifdef fs
+deltox_25=0
+delvthn_25=-.07
+delvthp_25=-.05
+delxl_25=0
+delxw_25=0
+cscalejn=1.0
+cscalego=1.0
+#define mos25 mos25
+#endif
+
+;***************************************************************
+
+#ifdef mos25
+
+model nmos25 MOSFET Version=3.2 Tnom=25 Paramchk=1 Idsmod=8 Capmod=3 W=5e-6 Tox=5.5n+deltox_25 \
+      Eg=1.12 Sc=1.0e20 Imax=1 L=5e-6 NMOS=yes Vth0=.530+delvthn_25 Vfb=-.920 K1=.8 K2=-2e-02 \
+      K3=40 K3b=0 W0=0 Nlx=.07e-7 Vbm=-3 Dvt0=1.5 Dvt1=.5 Dvt2=.57 Dvt0w=0 Dvt1w=0 Dvt2w=0 A0=.65 \
+      B0=0 B1=0 A1=0 A2=.99 Ags=0 Keta=-70e-3 Nch=4e17 Xj=1.50e-7 Lint=30n Wint=15n Dwg=0 Dwb=0 \
+      Toxm=5.5n+deltox_25 Xt=155n Rdsw=200 Prwb=0 Prwg=0 Wr=1 Binunit=2 Mobmod=1 U0=330 Lu0=-8e-6 \
+      Vsat=1.05e5 Lvsat=-.3e-2 Ua=-8e-10 Ub=2e-18 Uc=.7e-10 Drout=0 Pclm=.7 Pdiblc1=2e-5 Lpdiblc1=3e-9 \
+      Pdiblc2=1e-4 Pdiblcb=.01 Pscbe1=3e8 Pscbe2=1e-6 Pvag=0 Delta=.01 Nfactor=.9 Cit=-1e-4 \
+      Voff=-.07 Dsub=0 Eta0=0 Leta0=8e-10 Etab=1 Alpha0=0 Alpha1=.4 Beta0=15 Rsh=8 Ldif=70n \
+      Hdif=120n Js=1e-7 Jsw=5e-11 Nj=1 Cgso=3e-10*cscalego Cgdo=3e-10*cscalego Ckappa=.600 \
+      Cj=1e-3 Mj=.35 Pb=.7 Cjsw=8e-11*cscalejn Mjsw=.1 Pbsw=.7 Cjswg=2e-10*cscalejn Mjswg=.35 \
+      Pbswg=.7 Nqsmod=0 Dwc=15n Dlc=14n Clc=100n Cle=.6 Cf=0 Elm=5 Vfbcv=-1 Acde=1 Moin=15 Noff=1 \
+      Voffcv=0 Xpart=1 Tlev=1 Tlevc=1 Kt1=-.3 Kt1l=0 Kt2=-.03 At=2e4 Ua1=1.6e-9 Ub1=1e-19 Uc1=-1e-10 \
+      Prt=0 Trs=0 Trd=0 Ute=-.99 Xti=3 Pta=0 Tpb=.001 Ptp=0 Tpbsw=.001 Tpbswg=.001 Cta=0 Tcj=.001 \
+      Ctp=0 Tcjsw=.001 Tcjswg=.001 Noimod=1 Kf=5e-28 Fc=0 Af=.9 Ef=.95 Xl=-20n+delxl_25 Xw=10n+delxw_25 \
+      PMOS=no
+;       gap1 = 7e-4
+;       gap2 = 1.1e3
+
+model pmos25 MOSFET Version=3.2 Tnom=25 Paramchk=1 Idsmod=8 Capmod=3 W=5e-6 Tox=5.75n+deltox_25 \
+      Eg=1.12 Sc=1.0e20 Imax=1 L=5e-6 NMOS=no Vth0=-.51+delvthp_25 Vfb=-1.4 K1=.75 K2=.07 K3=40 \
+      K3b=0 W0=0 Nlx=0 Vbm=-3 Dvt0=2 Dvt1=.5 Dvt2=-.03 Dvt0w=0 Dvt1w=0 Dvt2w=0 A0=.6 B0=0 B1=0 \
+      A1=0 A2=.99 Ags=.02 Keta=-.05 Nch=7e+17 Xj=2.0e-7 Lint=35n Wint=15n Dwg=0 Dwb=0 Toxm=5.75n+deltox_25 \
+      Xt=150n Rdsw=900 Prwb=0 Prwg=0 Wr=1 Binunit=2 Mobmod=1 U0=101 Lu0=1.5e-6 Vsat=4e4 Lvsat=1e-2 \
+      Ua=4e-10 Ub=1e-18 Uc=1e-11 Drout=0 Pclm=.5 Pdiblc1=1e-04 Lpdiblc1=2e-10 Pdiblc2=1e-4 \
+      Pdiblcb=.01 Pscbe1=4e8 Pscbe2=5e-7 Pvag=0 Delta=.01 Nfactor=1 Cit=-4e-4 Voff=-.067 Dsub=0 \
+      Eta0=0 Leta0=4e-10 Etab=.002 Alpha0=0 Alpha1=.3 Beta0=20 Rsh=7 Ldif=70n Hdif=120n Js=1e-6 \
+      Jsw=2e-12 Nj=1 Cgso=2.5e-10*cscalego Cgdo=2.5e-10*cscalego Ckappa=.6 Cj=1.2e-3*cscalejn \
+      Mj=.4 Pb=.8 Cjsw=6.e-11*cscalejn Mjsw=.1 Pbsw=.8 Cjswg=2e-10*cscalejn Mjswg=.3 Pbswg=.8 \
+      Nqsmod=0 Dwc=10n Dlc=14n Clc=100n Cle=.6 Cf=0 Elm=5 Vfbcv=-1 Acde=1 Moin=15 Noff=1 Voffcv=0 \
+      Xpart=1 Tlev=1 Tlevc=1 Kt1=-.3 Kt1l=0 Kt2=-.030 At=-9.e4 Ua1=2n Ub1=-3e-18 Uc1=-9e-11 \
+      Prt=0 Trs=0 Trd=0 Ute=-.97 Xti=3 Pta=0 Tpb=2e-3 Ptp=0 Tpbsw=2e-3 Tpbswg=2e-3 Cta=0 Tcj=1e-3 \
+      Ctp=0 Tcjsw=.1e-3 Tcjswg=.1e-3 Fc=0.5 Noimod=1 Kf=5e-28 Af=1 Ef=1.1 Xl=-20n+delxl_25 Xw=10n+delxw_25 \
+      PMOS=yes
+;       gap1 = 7e-4
+;       gap2 = 1.1e3
+
+#endif
+;endlibrary gpdk
+
+;Spectre Math Constants
+#ifndef SPECTRE_MATH_CONSTANTS
+;Define a CPP variable so the constants will not be redefined
+#define SPECTRE_MATH_CONSTANTS
+M_E=e
+M_LOG2E=1.44269504088896
+M_LOG10E=log(e)
+M_LN2=ln(2)
+M_LN10=ln10
+M_PI=pi
+M_TWOPI=2*pi
+M_PI_2=pi/2
+M_PI_4=pi/4
+M_1_PI=1/pi
+M_2_PI=2/pi
+M_2_SQRTPI=2/sqrt(pi)
+M_SQRT1_2=sqrt(1/2)
+M_DEGPERRAD=57.2957795130823208772
+M_SQRT2=sqrt(2)
+;End of Spectre Math Constants
+#endif
+
+;Spectre Physical Constants
+#ifndef SPECTRE_PHYSICAL_CONSTANTS
+;Define a CPP variable so the constants will not be redefined
+#define SPECTRE_PHYSICAL_CONSTANTS
+P_Q=qelectron
+P_C=c0
+P_K=boltzmann
+P_H=planck
+P_EPS0=e0
+P_U0=u0
+P_CELSIUS0=273.15
+;End of Spectre Physical Constants
+#endif
+

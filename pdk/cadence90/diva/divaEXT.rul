@@ -1,0 +1,1736 @@
+; Sample runset for 90 nm
+; GPDK090 version 4.5
+; DIVA(r) version 5.1 LVS file
+
+; parameter file: 
+
+drcExtractRules(
+geomErase("marker" "warning")
+geomErase("marker" "error")
+
+BJTdum=geomOr(("BJTdum" "drawing"))
+
+Bondpad=geomOr(("Bondpad" "drawing"))
+
+Cap3dum=geomOr(("Cap3dum" "drawing"))
+
+CapMetal=geomOr(("CapMetal" "drawing"))
+
+Capdum=geomOr(("Capdum" "drawing"))
+
+Cont=geomOr(("Cont" "drawing"))
+
+DIOdummy=geomOr(("DIOdummy" "drawing"))
+
+IND2dummy=geomOr(("IND2dummy" "drawing"))
+
+IND3dummy=geomOr(("IND3dummy" "drawing"))
+
+INDdummy=geomOr(("INDdummy" "drawing"))
+
+M1Resdum=geomOr(("M1Resdum" "drawing"))
+
+M2Resdum=geomOr(("M2Resdum" "drawing"))
+
+M3Resdum=geomOr(("M3Resdum" "drawing"))
+
+M4Resdum=geomOr(("M4Resdum" "drawing"))
+
+M5Resdum=geomOr(("M5Resdum" "drawing"))
+
+M6Resdum=geomOr(("M6Resdum" "drawing"))
+
+M7Resdum=geomOr(("M7Resdum" "drawing"))
+
+M8Resdum=geomOr(("M8Resdum" "drawing"))
+
+M9Resdum=geomOr(("M9Resdum" "drawing"))
+
+Metal1_d=geomOr(("Metal1" "drawing"))
+
+Metal1_f=geomOr(("Metal1" "fill"))
+
+Metal1_n=geomOr(("Metal1" "net"))
+
+Metal1_p=geomOr(("Metal1" "pin"))
+
+Metal1_slot=geomOr(("Metal1" "slot"))
+
+Metal2_d=geomOr(("Metal2" "drawing"))
+
+Metal2_f=geomOr(("Metal2" "fill"))
+
+Metal2_n=geomOr(("Metal2" "net"))
+
+Metal2_p=geomOr(("Metal2" "pin"))
+
+Metal2_slot=geomOr(("Metal2" "slot"))
+
+Metal3_d=geomOr(("Metal3" "drawing"))
+
+Metal3_f=geomOr(("Metal3" "fill"))
+
+Metal3_n=geomOr(("Metal3" "net"))
+
+Metal3_p=geomOr(("Metal3" "pin"))
+
+Metal3_slot=geomOr(("Metal3" "slot"))
+
+Metal4_d=geomOr(("Metal4" "drawing"))
+
+Metal4_f=geomOr(("Metal4" "fill"))
+
+Metal4_n=geomOr(("Metal4" "net"))
+
+Metal4_p=geomOr(("Metal4" "pin"))
+
+Metal4_slot=geomOr(("Metal4" "slot"))
+
+Metal5_d=geomOr(("Metal5" "drawing"))
+
+Metal5_f=geomOr(("Metal5" "fill"))
+
+Metal5_n=geomOr(("Metal5" "net"))
+
+Metal5_p=geomOr(("Metal5" "pin"))
+
+Metal5_slot=geomOr(("Metal5" "slot"))
+
+Metal6_d=geomOr(("Metal6" "drawing"))
+
+Metal6_f=geomOr(("Metal6" "fill"))
+
+Metal6_n=geomOr(("Metal6" "net"))
+
+Metal6_p=geomOr(("Metal6" "pin"))
+
+Metal6_slot=geomOr(("Metal6" "slot"))
+
+Metal7_d=geomOr(("Metal7" "drawing"))
+
+Metal7_f=geomOr(("Metal7" "fill"))
+
+Metal7_n=geomOr(("Metal7" "net"))
+
+Metal7_p=geomOr(("Metal7" "pin"))
+
+Metal7_slot=geomOr(("Metal7" "slot"))
+
+Metal8_d=geomOr(("Metal8" "drawing"))
+
+Metal8_f=geomOr(("Metal8" "fill"))
+
+Metal8_n=geomOr(("Metal8" "net"))
+
+Metal8_p=geomOr(("Metal8" "pin"))
+
+Metal8_slot=geomOr(("Metal8" "slot"))
+
+Metal9_d=geomOr(("Metal9" "drawing"))
+
+Metal9_f=geomOr(("Metal9" "fill"))
+
+Metal9_n=geomOr(("Metal9" "net"))
+
+Metal9_p=geomOr(("Metal9" "pin"))
+
+Metal9_slot=geomOr(("Metal9" "slot"))
+
+NPNdummy=geomOr(("NPNdummy" "drawing"))
+
+Nburied=geomOr(("Nburied" "drawing"))
+
+Nhvt=geomOr(("Nhvt" "drawing"))
+
+Nimp=geomOr(("Nimp" "drawing"))
+
+Nwell=geomOr(("Nwell" "drawing"))
+
+Nzvt=geomOr(("Nzvt" "drawing"))
+
+Oxide=geomOr(("Oxide" "drawing"))
+
+Oxide_thk=geomOr(("Oxide_thk" "drawing"))
+
+PNPdummy=geomOr(("PNPdummy" "drawing"))
+
+Phvt=geomOr(("Phvt" "drawing"))
+
+Pimp=geomOr(("Pimp" "drawing"))
+
+Poly=geomOr(("Poly" "drawing"))
+
+Psub=geomOr(("Psub" "drawing"))
+
+ResWdum=geomOr(("ResWdum" "drawing"))
+
+Resdum=geomOr(("Resdum" "drawing"))
+
+SiProt=geomOr(("SiProt" "drawing"))
+
+VPNP2dum=geomOr(("VPNP2dum" "drawing"))
+
+VPNP5dum=geomOr(("VPNP5dum" "drawing"))
+
+VPNP10dum=geomOr(("VPNP10dum" "drawing"))
+
+Via1=geomOr(("Via1" "drawing"))
+
+Via2=geomOr(("Via2" "drawing"))
+
+Via3=geomOr(("Via3" "drawing"))
+
+Via4=geomOr(("Via4" "drawing"))
+
+Via5=geomOr(("Via5" "drawing"))
+
+Via6=geomOr(("Via6" "drawing"))
+
+Via7=geomOr(("Via7" "drawing"))
+
+Via8=geomOr(("Via8" "drawing"))
+
+bulk=geomBkgnd(0)
+
+; Metal1_v=Metal1_p and Metal1_d
+Metal1_v=geomAnd(Metal1_d Metal1_p)
+
+; Metal2_v=Metal2_p and Metal2_d
+Metal2_v=geomAnd(Metal2_d Metal2_p)
+
+; Metal3_v=Metal3_p and Metal3_d
+Metal3_v=geomAnd(Metal3_d Metal3_p)
+
+; Metal4_v=Metal4_p and Metal4_d
+Metal4_v=geomAnd(Metal4_d Metal4_p)
+
+; Metal5_v=Metal5_p and Metal5_d
+Metal5_v=geomAnd(Metal5_d Metal5_p)
+
+; Metal6_v=Metal6_p and Metal6_d
+Metal6_v=geomAnd(Metal6_d Metal6_p)
+
+; Metal7_v=Metal7_p and Metal7_d
+Metal7_v=geomAnd(Metal7_d Metal7_p)
+
+; Metal8_v=Metal8_p and Metal8_d
+Metal8_v=geomAnd(Metal8_d Metal8_p)
+
+; Metal9_v=Metal9_p and Metal9_d
+Metal9_v=geomAnd(Metal9_d Metal9_p)
+
+; cont_poly=Cont and Poly
+cont_poly=geomAnd(Cont Poly)
+
+; ind_term1=INDdummy and IND2dummy
+ind_term1=geomAnd(IND2dummy INDdummy)
+
+; ind_term2=INDdummy and IND3dummy
+ind_term2=geomAnd(IND3dummy INDdummy)
+
+; nactive=Nimp and Oxide
+nactive=geomAnd(Nimp Oxide)
+
+; nb_tap=Nburied and Nwell
+nb_tap=geomAnd(Nburied Nwell)
+
+; npn_base=Psub and NPNdummy
+npn_base=geomAnd(NPNdummy Psub)
+
+; pactive=Pimp and Oxide
+pactive=geomAnd(Oxide Pimp)
+
+; pdiff=pactive andnot Poly
+pdiff=geomAndNot(pactive Poly)
+
+; poly_conn=Poly andnot Resdum
+poly_conn=geomAndNot(Poly Resdum)
+
+; ndiff=(nactive andnot poly_conn)
+ndiff=geomAndNot(nactive poly_conn)
+
+; via2_cap=Via2 and CapMetal
+via2_cap=geomAnd(CapMetal Via2)
+
+; _rnwellod=(Nwell and SiProt) and ResWdum
+L40182=geomAnd(Nwell SiProt)
+_rnwellod=geomAnd(L40182 ResWdum)
+
+; _rnwellsti=(Nwell notInteract SiProt) and ResWdum
+L25544=geomAvoiding(Nwell SiProt)
+_rnwellsti=geomAnd(L25544 ResWdum)
+
+; cont_base=Cont and npn_base and pdiff
+L82025=geomAnd(Cont npn_base)
+cont_base=geomAnd(L82025 pdiff)
+
+; ndiff_conn=ndiff andnot Resdum andnot NPNdummy
+L46829=geomAndNot(ndiff Resdum)
+ndiff_conn=geomAndNot(L46829 NPNdummy)
+
+; cont_ndiff=Cont and ndiff_conn
+cont_ndiff=geomAnd(Cont ndiff_conn)
+
+; ntap=Nwell and ndiff_conn
+ntap=geomAnd(Nwell ndiff_conn)
+
+; npn_coll=Nwell andnot ResWdum and NPNdummy
+L59011=geomAndNot(Nwell ResWdum)
+npn_coll=geomAnd(L59011 NPNdummy)
+
+; cont_coll=Cont and npn_coll andnot Psub
+L25060=geomAnd(Cont npn_coll)
+cont_coll=geomAndNot(L25060 Psub)
+
+; nwell_conn=Nwell andnot ResWdum andnot NPNdummy
+nwell_conn=geomAndNot(L59011 NPNdummy)
+
+; pdiff_conn=pdiff andnot Resdum andnot NPNdummy
+L12267=geomAndNot(pdiff Resdum)
+pdiff_conn=geomAndNot(L12267 NPNdummy)
+
+; _pnp=(pdiff_conn and PNPdummy)
+_pnp=geomAnd(PNPdummy pdiff_conn)
+
+; cont_pdiff=Cont and pdiff_conn
+cont_pdiff=geomAnd(Cont pdiff_conn)
+
+; ptap=(pdiff_conn andnot Nwell)
+ptap=geomAndNot(pdiff_conn Nwell)
+
+; _vpnp2=(pdiff_conn and BJTdum and VPNP2dum)
+L68803=geomAnd(BJTdum pdiff_conn)
+_vpnp2=geomAnd(L68803 VPNP2dum)
+
+; _vpnp5=(pdiff_conn and BJTdum and VPNP5dum)
+_vpnp5=geomAnd(L68803 VPNP5dum)
+
+; _vpnp10=(pdiff_conn and BJTdum and VPNP10dum)
+_vpnp10=geomAnd(L68803 VPNP10dum)
+
+; Metal1_d_n=if MergePinAndNet Metal1_d or Metal1_n else Metal1_d
+ivIf( switch("MergePinAndNet") then
+    Metal1_d_n=geomOr(Metal1_d Metal1_n)
+else
+    Metal1_d_n=Metal1_d
+)
+
+
+; Metal1=Metal1_d_n or Metal1_p or Metal1_f
+L59680=geomOr(Metal1_d_n Metal1_p)
+Metal1=geomOr(L59680 Metal1_f)
+
+; _resm1=(Metal1 andnot Metal1_slot) and M1Resdum
+L32159=geomAndNot(Metal1 Metal1_slot)
+_resm1=geomAnd(L32159 M1Resdum)
+
+; metal1_conn=(Metal1 andnot Metal1_slot) andnot M1Resdum
+metal1_conn=geomAndNot(L32159 M1Resdum)
+
+; Metal2_d_n=if MergePinAndNet Metal2_d or Metal2_n else Metal2_d
+ivIf( switch("MergePinAndNet") then
+    Metal2_d_n=geomOr(Metal2_d Metal2_n)
+else
+    Metal2_d_n=Metal2_d
+)
+
+
+; Metal2=Metal2_d_n or Metal2_p or Metal2_f
+L17344=geomOr(Metal2_d_n Metal2_p)
+Metal2=geomOr(L17344 Metal2_f)
+
+; _resm2=(Metal2 andnot Metal2_slot) and M2Resdum
+L6015=geomAndNot(Metal2 Metal2_slot)
+_resm2=geomAnd(L6015 M2Resdum)
+
+; ind_term1_tap=Metal2 and INDdummy and IND2dummy
+L41497=geomAnd(INDdummy Metal2)
+ind_term1_tap=geomAnd(IND2dummy L41497)
+
+; ind_term2_tap=Metal2 and INDdummy and IND3dummy
+ind_term2_tap=geomAnd(IND3dummy L41497)
+
+; metal2_conn=(Metal2 andnot Metal2_slot) andnot M2Resdum
+metal2_conn=geomAndNot(L6015 M2Resdum)
+
+; MIMCAP=CapMetal and metal2_conn
+MIMCAP=geomAnd(CapMetal metal2_conn)
+
+; Metal3_d_n=if MergePinAndNet Metal3_d or Metal3_n else Metal3_d
+ivIf( switch("MergePinAndNet") then
+    Metal3_d_n=geomOr(Metal3_d Metal3_n)
+else
+    Metal3_d_n=Metal3_d
+)
+
+
+; Metal3=Metal3_d_n or Metal3_p or Metal3_f
+L92288=geomOr(Metal3_d_n Metal3_p)
+Metal3=geomOr(L92288 Metal3_f)
+
+; _resm3=(Metal3 andnot Metal3_slot) and M3Resdum
+L79871=geomAndNot(Metal3 Metal3_slot)
+_resm3=geomAnd(L79871 M3Resdum)
+
+; metal3_conn=(Metal3 andnot Metal3_slot) andnot M3Resdum
+metal3_conn=geomAndNot(L79871 M3Resdum)
+
+; Metal4_d_n=if MergePinAndNet Metal4_d or Metal4_n else Metal4_d
+ivIf( switch("MergePinAndNet") then
+    Metal4_d_n=geomOr(Metal4_d Metal4_n)
+else
+    Metal4_d_n=Metal4_d
+)
+
+
+; Metal4=Metal4_d_n or Metal4_p or Metal4_f
+L34624=geomOr(Metal4_d_n Metal4_p)
+Metal4=geomOr(L34624 Metal4_f)
+
+; _resm4=(Metal4 andnot Metal4_slot) and M4Resdum
+L53727=geomAndNot(Metal4 Metal4_slot)
+_resm4=geomAnd(L53727 M4Resdum)
+
+; metal4_conn=(Metal4 andnot Metal4_slot) andnot M4Resdum
+metal4_conn=geomAndNot(L53727 M4Resdum)
+
+; Metal5_d_n=if MergePinAndNet Metal5_d or Metal5_n else Metal5_d
+ivIf( switch("MergePinAndNet") then
+    Metal5_d_n=geomOr(Metal5_d Metal5_n)
+else
+    Metal5_d_n=Metal5_d
+)
+
+
+; Metal5=Metal5_d_n or Metal5_p or Metal5_f
+L76960=geomOr(Metal5_d_n Metal5_p)
+Metal5=geomOr(L76960 Metal5_f)
+
+; _resm5=(Metal5 andnot Metal5_slot) and M5Resdum
+L27583=geomAndNot(Metal5 Metal5_slot)
+_resm5=geomAnd(L27583 M5Resdum)
+
+; metal5_conn=(Metal5 andnot Metal5_slot) andnot M5Resdum
+metal5_conn=geomAndNot(L27583 M5Resdum)
+
+; Metal6_d_n=if MergePinAndNet Metal6_d or Metal6_n else Metal6_d
+ivIf( switch("MergePinAndNet") then
+    Metal6_d_n=geomOr(Metal6_d Metal6_n)
+else
+    Metal6_d_n=Metal6_d
+)
+
+
+; Metal6=Metal6_d_n or Metal6_p or Metal6_f
+L19296=geomOr(Metal6_d_n Metal6_p)
+Metal6=geomOr(L19296 Metal6_f)
+
+; _resm6=(Metal6 andnot Metal6_slot) and M6Resdum
+L65857=geomAndNot(Metal6 Metal6_slot)
+_resm6=geomAnd(L65857 M6Resdum)
+
+; metal6_conn=(Metal6 andnot Metal6_slot) andnot M6Resdum
+metal6_conn=geomAndNot(L65857 M6Resdum)
+
+; Metal7_d_n=if MergePinAndNet Metal7_d or Metal7_n else Metal7_d
+ivIf( switch("MergePinAndNet") then
+    Metal7_d_n=geomOr(Metal7_d Metal7_n)
+else
+    Metal7_d_n=Metal7_d
+)
+
+
+; Metal7=Metal7_d_n or Metal7_p or Metal7_f
+L38368=geomOr(Metal7_d_n Metal7_p)
+Metal7=geomOr(L38368 Metal7_f)
+
+; _resm7=(Metal7 andnot Metal7_slot) and M7Resdum
+L92001=geomAndNot(Metal7 Metal7_slot)
+_resm7=geomAnd(L92001 M7Resdum)
+
+; metal7_conn=(Metal7 andnot Metal7_slot) andnot M7Resdum
+metal7_conn=geomAndNot(L92001 M7Resdum)
+
+; Metal8_d_n=if MergePinAndNet Metal8_d or Metal8_n else Metal8_d
+ivIf( switch("MergePinAndNet") then
+    Metal8_d_n=geomOr(Metal8_d Metal8_n)
+else
+    Metal8_d_n=Metal8_d
+)
+
+
+; Metal8=Metal8_d_n or Metal8_p or Metal8_f
+L96032=geomOr(Metal8_d_n Metal8_p)
+Metal8=geomOr(L96032 Metal8_f)
+
+; _resm8=(Metal8 andnot Metal8_slot) and M8Resdum
+L18145=geomAndNot(Metal8 Metal8_slot)
+_resm8=geomAnd(L18145 M8Resdum)
+
+; metal8_conn=(Metal8 andnot Metal8_slot) andnot M8Resdum
+metal8_conn=geomAndNot(L18145 M8Resdum)
+
+; Metal9_d_n=if MergePinAndNet Metal9_d or Metal9_n else Metal9_d
+ivIf( switch("MergePinAndNet") then
+    Metal9_d_n=geomOr(Metal9_d Metal9_n)
+else
+    Metal9_d_n=Metal9_d
+)
+
+
+; Metal9=Metal9_d_n or Metal9_p or Metal9_f
+L53696=geomOr(Metal9_d_n Metal9_p)
+Metal9=geomOr(L53696 Metal9_f)
+
+; bp_tap=Bondpad and Metal9
+bp_tap=geomAnd(Bondpad Metal9)
+
+; _resm9=(Metal9 andnot Metal9_slot) and M9Resdum
+L44289=geomAndNot(Metal9 Metal9_slot)
+_resm9=geomAnd(L44289 M9Resdum)
+
+; metal9_conn=(Metal9 andnot Metal9_slot) andnot M9Resdum
+metal9_conn=geomAndNot(L44289 M9Resdum)
+
+; _ndio=(DIOdummy and Oxide and Nimp) andnot Nwell
+L54696=geomAnd(DIOdummy Oxide)
+L65805=geomAnd(L54696 Nimp)
+_ndio=geomAndNot(L65805 Nwell)
+
+; _pdio=(DIOdummy and Oxide and Pimp) and Nwell
+L25387=geomAnd(L54696 Pimp)
+_pdio=geomAnd(L25387 Nwell)
+
+; npn_emit=ndiff andnot Resdum and NPNdummy and Psub
+L69474=geomAnd(L46829 NPNdummy)
+npn_emit=geomAnd(L69474 Psub)
+
+; _npn=(npn_emit and NPNdummy)
+_npn=geomAnd(NPNdummy npn_emit)
+
+; cont_emit=Cont and npn_emit
+cont_emit=geomAnd(Cont npn_emit)
+
+; via2_out_capInd=Via2 and Metal2 andnot (CapMetal or INDdummy)
+L98704=geomAnd(Metal2 Via2)
+L47735=geomOr(CapMetal INDdummy)
+via2_out_capInd=geomAndNot(L98704 L47735)
+
+; _pmos_12_hvt=(((Oxide andnot Oxide_thk) and Poly) and Pimp) and Phvt
+L28394=geomAndNot(Oxide Oxide_thk)
+L66375=geomAnd(L28394 Poly)
+L29970=geomAnd(L66375 Pimp)
+_pmos_12_hvt=geomAnd(L29970 Phvt)
+
+; _pmoscap_25=((Oxide and Oxide_thk) and Poly) and Pimp and Capdum
+L24975=geomAnd(Oxide Oxide_thk)
+L98842=geomAnd(L24975 Poly)
+L73768=geomAnd(L98842 Pimp)
+_pmoscap_25=geomAnd(Capdum L73768)
+
+; _pmoscap_25_3=((Oxide and Oxide_thk) and Poly) and Pimp and Cap3dum
+_pmoscap_25_3=geomAnd(Cap3dum L73768)
+
+; _rndiff=(((Oxide and Nimp) notInteract SiProt) and Resdum) andnot Nwell
+L62496=geomAvoiding(nactive SiProt)
+L426=geomAnd(L62496 Resdum)
+_rndiff=geomAndNot(L426 Nwell)
+
+; _rndiff_nosal=(((Oxide and Nimp) and SiProt) and Resdum) andnot Nwell
+L18758=geomAnd(SiProt nactive)
+L23316=geomAnd(L18758 Resdum)
+_rndiff_nosal=geomAndNot(L23316 Nwell)
+
+; _rnpoly=((Poly andnot SiProt) and Nimp) and Resdum andnot Nwell
+L90381=geomAndNot(Poly SiProt)
+L49196=geomAnd(L90381 Nimp)
+L17878=geomAnd(L49196 Resdum)
+_rnpoly=geomAndNot(L17878 Nwell)
+
+; _rnpoly_nosal=((Poly and SiProt) and Nimp) and Resdum andnot Nwell
+L5240=geomAnd(Poly SiProt)
+L1378=geomAnd(L5240 Nimp)
+L66582=geomAnd(L1378 Resdum)
+_rnpoly_nosal=geomAndNot(L66582 Nwell)
+
+; _rnpolynw=((Poly andnot SiProt) and Nimp) and Resdum and Nwell
+_rnpolynw=geomAnd(L17878 Nwell)
+
+; _rnpolynw_nosal=((Poly and SiProt) and Nimp) and Resdum and Nwell
+_rnpolynw_nosal=geomAnd(L66582 Nwell)
+
+; _rpdiff=(((Oxide and Pimp) notInteract SiProt) and Resdum) and Nwell
+L79746=geomAvoiding(pactive SiProt)
+L22728=geomAnd(L79746 Resdum)
+_rpdiff=geomAnd(L22728 Nwell)
+
+; _rpdiff_nosal=(((Oxide and Pimp) and SiProt) and Resdum) and Nwell
+L88604=geomAnd(SiProt pactive)
+L197=geomAnd(L88604 Resdum)
+_rpdiff_nosal=geomAnd(L197 Nwell)
+
+; _rppoly=((Poly andnot SiProt) and Pimp) and Resdum andnot Nwell
+L8778=geomAnd(L90381 Pimp)
+L54937=geomAnd(L8778 Resdum)
+_rppoly=geomAndNot(L54937 Nwell)
+
+; _rppoly_nosal=((Poly and SiProt) and Pimp) and Resdum andnot Nwell
+L60960=geomAnd(L5240 Pimp)
+L4294=geomAnd(L60960 Resdum)
+_rppoly_nosal=geomAndNot(L4294 Nwell)
+
+; _rppolynw=((Poly andnot SiProt) and Pimp) and Resdum and Nwell
+_rppolynw=geomAnd(L54937 Nwell)
+
+; _rppolynw_nosal=((Poly and SiProt) and Pimp) and Resdum and Nwell
+_rppolynw_nosal=geomAnd(L4294 Nwell)
+
+; _pmos_25=((Oxide and Oxide_thk) and Poly) and Pimp andnot (Capdum or Cap3dum)
+L8948=geomOr(Cap3dum Capdum)
+_pmos_25=geomAndNot(L73768 L8948)
+
+; _pmoscap_12=(((Oxide andnot Oxide_thk) and Poly) and Pimp) andnot Phvt and Capdum
+L62733=geomAndNot(L29970 Phvt)
+_pmoscap_12=geomAnd(Capdum L62733)
+
+; _pmoscap_12_3=(((Oxide andnot Oxide_thk) and Poly) and Pimp) andnot Phvt and Cap3dum
+_pmoscap_12_3=geomAnd(Cap3dum L62733)
+
+; _nmos_12_hvt=(((((Oxide andnot Oxide_thk) and Poly) and Nimp) andnot Nzvt) and Nhvt)
+;  andnot Nburied
+L89552=geomAnd(L66375 Nimp)
+L25441=geomAndNot(L89552 Nzvt)
+L941=geomAnd(L25441 Nhvt)
+_nmos_12_hvt=geomAndNot(L941 Nburied)
+
+; _nmos_12_iso=(((((Oxide andnot Oxide_thk) and Poly) and Nimp) andnot Nzvt) andnot
+;  Nhvt) and Nburied
+L70734=geomAndNot(L25441 Nhvt)
+_nmos_12_iso=geomAnd(L70734 Nburied)
+
+; _nmos_12_native=(((((Oxide andnot Oxide_thk) and Poly) and Nimp) and Nzvt) andnot
+;  Nhvt) andnot Nburied
+L70180=geomAnd(L89552 Nzvt)
+L21328=geomAndNot(L70180 Nhvt)
+_nmos_12_native=geomAndNot(L21328 Nburied)
+
+; _nmos_25_native=(((((Oxide and Oxide_thk) and Poly) and Nimp) and Nzvt) andnot Nhvt)
+;  andnot Nburied
+L14186=geomAnd(L98842 Nimp)
+L15681=geomAnd(L14186 Nzvt)
+L10869=geomAndNot(L15681 Nhvt)
+_nmos_25_native=geomAndNot(L10869 Nburied)
+
+; _pmos_12=(((Oxide andnot Oxide_thk) and Poly) and Pimp) andnot Phvt andnot (Capdum
+;  or Cap3dum)
+_pmos_12=geomAndNot(L62733 L8948)
+
+; psubstrate=(bulk andnot (Nburied and Nwell)) andnot (Psub andnot (Psub size -0.001))
+;  andnot NPNdummy
+L14174=geomAndNot(bulk nb_tap)
+L86601=geomSize(Psub -0.001)
+L7495=geomAndNot(Psub L86601)
+L43912=geomAndNot(L14174 L7495)
+psubstrate=geomAndNot(L43912 NPNdummy)
+
+; _nmoscap_12=(((((Oxide andnot Oxide_thk) and Poly) and Nimp) andnot Nzvt) andnot
+;  Nhvt) andnot Nburied and Capdum
+L8530=geomAndNot(L70734 Nburied)
+_nmoscap_12=geomAnd(Capdum L8530)
+
+; _nmoscap_12_3=(((((Oxide andnot Oxide_thk) and Poly) and Nimp) andnot Nzvt) andnot
+;  Nhvt) andnot Nburied and Cap3dum
+_nmoscap_12_3=geomAnd(Cap3dum L8530)
+
+; _nmoscap_25=(((((Oxide and Oxide_thk) and Poly) and Nimp) andnot Nzvt) andnot Nhvt)
+;  andnot Nburied and Capdum
+L55994=geomAndNot(L14186 Nzvt)
+L55604=geomAndNot(L55994 Nhvt)
+L64343=geomAndNot(L55604 Nburied)
+_nmoscap_25=geomAnd(Capdum L64343)
+
+; _nmoscap_25_3=(((((Oxide and Oxide_thk) and Poly) and Nimp) andnot Nzvt) andnot Nhvt)
+;  andnot Nburied and Cap3dum
+_nmoscap_25_3=geomAnd(Cap3dum L64343)
+
+; _nmos_12=(((((Oxide andnot Oxide_thk) and Poly) and Nimp) andnot Nzvt) andnot Nhvt)
+;  andnot Nburied andnot (Capdum or Cap3dum)
+_nmos_12=geomAndNot(L8530 L8948)
+
+; _nmos_25=(((((Oxide and Oxide_thk) and Poly) and Nimp) andnot Nzvt) andnot Nhvt)
+;  andnot Nburied andnot (Capdum or Cap3dum)
+_nmos_25=geomAndNot(L64343 L8948)
+
+geomConnect(
+    via(bp_tap Bondpad metal9_conn)
+    via(Metal9_v Metal9_p metal9_conn)
+    via(Via8 metal9_conn metal8_conn)
+    via(Metal8_v Metal8_p metal8_conn)
+    via(Via7 metal8_conn metal7_conn)
+    via(Metal7_v Metal7_p metal7_conn)
+    via(Via6 metal7_conn metal6_conn)
+    via(Metal6_v Metal6_p metal6_conn)
+    via(Via5 metal6_conn metal5_conn)
+    via(Metal5_v Metal5_p metal5_conn)
+    via(Via4 metal5_conn metal4_conn)
+    via(Metal4_v Metal4_p metal4_conn)
+    via(Via3 metal4_conn metal3_conn)
+    via(Metal3_v Metal3_p metal3_conn)
+    via(via2_cap metal3_conn CapMetal)
+    via(via2_out_capInd metal3_conn metal2_conn)
+    via(Metal2_v Metal2_p metal2_conn)
+    via(Via1 metal2_conn metal1_conn)
+    via(ind_term1_tap metal2_conn ind_term1)
+    via(ind_term2_tap metal2_conn ind_term2)
+    via(Metal1_v Metal1_p metal1_conn)
+    via(cont_poly metal1_conn poly_conn)
+    via(cont_pdiff metal1_conn pdiff_conn)
+    via(cont_ndiff metal1_conn ndiff_conn)
+    via(cont_emit metal1_conn npn_emit)
+    via(cont_base metal1_conn npn_base)
+    via(cont_coll metal1_conn npn_coll)
+    label(("Metal9" "label") Metal9_p)
+    label(("Metal9" "label") metal9_conn)
+    label(("Metal8" "label") Metal8_p)
+    label(("Metal8" "label") metal8_conn)
+    label(("Metal7" "label") Metal7_p)
+    label(("Metal7" "label") metal7_conn)
+    label(("Metal6" "label") Metal6_p)
+    label(("Metal6" "label") metal6_conn)
+    label(("Metal5" "label") Metal5_p)
+    label(("Metal5" "label") metal5_conn)
+    label(("Metal4" "label") Metal4_p)
+    label(("Metal4" "label") metal4_conn)
+    label(("Metal3" "label") Metal3_p)
+    label(("Metal3" "label") metal3_conn)
+    label(("Metal2" "label") Metal2_p)
+    label(("Metal2" "label") metal2_conn)
+    label(("Metal1" "label") Metal1_p)
+    label(("Metal1" "label") metal1_conn)
+)
+ptap=geomStamp(ptap pdiff_conn error)
+psubstrate=geomStamp(psubstrate ptap error)
+ntap=geomStamp(ntap ndiff_conn error)
+nwell_conn=geomStamp(nwell_conn ntap error)
+nb_tap=geomStamp(nb_tap nwell_conn error)
+Nburied=geomStamp(Nburied nb_tap error)
+
+saveInterconnect((Metal9_p "Metal9"))
+saveInterconnect((metal9_conn "Metal9"))
+saveInterconnect((Metal8_p "Metal8"))
+saveInterconnect((metal8_conn "Metal8"))
+saveInterconnect((Metal7_p "Metal7"))
+saveInterconnect((metal7_conn "Metal7"))
+saveInterconnect((Metal6_p "Metal6"))
+saveInterconnect((metal6_conn "Metal6"))
+saveInterconnect((Metal5_p "Metal5"))
+saveInterconnect((metal5_conn "Metal5"))
+saveInterconnect((Metal4_p "Metal4"))
+saveInterconnect((metal4_conn "Metal4"))
+saveInterconnect((Metal3_p "Metal3"))
+saveInterconnect((metal3_conn "Metal3"))
+saveInterconnect((Metal2_p "Metal2"))
+saveInterconnect((metal2_conn "Metal2"))
+saveInterconnect((Metal1_p "Metal1"))
+saveInterconnect((metal1_conn "Metal1"))
+saveInterconnect((pdiff_conn "Pimp"))
+saveInterconnect((ndiff_conn "Nimp"))
+saveInterconnect((nwell_conn "Nwell"))
+saveInterconnect((poly_conn "Poly"))
+saveInterconnect((npn_emit "Nimp"))
+saveInterconnect((npn_coll "Nwell"))
+
+
+saveDerived(BJTdum ("BJTdum" "drawing") ext_view)
+saveDerived(Bondpad ("Bondpad" "drawing") ext_view)
+saveDerived(Cap3dum ("Cap3dum" "drawing") ext_view)
+saveDerived(CapMetal ("CapMetal" "drawing") ext_view)
+saveDerived(Capdum ("Capdum" "drawing") ext_view)
+saveDerived(Cont ("Cont" "drawing") ext_view)
+saveDerived(DIOdummy ("DIOdummy" "drawing") ext_view)
+saveDerived(IND2dummy ("IND2dummy" "drawing") ext_view)
+saveDerived(IND3dummy ("IND3dummy" "drawing") ext_view)
+saveDerived(INDdummy ("INDdummy" "drawing") ext_view)
+saveDerived(M1Resdum ("M1Resdum" "drawing") ext_view)
+saveDerived(M2Resdum ("M2Resdum" "drawing") ext_view)
+saveDerived(M3Resdum ("M3Resdum" "drawing") ext_view)
+saveDerived(M4Resdum ("M4Resdum" "drawing") ext_view)
+saveDerived(M5Resdum ("M5Resdum" "drawing") ext_view)
+saveDerived(M6Resdum ("M6Resdum" "drawing") ext_view)
+saveDerived(M7Resdum ("M7Resdum" "drawing") ext_view)
+saveDerived(M8Resdum ("M8Resdum" "drawing") ext_view)
+saveDerived(M9Resdum ("M9Resdum" "drawing") ext_view)
+saveDerived(Metal1_d ("Metal1" "drawing") ext_view)
+saveDerived(Metal1_f ("Metal1" "fill") ext_view)
+saveDerived(Metal1_n ("Metal1" "net") ext_view)
+saveDerived(Metal1_p ("Metal1" "pin") ext_view)
+saveDerived(Metal1_slot ("Metal1" "slot") ext_view)
+saveDerived(Metal2_d ("Metal2" "drawing") ext_view)
+saveDerived(Metal2_f ("Metal2" "fill") ext_view)
+saveDerived(Metal2_n ("Metal2" "net") ext_view)
+saveDerived(Metal2_p ("Metal2" "pin") ext_view)
+saveDerived(Metal2_slot ("Metal2" "slot") ext_view)
+saveDerived(Metal3_d ("Metal3" "drawing") ext_view)
+saveDerived(Metal3_f ("Metal3" "fill") ext_view)
+saveDerived(Metal3_n ("Metal3" "net") ext_view)
+saveDerived(Metal3_p ("Metal3" "pin") ext_view)
+saveDerived(Metal3_slot ("Metal3" "slot") ext_view)
+saveDerived(Metal4_d ("Metal4" "drawing") ext_view)
+saveDerived(Metal4_f ("Metal4" "fill") ext_view)
+saveDerived(Metal4_n ("Metal4" "net") ext_view)
+saveDerived(Metal4_p ("Metal4" "pin") ext_view)
+saveDerived(Metal4_slot ("Metal4" "slot") ext_view)
+saveDerived(Metal5_d ("Metal5" "drawing") ext_view)
+saveDerived(Metal5_f ("Metal5" "fill") ext_view)
+saveDerived(Metal5_n ("Metal5" "net") ext_view)
+saveDerived(Metal5_p ("Metal5" "pin") ext_view)
+saveDerived(Metal5_slot ("Metal5" "slot") ext_view)
+saveDerived(Metal6_d ("Metal6" "drawing") ext_view)
+saveDerived(Metal6_f ("Metal6" "fill") ext_view)
+saveDerived(Metal6_n ("Metal6" "net") ext_view)
+saveDerived(Metal6_p ("Metal6" "pin") ext_view)
+saveDerived(Metal6_slot ("Metal6" "slot") ext_view)
+saveDerived(Metal7_d ("Metal7" "drawing") ext_view)
+saveDerived(Metal7_f ("Metal7" "fill") ext_view)
+saveDerived(Metal7_n ("Metal7" "net") ext_view)
+saveDerived(Metal7_p ("Metal7" "pin") ext_view)
+saveDerived(Metal7_slot ("Metal7" "slot") ext_view)
+saveDerived(Metal8_d ("Metal8" "drawing") ext_view)
+saveDerived(Metal8_f ("Metal8" "fill") ext_view)
+saveDerived(Metal8_n ("Metal8" "net") ext_view)
+saveDerived(Metal8_p ("Metal8" "pin") ext_view)
+saveDerived(Metal8_slot ("Metal8" "slot") ext_view)
+saveDerived(Metal9_d ("Metal9" "drawing") ext_view)
+saveDerived(Metal9_f ("Metal9" "fill") ext_view)
+saveDerived(Metal9_n ("Metal9" "net") ext_view)
+saveDerived(Metal9_p ("Metal9" "pin") ext_view)
+saveDerived(Metal9_slot ("Metal9" "slot") ext_view)
+saveDerived(NPNdummy ("NPNdummy" "drawing") ext_view)
+saveDerived(Nburied ("Nburied" "drawing") ext_view)
+saveDerived(Nhvt ("Nhvt" "drawing") ext_view)
+saveDerived(Nimp ("Nimp" "drawing") ext_view)
+saveDerived(Nwell ("Nwell" "drawing") ext_view)
+saveDerived(Nzvt ("Nzvt" "drawing") ext_view)
+saveDerived(Oxide ("Oxide" "drawing") ext_view)
+saveDerived(Oxide_thk ("Oxide_thk" "drawing") ext_view)
+saveDerived(PNPdummy ("PNPdummy" "drawing") ext_view)
+saveDerived(Phvt ("Phvt" "drawing") ext_view)
+saveDerived(Pimp ("Pimp" "drawing") ext_view)
+saveDerived(Poly ("Poly" "drawing") ext_view)
+saveDerived(Psub ("Psub" "drawing") ext_view)
+saveDerived(ResWdum ("ResWdum" "drawing") ext_view)
+saveDerived(Resdum ("Resdum" "drawing") ext_view)
+saveDerived(SiProt ("SiProt" "drawing") ext_view)
+saveDerived(VPNP2dum ("VPNP2dum" "drawing") ext_view)
+saveDerived(VPNP5dum ("VPNP5dum" "drawing") ext_view)
+saveDerived(VPNP10dum ("VPNP10dum" "drawing") ext_view)
+saveDerived(Via1 ("Via1" "drawing") ext_view)
+saveDerived(Via2 ("Via2" "drawing") ext_view)
+saveDerived(Via3 ("Via3" "drawing") ext_view)
+saveDerived(Via4 ("Via4" "drawing") ext_view)
+saveDerived(Via5 ("Via5" "drawing") ext_view)
+saveDerived(Via6 ("Via6" "drawing") ext_view)
+saveDerived(Via7 ("Via7" "drawing") ext_view)
+saveDerived(Via8 ("Via8" "drawing") ext_view)
+copyGraphics(("Metal1" "label") all)
+copyGraphics(("Metal1" "label") all)
+copyGraphics(("Metal2" "label") all)
+copyGraphics(("Metal2" "label") all)
+copyGraphics(("Metal3" "label") all)
+copyGraphics(("Metal3" "label") all)
+copyGraphics(("Metal4" "label") all)
+copyGraphics(("Metal4" "label") all)
+copyGraphics(("Metal5" "label") all)
+copyGraphics(("Metal5" "label") all)
+copyGraphics(("Metal6" "label") all)
+copyGraphics(("Metal6" "label") all)
+copyGraphics(("Metal7" "label") all)
+copyGraphics(("Metal7" "label") all)
+copyGraphics(("Metal8" "label") all)
+copyGraphics(("Metal8" "label") all)
+copyGraphics(("Metal9" "label") all)
+copyGraphics(("Metal9" "label") all)
+
+
+extractDevice(_nmos_12 (poly_conn "G") (ndiff_conn "S" "D") (psubstrate "B")
+    "nmos1v ivpcell gpdk090" physical)
+width=measureParameter(length (_nmos_12 butting ndiff_conn) 0.5)
+length=measureParameter(length (_nmos_12 outside ndiff_conn) 0.5)
+w=calculateParameter(width*1e-6)
+saveParameter(w "w")
+fw=calculateParameter(width*1e-6)
+saveParameter(fw "fw")
+simW=calculateParameter(width*1e-6)
+saveParameter(simW "simW")
+l=calculateParameter(length*1e-6)
+saveParameter(l "l")
+saveRecognition(_nmos_12 "Oxide")
+
+extractDevice(_nmos_12_hvt (poly_conn "G") (ndiff_conn "S" "D") (psubstrate "B")
+    "nmos1v_hvt ivpcell gpdk090" physical)
+width=measureParameter(length (_nmos_12_hvt butting ndiff_conn) 0.5)
+length=measureParameter(length (_nmos_12_hvt outside ndiff_conn) 0.5)
+w=calculateParameter(width*1e-6)
+saveParameter(w "w")
+fw=calculateParameter(width*1e-6)
+saveParameter(fw "fw")
+simW=calculateParameter(width*1e-6)
+saveParameter(simW "simW")
+l=calculateParameter(length*1e-6)
+saveParameter(l "l")
+saveRecognition(_nmos_12_hvt "Oxide")
+
+extractDevice(_nmos_12_iso (poly_conn "G") (ndiff_conn "S" "D") (psubstrate "B")
+    (Nburied "T") "nmos1v_iso ivpcell gpdk090" physical)
+width=measureParameter(length (_nmos_12_iso butting ndiff_conn) 0.5)
+length=measureParameter(length (_nmos_12_iso outside ndiff_conn) 0.5)
+w=calculateParameter(width*1e-6)
+saveParameter(w "w")
+fw=calculateParameter(width*1e-6)
+saveParameter(fw "fw")
+simW=calculateParameter(width*1e-6)
+saveParameter(simW "simW")
+l=calculateParameter(length*1e-6)
+saveParameter(l "l")
+saveRecognition(_nmos_12_iso "Oxide")
+
+extractDevice(_nmos_12_native (poly_conn "G") (ndiff_conn "S" "D") (psubstrate
+    "B") "nmos1v_nat ivpcell gpdk090" physical)
+width=measureParameter(length (_nmos_12_native butting ndiff_conn) 0.5)
+length=measureParameter(length (_nmos_12_native outside ndiff_conn) 0.5)
+w=calculateParameter(width*1e-6)
+saveParameter(w "w")
+fw=calculateParameter(width*1e-6)
+saveParameter(fw "fw")
+simW=calculateParameter(width*1e-6)
+saveParameter(simW "simW")
+l=calculateParameter(length*1e-6)
+saveParameter(l "l")
+saveRecognition(_nmos_12_native "Oxide")
+
+extractDevice(_nmos_25 (poly_conn "G") (ndiff_conn "S" "D") (psubstrate "B")
+    "nmos2v ivpcell gpdk090" physical)
+width=measureParameter(length (_nmos_25 butting ndiff_conn) 0.5)
+length=measureParameter(length (_nmos_25 outside ndiff_conn) 0.5)
+w=calculateParameter(width*1e-6)
+saveParameter(w "w")
+fw=calculateParameter(width*1e-6)
+saveParameter(fw "fw")
+simW=calculateParameter(width*1e-6)
+saveParameter(simW "simW")
+l=calculateParameter(length*1e-6)
+saveParameter(l "l")
+saveRecognition(_nmos_25 "Oxide")
+
+extractDevice(_nmos_25_native (poly_conn "G") (ndiff_conn "S" "D") (psubstrate
+    "B") "nmos2v_nat ivpcell gpdk090" physical)
+width=measureParameter(length (_nmos_25_native butting ndiff_conn) 0.5)
+length=measureParameter(length (_nmos_25_native outside ndiff_conn) 0.5)
+w=calculateParameter(width*1e-6)
+saveParameter(w "w")
+fw=calculateParameter(width*1e-6)
+saveParameter(fw "fw")
+simW=calculateParameter(width*1e-6)
+saveParameter(simW "simW")
+l=calculateParameter(length*1e-6)
+saveParameter(l "l")
+saveRecognition(_nmos_25_native "Oxide")
+
+extractDevice(_pmos_12 (poly_conn "G") (pdiff_conn "S" "D") (nwell_conn "B")
+    "pmos1v ivpcell gpdk090" physical)
+width=measureParameter(length (_pmos_12 butting pdiff_conn) 0.5)
+length=measureParameter(length (_pmos_12 outside pdiff_conn) 0.5)
+w=calculateParameter(width*1e-6)
+saveParameter(w "w")
+fw=calculateParameter(width*1e-6)
+saveParameter(fw "fw")
+simW=calculateParameter(width*1e-6)
+saveParameter(simW "simW")
+l=calculateParameter(length*1e-6)
+saveParameter(l "l")
+saveRecognition(_pmos_12 "Oxide")
+
+extractDevice(_pmos_12_hvt (poly_conn "G") (pdiff_conn "S" "D") (nwell_conn "B")
+    "pmos1v_hvt ivpcell gpdk090" physical)
+width=measureParameter(length (_pmos_12_hvt butting pdiff_conn) 0.5)
+length=measureParameter(length (_pmos_12_hvt outside pdiff_conn) 0.5)
+w=calculateParameter(width*1e-6)
+saveParameter(w "w")
+fw=calculateParameter(width*1e-6)
+saveParameter(fw "fw")
+simW=calculateParameter(width*1e-6)
+saveParameter(simW "simW")
+l=calculateParameter(length*1e-6)
+saveParameter(l "l")
+saveRecognition(_pmos_12_hvt "Oxide")
+
+extractDevice(_pmos_25 (poly_conn "G") (pdiff_conn "S" "D") (nwell_conn "B")
+    "pmos2v ivpcell gpdk090" physical)
+width=measureParameter(length (_pmos_25 butting pdiff_conn) 0.5)
+length=measureParameter(length (_pmos_25 outside pdiff_conn) 0.5)
+w=calculateParameter(width*1e-6)
+saveParameter(w "w")
+fw=calculateParameter(width*1e-6)
+saveParameter(fw "fw")
+simW=calculateParameter(width*1e-6)
+saveParameter(simW "simW")
+l=calculateParameter(length*1e-6)
+saveParameter(l "l")
+saveRecognition(_pmos_25 "Oxide")
+
+extractDevice(_pmoscap_12 (poly_conn "G") (pdiff_conn "S" "D") (nwell_conn "B")
+    "pmoscap1v ivpcell gpdk090" physical)
+width=measureParameter(length (_pmoscap_12 butting pdiff_conn) 0.5)
+length=measureParameter(length (_pmoscap_12 outside pdiff_conn) 0.5)
+w=calculateParameter(width*1e-6)
+saveParameter(w "w")
+fw=calculateParameter(width*1e-6)
+saveParameter(fw "fw")
+simW=calculateParameter(width*1e-6)
+saveParameter(simW "simW")
+l=calculateParameter(length*1e-6)
+saveParameter(l "l")
+saveRecognition(_pmoscap_12 "Oxide")
+
+extractDevice(_pmoscap_25 (poly_conn "G") (pdiff_conn "S" "D") (nwell_conn "B")
+    "pmoscap2v ivpcell gpdk090" physical)
+width=measureParameter(length (_pmoscap_25 butting pdiff_conn) 0.5)
+length=measureParameter(length (_pmoscap_25 outside pdiff_conn) 0.5)
+w=calculateParameter(width*1e-6)
+saveParameter(w "w")
+fw=calculateParameter(width*1e-6)
+saveParameter(fw "fw")
+simW=calculateParameter(width*1e-6)
+saveParameter(simW "simW")
+l=calculateParameter(length*1e-6)
+saveParameter(l "l")
+saveRecognition(_pmoscap_25 "Oxide")
+
+extractDevice(_pmoscap_12_3 (poly_conn "G") (pdiff_conn "S" "D") (nwell_conn
+    "B") "pmoscap1v3 ivpcell gpdk090" physical)
+width=measureParameter(length (_pmoscap_12_3 butting pdiff_conn) 0.5)
+length=measureParameter(length (_pmoscap_12_3 outside pdiff_conn) 0.5)
+w=calculateParameter(width*1e-6)
+saveParameter(w "w")
+fw=calculateParameter(width*1e-6)
+saveParameter(fw "fw")
+simW=calculateParameter(width*1e-6)
+saveParameter(simW "simW")
+l=calculateParameter(length*1e-6)
+saveParameter(l "l")
+saveRecognition(_pmoscap_12_3 "Oxide")
+
+extractDevice(_pmoscap_25_3 (poly_conn "G") (pdiff_conn "S" "D") (nwell_conn
+    "B") "pmoscap2v3 ivpcell gpdk090" physical)
+width=measureParameter(length (_pmoscap_25_3 butting pdiff_conn) 0.5)
+length=measureParameter(length (_pmoscap_25_3 outside pdiff_conn) 0.5)
+w=calculateParameter(width*1e-6)
+saveParameter(w "w")
+fw=calculateParameter(width*1e-6)
+saveParameter(fw "fw")
+simW=calculateParameter(width*1e-6)
+saveParameter(simW "simW")
+l=calculateParameter(length*1e-6)
+saveParameter(l "l")
+saveRecognition(_pmoscap_25_3 "Oxide")
+
+extractDevice(_nmoscap_12 (poly_conn "G") (ndiff_conn "S" "D") (psubstrate "B")
+    "nmoscap1v ivpcell gpdk090" physical)
+width=measureParameter(length (_nmoscap_12 butting ndiff_conn) 0.5)
+length=measureParameter(length (_nmoscap_12 outside ndiff_conn) 0.5)
+w=calculateParameter(width*1e-6)
+saveParameter(w "w")
+fw=calculateParameter(width*1e-6)
+saveParameter(fw "fw")
+simW=calculateParameter(width*1e-6)
+saveParameter(simW "simW")
+l=calculateParameter(length*1e-6)
+saveParameter(l "l")
+saveRecognition(_nmoscap_12 "Oxide")
+
+extractDevice(_nmoscap_25 (poly_conn "G") (ndiff_conn "S" "D") (psubstrate "B")
+    "nmoscap2v ivpcell gpdk090" physical)
+width=measureParameter(length (_nmoscap_25 butting ndiff_conn) 0.5)
+length=measureParameter(length (_nmoscap_25 outside ndiff_conn) 0.5)
+w=calculateParameter(width*1e-6)
+saveParameter(w "w")
+fw=calculateParameter(width*1e-6)
+saveParameter(fw "fw")
+simW=calculateParameter(width*1e-6)
+saveParameter(simW "simW")
+l=calculateParameter(length*1e-6)
+saveParameter(l "l")
+saveRecognition(_nmoscap_25 "Oxide")
+
+extractDevice(_nmoscap_12_3 (poly_conn "G") (ndiff_conn "S" "D") (psubstrate
+    "B") "nmoscap1v3 ivpcell gpdk090" physical)
+width=measureParameter(length (_nmoscap_12_3 butting ndiff_conn) 0.5)
+length=measureParameter(length (_nmoscap_12_3 outside ndiff_conn) 0.5)
+w=calculateParameter(width*1e-6)
+saveParameter(w "w")
+fw=calculateParameter(width*1e-6)
+saveParameter(fw "fw")
+simW=calculateParameter(width*1e-6)
+saveParameter(simW "simW")
+l=calculateParameter(length*1e-6)
+saveParameter(l "l")
+saveRecognition(_nmoscap_12_3 "Oxide")
+
+extractDevice(_nmoscap_25_3 (poly_conn "G") (ndiff_conn "S" "D") (psubstrate
+    "B") "nmoscap2v3 ivpcell gpdk090" physical)
+width=measureParameter(length (_nmoscap_25_3 butting ndiff_conn) 0.5)
+length=measureParameter(length (_nmoscap_25_3 outside ndiff_conn) 0.5)
+w=calculateParameter(width*1e-6)
+saveParameter(w "w")
+fw=calculateParameter(width*1e-6)
+saveParameter(fw "fw")
+simW=calculateParameter(width*1e-6)
+saveParameter(simW "simW")
+l=calculateParameter(length*1e-6)
+saveParameter(l "l")
+saveRecognition(_nmoscap_25_3 "Oxide")
+
+extractDevice(_rndiff (ndiff_conn "PLUS") (ndiff_conn "MINUS") (psubstrate "B")
+    "ressndiff ivpcell gpdk090" physical)
+width=measureParameter(length (_rndiff butting ndiff_conn) 0.5)
+length=measureParameter(length (_rndiff outside ndiff_conn) 0.5)
+bends45=measureParameter(bends_part (_rndiff butting ndiff_conn))
+bends90=measureParameter(bends_full (_rndiff butting ndiff_conn))
+bends=calculateParameter(0.5*bends45+bends90)
+r=calculateParameter(((length - (0.45 * bends * width))/ width) * 10.0)
+saveParameter(r "r")
+segR=calculateParameter(((length - (0.45 * bends * width))/ width) * 10.0)
+saveParameter(segR "segR")
+w=calculateParameter(width * 1.0e-6)
+saveParameter(w "w")
+segW=calculateParameter(width * 1.0e-6)
+saveParameter(segW "segW")
+effW=calculateParameter(width * 1.0e-6)
+saveParameter(effW "effW")
+l=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(l "l")
+segL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(segL "segL")
+effL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(effL "effL")
+saveRecognition(_rndiff "Oxide")
+
+extractDevice(_rndiff_nosal (ndiff_conn "PLUS") (ndiff_conn "MINUS") (psubstrate
+    "B") "resnsndiff ivpcell gpdk090" physical)
+width=measureParameter(length (_rndiff_nosal butting ndiff_conn) 0.5)
+length=measureParameter(length (_rndiff_nosal outside ndiff_conn) 0.5)
+bends45=measureParameter(bends_part (_rndiff_nosal butting ndiff_conn))
+bends90=measureParameter(bends_full (_rndiff_nosal butting ndiff_conn))
+bends=calculateParameter(0.5*bends45+bends90)
+r=calculateParameter(((length - (0.45 * bends * width))/ width) * 100.0)
+saveParameter(r "r")
+segR=calculateParameter(((length - (0.45 * bends * width))/ width) * 100.0)
+saveParameter(segR "segR")
+w=calculateParameter(width * 1.0e-6)
+saveParameter(w "w")
+segW=calculateParameter(width * 1.0e-6)
+saveParameter(segW "segW")
+effW=calculateParameter(width * 1.0e-6)
+saveParameter(effW "effW")
+l=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(l "l")
+segL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(segL "segL")
+effL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(effL "effL")
+saveRecognition(_rndiff_nosal "Oxide")
+
+extractDevice(_rnpoly (poly_conn "PLUS") (poly_conn "MINUS") (psubstrate "B")
+    "ressnpoly ivpcell gpdk090" physical)
+width=measureParameter(length (_rnpoly butting poly_conn) 0.5)
+length=measureParameter(length (_rnpoly outside poly_conn) 0.5)
+bends45=measureParameter(bends_part (_rnpoly butting poly_conn))
+bends90=measureParameter(bends_full (_rnpoly butting poly_conn))
+bends=calculateParameter(0.5*bends45+bends90)
+r=calculateParameter(((length - (0.45 * bends * width))/ width) * 10.0)
+saveParameter(r "r")
+segR=calculateParameter(((length - (0.45 * bends * width))/ width) * 10.0)
+saveParameter(segR "segR")
+w=calculateParameter(width * 1.0e-6)
+saveParameter(w "w")
+segW=calculateParameter(width * 1.0e-6)
+saveParameter(segW "segW")
+effW=calculateParameter(width * 1.0e-6)
+saveParameter(effW "effW")
+l=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(l "l")
+segL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(segL "segL")
+effL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(effL "effL")
+saveRecognition(_rnpoly "Poly")
+
+extractDevice(_rnpolynw (poly_conn "PLUS") (poly_conn "MINUS") (nwell_conn "B")
+    "ressnpoly ivpcell gpdk090" physical)
+width=measureParameter(length (_rnpolynw butting poly_conn) 0.5)
+length=measureParameter(length (_rnpolynw outside poly_conn) 0.5)
+bends45=measureParameter(bends_part (_rnpolynw butting poly_conn))
+bends90=measureParameter(bends_full (_rnpolynw butting poly_conn))
+bends=calculateParameter(0.5*bends45+bends90)
+r=calculateParameter(((length - (0.45 * bends * width))/ width) * 10.0)
+saveParameter(r "r")
+segR=calculateParameter(((length - (0.45 * bends * width))/ width) * 10.0)
+saveParameter(segR "segR")
+w=calculateParameter(width * 1.0e-6)
+saveParameter(w "w")
+segW=calculateParameter(width * 1.0e-6)
+saveParameter(segW "segW")
+effW=calculateParameter(width * 1.0e-6)
+saveParameter(effW "effW")
+l=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(l "l")
+segL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(segL "segL")
+effL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(effL "effL")
+saveRecognition(_rnpolynw "Poly")
+
+extractDevice(_rnpoly_nosal (poly_conn "PLUS") (poly_conn "MINUS") (psubstrate
+    "B") "resnsnpoly ivpcell gpdk090" physical)
+width=measureParameter(length (_rnpoly_nosal butting poly_conn) 0.5)
+length=measureParameter(length (_rnpoly_nosal outside poly_conn) 0.5)
+bends45=measureParameter(bends_part (_rnpoly_nosal butting poly_conn))
+bends90=measureParameter(bends_full (_rnpoly_nosal butting poly_conn))
+bends=calculateParameter(0.5*bends45+bends90)
+r=calculateParameter(((length - (0.45 * bends * width))/ width) * 100.0)
+saveParameter(r "r")
+segR=calculateParameter(((length - (0.45 * bends * width))/ width) * 100.0)
+saveParameter(segR "segR")
+w=calculateParameter(width * 1.0e-6)
+saveParameter(w "w")
+segW=calculateParameter(width * 1.0e-6)
+saveParameter(segW "segW")
+effW=calculateParameter(width * 1.0e-6)
+saveParameter(effW "effW")
+l=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(l "l")
+segL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(segL "segL")
+effL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(effL "effL")
+saveRecognition(_rnpoly_nosal "Poly")
+
+extractDevice(_rnpolynw_nosal (poly_conn "PLUS") (poly_conn "MINUS") (nwell_conn
+    "B") "resnsnpoly ivpcell gpdk090" physical)
+width=measureParameter(length (_rnpolynw_nosal butting poly_conn) 0.5)
+length=measureParameter(length (_rnpolynw_nosal outside poly_conn) 0.5)
+bends45=measureParameter(bends_part (_rnpolynw_nosal butting poly_conn))
+bends90=measureParameter(bends_full (_rnpolynw_nosal butting poly_conn))
+bends=calculateParameter(0.5*bends45+bends90)
+r=calculateParameter(((length - (0.45 * bends * width))/ width) * 100.0)
+saveParameter(r "r")
+segR=calculateParameter(((length - (0.45 * bends * width))/ width) * 100.0)
+saveParameter(segR "segR")
+w=calculateParameter(width * 1.0e-6)
+saveParameter(w "w")
+segW=calculateParameter(width * 1.0e-6)
+saveParameter(segW "segW")
+effW=calculateParameter(width * 1.0e-6)
+saveParameter(effW "effW")
+l=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(l "l")
+segL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(segL "segL")
+effL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(effL "effL")
+saveRecognition(_rnpolynw_nosal "Poly")
+
+extractDevice(_rpdiff (pdiff_conn "PLUS") (pdiff_conn "MINUS") (nwell_conn "B")
+    "resspdiff ivpcell gpdk090" physical)
+width=measureParameter(length (_rpdiff butting pdiff_conn) 0.5)
+length=measureParameter(length (_rpdiff outside pdiff_conn) 0.5)
+bends45=measureParameter(bends_part (_rpdiff butting pdiff_conn))
+bends90=measureParameter(bends_full (_rpdiff butting pdiff_conn))
+bends=calculateParameter(0.5*bends45+bends90)
+r=calculateParameter(((length - (0.45 * bends * width))/ width) * 10.0)
+saveParameter(r "r")
+segR=calculateParameter(((length - (0.45 * bends * width))/ width) * 10.0)
+saveParameter(segR "segR")
+w=calculateParameter(width * 1.0e-6)
+saveParameter(w "w")
+segW=calculateParameter(width * 1.0e-6)
+saveParameter(segW "segW")
+effW=calculateParameter(width * 1.0e-6)
+saveParameter(effW "effW")
+l=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(l "l")
+segL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(segL "segL")
+effL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(effL "effL")
+saveRecognition(_rpdiff "Oxide")
+
+extractDevice(_rpdiff_nosal (pdiff_conn "PLUS") (pdiff_conn "MINUS") (nwell_conn
+    "B") "resnspdiff ivpcell gpdk090" physical)
+width=measureParameter(length (_rpdiff_nosal butting pdiff_conn) 0.5)
+length=measureParameter(length (_rpdiff_nosal outside pdiff_conn) 0.5)
+bends45=measureParameter(bends_part (_rpdiff_nosal butting pdiff_conn))
+bends90=measureParameter(bends_full (_rpdiff_nosal butting pdiff_conn))
+bends=calculateParameter(0.5*bends45+bends90)
+r=calculateParameter(((length - (0.45 * bends * width))/ width) * 150.0)
+saveParameter(r "r")
+segR=calculateParameter(((length - (0.45 * bends * width))/ width) * 150.0)
+saveParameter(segR "segR")
+w=calculateParameter(width * 1.0e-6)
+saveParameter(w "w")
+segW=calculateParameter(width * 1.0e-6)
+saveParameter(segW "segW")
+effW=calculateParameter(width * 1.0e-6)
+saveParameter(effW "effW")
+l=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(l "l")
+segL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(segL "segL")
+effL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(effL "effL")
+saveRecognition(_rpdiff_nosal "Oxide")
+
+extractDevice(_rppoly (poly_conn "PLUS") (poly_conn "MINUS") (psubstrate "B")
+    "ressppoly ivpcell gpdk090" physical)
+width=measureParameter(length (_rppoly butting poly_conn) 0.5)
+length=measureParameter(length (_rppoly outside poly_conn) 0.5)
+bends45=measureParameter(bends_part (_rppoly butting poly_conn))
+bends90=measureParameter(bends_full (_rppoly butting poly_conn))
+bends=calculateParameter(0.5*bends45+bends90)
+r=calculateParameter(((length - (0.45 * bends * width))/ width) * 10.0)
+saveParameter(r "r")
+segR=calculateParameter(((length - (0.45 * bends * width))/ width) * 10.0)
+saveParameter(segR "segR")
+w=calculateParameter(width * 1.0e-6)
+saveParameter(w "w")
+segW=calculateParameter(width * 1.0e-6)
+saveParameter(segW "segW")
+effW=calculateParameter(width * 1.0e-6)
+saveParameter(effW "effW")
+l=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(l "l")
+segL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(segL "segL")
+effL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(effL "effL")
+saveRecognition(_rppoly "Poly")
+
+extractDevice(_rppolynw (poly_conn "PLUS") (poly_conn "MINUS") (nwell_conn "B")
+    "ressppoly ivpcell gpdk090" physical)
+width=measureParameter(length (_rppolynw butting poly_conn) 0.5)
+length=measureParameter(length (_rppolynw outside poly_conn) 0.5)
+bends45=measureParameter(bends_part (_rppolynw butting poly_conn))
+bends90=measureParameter(bends_full (_rppolynw butting poly_conn))
+bends=calculateParameter(0.5*bends45+bends90)
+r=calculateParameter(((length - (0.45 * bends * width))/ width) * 10.0)
+saveParameter(r "r")
+segR=calculateParameter(((length - (0.45 * bends * width))/ width) * 10.0)
+saveParameter(segR "segR")
+w=calculateParameter(width * 1.0e-6)
+saveParameter(w "w")
+segW=calculateParameter(width * 1.0e-6)
+saveParameter(segW "segW")
+effW=calculateParameter(width * 1.0e-6)
+saveParameter(effW "effW")
+l=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(l "l")
+segL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(segL "segL")
+effL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(effL "effL")
+saveRecognition(_rppolynw "Poly")
+
+extractDevice(_rppoly_nosal (poly_conn "PLUS") (poly_conn "MINUS") (psubstrate
+    "B") "resnsppoly ivpcell gpdk090" physical)
+width=measureParameter(length (_rppoly_nosal butting poly_conn) 0.5)
+length=measureParameter(length (_rppoly_nosal outside poly_conn) 0.5)
+bends45=measureParameter(bends_part (_rppoly_nosal butting poly_conn))
+bends90=measureParameter(bends_full (_rppoly_nosal butting poly_conn))
+bends=calculateParameter(0.5*bends45+bends90)
+r=calculateParameter(((length - (0.45 * bends * width))/ width) * 400.0)
+saveParameter(r "r")
+segR=calculateParameter(((length - (0.45 * bends * width))/ width) * 400.0)
+saveParameter(segR "segR")
+w=calculateParameter(width * 1.0e-6)
+saveParameter(w "w")
+segW=calculateParameter(width * 1.0e-6)
+saveParameter(segW "segW")
+effW=calculateParameter(width * 1.0e-6)
+saveParameter(effW "effW")
+l=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(l "l")
+segL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(segL "segL")
+effL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(effL "effL")
+saveRecognition(_rppoly_nosal "Poly")
+
+extractDevice(_rppolynw_nosal (poly_conn "PLUS") (poly_conn "MINUS") (nwell_conn
+    "B") "resnsppoly ivpcell gpdk090" physical)
+width=measureParameter(length (_rppolynw_nosal butting poly_conn) 0.5)
+length=measureParameter(length (_rppolynw_nosal outside poly_conn) 0.5)
+bends45=measureParameter(bends_part (_rppolynw_nosal butting poly_conn))
+bends90=measureParameter(bends_full (_rppolynw_nosal butting poly_conn))
+bends=calculateParameter(0.5*bends45+bends90)
+r=calculateParameter(((length - (0.45 * bends * width))/ width) * 400.0)
+saveParameter(r "r")
+segR=calculateParameter(((length - (0.45 * bends * width))/ width) * 400.0)
+saveParameter(segR "segR")
+w=calculateParameter(width * 1.0e-6)
+saveParameter(w "w")
+segW=calculateParameter(width * 1.0e-6)
+saveParameter(segW "segW")
+effW=calculateParameter(width * 1.0e-6)
+saveParameter(effW "effW")
+l=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(l "l")
+segL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(segL "segL")
+effL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(effL "effL")
+saveRecognition(_rppolynw_nosal "Poly")
+
+extractDevice(_rnwellsti (nwell_conn "PLUS") (nwell_conn "MINUS") (psubstrate
+    "B") "resnwsti ivpcell gpdk090" physical)
+width=measureParameter(length (_rnwellsti butting nwell_conn) 0.5)
+length=measureParameter(length (_rnwellsti outside nwell_conn) 0.5)
+bends45=measureParameter(bends_part (_rnwellsti butting nwell_conn))
+bends90=measureParameter(bends_full (_rnwellsti butting nwell_conn))
+bends=calculateParameter(0.5*bends45+bends90)
+r=calculateParameter(((length - (0.45 * bends * width))/ width) * 400.0)
+saveParameter(r "r")
+segR=calculateParameter(((length - (0.45 * bends * width))/ width) * 400.0)
+saveParameter(segR "segR")
+w=calculateParameter(width * 1.0e-6)
+saveParameter(w "w")
+segW=calculateParameter(width * 1.0e-6)
+saveParameter(segW "segW")
+effW=calculateParameter(width * 1.0e-6)
+saveParameter(effW "effW")
+l=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(l "l")
+segL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(segL "segL")
+effL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(effL "effL")
+saveRecognition(_rnwellsti "Nwell")
+
+extractDevice(_rnwellod (nwell_conn "PLUS") (nwell_conn "MINUS") (psubstrate
+    "B") "resnwoxide ivpcell gpdk090" physical)
+width=measureParameter(length (_rnwellod butting nwell_conn) 0.5)
+length=measureParameter(length (_rnwellod outside nwell_conn) 0.5)
+bends45=measureParameter(bends_part (_rnwellod butting nwell_conn))
+bends90=measureParameter(bends_full (_rnwellod butting nwell_conn))
+bends=calculateParameter(0.5*bends45+bends90)
+r=calculateParameter(((length - (0.45 * bends * width))/ width) * 400.0)
+saveParameter(r "r")
+segR=calculateParameter(((length - (0.45 * bends * width))/ width) * 400.0)
+saveParameter(segR "segR")
+w=calculateParameter(width * 1.0e-6)
+saveParameter(w "w")
+segW=calculateParameter(width * 1.0e-6)
+saveParameter(segW "segW")
+effW=calculateParameter(width * 1.0e-6)
+saveParameter(effW "effW")
+l=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(l "l")
+segL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(segL "segL")
+effL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(effL "effL")
+saveRecognition(_rnwellod "Nwell")
+
+extractDevice(_resm1 (metal1_conn "PLUS") (metal1_conn "MINUS")
+    "resm1 ivpcell gpdk090" physical)
+width=measureParameter(length (_resm1 butting metal1_conn) 0.5)
+length=measureParameter(length (_resm1 outside metal1_conn) 0.5)
+bends45=measureParameter(bends_part (_resm1 butting metal1_conn))
+bends90=measureParameter(bends_full (_resm1 butting metal1_conn))
+bends=calculateParameter(0.5*bends45+bends90)
+r=calculateParameter(((length - (0.45 * bends * width))/ width) * 0.08)
+saveParameter(r "r")
+segR=calculateParameter(((length - (0.45 * bends * width))/ width) * 0.08)
+saveParameter(segR "segR")
+w=calculateParameter(width * 1.0e-6)
+saveParameter(w "w")
+segW=calculateParameter(width * 1.0e-6)
+saveParameter(segW "segW")
+effW=calculateParameter(width * 1.0e-6)
+saveParameter(effW "effW")
+l=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(l "l")
+segL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(segL "segL")
+effL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(effL "effL")
+saveRecognition(_resm1 "Metal1")
+
+extractDevice(_resm2 (metal2_conn "PLUS") (metal2_conn "MINUS")
+    "resm2 ivpcell gpdk090" physical)
+width=measureParameter(length (_resm2 butting metal2_conn) 0.5)
+length=measureParameter(length (_resm2 outside metal2_conn) 0.5)
+bends45=measureParameter(bends_part (_resm2 butting metal2_conn))
+bends90=measureParameter(bends_full (_resm2 butting metal2_conn))
+bends=calculateParameter(0.5*bends45+bends90)
+r=calculateParameter(((length - (0.45 * bends * width))/ width) * 0.06)
+saveParameter(r "r")
+segR=calculateParameter(((length - (0.45 * bends * width))/ width) * 0.06)
+saveParameter(segR "segR")
+w=calculateParameter(width * 1.0e-6)
+saveParameter(w "w")
+segW=calculateParameter(width * 1.0e-6)
+saveParameter(segW "segW")
+effW=calculateParameter(width * 1.0e-6)
+saveParameter(effW "effW")
+l=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(l "l")
+segL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(segL "segL")
+effL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(effL "effL")
+saveRecognition(_resm2 "Metal2")
+
+extractDevice(_resm3 (metal3_conn "PLUS") (metal3_conn "MINUS")
+    "resm3 ivpcell gpdk090" physical)
+width=measureParameter(length (_resm3 butting metal3_conn) 0.5)
+length=measureParameter(length (_resm3 outside metal3_conn) 0.5)
+bends45=measureParameter(bends_part (_resm3 butting metal3_conn))
+bends90=measureParameter(bends_full (_resm3 butting metal3_conn))
+bends=calculateParameter(0.5*bends45+bends90)
+r=calculateParameter(((length - (0.45 * bends * width))/ width) * 0.06)
+saveParameter(r "r")
+segR=calculateParameter(((length - (0.45 * bends * width))/ width) * 0.06)
+saveParameter(segR "segR")
+w=calculateParameter(width * 1.0e-6)
+saveParameter(w "w")
+segW=calculateParameter(width * 1.0e-6)
+saveParameter(segW "segW")
+effW=calculateParameter(width * 1.0e-6)
+saveParameter(effW "effW")
+l=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(l "l")
+segL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(segL "segL")
+effL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(effL "effL")
+saveRecognition(_resm3 "Metal3")
+
+extractDevice(_resm4 (metal4_conn "PLUS") (metal4_conn "MINUS")
+    "resm4 ivpcell gpdk090" physical)
+width=measureParameter(length (_resm4 butting metal4_conn) 0.5)
+length=measureParameter(length (_resm4 outside metal4_conn) 0.5)
+bends45=measureParameter(bends_part (_resm4 butting metal4_conn))
+bends90=measureParameter(bends_full (_resm4 butting metal4_conn))
+bends=calculateParameter(0.5*bends45+bends90)
+r=calculateParameter(((length - (0.45 * bends * width))/ width) * 0.06)
+saveParameter(r "r")
+segR=calculateParameter(((length - (0.45 * bends * width))/ width) * 0.06)
+saveParameter(segR "segR")
+w=calculateParameter(width * 1.0e-6)
+saveParameter(w "w")
+segW=calculateParameter(width * 1.0e-6)
+saveParameter(segW "segW")
+effW=calculateParameter(width * 1.0e-6)
+saveParameter(effW "effW")
+l=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(l "l")
+segL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(segL "segL")
+effL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(effL "effL")
+saveRecognition(_resm4 "Metal4")
+
+extractDevice(_resm5 (metal5_conn "PLUS") (metal5_conn "MINUS")
+    "resm5 ivpcell gpdk090" physical)
+width=measureParameter(length (_resm5 butting metal5_conn) 0.5)
+length=measureParameter(length (_resm5 outside metal5_conn) 0.5)
+bends45=measureParameter(bends_part (_resm5 butting metal5_conn))
+bends90=measureParameter(bends_full (_resm5 butting metal5_conn))
+bends=calculateParameter(0.5*bends45+bends90)
+r=calculateParameter(((length - (0.45 * bends * width))/ width) * 0.06)
+saveParameter(r "r")
+segR=calculateParameter(((length - (0.45 * bends * width))/ width) * 0.06)
+saveParameter(segR "segR")
+w=calculateParameter(width * 1.0e-6)
+saveParameter(w "w")
+segW=calculateParameter(width * 1.0e-6)
+saveParameter(segW "segW")
+effW=calculateParameter(width * 1.0e-6)
+saveParameter(effW "effW")
+l=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(l "l")
+segL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(segL "segL")
+effL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(effL "effL")
+saveRecognition(_resm5 "Metal5")
+
+extractDevice(_resm6 (metal6_conn "PLUS") (metal6_conn "MINUS")
+    "resm6 ivpcell gpdk090" physical)
+width=measureParameter(length (_resm6 butting metal6_conn) 0.5)
+length=measureParameter(length (_resm6 outside metal6_conn) 0.5)
+bends45=measureParameter(bends_part (_resm6 butting metal6_conn))
+bends90=measureParameter(bends_full (_resm6 butting metal6_conn))
+bends=calculateParameter(0.5*bends45+bends90)
+r=calculateParameter(((length - (0.45 * bends * width))/ width) * 0.06)
+saveParameter(r "r")
+segR=calculateParameter(((length - (0.45 * bends * width))/ width) * 0.06)
+saveParameter(segR "segR")
+w=calculateParameter(width * 1.0e-6)
+saveParameter(w "w")
+segW=calculateParameter(width * 1.0e-6)
+saveParameter(segW "segW")
+effW=calculateParameter(width * 1.0e-6)
+saveParameter(effW "effW")
+l=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(l "l")
+segL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(segL "segL")
+effL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(effL "effL")
+saveRecognition(_resm6 "Metal6")
+
+extractDevice(_resm7 (metal7_conn "PLUS") (metal7_conn "MINUS")
+    "resm7 ivpcell gpdk090" physical)
+width=measureParameter(length (_resm7 butting metal7_conn) 0.5)
+length=measureParameter(length (_resm7 outside metal7_conn) 0.5)
+bends45=measureParameter(bends_part (_resm7 butting metal7_conn))
+bends90=measureParameter(bends_full (_resm7 butting metal7_conn))
+bends=calculateParameter(0.5*bends45+bends90)
+r=calculateParameter(((length - (0.45 * bends * width))/ width) * 0.06)
+saveParameter(r "r")
+segR=calculateParameter(((length - (0.45 * bends * width))/ width) * 0.06)
+saveParameter(segR "segR")
+w=calculateParameter(width * 1.0e-6)
+saveParameter(w "w")
+segW=calculateParameter(width * 1.0e-6)
+saveParameter(segW "segW")
+effW=calculateParameter(width * 1.0e-6)
+saveParameter(effW "effW")
+l=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(l "l")
+segL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(segL "segL")
+effL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(effL "effL")
+saveRecognition(_resm7 "Metal7")
+
+extractDevice(_resm8 (metal8_conn "PLUS") (metal8_conn "MINUS")
+    "resm8 ivpcell gpdk090" physical)
+width=measureParameter(length (_resm8 butting metal8_conn) 0.5)
+length=measureParameter(length (_resm8 outside metal8_conn) 0.5)
+bends45=measureParameter(bends_part (_resm8 butting metal8_conn))
+bends90=measureParameter(bends_full (_resm8 butting metal8_conn))
+bends=calculateParameter(0.5*bends45+bends90)
+r=calculateParameter(((length - (0.45 * bends * width))/ width) * 0.02)
+saveParameter(r "r")
+segR=calculateParameter(((length - (0.45 * bends * width))/ width) * 0.02)
+saveParameter(segR "segR")
+w=calculateParameter(width * 1.0e-6)
+saveParameter(w "w")
+segW=calculateParameter(width * 1.0e-6)
+saveParameter(segW "segW")
+effW=calculateParameter(width * 1.0e-6)
+saveParameter(effW "effW")
+l=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(l "l")
+segL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(segL "segL")
+effL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(effL "effL")
+saveRecognition(_resm8 "Metal8")
+
+extractDevice(_resm9 (metal9_conn "PLUS") (metal9_conn "MINUS")
+    "resm9 ivpcell gpdk090" physical)
+width=measureParameter(length (_resm9 butting metal9_conn) 0.5)
+length=measureParameter(length (_resm9 outside metal9_conn) 0.5)
+bends45=measureParameter(bends_part (_resm9 butting metal9_conn))
+bends90=measureParameter(bends_full (_resm9 butting metal9_conn))
+bends=calculateParameter(0.5*bends45+bends90)
+r=calculateParameter(((length - (0.45 * bends * width))/ width) * 0.02)
+saveParameter(r "r")
+segR=calculateParameter(((length - (0.45 * bends * width))/ width) * 0.02)
+saveParameter(segR "segR")
+w=calculateParameter(width * 1.0e-6)
+saveParameter(w "w")
+segW=calculateParameter(width * 1.0e-6)
+saveParameter(segW "segW")
+effW=calculateParameter(width * 1.0e-6)
+saveParameter(effW "effW")
+l=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(l "l")
+segL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(segL "segL")
+effL=calculateParameter((length - (0.45 * bends * width)) * 1.0e-6)
+saveParameter(effL "effL")
+saveRecognition(_resm9 "Metal9")
+
+extractDevice(_ndio (psubstrate "PLUS") (ndiff_conn "MINUS")
+    "ndio ivpcell gpdk090" physical)
+area=measureParameter(area (_ndio))
+area=calculateParameter(area * 1.0e-12)
+saveParameter(area "area")
+saveRecognition(_ndio "DIOdummy")
+
+extractDevice(_pdio (pdiff_conn "PLUS") (nwell_conn "MINUS")
+    "pdio ivpcell gpdk090" physical)
+area=measureParameter(area (_pdio))
+area=calculateParameter(area * 1.0e-12)
+saveParameter(area "area")
+saveRecognition(_pdio "DIOdummy")
+
+extractDevice(_vpnp2 (pdiff_conn "E") (nwell_conn "B") (psubstrate "C")
+    "vpnp2 ivpcell gpdk090" physical)
+area=measureParameter(area (_vpnp2))
+area=calculateParameter(area * 1.0)
+saveParameter(area "area")
+saveRecognition(_vpnp2 "Pimp")
+
+extractDevice(_vpnp5 (pdiff_conn "E") (nwell_conn "B") (psubstrate "C")
+    "vpnp5 ivpcell gpdk090" physical)
+area=measureParameter(area (_vpnp5))
+area=calculateParameter(area * 1.0)
+saveParameter(area "area")
+saveRecognition(_vpnp5 "Pimp")
+
+extractDevice(_vpnp10 (pdiff_conn "E") (nwell_conn "B") (psubstrate "C")
+    "vpnp10 ivpcell gpdk090" physical)
+area=measureParameter(area (_vpnp10))
+area=calculateParameter(area * 1.0)
+saveParameter(area "area")
+saveRecognition(_vpnp10 "Pimp")
+
+
+extractDevice(_pnp (pdiff_conn "E") (nwell_conn "B") (psubstrate "C")
+    "pnp ivpcell gpdk090" physical)
+area=measureParameter(area (_pnp))
+area=calculateParameter(area * 1.0)
+saveParameter(area "area")
+saveRecognition(_pnp "Pimp")
+
+extractDevice(_npn (npn_emit "E") (npn_base "B") (npn_coll "C")
+    "npn ivpcell gpdk090" physical)
+area=measureParameter(area (_npn))
+area=calculateParameter(area * 1.0)
+saveParameter(area "area")
+saveRecognition(_npn "Nimp")
+
+extractDevice(MIMCAP (CapMetal "PLUS") (metal2_conn "MINUS")
+    "mimcap ivpcell gpdk090" physical)
+area=measureParameter(area (MIMCAP))
+perimeter=measureParameter(perimeter (MIMCAP))
+w=calculateParameter(((perimeter*0.25) + 0.5*sqrt( (0.25*power(perimeter 2) -
+    (4)*area) ))*1e-6)
+saveParameter(w "w")
+l=calculateParameter(((perimeter*0.25) - 0.5*sqrt( (0.25*power(perimeter 2) -
+    (4)*area) ))*1e-6)
+saveParameter(l "l")
+c=calculateParameter(area*1e-15 + perimeter*1e-16)
+saveParameter(c "c")
+area=calculateParameter(area*1e-12)
+saveParameter(area "area")
+perim=calculateParameter(perimeter*1e-6)
+saveParameter(perim "perim")
+saveRecognition(MIMCAP "CapMetal")
+
+)

@@ -1,0 +1,70 @@
+// Generated for: spectre (May  1 09:17:23 2013 )
+// Library name: gsclib045_hvt
+// Cell name: NAND2X2
+// View name: extracted
+
+simulator lang=spectre
+
+subckt NAND2X2 A B VDD VSS Y
+mp0 (\1\:Y \2\:A VDD VDD) g45p1hvt w=(3.9e-07) l=4.5e-08 nf=1 \
+        as=6.405e-14 ad=6.24e-14 ps=1.39e-06 pd=1.1e-06 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=7.35e-07 sd=160n sca=33.0928 \
+        scb=0.0355004 scc=0.00312201 m=(2)
+mp1 (\1\:Y \1\:B \7\:VDD VDD) g45p1hvt w=(3.9e-07) l=4.5e-08 nf=1 \
+        as=6.24e-14 ad=6.24e-14 ps=1.1e-06 pd=1.1e-06 nrd=1.16667 \
+        nrs=1.16667 sa=3.45e-07 sb=5.3e-07 sd=160n sca=24.0497 \
+        scb=0.0216272 scc=0.0017588 m=(2)
+C1 (Y VSS) capacitor c=9.84517e-17
+C2 (A VSS) capacitor c=2.31334e-17
+C3 (VDD VSS) capacitor c=1.31787e-16
+C4 (7 VSS) capacitor c=1.89232e-18
+C5 (\1\:B VSS) capacitor c=1.41677e-16
+C6 (\6\:A VSS) capacitor c=5.18992e-17
+C7 (\6\:B VSS) capacitor c=4.77445e-17
+C8 (\5\:B VSS) capacitor c=4.85657e-17
+C9 (\1\:A VSS) capacitor c=5.38831e-17
+C10 (\2\:A VSS) capacitor c=3.88605e-16
+C11 (\1\:Y VSS) capacitor c=2.2955e-16
+C12 (\7\:VDD VSS) capacitor c=8.58299e-17
+C13 (\6\:Y VSS) capacitor c=9.32618e-17
+C14 (\8\:B VSS) capacitor c=4.13948e-17
+C15 (\10\:B VSS) capacitor c=4.95438e-17
+Rk9 (\1\:Y Y) resistor r=0.2606 c=0
+Rk10 (Y \7\:Y) resistor r=0.5711 c=0
+Rk5 (\2\:A A) resistor r=0.08755 c=0
+Rk15 (\2\:VSS \4\:VSS) resistor r=0.2984 c=0
+Rk17 (\5\:VSS VSS) resistor r=0.03743 c=0
+Rk16 (\4\:VSS \5\:VSS) resistor r=0.1639 c=0
+Rk18 (\5\:VSS \7\:VSS) resistor r=0.2768 c=0
+Rk14 (VDD \8\:VDD) resistor r=0.2513 c=0
+Rk1 (\8\:B \9\:B) resistor r=0.001284 c=0
+Rk2 (B \10\:B) resistor r=0.001284 c=0
+Rk3 (\8\:B \10\:B) resistor r=0.04073 c=0
+Rl10 (\2\:A \6\:A) resistor r=46.9721 c=0
+Rl1 (\2\:A \1\:A) resistor r=50 c=0
+Rl7 (\1\:B \6\:B) resistor r=40.849 c=0
+Rl6 (\1\:B \5\:B) resistor r=53.6577 c=0
+Rz1 (\7\:Y \6\:Y) resistor r=37.5 c=0
+Rz3 (\1\:VSS \2\:VSS) resistor r=37.5 c=0
+Rz4 (\6\:VSS \7\:VSS) resistor r=37.5 c=0
+Ry5 (\8\:VDD \7\:VDD) resistor r=31 c=0
+Rx1 (\9\:B \1\:B) resistor r=45 c=0
+mn0_1__rcx (6 \1\:A \6\:VSS VSS) g45n1hvt w=(2.6e-07) l=4.5e-08 nf=1 \
+        as=3.64e-14 ad=1.56e-14 ps=8e-07 pd=6.4e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=5.85e-07 sd=160n sca=10.79 scb=0.0100512 \
+        scc=0.000418069 m=(1)
+mn1_1__rcx (\6\:Y \5\:B 6 VSS) g45n1hvt w=(2.6e-07) l=4.5e-08 nf=1 \
+        as=1.56e-14 ad=4.16e-14 ps=6.4e-07 pd=8.4e-07 nrd=1.16667 \
+        nrs=1.16667 sa=2.45e-07 sb=4.8e-07 sd=160n sca=10.79 scb=0.0100512 \
+        scc=0.000418069 m=(1)
+mn1 (\6\:Y \6\:B 7 VSS) g45n1hvt w=(2.6e-07) l=4.5e-08 nf=1 as=1.56e-14 \
+        ad=4.16e-14 ps=6.4e-07 pd=8.4e-07 nrd=1.16667 nrs=1.16667 \
+        sa=4.5e-07 sb=2.75e-07 sd=160n sca=10.79 scb=0.0100512 \
+        scc=0.000418069 m=(1)
+mn0 (7 \6\:A \1\:VSS VSS) g45n1hvt w=(2.6e-07) l=4.5e-08 nf=1 \
+        as=7.24e-14 ad=1.56e-14 ps=1.33e-06 pd=6.4e-07 nrd=1.16667 \
+        nrs=1.16667 sa=5.55e-07 sb=1.7e-07 sd=160n sca=10.79 scb=0.0100512 \
+        scc=0.000418069 m=(1)
+ends NAND2X2
+// End of subcircuit definition.
+

@@ -1,0 +1,17 @@
+`include "discipline.h"
+`include "constants.h"
+
+ module rnoise_va(plus,minus);
+   inout plus, minus;
+   electrical plus,minus,vpm;
+    parameter real rsh=10;
+    parameter real w=1u;
+    parameter real l=1u;
+
+
+    analog begin
+
+    I(plus,minus) <+ white_noise(4*`P_K * $temperature/(rsh*l/w), "Resistor thermal noise");
+    
+    end
+ endmodule

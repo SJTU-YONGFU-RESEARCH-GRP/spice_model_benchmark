@@ -1,0 +1,26 @@
+test_oa_vtc.sp3
+* Differential mode input range
+
+.control
+
+delcirc all
+destroy all
+delete all
+save all
+
+source oa_openloop.cir
+dc vi2 -2.5 2.5 5m
+
+let vdin=v(vinp)-v(vinn)
+let vout=v(vout)
+plot vout vs vdin xlabel 'Diff. Input Voltage [V]' ylabel 'Output Voltage [V]' title 'VTC'
+
+dc vi2 -2.5m 2.5m 5u
+
+let vdin=v(vinp)-v(vinn)
+let vout=v(vout)
+plot vout vs vdin xlabel 'Diff. Input Voltage [V]' ylabel 'Output Voltage [V]' title 'VTC'
+
+.endc
+
+.end

@@ -1,0 +1,5 @@
+DEFINE snpsDefTechLib .//snpsDefTechLib
+DEFINE basic .//basic
+DEFINE analogLib .//analogLib
+DEFINE sheets .//sheets
+DEFINE sample .//sample

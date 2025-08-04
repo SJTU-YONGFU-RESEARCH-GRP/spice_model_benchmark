@@ -1,0 +1,61 @@
+#
+# OPTION COMMAND FILE created by Cadence Extraction QRC Version 12.1.0-s442 from CCL
+#
+capacitance \
+	 -decoupling_factor 1.0 \
+	 -ground_net "VSS"
+device_reduction \
+	 -m_factor infinite
+extract \
+	 -selection "all" \
+	 -type "rc_decoupled"
+extraction_setup \
+	 -array_vias_spacing auto \
+	 -max_fracture_length infinite \
+	 -max_fracture_length_unit "MICRONS" \
+	 -max_via_array_size \
+		"auto" \
+	 -net_name_space "SCHEMATIC"
+filter_cap \
+	 -exclude_floating_nets true \
+	 -exclude_floating_nets_limit 2000000
+filter_res \
+	 -merge_parallel_res true \
+	 -min_res 0.001 \
+	 -remove_dangling_res true
+global_nets \
+	 -nets_file "./svdb/qrc.GLOBAL.nets"
+input_db -type pvs \
+	 -design_cell_name "DFFRHQX1 layout gsclib045" \
+	 -directory_name "/lan/flow/cicflow/AMSFF/WA/WA_rayv/AMSFF/WORK/zambezi45/LPMS_WS/basicCells_imp_flows/_extract/lvs/DFFRHQX1/./svdb" \
+	 -format "DFII" \
+	 -run_name "DFFRHQX1"
+output_db -type extracted_view \
+	 -add_explicit_vias true \
+	 -cap_component "pcapacitor" \
+	 -cap_property_name "c" \
+	 -cdl_out_map_directory \
+		"." \
+	 -device_finger_delimiter "@" \
+	 -enable_cellview_check false \
+	 -include_cap_model "true" \
+	 -include_parasitic_cap_model "false" \
+	 -include_parasitic_res_model "false" \
+	 -include_parasitic_res_width false \
+	 -include_parasitic_res_width_drawn false \
+	 -include_res_model "true" \
+	 -res_component "presistor" \
+	 -res_property_name "r" \
+	 -view_name "extracted"
+output_setup \
+	 -directory_name "/lan/flow/cicflow/AMSFF/WA/WA_rayv/AMSFF/WORK/zambezi45/LPMS_WS/basicCells_imp_flows/_extract/lvs/DFFRHQX1/./svdb" \
+	 -temporary_directory_name "DFFRHQX1"
+process_technology \
+	 -technology_corner \
+		"rcx_typical" \
+	 -technology_library_file "/lan/flow/cicflow/AMSFF/WA/WA_rayv/AMSFF/WORK/zambezi45/LPMS_WS/basicCells_imp_flows/_extract/lvs/DFFRHQX1/./pvtech.lib" \
+	 -technology_name "gpdk045_pvs" \
+	 -temperature \
+		25
+
+

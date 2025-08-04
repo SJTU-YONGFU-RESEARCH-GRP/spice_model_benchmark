@@ -1,0 +1,21 @@
+test_oa_bode.sp3
+* Bode plot
+
+.control
+
+delcirc all
+destroy all
+delete all
+save all
+set units=degrees
+
+source oa_qopenloop.cir
+ac dec 50 1 1e7
+
+let Gmag=20*log10(mag(v(vout)))
+let Gph=phase(v(vout))
+plot Gmag Gph xlog xlabel 'Frequency [Hz]' ylabel 'Bode Diagram [dB,degrees]'
+
+.endc
+
+.end

@@ -1,0 +1,122 @@
+//  *******************************************************************************************
+//               
+//               Model name       NF               L (um)             Wf (um)
+//                             low   high        low    high       low    high 
+//             ----------------------------------------------------------------- 
+//              
+//               nmos_rf       1     64         0.18   0.5          1.5    10
+//             -----------------------------------------------------------------
+//               pmos_rf       1     64         0.18   0.5          1.5    10
+//             ----------------------------------------------------------------- 
+//                  
+//             **NF: Finger number
+// 
+//  ************************************************************************************************
+
+
+simulator lang=spectre
+library gpdk
+
+section rf_mos
+
+subckt nmos_rf ( d g s b ) 
+parameters l=18.e-08 fingers=1 w=1.5e-6 simM=1 lr=l nr=simM/fingers wr=w mf=fingers
++ lspace=0.54u
++ ledge=2.6u
++ ledgeeff=0.97u
++ lsti=1.84u
++ wsti=3.37u
++ rod=2570
++ rsti=4597
++ ns=int(nr/2+1)
++ nd=int((nr+1)/2)
++ lod=nr * (lr + lspace) + 2 * ledge - lspace
++ rb_S1=(rod * lod / 12 + rsti * lsti / 2) * (rod * wr / 12 + rsti * wsti 
++ / 2) / (lod * (rod * lod / 12 + rsti * lsti / 2) + wr * (rod * wr / 12 + rsti 
++ * wsti / 2))  
++ rdb_S1=rod * lr / (wr * nr * 2)  
+//  ********************
+rg ( g gi ) resistor r=(37.018 / nr - 2.225e-7 / (nr * lr) + 151.212 * lr / (nr 
++ * wr) - 0.275 * wr / (nr * lr) + 4.299) / mf 
+rs ( s si ) resistor r=(0.0325 * (lr * 1e6 + 0.54) * (2 * ns + 1 / ns - 3) + 8.666 
++ / ns + 0.4485) / (wr * 1e6) / mf
+rd ( d di ) resistor r=(0.005417 * (lr * 1e6 + 0.54) * (nd + 2 / nd) + 0.0929 * (wr 
++ * 1e6 + 2.94) / nd + 1.625 / (1.43 + (nd - 1) * (lr * 1e6 + 0.54))) / mf
+//  *******************
+cgs_m ( gi si ) capacitor c=(1.649 * nr * (lr * 1e6 + 0.54) / (0.1 * wr * 1e6 + 4) 
++ + 0.158 * wr * 1e6 + 0.737) * 1e-15 * mf
+cgd_m ( gi di ) capacitor c=(0.181 * nr * lr * 1e6 + 0.153 * nr + 0.331) * 1e-15 * mf
+cds_m ( si di ) capacitor c=(0.0713 + 0.0842 * nr * wr * 1e6 / (lr * 1e6 + 0.9) + 
++ 1.051 * nr * (lr * 1e6 + 0.54) / (wr * 1e6 + 9.8)) * 1e-15 * mf
+//  *** Diodes  ****************
+dss  ( sb si )  ndio area = ((ns-2)*wr*lspace+2*wr*ledgeeff+(nr-int(nr/2)*2)*wr*(lspace-ledgeeff))* mf 
++		pj=((ns-2)*lspace*2+2*(2*ledgeeff+wr)+(nr-int(nr/2)*2)*(2*(lspace-ledgeeff)-wr)) * mf 
+ddd  ( db di )  ndio area = (int(nr/2)*wr*lspace+(nr-int(nr/2)*2)*wr*ledgeeff) * mf 
++		pj=(int(nr/2)*lspace*2+(nr-int(nr/2)*2)*(2*ledgeeff+wr)) * mf 
+dsg ( sb si ) ndio area=1e-15 pj=wr * nr * mf
+ddg ( db di ) ndio area=1e-15 pj=wr * nr * mf
+//  ***************************************************************************
+rb ( b bi ) resistor r=rb_S1 / mf
+cb ( b bi ) capacitor c=159f / rb_S1 * mf
+rdb ( db bi ) resistor r=rdb_S1 / mf
+cdb ( db bi ) capacitor c=159f / rdb_S1 * mf
+rsb ( sb bi ) resistor r=rdb_S1 / mf
+csb ( sb bi ) capacitor c=159f / rdb_S1 * mf
+//  ***** MOSFET ******* 
+m0 ( d gi s bi ) nmos1 l=lr w=wr m=nr*mf
+ends nmos_rf
+ 
+ 
+subckt pmos_rf ( d g s b ) 
+parameters l=18.e-08 fingers=1 w=1.5e-6 simM=1 lr=l nr=simM/fingers wr=w mf=fingers
++ lspace=0.54u
++ ledge=2.6u
++ ledgeeff=0.97u
++ lsti=1.84u
++ wsti=3.37u
++ rod=410
++ rsti=524
++ ns=int(nr/2+1)
++ nd=int((nr+1)/2)
++ lod=nr * (lr + lspace) + 2 * ledge - lspace
++ rb_S1=(rod * lod / 12 + rsti * lsti / 2) * (rod * wr / 12 + rsti * wsti 
++ / 2) / (lod * (rod * lod / 12 + rsti * lsti / 2) + wr * (rod * wr / 12 + rsti 
++ * wsti / 2))  
++ rdb_S1=rod * lr / (wr * nr * 2)  
+//  ********************
+rg ( g gi ) resistor r=(122.29 / nr - 2.075e-5 / (nr * lr) + 158.61 * lr / (nr * 
++ wr) - 0.434 * wr / (nr * lr) + 3.0955) / mf 
+rs ( s si ) resistor r=(0.0325 * (lr * 1e6 + 0.54) * (2 * ns + 1 / ns - 3) + 8.666 
++ / ns + 0.4485) / (wr * 1e6) / mf
+rd ( d di ) resistor r=(0.005417 * (lr * 1e6 + 0.54) * (nd + 2 / nd) + 0.0929 * (wr 
++ * 1e6 + 2.94) / nd + 1.625 / (1.43 + (nd - 1) * (lr * 1e6 + 0.54))) / mf
+//  *******************
+cgs_m ( gi si ) capacitor c=(1.649 * nr * (lr * 1e6 + 0.54) / (0.1 * wr * 1e6 + 4) 
++ + 0.158 * wr * 1e6 + 0.737) * 1e-15 * mf
+cgd_m ( gi di ) capacitor c=(0.181 * nr * lr * 1e6 + 0.153 * nr + 0.331) * 1e-15 * mf
+cds_m ( si di ) capacitor c=(0.0713 + 0.0842 * nr * wr * 1e6 / (lr * 1e6 + 0.9) + 
++ 1.051 * nr * (lr * 1e6 + 0.54) / (wr * 1e6 + 9.8)) * 1e-15 * mf
+//  *** Diodes  ****************
+dss  ( si sb )  pdio area = ((ns-2)*wr*lspace+2*wr*ledgeeff+(nr-int(nr/2)*2)*wr*(lspace-ledgeeff))*mf 
++		pj=((ns-2)*lspace*2+2*(2*ledgeeff+wr)+(nr-int(nr/2)*2)*(2*(lspace-ledgeeff)-wr))*mf 
+ddd  ( di db )  pdio area = (int(nr/2)*wr*lspace+(nr-int(nr/2)*2)*wr*ledgeeff)*mf 
++		pj=(int(nr/2)*lspace*2+(nr-int(nr/2)*2)*(2*ledgeeff+wr))*mf 
+dsg ( si sb ) pdio area=1e-15 pj=wr * nr * mf
+ddg ( di db ) pdio area=1e-15 pj=wr * nr * mf
+//  ***************************************************************************
+rb ( b bi ) resistor r=rb_S1 / mf
+cb ( b bi ) capacitor c=21.6f / rb_S1 * mf
+rdb ( db bi ) resistor r=rdb_S1 / mf
+cdb ( db bi ) capacitor c=21.6f / rdb_S1 * mf
+rsb ( sb bi ) resistor r=rdb_S1 / mf
+csb ( sb bi ) capacitor c=21.6f / rdb_S1 * mf
+m0 ( d gi s bi ) pmos1 l=lr w=wr m=nr*mf 
+ends pmos_rf
+
+//*include "pmos1.scs" section=mos
+//*include "nmos1.scs" section=mos
+//*include "diode.scs" section=dio
+ 
+endsection rf_mos
+
+endlibrary gpdk

@@ -1,0 +1,36 @@
+/* $Id: vscope_trig.ifs v2017.10.26 FSG $ */
+
+NAME_TABLE:
+
+Spice_Model_Name: vscope_trig
+C_Function_Name:  cm_vscope_trig
+Description:      "voltage scope by digital trigger to SPICE3 raw file"
+
+PORT_TABLE:
+
+Port_Name:        inp       strb
+Description:      "input"   "strobe"
+Direction:        in        in
+Default_Type:     vd        d
+Allowed_Types:    [vd]      [d]
+Vector:           no        no
+Vector_Bounds:    -         -
+Null_Allowed:     no        no
+
+PARAMETER_TABLE:
+
+Parameter_Name:     pos_edge          nsamp               fname
+Description:        "L->H edge out?"  "number of samples" "filename"
+Data_Type:          int               int                 string
+Default_Value:      0                 1                   "tran.raw"
+Limits:             [0 1]             [1 -]               -
+Vector:             no                no                  no
+Vector_Bounds:      -                 -                   -
+Null_Allowed:       no                no                  no
+
+STATIC_VAR_TABLE:
+
+Static_Var_Name:       ncount
+Data_Type:             pointer
+Description:           "current sample index"
+

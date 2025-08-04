@@ -1,0 +1,13 @@
+VALE Framework Component Module:
+   Delete WSP Templates
+
+Description:
+   If there are any WSPs saved IN the current cellview, it will remove them.
+It will NOT remove WSPs from the technology library.
+
+Input Requirements:
+   An open cellview.
+
+Development Notes:
+   All aspects of this Component Module were developed by Cadence.
+   Please contact Jonathan Fales for more information: jfales@cadence.com

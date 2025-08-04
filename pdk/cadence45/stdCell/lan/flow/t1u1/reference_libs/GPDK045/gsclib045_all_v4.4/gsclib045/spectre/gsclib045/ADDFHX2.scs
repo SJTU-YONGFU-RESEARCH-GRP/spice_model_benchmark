@@ -1,0 +1,95 @@
+// Generated for: spectre (Mar 20 14:01:03 2013 )
+// Library name: gsclib045
+// Cell name: ADDFHX2
+// View name: schematic
+
+simulator lang=spectre
+
+subckt ADDFHX2 A B CI CO S VSS VDD
+mn5 (n4 A VSS VSS) g45n1svt w=(205n) l=45n nf=1 as=28.7f ad=28.7f \
+        ps=690n pd=690n nrd=682.927m nrs=682.927m sa=140n sb=140n sd=160n \
+        sca=166.60249 scb=0.10864 scc=0.02069 m=(1)
+mn6 (n4 B VSS VSS) g45n1svt w=(205n) l=45n nf=1 as=28.7f ad=28.7f \
+        ps=690n pd=690n nrd=682.927m nrs=682.927m sa=140n sb=140n sd=160n \
+        sca=166.60249 scb=0.10864 scc=0.02069 m=(1)
+mn4 (COb CI n2 VSS) g45n1svt w=(205n) l=45n nf=1 as=28.7f ad=28.7f \
+        ps=690n pd=690n nrd=682.927m nrs=682.927m sa=140n sb=140n sd=160n \
+        sca=166.60249 scb=0.10864 scc=0.02069 m=(1)
+mn3 (n2 B VSS VSS) g45n1svt w=(205n) l=45n nf=1 as=28.7f ad=28.7f \
+        ps=690n pd=690n nrd=682.927m nrs=682.927m sa=140n sb=140n sd=160n \
+        sca=166.60249 scb=0.10864 scc=0.02069 m=(1)
+mn2 (n2 A VSS VSS) g45n1svt w=(205n) l=45n nf=1 as=28.7f ad=28.7f \
+        ps=690n pd=690n nrd=682.927m nrs=682.927m sa=140n sb=140n sd=160n \
+        sca=166.60249 scb=0.10864 scc=0.02069 m=(1)
+mn7 (n4 CI VSS VSS) g45n1svt w=(205n) l=45n nf=1 as=28.7f ad=28.7f \
+        ps=690n pd=690n nrd=682.927m nrs=682.927m sa=140n sb=140n sd=160n \
+        sca=166.60249 scb=0.10864 scc=0.02069 m=(1)
+mn8 (Sb COb n4 VSS) g45n1svt w=(205n) l=45n nf=1 as=28.7f ad=28.7f \
+        ps=690n pd=690n nrd=682.927m nrs=682.927m sa=140n sb=140n sd=160n \
+        sca=166.60249 scb=0.10864 scc=0.02069 m=(1)
+mn0 (n0 A VSS VSS) g45n1svt w=(205n) l=45n nf=1 as=28.7f ad=28.7f \
+        ps=690n pd=690n nrd=682.927m nrs=682.927m sa=140n sb=140n sd=160n \
+        sca=166.60249 scb=0.10864 scc=0.02069 m=(1)
+mn1 (COb B n0 VSS) g45n1svt w=(205n) l=45n nf=1 as=28.7f ad=28.7f ps=690n \
+        pd=690n nrd=682.927m nrs=682.927m sa=140n sb=140n sd=160n \
+        sca=166.60249 scb=0.10864 scc=0.02069 m=(1)
+mn12 (CO COb VSS VSS) g45n1svt w=(520n) l=45n nf=1 as=72.8f ad=72.8f \
+        ps=1.32u pd=1.32u nrd=269.231m nrs=269.231m sa=140n sb=140n \
+        sd=160n sca=98.28759 scb=0.08111 scc=0.01166 m=(1)
+mn13 (S Sb VSS VSS) g45n1svt w=(520n) l=45n nf=1 as=72.8f ad=72.8f \
+        ps=1.32u pd=1.32u nrd=269.231m nrs=269.231m sa=140n sb=140n \
+        sd=160n sca=98.28759 scb=0.08111 scc=0.01166 m=(1)
+mn11 (Sb CI n7 VSS) g45n1svt w=(205n) l=45n nf=1 as=28.7f ad=28.7f \
+        ps=690n pd=690n nrd=682.927m nrs=682.927m sa=140n sb=140n sd=160n \
+        sca=166.60249 scb=0.10864 scc=0.02069 m=(1)
+mn10 (n7 B n6 VSS) g45n1svt w=(205n) l=45n nf=1 as=28.7f ad=28.7f ps=690n \
+        pd=690n nrd=682.927m nrs=682.927m sa=140n sb=140n sd=160n \
+        sca=166.60249 scb=0.10864 scc=0.02069 m=(1)
+mn9 (n6 A VSS VSS) g45n1svt w=(205n) l=45n nf=1 as=28.7f ad=28.7f \
+        ps=690n pd=690n nrd=682.927m nrs=682.927m sa=140n sb=140n sd=160n \
+        sca=166.60249 scb=0.10864 scc=0.02069 m=(1)
+mp2 (n3 A VDD VDD) g45p1svt w=(310n) l=45n nf=1 as=43.4f ad=43.4f \
+        ps=900n pd=900n nrd=451.613m nrs=451.613m sa=140n sb=140n sd=160n \
+        sca=130.90642 scb=0.09728 scc=0.01590 m=(1)
+mp3 (n3 B VDD VDD) g45p1svt w=(310n) l=45n nf=1 as=43.4f ad=43.4f \
+        ps=900n pd=900n nrd=451.613m nrs=451.613m sa=140n sb=140n sd=160n \
+        sca=130.90642 scb=0.09728 scc=0.01590 m=(1)
+mp4 (COb CI n3 VDD) g45p1svt w=(310n) l=45n nf=1 as=43.4f ad=43.4f \
+        ps=900n pd=900n nrd=451.613m nrs=451.613m sa=140n sb=140n sd=160n \
+        sca=130.90642 scb=0.09728 scc=0.01590 m=(1)
+mp5 (n5 A VDD VDD) g45p1svt w=(310n) l=45n nf=1 as=43.4f ad=43.4f \
+        ps=900n pd=900n nrd=451.613m nrs=451.613m sa=140n sb=140n sd=160n \
+        sca=130.90642 scb=0.09728 scc=0.01590 m=(1)
+mp6 (n5 B VDD VDD) g45p1svt w=(310n) l=45n nf=1 as=43.4f ad=43.4f \
+        ps=900n pd=900n nrd=451.613m nrs=451.613m sa=140n sb=140n sd=160n \
+        sca=130.90642 scb=0.09728 scc=0.01590 m=(1)
+mp7 (n5 CI VDD VDD) g45p1svt w=(310n) l=45n nf=1 as=43.4f ad=43.4f \
+        ps=900n pd=900n nrd=451.613m nrs=451.613m sa=140n sb=140n sd=160n \
+        sca=130.90642 scb=0.09728 scc=0.01590 m=(1)
+mp8 (Sb COb n5 VDD) g45p1svt w=(310n) l=45n nf=1 as=43.4f ad=43.4f \
+        ps=900n pd=900n nrd=451.613m nrs=451.613m sa=140n sb=140n sd=160n \
+        sca=130.90642 scb=0.09728 scc=0.01590 m=(1)
+mp0 (n1 A VDD VDD) g45p1svt w=(310n) l=45n nf=1 as=43.4f ad=43.4f \
+        ps=900n pd=900n nrd=451.613m nrs=451.613m sa=140n sb=140n sd=160n \
+        sca=130.90642 scb=0.09728 scc=0.01590 m=(1)
+mp1 (COb B n1 VDD) g45p1svt w=(310n) l=45n nf=1 as=43.4f ad=43.4f ps=900n \
+        pd=900n nrd=451.613m nrs=451.613m sa=140n sb=140n sd=160n \
+        sca=130.90642 scb=0.09728 scc=0.01590 m=(1)
+mp12 (CO COb VDD VDD) g45p1svt w=(780n) l=45n nf=1 as=109.2f ad=109.2f \
+        ps=1.84u pd=1.84u nrd=179.487m nrs=179.487m sa=140n sb=140n \
+        sd=160n sca=80.49887 scb=0.07059 scc=0.00954 m=(1)
+mp13 (S Sb VDD VDD) g45p1svt w=(780n) l=45n nf=1 as=109.2f ad=109.2f \
+        ps=1.84u pd=1.84u nrd=179.487m nrs=179.487m sa=140n sb=140n \
+        sd=160n sca=80.49887 scb=0.07059 scc=0.00954 m=(1)
+mp11 (Sb CI n9 VDD) g45p1svt w=(310n) l=45n nf=1 as=43.4f ad=43.4f \
+        ps=900n pd=900n nrd=451.613m nrs=451.613m sa=140n sb=140n sd=160n \
+        sca=130.90642 scb=0.09728 scc=0.01590 m=(1)
+mp10 (n9 B n8 VDD) g45p1svt w=(310n) l=45n nf=1 as=43.4f ad=43.4f ps=900n \
+        pd=900n nrd=451.613m nrs=451.613m sa=140n sb=140n sd=160n \
+        sca=130.90642 scb=0.09728 scc=0.01590 m=(1)
+mp9 (n8 A VDD VDD) g45p1svt w=(310n) l=45n nf=1 as=43.4f ad=43.4f \
+        ps=900n pd=900n nrd=451.613m nrs=451.613m sa=140n sb=140n sd=160n \
+        sca=130.90642 scb=0.09728 scc=0.01590 m=(1)
+ends ADDFHX2
+// End of subcircuit definition.
+

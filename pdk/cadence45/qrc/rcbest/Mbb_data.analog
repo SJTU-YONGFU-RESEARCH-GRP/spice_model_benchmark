@@ -1,0 +1,42 @@
+BEGIN MBB_DEFINITION
+GPDK45_rcbest
+11 layer process
+metal1_conn 1.3800
+metal2_conn 2.1000
+metal3_conn 2.9400
+metal4_conn 3.6400
+metal5_conn 4.4100
+metal6_conn 5.1800
+metal7_conn 6.0900
+metal8_conn 7.0000
+metal9_conn 7.0000
+metal10_conn 13.4000
+metal11_conn 15.0000
+END MBB_DEFINITION
+
+BEGIN VHALO_DEFINITION
+metal1_conn
+metal2_conn
+metal3_conn
+metal4_conn
+metal5_conn
+metal6_conn
+metal7_conn
+metal8_conn
+metal9_conn
+metal10_conn
+metal11_conn
+END VHALO_DEFINITION
+BEGIN VHALO_VALUES
+metal1_conn 1.3800
+metal2_conn 2.1000
+metal3_conn 2.9400
+metal4_conn 3.6400
+metal5_conn 4.4100
+metal6_conn 5.1800
+metal7_conn 6.0900
+metal8_conn 7.0000
+metal9_conn 7.0000
+metal10_conn 13.4000
+metal11_conn 15.0000
+END VHALO_VALUES

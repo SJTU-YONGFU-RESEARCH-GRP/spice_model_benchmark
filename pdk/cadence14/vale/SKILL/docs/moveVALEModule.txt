@@ -1,0 +1,32 @@
+VALE Framework Component Module:
+________________________________
+   moveVALEModule.txt 
+
+Description
+___________
+   moveVALEModule allows you to quickly change the moduleNumber for modules. 
+   
+
+Dependencies
+____________
+   Works with default VALE setup.
+
+Input Requirements:
+___________________
+   Choose from a list of current available module numbers with name and pick a new VALE module number
+   to move it to. 
+
+Output:
+_______
+   Your vale configuration modified to have the module with new configuration number. 
+   Menu items are sorted by configuration number so this will change your menu sorting.
+
+Development Notes:
+__________________
+   All aspects of the CreateVALESKILLModule VALE Framework Component Module were developed by
+   Cadence Physical Verification and DFM Services Team.  Please contact Jac Condella for more 
+   information (jac@cadence.com).
+
+Known Issues:
+____________:
+

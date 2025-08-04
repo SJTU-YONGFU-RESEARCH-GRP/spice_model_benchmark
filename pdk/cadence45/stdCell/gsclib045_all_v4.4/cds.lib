@@ -1,0 +1,22 @@
+### *************************************************************************
+### Standard Cells library and ITDB library
+### *************************************************************************
+#
+# Process Technology libraries (ITDB):
+SOFTINCLUDE ./gsclib045_tech/cds.lib
+#
+# Standard cell libraries: Define
+SOFTINCLUDE ./gsclib045/cds.lib
+SOFTINCLUDE ./gsclib045_backbias/cds.lib
+SOFTINCLUDE ./gsclib045_hvt/cds.lib
+SOFTINCLUDE ./gsclib045_lvt/cds.lib
+#
+UNDEFINE PDKg45n_ITDB
+DEFINE GSCLIB045 ./GSCLIB045
+ASSIGN GSCLIB045 DISPLAY PDKlib_top
+ASSIGN GSCLIB045 COMBINE gsclib045 gsclib045_hvt gsclib045_lvt gsclib045_backbias gsclib045_tech 
+ASSIGN gsclib045 DISPLAY PDKlib
+ASSIGN gsclib045_hvt DISPLAY PDKlib
+ASSIGN gsclib045_lvt DISPLAY PDKlib
+ASSIGN gsclib045_backbias DISPLAY PDKlib
+ASSIGN gsclib045_tech DISPLAY PDKlib

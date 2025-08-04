@@ -1,0 +1,52 @@
+// Generated for: spectre (May  1 08:09:13 2013 )
+// Library name: gsclib045
+// Cell name: BUFX3
+// View name: extracted
+
+simulator lang=spectre
+
+subckt BUFX3 A VDD VSS Y
+mp0 (\11\:n0 \1\:A \1\:VDD VDD) g45p1svt w=(3.9e-07) l=4.5e-08 nf=1 \
+        as=6.24e-14 ad=5.46e-14 ps=1.1e-06 pd=1.06e-06 nrd=1.16667 \
+        nrs=1.16667 sa=7.55e-07 sb=1.4e-07 sd=160n sca=16.7198 \
+        scb=0.0160191 scc=0.000448714 m=(1)
+mp1 (Y n0 \1\:VDD VDD) g45p1svt w=(3.9e-07) l=4.5e-08 nf=1 as=6.24e-14 \
+        ad=5.98e-14 ps=1.1e-06 pd=1.08667e-06 nrd=1.16667 nrs=1.16667 \
+        sa=1.4e-07 sb=7.55e-07 sd=160n sca=25.8768 scb=0.0296503 \
+        scc=0.00178994 m=(3)
+C1 (Y VSS) capacitor c=3.28319e-16
+C2 (A VSS) capacitor c=2.74963e-17
+C3 (VDD VSS) capacitor c=9.06324e-17
+C4 (n0 VSS) capacitor c=1.85921e-16
+C5 (\1\:A VSS) capacitor c=4.73835e-17
+C6 (\3\:A VSS) capacitor c=3.77496e-17
+C7 (\2\:A VSS) capacitor c=4.34867e-17
+C8 (\7\:n0 VSS) capacitor c=3.84965e-17
+C9 (\11\:n0 VSS) capacitor c=7.82295e-17
+C10 (\1\:VDD VSS) capacitor c=1.94936e-16
+C11 (\14\:n0 VSS) capacitor c=6.83747e-17
+C12 (\4\:A VSS) capacitor c=6.37282e-17
+C13 (\13\:n0 VSS) capacitor c=1.12712e-16
+Rk16 (\1\:VSS VSS) resistor r=0.1023 c=0
+Rk7 (\4\:A A) resistor r=0.02444 c=0
+Rk12 (\1\:VDD VDD) resistor r=0.1023 c=0
+Rk8 (\12\:n0 \13\:n0) resistor r=0.5178 c=0
+Rk9 (\13\:n0 \15\:n0) resistor r=0.4356 c=0
+Rl10 (\1\:A \2\:A) resistor r=89.6174 c=0
+Rl11 (\2\:A \3\:A) resistor r=55.0021 c=0
+Rl6 (n0 \7\:n0) resistor r=3.8801 c=0
+Rz3 (\15\:n0 \14\:n0) resistor r=37.5 c=0
+Ry3 (\12\:n0 \11\:n0) resistor r=20.6667 c=0
+Rx1 (\2\:A \4\:A) resistor r=45 c=0
+Rx2 (\13\:n0 \7\:n0) resistor r=45 c=0
+mn0 (\1\:VSS \3\:A \14\:n0 VSS) g45n1svt w=(2.6e-07) l=4.5e-08 nf=1 \
+        as=3.64e-14 ad=4.16e-14 ps=8e-07 pd=8.4e-07 nrd=1.16667 \
+        nrs=1.16667 sa=7.55e-07 sb=1.4e-07 sd=160n sca=12.1772 \
+        scb=0.0118935 scc=0.000630577 m=(1)
+mn1 (\1\:VSS n0 Y VSS) g45n1svt w=(2.6e-07) l=4.5e-08 nf=1 as=3.987e-14 \
+        ad=4.16e-14 ps=8.2667e-07 pd=8.4e-07 nrd=1.16667 nrs=1.16667 \
+        sa=1.4e-07 sb=7.55e-07 sd=160n sca=12.1772 scb=0.0118935 \
+        scc=0.000630577 m=(3)
+ends BUFX3
+// End of subcircuit definition.
+

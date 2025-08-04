@@ -1,0 +1,30 @@
+`include "discipline.h"
+`include "constants.h"
+
+ module resd_va(plus, minus, cntlp, cntlm);
+   inout plus, minus, cntlp, cntlm;
+   electrical plus, minus, cntlp, cntlm;
+    parameter real l=1;
+    parameter real w=1;
+    parameter real r=1;
+    parameter real etch=0;
+    parameter real tc1=1;
+    parameter real tc2=1;
+    parameter real vc1=1;
+    parameter real vc2=1;
+//    parameter real pt=1;
+//    parameter real tfac=1;
+
+    real reff,tempC,tfac;
+
+    analog begin
+
+    tempC = ($temperature-273.15)-25;
+    tfac=1+(tc1*tempC)+(tc2*pow(tempC,2));
+
+    reff=r*l/(w-etch)*(1+vc1*abs(V(cntlp, cntlm))+vc2*pow(V(cntlp ,cntlm),2))*tfac;
+    V(plus,minus) <+ reff*I(plus,minus) + white_noise(4*`P_K * $temperature*reff, "Thermal resistor noise");
+
+
+     end
+  endmodule

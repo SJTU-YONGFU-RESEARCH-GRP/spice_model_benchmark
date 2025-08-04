@@ -1,0 +1,796 @@
+MACROS -I. 
+/*
+#########################################################################################
+# SAED 32/28NM 1p9m hercules antena drc deck						#
+#											#
+# Revision History:									#
+# Rev.		date			what						#
+# -------------------------------------------------------------------------------------	#	
+# 1.0		02/Feb/2011		(First draft)					#
+#########################################################################################
+*/
+
+
+@define MilkyWay "N"
+
+IF (MilkyWay == "Y"){
+HEADER {
+    INLIB = MwLibName
+    BLOCK = TOPCELLNAME
+    FORMAT = MILKYWAY
+    OUTPUT_LAYOUT_PATH = .
+}
+
+}
+ELSE IF (MilkyWay == "N"){
+HEADER {
+    INLIB = GDSFILENAME
+    BLOCK = TOPCELLNAME
+    FORMAT = GDSII
+
+    OUTLIB = EV_OUT
+    OUTPUT_FORMAT = LTL
+
+    GROUP_DIR = group 
+    LAYOUT_PATH = .
+}
+
+}
+
+OPTIONS {
+    PRINT_ERRSUM_FILE = TRUE
+    IGNORE_CASE=FALSE
+    RESOLUTION=0.001	    /* tool resolution, layout grid is 0.001 */
+    NET_PREFIX = N_
+    ERR_PREFIX = "ERR"
+    PROTOTYPE_PLACEMENTS = TRUE
+    GDSIN_OPTIONS = "-nl"
+    MAXIMUM_CELLNAME_LENGTH = 127
+}
+
+ASSIGN {
+	NWELLi	  (1)
+	DNWi	  (2)
+	DIFFi	  (3)
+	DDMYi	  (3;1)
+	PIMPi	  (4)
+	NIMPi	  (5)
+	DIFF_18i  (6)
+	PADi	  (7)
+	ESD_25	  (8)
+	SBLKi	  (9)
+	POi       (10)
+	PODMYi    (10;1)
+	M1i       (11)    text(11)
+	M1DMYi    (11;1)
+	VIA1i     (12)
+	M2i       (13)    text(12)
+	M2DMYi    (13;1)
+        VIA2i     (14)
+	M3i       (15)    text(13)
+        M3DMYi    (15;1)
+        VIA3i     (16)
+	M4i       (17)    text(14)
+        M4DMYi    (17;1)
+        VIA4i     (18)
+	M5i       (19)    text(15)
+        M5DMYi    (19;1)
+        VIA5i     (20)
+	M6i       (21)    text(16)
+	M6DMYi    (21;1)
+	VIA6i     (22)
+	M7i       (23)    text(17)
+	M7DMYi    (23;1)
+	VIA7i     (24)
+	M8i       (25)    text(18)
+	M8DMYi    (25;1)
+	VIA8i     (26)
+	M9i       (27)    text(19)
+	M9DMYi    (27;1)
+	COi       (28)
+	HVTIMPi   (29)    
+	LVTIMPi   (30)    
+	M1PIN     (31)    text (31)
+	M2PIN     (32)    text (32)
+	M3PIN     (33)    text (33)
+	M4PIN     (34)    text (34)
+	M5PIN     (35)    text (35)
+	M6PIN     (36)    text (36)
+	M7PIN     (37)    text (37)
+	M8PIN     (38)	  text (38)
+	M9PIN     (39)    text (39)
+	MRDLi     (41)
+	VIARDLi	  (42)
+	HOTNWLi   (44)
+	DIODi 	  (46)
+	BJTMYi 	  (47)
+	RNWi      (48)
+	RMARKi    (49)
+	LOGO      (51)
+	IP        (52)
+	RM1i      (53)
+	RM2i      (54)
+	RM3i      (55)
+	RM4i      (56)
+	RM5i      (57)
+	RM6i      (58)
+	RM7i      (59)
+	RM8i      (60)
+	RM9i      (61)
+	DIFF_25i  (75)
+}
+
+GRID_CHECK {
+    ASSIGN_LAYERS = TRUE
+    GRID = 0.001
+    CHECK_45 = TRUE
+} TEMP=DEFAULT_GRID_CHECK_OUTPUT
+
+VARIABLE DOUBLE LargeNumber = 1000000000 ;
+
+/*Antena Rules*/
+
+BOOLEAN DIFFi AND POi {  } TEMP=GATE_1
+BOOLEAN DIFF_18i AND DIFFi AND POi {  } TEMP=GATE_3
+BOOLEAN DIFF_25i AND DIFFi AND POi {  } TEMP=GATE_2
+
+BOOLEAN GATE_1 OR GATE_2 OR GATE_3 {} TEMP = GATE
+
+BOOLEAN DIFFi NOT POi {  } TEMP=SD 
+COPY GATE {  } TEMP=GATE_VIA 
+BOOLEAN GATE AND DIFF_25i {  } TEMP=HV_GATE 
+BOOLEAN COi AND POi {  } TEMP=CO_PO
+CONNECT GATE BY POi 
+CONNECT GATE_VIA BY GATE 
+CONNECT HV_GATE BY GATE 
+
+NET_FILTER {
+    COMMENT = "POLY.AN.1:  Area(PO) / Area(Gate) > 250"
+    LAYER_SET[1] = { POi }
+    LAYER_SET[2] = { GATE }
+    RATIO = ( ABS(EV_AREA[2]) > 0)*(EV_AREA[1]/EV_AREA[2])
+    FILTER_RULE = { RATIO > 250 }
+    CONNECTED = { *POi }
+    OUTPUT_SET = { LAYER_SET[1] }
+    ERROR_REPORT = { RATIO }
+    VERBOSE = TRUE
+} (163)
+
+NET_FILTER {
+    COMMENT = "POLY.AN.2:  perimeter*thickness(PO) / Area(Gate) > 500"
+    LAYER_SET[1] = { POi }
+    LAYER_SET[2] = { GATE }
+    RATIO = ( ABS(EV_AREA[2]) > 0)*(EV_PERIM[1]*0.15/EV_AREA[2])
+    FILTER_RULE = { RATIO > 500 }
+    CONNECTED = { *POi }
+    OUTPUT_SET = { LAYER_SET[1] }
+    ERROR_REPORT = { RATIO }
+    VERBOSE = TRUE
+} (163)
+CONNECT CO_PO BY POi 
+
+NET_FILTER {
+    COMMENT = "CO.AN.3:  Area(CO) / Area(Gate) > 10 "
+    LAYER_SET[1] = { POi }
+    LAYER_SET[2] = { CO_PO }
+    LAYER_SET[3] = { GATE }
+    RATIO = ( ABS(EV_AREA[3]) > 0)*( ABS(EV_AREA[1]) > 0)*EV_AREA[2]/EV_AREA[3]
+    FILTER_RULE = { RATIO > 10 }
+    CONNECTED = { *POi }
+    OUTPUT_SET = { LAYER_SET[1] }
+    ERROR_REPORT = { RATIO }
+    VERBOSE = TRUE
+} (163)
+BOOLEAN SD NOT POi {} TEMP=SD_temp1
+CONNECT SD_temp1 by SD
+CONNECT M1i POi BY COi
+CONNECT M1i SD_temp1 by COi
+CONNECT M1DMYi POi BY COi
+CONNECT M1DMYi SD_temp1 by COi
+CONNECT VIA1i BY M1i 
+
+NET_FILTER {
+    LAYER_SET[1] = { SD }
+    RATIO = ( EV_AREA[1] )
+    FILTER_RULE = { RATIO >= 0 }
+} TEMP=M1_DIO 
+CONNECT M1_DIO BY SD
+
+NET_FILTER {
+    COMMENT = "M1.AN.6_AN.8:  Area(M1) / Area(Gate) > 1000 (wo effective diode)  Area(M1) / Area(Gate) > Ratio (with effective diode) "
+    LAYER_SET[1] = { M1i }
+    LAYER_SET[2] = { M1_DIO }
+    LAYER_SET[3] = { M1DMYi }
+    LAYER_SET[4] = { GATE }
+    RATIO = ( ABS(EV_AREA[1]) > 0)*( ABS(EV_AREA[4]) > 0)*(( ABS(EV_AREA[2]) == 0)*((EV_AREA[1] + EV_AREA[3])/EV_AREA[4] - 1000) + ( ABS(EV_AREA[2]) > 0)*((EV_AREA[1] + EV_AREA[3])/EV_AREA[4] - EV_AREA[2]*400 - 40000))
+    FILTER_RULE = { RATIO > 0 }
+    CONNECTED = { *M1i }
+    OUTPUT_SET = { LAYER_SET[1] }
+    ERROR_REPORT = { RATIO }
+    VERBOSE = TRUE
+} (163)
+
+NET_FILTER {
+    LAYER_SET[1] = { M1i }
+    LAYER_SET[2] = { GATE }
+    LAYER_SET[3] = { M1DMYi }
+    RATIO = ((EV_AREA[1] + EV_AREA[3])/EV_AREA[2])
+    FILTER_RULE = { RATIO >= 0 }
+    CONNECTED = { *M1i }
+    OUTPUT_SET = { LAYER_SET[1] }
+    SAVE_PROP = {LAYER_SET[2], M1_RATIO, RATIO}
+    SAVE_ALL_PROP = TRUE
+} TEMP=ACC_M1 
+CONNECT ACC_M1 BY M1i
+
+NET_FILTER {
+    COMMENT = "VIA1.AN.4_AN.7:  Area(VIA1) / Area(Gate) > 20 (wo effective diode)  Area(VIA1) / Area(Gate) > Ratio (with effective diode) "
+    LAYER_SET[1] = { M1i }
+    LAYER_SET[2] = { VIA1i }
+    LAYER_SET[3] = { M1_DIO }
+    LAYER_SET[4] = { GATE_VIA }
+    RATIO = ( ABS(EV_AREA[1]) > 0)*( ABS(EV_AREA[2]) > 0)*(( ABS(EV_AREA[3]) > 0)*(EV_AREA[2]/EV_AREA[4] - EV_AREA[3]*200 - 1000) + ( ABS(EV_AREA[3]) == 0)*(EV_AREA[2]/EV_AREA[4] - 20))
+    FILTER_RULE = { RATIO > 0 }
+    CONNECTED = { *M1i }
+    OUTPUT_SET = { LAYER_SET[1] }
+    ERROR_REPORT = { RATIO }
+    VERBOSE = TRUE
+} (163)
+
+NET_FILTER {
+    LAYER_SET[1] = { VIA1i }
+    LAYER_SET[2] = { GATE_VIA }
+    RATIO = (EV_AREA[1]/EV_AREA[2])
+    FILTER_RULE = { RATIO >= 0 }
+    CONNECTED = { *VIA1i }
+    OUTPUT_SET = { LAYER_SET[1] }
+    SAVE_PROP = {LAYER_SET[2], VIA1_RATIO, RATIO}
+    SAVE_ALL_PROP = TRUE
+} TEMP=ACC_VIA1 
+CONNECT ACC_VIA1 BY VIA1i
+
+CONNECT M2i M1i BY VIA1i 
+CONNECT M2DMYi M1i BY VIA1i 
+CONNECT VIA2i BY M2i 
+NET_FILTER {
+    LAYER_SET[1] = { SD }
+    RATIO = ( EV_AREA[1] )
+    FILTER_RULE = { RATIO >= 0 }
+    } TEMP=M2_DIO 
+CONNECT M2_DIO BY SD
+NET_FILTER {
+    COMMENT = "M2.AN.6_AN.8:  Area(M2) / Area(Gate) > 1000 (wo effective diode)  Area(M2) / Area(Gate) > Ratio (with effective diode) "
+    LAYER_SET[1] = { M2i }
+    LAYER_SET[2] = { M2_DIO }
+    LAYER_SET[3] = { M2DMYi }
+    LAYER_SET[4] = { GATE }
+    READ_PROP = { LAYER_SET[4], M1_RATIO, M1_RATIO}
+    RATIO = (M1_RATIO + ( ABS(EV_AREA[1]) > 0)*( ABS(EV_AREA[4]) > 0)*((ABS(EV_AREA[2]) == 0)*((EV_AREA[1] + EV_AREA[3])/EV_AREA[4] - 1000) + ( ABS(EV_AREA[2]) > 0)*(EV_AREA[1]/EV_AREA[4] - EV_AREA[2]*400 - 40000)) - (( ABS(EV_AREA[1]) == 0) + ( ABS(EV_AREA[4]) == 0))*LargeNumber)
+    FILTER_RULE = { RATIO > 0 }
+    CONNECTED = { *M2i }
+    OUTPUT_SET = { LAYER_SET[4] }
+    ERROR_REPORT = { RATIO }
+    VERBOSE = TRUE
+} (163)
+
+NET_FILTER {
+    LAYER_SET[1] = { M2i }
+    LAYER_SET[2] = { GATE }
+    LAYER_SET[3] = { M2DMYi }
+    READ_PROP = { LAYER_SET[2], M1_RATIO, M1_RATIO}
+    RATIO = (M1_RATIO + ((EV_AREA[1] + EV_AREA[3])/EV_AREA[2]))
+    FILTER_RULE = { RATIO >= 0 }
+    CONNECTED = { *M2i }
+    OUTPUT_SET = { LAYER_SET[2] }
+    SAVE_PROP = {LAYER_SET[2], M2_RATIO, RATIO}
+    SAVE_ALL_PROP = TRUE
+} TEMP=ACC_M2 
+CONNECT ACC_M2 BY M2i
+
+NET_FILTER {
+    COMMENT = "VIA2.AN.4:  Area(VIA2) / Area(Gate) > 20"
+    LAYER_SET[1] = { VIA2i }
+    LAYER_SET[2] = { GATE_VIA }
+    LAYER_SET[3] = { M2_DIO }
+    RATIO = ( ABS(EV_AREA[3]) == 0)*( ABS(EV_AREA[1]) > 0)*( ABS(EV_AREA[2]) > 0)*(EV_AREA[1]/EV_AREA[2])
+    FILTER_RULE = { RATIO > 20 }
+    CONNECTED = { *VIA2i }
+    OUTPUT_SET = { LAYER_SET[1] }
+    ERROR_REPORT = { RATIO }
+    VERBOSE = TRUE
+} (163)
+
+NET_FILTER {
+    COMMENT = "VIA2.AN.7:  Area(VIA2) / Area(Gate) > Ratio (with effective diode) "
+    LAYER_SET[1] = { VIA2i }
+    LAYER_SET[2] = { M2_DIO }
+    LAYER_SET[3] = { GATE_VIA }
+    READ_PROP = { LAYER_SET[3], VIA1_RATIO, VIA1_RATIO}
+    RATIO = (VIA1_RATIO + ( ABS(EV_AREA[1]) > 0)*( ABS(EV_AREA[2]) > 0)*(EV_AREA[1]/EV_AREA[3] - EV_AREA[2]*200 - 1000) - (( ABS(EV_AREA[1]) == 0) + ( ABS(EV_AREA[2]) == 0))*LargeNumber)
+    FILTER_RULE = { RATIO > 0 }
+    CONNECTED = { *VIA2i }
+    OUTPUT_SET = { LAYER_SET[3] }
+    ERROR_REPORT = { RATIO }
+    VERBOSE = TRUE
+} (163)
+
+NET_FILTER {
+    LAYER_SET[1] = { VIA2i }
+    LAYER_SET[2] = { GATE_VIA }
+    READ_PROP = { LAYER_SET[2], VIA1_RATIO, VIA1_RATIO}
+    RATIO = (VIA1_RATIO + (EV_AREA[1]/EV_AREA[2]))
+    FILTER_RULE = { RATIO >= 0 }
+    CONNECTED = { *VIA2i }
+    OUTPUT_SET = { LAYER_SET[2] }
+    SAVE_PROP = {LAYER_SET[2], VIA2_RATIO, RATIO}
+    SAVE_ALL_PROP = TRUE
+} TEMP=ACC_VIA2 
+CONNECT ACC_VIA2 BY VIA2i
+
+CONNECT M3i M2i BY VIA2i 
+CONNECT M3DMYi M2i BY VIA2i
+CONNECT VIA3i BY M3i 
+NET_FILTER {
+    LAYER_SET[1] = { SD }
+    RATIO = ( EV_AREA[1] )
+    FILTER_RULE = { RATIO >= 0 }
+    } TEMP=M3_DIO 
+CONNECT M3_DIO BY SD
+NET_FILTER {
+    COMMENT = "M3.AN.6_AN.8:  Area(M3) / Area(gate) > 1000 (wo effective diode)  Area(M3) / Area(Gate) > Ratio (with effective diode) "
+    LAYER_SET[1] = { M3i }
+    LAYER_SET[2] = { M3_DIO }
+    LAYER_SET[3] = { M3DMYi }
+    LAYER_SET[4] = { GATE }
+    READ_PROP = { LAYER_SET[4], M2_RATIO, M2_RATIO}
+    RATIO = (M2_RATIO + ( ABS(EV_AREA[1]) > 0)*( ABS(EV_AREA[4]) > 0)*(( ABS(EV_AREA[2]) == 0)*((EV_AREA[1] + EV_AREA[3])/EV_AREA[4] - 1000) + ( ABS(EV_AREA[2]) > 0)*(EV_AREA[1]/EV_AREA[4] - EV_AREA[2]*400 - 40000)) - (( ABS(EV_AREA[1]) == 0) + ( ABS(EV_AREA[4]) == 0))*LargeNumber)
+    FILTER_RULE = { RATIO > 0 }
+    CONNECTED = { *M3i }
+    OUTPUT_SET = { LAYER_SET[4] }
+    ERROR_REPORT = { RATIO }
+    VERBOSE = TRUE
+} (163)
+
+NET_FILTER {
+    LAYER_SET[1] = { M3i }
+    LAYER_SET[2] = { GATE }
+    LAYER_SET[3] = { M3DMYi }
+    READ_PROP = { LAYER_SET[2], M2_RATIO, M2_RATIO}
+    RATIO = (M2_RATIO + ((EV_AREA[1] + EV_AREA[3])/EV_AREA[2]))
+    FILTER_RULE = { RATIO >= 0 }
+    CONNECTED = { *M3i }
+    OUTPUT_SET = { LAYER_SET[2] }
+    SAVE_PROP = {LAYER_SET[2], M3_RATIO, RATIO}
+    SAVE_ALL_PROP = TRUE
+} TEMP=ACC_M3 
+CONNECT ACC_M3 BY M3i
+
+NET_FILTER {
+    COMMENT = "VIA3.AN.4:  Area(VIA3) / Area(Gate) > 20"
+    LAYER_SET[1] = { VIA3i }
+    LAYER_SET[2] = { GATE_VIA }
+    LAYER_SET[3] = { M3_DIO }
+    RATIO = ( ABS(EV_AREA[3]) == 0)*( ABS(EV_AREA[1]) > 0)*( ABS(EV_AREA[2]) > 0)*(EV_AREA[1]/EV_AREA[2])
+    FILTER_RULE = { RATIO > 20 }
+    CONNECTED = { *VIA3i }
+    OUTPUT_SET = { LAYER_SET[1] }
+    ERROR_REPORT = { RATIO }
+    VERBOSE = TRUE
+} (163)
+
+NET_FILTER {
+    COMMENT = "VIA3.AN.7:  Area(VIA3) / Area(Gate) > Ratio (with effective diode) "
+    LAYER_SET[1] = { VIA3i }
+    LAYER_SET[2] = { M3_DIO }
+    LAYER_SET[3] = { GATE_VIA }
+    READ_PROP = { LAYER_SET[3], VIA2_RATIO, VIA2_RATIO}
+    RATIO = (VIA2_RATIO + ( ABS(EV_AREA[1]) > 0)*( ABS(EV_AREA[2]) > 0)*(EV_AREA[1]/EV_AREA[3] - EV_AREA[2]*200 - 1000) - (( ABS(EV_AREA[1]) == 0) + ( ABS(EV_AREA[2]) == 0))*LargeNumber)
+    FILTER_RULE = { RATIO > 0 }
+    CONNECTED = { *VIA3i }
+    OUTPUT_SET = { LAYER_SET[3] }
+    ERROR_REPORT = { RATIO }
+    VERBOSE = TRUE
+} (163)
+
+NET_FILTER {
+    LAYER_SET[1] = { VIA3i }
+    LAYER_SET[2] = { GATE_VIA }
+    READ_PROP = { LAYER_SET[2], VIA2_RATIO, VIA2_RATIO}
+    RATIO = (VIA2_RATIO + (EV_AREA[1]/EV_AREA[2]))
+    FILTER_RULE = { RATIO >= 0 }
+    CONNECTED = { *VIA3i }
+    OUTPUT_SET = { LAYER_SET[2] }
+    SAVE_PROP = {LAYER_SET[2], VIA3_RATIO, RATIO}
+    SAVE_ALL_PROP = TRUE
+} TEMP=ACC_VIA3 
+CONNECT ACC_VIA3 BY VIA3i
+
+CONNECT M4i M3i BY VIA3i
+CONNECT M4DMYi M3i BY VIA3i
+CONNECT VIA4i BY M4i 
+NET_FILTER {
+    LAYER_SET[1] = { SD }
+    RATIO = ( EV_AREA[1] )
+    FILTER_RULE = { RATIO >= 0 }
+    } TEMP=M4_DIO 
+CONNECT M4_DIO BY SD
+NET_FILTER {
+    COMMENT = "M4.AN.6_AN.8:  Area(M4) / Area(Gate) > 1000 (wo effective diode)  Area(M4) / Area(Gate) > Ratio (with effective diode) "
+    LAYER_SET[1] = { M4i }
+    LAYER_SET[2] = { M4_DIO }
+    LAYER_SET[3] = { M4DMYi }
+    LAYER_SET[4] = { GATE }
+    READ_PROP = { LAYER_SET[4], M3_RATIO, M3_RATIO}
+    RATIO = (M3_RATIO + ( ABS(EV_AREA[1]) > 0)*( ABS(EV_AREA[4]) > 0)*(( ABS(EV_AREA[2]) == 0)*((EV_AREA[1] + EV_AREA[3])/EV_AREA[4] - 1000) + ( ABS(EV_AREA[2]) > 0)*(EV_AREA[1]/EV_AREA[4] - EV_AREA[2]*400 - 40000)) - (( ABS(EV_AREA[1]) == 0) + ( ABS(EV_AREA[4]) == 0))*LargeNumber)
+    FILTER_RULE = { RATIO > 0 }
+    CONNECTED = { *M4i }
+    OUTPUT_SET = { LAYER_SET[4] }
+    ERROR_REPORT = { RATIO }
+    VERBOSE = TRUE
+} (163)
+
+NET_FILTER {
+    LAYER_SET[1] = { M4i }
+    LAYER_SET[2] = { GATE }
+    LAYER_SET[3] = { M4DMYi }
+    READ_PROP = { LAYER_SET[2], M3_RATIO, M3_RATIO}
+    RATIO = (M3_RATIO + ((EV_AREA[1] + EV_AREA[3])/EV_AREA[2]))
+    FILTER_RULE = { RATIO >= 0 }
+    CONNECTED = { *M4i }
+    OUTPUT_SET = { LAYER_SET[2] }
+    SAVE_PROP = {LAYER_SET[2], M4_RATIO, RATIO}
+    SAVE_ALL_PROP = TRUE
+} TEMP=ACC_M4 
+CONNECT ACC_M4 BY M4i
+
+NET_FILTER {
+    COMMENT = "VIA4.AN.4:  Area(VIA4) / Area(Gate) > 20"
+    LAYER_SET[1] = { VIA4i }
+    LAYER_SET[2] = { GATE_VIA }
+    LAYER_SET[3] = { M4_DIO }
+    RATIO = ( ABS(EV_AREA[3]) == 0)*( ABS(EV_AREA[1]) > 0)*( ABS(EV_AREA[2]) > 0)*(EV_AREA[1]/EV_AREA[2])
+    FILTER_RULE = { RATIO > 20 }
+    CONNECTED = { *VIA4i }
+    OUTPUT_SET = { LAYER_SET[1] }
+    ERROR_REPORT = { RATIO }
+    VERBOSE = TRUE
+} (163)
+
+NET_FILTER {
+    COMMENT = "VIA4.AN.7:  Area(VIA4) / Area(Gate) > Ratio (with effective diode) "
+    LAYER_SET[1] = { VIA4i }
+    LAYER_SET[2] = { M4_DIO }
+    LAYER_SET[3] = { GATE_VIA }
+    READ_PROP = { LAYER_SET[3], VIA3_RATIO, VIA3_RATIO}
+    RATIO = (VIA3_RATIO + ( ABS(EV_AREA[1]) > 0)*( ABS(EV_AREA[2]) > 0)*(EV_AREA[1]/EV_AREA[3] - EV_AREA[2]*200 - 1000) - (( ABS(EV_AREA[1]) == 0) + ( ABS(EV_AREA[2]) == 0))*LargeNumber)
+    FILTER_RULE = { RATIO > 0 }
+    CONNECTED = { *VIA4i }
+    OUTPUT_SET = { LAYER_SET[3] }
+    ERROR_REPORT = { RATIO }
+    VERBOSE = TRUE
+} (163)
+
+NET_FILTER {
+    LAYER_SET[1] = { VIA4i }
+    LAYER_SET[2] = { GATE_VIA }
+    READ_PROP = { LAYER_SET[2], VIA3_RATIO, VIA3_RATIO}
+    RATIO = (VIA3_RATIO + (EV_AREA[1]/EV_AREA[2]))
+    FILTER_RULE = { RATIO >= 0 }
+    CONNECTED = { *VIA4i }
+    OUTPUT_SET = { LAYER_SET[2] }
+    SAVE_PROP = {LAYER_SET[2], VIA4_RATIO, RATIO}
+    SAVE_ALL_PROP = TRUE
+} TEMP=ACC_VIA4 
+CONNECT ACC_VIA4 BY VIA4i
+
+CONNECT M5i M4i BY VIA4i 
+CONNECT M5DMYi M4i BY VIA4i
+CONNECT VIA5i BY M5i 
+NET_FILTER {
+    LAYER_SET[1] = { SD }
+    RATIO = ( EV_AREA[1] )
+    FILTER_RULE = { RATIO >= 0 }
+    } TEMP=M5_DIO 
+CONNECT M5_DIO BY SD
+NET_FILTER {
+    COMMENT = "M5.AN.6_AN.8:  Area(M5) / Area(Gate) > 1000 (wo effective diode)  Area(M5) / Area(Gate) > Ratio (with effective diode) "
+    LAYER_SET[1] = { M5i }
+    LAYER_SET[2] = { M5_DIO }
+    LAYER_SET[3] = { M5DMYi }
+    LAYER_SET[4] = { GATE }
+    READ_PROP = { LAYER_SET[4], M4_RATIO, M4_RATIO}
+    RATIO = (M4_RATIO + ( ABS(EV_AREA[1]) > 0)*( ABS(EV_AREA[4]) > 0)*(( ABS(EV_AREA[2]) == 0)*((EV_AREA[1] + EV_AREA[3])/EV_AREA[4] - 1000) + ( ABS(EV_AREA[2]) > 0)*(EV_AREA[1]/EV_AREA[4] - EV_AREA[2]*400 - 40000)) - (( ABS(EV_AREA[1]) == 0) + ( ABS(EV_AREA[4]) == 0))*LargeNumber)
+    FILTER_RULE = { RATIO > 0 }
+    CONNECTED = { *M5i }
+    OUTPUT_SET = { LAYER_SET[4] }
+    ERROR_REPORT = { RATIO }
+    VERBOSE = TRUE
+} (163)
+
+NET_FILTER {
+    LAYER_SET[1] = { M5i }
+    LAYER_SET[2] = { GATE }
+    LAYER_SET[3] = { M5DMYi }
+    READ_PROP = { LAYER_SET[2], M4_RATIO, M4_RATIO}
+    RATIO = (M4_RATIO + ((EV_AREA[1] + EV_AREA[3])/EV_AREA[2]))
+    FILTER_RULE = { RATIO >= 0 }
+    CONNECTED = { *M5i }
+    OUTPUT_SET = { LAYER_SET[2] }
+    SAVE_PROP = {LAYER_SET[2], M5_RATIO, RATIO}
+    SAVE_ALL_PROP = TRUE
+} TEMP=ACC_M5 
+CONNECT ACC_M5 BY M5i
+
+NET_FILTER {
+    COMMENT = "VIA5.AN.4:  Area(VIA5) / Area(Gate) > 20"
+    LAYER_SET[1] = { VIA5i }
+    LAYER_SET[2] = { GATE_VIA }
+    LAYER_SET[3] = { M5_DIO }
+    RATIO = ( ABS(EV_AREA[3]) == 0)*( ABS(EV_AREA[1]) > 0)*( ABS(EV_AREA[2]) > 0)*(EV_AREA[1]/EV_AREA[2])
+    FILTER_RULE = { RATIO > 20 }
+    CONNECTED = { *VIA5i }
+    OUTPUT_SET = { LAYER_SET[1] }
+    ERROR_REPORT = { RATIO }
+    VERBOSE = TRUE
+} (163)
+
+NET_FILTER {
+    COMMENT = "VIA5.AN.7:  Area(VIA5) / Area(Gate) > Ratio (with effective diode) "
+    LAYER_SET[1] = { VIA5i }
+    LAYER_SET[2] = { M5_DIO }
+    LAYER_SET[3] = { GATE_VIA }
+    READ_PROP = { LAYER_SET[3], VIA4_RATIO, VIA4_RATIO}
+    RATIO = (VIA4_RATIO + ( ABS(EV_AREA[1]) > 0)*( ABS(EV_AREA[2]) > 0)*(EV_AREA[1]/EV_AREA[3] - EV_AREA[2]*200 - 1000) - (( ABS(EV_AREA[1]) == 0) + ( ABS(EV_AREA[2]) == 0))*LargeNumber)
+    FILTER_RULE = { RATIO > 0 }
+    CONNECTED = { *VIA5i }
+    OUTPUT_SET = { LAYER_SET[3] }
+    ERROR_REPORT = { RATIO }
+    VERBOSE = TRUE
+} (163)
+
+NET_FILTER {
+    LAYER_SET[1] = { VIA5i }
+    LAYER_SET[2] = { GATE_VIA }
+    READ_PROP = { LAYER_SET[2], VIA4_RATIO, VIA4_RATIO}
+    RATIO = (VIA4_RATIO + (EV_AREA[1]/EV_AREA[2]))
+    FILTER_RULE = { RATIO >= 0 }
+    CONNECTED = { *VIA5i }
+    OUTPUT_SET = { LAYER_SET[2] }
+    SAVE_PROP = {LAYER_SET[2], VIA5_RATIO, RATIO}
+    SAVE_ALL_PROP = TRUE
+} TEMP=ACC_VIA5 
+CONNECT ACC_VIA5 BY VIA5i
+
+CONNECT M6i M5i BY VIA5i 
+CONNECT M6DMYi M5i BY VIA5i 
+CONNECT VIA6i BY M6i 
+NET_FILTER {
+    LAYER_SET[1] = { SD }
+    RATIO = ( EV_AREA[1] )
+    FILTER_RULE = { RATIO >= 0 }
+    } TEMP=M6_DIO 
+CONNECT M6_DIO BY SD
+NET_FILTER {
+    COMMENT = "M6.AN.6_AN.8:  Area(M6) / Area(Gate) > 1000 (wo effective diode)  Area(M6) / Area(Gate) > Ratio (with effective diode) "
+    LAYER_SET[1] = { M6i }
+    LAYER_SET[2] = { M6_DIO }
+    LAYER_SET[3] = { M6DMYi }
+    LAYER_SET[4] = { GATE }
+    READ_PROP = { LAYER_SET[4], M5_RATIO, M5_RATIO}
+    RATIO = (M5_RATIO + ( ABS(EV_AREA[1]) > 0)*( ABS(EV_AREA[4]) > 0)*(( ABS(EV_AREA[2]) == 0)*((EV_AREA[1] + EV_AREA[3])/EV_AREA[4] - 1000) + ( ABS(EV_AREA[2]) > 0)*(EV_AREA[1]/EV_AREA[4] - EV_AREA[2]*400 - 40000)) - (( ABS(EV_AREA[1]) == 0) + ( ABS(EV_AREA[4]) == 0))*LargeNumber)
+    FILTER_RULE = { RATIO > 0 }
+    CONNECTED = { *M6i }
+    OUTPUT_SET = { LAYER_SET[4] }
+    ERROR_REPORT = { RATIO }
+    VERBOSE = TRUE
+} (163)
+
+NET_FILTER {
+    LAYER_SET[1] = { M6i }
+    LAYER_SET[2] = { GATE }
+    LAYER_SET[3] = { M6DMYi }
+    READ_PROP = { LAYER_SET[2], M5_RATIO, M5_RATIO}
+    RATIO = (M5_RATIO + ((EV_AREA[1] + EV_AREA[3])/EV_AREA[2]))
+    FILTER_RULE = { RATIO >= 0 }
+    CONNECTED = { *M6i }
+    OUTPUT_SET = { LAYER_SET[2] }
+    SAVE_PROP = {LAYER_SET[2], M6_RATIO, RATIO}
+    SAVE_ALL_PROP = TRUE
+} TEMP=ACC_M6 
+CONNECT ACC_M6 BY M6i
+
+NET_FILTER {
+    COMMENT = "VIA6.AN.4:  Area(VIA6) / Area(Gate) > 20"
+    LAYER_SET[1] = { VIA6i }
+    LAYER_SET[2] = { GATE_VIA }
+    LAYER_SET[3] = { M6_DIO }
+    RATIO = ( ABS(EV_AREA[3]) == 0)*( ABS(EV_AREA[1]) > 0)*( ABS(EV_AREA[2]) > 0)*(EV_AREA[1]/EV_AREA[2])
+    FILTER_RULE = { RATIO > 20 }
+    CONNECTED = { *VIA6i }
+    OUTPUT_SET = { LAYER_SET[1] }
+    ERROR_REPORT = { RATIO }
+    VERBOSE = TRUE
+} (163)
+
+NET_FILTER {
+    COMMENT = "VIA6.AN.7:  Area(VIA6) / Area(Gate) > Ratio (with effective diode) "
+    LAYER_SET[1] = { VIA6i }
+    LAYER_SET[2] = { M6_DIO }
+    LAYER_SET[3] = { GATE_VIA }
+    READ_PROP = { LAYER_SET[3], VIA5_RATIO, VIA5_RATIO}
+    RATIO = (VIA5_RATIO + ( ABS(EV_AREA[1]) > 0)*( ABS(EV_AREA[2]) > 0)*(EV_AREA[1]/EV_AREA[3] - EV_AREA[2]*200 - 1000) - (( ABS(EV_AREA[1]) == 0) + ( ABS(EV_AREA[2]) == 0))*LargeNumber)
+    FILTER_RULE = { RATIO > 0 }
+    CONNECTED = { *VIA6i }
+    OUTPUT_SET = { LAYER_SET[3] }
+    ERROR_REPORT = { RATIO }
+    VERBOSE = TRUE
+} (163)
+
+NET_FILTER {
+    LAYER_SET[1] = { VIA6i }
+    LAYER_SET[2] = { GATE_VIA }
+    READ_PROP = { LAYER_SET[2], VIA5_RATIO, VIA5_RATIO}
+    RATIO = (VIA5_RATIO + (EV_AREA[1]/EV_AREA[2]))
+    FILTER_RULE = { RATIO >= 0 }
+    CONNECTED = { *VIA6i }
+    OUTPUT_SET = { LAYER_SET[2] }
+    SAVE_PROP = {LAYER_SET[2], VIA6_RATIO, RATIO}
+    SAVE_ALL_PROP = TRUE
+} TEMP=ACC_VIA6 
+CONNECT ACC_VIA6 BY VIA6i
+
+CONNECT M7i M6i BY VIA6i
+ CONNECT M7DMYi M6i BY VIA6i
+CONNECT VIA7i BY M7i 
+NET_FILTER {
+    LAYER_SET[1] = { SD }
+    RATIO = ( EV_AREA[1] )
+    FILTER_RULE = { RATIO >= 0 }
+    } TEMP=M7_DIO 
+CONNECT M7_DIO BY SD
+NET_FILTER {
+    COMMENT = "M7.AN.6_AN.8:  Area(M7) / Area(Gate) > 1000 (wo effective diode)  Area(M7) / Area(Gate) > Ratio (with effective diode) "
+    LAYER_SET[1] = { M7i }
+    LAYER_SET[2] = { M7_DIO }
+    LAYER_SET[3] = { M7DMYi }
+    LAYER_SET[4] = { GATE }
+    READ_PROP = { LAYER_SET[4], M6_RATIO, M6_RATIO}
+    RATIO = (M6_RATIO + ( ABS(EV_AREA[1]) > 0)*( ABS(EV_AREA[4]) > 0)*(( ABS(EV_AREA[2]) == 0)*((EV_AREA[1] + EV_AREA[3])/EV_AREA[4] - 1000) + ( ABS(EV_AREA[2]) > 0)*(EV_AREA[1]/EV_AREA[4] - EV_AREA[2]*400 - 40000)) - (( ABS(EV_AREA[1]) == 0) + ( ABS(EV_AREA[4]) == 0))*LargeNumber)
+    FILTER_RULE = { RATIO > 0 }
+    CONNECTED = { *M7i }
+    OUTPUT_SET = { LAYER_SET[4] }
+    ERROR_REPORT = { RATIO }
+    VERBOSE = TRUE
+} (163)
+
+NET_FILTER {
+    LAYER_SET[1] = { M7i }
+    LAYER_SET[2] = { GATE }
+    LAYER_SET[3] = { M7DMYi }
+    READ_PROP = { LAYER_SET[2], M6_RATIO, M6_RATIO}
+    RATIO = (M6_RATIO + ((EV_AREA[1] + EV_AREA[3])/EV_AREA[2]))
+    FILTER_RULE = { RATIO >= 0 }
+    CONNECTED = { *M7i }
+    OUTPUT_SET = { LAYER_SET[2] }
+    SAVE_PROP = {LAYER_SET[2], M7_RATIO, RATIO}
+    SAVE_ALL_PROP = TRUE
+} TEMP=ACC_M7 
+CONNECT ACC_M7 BY M7i
+
+NET_FILTER {
+    COMMENT = "VIA7.AN.4:  Area(VIA7) / Area(Gate) > 20"
+    LAYER_SET[1] = { VIA7i }
+    LAYER_SET[2] = { GATE_VIA }
+    LAYER_SET[3] = { M7_DIO }
+    RATIO = ( ABS(EV_AREA[3]) == 0)*( ABS(EV_AREA[1]) > 0)*( ABS(EV_AREA[2]) > 0)*(EV_AREA[1]/EV_AREA[2])
+    FILTER_RULE = { RATIO > 20 }
+    CONNECTED = { *VIA7i }
+    OUTPUT_SET = { LAYER_SET[1] }
+    ERROR_REPORT = { RATIO }
+    VERBOSE = TRUE
+} (163)
+
+NET_FILTER {
+    COMMENT = "VIA7.AN.7:  Area(VIA7) / Area(Gate) > Ratio (with effective diode) "
+    LAYER_SET[1] = { VIA7i }
+    LAYER_SET[2] = { M7_DIO }
+    LAYER_SET[3] = { GATE_VIA }
+    READ_PROP = { LAYER_SET[3], VIA6_RATIO, VIA6_RATIO}
+    RATIO = (VIA6_RATIO + ( ABS(EV_AREA[1]) > 0)*( ABS(EV_AREA[2]) > 0)*(EV_AREA[1]/EV_AREA[3] - EV_AREA[2]*200 - 1000) - (( ABS(EV_AREA[1]) == 0) + ( ABS(EV_AREA[2]) == 0))*LargeNumber)
+    FILTER_RULE = { RATIO > 0 }
+    CONNECTED = { *VIA7i }
+    OUTPUT_SET = { LAYER_SET[3] }
+    ERROR_REPORT = { RATIO }
+    VERBOSE = TRUE
+} (163)
+
+NET_FILTER {
+    LAYER_SET[1] = { VIA7i }
+    LAYER_SET[2] = { GATE_VIA }
+    READ_PROP = { LAYER_SET[2], VIA6_RATIO, VIA6_RATIO}
+    RATIO = (VIA6_RATIO + (EV_AREA[1]/EV_AREA[2]))
+    FILTER_RULE = { RATIO >= 0 }
+    CONNECTED = { *VIA7i }
+    OUTPUT_SET = { LAYER_SET[2] }
+    SAVE_PROP = {LAYER_SET[2], VIA7_RATIO, RATIO}
+    SAVE_ALL_PROP = TRUE
+} TEMP=ACC_VIA7 
+CONNECT ACC_VIA7 BY VIA7i
+
+CONNECT M8i M7i BY VIA7i 
+CONNECT M8DMYi M7i BY VIA7i 
+CONNECT VIA8i BY M8i 
+NET_FILTER {
+    LAYER_SET[1] = { SD }
+    RATIO = ( EV_AREA[1] )
+    FILTER_RULE = { RATIO >= 0 }
+    } TEMP=M8_DIO 
+CONNECT M8_DIO BY SD
+NET_FILTER {
+    COMMENT = "M8.AN.6_AN.8:  Area(M8) / Area(Gate) > 1000 (wo effective diode)  Area(M8) / Area(Gate) > Ratio (with effective diode) "
+    LAYER_SET[1] = { M8i }
+    LAYER_SET[2] = { M8_DIO }
+    LAYER_SET[3] = { M8DMYi }
+    LAYER_SET[4] = { GATE }
+    READ_PROP = { LAYER_SET[4], M7_RATIO, M7_RATIO}
+    RATIO = (M7_RATIO + ( ABS(EV_AREA[1]) > 0)*( ABS(EV_AREA[4]) > 0)*(( ABS(EV_AREA[2]) == 0)*((EV_AREA[1] + EV_AREA[3])/EV_AREA[4] - 1000) + ( ABS(EV_AREA[2]) > 0)*(EV_AREA[1]/EV_AREA[4] - EV_AREA[2]*400 - 40000)) - (( ABS(EV_AREA[1]) == 0) + ( ABS(EV_AREA[4]) == 0))*LargeNumber)
+    FILTER_RULE = { RATIO > 0 }
+    CONNECTED = { *M8i }
+    OUTPUT_SET = { LAYER_SET[4] }
+    ERROR_REPORT = { RATIO }
+    VERBOSE = TRUE
+} (163)
+
+NET_FILTER {
+    LAYER_SET[1] = { M8i }
+    LAYER_SET[2] = { GATE }
+    LAYER_SET[3] = { M8DMYi }
+    READ_PROP = { LAYER_SET[2], M7_RATIO, M7_RATIO}
+    RATIO = (M7_RATIO + ((EV_AREA[1] + EV_AREA[3])/EV_AREA[2]))
+    FILTER_RULE = { RATIO >= 0 }
+    CONNECTED = { *M8i }
+    OUTPUT_SET = { LAYER_SET[2] }
+    SAVE_PROP = {LAYER_SET[2], M8_RATIO, RATIO}
+    SAVE_ALL_PROP = TRUE
+} TEMP=ACC_M8 
+CONNECT ACC_M8 BY M8i
+
+NET_FILTER {
+    COMMENT = "VIA8.AN.4:  Area(VIA8) / Area(Gate) > 20"
+    LAYER_SET[1] = { VIA8i }
+    LAYER_SET[2] = { GATE_VIA }
+    LAYER_SET[3] = { M8_DIO }
+    RATIO = ( ABS(EV_AREA[3]) == 0)*( ABS(EV_AREA[1]) > 0)*( ABS(EV_AREA[2]) > 0)*(EV_AREA[1]/EV_AREA[2])
+    FILTER_RULE = { RATIO > 20 }
+    CONNECTED = { *VIA8i }
+    OUTPUT_SET = { LAYER_SET[1] }
+    ERROR_REPORT = { RATIO }
+    VERBOSE = TRUE
+} (163)
+
+NET_FILTER {
+    COMMENT = "VIA8.AN.7:  Area(VIA8) / Area(Gate) > Ratio (with effective diode) "
+    LAYER_SET[1] = { VIA8i }
+    LAYER_SET[2] = { M8_DIO }
+    LAYER_SET[3] = { GATE_VIA }
+    READ_PROP = { LAYER_SET[3], VIA7_RATIO, VIA7_RATIO}
+    RATIO = (VIA7_RATIO + ( ABS(EV_AREA[1]) > 0)*( ABS(EV_AREA[2]) > 0)*(EV_AREA[1]/EV_AREA[3] - EV_AREA[2]*200 - 1000) - (( ABS(EV_AREA[1]) == 0) + ( ABS(EV_AREA[2]) == 0))*LargeNumber)
+    FILTER_RULE = { RATIO > 0 }
+    CONNECTED = { *VIA8i }
+    OUTPUT_SET = { LAYER_SET[3] }
+    ERROR_REPORT = { RATIO }
+    VERBOSE = TRUE
+} (163)
+
+NET_FILTER {
+    LAYER_SET[1] = { VIA8i }
+    LAYER_SET[2] = { GATE_VIA }
+    READ_PROP = { LAYER_SET[2], VIA7_RATIO, VIA7_RATIO}
+    RATIO = (VIA7_RATIO + (EV_AREA[1]/EV_AREA[2]))
+    FILTER_RULE = { RATIO >= 0 }
+    CONNECTED = { *VIA8i }
+    OUTPUT_SET = { LAYER_SET[2] }
+    SAVE_PROP = {LAYER_SET[2], VIA8_RATIO, RATIO}
+    SAVE_ALL_PROP = TRUE
+} TEMP=ACC_VIA8 
+CONNECT ACC_VIA8 BY VIA8i

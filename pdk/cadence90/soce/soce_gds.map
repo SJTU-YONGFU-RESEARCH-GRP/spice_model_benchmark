@@ -1,0 +1,35 @@
+Metal1  NET, SPNET, VIA, PIN            7               0                             
+Metal2  NET, SPNET, VIA, PIN            9               0                             
+Metal3  NET, SPNET, VIA, PIN            11              0                             
+Metal4  NET, SPNET, VIA, PIN            31              0                             
+Metal5  NET, SPNET, VIA, PIN            33              0                             
+Metal6  NET, SPNET, VIA, PIN            35              0                             
+Metal7  NET, SPNET, VIA, PIN            38              0                             
+Metal8  NET, SPNET, VIA, PIN            40              0                             
+Metal9  NET, SPNET, VIA, PIN            42              0                             
+Via1  ALL              8               0                             
+Via2  ALL              10              0                             
+Via3  ALL              30              0                             
+Via4  ALL              32              0                             
+Via5  ALL              34              0                             
+Via6  ALL              37              0                             
+Via7  ALL              39              0                             
+Via8  ALL              41              0                             
+NAME    Metal1/PIN    7     3
+NAME    Metal2/PIN    9     3
+NAME    Metal3/PIN    11     3
+NAME    Metal4/PIN    31     3
+NAME    Metal5/PIN    33     3
+NAME    Metal6/PIN    35     3
+NAME    Metal7/PIN    38     3
+NAME    Metal8/PIN    40     3
+NAME    Metal9/PIN    42     3
+Metal1  FILL            7               5                             
+Metal2  FILL            9               5                             
+Metal3  FILL            11              5                             
+Metal4  FILL            31              5                             
+Metal5  FILL            33              5                             
+Metal6  FILL            35              5                             
+Metal7  FILL            38              5                             
+Metal8  FILL            40              5                             
+Metal9  FILL            42              5                             

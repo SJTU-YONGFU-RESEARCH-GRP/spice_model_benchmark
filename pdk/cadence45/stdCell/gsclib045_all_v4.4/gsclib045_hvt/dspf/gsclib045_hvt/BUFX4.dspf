@@ -1,0 +1,71 @@
+*
+*|DSPF 1.5
+*
+*|DATE "Wed May  8 11:11:17 2013"
+*|VENDOR "Cadence Design Systems"
+*|PROGRAM "Cadence Extraction QRC"
+*|VERSION "12.1 Linux 64 bit - (Fri Mar 15 17:53:47 PDT 2013)"
+*|DESIGN "BUFX4"
+*|DIVIDER /
+*|DELIMITER :
+*|DeviceFingerDelim "@"
+*|BUSBIT []
+** caps2d version: 10
+*
+.GLOBAL  VDD VSS
+*
+.SUBCKT  BUFX4 Y A
+*
+*Net Section
+*
+*|GROUND_NET VSS
+*
+*|NET Y 3.91139e-16
+*|P (Y X 0 0.1100 0.8200)
+*|I (Mmn1:s Mmn1 s X 0 0.3050 0.3600)
+C1 Mmn1:s VSS 3.66204e-16
+C2 Y VSS 2.49343e-17
+Rk1 Mmn1:s Y 0.118539 $W=0.1
+*
+*|NET A 2.23388e-16
+*|P (A X 0 1.1300 0.8200)
+*|I (Mmn0:g Mmn0 g X 0 1.0375 0.3600)
+*|I (Mmp0:g Mmp0 g X 0 1.0375 1.1750)
+*|S (A:2 1.0800 0.8000)
+C3 Mmp0:g VSS 4.25632e-17
+C4 Mmn0:g VSS 4.83323e-17
+C5 A:2 VSS 1.01783e-16
+C6 A VSS 3.07099e-17
+Rl2 A:2 Mmn0:g 105.002060 $W=0.039
+Rl3 Mmp0:g A:2 55.002056 $W=0.039
+Rk4 A:2 A 45.016720 $W=0.19
+*
+*|NET n0 5.21579e-16
+*|I (Mmn1:g Mmn1 g X 0 0.2025 0.3600)
+*|I (Mmn0:s Mmn0 s X 0 1.1300 0.3600)
+*|I (Mmp0:d Mmp0 d X 0 1.1300 1.1750)
+*|S (n0:8 0.8850 0.6300)
+C7 Mmp0:d VSS 8.79585e-17
+C8 Mmn0:s VSS 5.70209e-17
+C9 Mmn1:g VSS 2.43578e-16
+C10 n0:8 VSS 1.33021e-16
+Rl5 Mmn1:g n0:8 48.808784 $W=0.094
+Rk6 Mmn0:s n0:8 37.890697 $W=0.08
+Rk7 Mmp0:d n0:8 21.248163 $W=0.075
+*
+*Instance Section
+*
+Mmn0	VSS	Mmn0:g	Mmn0:s	VSS	g45n1hvt	L=0.045U	W=0.26U
++ AD=0.0416P	AS=0.0364P	PD=0.84U	PS=0.8U
++ fw=2.6e-07 sa=9.75e-07 sb=1.4e-07 sca=7.84363 scb=0.00546499 scc=9.84911e-05
+Mmn1	VSS	Mmn1:g	Mmn1:s	VSS	g45n1hvt	L=0.045U	W=0.26U
++ AD=0.04225P	AS=0.0416P	PD=0.845U	PS=0.84U	M=4
++ fw=2.6e-07 sa=1.4e-07 sb=9.75e-07 sca=7.84363 scb=0.00546499 scc=9.84911e-05
+Mmp0	Mmp0:d	Mmp0:g	VDD	VDD	g45p1hvt	L=0.045U	W=0.39U
++ AD=0.0546P	AS=0.0624P	PD=1.06U	PS=1.1U
++ fw=3.9e-07 sa=9.75e-07 sb=1.4e-07 sca=20.4961 scb=0.0204164 scc=0.00119548
+Mmp1	Mmn1:s	Mmn1:g	VDD	VDD	g45p1hvt	L=0.045U	W=0.39U
++ AD=0.0624P	AS=0.06337P	PD=1.1U	PS=1.105U	M=4
++ fw=3.9e-07 sa=1.4e-07 sb=9.75e-07 sca=29.498 scb=0.0332632 scc=0.00250913
+.ENDS
+.END

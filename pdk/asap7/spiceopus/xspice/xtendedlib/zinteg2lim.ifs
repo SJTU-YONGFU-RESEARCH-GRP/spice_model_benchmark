@@ -1,0 +1,40 @@
+/* $Id: zinteg2lim.ifs v2013.10.02 FSG $ */
+
+NAME_TABLE:
+
+Spice_Model_Name: zinteg2lim
+C_Function_Name:  cm_zinteg2lim
+Description:      "Z-domain integrator with limited output"
+
+PORT_TABLE:
+
+Port_Name:        inp       clk       out
+Description:      "input"   "clock"   "output"
+Direction:        in        in        out
+Default_Type:     v         d         v
+Allowed_Types:    [v]       [d]       [v]
+Vector:           no        no        no
+Vector_Bounds:    -         -         -
+Null_Allowed:     no        no        no
+
+PARAMETER_TABLE:
+
+Parameter_Name:   pos_edge                  out_ic
+Description:      "L->H edge output sync?"  "output initial condition"
+Data_Type:        int                       real
+Default_Value:    0                         0.0
+Limits:           [0 1]                     -
+Vector:           no                        no
+Vector_Bounds:    -                         -
+Null_Allowed:     no                        no
+
+PARAMETER_TABLE:
+
+Parameter_Name:   out_min               out_max
+Description:      "lower output limit"  "upper output limit"
+Data_Type:        real                  real
+Default_Value:    -1.0                  1.0
+Limits:           -                     -
+Vector:           no                    no
+Vector_Bounds:    -                     -
+Null_Allowed:     no                    no

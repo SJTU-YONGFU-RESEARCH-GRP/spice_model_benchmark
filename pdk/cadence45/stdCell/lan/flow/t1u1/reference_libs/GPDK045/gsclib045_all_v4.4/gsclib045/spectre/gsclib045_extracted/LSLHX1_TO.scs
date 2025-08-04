@@ -1,0 +1,146 @@
+// Generated for: spectre (May  1 08:11:53 2013 )
+// Library name: gsclib045
+// Cell name: LSLHX1_TO
+// View name: extracted
+
+simulator lang=spectre
+
+subckt LSLHX1_TO A ExtVDD VDD VSS Y
+PM2 (\7\:Ab \9\:A \3\:ExtVDD ExtVDD) g45p1svt w=(2.15e-07) l=4.5e-08 \
+        nf=1 as=3.01e-14 ad=3.01e-14 ps=7.1e-07 pd=7.1e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=1.4e-07 sd=160n sca=39.1333 \
+        scb=0.0451887 scc=0.00417589 m=(1)
+PM0 (\15\:Ybint \4\:Yint \7\:VDD VDD) g45p1svt w=(2.15e-07) l=4.5e-08 \
+        nf=1 as=3.01e-14 ad=3.01e-14 ps=7.1e-07 pd=7.1e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=1.4e-07 sd=160n sca=27.6156 \
+        scb=0.0299853 scc=0.00275473 m=(1)
+PM1 (\11\:Yint Ybint \5\:VDD VDD) g45p1svt w=(2.15e-07) l=4.5e-08 nf=1 \
+        as=3.01e-14 ad=3.01e-14 ps=7.1e-07 pd=7.1e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=1.4e-07 sd=160n sca=8.44963 \
+        scb=0.00603455 scc=0.000107896 m=(1)
+C1 (A VSS) capacitor c=3.21005e-17
+C2 (VDD VSS) capacitor c=3.05821e-16
+C3 (ExtVDD VSS) capacitor c=1.41152e-16
+C4 (Y VSS) capacitor c=1.72901e-17
+C5 (Yint VSS) capacitor c=2.80404e-17
+C6 (Ab VSS) capacitor c=1.23214e-16
+C7 (Ybint VSS) capacitor c=2.43074e-17
+C8 (\6\:Ybint VSS) capacitor c=4.47167e-17
+C9 (\4\:Yint VSS) capacitor c=2.71094e-17
+C10 (\9\:A VSS) capacitor c=5.56675e-17
+C11 (\3\:Ybint VSS) capacitor c=2.72426e-17
+C12 (\1\:A VSS) capacitor c=1.73236e-16
+C13 (\10\:A VSS) capacitor c=2.51243e-17
+C14 (\5\:Ybint VSS) capacitor c=6.0444e-18
+C15 (\2\:Ybint VSS) capacitor c=2.8112e-17
+C16 (\3\:Yint VSS) capacitor c=2.41465e-17
+C17 (\4\:Ab VSS) capacitor c=3.72487e-17
+C18 (\6\:A VSS) capacitor c=2.07678e-17
+C19 (\2\:Y VSS) capacitor c=5.2824e-17
+C20 (\1\:VDD VSS) capacitor c=6.57816e-17
+C21 (\5\:VDD VSS) capacitor c=3.46019e-17
+C22 (\11\:Yint VSS) capacitor c=6.41666e-17
+C23 (\15\:Ybint VSS) capacitor c=8.69256e-17
+C24 (\7\:VDD VSS) capacitor c=4.96799e-17
+C25 (\7\:Ab VSS) capacitor c=1.01374e-16
+C26 (\3\:ExtVDD VSS) capacitor c=3.59441e-17
+C27 (\4\:Y VSS) capacitor c=4.35175e-17
+C28 (\5\:Yint VSS) capacitor c=1.84683e-16
+C29 (\10\:Ab VSS) capacitor c=5.71246e-17
+C30 (\2\:Yint VSS) capacitor c=1.9061e-17
+C31 (\4\:A VSS) capacitor c=1.53641e-16
+C32 (\5\:A VSS) capacitor c=2.32209e-17
+C33 (\4\:Ybint VSS) capacitor c=2.16524e-17
+C34 (\11\:A VSS) capacitor c=3.21078e-17
+C35 (\9\:Ab VSS) capacitor c=1.12065e-16
+C36 (\8\:Yint VSS) capacitor c=4.55416e-17
+C37 (\13\:Yint VSS) capacitor c=5.37801e-17
+C38 (\7\:Ybint VSS) capacitor c=4.19397e-17
+C39 (\8\:Ybint VSS) capacitor c=1.72504e-16
+C40 (\10\:Ybint VSS) capacitor c=8.43828e-17
+C41 (\1\:Y VSS) capacitor c=4.07844e-17
+C42 (\4\:VDD VSS) capacitor c=2.14864e-17
+Rk1 (A \11\:A) resistor r=0.01039 c=0
+Rk32 (\4\:VDD VDD) resistor r=0.4106 c=0
+Rk31 (\2\:VDD \4\:VDD) resistor r=0.6452 c=0
+Rk33 (\4\:VDD \6\:VDD) resistor r=0.3207 c=0
+Rk34 (VDD \8\:VDD) resistor r=0.3207 c=0
+Rk2 (ExtVDD \2\:ExtVDD) resistor r=0.01064 c=0
+Rk3 (\2\:ExtVDD \4\:ExtVDD) resistor r=0.324 c=0
+Rk16 (Y \1\:Y) resistor r=0.02614 c=0
+Rk17 (\1\:Y \3\:Y) resistor r=0.287 c=0
+Rk18 (\1\:Y \5\:Y) resistor r=0.3381 c=0
+Rk19 (\2\:VSS \4\:VSS) resistor r=0.4198 c=0
+Rk23 (\5\:VSS VSS) resistor r=0.08697 c=0
+Rk20 (\4\:VSS \5\:VSS) resistor r=0.09693 c=0
+Rk24 (VSS \8\:VSS) resistor r=0.3887 c=0
+Rk26 (\9\:VSS VSS) resistor r=0.3273 c=0
+Rk25 (\8\:VSS \9\:VSS) resistor r=0.1091 c=0
+Rk30 (\9\:VSS \17\:VSS) resistor r=0.187 c=0
+Rk35 (\19\:VSS VSS) resistor r=0.5825 c=0
+Rk36 (VSS \20\:VSS) resistor r=0.1996 c=0
+Rk7 (\5\:Yint \8\:Yint) resistor r=0.2594 c=0
+Rk9 (\12\:Yint \13\:Yint) resistor r=0.2919 c=0
+Rk4 (\8\:Ab \9\:Ab) resistor r=0.8116 c=0
+Rk5 (\9\:Ab \11\:Ab) resistor r=0.4426 c=0
+Rk10 (\7\:Ybint \8\:Ybint) resistor r=0.286 c=0
+Rk12 (\8\:Ybint \10\:Ybint) resistor r=0.178 c=0
+Rk15 (\10\:Ybint \16\:Ybint) resistor r=0.5878 c=0
+Rl17 (\4\:A \9\:A) resistor r=299.331 c=0
+Rl12 (\4\:A \1\:A) resistor r=446.755 c=0
+Rl18 (\5\:A \10\:A) resistor r=62.4311 c=0
+Rl14 (\5\:A \6\:A) resistor r=44.7819 c=0
+Rl13 (\5\:A \4\:A) resistor r=202.959 c=0
+Rl8 (\2\:Yint \4\:Yint) resistor r=41.7694 c=0
+Rl6 (\2\:Yint Yint) resistor r=105.33 c=0
+Rl7 (\2\:Yint \3\:Yint) resistor r=34.5546 c=0
+Rl3 (Ab \4\:Ab) resistor r=108.126 c=0
+Rl9 (\2\:Ybint Ybint) resistor r=72.3229 c=0
+Rl21 (\4\:Ybint \6\:Ybint) resistor r=140.931 c=0
+Rl19 (\4\:Ybint \3\:Ybint) resistor r=58.975 c=0
+Rl20 (\4\:Ybint \5\:Ybint) resistor r=3.5166 c=0
+Rz7 (\4\:Y \5\:Y) resistor r=37.5 c=0
+Rz8 (\2\:VSS \1\:VSS) resistor r=37.5 c=0
+Rz12 (\17\:VSS \16\:VSS) resistor r=75 c=0
+Rz2 (\11\:Ab \10\:Ab) resistor r=75 c=0
+Ry8 (\1\:VDD \2\:VDD) resistor r=20.6667 c=0
+Ry9 (\5\:VDD \6\:VDD) resistor r=62 c=0
+Ry10 (\7\:VDD \8\:VDD) resistor r=62 c=0
+Ry1 (\3\:ExtVDD \4\:ExtVDD) resistor r=62 c=0
+Ry5 (\2\:Y \3\:Y) resistor r=20.6667 c=0
+Ry6 (\4\:VSS \3\:VSS) resistor r=7.75 c=0
+Ry7 (\8\:VSS \3\:VSS) resistor r=5.1667 c=0
+Ry11 (\19\:VSS \18\:VSS) resistor r=7.75 c=0
+Ry12 (\20\:VSS \18\:VSS) resistor r=5.1667 c=0
+Ry3 (\12\:Yint \11\:Yint) resistor r=62 c=0
+Ry2 (\8\:Ab \7\:Ab) resistor r=62 c=0
+Ry4 (\16\:Ybint \15\:Ybint) resistor r=62 c=0
+Rx1 (\11\:A \6\:A) resistor r=45 c=0
+Rx3 (\8\:Yint \3\:Yint) resistor r=45 c=0
+Rx4 (\13\:Yint Yint) resistor r=45 c=0
+Rx2 (\9\:Ab \4\:Ab) resistor r=45 c=0
+Rx5 (\7\:Ybint \5\:Ybint) resistor r=45 c=0
+Rx6 (\10\:Ybint \2\:Ybint) resistor r=45 c=0
+NM2 (\16\:VSS \10\:A \10\:Ab VSS) g45n1svt w=(1.45e-07) l=4.5e-08 nf=1 \
+        as=2.03e-14 ad=2.03e-14 ps=5.7e-07 pd=5.7e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=1.4e-07 sd=160n sca=9.16682 \
+        scb=0.00760686 scc=0.000164708 m=(1)
+mn0 (\4\:Y \3\:Ybint \1\:VSS VSS) g45n1svt w=(2.6e-07) l=4.5e-08 nf=1 \
+        as=3.64e-14 ad=3.64e-14 ps=8e-07 pd=8e-07 nrd=1.16667 nrs=1.16667 \
+        sa=1.4e-07 sb=1.4e-07 sd=160n sca=7.96722 scb=0.00567143 \
+        scc=0.000107411 m=(1)
+NM0 (\8\:Ybint \1\:A \5\:VSS VSS) g45n1svt w=(2.6e-07) l=4.5e-08 nf=1 \
+        as=3.987e-14 ad=4.16e-14 ps=8.2667e-07 pd=8.4e-07 nrd=1.16667 \
+        nrs=1.16667 sa=7.55e-07 sb=5.5e-07 sd=160n sca=7.96722 \
+        scb=0.00567143 scc=0.000107411 m=(3)
+NM1 (\5\:Yint Ab \5\:VSS VSS) g45n1svt w=(2.6e-07) l=4.5e-08 nf=1 \
+        as=4.16e-14 ad=3.987e-14 ps=8.4e-07 pd=8.2667e-07 nrd=1.16667 \
+        nrs=1.16667 sa=5.5e-07 sb=7.55e-07 sd=160n sca=7.96722 \
+        scb=0.00567143 scc=0.000107411 m=(3)
+mp0 (\2\:Y \6\:Ybint \1\:VDD VDD) g45p1svt w=(3.9e-07) l=4.5e-08 nf=1 \
+        as=5.46e-14 ad=5.46e-14 ps=1.06e-06 pd=1.06e-06 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=1.4e-07 sd=160n sca=19.1199 \
+        scb=0.0220838 scc=0.00103087 m=(1)
+ends LSLHX1_TO
+// End of subcircuit definition.
+

@@ -1,0 +1,146 @@
+
+/****************************************************/
+ LIBRARY = "STlib"
+ CELL    = "short"
+/****************************************************/
+
+let( ( libId cellId cdfId )
+    unless( cellId = ddGetObj( LIBRARY CELL )
+        error( "Could not get cell %s." CELL )
+    )
+    when( cdfId = cdfGetBaseCellCDF( cellId )
+        cdfDeleteCDF( cdfId )
+    )
+    cdfId  = cdfCreateBaseCellCDF( cellId )
+
+    ;;; Parameters
+    cdfCreateParam( cdfId
+        ?name           "r"
+        ?prompt         "r"
+        ?units          "resistance"
+        ?defValue       "1"
+        ?type           "string"
+        ?display        "artParameterInToolDisplay('r)"
+        ?storeDefault  "yes"
+        ?parseAsNumber  "yes"
+        ?parseAsCEL     "yes"
+    )
+    cdfCreateParam( cdfId
+        ?name           "temp"
+        ?prompt         "Device temperature (Eldo)"
+        ?defValue       ""
+        ?type           "string"
+        ?display        "artParameterInToolDisplay('temp)"
+        ?parseAsCEL     "yes"
+    )
+    cdfCreateParam( cdfId
+        ?name           "nonoise"
+        ?prompt         "Supress noise (Eldo)"
+        ?type           "boolean"
+        ?display        "artParameterInToolDisplay('nonoise)"
+    )
+    cdfCreateParam( cdfId
+        ?name           "ac"
+        ?prompt         "AC resistance (Eldo)"
+        ?units          "resistance"
+        ?defValue       ""
+        ?type           "string"
+        ?display        "artParameterInToolDisplay('ac)"
+        ?parseAsNumber  "yes"
+        ?parseAsCEL     "yes"
+    )
+    cdfCreateParam( cdfId
+        ?name           "hnlFormatFunc"
+        ?prompt         "SEP Formatting Function"
+        ?defValue       "hnlSpicePrintRElement()"
+        ?type           "string"
+        ?display        "nil"
+    )
+
+    ;;; Simulator Information
+    cdfId->simInfo = list( nil )
+    cdfId->simInfo->STspice = '( nil
+        current           port
+        namePrefix        "R"
+        termOrder         (PLUS MINUS)
+        componentName     STres
+        instParameters    (r)
+        netlistProcedure  ansSpiceCompPrim
+        termMapping       (nil PLUS "" MINUS "(FUNCTION minus(root(\"PLUS\")))")
+        noPortDelimiter   t
+        dcSens            t
+        acSens            t
+    )
+    cdfId->simInfo->auCdl = '( nil
+        modelName         "SH"
+        namePrefix        "R"
+        propMapping       (nil R r)
+        termOrder         (PLUS MINUS)
+        componentName     res
+        instParameters    (R)
+        netlistProcedure  ansCdlCompPrim
+    )
+    cdfId->simInfo->auLvs = '( nil
+        namePrefix        "R"
+        permuteRule       "(p PLUS MINUS)"
+        termOrder         (PLUS MINUS)
+        componentName     short
+        instParameters    (r)
+        netlistProcedure  ansLvsCompPrim
+    )
+    cdfId->simInfo->cdsSpice = '( nil
+        current           port
+        namePrefix        "R"
+        termOrder         (PLUS MINUS)
+        componentName     res
+        instParameters    (r)
+        netlistProcedure  ansSpiceCompPrim
+        termMapping       (nil PLUS "" MINUS "(FUNCTION minus(root(\"PLUS\")))")
+        noPortDelimiter   t
+        dcSens            t
+        acSens            t
+    )
+    cdfId->simInfo->eldo = '( nil
+        netlistProcedure  ansSpiceCompPrim
+        instParameters    (r ac temp nonoise)
+        componentName     eldores
+        termOrder         (PLUS MINUS)
+        namePrefix        "R"
+        current           port
+        termMapping       (nil PLUS "" MINUS "(FUNCTION minus(root(\"PLUS\")))")
+        noPortDelimiter   t
+        dcSens            t
+        acSens            t
+    )
+    cdfId->simInfo->spectre = '( nil
+        current           port
+        namePrefix        "R"
+        termMapping       (nil PLUS \1 MINUS \2)
+        termOrder         (PLUS MINUS)
+        componentName     resistor
+        instParameters    (r)
+        netlistProcedure  ansSpectreCompPrim
+        noPortDelimiter   t
+    )
+    cdfId->simInfo->spectreS = '( nil
+        current           port
+        namePrefix        "R"
+        termMapping       (nil PLUS 1 MINUS 2)
+        termOrder         (PLUS MINUS)
+        componentName     resistor
+        instParameters    (r)
+        netlistProcedure  ansSpectreSResPrim
+        noPortDelimiter   t
+    )
+
+    ;;; Properties
+    cdfId->formInitProc            = ""
+    cdfId->doneProc                = ""
+    cdfId->buttonFieldWidth        = 340
+    cdfId->fieldHeight             = 35
+    cdfId->fieldWidth              = 350
+    cdfId->promptWidth             = 175
+    cdfId->opPointLabelSet         = "v i pwr"
+    cdfId->paramLabelSet           = "-r"
+    cdfSaveCDF( cdfId )
+)

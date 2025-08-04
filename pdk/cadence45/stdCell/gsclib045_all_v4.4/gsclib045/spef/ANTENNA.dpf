@@ -1,0 +1,24 @@
+*
+*|DSPF 1.5
+*
+*|DATE "Mon Sep 27 08:50:49 2010"
+*|VENDOR "Cadence Design Systems"
+*|PROGRAM "Assura RCX"
+*|VERSION "3.2 Red Hat Linux release 7.2 (Enigma) - (09/09/2009-10:39)"
+*|DESIGN "ANTENNA"
+*|DIVIDER /
+*|DELIMITER :
+*|DeviceFingerDelim "@"
+*|BUSBIT []
+** MATCHED
+** caps2d version: 10
+*
+.GLOBAL 
+*
+.SUBCKT  ANTENNA VDD VSS A
+*
+*Instance Section
+*
+D0	D0:a	D0:c	ndio	1.551E-13	1.6U
+D1	D1:a	D1:c	pdio	1.888E-13	1.82U
+.ENDS

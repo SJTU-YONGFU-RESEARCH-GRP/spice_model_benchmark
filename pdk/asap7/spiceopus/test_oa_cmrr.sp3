@@ -1,0 +1,19 @@
+test_oa_cmrr.sp3
+* Common mode rejection ratio
+
+.control
+
+delcirc all
+destroy all
+delete all
+save all
+
+source oa_cmrr.cir
+ac dec 50 1 1e7
+
+let CMRR=-20*log10(mag(v(vout)))
+plot CMRR xlog xlabel 'Frequency [Hz]' ylabel 'CMRR [dB]'
+
+.endc
+
+.end

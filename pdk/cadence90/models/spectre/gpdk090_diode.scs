@@ -1,0 +1,275 @@
+simulator lang=spectre
+library gpdk090
+
+// 16th May 2008:
+// - corners added
+// - simple MC mismatch added, acc to vpnp10
+
+// TODO:
+// - dcmatch would require bsource or bjt
+
+
+section stat_mis
+parameters 
++ pisd_mc=0
+
+statistics { 
+ mismatch { 
+  vary pisd_mc  dist=gauss std=1/1 
+  } 
+ }
+ 
+endsection stat_mis
+
+section dio_s
+parameters cisd=0.667 ccjd=1.2 crsd=1.5
+include "gpdk090_diode.scs" section=dio
+include "gpdk090_diode.scs"  section=dio_hvt
+include "gpdk090_diode.scs"  section=dio_na
+include "gpdk090_diode.scs"  section=dio_25
+include "gpdk090_diode.scs"  section=dio_na25
+endsection dio_s
+
+section dio_t
+parameters cisd=1 ccjd=1 crsd=1
+include "gpdk090_diode.scs" section=dio
+include "gpdk090_diode.scs"  section=dio_hvt
+include "gpdk090_diode.scs"  section=dio_na
+include "gpdk090_diode.scs"  section=dio_25
+include "gpdk090_diode.scs"  section=dio_na25
+endsection dio_t
+
+section dio_f
+parameters cisd=1/0.667 ccjd=1/1.2 crsd=0.8
+include "gpdk090_diode.scs" section=dio
+include "gpdk090_diode.scs"  section=dio_hvt
+include "gpdk090_diode.scs"  section=dio_na
+include "gpdk090_diode.scs"  section=dio_25
+include "gpdk090_diode.scs"  section=dio_na25
+endsection dio_f
+
+
+section dio
+include "gpdk090_diode.scs" section =stat_mis
+
+// 
+//  *************************************************************
+//                       MODEL OF N+/PW DIODE                   *
+//                                                              *
+//  *************************************************************
+//      
+// Hints: allow_scaling has no impact!
+
+
+
+inline subckt gpdk090_ndio (1 2) 
+parameters area=7.5e-8 pj=1.1e-3 rs=1.259e-07 geo_fac =  1 / sqrt(area/160f)
+//  area not m used for scaling is a bit arbitrary, but not so bad 
+  r1 (1 3) resistor r=rs*crsd/area tc1=0.00277  
+  gpdk090_ndio (3 2) gpdk090_ndio_D area=area perim=pj 
+model gpdk090_ndio_D diode level=1 is=cisd*(1-geo_fac*6m/26m*pisd_mc)*1e-05 n=1.3 bv=10.1 ibv=0.05
++ ns=1.3 nz=1.3 imax=1e40 minr=1e-10 allow_scaling=yes
++ isw=cisd*(1-geo_fac*6m/26m*pisd_mc)*1.85e-11 cj=ccjd*0.001376 vj=0.7956 mj=0.4528 cjsw=ccjd*2.06e-10*pj vjsw=0.7956 mjsw=0.2323 
++ tlev=1 eg=1.17 xti=3 tbv1=0.000888 tlevc=1 cta=0.0009067 ctp=0.0002781 pta=0.001427 ptp =0.001427 tnom=25 fc=0  
+ends gpdk090_ndio 
+
+
+
+//inline subckt gpdk090_ndio (1 2) 
+// should work but does not!!
+//parameters area=7.5e-8 pj=1.1e-3 rs=1.259e-07
+//  area not m used for scaling is a bit arbitrary, but not so bad 
+//  r1 (1 3) resistor r=rs*crsd/area tc1=0.00277 
+//  gpdk090_ndio (3 2) gpdk090_ndio_D area=area perim=pj
+//model gpdk090_ndio_D diode level=1 is=cisd*(1-6m/26m*pisd_mc)*1e-05 n=1.3 bv=10.1 ibv=0.05
+//+ ns=1.3 nz=1.3 imax=1e40 minr=1e-10 allow_scaling=yes
+//+ isw=cisd*(1-6m/26m*pisd_mc)*1.85e-11 cj=ccjd*0.001376 vj=0.7956 mj=0.4528 cjsw=ccjd*2.06e-10 vjsw=0.7956 mjsw=0.2323 
+//+ tlev=1 eg=1.17 xti=3 tbv1=0.000888 tlevc=1 cta=0.0009067 ctp=0.0002781 
+//+ pta=0.001427 ptp =0.001427 tnom=25 fc=0  
+//ends gpdk090_ndio   
+
+// not so bad, but problems with isw influence
+//inline subckt gpdk090_ndio (1 2) 
+//parameters area=7.5e-8 pj=1.1e-3 rs=1.259e-07 
+//  r1 (1 3) resistor r=rs*crsd/area tc1=0.00277  
+//  gpdk090_ndio (3 2) gpdk090_ndio_D area=area pj=pj 
+//ends gpdk090_ndio 
+//model gpdk090_ndio_D diode level=1 is=cisd*(1-6m/26m*pisd_mc)*1e-05*area/160f n=1.3 bv=10.1 ibv=0.05*area/160f  
+//+ ns=1.3 nz=1.3 imax=1e40 minr=1e-10 allow_scaling=no
+//+ isw=cisd*(1-6m/26m*pisd_mc)*1.85e-11*pj/1.6u cj=ccjd*0.001376*area/160f vj=0.7956 mj=0.4528 cjsw=ccjd*2.06e-10*pj/1.6u vjsw=0.7956 mjsw=0.2323 
+//+ tlev=1 eg=1.17 xti=3 tbv1=0.000888 tlevc=1 cta=0.0009067 ctp=0.0002781 
+//+ pta=0.001427 ptp =0.001427 tnom=25 fc=0  
+//ends gpdk090_ndio 
+
+
+// original    
+//inline subckt gpdk090_ndio (1 2) 
+// does not work
+//parameters area=7.5e-8 pj=1.1e-3 rs=1.259e-07  
+//  gpdk090_ndio (1 2) gpdk090_ndio_D area=area pj=pj 
+//ends gpdk090_ndio 
+//model gpdk090_ndio_D diode level=1 is=1e-05 n=1.3 bv=10.1 ibv=0.05  
+//+ ns=1.3 nz=1.3 imax=1e40 minr=1e-10 allow_scaling=yes
+//+ isw=cisd*1.85e-11 cj=ccjd*0.001376 vj=0.7956 mj=0.4528 cjsw=ccjd*2.06e-10 vjsw=0.7956 mjsw=0.2323 
+//+ tlev=1 eg=1.17 xti=3 tbv1=0.000888 tlevc=1 cta=0.0009067 ctp=0.0002781 
+//+ pta=0.001427 ptp =0.001427 tnom=25 fc=0  
+                                  
+//  *************************************************************
+//                       MODEL OF P+/NW DIODE                   *
+//                                                              *
+//  *************************************************************
+//                                                                              
+inline subckt gpdk090_pdio (1 2) 
+parameters area=7.5e-8 pj=1.1e-3 rs=1.101e-07  
+  r1 (1 3) resistor r=rs*crsd/area tc1=0.00289  
+  gpdk090_pdio (3 2) gpdk090_pdio_D area=area pj=pj 
+//ends gpdk090_pdio 
+model gpdk090_pdio_D diode level=1 is=cisd*(1-6m/26m*pisd_mc)*8e-07 n=1.17 bv=8.6 ibv=0.02  
++ ns=1.17 nz=1.17 imax=1e40 minr=1e-10 allow_scaling=no
++ isw=cisd*(1-6m/26m*pisd_mc)*1.055e-12 cj=ccjd*0.001369 vj=0.9 mj=0.4234 cjsw=ccjd*9.8e-11 vjsw=0.9 mjsw=0.1716 
++ tlev=1 eg=1.17 xti=3 tbv1=0.000845 tlevc=1 cta=0.000887 ctp=0.000298 
++ pta=0.001643 ptp =0.001643 tnom=25 fc=0 
+ends gpdk090_pdio    
+//  
+//  *************************************************************
+//                       MODEL OF NW/PSUB DIODE                 *
+//                                                              *
+//  *************************************************************
+//  
+inline subckt gpdk090_nwdio (1 2) 
+parameters area=7.5e-8 pj=1.1e-3 rs=1.26e-07  
+  r1 (1 3) resistor r=rs*crsd/area tc1=0.00204  
+  gpdk090_nwdio (3 2) gpdk090_nwdio_D area=area pj=pj 
+//ends gpdk090_nwdio 
+model gpdk090_nwdio_D diode level=1 is=cisd*(1-6m/26m*pisd_mc)*5.7e-06 n=1.25 bv=14.38 ibv=0.01 
++ ns=1.25 nz=1.25 imax=1e40 minr=1e-10 allow_scaling=yes
++  isw=cisd*(1-6m/26m*pisd_mc)*2.04e-11 cj=ccjd*0.0001291 vj=0.8122 mj=0.4897 cjsw=ccjd*5.35e-10 vjsw=0.8122 
++ mjsw=0.2822 tlev=1 eg=1.17 xti=3 tbv1=0.00088 tlevc=1 cta=0.002483 
++ ctp=0.001238 pta=0.003184 ptp =0.003184 tnom=25 fc=0 
+ends gpdk090_nwdio    
+//                                                                              
+//                                                                              
+endsection dio
+
+
+section dio_hvt
+// 
+//  *************************************************************
+//                       MODEL OF N+/PW DIODE                   *
+//                                                              *
+//  *************************************************************
+// 
+inline subckt gpdk090_ndio_hvt (1 2) 
+parameters area=7.5e-8 pj=1.1e-3 rs=1.259e-7  
+  r1 (1 3) resistor r=rs*crsd/area tc1=2.77e-3  
+  gpdk090_ndio_hvt (3 2) xdio_hvt area=area pj=pj 
+//ends gpdk090_ndio_hvt 
+model xdio_hvt diode level=1 is=cisd*(1-6m/26m*pisd_mc)*1.5e-5 n=1.26 bv=8.9 ibv=0.03 
++ ns=1.26 nz=1.26 imax=1e40 minr=1e-10 allow_scaling=yes
++ isw=cisd*(1-6m/26m*pisd_mc)*1.85e-11   cj=ccjd*1.590799e-3 vj=0.8578199 mj=0.4774564 
++ cjsw=ccjd*2.023103e-10 vjsw=0.8578199 mjsw=0.2551013 tlev=1 eg=1.17 xti=3 tbv1=8.88e-4 
++ tlevc=1 cta=7.251995e-4 ctp=3.603971e-4 pta=1.168276e-3 ptp =1.168276e-3 
++ tnom=25 fc=0 
+ends gpdk090_ndio_hvt  
+// 
+//  *************************************************************
+//                       MODEL OF P+/NW DIODE                   *
+//                                                              *
+//  *************************************************************
+// 
+inline subckt gpdk090_pdio_hvt (1 2) 
+parameters area=7.5e-8 pj=1.1e-3 rs=1.101e-7  
+  r1 (1 3) resistor r=rs*crsd/area tc1=2.89e-3  
+  gpdk090_pdio_hvt (3 2) ydio_hvt area=area pj=pj 
+//ends gpdk090_pdio_hvt 
+model ydio_hvt diode level=1 is=cisd*(1-6m/26m*pisd_mc)*8e-7 n=1.13 bv=8.2 ibv=0.03 
++ ns=1.13 nz=1.13 imax=1e40 minr=1e-10 allow_scaling=yes
++ isw=cisd*(1-6m/26m*pisd_mc)*1.055e-12   cj=ccjd*1.469162e-3 vj=0.8465904 mj=0.4107588 
++ cjsw=ccjd*9.358381e-11 vjsw=0.8465904 mjsw=0.1813912 tlev=1 eg=1.17 xti=3 tbv1=8.45e-4 
++ tlevc=1 cta=8.024992e-4 ctp=4.114948e-4 pta=1.514677e-3 ptp =1.514677e-3 
++ tnom=25 fc=0  
+ends gpdk090_pdio_hvt 
+// 
+endsection dio_hvt
+section dio_na
+// 
+//  *************************************************************
+//                       MODEL OF N+/PW DIODE                   *
+//                                                              *
+//  *************************************************************
+// 
+inline subckt gpdk090_ndio_na (1 2) 
+parameters area=7.5e-8 pj=1.1e-3 rs=3.02e-7  
+  r1 (1 3) resistor r=rs*crsd/area tc1=2.65e-3  
+  gpdk090_ndio_na (3 2) xdio_na area=area pj=pj 
+//ends gpdk090_ndio_na 
+model xdio_na diode level=1 is=cisd*(1-6m/26m*pisd_mc)*2.81e-6 n=1.13 bv=13.8 ibv=0.03
++ ns=1.13 nz=1.13 imax=1e40 minr=1e-10 allow_scaling=yes
++  isw=cisd*(1-6m/26m*pisd_mc)*6.95e-12   cj=ccjd*1.238858e-4 vj=0.6660649 mj=0.4596073 
++ cjsw=ccjd*1.726958e-10 vjsw=0.6660649 mjsw=1e-4 tlev=1 eg=1.17 xti=3 tbv1=1.4e-3 
++ tlevc=1 cta=3.449993e-3 ctp=1.348721e-3 pta=2.69401e-3 ptp =2.69401e-3 tnom=25 
++ fc=0 
+ends gpdk090_ndio_na  
+// 
+endsection dio_na
+section dio_25
+// 
+//  *************************************************************
+//                       MODEL OF N+/PW DIODE                   *
+//                                                              *
+//  *************************************************************
+// 
+inline subckt gpdk090_ndio_25 (1 2) 
+parameters area=7.5e-8 pj=1.1e-3 rs=1.217e-7  
+  r1 (1 3) resistor r=rs*crsd/area tc1=2.77e-3  
+  gpdk090_ndio_25 (3 2) gpdk090_ndio_25_D area=area pj=pj 
+//ends gpdk090_ndio_25 
+model gpdk090_ndio_25_D diode level=1 is=cisd*(1-6m/26m*pisd_mc)*5.03e-10  n=0.91 bv=12.26 ibv=0.03 
++ ns=0.91 nz=0.91 imax=1e40 minr=1e-10 allow_scaling=yes
++ isw=cisd*(1-6m/26m*pisd_mc)*1.8e-12 cj=ccjd*9.68e-4  mj=0.3193271 fc=0 cjsw=ccjd*9.5e-11  mjsw=0.01 
++ tlevc=1 tlev=1 xti=3 eg=1.17 vjsw=0.7249372 vj=0.7249372 pta=1.816363e-3 
++ tnom=25 ptp =1.816363e-3  tbv1=5.3e-4 cta=1.010853e-3 ctp=9.297595e-5 
+ends gpdk090_ndio_25 
+// 
+//  *************************************************************
+//                       MODEL OF P+/NW DIODE                   *
+//                                                              *
+//  *************************************************************
+// 
+inline subckt gpdk090_pdio_25 (1 2) 
+parameters area=7.5e-8 pj=1.1e-3 rs=1.194868e-7  
+  r1 (1 3) resistor r=rs*crsd/area tc1=2.89e-3  
+  gpdk090_pdio_25 (3 2) gpdk090_pdio_25_D area=area pj=pj 
+//ends gpdk090_pdio_25 
+model gpdk090_pdio_25_D diode level=1 is=cisd*(1-6m/26m*pisd_mc)*5.00e-10  n=0.91 bv=10.18 
++ ns=0.91 nz=0.91 imax=1e40 minr=1e-10 allow_scaling=yes
++ ibv=0.03 isw=cisd*(1-6m/26m*pisd_mc)*1.36e-12 cj=ccjd*1.247e-3  mj=0.3952264 fc=0 cjsw=ccjd*7.7e-11  
++ mjsw=0.0450429 tlevc=1 tlev=1 xti=3 eg=1.17 vjsw=0.854899 vj=0.854899 pta=1.603538e-3 
++ tnom=25 ptp =1.603538e-3  tbv1=5.1e-4 cta=9.016089e-4 ctp=1.793034e-4 
+ends gpdk090_pdio_25 
+// 
+endsection dio_25
+section dio_na25
+// 
+//  *************************************************************
+//                       MODEL OF N+/PW DIODE                   *
+//                                                              *
+//  *************************************************************
+// 
+inline subckt gpdk090_ndio_na25 (1 2) 
+parameters area=7.5e-8 pj=1.1e-3 rs=3.02e-7  
+  r1 (1 3) resistor r=rs*crsd/area tc1=2.65e-3  
+  gpdk090_ndio_na25 (3 2) xdio_na25 area=area pj=pj 
+//ends gpdk090_ndio_na25 
+model xdio_na25 diode level=1 is=cisd*(1-6m/26m*pisd_mc)*2.81e-6 n=1.13 bv=13.8 ibv=0.03 
++ ns=1.13 nz=1.13 imax=1e40 minr=1e-10 allow_scaling=yes
++  isw=cisd*(1-6m/26m*pisd_mc)*6.95e-12   cj=ccjd*1.238858e-4 vj=0.6660649 mj=0.4596073 
++ cjsw=ccjd*1.726958e-10 vjsw=0.6660649 mjsw=1e-4 tlev=1 eg=1.17 xti=3 tbv1=1.4e-3 
++ tlevc=1 cta=3.449993e-3 ctp=1.348721e-3 pta=2.69401e-3 ptp =2.69401e-3 tnom=25 
++ fc=0  
+ends gpdk090_ndio_na25
+// 
+endsection dio_na25
+
+
+endlibrary gpdk090

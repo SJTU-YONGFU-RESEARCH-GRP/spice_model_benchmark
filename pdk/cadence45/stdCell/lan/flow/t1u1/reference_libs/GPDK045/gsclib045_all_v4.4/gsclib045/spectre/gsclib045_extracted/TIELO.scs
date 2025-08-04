@@ -1,0 +1,43 @@
+// Generated for: spectre (May  1 08:18:07 2013 )
+// Library name: gsclib045
+// Cell name: TIELO
+// View name: extracted
+
+simulator lang=spectre
+
+subckt TIELO VDD VSS Y
+mp0 (\4\:net25 net25 \1\:VDD VDD) g45p1svt w=(3.9e-07) l=4.5e-08 nf=1 \
+        as=5.46e-14 ad=5.46e-14 ps=1.06e-06 pd=1.06e-06 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=1.4e-07 sd=160n sca=47.9961 \
+        scb=0.0439169 scc=0.00481722 m=(1)
+C1 (Y VSS) capacitor c=8.64584e-17
+C2 (VDD VSS) capacitor c=2.90221e-17
+C3 (net25 VSS) capacitor c=2.2898e-17
+C4 (\3\:net25 VSS) capacitor c=2.75968e-17
+C5 (\2\:net25 VSS) capacitor c=1.67382e-17
+C6 (\1\:VDD VSS) capacitor c=4.76542e-17
+C7 (\4\:net25 VSS) capacitor c=4.28072e-17
+C8 (\6\:net25 VSS) capacitor c=2.77863e-17
+C9 (\4\:VDD VSS) capacitor c=1.29212e-18
+Rk1 (\2\:Y Y) resistor r=0.00298 c=0
+Rk7 (\4\:VSS VSS) resistor r=0.09943 c=0
+Rk6 (\2\:VSS \4\:VSS) resistor r=0.3495 c=0
+Rk5 (\4\:VDD VDD) resistor r=0.09943 c=0
+Rk3 (\2\:VDD \4\:VDD) resistor r=0.3452 c=0
+Rk4 (\2\:VDD \5\:VDD) resistor r=0.1606 c=0
+Rk2 (\5\:net25 \6\:net25) resistor r=0.1727 c=0
+Rl1 (net25 \2\:net25) resistor r=24.2328 c=0
+Rl2 (\2\:net25 \3\:net25) resistor r=39.6174 c=0
+Rz1 (\1\:Y \2\:Y) resistor r=75 c=0
+Rz3 (\1\:VSS \2\:VSS) resistor r=75 c=0
+Ry2 (\1\:VDD \2\:VDD) resistor r=62 c=0
+Ry3 (\1\:VDD \5\:VDD) resistor r=62 c=0
+Ry1 (\4\:net25 \5\:net25) resistor r=20.6667 c=0
+Rx1 (\2\:net25 \6\:net25) resistor r=45 c=0
+mn0 (\1\:Y \3\:net25 \1\:VSS VSS) g45n1svt w=(2.6e-07) l=4.5e-08 nf=1 \
+        as=3.64e-14 ad=3.64e-14 ps=8e-07 pd=8e-07 nrd=1.16667 nrs=1.16667 \
+        sa=1.4e-07 sb=1.4e-07 sd=160n sca=17.5885 scb=0.0172826 \
+        scc=0.00162584 m=(1)
+ends TIELO
+// End of subcircuit definition.
+

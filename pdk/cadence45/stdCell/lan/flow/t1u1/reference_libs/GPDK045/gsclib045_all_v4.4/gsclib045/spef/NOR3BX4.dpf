@@ -1,0 +1,68 @@
+*
+*|DSPF 1.5
+*
+*|DATE "Mon Sep 27 10:23:44 2010"
+*|VENDOR "Cadence Design Systems"
+*|PROGRAM "Assura RCX"
+*|VERSION "3.2 Red Hat Linux release 7.2 (Enigma) - (09/09/2009-10:39)"
+*|DESIGN "NOR3BX4"
+*|DIVIDER /
+*|DELIMITER :
+*|DeviceFingerDelim "@"
+*|BUSBIT []
+** MATCHED
+** caps2d version: 10
+*
+.GLOBAL 
+*
+.SUBCKT  NOR3BX4 VDD VSS AN B C Y
+*
+*Instance Section
+*
+mn0	mn0:d	mn0:g	mn1@1:s	VSS:2	nmos1v	L=0.045U	W=0.26U
++ AD=0.04615P	AS=0.04615P	PD=0.875U	PS=0.875U
+mn1	mn2@1:d	mn1@1:g	mn1@1:s	VSS:2	nmos1v
++ L=0.045U	W=0.26U
++ AD=0.0564P	AS=0.0564P	PD=1.04875U	PS=1.04875U	M=4
+mn2	mn2@1:d	mn2@1:g	mn1@1:s	VSS:2	nmos1v
++ L=0.045U	W=0.26U
++ AD=0.0635P	AS=0.0635P	PD=1.135U	PS=1.135U	M=4
+mn3	mn2@1:d	C	mn1@1:s	VSS:2	nmos1v	L=0.045U
++ W=0.26U
++ AD=0.0635P	AS=0.0635P	PD=1.135U	PS=1.135U	M=4
+mp2	mp2:d	mp2:g	mp2:s	VDD:2	pmos1v	L=0.045U	W=0.39U
++ AD=0.06338P	AS=0.06338P	PD=1.105U	PS=1.105U
+mp3	mp3:d	mp3:g	mp3:s	VDD:2	pmos1v	L=0.045U	W=0.39U
++ AD=0.0429P	AS=0.0429P	PD=1U	PS=1U
+mp3@1	mp3:d	mp3@1:g	mp3@1:s	VDD:2	pmos1v	L=0.045U
++ W=0.39U
++ AD=0.1053P	AS=0.1053P	PD=1.32U	PS=1.32U
+mp2@1	mp2@1:d	mp2@1:g	mp2@1:s	VDD:2	pmos1v
++ L=0.045U	W=0.39U
++ AD=0.0858P	AS=0.0858P	PD=1.22U	PS=1.22U
+mp1@1	mp1@1:d	mp1@1:g	mp1@1:s	VDD:2	pmos1v
++ L=0.045U	W=0.39U
++ AD=0.0429P	AS=0.0429P	PD=1U	PS=1U
+mp0	mp0:d	mp0:g	mp1@1:s	VDD:2	pmos1v	L=0.045U	W=0.39U
++ AD=0.0585P	AS=0.0585P	PD=1.08U	PS=1.08U
+mp1@2	mp1@2:d	mp1@2:g	mp1@2:s	VDD:2	pmos1v
++ L=0.045U	W=0.39U
++ AD=0.039P	AS=0.039P	PD=0.98U	PS=0.98U
+mp2@2	mp2@2:d	mp2@2:g	mp2@2:s	VDD:2	pmos1v
++ L=0.045U	W=0.39U
++ AD=0.0546P	AS=0.0546P	PD=1.06U	PS=1.06U
+mp3@2	mp3@2:d	mp3@2:g	mp3@2:s	VDD:2	pmos1v
++ L=0.045U	W=0.39U
++ AD=0.0741P	AS=0.0741P	PD=1.16U	PS=1.16U
+mp3@3	mp3@2:d	mp3@3:g	mp3@3:s	VDD:2	pmos1v
++ L=0.045U	W=0.39U
++ AD=0.0741P	AS=0.0741P	PD=1.16U	PS=1.16U
+mp2@3	mp2@3:d	mp2@3:g	mp2@3:s	VDD:2	pmos1v
++ L=0.045U	W=0.39U
++ AD=0.06532P	AS=0.06532P	PD=1.115U	PS=1.115U
+mp1@3	mp1@3:d	mp1@3:g	mp1@3:s	VDD:2	pmos1v
++ L=0.045U	W=0.39U
++ AD=0.05362P	AS=0.05362P	PD=1.055U	PS=1.055U
+mp1	mp1:d	mp1:g	mp1@3:s	VDD:2	pmos1v	L=0.045U	W=0.39U
++ AD=0.08287P	AS=0.08287P	PD=1.205U	PS=1.205U
+.ENDS

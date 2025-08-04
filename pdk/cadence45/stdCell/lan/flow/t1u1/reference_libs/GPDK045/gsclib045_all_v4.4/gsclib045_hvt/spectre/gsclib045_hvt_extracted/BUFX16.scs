@@ -1,0 +1,48 @@
+// Generated for: spectre (May  1 09:13:19 2013 )
+// Library name: gsclib045_hvt
+// Cell name: BUFX16
+// View name: extracted
+
+simulator lang=spectre
+
+subckt BUFX16 A VDD VSS Y
+mp1_1__rcx (\1\:Y n0 VDD VDD) g45p1hvt w=(4.45e-07) l=4.5e-08 nf=1 \
+        as=7.033e-14 ad=7.12e-14 ps=1.20714e-06 pd=1.21e-06 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=2e-06 sd=160n sca=41.6034 scb=0.0375368 \
+        scc=0.00435732 m=(14)
+C1 (Y VSS) capacitor c=1.66686e-17
+C2 (VDD VSS) capacitor c=9.26302e-16
+C3 (A VSS) capacitor c=3.66861e-17
+C4 (n0 VSS) capacitor c=1.25991e-15
+C5 (\1\:A VSS) capacitor c=2.4184e-16
+C6 (\43\:n0 VSS) capacitor c=2.27689e-16
+C7 (\1\:Y VSS) capacitor c=8.64062e-16
+C8 (\9\:Y VSS) capacitor c=7.48896e-16
+C9 (\46\:n0 VSS) capacitor c=2.68931e-17
+C10 (\56\:n0 VSS) capacitor c=1.71644e-16
+C11 (\13\:A VSS) capacitor c=6.76903e-17
+C12 (\14\:A VSS) capacitor c=5.9438e-17
+Rk7 (\1\:Y Y) resistor r=0.08238 c=0
+Rk8 (Y \9\:Y) resistor r=0.0911 c=0
+Rk40 (A \13\:A) resistor r=0.1621 c=0
+Rk41 (\13\:A \14\:A) resistor r=0.138 c=0
+Rk29 (\46\:n0 n0) resistor r=0.203 c=0
+Rk28 (\43\:n0 \46\:n0) resistor r=0.09951 c=0
+Rk37 (\46\:n0 \56\:n0) resistor r=0.1042 c=0
+Rx8 (\13\:A \1\:A) resistor r=45 c=0
+Rx9 (\14\:A \1\:A) resistor r=45 c=0
+mn1_1__rcx (VSS n0 \9\:Y VSS) g45n1hvt w=(2.95e-07) l=4.5e-08 nf=1 \
+        as=4.72e-14 ad=6.251e-14 ps=9.1e-07 pd=1.43643e-06 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=2e-06 sd=160n sca=16.4223 scb=0.0158966 \
+        scc=0.0014413 m=(14)
+mn0_1__rcx (VSS \1\:A \56\:n0 VSS) g45n1hvt w=(2.6e-07) l=4.5e-08 nf=1 \
+        as=4.16e-14 ad=5.558e-14 ps=8.4e-07 pd=1.3275e-06 nrd=1.16667 \
+        nrs=1.16667 sa=2e-06 sb=7.55e-07 sd=160n sca=17.5885 scb=0.0172826 \
+        scc=0.00162584 m=(4)
+mp0_1__rcx (\43\:n0 \1\:A VDD VDD) g45p1hvt w=(3.9e-07) l=4.5e-08 nf=1 \
+        as=6.182e-14 ad=6.24e-14 ps=1.1175e-06 pd=1.1e-06 nrd=1.16667 \
+        nrs=1.16667 sa=2e-06 sb=7.55e-07 sd=160n sca=18.4487 scb=0.016003 \
+        scc=0.00159615 m=(4)
+ends BUFX16
+// End of subcircuit definition.
+

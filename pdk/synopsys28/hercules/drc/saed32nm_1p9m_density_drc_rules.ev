@@ -1,0 +1,4521 @@
+/*
+#########################################################################################
+# SAED 32/28NM 1p9m hercules density drc deck						#
+# Revision History:									#
+# Rev.		date		what							#
+# -------------------------------------------------------------------------------------	#	
+# 1.0		02/Feb/2011	(First draft)						#
+#########################################################################################
+*/
+
+VARIABLE double TOP_MET = 9;
+VARIABLE double count = 0;
+
+
+HEADER {
+	INLIB = GDSFILENAME
+	BLOCK = TOPCELLNAME
+	FORMAT = GDSII
+	
+	OUTLIB = EV_OUT
+	OUTPUT_FORMAT = LTL
+
+	GROUP_DIR = group 
+        LAYOUT_PATH = .
+}
+OPTIONS {
+	PRINT_ERRSUM_FILE = TRUE
+	IGNORE_CASE=FALSE
+	RESOLUTION=0.001 	/* tool resolution, layout grid is 0.001 */
+	NET_PREFIX = N_
+	ERR_PREFIX = "ERR"
+	PROTOTYPE_PLACEMENTS = TRUE
+	GDSIN_OPTIONS = "-nl"
+	MAXIMUM_CELLNAME_LENGTH = 127
+}
+ASSIGN {
+	NWELLi	  (1)
+	DNWi	  (2)
+	DIFFi	  (3)
+	DDMYi	  (3;1)
+	PIMPi	  (4)
+	NIMPi	  (5)
+	DIFF_18i  (6)
+	PADi	  (7)
+	ESD_25	  (8)
+	SBLKi	  (9)
+	POi       (10)
+	PODMYi    (10;1)
+	M1i       (11)    text(11)
+	M1DMYi    (11;1)
+	VIA1i     (12)
+	M2i       (13)    text(12)
+	M2DMYi    (13;1)
+        VIA2i     (14)
+	M3i       (15)    text(13)
+        M3DMYi    (15;1)
+        VIA3i     (16)
+	M4i       (17)    text(14)
+        M4DMYi    (17;1)
+        VIA4i     (18)
+	M5i       (19)    text(15)
+        M5DMYi    (19;1)
+        VIA5i     (20)
+	M6i       (21)    text(16)
+	M6DMYi    (21;1)
+	VIA6i     (22)
+	M7i       (23)    text(17)
+	M7DMYi    (23;1)
+	VIA7i     (24)
+	M8i       (25)    text(18)
+	M8DMYi    (25;1)
+	VIA8i     (26)
+	M9i       (27)    text(19)
+	M9DMYi    (27;1)
+	COi       (28)
+	HVTIMPi   (29)    
+	LVTIMPi   (30)    
+	M1PIN     (31)    text (31)
+	M2PIN     (32)    text (32)
+	M3PIN     (33)    text (33)
+	M4PIN     (34)    text (34)
+	M5PIN     (35)    text (35)
+	M6PIN     (36)    text (36)
+	M7PIN     (37)    text (37)
+	M8PIN     (38)	  text (38)
+	M9PIN     (39)    text (39)
+	MRDLi     (41)
+	VIARDLi	  (42)
+	HOTNWLi   (44)
+	DIODi 	  (46)
+	BJTMYi 	  (47)
+	RNWi      (48)
+	RMARKi    (49)
+	LOGO      (51)
+	IP        (52)
+	RM1i      (53)
+	RM2i      (54)
+	RM3i      (55)
+	RM4i      (56)
+	RM5i      (57)
+	RM6i      (58)
+	RM7i      (59)
+	RM8i      (60)
+	RM9i      (61)
+	DIFF_25i  (75)
+}
+
+GRID_CHECK {
+    ASSIGN_LAYERS = TRUE
+    GRID = 0.001
+    CHECK_45 = TRUE
+} TEMP=DEFAULT_GRID_CHECK_OUTPUT
+
+/***********************************************/
+
+COPY NWELLi {} TEMP = nwell
+COPY DNWi {} TEMP = dnw
+COPY DIFFi {} TEMP = diff  
+COPY PIMPi {} TEMP = pimp
+COPY NIMPi {} TEMP = nimp 
+COPY DIFF_25i {} TEMP = diff_25
+COPY DIFF_18i {} TEMP = diff_18
+COPY PADi {} TEMP = pad	 
+COPY SBLKi {} TEMP = sblk
+COPY POi {} TEMP = po 
+
+COPY M1i {} TEMP= m1
+COPY M2i {} TEMP= m2
+COPY M3i {} TEMP= m3
+COPY M4i {} TEMP= m4
+COPY M5i {} TEMP= m5
+COPY M6i {} TEMP= m6
+COPY M7i {} TEMP= m7
+COPY M8i {} TEMP= m8
+COPY M9i {} TEMP= m9
+
+COPY COi {} TEMP= co
+COPY VIA1i {} TEMP= via1
+COPY VIA2i {} TEMP= via2
+COPY VIA3i {} TEMP= via3
+COPY VIA4i {} TEMP= via4
+COPY VIA5i {} TEMP= via5
+COPY VIA6i {} TEMP= via6
+COPY VIA7i {} TEMP= via7
+COPY VIA8i {} TEMP= via8
+
+COPY HVTIMPi {} TEMP=  hvtimp
+COPY LVTIMPi {} TEMP=  lvtimp
+
+
+
+COPY VIARDLi {} TEMP= viardl
+COPY MRDLi {} TEMP= mrdl
+
+COPY RNWi {} TEMP= rnw
+
+if( TOP_MET == 9 ) {
+    COPY M9DMYi {} TEMP = mt_dmi
+    COPY m9 {} TEMP = mt
+    COPY m8 {} TEMP = mt2
+    COPY via8 {} TEMP = viat
+}
+
+if( TOP_MET == 8 ) {
+    COPY M8DMYi {} TEMP = mt_dmi
+    COPY m8 {} TEMP = mt
+    COPY m7 {} TEMP = mt2
+    COPY via7 {} TEMP = viat
+}
+
+if( TOP_MET == 7 ) {
+    COPY M7DMYi {}TEMP = mt_dmi
+    COPY m7 {} TEMP = mt
+    COPY m6 {} TEMP = mt2
+    COPY via6 {} TEMP = viat
+}
+
+if( TOP_MET == 6 ) {
+    COPY M6DMYi {} TEMP = mt_dmi
+    COPY m6 {} TEMP = mt
+    COPY m5 {} TEMP = mt2
+    COPY via5 {} TEMP = viat
+}
+
+/***************************Define derived layers***********************/
+BOOLEAN m1 OR M1DMYi {} TEMP=m1_all
+BOOLEAN m2 OR M2DMYi {} TEMP=m2_all
+BOOLEAN m3 OR M3DMYi {} TEMP=m3_all
+BOOLEAN m4 OR M4DMYi {} TEMP=m4_all
+BOOLEAN m5 OR M5DMYi {} TEMP=m5_all
+BOOLEAN m6 OR M6DMYi {} TEMP=m6_all
+BOOLEAN m7 OR M7DMYi {} TEMP=m7_all
+BOOLEAN m8 OR M8DMYi {} TEMP=m8_all
+
+BOOLEAN mt OR mt_dmi {} TEMP=mt_all
+
+BOOLEAN po OR PODMYi {} TEMP=po_all
+BOOLEAN diff OR DDMYi {} TEMP=diff_all
+
+CELL_EXTENT {  CELL_LIST = { * }} TEMP = chip
+SIZE chip   {  OVERSIZE = 1.0   } TEMP=bulk
+BOOLEAN bulk NOT nwell {  } TEMP=pwell
+
+
+SELECT nwell INTERACT rnw {   } TEMP=rnwel
+SELECT nwell INTERACT dnw {   } TEMP=dnwnwell
+BOOLEAN nwell AND rnw {} TEMP=nwres
+
+
+SELECT nwell OUTSIDE rnwel {
+	LINE_TOUCH = FALSE
+	POINT_TOUCH = FALSE
+} TEMP=nwnr
+
+SELECT nwell OUTSIDE dnw {
+	LINE_TOUCH = FALSE
+	POINT_TOUCH = FALSE
+} TEMP=nwoutdnw
+
+SELECT pwell INSIDE dnw {
+	LINE_TOUCH = FALSE
+	POINT_TOUCH = FALSE
+} TEMP=pwindnw
+
+BOOLEAN nimp OR pimp {} TEMP=imp
+BOOLEAN nimp AND diff {} TEMP=ndiff
+BOOLEAN pimp AND diff {} TEMP=pdiff
+
+BOOLEAN ndiff AND pwell {} TEMP= nact 
+BOOLEAN pdiff AND nwnr {} TEMP= pact 
+BOOLEAN pact OR nact {} TEMP= act 
+SELECT diff INTERACT nwres {} TEMP=odwr
+
+BOOLEAN po NOT diff {} TEMP=fpoly
+
+BOOLEAN po AND act {} TEMP=gate
+
+BOOLEAN pdiff AND pwell {} TEMP= ptap 
+BOOLEAN ndiff AND nwnr {} TEMP= ntap 
+
+BOOLEAN co AND diff {} TEMP=cood
+BOOLEAN co NOT diff {} TEMP=copo
+
+
+EXTERNAL ptap nact {
+    SPACING < 0.001
+    FLAG_ACUTE_ANGLE = FALSE
+    TOUCH = TRUE
+    OUTPUT_EDGES = TRUE 
+} TEMP=ptap_nact_bt
+
+EXTERNAL nact ptap {
+    SPACING < 0.001
+    FLAG_ACUTE_ANGLE = FALSE
+    TOUCH = TRUE
+    OUTPUT_EDGES = TRUE 
+} TEMP=nact_ptap_bt
+
+EXTERNAL ntap pact {
+    SPACING < 0.001
+    FLAG_ACUTE_ANGLE = FALSE
+    TOUCH = TRUE
+    OUTPUT_EDGES = TRUE 
+} TEMP=ntap_pact_bt
+
+EXTERNAL pact ntap {
+    SPACING < 0.001
+    FLAG_ACUTE_ANGLE = FALSE
+    TOUCH = TRUE
+    OUTPUT_EDGES = TRUE 
+} TEMP=pact_ntap_bt
+
+/***************************Begin Design Rules************************/
+
+
+/*NWELL Rules*/
+
+INTERNAL nwell {
+    COMMENT = "NWELL.W.1: NWELL minimum width 0.23um"
+    SPACING < 0.23
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+EXTERNAL nwell {
+    COMMENT = "NWELL.S.1: NWELL minimum spacing between wells at same potential 0.23um"
+    SPACING < 0.23
+    CHECK_SAME_POLYGON = TRUE
+    NON_PARALLEL = TRUE
+    SHADOW = FALSE
+    POINT_TOUCH = TRUE
+} (163)
+
+/*EXTERNAL nwell {
+    COMMENT = "NWELL.S.2: NWELL minimum spacing between wells at different potential 0.46um"
+    SPACING < 0.46
+    CHECK_SAME_POLYGON = FALSE
+    NON_PARALLEL = TRUE
+/*    SHADOW = FALSE*/
+    POINT_TOUCH = TRUE
+} (163)
+*/
+
+AREA nwell {  
+    RANGE = [1e-05, 0.45 - 1e-05] 
+    COMMENT = "NWELL.A.1  NWELL minimum area = 0.45um^2 "
+} (163)
+
+SELECT nwell INSIDE_HOLE {EMPTY_HOLE_ONLY} TEMP=nwell_01
+
+AREA nwell_01 {
+    RANGE = [1e-05, 0.45 - 1e-05] 
+    COMMENT = "NWELL.A.2  Nwell minimum enclosed area = 0.45um^2 "
+}(163)
+
+/*DNW Rules*/
+
+INTERNAL dnw {
+    COMMENT = "DNW.W.1: DNW minimum width 3um"
+    SPACING < 3
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+ 
+EXTERNAL dnw {
+    COMMENT = "DNW.S.1: Minimum spacing,DNW to DNW 3.5um"
+    SPACING < 3.5
+    CHECK_SAME_POLYGON = TRUE
+    NON_PARALLEL = TRUE
+    SHADOW = FALSE
+    POINT_TOUCH = TRUE
+} (163)
+
+EXTERNAL dnw nwoutdnw {
+    COMMENT = "DNW.S.2: Minimum spacing,DNW to unrelated NWELL 2.5um"
+    SPACING < 2.5
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    INSIDE = TRUE
+    OVERLAP = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+BOOLEAN (pwell NOT pwindnw) AND ndiff {} TEMP=nact_1
+
+EXTERNAL dnw nact_1 {
+    COMMENT = "DNW.S.3: Minimum spacing, external N+Active to DNW 1.5um"
+    SPACING < 1.5
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    INSIDE = TRUE
+    OVERLAP = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+BOOLEAN dnwnwell AND pdiff {} TEMP=pact_1
+
+EXTERNAL dnw pact_1 {
+    COMMENT = "DNW.S.4: Minimum spacing, P+Active in NWELL to its DNW 1um"
+    SPACING < 1
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    INSIDE = TRUE
+    OVERLAP = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+ENCLOSE nact BY pwindnw {
+    COMMENT = "DNW.E.1: Minimum enclosure, N+Active by isolated P-well 0.7um"
+    SPACING < 0.7
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    OVERLAP = TRUE
+    TOUCH = TRUE
+} (163)
+
+ENCLOSE dnw BY nwell {
+    COMMENT = "DNW.E.2: Minimum enclosure, NWELL beyond DNW edge 1um"
+    SPACING < 1
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    OVERLAP = FALSE
+    TOUCH = TRUE
+} (163)
+
+BOOLEAN dnw NOT nwell {} TEMP=nwanddnw
+
+INTERNAL nwanddnw {
+    COMMENT = "DNW.O.1: Minimum overlap,NWELL over DNW edge 0.4um"
+    SPACING < 0.4
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+/*DIFF Rules*/
+
+INTERNAL diff {
+    COMMENT = "DIFF.W.1: Minimum width=0.044um"
+    SPACING < 0.044
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+      
+EXTERNAL diff {
+    COMMENT = "DIFF.S.1: Minimum spacing=0.05um"
+    SPACING < 0.05
+    CHECK_SAME_POLYGON = TRUE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+SIZE diff {
+    UNDER_OVER=0.05
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=diff_wide
+
+EXTERNAL diff_wide diff {
+    COMMENT = "DIFF.S.1.1: Minimum spacing if width >0.1 =0.07um"
+    SPACING < 0.07
+/*    CHECK_SAME_POLYGON = TRUE*/
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+EXTERNAL diff_18 diff {
+    COMMENT = "DIFF.S.2: DIFF minimum spacing to DIFF_18 0.15um"
+    SPACING < 0.15
+    NON_PARALLEL = TRUE
+    SHADOW = FALSE
+    POINT_TOUCH = TRUE
+} (163)
+
+EXTERNAL diff_25 diff {
+    COMMENT = "DIFF.S.3: DIFF minimum spacing to DIFF_25 0.15um"
+    SPACING < 0.15
+    NON_PARALLEL = TRUE
+    SHADOW = FALSE
+    POINT_TOUCH = TRUE
+} (163)
+
+ENCLOSE nact BY pwell {
+    COMMENT = "DIFF.E.1: Source/Drain N+Active minimum enclosure by PWELL 0.065um"
+    SPACING < 0.065
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    OVERLAP = TRUE
+    TOUCH = TRUE
+} (163)
+
+ENCLOSE pact BY nwell {
+    COMMENT = "DIFF.E.1: Source/Drain P+Active minimum enclosure by NWELL 0.065um"
+    SPACING < 0.065
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    OVERLAP = TRUE
+    TOUCH = TRUE
+} (163)
+
+ENCLOSE pact BY pwell {
+    COMMENT = "DIFF.E.2: Substrate/well contact diff to well edge (min edge by well) 0.07um"
+    SPACING < 0.07
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    OVERLAP = TRUE
+    TOUCH = TRUE
+} (163)
+
+ENCLOSE nact BY nwell {
+    COMMENT = "DIFF.E.2: Substrate/well contect diff to well edge (min edge by well) 0.07um"
+    SPACING < 0.07
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    OVERLAP = TRUE
+    TOUCH = TRUE
+} (163)
+
+AREA diff {  
+    RANGE = [1e-05, 0.02 - 1e-05] 
+    COMMENT = "DIFF.A.1  DIFF minimum area = 0.02um^2 "
+} (163)
+
+SELECT diff INSIDE_HOLE {EMPTY_HOLE_ONLY} TEMP=diff_01
+
+AREA diff_01 {
+    RANGE = [1e-05, 0.03 - 1e-05] 
+    COMMENT = "DIFF.A.2  Diff minimum enclosed area = 0.03um^2 "
+}(163)
+
+CUT diff by po {
+    ENCLOSED = TRUE
+} TEMP=wi_128
+
+LENGTH wi_128 {
+    SPACING < 0.1
+    COMMENT = "DIFF.W.4: Min channel width 0.1um "
+}(163)
+
+CUT diff by po {
+    ENCLOSED = TRUE
+} TEMP=wi_128
+
+LENGTH wi_128 {
+    SPACING > 3.5
+    COMMENT = "DIFF.W.5: Max channel width 3.5um "
+}(163)
+
+BOOLEAN (  diff NOT odwr ) NOT imp {
+    COMMENT = "DIFF.B.1: DIFF w/o IMP is not allowed"
+} (163)
+
+internal diff {
+    spacing = [0.044,0.08]
+    /*horizontal_only = true*/
+}temp = diff_ppp
+
+/*boolean diff not diff_ppp {}(163) temp = diff_rrr*/
+
+EXTERNAL diff_ppp diff {
+    COMMENT = "diff.S.4: Minimum spacing of edge with span < 0.08 0.07um"
+    SPACING < 0.07
+    /*LONGEDGE_TO_EDGE < 0.125*/
+    /*NON_PARALLEL = FALSE*/
+    /*LONGEDGE >= 0.1*/
+}(163)
+
+internal diff {
+    spacing = [0.08,0.15]
+    /*horizontal_only = true*/
+}temp = diff_o
+
+/*boolean diff not diff_o {}(163) temp = diff_rrr*/
+
+EXTERNAL diff_o diff {
+    COMMENT = "diff.S.5: Minimum spacing of edge with 0.08 < span < 0.150 0.08um"
+    SPACING < 0.08
+    /*LONGEDGE_TO_EDGE < 0.125*/
+    /*NON_PARALLEL = FALSE*/
+    /*LONGEDGE >= 0.1*/
+}(163)
+
+internal diff {
+    spacing < 0.15
+    /*horizontal_only = true*/
+} temp = diff_oy
+
+boolean diff not diff_oy {}temp = diff_rrr
+
+EXTERNAL diff_oy diff {
+    COMMENT = "diff.S.6: Minimum spacing of edge with  span > 0.150 0.085um"
+    SPACING < 0.085
+    /*LONGEDGE_TO_EDGE < 0.125*/
+    /*NON_PARALLEL = FALSE*/
+    /*LONGEDGE >= 0.1*/
+}(163)
+
+internal diff {
+    spacing < 0.09
+    /*horizontal_only = true*/
+} temp = diff_oyy
+
+boolean diff not diff_oyy {}temp = diff_ryrr
+
+EXTERNAL diff_ryrr diff {
+    COMMENT = "diff.S.2: Minimum spacing of edge with  span > 0.09 for run length>0.01 0.055um"
+    /*SPACING < 0.085*/
+    LONGEDGE_TO_EDGE < 0.055
+    /*NON_PARALLEL = FALSE*/
+    LONGEDGE >= 0.1
+}(163)
+
+internal diff {
+    spacing < 0.15
+    /*horizontal_only = true*/
+} temp = diff_ll
+
+boolean diff not diff_ll {}temp = diff_rll
+
+EXTERNAL diff_rll diff {
+    COMMENT = "diff.S.3: Minimum spacing of edge with  span > 0.15 for run length>0.01 0.065um"
+    /*SPACING < 0.085*/
+    LONGEDGE_TO_EDGE < 0.065
+    /*NON_PARALLEL = FALSE*/
+    LONGEDGE >= 0.1
+}(163)
+
+
+
+/*HVTIMP Rules*/
+
+INTERNAL hvtimp {
+    COMMENT = "HVTIMP.W.1: Minimum width=0.85um"
+    SPACING < 0.85
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+EXTERNAL hvtimp {
+    COMMENT = "HVTIMP.S.1: Minimum spaceing =0.85um "
+    SPACING < 0.85
+    CHECK_SAME_POLYGON = TRUE
+    NON_PARALLEL = TRUE
+} (163)
+
+ENCLOSE act BY hvtimp {
+    COMMENT = "HVTIMP.E.1: Active minimum enclosure by HVTIMP 0.05um"
+    SPACING < 0.05
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    OVERLAP = TRUE
+    TOUCH = TRUE
+} (163)
+
+/*LVTIMP Rules*/
+
+INTERNAL lvtimp {
+    COMMENT = "LVTIMP.W.1: Minimum width=0.85um"
+    SPACING < 0.85
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+EXTERNAL lvtimp {
+    COMMENT = "LVTIMP.S.1: Minimum spaceing =0.85um "
+    SPACING < 0.85
+    CHECK_SAME_POLYGON = TRUE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+ENCLOSE act BY lvtimp {
+    COMMENT = "LVTIMP.E.1: Minimum enclosure by LVTIMP 0.05um"
+    SPACING < 0.05
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    OVERLAP = TRUE
+    TOUCH = TRUE
+} (163)
+
+/*PIMP Rules*/
+
+BOOLEAN pimp AND nimp {
+    COMMENT = "Overlap of NIMP and PIMP is not allowed "
+} (163)
+
+
+INTERNAL pimp {
+    COMMENT = "PIMP.W.1: Minimum width=0.102um"
+    SPACING < 0.102
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+BOOLEAN pimp AND diff AND nwell {} temp = p_plus
+
+ENCLOSE p_plus BY pimp {
+    COMMENT = "PIMP.E.1: P+Active minimum enclosure by PIMP 0.05um"
+    SPACING < 0.05
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    OVERLAP = TRUE
+    TOUCH = TRUE
+} (163)
+
+ENCLOSE ptap BY pimp {
+    COMMENT = "PIMP.E.2: PTAP minimum enclosure by PIMP 0.02um"
+    SPACING < 0.02
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    OVERLAP = TRUE
+    TOUCH = FALSE
+} (163)
+
+ENCLOSE po BY imp {
+    COMMENT = "PIMP.E.3: Minimum enclosure by POLY 0.065um"
+    SPACING < 0.065
+    NON_PARALLEL = TRUE
+    OVERLAP = TRUE
+    TOUCH = TRUE
+} (163)
+
+EXTERNAL pimp {
+    COMMENT = "PIMP.S.1: Minimum space=0.17um "
+    SPACING < 0.17
+    CHECK_SAME_POLYGON = TRUE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+EXTERNAL pimp  nact {
+    COMMENT = "PIMP.S.3 PIMP minimum space to N+Active in PWELL 0.05um "
+    SPACING < 0.05
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    INSIDE = TRUE
+    OVERLAP = TRUE
+    POINT_TOUCH = FALSE
+    TOUCH = FALSE
+} (163)
+
+INSIDE_EDGE diff TO pimp {
+    COMMENT = "PIMP.O.1  Minimum active overlap = 0.05 " 
+    SPACING < 0.05
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    STAY_INSIDE_LAYER1 = FALSE
+    STAY_INSIDE_LAYER2 = FALSE
+    STAY_INSIDE_NEITHER = FALSE
+    FLAG_INSIDE_EDGE_TOUCH = FALSE
+    FLAG_OUTSIDE_PNT_TOUCH = FALSE
+    FLAG_OUTSIDE_EDGE_TOUCH = FALSE
+} (163)    
+
+
+/*NIMP Rules*/
+
+INTERNAL nimp {
+    COMMENT = "NIMP.W.1: Minimum width=0.102um"
+    SPACING < 0.102
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+BOOLEAN nimp AND diff AND pwell {} TEMP = n_plus
+ENCLOSE n_plus BY nimp {
+    COMMENT = "NIMP.E.1:Minimum enclosure of N+Active 0.05um"
+    SPACING < 0.05
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    OVERLAP = TRUE
+    TOUCH = FALSE
+} (163)
+
+ENCLOSE ntap BY nimp {
+    COMMENT = "NIMP.E.2: NTAP minimum enclosure by NIMP 0.02um"
+    SPACING < 0.02
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    OVERLAP = TRUE
+    TOUCH = FALSE
+} (163)
+
+EXTERNAL nimp {
+    COMMENT = "NIMP.S.1: Minimum space=0.17um "
+    SPACING < 0.17
+    CHECK_SAME_POLYGON = TRUE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+EXTERNAL nimp  pact {
+    COMMENT = "NIMP.S.3 NIMP minimum space to P+Active in NWELL 0.05um "
+    SPACING < 0.05
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    INSIDE = TRUE
+    OVERLAP = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+
+INSIDE_EDGE diff TO nimp {
+    COMMENT = "NIMP.O.1  Minimum active overlap = 0.05um " 
+    SPACING < 0.05
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    STAY_INSIDE_LAYER1 = FALSE
+    STAY_INSIDE_LAYER2 = FALSE
+    STAY_INSIDE_NEITHER = FALSE
+    FLAG_INSIDE_EDGE_TOUCH = FALSE
+    FLAG_OUTSIDE_PNT_TOUCH = FALSE
+    FLAG_OUTSIDE_EDGE_TOUCH = FALSE
+} (163) 
+   
+/*DIFF_18 Rules*/
+
+INTERNAL diff_18 {
+    COMMENT = "DIFF_18.W.1: Minimum width=0.33um"
+    SPACING < 0.33
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+EXTERNAL diff_18 {
+    COMMENT = "DIFF_18.S.1: Minimum spacing=0.33um "
+    SPACING < 0.33
+    CHECK_SAME_POLYGON = TRUE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+ENCLOSE diff BY diff_18 {
+    COMMENT = "DIFF_18.E.1: Minimum  DIFF enclosure 0.15um"
+    SPACING < 0.15
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    OVERLAP = TRUE
+    TOUCH = TRUE
+} (163)
+
+EXTERNAL diff_18  diff {
+    COMMENT = "DIFF_18.S.2 Minimum space to external DIFF 0.15um "
+    SPACING < 0.15
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    INSIDE = FALSE
+    OVERLAP = FALSE
+    POINT_TOUCH = FALSE
+} (163)
+
+AREA diff_18 {  
+    RANGE = [1e-05, 0.4 - 1e-05] 
+    COMMENT = "DIFF_18.A.1 Minimum area = 0.4um^2 "
+} (163) 
+
+SELECT diff_18 INSIDE_HOLE {EMPTY_HOLE_ONLY} TEMP=diff18_01
+
+AREA diff18_01 {
+    RANGE = [1e-05, 0.4 - 1e-05] 
+    COMMENT = "DIFF_18.A.2  Diff_18 minimum enclosed area = 0.4um^2 "
+}(163)
+
+/*DIFF_25 Rules*/
+
+INTERNAL diff_25 {
+    COMMENT = "DIFF_25.W.1: Minimum width=0.33um"
+    SPACING < 0.33
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+ENCLOSE diff BY diff_25 {
+    COMMENT = "DIFF_25.E.1: Minimum  DIFF enclosure 0.15um"
+    SPACING < 0.15
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    OVERLAP = TRUE
+    TOUCH = TRUE
+} (163)
+
+EXTERNAL diff_25 {
+    COMMENT = "DIFF_25.S.1: Minimum spacing=0.33um "
+    SPACING < 0.33
+    CHECK_SAME_POLYGON = TRUE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+EXTERNAL diff_25  diff {
+    COMMENT = "DIFF_25.S.2 Minimum space to external DIFF 0.15um "
+    SPACING < 0.15
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    INSIDE = FALSE
+    OVERLAP = FALSE
+    POINT_TOUCH = FALSE
+} (163)
+
+AREA diff_25 {  
+    RANGE = [1e-05, 0.4 - 1e-05] 
+    COMMENT = "DIFF_25.A.1 Minimum area = 0.4um^2 "
+} (163) 
+
+SELECT diff_25 INSIDE_HOLE {EMPTY_HOLE_ONLY} TEMP=diff25_01
+
+AREA diff25_01 {
+    RANGE = [1e-05, 0.4 - 1e-05] 
+    COMMENT = "DIFF_25.A.2  Diff_25 minimum enclosed area = 0.4um^2 "
+}(163)
+
+/*PAD Rules*/
+
+BOOLEAN mrdl AND pad {} TEMP = pad_1
+
+INTERNAL pad_1 {
+    COMMENT = "PAD.W.1: Minimum bonding passivation opening width =30um "
+    SPACING < 30
+    HORIZONTAL_ONLY = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+INTERNAL pad_1 {
+    COMMENT = "PAD.W.2: Minimum bonding passivation opening length =70um "
+    SPACING < 70
+    VERTICAL_ONLY = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+ENCLOSE pad BY mrdl {
+    COMMENT = "PAD.E.1: Pad metal enclose of passivation opening" 
+    SPACING < 1
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    OVERLAP = TRUE
+    TOUCH = TRUE
+} (163)
+
+EXTERNAL pad {
+    COMMENT = "PAD.S.1: Minimum spacing 10um "
+    SPACING < 10
+    CHECK_SAME_POLYGON = TRUE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+SELECT pad vertex { RANGE = [ 8,8] 
+}temp = ver_pad
+
+INTERNAL ver_pad {
+    COMMENT = "PAD.W.2: Flip-chip passivation opening (octagon) width =50um "
+    SPACING < 50
+    POINT_TOUCH = TRUE
+} (163)
+
+VECTORIZE pad {} temp = pad1
+
+SELECT_VECTOR pad1 {
+    ANGLE_RANGE = [45,45]
+}temp = len_pad
+
+LENGTH len_pad {
+    COMMENT = "PAD.W.4: Flip-chip passivation opening (octagon) length =70um"
+    SPACING < 70
+}(163)
+
+
+SELECT mt INTERACT pad {} TEMP=padmet
+
+EXTERNAL padmet  mt {
+    COMMENT = "PAD.S.2 PAD metal minimum space to unrelated metal 2um "
+    SPACING < 2
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    INSIDE = FALSE
+    OVERLAP = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+/*SBLK Rules*/
+
+INTERNAL sblk {
+    COMMENT = "SBLK.W.1: SBLK minimum width 0.33um "
+    SPACING < 0.33
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+EXTERNAL sblk {
+    COMMENT = "SBLK.S.1: SBLK minimum spacing 0.33um "
+    SPACING < 0.33
+    CHECK_SAME_POLYGON = TRUE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+BOOLEAN sblk AND co {
+    COMMENT = "SBLK.S.2: No contacts are allowed inside SBLK"
+} (163)
+
+EXTERNAL sblk co {
+    COMMENT = "SBLK.S.2 Minimum space, SBLK to contact 0.13um "
+    SPACING < 0.13
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    INSIDE = TRUE
+    OVERLAP = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+EXTERNAL sblk diff {
+    COMMENT = "SBLK.S.3 Minimum space, SBLK to external diff 0.18um "
+    SPACING < 0.18
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    INSIDE = TRUE
+    OVERLAP = FALSE
+    POINT_TOUCH = TRUE
+} (163)
+
+EXTERNAL sblk po {
+    COMMENT = "SBLK.S.4 Minimum space, SBLK to external poly 0.3um "
+    SPACING < 0.3
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    INSIDE = TRUE
+    OVERLAP = FALSE
+    POINT_TOUCH = TRUE
+} (163)
+
+BOOLEAN po AND sblk {} TEMP=poandsblk
+SELECT diff INTERACT sblk {} TEMP = diffsblk
+SELECT po INTERACT diffsblk {} TEMP = po_1
+
+EXTERNAL poandsblk {
+    COMMENT = "SBLK.S.5: Minimum spacing of poly resistors in a single SBLK region 0.3um "
+    SPACING < 0.3
+    CHECK_SAME_POLYGON = TRUE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+EXTERNAL sblk po_1 {
+    COMMENT = "SBLK.S.6 Minimum space, SBLK to poly (in a single active region) 0.4um "
+    SPACING < 0.4
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    INSIDE = TRUE
+    OVERLAP = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+INTERNAL poandsblk {
+    COMMENT = "SBLK.W.2: Minimum poly width in unsiliside resistor 0.4um "
+    SPACING < 0.4
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+ENCLOSE poandsblk BY sblk {
+    COMMENT = "SBLK.O.1: Minimum SBLK extension of poly or active 0.18um"
+    SPACING < 0.18
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    OVERLAP = TRUE
+    TOUCH = FALSE
+} (163)
+
+ENCLOSE poandsblk BY po {
+    COMMENT = "SBLK.O.2: Minimum poly extension of SBLK 0.18um"
+    SPACING < 0.18
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    OVERLAP = TRUE
+    TOUCH = FALSE
+} (163)
+
+/*PO Rules*/
+
+BOOLEAN diff AND po {} TEMP = Gate
+boolean po and diff and nimp {} temp = Gate_n
+boolean po and diff and pimp {} temp = Gate_p
+
+
+INTERNAL Gate {
+    RANGE = [0.031,0.034]
+    Comment = "PO.W.5: Exact channel length 0.03,0.035,0.04,0.045,0.05,0.06,0.08,0.01"
+}(163)
+
+INTERNAL Gate {
+    RANGE = [0.036,0.039]
+    Comment = "PO.W.5:Exact channel length 0.03,0.035,0.04,0.045,0.05,0.06,0.08,0.01"
+}(163)
+
+INTERNAL Gate {
+    RANGE = [0.041,0.044]
+    Comment = "PO.W.5:Exact channel length 0.03,0.035,0.04,0.045,0.05,0.06,0.08,0.01"
+}(163)
+
+INTERNAL Gate {
+    RANGE = [0.046,0.049]
+    Comment = "PO.W.5:Exact channel length 0.03,0.035,0.04,0.045,0.05,0.06,0.08,0.01"
+}(163)
+
+INTERNAL Gate {
+    RANGE = [0.051,0.059]
+    Comment = "PO.W.5:Exact channel length 0.03,0.035,0.04,0.045,0.05,0.06,0.08,0.01"
+}(163)
+
+INTERNAL Gate {
+    RANGE = [0.061,0.079]
+    Comment = "PO.W.5:Exact channel length 0.03,0.035,0.04,0.045,0.05,0.06,0.08,0.01"
+}(163)
+
+INTERNAL Gate {
+    RANGE = [0.081,0.099]
+    Comment = "PO.W.5: Exact channel length 0.03,0.035,0.04,0.045,0.05,0.06,0.08,0.01"
+}(163)
+
+EXTERNAL Gate co {
+    spacing = [0,0.039]
+    COMMENT = "PO.S.8: contact to Gate  spacing is exact 0.04 "
+}(163)
+
+EXTERNAL Gate co {
+    spacing = [0.041,0.079]
+    COMMENT = "PO.S.8:  contact to Gate  spacing is exact 0.04"
+}(163)
+
+EXTERNAL Gate_n {
+    spacing = [0,0.121]
+    COMMENT = "PO.S.9: Gate to po  spacing is exact 0.122"
+}(163)
+
+EXTERNAL Gate_n {
+    spacing = [0.123,0.243]
+    COMMENT = "PO.S.9:  Gate to PO  spacing is exact 0.122"
+}(163)
+
+EXTERNAL Gate_p {
+    spacing = [0,0.121]
+    COMMENT = "PO.S.9:  Gate to PO  spacing is exact 0.122"
+}(163)
+
+EXTERNAL Gate_p {
+    spacing = [0.123,0.243]
+    COMMENT = "PO.S.9:  Gate to PO  spacing is exact 0.122"
+}(163)
+
+/*left_n_gate*/
+
+SIZE Gate_n { grow_left = 0.122 } TEMP = grow_area_n
+
+SELECT po interact grow_area_n {
+    line_touch = true } temp = out_po
+
+select po interact Gate_n {}temp = po_gate_n
+boolean out_po not po_gate_n {} temp=interacted
+
+if (layer_empty(interacted)) {
+    AREA grow_area_n {
+    	COMMENT = "Gate must to have po with spacing 0.122 horizontal devices not allowed"
+	RANGE = [0.001,1e+5]
+    }(163)
+}
+
+SIZE Gate_n { GROW_RIGHT = 0.122 } TEMP = grow_area_r
+
+SELECT po interact grow_area_r {
+    line_touch = true } temp = out_po_r
+
+select po interact Gate_n {}temp = po_gate_r
+boolean out_po_r not po_gate_r {} temp=interacted_r
+
+if (layer_empty(interacted_r)) {
+    AREA grow_area_r { 
+    	COMMENT = "Gate must to have po with spacing 0.122 horizontal devices not allowed"
+	RANGE = [0.001,1e+5]
+    }(163)
+}
+
+SIZE Gate_p { GROW_LEFT = 0.122 } TEMP = grow_area_p
+
+SELECT po interact grow_area_p {
+    line_touch = true } temp = out_po_p
+
+select po interact Gate_p {}temp = po_gate_p
+boolean out_po_p not po_gate_p {} temp=interacted_p
+
+if (layer_empty(interacted_p)) {
+    AREA grow_area_p { 
+    	COMMENT = "Gate must to have po with spacing 0.122 horizontal devices not allowed"
+	RANGE = [0.001,1e+5]
+    }(163)
+}
+
+SIZE Gate_p { GROW_RIGHT = 0.122 } TEMP = grow_area_r_p
+
+SELECT po interact grow_area_r_p {
+    line_touch = true } temp = out_po_r_p
+
+select po interact Gate_p {}temp = po_gate_r_p
+boolean out_po_r_p not po_gate_r_p {} temp=interacted_r_p
+
+if (layer_empty(interacted_r_p)) {
+    AREA grow_area_r_p { 
+	COMMENT = "Gate must to have po with spacing 0.122 horizontal devices not allowed"
+	RANGE = [0.001,1e+5]
+    }(163)
+}
+
+INTERNAL po {
+    COMMENT = "PO.W.1: Minimum width=0.03um "
+    SPACING < 0.03
+    HORIZONTAL_ONLY = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+SELECT po vertex { RANGE = [ 4,4] 
+}temp = ver_po_1
+
+
+INTERNAL ver_po_1 {
+    COMMENT = "PO.W.1: Minimum width of horizontal drown po=0.04um "
+    SPACING < 0.04
+    VERTICAL_ONLY = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+INTERNAL diff {
+    SPACING<0.08
+}TEMP=po_s
+
+EXTERNAL po_s po {
+    COMMENT = "PO.S.6: Minimum spacing of poly to diff with width <=0.08, paralel run length > 0.1 0.035um"
+    /*SPACING < 0.06*/
+    LONGEDGE_TO_EDGE < 0.035
+    /*NON_PARALLEL = FALSE*/
+    LONGEDGE >= 0.1
+}(163) 
+
+SELECT po vertex { RANGE = [ 6,8] 
+
+}temp = ver_po
+
+INTERNAL ver_po {
+    COMMENT = "PO.W.2: Minimum width of horizontal drawn rectangular or L-shape PO =0.04um"
+    SPACING < 0.04
+    vertical_ONLY = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+SELECT po vertex {
+    RANGE = [ 9,120] 
+}temp = ver_poly
+
+INTERNAL ver_poly {
+    COMMENT = "PO.W.3: Minimum width of horizontal drawn PO =0.064um"
+    SPACING < 0.064
+    vertical_ONLY = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+/*
+ENCLOSE co BY po {
+    SPACING < 0.02
+    SET_CORNERS_TO_SPACING = FALSE
+    PARALLEL_POINT_PROJECTION = FALSE
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+    POINT_TOUCH = FALSE
+    OUTPUT_EDGES = TRUE
+}TEMP=poe2_poe31_x
+
+SELECT_EDGE co TOUCHING poe2_poe31_x {} TEMP=poe2_poe32_y
+
+INTERNAL poe2_poe32_y {
+    COMMENT = "CO.E.10: Min. enclosure of contact by po at end-of-line 0.02um "
+    SEGMENT < 0
+    FLAG_CONCAVE_90 = TRUE
+    OUTPUT_EDGES = TRUE 
+} (163)
+*/
+SELECT po INTERACT diff {} TEMP=po_diff
+
+/*
+INTERNAL po_diff {
+    COMMENT = "PO.W.2: Minimum width of horizontal drawn rectangular or L-shape PO =0.04um "
+    SPACING < 0.04
+    VERTICAL_ONLY = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+BOOLEAN po NOT po_diff {} TEMP = po_not_diff
+
+INTERNAL po_not_diff {
+    COMMENT = "PO.W.3: Minimum width of horizontal drawn PO =0.064um"
+    SPACING < 0.64
+    VERTICAL_ONLY = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+*/
+
+BOOLEAN diff AND diff_25 AND po {} temp = pp
+
+INTERNAL pp {
+    COMMENT = "PO.W.4: Minimum poly width in a thick oxide gate 0.3um "
+    SPACING < 0.3
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+BOOLEAN diff AND diff_18 AND po {} temp = pp_1
+
+INTERNAL pp_1 {
+    COMMENT = "PO.W.4: Minimum poly width in a thick oxide gate 0.3um "
+    SPACING < 0.3
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+EXTERNAL fpoly {
+    SPACING < 0.1
+    CHECK_SAME_POLYGON = TRUE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} TEMP=fpoly_s_1
+
+BOOLEAN fpoly_s_1 NOT gate {
+    COMMENT = "PO.S.1: PO minimum spacing over field 0.1um "
+} (163)
+
+/*EXTERNAL gate {
+    COMMENT = "PO.S.2: PO minimum spacing over active 0.086um "
+    SPACING < 0.086
+    CHECK_SAME_POLYGON = TRUE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)*/
+
+SIZE gate {
+    UNDER_OVER=0.05
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=gate_span
+
+internal po {
+    spacing < 0.1
+    /*horizontal_only = true*/
+} temp = po_ppp
+
+boolean po not po_ppp {} temp = po_rrr
+
+EXTERNAL po_rrr po {
+    COMMENT = "PO.S.3: Minimum spacing of poly with span > 0.1 with paralel run length > 0.1 0.125um"
+    /*SPACING < 0.06*/
+    LONGEDGE_TO_EDGE < 0.125
+    /*NON_PARALLEL = FALSE*/
+    LONGEDGE >= 0.1
+}(163) 
+
+
+EXTERNAL gate_span {
+    COMMENT = " PO.S.3: PO minimum spacing over active,if channel length > 0.1 =0.13um "
+    SPACING < 0.13
+    CHECK_SAME_POLYGON = TRUE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+EXTERNAL po_diff diff {
+    COMMENT = "PO.S.5: Minimum field poly to DIFF spacing=0.035um "
+    SPACING < 0.035
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = FALSE
+} (163)
+
+EXTERNAL po diff {
+    COMMENT = "PO.S.6: Minimum space of PO to diff 0.02um "
+    SPACING < 0.02
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+} (163)
+
+ENCLOSE gate BY po {
+    COMMENT = "PO.EX.1: Minimum gate extension of active (endcap)  0.06um "
+    SPACING < 0.06
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = FALSE
+} (163)
+
+ENCLOSE gate BY diff {
+    COMMENT = "PO.EX.2 Minimun Active extension of gate = 0.102um "/*85*/
+    SPACING < 0.102 /*85*/
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = FALSE
+} (163)
+
+ENCLOSE po BY gate {
+    SPACING < 0.001
+    FLAG_ACUTE_ANGLE = FALSE
+    TOUCH = TRUE
+    OUTPUT_EDGES = TRUE 
+} TEMP=gate_w
+
+INTERNAL gate_w {
+    COMMENT = "PO.G.1: 45 degree and 90 degree bent gate are not allowed "
+    SEGMENT < 0
+    FLAG_CONVEX_90 = TRUE
+    FLAG_CONCAVE_90 = TRUE
+    OUTPUT_EDGES = TRUE 
+} (163)
+
+INTERNAL gate_w {
+    COMMENT = "PO.G.1: 45 degree and 90 degree bent gate are not allowed "
+    SEGMENT < 0
+    FLAG_CONVEX_45 = TRUE
+    FLAG_CONCAVE_45 = TRUE
+    OUTPUT_EDGES = TRUE 
+} (163)
+
+AREA po {  
+    RANGE = [1e-05, 0.012 - 1e-05] 
+    COMMENT = "PO.A.1  POLY minimum area = 0.012um^2 "
+} (163) 
+
+AREA gate {  
+    RANGE = [1, 1e+05] 
+    COMMENT = "PO.A.2  Maximum gate area =40um^2 "
+} (163)
+
+SELECT diff interact po {} temp = diff_int
+boolean diff_int not Gate {} temp = diff_int_gate
+
+SELECT diff_int_gate vertex { RANGE = [ 6,50] 
+    COMMENT = "DIFF.S.8: device diff must be rectangular"
+}(163)
+ 
+/*M1 Rules*/
+
+internal m1 {
+    spacing < 0.1
+    /*horizontal_only = true*/
+} temp = m1_ppp
+
+boolean m1 not m1_ppp {} temp = m1_rrr
+
+EXTERNAL m1_rrr m1 {
+    COMMENT = "M1.S.6:Minimum spacing of M1 with span > 0.1 with paralel run length > 0.2 0.06um"
+    /*SPACING < 0.06*/
+    LONGEDGE_TO_EDGE < 0.06
+    /*NON_PARALLEL = FALSE*/
+    LONGEDGE >= 0.2
+}(163) 
+
+internal m1 {
+    spacing < 0.3
+    /*horizontal_only = true*/
+} temp = m1_p3
+
+boolean m1 not m1_p3 {} temp = m1_r3
+
+EXTERNAL m1_r3 m1 {
+    COMMENT = "M1.S.7:Minimum spacing of M1 with span > 0.3 with paralel run length > 0.3 0.06um"
+    /*SPACING < 0.06*/
+    LONGEDGE_TO_EDGE < 0.06
+    /*NON_PARALLEL = FALSE*/
+    LONGEDGE >= 0.3
+}(163) 
+
+
+
+/*
+EXTERNAL m1_rrr m1 {
+    COMMENT = "M1.S.6:Minimum spacing of M1 with span > 0.1 with paralel run length > 0.2 0.06um"
+    SPACING < 0.06
+    /*LONGEDGE_TO_EDGE < 0.06*/
+    /*NON_PARALLEL = FALSE*/
+    /*LONGEDGE >= 0.2*/
+}(163)*/
+
+INTERNAL m1 {
+    COMMENT = "M1.W.1: Minimum width=0.05um "
+    SPACING < 0.05
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+size m1 {
+    under_over = 2.5
+    COMMENT = "M1.W.2: Maximum width =5um"
+}(165)
+
+EXTERNAL m1 {
+    COMMENT = "M1.S.1: Minimum spacing=0.05um "
+    SPACING < 0.05
+    CHECK_SAME_POLYGON = TRUE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+SIZE m1 {
+    UNDER_OVER=0.075
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=m1wide
+
+EXTERNAL m1wide m1 {
+    COMMENT = "M1.S.9: Minimum spacing when either metal line is wider than 0.15 =0.055um "
+    SPACING < 0.055
+/*    CHECK_SAME_POLYGON = TRUE*/
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+AREA m1 {  
+    RANGE = [1e-05, 0.01 - 1e-05] 
+    COMMENT = "M1.A.1  M1 minimum area = 0.01um^2 "
+} (163) 
+
+SELECT m1 INSIDE_HOLE {EMPTY_HOLE_ONLY} TEMP=m1_imp
+
+AREA m1_imp {
+    RANGE = [1e-05, 0.2 - 1e-05] 
+    COMMENT = "M1.A.2  M1 minimum enclosed area = 0.2um^2 "
+}(163)
+
+SIZE m1 {
+    UNDER_OVER=0.075
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=m1_int1
+
+SIZE m1 {
+    UNDER_OVER=0.15
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=m1_int2
+
+SIZE m1 {
+    UNDER_OVER=0.75
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=m1_int3
+
+SIZE m1 {
+    UNDER_OVER=1.5
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=m1_int4
+
+/*INTERNAL m1 { RANGE = [0.15,0.3]} temp = m1_int1*/
+/*INTERNAL m1 { RANGE = [0.3,1.5] } temp = m1_int2*/
+/*INTERNAL m1 { RANGE = [1.5  ,3] } temp = m1_int3*/
+/*INTERNAL m1 { RANGE = [3    ,5] } temp = m1_int4*/
+
+EXTERNAL m1_int1 {
+COMMENT = "M1.S.2: Minimum spacing when either metal line is wider than 0.15 with paralel run length > 0.15 0.06um"
+SPACING < 0.06
+NON_PARALLEL = FALSE
+LONGEDGE_TO_EDGE  < 0.15
+LONGEDGE >= 0.15
+}(163)
+
+EXTERNAL  m1_int2 {
+COMMENT = "M1.S.3: Minimum spacing when either metal line is wider than 0.3 with paralel run length > 0.3 is 0.1um   "
+SPACING < 0.1
+NON_PARALLEL = FALSE
+LONGEDGE_TO_EDGE  < 0.3 
+LONGEDGE >= 0.3
+}(163)
+
+EXTERNAL  m1_int3 {
+COMMENT = "M1.S.4: Minimum spacing when either metal line is wider than 1.5 with paralel run length > 1.5 0.5um   "
+SPACING < 0.5
+NON_PARALLEL = FALSE
+LONGEDGE_TO_EDGE  < 1.5 
+LONGEDGE >= 1.5
+}(163)
+
+EXTERNAL  m1_int4 {
+COMMENT = "M1.S.5: Minimum spacing when either metal line is wider than 3 with paralel run length > 3 0.6um   "
+SPACING < 0.6
+NON_PARALLEL = FALSE
+LONGEDGE_TO_EDGE  < 3
+LONGEDGE >= 3
+}(163)
+
+
+EXTERNAL m1 via1 {
+    COMMENT = "M1.S.6: minimum spacing of M1 to neighboring via1 =0.08um "
+    SPACING < 0.08
+    NON_PARALLEL = FALSE
+}(163)
+
+
+/*M2 Rules*/
+
+INTERNAL m2 {
+    COMMENT = "M2.W.1: Minimum width=0.56um "
+    SPACING < 0.56
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+size m2 {
+    under_over = 2.5
+    COMMENT = "MX.W.2: Maximum width =5um"
+}(165)
+
+
+EXTERNAL m2 {
+    COMMENT = "M2.S.1: Minimum spacing=0.56um "
+    SPACING < 0.56
+    CHECK_SAME_POLYGON = TRUE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+AREA m2 {  
+    RANGE = [1e-05, 0.016 - 1e-05] 
+    COMMENT = "M2.A.1  M2 minimum area = 0.016um^2 "
+} (163) 
+
+internal m2 {
+    spacing < 0.1
+    /*horizontal_only = true*/
+} temp = m2_ppp
+
+boolean m2 not m2_ppp {} temp = m2_rrr
+
+EXTERNAL m2_rrr m2 {
+    COMMENT = "MX.S.6:Minimum spacing of MX with span > 0.1 with paralel run length > 0.2 0.12um"
+    /*SPACING < 0.06*/
+    LONGEDGE_TO_EDGE < 0.12
+    /*NON_PARALLEL = FALSE*/
+    LONGEDGE >= 0.2
+}(163) 
+
+internal m2 {
+    spacing < 0.3
+    /*horizontal_only = true*/
+} temp = m2_p3
+
+boolean m2 not m2_p3 {} temp = m2_r3
+
+EXTERNAL m2_r3 m2 {
+    COMMENT = "MX.S.7:Minimum spacing of MX with span > 0.3 with paralel run length > 0.3 0.14um"
+    /*SPACING < 0.06*/
+    LONGEDGE_TO_EDGE < 0.14
+    /*NON_PARALLEL = FALSE*/
+    LONGEDGE >= 0.3
+}(163) 
+
+
+
+
+
+
+
+
+
+SELECT m2 INSIDE_HOLE {EMPTY_HOLE_ONLY} TEMP=m2_imp
+
+AREA m2_imp {
+    RANGE = [1e-05, 0.2 - 1e-05] 
+    COMMENT = "M2.A.2  M1 minimum enclosed area = 0.2um^2 "
+}(163)
+
+SIZE m2 {
+    UNDER_OVER=0.075
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=m2_int1
+
+SIZE m2 {
+    UNDER_OVER=0.15
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=m2_int2
+
+SIZE m2 {
+    UNDER_OVER=0.75
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=m2_int3
+
+SIZE m2 {
+    UNDER_OVER=1.5
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=m2_int4
+
+/*INTERNAL m2 { RANGE = [0.15,0.3]} temp = m2_int1
+INTERNAL m2 { RANGE = [0.3,1.5] } temp = m2_int2
+INTERNAL m2 { RANGE = [1.5  ,3] } temp = m2_int3
+INTERNAL m2 { RANGE = [3    ,5] } temp = m2_int4*/
+
+EXTERNAL m2_int1 {
+COMMENT = "M2.S.2: Minimum spacing when either metal line is wider than 0.15 with paralel run length > 0.06 0.064um   "
+SPACING < 0.064
+NON_PARALLEL = FALSE
+LONGEDGE_TO_EDGE  < 0.15 
+LONGEDGE >= 0.15
+}(163)
+
+EXTERNAL  m2_int2 {
+COMMENT = "M2.S.3: Minimum spacing when either metal line is wider than 0.3 with paralel run length > 0.3 0.11um   "
+SPACING < 0.11
+NON_PARALLEL = FALSE
+LONGEDGE_TO_EDGE  < 0.3 
+LONGEDGE >= 0.3
+}(163)
+
+EXTERNAL  m2_int3 {
+COMMENT = "M2.S.3: Minimum spacing when either metal line is wider than 1.5 with paralel run length > 1.5 0.6um   "
+SPACING < 0.6
+NON_PARALLEL = FALSE
+LONGEDGE_TO_EDGE  < 1.5 
+LONGEDGE >= 1.5
+}(163)
+
+EXTERNAL  m2_int4 {
+COMMENT = "M2.S.3: Minimum spacing when either metal line is wider than 3 with paralel run length > 3 0.7um   "
+SPACING < 0.7
+NON_PARALLEL = FALSE
+LONGEDGE_TO_EDGE  < 3
+LONGEDGE >= 3
+}(163)
+
+EXTERNAL m2 via1 {
+    COMMENT = "MX.S.6: minimum spacing of MX to neighboring via1 =0.08um "
+    SPACING < 0.08
+    NON_PARALLEL = FALSE
+}(163)
+
+EXTERNAL m2 via2 {
+    COMMENT = "MX.S.6: minimum spacing of MX to neighboring via1 =0.08um "
+    SPACING < 0.08
+    NON_PARALLEL = FALSE
+}(163)
+
+
+
+/*M3 Rules*/
+
+INTERNAL m3 {
+    COMMENT = "M3.W.1: Minimum width=0.56um "
+    SPACING < 0.56
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+size m3 {
+    under_over = 2.5
+    COMMENT = "MX.W.2: Maximum width =5um"
+}(165)
+
+EXTERNAL m3 {
+    COMMENT = "M3.S.1: Minimum spacing=0.56um "
+    SPACING < 0.56
+    CHECK_SAME_POLYGON = TRUE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+AREA m3 {  
+    RANGE = [1e-05, 0.015 - 1e-05] 
+    COMMENT = "M3.A.1  M3 minimum area = 0.015um^2 "
+} (163)
+
+SELECT m3 INSIDE_HOLE {EMPTY_HOLE_ONLY} TEMP=m3_imp
+
+AREA m3_imp {
+    RANGE = [1e-05, 0.2 - 1e-05] 
+    COMMENT = "M3.A.2  M1 minimum enclosed area = 0.2um^2 "
+}(163)
+
+SIZE m3 {
+    UNDER_OVER=0.075
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=m3_int1
+
+SIZE m3 {
+    UNDER_OVER=0.15
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=m3_int2
+
+SIZE m3 {
+    UNDER_OVER=0.75
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=m3_int3
+
+SIZE m3 {
+    UNDER_OVER=1.5
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=m3_int4
+
+/*INTERNAL m3 { RANGE = [0.15,0.3]} temp = m3_int1
+INTERNAL m3 { RANGE = [0.3,1.5] } temp = m3_int2
+INTERNAL m3 { RANGE = [1.5  ,3] } temp = m3_int3
+INTERNAL m3 { RANGE = [3    ,5] } temp = m3_int4*/
+
+EXTERNAL m3_int1 {
+COMMENT = "M3.S.2: Minimum spacing when either metal line is wider than 0.15 is 0.065um   "
+SPACING < 0.065
+NON_PARALLEL = FALSE
+LONGEDGE_TO_EDGE  < 0.15 
+LONGEDGE >= 0.15
+}(163)
+
+EXTERNAL  m3_int2 {
+COMMENT = "M3.S.3: Minimum spacing when either metal line is wider than 0.3 is 0.11um   "
+SPACING < 0.11
+NON_PARALLEL = FALSE
+LONGEDGE_TO_EDGE  < 0.3 
+LONGEDGE >= 0.3
+}(163)
+
+EXTERNAL  m3_int3 {
+COMMENT = "M3.S.3: Minimum spacing when either metal line is wider than 1.5 is 0.6um   "
+SPACING < 0.6
+NON_PARALLEL = FALSE
+LONGEDGE_TO_EDGE  < 1.5 
+LONGEDGE >= 1.5
+}(163)
+
+EXTERNAL  m3_int4 {
+COMMENT = "M3.S.3: Minimum spacing when either metal line is wider than 3 is 0.7um   "
+SPACING < 0.7
+NON_PARALLEL = FALSE
+LONGEDGE_TO_EDGE  < 3
+LONGEDGE >= 3
+}(163)
+
+EXTERNAL m3 via2 {
+    COMMENT = "MX.S.6: minimum spacing of MX to neighboring via1 =0.08um "
+    SPACING < 0.08
+    NON_PARALLEL = FALSE
+}(163)
+
+EXTERNAL m3 via3 {
+    COMMENT = "MX.S.6: minimum spacing of MX to neighboring via1 =0.08um "
+    SPACING < 0.08
+    NON_PARALLEL = FALSE
+}(163)
+
+internal m3 {
+    spacing < 0.1
+    /*horizontal_only = true*/
+} temp = m3_ppp
+
+boolean m3 not m3_ppp {} temp = m3_rrr
+
+EXTERNAL m3_rrr m3 {
+    COMMENT = "MX.S.6:Minimum spacing of MX with span > 0.1 with paralel run length > 0.2 0.12um"
+    /*SPACING < 0.06*/
+    LONGEDGE_TO_EDGE < 0.12
+    /*NON_PARALLEL = FALSE*/
+    LONGEDGE >= 0.2
+}(163) 
+
+internal m3 {
+    spacing < 0.3
+    /*horizontal_only = true*/
+} temp = m3_p3
+
+boolean m3 not m3_p3 {} temp = m3_r3
+
+EXTERNAL m3_r3 m3 {
+    COMMENT = "MX.S.7:Minimum spacing of MX with span > 0.3 with paralel run length > 0.3 0.14um"
+    /*SPACING < 0.06*/
+    LONGEDGE_TO_EDGE < 0.14
+    /*NON_PARALLEL = FALSE*/
+    LONGEDGE >= 0.3
+}(163) 
+
+
+/*M4 Rules*/
+
+INTERNAL m4 {
+    COMMENT = "M4.W.1: Minimum width=0.57um "
+    SPACING < 0.57
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+size m4 {
+    under_over = 2.5
+    COMMENT = "MX.W.2: Maximum width =5um"
+}(165)
+
+EXTERNAL m4 {
+    COMMENT = "M4.S.1: Minimum spacing=0.57um "
+    SPACING < 0.57
+    CHECK_SAME_POLYGON = TRUE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+AREA m4 {  
+    RANGE = [1e-05, 0.015 - 1e-05] 
+    COMMENT = "M4.A.1  M4 minimum area = 0.015um^2 "
+} (163) 
+
+internal m4 {
+    spacing < 0.1
+    /*horizontal_only = true*/
+} temp = m4_ppp
+
+boolean m4 not m4_ppp {} temp = m4_rrr
+
+EXTERNAL m4_rrr m4 {
+    COMMENT = "MX.S.6:Minimum spacing of MX with span > 0.1 with paralel run length > 0.2 0.12um"
+    /*SPACING < 0.06*/
+    LONGEDGE_TO_EDGE < 0.12
+    /*NON_PARALLEL = FALSE*/
+    LONGEDGE >= 0.2
+}(163) 
+
+internal m4 {
+    spacing < 0.3
+    /*horizontal_only = true*/
+} temp = m4_p3
+
+boolean m4 not m4_p3 {} temp = m4_r3
+
+EXTERNAL m4_r3 m4 {
+    COMMENT = "MX.S.7:Minimum spacing of MX with span > 0.3 with paralel run length > 0.3 0.14um"
+    /*SPACING < 0.06*/
+    LONGEDGE_TO_EDGE < 0.14
+    /*NON_PARALLEL = FALSE*/
+    LONGEDGE >= 0.3
+}(163) 
+
+
+SELECT m4 INSIDE_HOLE {EMPTY_HOLE_ONLY} TEMP=m4_imp
+
+AREA m4_imp {
+    RANGE = [1e-05, 0.2 - 1e-05] 
+    COMMENT = "M4.A.2  M1 minimum enclosed area = 0.2um^2 "
+}(163)
+
+SIZE m4 {
+    UNDER_OVER=0.075
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=m4_int1
+
+SIZE m4 {
+    UNDER_OVER=0.15
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=m4_int2
+
+SIZE m4 {
+    UNDER_OVER=0.75
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=m4_int3
+
+SIZE m4 {
+    UNDER_OVER=1.5
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=m4_int4
+/*INTERNAL m4 { RANGE = [0.15,0.3]} temp = m4_int1
+INTERNAL m4 { RANGE = [0.3,1.5] } temp = m4_int2
+INTERNAL m4 { RANGE = [1.5  ,3] } temp = m4_int3
+INTERNAL m4 { RANGE = [3    ,5] } temp = m4_int4*/
+
+EXTERNAL m4_int1 {
+COMMENT = "M4.S.2: Minimum spacing when either metal line is wider than 0.15 is 0.065um   "
+SPACING < 0.065
+NON_PARALLEL = FALSE
+LONGEDGE_TO_EDGE  < 0.15 
+LONGEDGE >= 0.15
+}(163)
+
+EXTERNAL  m4_int2 {
+COMMENT = "M4.S.3: Minimum spacing when either metal line is wider than 0.3 is 0.11um   "
+SPACING < 0.11
+NON_PARALLEL = FALSE
+LONGEDGE_TO_EDGE  < 0.3 
+LONGEDGE >= 0.3
+}(163)
+
+EXTERNAL  m4_int3 {
+COMMENT = "M4.S.3: Minimum spacing when either metal line is wider than 1.5 is 0.6um   "
+SPACING < 0.6
+NON_PARALLEL = FALSE
+LONGEDGE_TO_EDGE  < 1.5 
+LONGEDGE >= 1.5
+}(163)
+
+EXTERNAL  m4_int4 {
+COMMENT = "M4.S.3: Minimum spacing when either metal line is wider than 3 is 0.7um   "
+SPACING < 0.7
+NON_PARALLEL = FALSE
+LONGEDGE_TO_EDGE  < 3
+LONGEDGE >= 3
+}(163)
+
+EXTERNAL m4 via3 {
+    COMMENT = "MX.S.6: minimum spacing of MX to neighboring via1 =0.08um "
+    SPACING < 0.08
+    NON_PARALLEL = FALSE
+}(163)
+
+EXTERNAL m4 via4 {
+    COMMENT = "MX.S.6: minimum spacing of MX to neighboring via1 =0.08um "
+    SPACING < 0.08
+    NON_PARALLEL = FALSE
+}(163)
+
+/*M5 Rules*/
+
+INTERNAL m5 {
+    COMMENT = "M5.W.1: Minimum width=0.57um "
+    SPACING < 0.57
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+size m5 {
+    under_over = 2.5
+    COMMENT = "MX.W.2: Maximum width =5um"
+}(165)
+
+EXTERNAL m5 {
+    COMMENT = "M5.S.1: Minimum spacing=0.57um "
+    SPACING < 0.57
+    CHECK_SAME_POLYGON = TRUE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+AREA m5 {  
+    RANGE = [1e-05, 0.015 - 1e-05] 
+    COMMENT = "M5.A.1  M5 minimum area = 0.015um^2 "
+} (163) 
+
+SELECT m5 INSIDE_HOLE {EMPTY_HOLE_ONLY} TEMP=m5_imp
+
+AREA m5_imp {
+    RANGE = [1e-05, 0.2 - 1e-05] 
+    COMMENT = "M5.A.2  M1 minimum enclosed area = 0.2um^2 "
+}(163)
+
+SIZE m5 {
+    UNDER_OVER=0.075
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=m5_int1
+
+SIZE m5 {
+    UNDER_OVER=0.15
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=m5_int2
+
+SIZE m5 {
+    UNDER_OVER=0.75
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=m5_int3
+
+SIZE m5 {
+    UNDER_OVER=1.5
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=m5_int4
+/*INTERNAL m5 { RANGE = [0.15,0.3]} temp = m5_int1
+INTERNAL m5 { RANGE = [0.3,1.5] } temp = m5_int2
+INTERNAL m5 { RANGE = [1.5  ,3] } temp = m5_int3
+INTERNAL m5 { RANGE = [3    ,5] } temp = m5_int4*/
+
+EXTERNAL m5_int1 {
+COMMENT = "M5.S.2: Minimum spacing when either metal line is wider than 0.15 is 0.065um   "
+SPACING < 0.065
+NON_PARALLEL = FALSE
+LONGEDGE_TO_EDGE  < 0.15 
+LONGEDGE >= 0.15
+}(163)
+
+EXTERNAL  m5_int2 {
+COMMENT = "M5.S.3: Minimum spacing when either metal line is wider than 0.3 is 0.11um   "
+SPACING < 0.11
+NON_PARALLEL = FALSE
+LONGEDGE_TO_EDGE  < 0.3 
+LONGEDGE >= 0.3
+}(163)
+
+EXTERNAL  m5_int3 {
+COMMENT = "M5.S.3: Minimum spacing when either metal line is wider than 1.5 is 0.6um   "
+SPACING < 0.6
+NON_PARALLEL = FALSE
+LONGEDGE_TO_EDGE  < 1.5 
+LONGEDGE >= 1.5
+}(163)
+
+EXTERNAL  m5_int4 {
+COMMENT = "M5.S.3: Minimum spacing when either metal line is wider than 3 is 0.7um   "
+SPACING < 0.7
+NON_PARALLEL = FALSE
+LONGEDGE_TO_EDGE  < 3
+LONGEDGE >= 3
+}(163)
+
+EXTERNAL m5 via4 {
+    COMMENT = "MX.S.6: minimum spacing of MX to neighboring via1 =0.08um "
+    SPACING < 0.08
+    NON_PARALLEL = FALSE
+}(163)
+
+EXTERNAL m5 via5 {
+    COMMENT = "MX.S.6: minimum spacing of MX to neighboring via1 =0.08um "
+    SPACING < 0.08
+    NON_PARALLEL = FALSE
+}(163)
+
+internal m5 {
+    spacing < 0.1
+    /*horizontal_only = true*/
+} temp = m5_ppp
+
+boolean m5 not m5_ppp {} temp = m5_rrr
+
+EXTERNAL m5_rrr m5 {
+    COMMENT = "MX.S.6:Minimum spacing of MX with span > 0.1 with paralel run length > 0.2 0.12um"
+    /*SPACING < 0.06*/
+    LONGEDGE_TO_EDGE < 0.12
+    /*NON_PARALLEL = FALSE*/
+    LONGEDGE >= 0.2
+}(163) 
+
+internal m5 {
+    spacing < 0.3
+    /*horizontal_only = true*/
+} temp = m5_p3
+
+boolean m5 not m5_p3 {} temp = m5_r3
+
+EXTERNAL m5_r3 m5 {
+    COMMENT = "MX.S.7:Minimum spacing of MX with span > 0.3 with paralel run length > 0.3 0.14um"
+    /*SPACING < 0.06*/
+    LONGEDGE_TO_EDGE < 0.14
+    /*NON_PARALLEL = FALSE*/
+    LONGEDGE >= 0.3
+}(163) 
+
+/*M6 Rules*/
+
+INTERNAL m6 {
+    COMMENT = "M6.W.1: Minimum width=0.57um "
+    SPACING < 0.57
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+size m6 {
+    under_over = 2.5
+    COMMENT = "MX.W.2: Maximum width =5um"
+}(165)
+
+EXTERNAL m6 {
+    COMMENT = "M6.S.1: Minimum spacing=0.57um "
+    SPACING < 0.57
+    CHECK_SAME_POLYGON = TRUE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+AREA m6 {  
+    RANGE = [1e-05, 0.015 - 1e-05] 
+    COMMENT = "M6.A.1  M6 minimum area = 0.015um^2 "
+} (163) 
+
+SELECT m6 INSIDE_HOLE {EMPTY_HOLE_ONLY} TEMP=m6_imp
+
+AREA m6_imp {
+    RANGE = [1e-05, 0.2 - 1e-05] 
+    COMMENT = "M6.A.2  M1 minimum enclosed area = 0.2um^2 "
+}(163)
+
+SIZE m6 {
+    UNDER_OVER=0.075
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=m6_int1
+
+SIZE m6 {
+    UNDER_OVER=0.15
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=m6_int2
+
+SIZE m6 {
+    UNDER_OVER=0.75
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=m6_int3
+
+SIZE m6 {
+    UNDER_OVER=1.5
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=m6_int4
+/*INTERNAL m6 { RANGE = [0.15,0.3]} temp = m6_int1
+INTERNAL m6 { RANGE = [0.3,1.5] } temp = m6_int2
+INTERNAL m6 { RANGE = [1.5  ,3] } temp = m6_int3
+INTERNAL m6 { RANGE = [3    ,5] } temp = m6_int4*/
+
+EXTERNAL m6_int1 {
+COMMENT = "M6.S.2: Minimum spacing when either metal line is wider than 0.15 is 0.065um   "
+SPACING < 0.065
+NON_PARALLEL = FALSE
+LONGEDGE_TO_EDGE  < 0.15 
+LONGEDGE >= 0.15
+}(163)
+
+EXTERNAL  m6_int2 {
+COMMENT = "M6.S.3: Minimum spacing when either metal line is wider than 0.3 is 0.11um   "
+SPACING < 0.11
+NON_PARALLEL = FALSE
+LONGEDGE_TO_EDGE  < 0.3 
+LONGEDGE >= 0.3
+}(163)
+
+
+EXTERNAL  m6_int3 {
+COMMENT = "M6.S.3: Minimum spacing when either metal line is wider than 1.5 is 0.6um   "
+SPACING < 0.6
+NON_PARALLEL = FALSE
+LONGEDGE_TO_EDGE  < 1.5 
+LONGEDGE >= 1.5
+}(163)
+
+EXTERNAL  m6_int4 {
+COMMENT = "M6.S.3: Minimum spacing when either metal line is wider than 3 is 0.7um   "
+SPACING < 0.7
+NON_PARALLEL = FALSE
+LONGEDGE_TO_EDGE  < 3
+LONGEDGE >= 3
+}(163)
+
+EXTERNAL m6 via5 {
+    COMMENT = "MX.S.6: minimum spacing of MX to neighboring via1 =0.08um "
+    SPACING < 0.08
+    NON_PARALLEL = FALSE
+}(163)
+
+EXTERNAL m6 via6 {
+    COMMENT = "MX.S.6: minimum spacing of MX to neighboring via1 =0.08um "
+    SPACING < 0.08
+    NON_PARALLEL = FALSE
+}(163)
+
+internal m6 {
+    spacing < 0.1
+    /*horizontal_only = true*/
+} temp = m6_ppp
+
+boolean m6 not m6_ppp {} temp = m6_rrr
+
+EXTERNAL m6_rrr m6 {
+    COMMENT = "MX.S.6:Minimum spacing of MX with span > 0.1 with paralel run length > 0.2 0.12um"
+    /*SPACING < 0.06*/
+    LONGEDGE_TO_EDGE < 0.12
+    /*NON_PARALLEL = FALSE*/
+    LONGEDGE >= 0.2
+}(163) 
+
+internal m6 {
+    spacing < 0.3
+    /*horizontal_only = true*/
+} temp = m6_p3
+
+boolean m6 not m6_p3 {} temp = m6_r3
+
+EXTERNAL m6_r3 m6 {
+    COMMENT = "MX.S.7:Minimum spacing of MX with span > 0.3 with paralel run length > 0.3 0.14um"
+    /*SPACING < 0.06*/
+    LONGEDGE_TO_EDGE < 0.14
+    /*NON_PARALLEL = FALSE*/
+    LONGEDGE >= 0.3
+}(163) 
+
+/*M7 Rules*/
+
+INTERNAL m7 {
+    COMMENT = "M7.W.1: Minimum width=0.57um "
+    SPACING < 0.57
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+size m7 {
+    under_over = 2.5
+    COMMENT = "MX.W.2: Maximum width =5um"
+}(165)
+
+EXTERNAL m7 {
+    COMMENT = "M7.S.1: Minimum spacing=0.57um "
+    SPACING < 0.57
+    CHECK_SAME_POLYGON = TRUE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+AREA m7 {  
+    RANGE = [1e-05, 0.015 - 1e-05] 
+    COMMENT = "M7.A.1  M7 minimum area = 0.015um^2 "
+} (163) 
+
+SELECT m7 INSIDE_HOLE {EMPTY_HOLE_ONLY} TEMP=m7_imp
+
+AREA m7_imp {
+    RANGE = [1e-05, 0.2 - 1e-05] 
+    COMMENT = "M7.A.2  M1 minimum enclosed area = 0.2um^2 "
+}(163)
+
+SIZE m7 {
+    UNDER_OVER=0.075
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=m7_int1
+
+SIZE m7 {
+    UNDER_OVER=0.15
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=m7_int2
+
+SIZE m7 {
+    UNDER_OVER=0.75
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=m7_int3
+
+SIZE m7 {
+    UNDER_OVER=1.5
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=m7_int4
+/*INTERNAL m7 { RANGE = [0.15,0.3]} temp = m7_int1
+INTERNAL m7 { RANGE = [0.3,1.5] } temp = m7_int2
+INTERNAL m7 { RANGE = [1.5  ,3] } temp = m7_int3
+INTERNAL m7 { RANGE = [3    ,5] } temp = m7_int4*/
+
+EXTERNAL m7_int1 {
+COMMENT = "M7.S.2: Minimum spacing when either metal line is wider than 0.15 is 0.065um   "
+SPACING < 0.065
+NON_PARALLEL = FALSE
+LONGEDGE_TO_EDGE  < 0.15 
+LONGEDGE >= 0.15
+}(163)
+
+EXTERNAL  m7_int2 {
+COMMENT = "M7.S.3: Minimum spacing when either metal line is wider than 0.3 is 0.11um   "
+SPACING < 0.11
+NON_PARALLEL = FALSE
+LONGEDGE_TO_EDGE  < 0.3 
+LONGEDGE >= 0.3
+}(163)
+
+
+EXTERNAL  m7_int3 {
+COMMENT = "M7.S.3: Minimum spacing when either metal line is wider than 1.5 is 0.6um   "
+SPACING < 0.6
+NON_PARALLEL = FALSE
+LONGEDGE_TO_EDGE  < 1.5 
+LONGEDGE >= 1.5
+}(163)
+
+EXTERNAL  m7_int4 {
+COMMENT = "M7.S.3: Minimum spacing when either metal line is wider than 3 is 0.7um   "
+SPACING < 0.7
+NON_PARALLEL = FALSE
+LONGEDGE_TO_EDGE  < 3
+LONGEDGE >= 3
+}(163)
+
+EXTERNAL m7 via6 {
+    COMMENT = "MX.S.6: minimum spacing of MX to neighboring via1 =0.08um "
+    SPACING < 0.08
+    NON_PARALLEL = FALSE
+}(163)
+
+EXTERNAL m7 via7 {
+    COMMENT = "MX.S.6: minimum spacing of MX to neighboring via1 =0.08um "
+    SPACING < 0.08
+    NON_PARALLEL = FALSE
+}(163)
+
+internal m7 {
+    spacing < 0.1
+    /*horizontal_only = true*/
+} temp = m7_ppp
+
+boolean m7 not m7_ppp {} temp = m7_rrr
+
+EXTERNAL m7_rrr m7 {
+    COMMENT = "MX.S.6:Minimum spacing of MX with span > 0.1 with paralel run length > 0.2 0.12um"
+    /*SPACING < 0.06*/
+    LONGEDGE_TO_EDGE < 0.12
+    /*NON_PARALLEL = FALSE*/
+    LONGEDGE >= 0.2
+}(163) 
+
+internal m7 {
+    spacing < 0.3
+    /*horizontal_only = true*/
+} temp = m7_p3
+
+boolean m7 not m7_p3 {} temp = m7_r3
+
+EXTERNAL m7_r3 m7 {
+    COMMENT = "MX.S.7:Minimum spacing of MX with span > 0.3 with paralel run length > 0.3 0.14um"
+    /*SPACING < 0.06*/
+    LONGEDGE_TO_EDGE < 0.14
+    /*NON_PARALLEL = FALSE*/
+    LONGEDGE >= 0.3
+}(163) 
+
+/*M8 Rules*/
+
+INTERNAL m8 {
+    COMMENT = "M8.W.1: Minimum width=0.57um "
+    SPACING < 0.57
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+size m8 {
+    under_over = 2.5
+    COMMENT = "MX.W.2: Maximum width =5um"
+}(165)
+
+EXTERNAL m8 {
+    COMMENT = "M8.S.1: Minimum spacing=0.57um "
+    SPACING < 0.57
+    CHECK_SAME_POLYGON = TRUE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+AREA m8 {  
+    RANGE = [1e-05, 0.015 - 1e-05] 
+    COMMENT = "M8.A.1  M8 minimum area = 0.015um^2 "
+} (163) 
+SELECT m8 INSIDE_HOLE {EMPTY_HOLE_ONLY} TEMP=m8_imp
+
+AREA m8_imp {
+    RANGE = [1e-05, 0.2 - 1e-05] 
+    COMMENT = "M8.A.2  M1 minimum enclosed area = 0.2um^2 "
+}(163)
+
+SIZE m8 {
+    UNDER_OVER=0.075
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=m8_int1
+
+SIZE m8 {
+    UNDER_OVER=0.15
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=m8_int2
+
+SIZE m8 {
+    UNDER_OVER=0.75
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=m8_int3
+
+SIZE m8 {
+    UNDER_OVER=1.5
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=m8_int4
+/*INTERNAL m8 { RANGE = [0.15,0.3]} temp = m8_int1
+INTERNAL m8 { RANGE = [0.3,1.5] } temp = m8_int2
+INTERNAL m8 { RANGE = [1.5  ,3] } temp = m8_int3
+INTERNAL m8 { RANGE = [3    ,5] } temp = m8_int4*/
+
+EXTERNAL m8_int1 {
+COMMENT = "M8.S.2: Minimum spacing when either metal line is wider than 0.15 is 0.065um   "
+SPACING < 0.065
+NON_PARALLEL = FALSE
+LONGEDGE_TO_EDGE  < 0.15 
+LONGEDGE >= 0.15
+}(163)
+
+EXTERNAL  m8_int2 {
+COMMENT = "M8.S.3: Minimum spacing when either metal line is wider than 0.3 is 0.11um   "
+SPACING < 0.11
+NON_PARALLEL = FALSE
+LONGEDGE_TO_EDGE  < 0.3 
+LONGEDGE >= 0.3
+}(163)
+
+EXTERNAL  m8_int3 {
+COMMENT = "M8.S.3: Minimum spacing when either metal line is wider than 1.5 is 0.6um   "
+SPACING < 0.6
+NON_PARALLEL = FALSE
+LONGEDGE_TO_EDGE  < 1.5 
+LONGEDGE >= 1.5
+}(163)
+
+EXTERNAL  m8_int4 {
+COMMENT = "M8.S.3: Minimum spacing when either metal line is wider than 3 is 0.7um   "
+SPACING < 0.7
+NON_PARALLEL = FALSE
+LONGEDGE_TO_EDGE  < 3
+LONGEDGE >= 3
+}(163)
+
+EXTERNAL m8 via7 {
+    COMMENT = "MX.S.6: minimum spacing of MX to neighboring via1 =0.08um "
+    SPACING < 0.08
+    NON_PARALLEL = FALSE
+}(163)
+
+EXTERNAL m8 via8 {
+    COMMENT = "MX.S.6: minimum spacing of MX to neighboring via1 =0.08um "
+    SPACING < 0.08
+    NON_PARALLEL = FALSE
+}(163)
+
+internal m8 {
+    spacing < 0.1
+    /*horizontal_only = true*/
+} temp = m8_ppp
+
+boolean m8 not m8_ppp {} temp = m8_rrr
+
+EXTERNAL m8_rrr m8 {
+    COMMENT = "MX.S.6:Minimum spacing of MX with span > 0.1 with paralel run length > 0.2 0.12um"
+    /*SPACING < 0.06*/
+    LONGEDGE_TO_EDGE < 0.12
+    /*NON_PARALLEL = FALSE*/
+    LONGEDGE >= 0.2
+}(163) 
+
+internal m8 {
+    spacing < 0.3
+    /*horizontal_only = true*/
+} temp = m8_p3
+
+boolean m8 not m8_p3 {} temp = m8_r3
+
+EXTERNAL m8_r3 m8 {
+    COMMENT = "MX.S.7:Minimum spacing of MX with span > 0.3 with paralel run length > 0.3 0.14um"
+    /*SPACING < 0.06*/
+    LONGEDGE_TO_EDGE < 0.14
+    /*NON_PARALLEL = FALSE*/
+    LONGEDGE >= 0.3
+}(163) 
+
+
+/*MT Rules*/
+
+INTERNAL mt {
+    COMMENT = "MT.W.1: Minimum width=0.16um "
+    SPACING < 0.16
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+
+SIZE mt {under_over = 5
+    COMMENT = "MT.W.2: Maximum width =10um"
+}(163)
+
+EXTERNAL mt {
+    COMMENT = "MT.S.1: Minimum spacing=0.16um "
+    SPACING < 0.16
+    CHECK_SAME_POLYGON = TRUE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+AREA mt {  
+    RANGE = [1e-05, 0.055 - 1e-05] 
+    COMMENT = "MT.A.1  MT minimum area = 0.055um^2 "
+} (163) 
+
+SELECT mt INSIDE_HOLE {EMPTY_HOLE_ONLY} TEMP=mt_imp
+
+AREA mt_imp {
+    RANGE = [1e-05, 0.2 - 1e-05] 
+    COMMENT = "Mt.A.2  Mt minimum enclosed area = 0.2um^2 "
+}(163)
+
+INTERNAL mt { RANGE = [0.5  ,1.7] } temp = m_t_1
+INTERNAL mt { RANGE = [1.7  ,  5] } temp = m_t_2
+
+EXTERNAL m_t_1 {
+COMMENT = "MT.S.2: Minimum spacing when either metal line is wider than 0.5 is 0.18um   "
+SPACING < 0.18
+NON_PARALLEL = FALSE
+LONGEDGE_TO_EDGE  < 0.15 
+LONGEDGE >= 0.15
+}(163)
+
+EXTERNAL  m_t_2 {
+COMMENT = "MT.S.2: Minimum spacing when either metal line is wider than 1.7 is 0.5um   "
+SPACING < 0.5
+NON_PARALLEL = FALSE
+LONGEDGE_TO_EDGE  < 0.3 
+LONGEDGE >= 0.3
+}(163)
+
+COPY mt {} TEMP=mt_sp
+
+INSIDE_EDGE mt_sp TO mt {
+    SPACING<0.7
+    STAY_INSIDE_BOTH=FALSE /*FALSE*/
+    STAY_INSIDE_LAYER2=FALSE
+    STAY_INSIDE_LAYER1=FALSE
+} TEMP = m111_t
+
+INTERNAL m111_t {
+    RANGE = [0.3, 0.7]
+}TEMP = m222_t
+
+EXTERNAL m222_t mt {
+    COMMENT = "MT.S.6: minimum spacing of MT with span >0.075um with paralel run length > 0.4 0.24um "
+    SPACING < 0.21
+    LONGEDGE_TO_EDGE < 0.21
+    LONGEDGE >= 0.4
+    NON_PARALLEL = FALSE
+    POINT_TOUCH = TRUE
+}(163)
+
+
+/*VIARDL Rules*/
+
+INTERNAL viardl {
+    DIMENSION = [ 2, 2]
+    COMMENT = "VIARDL.W.1: Exact size 2x2um "
+} (163)
+
+EXTERNAL viardl {
+    COMMENT = "viardl.S.1: Minimum VIARDL spacing=2um "
+    SPACING < 2
+    CHECK_SAME_POLYGON = TRUE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+ENCLOSE viardl BY mrdl {
+    COMMENT = "VIARDL.E.1: Minimum enclosure by mrdl=0.5um "
+    SPACING < 0.5
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+} (163)
+
+/*MRDL Rules*/
+
+INTERNAL mrdl {
+    COMMENT = "MRDL.W.1: Minimum width=2um "
+    SPACING < 2
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+size mrdl {
+    under_over = 15
+    COMMENT = "MRDL.W.2: Maximum width =30um"
+}(165)
+
+EXTERNAL mrdl {
+    COMMENT = "MRDL.S.1: Minimum MRDL spacing=2um "
+    SPACING < 2
+    CHECK_SAME_POLYGON = TRUE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+/*CO Rules*/
+
+INTERNAL co {
+    DIMENSION = [ 0.042, 0.042]
+    COMMENT = "CO.W.1: Exact contact size 0.042x0.042um "
+} (163)
+
+EXTERNAL co {
+    COMMENT = "CO.S.1: Minimum contact spacing=0.05um "
+    SPACING < 0.05
+    CHECK_SAME_POLYGON = TRUE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+/*
+CONNECT {
+diff m1 BY [OVERLAP] co
+}
+
+EXTERNAL co {
+    COMMENT = "CO.S.1: Minimum contact spacing=0.05um "
+    SPACING < 0.05
+    FLAG_DISCONNECTED = FALSE
+    TOUCH = TRUE
+} (163;1)
+
+EXTERNAL co {
+    COMMENT = "CO.S.2: Minimum contact spacing at the diferent net =0.07um "
+    SPACING < 0.07
+    NODAL = TRUE
+    TOUCH = TRUE
+} (163;2)
+DISCONNECT*/
+
+EXTERNAL cood  gate {
+    COMMENT = "CO.S.3: (Contact inside DIFF) Min. space to gate=0.04um"
+    SPACING < 0.04
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    INSIDE = TRUE
+    OVERLAP = TRUE
+    TOUCH = TRUE
+} (163)
+
+SIZE Gate {
+    UNDER_OVER=0.05
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=gate_rr
+
+EXTERNAL cood  gate_rr {
+    COMMENT = "CO.S.4: (Contact inside DIFF) Min. space to gate if gate width >=0.1 =0.04um"
+    SPACING < 0.04
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    INSIDE = TRUE
+    OVERLAP = TRUE
+    TOUCH = TRUE
+} (163)
+
+
+
+
+ 
+EXTERNAL copo  diff {
+    COMMENT = "CO.S.4: (Contact inside Poly) Min. space to Active=0.04um"
+    SPACING < 0.04
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    INSIDE = TRUE
+    OVERLAP = TRUE
+    TOUCH = TRUE
+} (163)
+
+INTERNAL po { RANGE = [0.042,0.1] } temp = po_3
+
+SIZE po {
+    UNDER_OVER=0.05
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=po_4
+
+
+BOOLEAN co AND po_3 {} TEMP = es_1
+BOOLEAN co AND po_4 {} TEMP = es_2
+
+INTERNAL po { range = [0.03,0.042]   } temp = po_2_1
+/*
+boolean m1 and po_2_1 {}(163) temp = mmm
+
+boolean co and mmm {}(163) temp = co_a_
+
+/*boolean m1 and co_a_ {} temp = mmm*/
+
+boolean co not co_a_  {} temp = co_a_1
+
+size co_a_1 {
+    COMMENT = "CO.E.1: Minimum enclosure by poly, if PO width < 0.042 =-0.006um "
+    under_over = 0.003
+}(163)*/
+
+ENCLOSE po_2_1 BY co {
+    COMMENT = "CO.E.1: Minimum enclosure by poly, if PO width < 0.042 =-0.006um "
+    SPACING = [0.0061,40]
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+} (163)
+
+INTERNAL es_1 {
+    COMMENT = "CO.E.2: Minimum enclosure by poly, if PO 0.42< width < 0.1 =0um "
+    SPACING < 0.042
+    NON_PARALLEL = TRUE
+} (163)
+
+INTERNAL es_2 {
+    COMMENT = "CO.E.3: Minimum enclosure by poly, if PO width > 0.1 =0.02um "
+    SPACING < 0.042
+    NON_PARALLEL = TRUE
+} (163)
+
+ENCLOSE co BY po_4 {
+    COMMENT = "CO.E.3: Minimum enclosure by poly, if PO width > 0.1 0.02um  "
+    SPACING < 0.02
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = FALSE
+} (163)
+
+BOOLEAN co AND diff {} TEMP = co_diff
+BOOLEAN co AND po {} TEMP = co_op
+
+EXTERNAL co_diff po { 
+    COMMENT="CO.S.5: Minimum space of(co inside diff) to PO inner vertex 0.068"
+    CONCAVE_TO_CONVEX<0.068
+}(163)
+
+/*outer vertex
+EXTERNAL co_op diff { 
+    COMMENT="CO.S.5: Minimum space of(co inside PO) to active inner vertex 0.07"
+    CONCAVE_TO_CONVEX<0.07
+}(163)*/
+
+/*
+EXTERNAL co_diff po { 
+    COMMENT="CO.S.5: Minimum space of(co inside diff) to PO inner vertex 0.068"
+    CONVEX_TO_CONVEX<0.068
+    CONVEX_TO_CONVEX[POINT_PROJECTION]<0.068
+}(163)
+*/
+
+INTERNAL po { RANGE = [0.03,0.1] } temp = po_po
+
+SIZE po {
+    UNDER_OVER=0.05
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=po_po_1
+
+ENCLOSE co BY po_po {
+    SPACING < 0.034
+    SET_CORNERS_TO_SPACING = FALSE
+    PARALLEL_POINT_PROJECTION = FALSE
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+    POINT_TOUCH = FALSE
+    OUTPUT_EDGES = TRUE
+} TEMP=coe221_y
+
+SELECT_EDGE co TOUCHING coe221_y {} TEMP=coe222_z
+
+
+INTERNAL coe222_z {
+    COMMENT = "CO.E.4: Min. enclosure by Poly if PO width <0.1 at least two opposite sides = 0.034um "
+    SEGMENT < 0
+    FLAG_CONCAVE_90 = TRUE
+    OUTPUT_EDGES = TRUE 
+} (163) 
+
+ENCLOSE co BY po_po_1 {
+    SPACING < 0.05
+    SET_CORNERS_TO_SPACING = FALSE
+    PARALLEL_POINT_PROJECTION = FALSE
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+    POINT_TOUCH = FALSE
+    OUTPUT_EDGES = TRUE
+} TEMP=coe221_y_1
+
+SELECT_EDGE co TOUCHING coe221_y_1 {} TEMP=coe222_z_1
+
+INTERNAL coe222_z_1 {
+    COMMENT = "CO.E.3: Min. enclosure by Poly if PO width > 0.1 at least two opposite sides = 0.05um "
+    SEGMENT < 0
+    FLAG_CONCAVE_90 = TRUE
+    OUTPUT_EDGES = TRUE 
+} (163) 
+
+BOOLEAN cood NOT diff {
+    COMMENT = "CO.E.2: DIFF Contact is not enclosed by diff, min. enclosure is 0.04um "
+} (163)
+
+ENCLOSE cood BY diff {
+    COMMENT = "CO.E.6: Minimum enclosure by DIFF=0.01um "
+    SPACING < 0.01
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+} (163)
+ 
+ENCLOSE co BY diff {
+    SPACING < 0.02
+    SET_CORNERS_TO_SPACING = FALSE
+    PARALLEL_POINT_PROJECTION = FALSE
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+    POINT_TOUCH = FALSE
+    OUTPUT_EDGES = TRUE
+} TEMP=coe121_y
+ 
+SELECT_EDGE co TOUCHING coe121_y {} TEMP=coe122_z
+
+INTERNAL coe122_z {
+    COMMENT = "CO.E.4: Min. extension of an OD beyond an CO region at least two opposite sides 0.02um "
+    SEGMENT < 0
+    FLAG_CONCAVE_90 = TRUE
+    OUTPUT_EDGES = TRUE 
+} (163)
+
+EXTERNAL nact_ptap_bt  cood {
+    COMMENT = "CO.E.9: Min. butted diffusion PIMP enclosure of S/D contact 0.06um "
+    SPACING < 0.06
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+    POINT_TOUCH = FALSE
+} (163)
+
+EXTERNAL ntap_pact_bt  cood {
+    COMMENT = "CO.E.5: Min. butted diffusion PIMP enclosure of S/D contact 0.06um "
+    SPACING < 0.06
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+    POINT_TOUCH = FALSE
+} (163)
+ 
+SELECT cood CUTTING pimp {
+    COMMENT = "CO.E.5: Min. butted diffusion PIMP enclosure of S/D contact 0.06um "
+} (163)
+
+EXTERNAL pact_ntap_bt  cood {
+    COMMENT = "CO.E.5: Min. butted diffusion NIMP enclosure of S/D contact 0.06um "
+    SPACING < 0.06
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+    POINT_TOUCH = FALSE
+} (163)
+ 
+EXTERNAL ptap_nact_bt  cood {
+    COMMENT = "CO.E.5: Min. butted diffusion NIMP enclosure of S/D contact 0.06um "
+    SPACING < 0.06
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+    POINT_TOUCH = FALSE
+} (163)
+
+SELECT cood CUTTING nimp {
+    COMMENT = "CO.E.5: Min. butted diffusion NIMP enclosure of S/D contact 0.06um "
+} (163)
+
+
+BOOLEAN co NOT m1 {
+    COMMENT = "CO.R.1: CONT is not enclosed by M1"
+} (163)
+ 
+BOOLEAN co AND gate {
+    COMMENT = "CO.R.2: It is not allowed to place CONT on gate"
+} (163)
+
+
+ENCLOSE co BY m1 {
+    COMMENT = "CO.E.10: Minimum enclosure of any contact by M1 0.004um"
+    SPACING < 0.004
+    SET_CORNERS_TO_SPACING = FALSE
+    PARALLEL_POINT_PROJECTION = FALSE
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+    POINT_TOUCH = FALSE
+    OUTPUT_EDGES = FALSE
+} (163)
+
+ENCLOSE co BY m1 {
+    SPACING < 0.02
+    SET_CORNERS_TO_SPACING = FALSE
+    PARALLEL_POINT_PROJECTION = FALSE
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+    POINT_TOUCH = FALSE
+    OUTPUT_EDGES = TRUE
+} TEMP=m1e2_m1e31_x
+
+
+SELECT_EDGE co TOUCHING m1e2_m1e31_x {} TEMP=m1e2_m1e32_y
+
+INTERNAL m1e2_m1e32_y {
+    COMMENT = "CO.E.10: Min. enclosure of contact by M1 at end-of-line 0.02um "
+    SEGMENT < 0
+    FLAG_CONCAVE_90 = TRUE
+    OUTPUT_EDGES = TRUE 
+} (163)
+
+
+/*VIA1 Rules*/
+
+SIZE m1 {
+    UNDER_OVER=0.1
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=m1_f
+
+SIZE m2 {
+    UNDER_OVER=0.1
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=m2_f
+
+CONNECT { m1_f m2_f BY [TOUCH OVERLAP] via1}
+DATA_LIMIT via1 { LIMIT  = 2 } TEMP = yuyu
+
+EXTERNAL yuyu {
+    COMMENT = "VIAX.B.1: When Mx or MX+1 width >0.2, it is must to have redundant vias with spacing 0.15"
+    SPACING < 0.15
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+DISCONNECT
+
+INTERNAL via1 {
+    DIMENSION = [ 0.05, 0.05],[ 0.05, 0.1],[ 0.1, 0.1]
+    COMMENT ="VIAX.W.X: Exact size =0.14x0.14um or 0.05x0.05um or 0.05x0.1"
+} (163)
+
+AREA  via1 {   RANGE = [ 0.0025, 0.0025] } temp=vi
+AREA  via1  {  RANGE = [ 0.005, 0.005] } temp=vi1
+AREA via1 { RANGE = [ 0.01,0.01] } temp=vi2
+
+EXTERNAL vi {
+    COMMENT = "VIA1.S.1: Minimum spacing of square via1 0.07um"
+    SPACING < 0.07
+    CHECK_SAME_POLYGON = FALSE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+EXTERNAL vi vi1   {
+    COMMENT = "VIA1.S.2: Minimum spacing of square via1 to rectangular via1 or Large via1 0.08um"
+    SPACING < 0.08
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+EXTERNAL vi vi2   {
+    COMMENT = "VIA1.S.2: Minimum spacing of square via1 to rectangular via1 or Large via1 0.08um"
+    SPACING < 0.08
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+EXTERNAL vi1 vi2   {
+    COMMENT = "VIA1.S.3:Minimum spacing of rectangular via1 to large via1 0.085um"
+    SPACING < 0.085
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE 
+} (163)
+
+EXTERNAL vi1   {
+    COMMENT = "VIA1.S.3:Minimum spacing of rectangular via1 to rectangular via1 0.085um"
+    SPACING < 0.085
+    CHECK_SAME_POLYGON = TRUE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE 
+} (163)
+
+EXTERNAL vi2   {
+    COMMENT = "VIA1.S.3:Minimum spacing of large via1 to large via1 0.085um"
+    SPACING < 0.085
+    CHECK_SAME_POLYGON = TRUE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE 
+} (163)
+
+BOOLEAN via1 NOT m1 {
+    COMMENT = "VIA1.E.1: VIA1 is not covered by M1"
+} (163)
+ 
+ENCLOSE via1 BY m1 {
+    COMMENT = "VIA1.E.2: Minimum VIA1 enclosure by M1 at least two opposite sides 0.03um"
+    SPACING < 0.03
+    SET_CORNERS_TO_SPACING = FALSE
+    PARALLEL_POINT_PROJECTION = FALSE
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+    POINT_TOUCH = FALSE
+    OUTPUT_EDGES = TRUE
+} TEMP=via1e21_y
+ 
+ SELECT_EDGE via1 TOUCHING via1e21_y {} TEMP=via1e22_z
+ 
+INTERNAL via1e22_z {
+    COMMENT = "VIA1.E.2: Minimum VIA1 enclosure by M1 at least two opposite sides 0.03um "
+    SEGMENT < 0
+    FLAG_CONCAVE_90 = TRUE
+    OUTPUT_EDGES = TRUE 
+} (163)
+
+BOOLEAN via1 NOT m2 {
+    COMMENT = "VIA1.E.1: VIA1 is not convered by M2"
+} (163)
+ 
+ENCLOSE via1 BY m2 {
+    COMMENT = "VIA1.E.2: Minimum VIA1 enclosure by M2 at end-of-line 0.03um"
+    SPACING < 0.03
+    SET_CORNERS_TO_SPACING = FALSE
+    PARALLEL_POINT_PROJECTION = FALSE
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+    POINT_TOUCH = FALSE
+    OUTPUT_EDGES = TRUE
+} TEMP=via1e21_y
+ 
+SELECT_EDGE via1 TOUCHING via1e21_y {} TEMP=via1e22_z
+
+INTERNAL via1e22_z {
+    COMMENT = "VIA1.E.2: Minimum VIA1 enclosure by M2 at end-of-line 0.03um "
+    SEGMENT < 0
+    FLAG_CONCAVE_90 = TRUE
+    OUTPUT_EDGES = TRUE 
+} (163)
+
+ENCLOSE vi1 BY m1 {
+    COMMENT = "VIA1.E.3: Minimum rectangular VIA1 enclosure by M1 at end-of-line 0.005um"
+    SPACING < 0.005
+    SET_CORNERS_TO_SPACING = FALSE
+    PARALLEL_POINT_PROJECTION = FALSE
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+    POINT_TOUCH = FALSE
+    OUTPUT_EDGES = TRUE
+} TEMP=via1e21_y
+ 
+SELECT_EDGE vi1 TOUCHING via1e21_y {} TEMP=via1e22_z
+
+INTERNAL via1e22_z {
+    COMMENT = "VIA1.E.3: Minimum rectangular VIA1 enclosure by M1 at end-of-line 0.03um "
+    SEGMENT < 0
+    FLAG_CONCAVE_90 = TRUE
+    OUTPUT_EDGES = TRUE 
+} (163)
+
+
+ENCLOSE vi1 BY m2 {
+    COMMENT = "VIA1.E.3: Minimum rectangular VIA1 enclosure by M2 at end-of-line 0.005um"
+    SPACING < 0.005
+    SET_CORNERS_TO_SPACING = FALSE
+    PARALLEL_POINT_PROJECTION = FALSE
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+    POINT_TOUCH = FALSE
+    OUTPUT_EDGES = TRUE
+} TEMP=via1e21_y
+ 
+SELECT_EDGE vi1 TOUCHING via1e21_y {} TEMP=via1e22_z
+
+INTERNAL via1e22_z {
+    COMMENT = "VIA1.E.3: Minimum rectangular VIA1 enclosure by M2 at end-of-line 0.03um "
+    SEGMENT < 0
+    FLAG_CONCAVE_90 = TRUE
+    OUTPUT_EDGES = TRUE 
+} (163)
+
+/*VIA2 Rules*/
+
+INTERNAL via2 {
+    DIMENSION = [ 0.05, 0.05],[ 0.05, 0.14],[ 0.14, 0.14]
+    COMMENT ="KOD: Exact size =0.14x0.14um or 0.05x0.05um or 0.05x0.14"
+} (163)
+
+AREA  via2  {  RANGE = [ 0.0025, 0.0025] } temp=v2i
+AREA  via2  {  RANGE = [ 0.007, 0.007  ] } temp=v2i1
+AREA  via2 { RANGE =   [ 0.0196,0.0196 ] } temp=v2i2 
+
+
+EXTERNAL v2i {
+    COMMENT = "VIA2.S.1: Minimum spacing of square via2 0.07um"
+    SPACING < 0.07
+    CHECK_SAME_POLYGON = FALSE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+EXTERNAL v2i v2i1   {
+    COMMENT = "VIA2.S.2: Minimum spacing of square via2 to rectangular via2 0.08um"
+    SPACING < 0.08
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+EXTERNAL v2i v2i2   {
+    COMMENT = "VIA2.S.2: Minimum spacing of square via2 to large via2 0.08um"
+    SPACING < 0.08
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+EXTERNAL v2i1   {
+    COMMENT = "VIA2.S.3:Minimum spacing of rectangular via2 to rectangular via2 0.085um"
+    SPACING < 0.085
+    CHECK_SAME_POLYGON = TRUE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE 
+} (163)
+
+EXTERNAL v2i1 v2i2   {
+    COMMENT = "VIA2.S.3:Minimum spacing of rectangular via2 to large via2 0.085um"
+    SPACING < 0.085
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE 
+} (163)
+
+EXTERNAL v2i2   {
+    COMMENT = "VIA2.S.3:Minimum spacing of large via2 to large via2 0.085um"
+    SPACING < 0.085
+    CHECK_SAME_POLYGON = TRUE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE 
+} (163)
+
+SIZE m3 {
+    UNDER_OVER=0.1
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=m3_f
+
+CONNECT { m2_f m3_f BY [TOUCH OVERLAP] via2}
+DATA_LIMIT via2 { LIMIT  = 2 } TEMP = yuyu_2
+
+EXTERNAL yuyu_2 {
+    COMMENT = "VIAX.8.1: When Mx or MX+1 width >0.2, it is must to have redundant vias with spacing 0.15"
+    SPACING < 0.15
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+DISCONNECT
+
+BOOLEAN via2 NOT m2 {
+    COMMENT = "VIA2.E.1: VIA2 is not convered by M2, min. enclosure is 0.0um "
+} (163)
+
+ENCLOSE via2 BY m2 {
+    COMMENT = "VIA2.E.2:  Minimum VIA2 enclosure by M2 at end-of-line 0.03um"
+    SPACING < 0.03
+    SET_CORNERS_TO_SPACING = FALSE
+    PARALLEL_POINT_PROJECTION = FALSE
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+    POINT_TOUCH = FALSE
+    OUTPUT_EDGES = TRUE
+} TEMP=via2e21_y
+ 
+SELECT_EDGE via2 TOUCHING via2e21_y {} TEMP=via2e22_z
+
+INTERNAL via2e22_z {
+    COMMENT = "VIA2.E.2:  Minimum VIA2 enclosure by M2 at end-of-line 0.03um "
+    SEGMENT < 0
+    FLAG_CONCAVE_90 = TRUE
+    OUTPUT_EDGES = TRUE 
+} (163)
+
+BOOLEAN via2 NOT m3 {
+    COMMENT = "VIA2.E.1: VIA2 is not convered by M3, min. enclosure is 0.0um "
+} (163)
+ 
+ENCLOSE via2 BY m3 {
+    COMMENT = "VIA2.E.2:  Minimum VIA2 enclosure by M3 at end-of-line 0.03um"
+    SPACING < 0.03
+    SET_CORNERS_TO_SPACING = FALSE
+    PARALLEL_POINT_PROJECTION = FALSE
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+    POINT_TOUCH = FALSE
+    OUTPUT_EDGES = TRUE
+} TEMP=via2e21_y
+ 
+SELECT_EDGE via2 TOUCHING via2e21_y {} TEMP=via2e22_z
+
+INTERNAL via2e22_z {
+    COMMENT = "VIA2.E.2: Minimum VIA2 enclosure by M3 at end-of-line 0.03um "
+    SEGMENT < 0
+    FLAG_CONCAVE_90 = TRUE
+    OUTPUT_EDGES = TRUE 
+} (163)
+
+ENCLOSE v2i1 BY m1 {
+    COMMENT = "VIA1.E.3: Minimum rectangular VIA2 enclosure by M1 at end-of-line 0.006um"
+    SPACING < 0.006
+    SET_CORNERS_TO_SPACING = FALSE
+    PARALLEL_POINT_PROJECTION = FALSE
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+    POINT_TOUCH = FALSE
+    OUTPUT_EDGES = TRUE
+} TEMP=via1e21_y
+ 
+SELECT_EDGE v2i1 TOUCHING via1e21_y {} TEMP=via1e22_z
+
+INTERNAL via1e22_z {
+    COMMENT = "VIA1.E.3: Minimum rectangular VIA2 enclosure by M1 at end-of-line 0.03um "
+    SEGMENT < 0
+    FLAG_CONCAVE_90 = TRUE
+    OUTPUT_EDGES = TRUE 
+} (163)
+
+ENCLOSE v2i1 BY m2 {
+    COMMENT = "VIA1.E.3: Minimum rectangular VIA2 enclosure by M2 at end-of-line 0.006um"
+    SPACING < 0.006
+    SET_CORNERS_TO_SPACING = FALSE
+    PARALLEL_POINT_PROJECTION = FALSE
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+    POINT_TOUCH = FALSE
+    OUTPUT_EDGES = TRUE
+} TEMP=via1e21_y
+ 
+SELECT_EDGE v2i1 TOUCHING via1e21_y {} TEMP=via1e22_z
+
+INTERNAL via1e22_z {
+    COMMENT = "VIA1.E.3: Minimum rectangular VIA2 enclosure by M2 at end-of-line 0.03um "
+    SEGMENT < 0
+    FLAG_CONCAVE_90 = TRUE
+    OUTPUT_EDGES = TRUE 
+} (163)
+
+/*VIA3 Rules*/
+
+INTERNAL via3 {
+    DIMENSION = [ 0.05, 0.05],[ 0.05, 0.14],[ 0.14, 0.14]
+    COMMENT ="KOD: Exact size =0.14x0.14um or 0.05x0.05um or 0.05x0.14"
+} (163)
+
+AREA  via3 {   RANGE = [ 0.0025, 0.0025] } temp=v3i
+
+AREA  via3 {  RANGE = [ 0.007, 0.007] } temp=v3i1
+
+AREA  via3 { RANGE = [ 0.0196,0.0196] } temp=v3i2
+
+EXTERNAL v3i {
+    COMMENT = "VIA3.S.1: Minimum spacing of square via3 0.06um"
+    SPACING < 0.06
+    CHECK_SAME_POLYGON = FALSE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+EXTERNAL v3i   {
+    COMMENT = "VIA3.S.3:Minimum spacing of square via3 to square via3 0.07um"
+    SPACING < 0.07
+    CHECK_SAME_POLYGON = TRUE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE 
+} (163)
+
+EXTERNAL v3i v3i1   {
+    COMMENT = "VIA3.S.2: Minimum spacing of square via3 to rectangular via3 0.08um"
+    SPACING < 0.08
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+EXTERNAL v3i v3i2 {
+    COMMENT = "VIA3.S.2: Minimum spacing of square via3 to large via3 0.08um"
+    SPACING < 0.08
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+EXTERNAL v3i1   {
+    COMMENT = "VIA3.S.3:Minimum spacing of rectangular via3 to rectangular via3 0.08um"
+    SPACING < 0.08
+    CHECK_SAME_POLYGON = TRUE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE 
+} (163)
+
+EXTERNAL v3i1 v3i2  {
+    COMMENT = "VIA3.S.3:Minimum spacing of rectangular via3 to large via3 0.085um"
+    SPACING < 0.085
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE 
+} (163)
+EXTERNAL v3i1  {
+    COMMENT = "VIA3.S.3:Minimum spacing of large via3 to large via3 0.085um"
+    SPACING < 0.085
+    CHECK_SAME_POLYGON = TRUE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE 
+} (163)
+
+
+BOOLEAN via3 NOT m3 {
+    COMMENT = "VIA3.E.1: VIA3 is not covered by M3, min. enclosure is 0.0um "
+} (163)
+ 
+ENCLOSE via3 BY m3 {
+    COMMENT = "VIA3.E.2: Minimum VIA3 enclosure by M3 at end-of-line 0.03um"
+    SPACING < 0.03
+    SET_CORNERS_TO_SPACING = FALSE
+    PARALLEL_POINT_PROJECTION = FALSE
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+    POINT_TOUCH = FALSE
+    OUTPUT_EDGES = TRUE
+} TEMP=via3e21_y
+ 
+SELECT_EDGE via3 TOUCHING via3e21_y {} TEMP=via3e22_z
+
+INTERNAL via3e22_z {
+    COMMENT = "VIA3.E.2: Minimum VIA3 enclosure by M3 at end-of-line 0.03um "
+    SEGMENT < 0
+    FLAG_CONCAVE_90 = TRUE
+    OUTPUT_EDGES = TRUE 
+} (163)
+
+SIZE m4 {
+    UNDER_OVER=0.1
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=m4_f
+
+CONNECT { m3_f m4_f BY [TOUCH OVERLAP] via3}
+DATA_LIMIT via3 { LIMIT  = 2 } TEMP = yuyu_2
+
+EXTERNAL yuyu_2 {
+    COMMENT = "VIAX.B.1: When Mx or MX+1 width >0.2, it is must to have redundant vias with spacing 0.15"
+    SPACING < 0.15
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+DISCONNECT
+
+BOOLEAN via3 NOT m4 {
+    COMMENT = "VIA3.E.1: VIA3 is not covered by M4, min. enclosure is 0.0um "
+} (163)
+ 
+ENCLOSE via3 BY m4 {
+    COMMENT = "VIA3.E.2: Minimum VIA3 enclosure by M4 at end-of-line 0.03um"
+    SPACING < 0.03
+    SET_CORNERS_TO_SPACING = FALSE
+    PARALLEL_POINT_PROJECTION = FALSE
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+    POINT_TOUCH = FALSE
+    OUTPUT_EDGES = TRUE
+} TEMP=via3e21_y
+ 
+SELECT_EDGE via3 TOUCHING via3e21_y {} TEMP=via3e22_z
+
+INTERNAL via3e22_z {
+    COMMENT = "VIA3.E.2: Minimum VIA3 enclosure by M4 at end-of-line 0.03um "
+    SEGMENT < 0
+    FLAG_CONCAVE_90 = TRUE
+    OUTPUT_EDGES = TRUE 
+} (163)
+ 
+ENCLOSE v3i1 BY m2 {
+    COMMENT = "VIA1.E.3: Minimum rectangular VIA3 enclosure by M2 at end-of-line 0.006um"
+    SPACING < 0.006
+    SET_CORNERS_TO_SPACING = FALSE
+    PARALLEL_POINT_PROJECTION = FALSE
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+    POINT_TOUCH = FALSE
+    OUTPUT_EDGES = TRUE
+} TEMP=via1e21_y
+ 
+SELECT_EDGE v3i1 TOUCHING via1e21_y {} TEMP=via1e22_z
+
+INTERNAL via1e22_z {
+    COMMENT = "VIA1.E.2: Minimum rectangular VIA3 enclosure by M2 at end-of-line 0.03um "
+    SEGMENT < 0
+    FLAG_CONCAVE_90 = TRUE
+    OUTPUT_EDGES = TRUE 
+} (163)
+
+ENCLOSE v3i1 BY m4 {
+    COMMENT = "VIA1.E.3: Minimum rectangular VIA3 enclosure by M4 at end-of-line 0.006um"
+    SPACING < 0.006
+    SET_CORNERS_TO_SPACING = FALSE
+    PARALLEL_POINT_PROJECTION = FALSE
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+    POINT_TOUCH = FALSE
+    OUTPUT_EDGES = TRUE
+} TEMP=via1e21_y
+ 
+SELECT_EDGE v3i1 TOUCHING via1e21_y {} TEMP=via1e22_z
+
+INTERNAL via1e22_z {
+    COMMENT = "VIA3.E.2: Minimum rectangular VIA3 enclosure by M4 at end-of-line 0.006um "
+    SEGMENT < 0
+    FLAG_CONCAVE_90 = TRUE
+    OUTPUT_EDGES = TRUE 
+} (163)
+
+/*VIA4 Rules*/
+
+SIZE m5 {
+    UNDER_OVER=0.1
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=m5_f
+
+CONNECT { m4_f m5_f BY [TOUCH OVERLAP] via4}
+DATA_LIMIT via4 { LIMIT  = 2 } TEMP = yuyu_4
+
+EXTERNAL yuyu_4 {
+    COMMENT = "VIAX.B.1: When Mx or MX+1 width >0.2, it is must to have redundant vias with spacing 0.15"
+    SPACING < 0.15
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+DISCONNECT
+
+INTERNAL via4 {
+    DIMENSION = [ 0.05, 0.05],[ 0.05, 0.14],[ 0.14, 0.14]
+    COMMENT ="KOD: Exact size =0.14x0.14um or 0.05x0.05um or 0.05x0.14"
+} (163)
+
+AREA  via4 {   RANGE = [ 0.0025, 0.0025] } temp=v4i
+AREA  via4 {  RANGE = [ 0.007, 0.007] } temp=v4i1
+AREA  via4 { RANGE = [ 0.0196,0.0196] } temp=v4i2
+
+EXTERNAL v4i {
+    COMMENT = "VIA4.S.1: Minimum spacing of square via4 0.07um"
+    SPACING < 0.07
+    CHECK_SAME_POLYGON = FALSE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+EXTERNAL v4i v4i1   {
+    COMMENT = "VIA4.S.2: Minimum spacing of square via4 to rectangular via4 0.08um"
+    SPACING < 0.08
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+EXTERNAL v4i v4i2   {
+    COMMENT = "VIA4.S.2: Minimum spacing of square via4 to large via4 0.08um"
+    SPACING < 0.08
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+EXTERNAL v4i1 v4i2   {
+    COMMENT = "VIA4.S.2: Minimum spacing of rectangular via4 to large via4 0.085um"
+    SPACING < 0.085
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+EXTERNAL v4i1   {
+    COMMENT = "VIA4.S.3:Minimum spacing of rectangular via4 to rectangular via4 0.085um"
+    SPACING < 0.085
+    CHECK_SAME_POLYGON = TRUE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE 
+} (163)
+EXTERNAL v4i2   {
+    COMMENT = "VIA4.S.3:Minimum spacing of large via4 to large via4 0.085um"
+    SPACING < 0.085
+    CHECK_SAME_POLYGON = TRUE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE 
+} (163)
+
+BOOLEAN via4 NOT m4 {
+    COMMENT = "VIA4.E.1: VIA4 is not convered by M4, min. enclosure is 0.0um "
+} (163)
+ 
+ENCLOSE via4 BY m4 {
+    COMMENT = "VIA4.E.2: Minimum VIA4 enclosure by M4 at end-of-line 0.03um "
+    SPACING < 0.03
+    SET_CORNERS_TO_SPACING = FALSE
+    PARALLEL_POINT_PROJECTION = FALSE
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+    POINT_TOUCH = FALSE
+    OUTPUT_EDGES = TRUE
+} TEMP=via4e21_y
+ 
+SELECT_EDGE via4 TOUCHING via4e21_y {} TEMP=via4e22_z
+
+INTERNAL via4e22_z {
+    COMMENT = "VIA4.E.2: Minimum VIA4 enclosure by M4 at end-of-line 0.03um  "
+    SEGMENT < 0
+    FLAG_CONCAVE_90 = TRUE
+    OUTPUT_EDGES = TRUE 
+} (163)
+
+BOOLEAN via4 NOT m5 {
+    COMMENT = "VIA4.E.1: VIA4 is not convered by M5, min. enclosure is 0.0um "
+} (163)
+ 
+ENCLOSE via4 BY m5 {
+    COMMENT = "VIA4.E.2: Minimum VIA4 enclosure by M5 at end-of-line 0.03um "
+    SPACING < 0.03
+    SET_CORNERS_TO_SPACING = FALSE
+    PARALLEL_POINT_PROJECTION = FALSE
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+    POINT_TOUCH = FALSE
+    OUTPUT_EDGES = TRUE
+} TEMP=via4e21_y
+ 
+SELECT_EDGE via4 TOUCHING via4e21_y {} TEMP=via4e22_z
+
+INTERNAL via4e22_z {
+    COMMENT = "VIA4.E.2: Minimum VIA4 enclosure by M5 at end-of-line 0.03um "
+    SEGMENT < 0
+    FLAG_CONCAVE_90 = TRUE
+    OUTPUT_EDGES = TRUE 
+} (163)
+ 
+ENCLOSE v4i1 BY m4 {
+    COMMENT = "VIA4.E.3: Minimum rectangular VIA4 enclosure by M4 at end-of-line 0.006um"
+    SPACING < 0.006
+    SET_CORNERS_TO_SPACING = FALSE
+    PARALLEL_POINT_PROJECTION = FALSE
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+    POINT_TOUCH = FALSE
+    OUTPUT_EDGES = TRUE
+} TEMP=via1e21_y
+ 
+SELECT_EDGE v4i1 TOUCHING via1e21_y {} TEMP=via1e22_z
+
+INTERNAL via1e22_z {
+    COMMENT = "VIA4.E.3: Minimum rectangular VIA4 enclosure by M4 at end-of-line 0.006um "
+    SEGMENT < 0
+    FLAG_CONCAVE_90 = TRUE
+    OUTPUT_EDGES = TRUE 
+} (163)
+
+ENCLOSE v4i1 BY m5 {
+    COMMENT = "VIA4.E.3: Minimum rectangular VIA4 enclosure by M5 at end-of-line 0.006um"
+    SPACING < 0.006
+    SET_CORNERS_TO_SPACING = FALSE
+    PARALLEL_POINT_PROJECTION = FALSE
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+    POINT_TOUCH = FALSE
+    OUTPUT_EDGES = TRUE
+} TEMP=via1e21_y
+ 
+SELECT_EDGE v4i1 TOUCHING via1e21_y {} TEMP=via1e22_z
+
+INTERNAL via1e22_z {
+    COMMENT = "VIA4.E.3: Minimum rectangular VIA4 enclosure by M5 at end-of-line 0.006um "
+    SEGMENT < 0
+    FLAG_CONCAVE_90 = TRUE
+    OUTPUT_EDGES = TRUE 
+} (163)
+
+/*VIA5 Rules*/
+
+SIZE m6 {
+    UNDER_OVER=0.1
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=m6_f
+
+CONNECT { m5_f m6_f BY [TOUCH OVERLAP] via5}
+DATA_LIMIT via5 { LIMIT  = 2 } TEMP = yuyu_5
+
+EXTERNAL yuyu_5 {
+    COMMENT = "VIAX.B.1: When Mx or MX+1 width >0.2, it is must to have redundant vias with spacing 0.15"
+    SPACING < 0.15
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+DISCONNECT
+
+INTERNAL via5 {
+    DIMENSION = [ 0.05, 0.05],[ 0.05, 0.14],[ 0.14, 0.14]
+    COMMENT ="KOD: Exact size =0.14x0.14um or 0.05x0.05um or 0.05x0.14"
+} (163)
+
+AREA  via5 {   RANGE = [ 0.0025, 0.0025] } temp=v5i
+
+AREA  via5 {  RANGE = [ 0.007, 0.007] } temp=v5i1
+
+AREA  via5 { RANGE = [ 0.0196,0.0196] } temp=v5i2
+
+EXTERNAL v5i {
+    COMMENT = "VIA5.S.1: Minimum spacing of square via5 0.07um"
+    SPACING < 0.07
+    CHECK_SAME_POLYGON = FALSE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+EXTERNAL v5i v5i1   {
+    COMMENT = "VIA5.S.2: Minimum spacing of square via5 to rectangular via5 0.08um"
+    SPACING < 0.08
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+EXTERNAL v5i v5i2   {
+    COMMENT = "VIA5.S.2: Minimum spacing of square via5 to large via5 0.08um"
+    SPACING < 0.08
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+EXTERNAL v5i1 v5i2   {
+    COMMENT = "VIA5.S.2: Minimum spacing of rectangular via5 to large via5 0.08um"
+    SPACING < 0.08
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+EXTERNAL v5i1   {
+    COMMENT = "VIA5.S.3:Minimum spacing of rectangular via5 to rectangular via5 0.085um"
+    SPACING < 0.085
+    CHECK_SAME_POLYGON = TRUE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE 
+} (163)
+
+EXTERNAL v5i2   {
+    COMMENT = "VIA5.S.3:Minimum spacing of large via5 to large via5 0.085um"
+    SPACING < 0.085
+    CHECK_SAME_POLYGON = TRUE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE 
+} (163)
+
+BOOLEAN via5 NOT m5 {
+    COMMENT = "VIA5.E.1: VIA5 is not convered by M5, min. enclosure is 0.0um "
+} (163)
+ 
+ENCLOSE via5 BY m5 {
+    COMMENT = "VIA5.E.2: Minimum VIA5 enclosure by M5 at end-of-line 0.03um"
+    SPACING < 0.03
+    SET_CORNERS_TO_SPACING = FALSE
+    PARALLEL_POINT_PROJECTION = FALSE
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+    POINT_TOUCH = FALSE
+    OUTPUT_EDGES = TRUE
+} TEMP=via5e21_y
+ 
+SELECT_EDGE via5 TOUCHING via5e21_y {} TEMP=via5e22_z
+
+INTERNAL via5e22_z {
+    COMMENT = "VIA5.E.2: Minimum VIA5 enclosure by M5 at end-of-line 0.03um"
+    SEGMENT < 0
+    FLAG_CONCAVE_90 = TRUE
+    OUTPUT_EDGES = TRUE 
+} (163)
+
+BOOLEAN via5 NOT m6 {
+    COMMENT = "VIA5.E.1: VIA5 is not convered by M6, min. enclosure is 0.0um "
+} (163)
+ 
+ENCLOSE via5 BY m6 {
+    COMMENT = "VIA5.E.2: Minimum VIA5 enclosure by M6 at end-of-line 0.03um"
+    SPACING < 0.03
+    SET_CORNERS_TO_SPACING = FALSE
+    PARALLEL_POINT_PROJECTION = FALSE
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+    POINT_TOUCH = FALSE
+    OUTPUT_EDGES = TRUE
+} TEMP=via5e21_y
+ 
+SELECT_EDGE via5 TOUCHING via5e21_y {} TEMP=via5e22_z
+
+INTERNAL via5e22_z {
+    COMMENT = "VIA5.E.2: Minimum VIA5 enclosure by M6 at end-of-line 0.03um "
+    SEGMENT < 0
+    FLAG_CONCAVE_90 = TRUE
+    OUTPUT_EDGES = TRUE 
+} (163)
+ 
+ENCLOSE v5i1 BY m5 {
+    COMMENT = "VIA5.E.3: Minimum rectangular VIA5 enclosure by M5 at end-of-line 0.006um"
+    SPACING < 0.006
+    SET_CORNERS_TO_SPACING = FALSE
+    PARALLEL_POINT_PROJECTION = FALSE
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+    POINT_TOUCH = FALSE
+    OUTPUT_EDGES = TRUE
+} TEMP=via1e21_y
+ 
+SELECT_EDGE v5i1 TOUCHING via1e21_y {} TEMP=via1e22_z
+
+INTERNAL via1e22_z {
+    COMMENT = "VIA5.E.3: Minimum rectangular VIA5 enclosure by M5 at end-of-line 0.006um "
+    SEGMENT < 0
+    FLAG_CONCAVE_90 = TRUE
+    OUTPUT_EDGES = TRUE 
+} (163)
+
+ENCLOSE v5i1 BY m6 {
+    COMMENT = "VIA5.E.3: Minimum rectangular VIA5 enclosure by M6 at end-of-line 0.006um"
+    SPACING < 0.006
+    SET_CORNERS_TO_SPACING = FALSE
+    PARALLEL_POINT_PROJECTION = FALSE
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+    POINT_TOUCH = FALSE
+    OUTPUT_EDGES = TRUE
+} TEMP=via1e21_y
+ 
+SELECT_EDGE v5i1 TOUCHING via1e21_y {} TEMP=via1e22_z
+
+INTERNAL via1e22_z {
+    COMMENT = "VIA5.E.3: Minimum rectangular VIA5 enclosure by M6 at end-of-line 0.006um "
+    SEGMENT < 0
+    FLAG_CONCAVE_90 = TRUE
+    OUTPUT_EDGES = TRUE 
+} (163)
+
+/*VIA6 Rules*/
+
+SIZE m7 {
+    UNDER_OVER=0.1
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=m7_f
+
+CONNECT { m6_f m7_f BY [TOUCH OVERLAP] via6}
+DATA_LIMIT via6 { LIMIT  = 2 } TEMP = yuyu_6
+
+EXTERNAL yuyu_6 {
+    COMMENT = "VIAX.B.1: When Mx or MX+1 width >0.2, it is must to have redundant vias with spacing 0.15"
+    SPACING < 0.15
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+DISCONNECT
+
+INTERNAL via6 {
+    DIMENSION = [ 0.05, 0.05],[ 0.05, 0.14],[ 0.14, 0.14]
+    COMMENT ="KOD: Exact size =0.14x0.14um or 0.05x0.05um or 0.05x0.14"
+} (163)
+
+AREA  via6 {   RANGE = [ 0.0025, 0.0025] } temp=v6i
+
+AREA  via6 {  RANGE = [ 0.007, 0.007] } temp=v6i1
+
+AREA  via6 { RANGE = [ 0.0196,0.0196] } temp=v6i2
+
+EXTERNAL v6i {
+    COMMENT = "VIA6.S.1: Minimum spacing of square via6 0.07um"
+    SPACING < 0.07
+    CHECK_SAME_POLYGON = FALSE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+EXTERNAL v6i v6i1   {
+    COMMENT = "VIA6.S.2: Minimum spacing of square via6 to rectangular via6 0.065um"
+    SPACING < 0.065
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+EXTERNAL v6i v6i2   {
+    COMMENT = "VIA6.S.2: Minimum spacing of square via6 to large via6 0.08um"
+    SPACING < 0.08
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+EXTERNAL v6i1 v6i2   {
+    COMMENT = "VIA6.S.2: Minimum spacing of rectangular via6 to large via6 0.085um"
+    SPACING < 0.085
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+EXTERNAL v6i1   {
+    COMMENT = "VIA6.S.3:Minimum spacing of rectangular via6 to rectangular via6 0.07um"
+    SPACING < 0.07
+    CHECK_SAME_POLYGON = TRUE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE 
+} (163)
+
+EXTERNAL v6i2   {
+    COMMENT = "VIA6.S.3:Minimum spacing of large via6 to large via6 0.07um"
+    SPACING < 0.07
+    CHECK_SAME_POLYGON = TRUE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE 
+} (163)
+
+BOOLEAN via6 NOT m6 {
+    COMMENT = "VIA6.E.1: VIA6 is not convered by M6, min. enclosure is 0.0um "
+} (163)
+ 
+ENCLOSE via6 BY m6 {
+    COMMENT = "VIA6.E.2: Minimum VIA6 enclosure by M6 at end-of-line 0.03um"
+    SPACING < 0.03
+    SET_CORNERS_TO_SPACING = FALSE
+    PARALLEL_POINT_PROJECTION = FALSE
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+    POINT_TOUCH = FALSE
+    OUTPUT_EDGES = TRUE
+} TEMP=via6e21_y
+ 
+SELECT_EDGE via6 TOUCHING via6e21_y {} TEMP=via6e22_z
+
+INTERNAL via6e22_z {
+    COMMENT = "VIA6.E.2: Minimum VIA6 enclosure by M6 at end-of-line 0.03um "
+    SEGMENT < 0
+    FLAG_CONCAVE_90 = TRUE
+    OUTPUT_EDGES = TRUE 
+} (163)
+
+BOOLEAN via6 NOT m7 {
+    COMMENT = "VIA6.E.1: VIA6 is not convered by M7, min. enclosure is 0.0um "
+} (163)
+ 
+ENCLOSE via6 BY m7 {
+    COMMENT = "VIA6.E.2: Minimum VIA6 enclosure by M7 at end-of-line 0.03um"
+    SPACING < 0.03
+    SET_CORNERS_TO_SPACING = FALSE
+    PARALLEL_POINT_PROJECTION = FALSE
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+    POINT_TOUCH = FALSE
+    OUTPUT_EDGES = TRUE
+} TEMP=via6e21_y
+ 
+SELECT_EDGE via6 TOUCHING via6e21_y {} TEMP=via6e22_z
+
+INTERNAL via6e22_z {
+    COMMENT = "VIA6.E.2: Minimum VIA6 enclosure by M7 at end-of-line 0.03um "
+    SEGMENT < 0
+    FLAG_CONCAVE_90 = TRUE
+    OUTPUT_EDGES = TRUE 
+} (163)
+ 
+ENCLOSE v6i1 BY m6 {
+    COMMENT = "VIA6.E.3: Minimum rectangular VIA6 enclosure by M6 at end-of-line 0.006um"
+    SPACING < 0.006
+    SET_CORNERS_TO_SPACING = FALSE
+    PARALLEL_POINT_PROJECTION = FALSE
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+    POINT_TOUCH = FALSE
+    OUTPUT_EDGES = TRUE
+} TEMP=via1e21_y
+ 
+SELECT_EDGE v6i1 TOUCHING via1e21_y {} TEMP=via1e22_z
+
+INTERNAL via1e22_z {
+    COMMENT = "VIA6.E.3: Minimum rectangular VIA6 enclosure by M6 at end-of-line 0.006um "
+    SEGMENT < 0
+    FLAG_CONCAVE_90 = TRUE
+    OUTPUT_EDGES = TRUE 
+} (163)
+
+
+ENCLOSE v6i1 BY m7 {
+    COMMENT = "VIA6.E.3: Minimum rectangular VIA6 enclosure by M7 at end-of-line 0.006um"
+    SPACING < 0.006
+    SET_CORNERS_TO_SPACING = FALSE
+    PARALLEL_POINT_PROJECTION = FALSE
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+    POINT_TOUCH = FALSE
+    OUTPUT_EDGES = TRUE
+} TEMP=via1e21_y
+ 
+SELECT_EDGE v6i1 TOUCHING via1e21_y {} TEMP=via1e22_z
+
+INTERNAL via1e22_z {
+    COMMENT = "VIA6.E.3: Minimum rectangular VIA6 enclosure by M7 at end-of-line 0.006um "
+    SEGMENT < 0
+    FLAG_CONCAVE_90 = TRUE
+    OUTPUT_EDGES = TRUE 
+} (163)
+
+/*VIA7 Rules*/
+
+SIZE m8 {
+    UNDER_OVER=0.1
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=m8_f
+
+CONNECT { m7_f m8_f BY [TOUCH OVERLAP] via7}
+DATA_LIMIT via7 { LIMIT  = 2 } TEMP = yuyu_8
+
+EXTERNAL yuyu_8 {
+    COMMENT = "VIAX.B.1: When Mx or MX+1 width >0.2, it is must to have redundant vias with spacing 0.15"
+    SPACING < 0.15
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+DISCONNECT
+
+INTERNAL via7 {
+    DIMENSION = [ 0.05, 0.05],[ 0.05, 0.14],[ 0.14, 0.14]
+    COMMENT ="KOD: Exact size =0.14x0.14um or 0.05x0.05um or 0.05x0.14"
+} (163)
+
+AREA  via7 {   RANGE = [ 0.0025, 0.0025] } temp=v7i
+
+AREA  via7 {  RANGE = [ 0.007, 0.007] } temp=v7i1
+
+AREA  via7 { RANGE = [ 0.0196,0.0196] } temp=v7i2
+
+EXTERNAL v7i {
+    COMMENT = "VIA7.S.1: Minimum spacing of square via7 0.07um"
+    SPACING < 0.07
+    CHECK_SAME_POLYGON = FALSE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+EXTERNAL v7i v7i1   {
+    COMMENT = "VIA7.S.2: Minimum spacing of square via7 to rectangular via7 0.08um"
+    SPACING < 0.08
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+EXTERNAL v7i v7i2   {
+    COMMENT = "VIA7.S.2: Minimum spacing of square via7 to large via7 0.08um"
+    SPACING < 0.08
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+EXTERNAL v7i1 v7i2   {
+    COMMENT = "VIA7.S.2: Minimum spacing of rectangular via7 to large via7 0.08um"
+    SPACING < 0.08
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+EXTERNAL v7i1   {
+    COMMENT = "VIA7.S.3:Minimum spacing of rectangular via7 to rectangular via7 0.08um"
+    SPACING < 0.08
+    CHECK_SAME_POLYGON = TRUE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE 
+} (163)
+
+EXTERNAL v7i2   {
+    COMMENT = "VIA7.S.3:Minimum spacing of large via7 to large via7 0.085um"
+    SPACING < 0.085
+    CHECK_SAME_POLYGON = TRUE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE 
+} (163)
+
+BOOLEAN via7 NOT m7 {
+    COMMENT = "VIA7.E.1: VIA7 is not convered by M7, min. enclosure is 0.0um "
+} (163)
+ 
+ENCLOSE via7 BY m7 {
+    COMMENT = "VIA7.E.2: Minimum VIA7 enclosure by M7 at end-of-line 0.03um"
+    SPACING < 0.03
+    SET_CORNERS_TO_SPACING = FALSE
+    PARALLEL_POINT_PROJECTION = FALSE
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+    POINT_TOUCH = FALSE
+    OUTPUT_EDGES = TRUE
+} TEMP=via7e21_y
+ 
+SELECT_EDGE via7 TOUCHING via7e21_y {} TEMP=via7e22_z
+
+INTERNAL via7e22_z {
+    COMMENT = "VIA7.E.2: Minimum VIA7 enclosure by M7 at end-of-line 0.03um "
+    SEGMENT < 0
+    FLAG_CONCAVE_90 = TRUE
+    OUTPUT_EDGES = TRUE 
+} (163)
+
+BOOLEAN via7 NOT m8 {
+    COMMENT = "VIA7.E.1: VIA7 is not convered by M8, min. enclosure is 0.0um "
+} (163)
+ 
+ENCLOSE via7 BY m8 {
+    COMMENT = "VIA7.E.2: Minimum VIA7  enclosure by M8 at end-of-line 0.03um"
+    SPACING < 0.03
+    SET_CORNERS_TO_SPACING = FALSE
+    PARALLEL_POINT_PROJECTION = FALSE
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+    POINT_TOUCH = FALSE
+    OUTPUT_EDGES = TRUE
+} TEMP=via7e21_y
+ 
+SELECT_EDGE via7 TOUCHING via7e21_y {} TEMP=via7e22_z
+
+INTERNAL via7e22_z {
+    COMMENT = "VIA7.E.2: Minimum VIA7  enclosure by M8 at end-of-line 0.03um"
+    SEGMENT < 0
+    FLAG_CONCAVE_90 = TRUE
+    OUTPUT_EDGES = TRUE 
+} (163)
+ 
+ENCLOSE v7i1 BY m7 {
+    COMMENT = "VIA7.E.3: Minimum rectangular VIA7 enclosure by M7 at end-of-line 0.006um"
+    SPACING < 0.006
+    SET_CORNERS_TO_SPACING = FALSE
+    PARALLEL_POINT_PROJECTION = FALSE
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+    POINT_TOUCH = FALSE
+    OUTPUT_EDGES = TRUE
+} TEMP=via1e21_y
+ 
+SELECT_EDGE v7i1 TOUCHING via1e21_y {} TEMP=via1e22_z
+
+INTERNAL via1e22_z {
+    COMMENT = "VIA7.E.3: Minimum rectangular VIA7 enclosure by M7 at end-of-line 0.006um "
+    SEGMENT < 0
+    FLAG_CONCAVE_90 = TRUE
+    OUTPUT_EDGES = TRUE 
+} (163)
+
+
+ENCLOSE v7i1 BY m8 {
+    COMMENT = "VIA7.E.3: Minimum rectangular VIA7 enclosure by M8 at end-of-line 0.006um"
+    SPACING < 0.006
+    SET_CORNERS_TO_SPACING = FALSE
+    PARALLEL_POINT_PROJECTION = FALSE
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+    POINT_TOUCH = FALSE
+    OUTPUT_EDGES = TRUE
+} TEMP=via1e21_y
+ 
+SELECT_EDGE v7i1 TOUCHING via1e21_y {} TEMP=via1e22_z
+
+INTERNAL via1e22_z {
+    COMMENT = "VIA7.E.3: Minimum rectangular VIA7 enclosure by M8 at end-of-line 0.006um "
+    SEGMENT < 0
+    FLAG_CONCAVE_90 = TRUE
+    OUTPUT_EDGES = TRUE 
+} (163)
+
+/*VIAT Rules*/
+
+INTERNAL viat {
+	DIMENSION = [0.13, 0.13]
+	COMMENT = "VIAT.W.1: Exact size =0.13x0.13um "
+} (163)
+
+EXTERNAL viat {
+    COMMENT = "VIAT.S.1: Minimum viat spacing 0.12um"
+    SPACING < 0.12
+    CHECK_SAME_POLYGON = TRUE
+    NON_PARALLEL = TRUE
+    POINT_TOUCH = TRUE
+} (163)
+
+ENCLOSE viat BY mt {
+    COMMENT = "VIAT.E.1: Minimum enclosure by MT 0.015um"
+    SPACING < 0.015
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+} (163)
+
+BOOLEAN viat NOT mt {
+    COMMENT = "VIAT.E.1: VIAT is not convered by MT, min. enclosure is 0.05um "
+} (163)
+ 
+ENCLOSE viat BY mt {
+    COMMENT = "VIAT.E.2: Minimum MT enclosure viat of end of line 0.03um"
+    SPACING < 0.03
+    SET_CORNERS_TO_SPACING = FALSE
+    PARALLEL_POINT_PROJECTION = FALSE
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+    POINT_TOUCH = FALSE
+    OUTPUT_EDGES = TRUE
+} TEMP=viate21_y
+ 
+SELECT_EDGE viat TOUCHING viate21_y {} TEMP=viate22_z
+
+INTERNAL viate22_z {
+    COMMENT = "VIAT.E.2: Minimum VIAT  enclosure by MT at end-of-line  0.03um "
+    SEGMENT < 0
+    FLAG_CONCAVE_90 = TRUE
+    OUTPUT_EDGES = TRUE 
+} (163)
+
+ENCLOSE viat BY mt2 {
+    COMMENT = "VIAT.E.1: Minimum enclosure by MT-1 0.015um"
+    SPACING < 0.015
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+} (163)
+
+BOOLEAN viat NOT mt2 {
+    COMMENT = "VIAT.E.1: VIAT is not convered by MT-1, min. enclosure is 0.015um "
+} (163)
+
+ENCLOSE viat BY mt2 {
+    COMMENT = "VIAT.E.2: Minimum MT-1 enclosure viat of end of line 0.03um"
+    SPACING < 0.03
+    SET_CORNERS_TO_SPACING = FALSE
+    PARALLEL_POINT_PROJECTION = FALSE
+    NON_PARALLEL = TRUE
+    SHADOW_OTHER_LAYER = TRUE
+    TOUCH = TRUE
+    POINT_TOUCH = FALSE
+    OUTPUT_EDGES = TRUE
+} TEMP=viate21_y
+ 
+SELECT_EDGE viat TOUCHING viate21_y {} TEMP=viate22_z
+
+INTERNAL viate22_z {
+    COMMENT = "VIAT.E.2: Minimum VIAT  enclosure by MT-1 at end-of-line 0.03um "
+    SEGMENT < 0
+    FLAG_CONCAVE_90 = TRUE
+    OUTPUT_EDGES = TRUE 
+} (163)
+
+INTERNAL mt { RANGE = [0.49 , 0.7] } temp = mt_rr
+
+INTERNAL mt2 { RANGE = [0.49 ,0.7] } temp = mt2_rr
+
+CONNECT { mt_rr mt2_rr BY [TOUCH OVERLAP] viat }
+
+DATA_FILTER viat {
+     OUTPUT_POLYGONS_PER_NET = [ 2,2 ] 
+     /*COMMENT = " must have more than 2 vias" */
+} TEMP = viii
+
+DATA_FILTER viat {
+     OUTPUT_POLYGONS_PER_NET = [ 4,4 ] 
+     /*COMMENT = " must have more than 2 vias" */
+} TEMP = v_y
+
+EXTERNAL viii {
+    SPACING < 0.2
+    OUTPUT_EDGES = TRUE
+    COMMENT = "VIAT.R.1.1: Redundant viat when  MT-1 or MT width > 0.49, it is must to have at least two VIAT
+    with spacing 0.2um"
+}(163)
+
+EXTERNAL v_y {
+    SPACING < 0.5
+    OUTPUT_EDGES = TRUE
+    COMMENT = "VIAT.R.1.2: Redundant viat when  MT-1 or MT width > 0.49, it is must to have at least four VIAT
+    with spacing 0.5um"
+}(163)
+
+DISCONNECT
+
+SIZE mt {
+    UNDER_OVER=0.35
+    LEVEL_NON_ORTHOGONAL = TRUE	
+} TEMP=mt_r
+
+INTERNAL mt2 { RANGE = [0.7 ,0.7+1e+5] } temp = mt2_r
+
+CONNECT { mt_r mt2_r BY [TOUCH OVERLAP] viat }
+
+DATA_FILTER viat {
+     OUTPUT_POLYGONS_PER_NET = [ 4,4 ] 
+     /*COMMENT = " must have more than 2 vias" */
+} TEMP = vioo
+
+DATA_FILTER viat {
+     OUTPUT_POLYGONS_PER_NET = [ 9,9 ] 
+     /*COMMENT = " must have more than 2 vias" */
+} TEMP = v_yoo
+
+EXTERNAL vioo {
+    SPACING < 0.2
+    OUTPUT_EDGES = TRUE
+    COMMENT = "VIAT.R.2.1: Redundant viat when  MT-1 or MT width > 0.7, it is must to have at least four VIAT
+    with spacing 0.2um"
+}(163)
+
+EXTERNAL v_yoo {
+    SPACING < 0.5
+    OUTPUT_EDGES = TRUE
+    COMMENT = "VIAT.R.2.2: Redundant viat when  MT-1 or MT width > 0.7, it is must to have at least nine VIAT
+    with spacing 0.5um"
+}(163)
+
+DISCONNECT
+
+/*Density Rules*/
+
+DENSITY m1_all {
+	COMMENT = "M1.DN.1  M1 density must be > 10% in whole chip, calculated by 130umx130um step 75um"
+	DELTA_WINDOW = [0,0,130,130]
+	X_EDGE_PROCESS_AMOUNT = 0
+	Y_EDGE_PROCESS_AMOUNT = 0
+	DELTA_X = 75
+	DELTA_Y = 75
+	RATIO = [0.00000000001, 0.1]
+	VERBOSE = TRUE
+} (163)
+
+DENSITY m1_all {
+	COMMENT = "M1.DN.1  M1 density must be < 85% in whole chip, calculated by 130umx130um step 75um"
+	DELTA_WINDOW = [0,0,130,130]
+	X_EDGE_PROCESS_AMOUNT = 0
+	Y_EDGE_PROCESS_AMOUNT = 0
+	DELTA_X = 75
+	DELTA_Y = 75
+	RATIO >= 0.85
+	VERBOSE = TRUE
+} (163)
+
+DENSITY m2_all {
+	COMMENT = "M2.DN.1  M2 density must be > 10% in whole chip, calculated by 50umx50um step 75um"
+	DELTA_WINDOW = [0,0,50,50]
+	X_EDGE_PROCESS_AMOUNT = 0
+	Y_EDGE_PROCESS_AMOUNT = 0
+	DELTA_X = 75
+	DELTA_Y = 75
+	RATIO = [0.00000000001, 0.15]
+	VERBOSE = TRUE
+} (163)
+
+DENSITY m2_all {
+	COMMENT = "M2.DN.1  M2 density must be < 85% in whole chip, calculated by 130umx130um step 75um"
+	DELTA_WINDOW = [0,0,130,130]
+	X_EDGE_PROCESS_AMOUNT = 0
+	Y_EDGE_PROCESS_AMOUNT = 0
+	DELTA_X = 75
+	DELTA_Y = 75
+	RATIO >= 0.85
+	VERBOSE = TRUE
+} (163)
+
+DENSITY m3_all {
+	COMMENT = "M3.DN.1  M3 density must be > 10% in whole chip, calculated by 130umx130um step 75um"
+	DELTA_WINDOW = [0,0,130,130]
+	X_EDGE_PROCESS_AMOUNT = 0
+	Y_EDGE_PROCESS_AMOUNT = 0
+	DELTA_X = 75
+	DELTA_Y = 75
+	RATIO = [0.00000000001, 0.1]
+	VERBOSE = TRUE
+} (163)
+
+DENSITY m3_all {
+	COMMENT = "M3.DN.1  M3 density must be < 85% in whole chip, calculated by 130umx130um step 75um"
+	DELTA_WINDOW = [0,0,130,130]
+	X_EDGE_PROCESS_AMOUNT = 0
+	Y_EDGE_PROCESS_AMOUNT = 0
+	DELTA_X = 75
+	DELTA_Y = 75
+	RATIO >= 0.85
+	VERBOSE = TRUE
+} (163)
+
+DENSITY m4_all {
+	COMMENT = "M4.DN.1  M4 density must be > 10% in whole chip, calculated by 130umx130um step 75um"
+	DELTA_WINDOW = [0,0,130,130]
+	X_EDGE_PROCESS_AMOUNT = 0
+	Y_EDGE_PROCESS_AMOUNT = 0
+	DELTA_X = 75
+	DELTA_Y = 75
+	RATIO = [0.00000000001, 0.1]
+	VERBOSE = TRUE
+} (163)
+
+DENSITY m4_all {
+	COMMENT = "M4.DN.1  M4 density must be < 85% in whole chip, calculated by 130umx130um step 75um"
+	DELTA_WINDOW = [0,0,130,130]
+	X_EDGE_PROCESS_AMOUNT = 0
+	Y_EDGE_PROCESS_AMOUNT = 0
+	DELTA_X = 75
+	DELTA_Y = 75
+	RATIO >= 0.85
+	VERBOSE = TRUE
+} (163)
+
+
+DENSITY m5_all {
+	COMMENT = "M5.DN.1  M5 density must be > 10% in whole chip, calculated by 130umx130um step 75um"
+	DELTA_WINDOW = [0,0,130,130]
+	X_EDGE_PROCESS_AMOUNT = 0
+	Y_EDGE_PROCESS_AMOUNT = 0
+	DELTA_X = 75
+	DELTA_Y = 75
+	RATIO = [0.00000000001, 0.1]
+	VERBOSE = TRUE
+} (163)
+
+DENSITY m5_all {
+	COMMENT = "M5.DN.1  M5 density must be < 85% in whole chip, calculated by 130umx130um step 75um"
+	DELTA_WINDOW = [0,0,130,130]
+	X_EDGE_PROCESS_AMOUNT = 0
+	Y_EDGE_PROCESS_AMOUNT = 0
+	DELTA_X = 75
+	DELTA_Y = 75
+	RATIO >= 0.85
+	VERBOSE = TRUE
+} (163)
+
+DENSITY m6_all {
+	COMMENT = "M6.DN.1  M6 density must be > 10% in whole chip, calculated by 130umx130um step 75um"
+	DELTA_WINDOW = [0,0,130,130]
+	X_EDGE_PROCESS_AMOUNT = 0
+	Y_EDGE_PROCESS_AMOUNT = 0
+	DELTA_X = 75
+	DELTA_Y = 75
+	RATIO = [0.00000000001, 0.10]
+	VERBOSE = TRUE
+} (163)
+
+DENSITY m6_all {
+	COMMENT = "M6.DN.1  M6 density must be < 85% in whole chip, calculated by 130umx130um step 75um"
+	DELTA_WINDOW = [0,0,130,130]
+	X_EDGE_PROCESS_AMOUNT = 0
+	Y_EDGE_PROCESS_AMOUNT = 0
+	DELTA_X = 75
+	DELTA_Y = 75
+	RATIO >= 0.85
+	VERBOSE = TRUE
+} (163)
+
+DENSITY m7_all {
+	COMMENT = "M7.DN.1  M7 density must be > 10% in whole chip, calculated by 130umx130um step 75um"
+	DELTA_WINDOW = [0,0,130,130]
+	X_EDGE_PROCESS_AMOUNT = 0
+	Y_EDGE_PROCESS_AMOUNT = 0
+	DELTA_X = 75
+	DELTA_Y = 75
+	RATIO = [0.00000000001, 0.10]
+	VERBOSE = TRUE
+} (163)
+
+DENSITY m7_all {
+	COMMENT = "M7.DN.1  M7 density must be < 85% in whole chip, calculated by 130umx130um step 75um"
+	DELTA_WINDOW = [0,0,130,130]
+	X_EDGE_PROCESS_AMOUNT = 0
+	Y_EDGE_PROCESS_AMOUNT = 0
+	DELTA_X = 75
+	DELTA_Y = 75
+	RATIO >= 0.85
+	VERBOSE = TRUE
+} (163)
+
+DENSITY m8_all {
+	COMMENT = "M8.DN.1  M8 density must be > 10% in whole chip, calculated by 130umx130um step 75um"
+	DELTA_WINDOW = [0,0,130,130]
+	X_EDGE_PROCESS_AMOUNT = 0
+	Y_EDGE_PROCESS_AMOUNT = 0
+	DELTA_X = 75
+	DELTA_Y = 75
+	RATIO = [0.00000000001, 0.1]
+	VERBOSE = TRUE
+} (163)
+
+DENSITY m8_all {
+	COMMENT = "M8.DN.1  M8 density must be < 85% in whole chip, calculated by 130umx130um step 75um"
+	DELTA_WINDOW = [0,0,130,130]
+	X_EDGE_PROCESS_AMOUNT = 0
+	Y_EDGE_PROCESS_AMOUNT = 0
+	DELTA_X = 75
+	DELTA_Y = 75
+	RATIO >= 0.85
+	VERBOSE = TRUE
+} (163)
+
+DENSITY mt_all {
+	COMMENT = "M9.DN.1  M9 density must be > 15% in whole chip, calculated by 100umx100um step 75um"
+	DELTA_WINDOW = [0,0,100,100]
+	X_EDGE_PROCESS_AMOUNT = 0
+	Y_EDGE_PROCESS_AMOUNT = 0
+	DELTA_X = 75
+	DELTA_Y = 75
+	RATIO = [0.00000000001, 0.15]
+	VERBOSE = TRUE
+} (163)
+
+DENSITY mt_all {
+	COMMENT = "M9.DN.1  M9 density must be < 60% in whole chip, calculated by 200umx200um step 75um"
+	DELTA_WINDOW = [0,0,200,200]
+	X_EDGE_PROCESS_AMOUNT = 0
+	Y_EDGE_PROCESS_AMOUNT = 0
+	DELTA_X = 75
+	DELTA_Y = 75
+	RATIO >= 0.6
+	VERBOSE = TRUE
+} (163)
+
+DENSITY mt_all {
+	COMMENT = "M9.DN.2  M9 local density must be < 90% range over 130umx130um step 75um"
+	DELTA_WINDOW = [0,0,100,100]
+	X_EDGE_PROCESS_AMOUNT = 0
+	Y_EDGE_PROCESS_AMOUNT = 0
+	DELTA_X = 75
+	DELTA_Y = 75
+	RATIO >= 0.9
+	VERBOSE = TRUE
+} (163)
+
+DENSITY diff_all {
+	COMMENT = "DIFF.DN.1  DIFF density must be > 20% in whole chip, calculated by 130umx130um step 75um"
+	DELTA_WINDOW = [0,0,130,130]
+	X_EDGE_PROCESS_AMOUNT = 0
+	Y_EDGE_PROCESS_AMOUNT = 0
+	DELTA_X = 75
+	DELTA_Y = 75
+	RATIO = [0.00000000001, 0.2]
+	VERBOSE = TRUE
+} (163)
+
+DENSITY diff_all {
+	COMMENT = "DIFF.DN.1  DIFF density must be < 80% in whole chip, calculated by 130umx130um step 75um"
+	DELTA_WINDOW = [0,0,130,130]
+	X_EDGE_PROCESS_AMOUNT = 0
+	Y_EDGE_PROCESS_AMOUNT = 0
+	DELTA_X = 75
+	DELTA_Y = 75
+	RATIO >= 0.8
+	VERBOSE = TRUE
+} (163)
+/*
+DENSITY diff_all {
+	COMMENT = "DIFF.DN.2  DIFF local density must be < 85% range over 150umx150um step 50um"
+	DELTA_WINDOW = [0,0,150,150]
+	X_EDGE_PROCESS_AMOUNT = 0
+	Y_EDGE_PROCESS_AMOUNT = 0
+	DELTA_X = 10
+	DELTA_Y = 10
+	RATIO >= 0.85
+	VERBOSE = TRUE
+} (163)
+*/
+
+DENSITY po_all {
+	COMMENT = "PO.DN.1  POLY density must be > 15% in whole chip, calculated by 130umx130um step 75um"
+	DELTA_WINDOW = [0,0,130,130]
+	X_EDGE_PROCESS_AMOUNT = 0
+	Y_EDGE_PROCESS_AMOUNT = 0
+	DELTA_X = 75
+	DELTA_Y = 75
+	RATIO = [0.00000000001, 0.15]
+	VERBOSE = TRUE
+} (163)
+
+DENSITY po_all {
+	COMMENT = "PO.DN.1  POLY density must be < 40% in whole chip, calculated by 130umx130um step 75um"
+	DELTA_WINDOW = [0,0,130,130]
+	X_EDGE_PROCESS_AMOUNT = 0
+	Y_EDGE_PROCESS_AMOUNT = 0
+	DELTA_X = 75
+	DELTA_Y = 75
+	RATIO >= 0.4
+	VERBOSE = TRUE
+} (163)

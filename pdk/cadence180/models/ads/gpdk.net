@@ -1,0 +1,123 @@
+; Translated with ADS Netlist Translator (*) 250.300 Nov 15 2003
+;* GPDK Corner Definitions
+; This is an example file showing how to define corners
+; using model files for individual components as the
+; building blocks.
+
+;simulator lang=spectre
+;library gpdk
+
+#ifdef NN
+#define tt
+#include "mos25gen.net" tt
+#define nom
+#include "nmos1.net" nom
+#include "pmos1.net" nom
+#define res
+#include "resistor.ads" res
+#define cap
+#include "capacitor.net" cap
+#define dio
+#include "diode_t.net" dio
+#define bjt
+#include "bipolar.net" bjt
+
+#include "xjvar_w40.net"
+#include "cmodel.net"
+#include "snacapacitor.net"
+
+#endif
+
+#ifdef SS
+#define ss
+#include "mos25gen.net" ss
+#define slow
+#include "nmos1.net" slow
+#include "pmos1.net" slow
+#define res
+#include "resistor.ads" res
+#define cap
+#include "capacitor.net" cap
+#define dio
+#include "diode_t.net" dio
+#define bjt
+#include "bipolar.net" bjt
+#include "xjvar_w40.net"
+#include "cmodel.net"
+#include "snacapacitor.net"
+
+#endif
+
+#ifdef SF
+#define sf
+#include "mos25gen.net" sf
+#define slow
+#include "nmos1.net" slow
+#define fast
+#include "pmos1.net" fast
+#define res
+#include "resistor.ads" res
+#define cap
+#include "capacitor.net" cap
+#define dio
+#include "diode_t.net" dio
+#define bjt
+#include "bipolar.net" bjt
+
+#include "xjvar_w40.net"
+#include "cmodel.net"
+#include "snacapacitor.net"
+
+#endif
+
+#ifdef FS
+#define fs
+#include "mos25gen.net" fs
+#define fast
+#include "nmos1.net" fast
+#define slow
+#include "pmos1.net" slow
+#define res
+#include "resistor.ads" res
+#define cap
+#include "capacitor.net" cap
+#define dio
+#include "diode_t.net" dio
+#define bjt
+#include "bipolar.net" bjt
+
+#include "xjvar_w40.net"
+#include "cmodel.net"
+#include "snacapacitor.net"
+
+#endif
+
+#ifdef FF
+#define ff
+#include "mos25gen.net" ff
+#define fast
+#include "nmos1.net" fast
+#define fast
+#include "pmos1.net" fast
+#define res
+#include "resistor.ads" res
+#define cap
+#include "capacitor.net" cap
+#define dio
+#include "diode_t.net" dio
+#define bjt
+#include "bipolar.net" bjt
+
+#include "xjvar_w40.net"
+#include "cmodel.net"
+#include "snacapacitor.net"
+
+#endif
+
+
+
+
+
+
+;endlibrary gpdk
+

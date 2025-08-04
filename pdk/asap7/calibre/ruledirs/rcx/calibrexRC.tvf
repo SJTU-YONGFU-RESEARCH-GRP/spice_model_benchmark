@@ -1,0 +1,24 @@
+#! tvf
+
+::tvf::LAYOUT PATH \"$::env(LAYOUT_PATH)\"
+::tvf::LAYOUT SYSTEM $::env(LAYOUT_SYSTEM)
+::tvf::LAYOUT PRIMARY \"$::env(LAYOUT_PRIMARY)\"
+
+::tvf::SOURCE PATH \"$::env(SOURCE_PATH)\"
+::tvf::SOURCE SYSTEM $::env(SOURCE_SYSTEM)
+::tvf::SOURCE PRIMARY \"$::env(SOURCE_PRIMARY)\"
+
+::tvf::LVS REPORT \"$::env(LVS_REPORT)\";
+::tvf::MASK RESULTS DATABASE \"$::env(MASK_DATABASE)\"
+::tvf::MASK SVDB DIRECTORY \"$::env(MASK_DATABASE)\" QUERY XRC
+
+::tvf::ERC RESULTS DATABASE \"$::env(ERC_DATABASE)\"
+::tvf::ERC SUMMARY REPORT \"$::env(ERC_REPORT)\"
+
+::tvf::PEX NETLIST \"$::env(PEX_NETLIST)\" HSPICE 1 LAYOUTNAMES 
+#CALIBREVIEW 1 SOURCENAMES LOCATION 
+::tvf::PEX REPORT \"$::env(PEX_REPORT)\" LAYOUTNAMES
+
+::tvf::DRC ICSTATION YES
+
+::tvf::INCLUDE \"$::env(PDK_DIR)/ruledirs/rcx/rcxControl_calibre_asap7.rul\"

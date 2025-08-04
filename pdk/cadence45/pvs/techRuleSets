@@ -1,0 +1,27 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; GPDK045 PVS Rule Set File
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+pvsRuleSet( "default"
+       (DrcRules             "./pvlDRC.rul" )
+       (LvsRules             "./pvlLVS.rul" )
+       (ErcRules             "./pvlLVS.rul" )
+)
+ 
+pvsRuleSet( "antenna"
+       (DrcRules             "./pvlAnt.rul" )
+)
+
+pvsRuleSet( "Metal Fill"
+       (DrcRules             "./pvlFILL.rul" )
+)
+
+ruleSet( "rcx_typical"
+       (RcxSetupDir          "../qrc/typical" )
+)
+ruleSet( "rcx_worst"
+       (RcxSetupDir          "../qrc/rcworst" )
+)
+ruleSet( "rcx_best"
+       (RcxSetupDir          "../qrc/rcbest" )
+)

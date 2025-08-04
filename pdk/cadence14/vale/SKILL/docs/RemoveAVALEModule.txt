@@ -1,0 +1,25 @@
+VALE Framework Component Module:
+________________________________
+Remove a VALE Module
+
+Description
+___________
+Cleanly removes a VALE modules configuration from the VALE config file. 
+Moves support files (SKILL IMF files, documentation files, Include files 
+and cxt files) to a REMOVED directory in the VALE directory.
+
+Dependencies
+____________
+
+Input Requirements:
+___________________
+
+Output:
+_______
+
+Development Notes:
+__________________
+
+Known Issues:
+____________:
+

@@ -1,0 +1,73 @@
+*
+*|DSPF 1.5
+*
+*|DATE "Wed May  8 08:22:43 2013"
+*|VENDOR "Cadence Design Systems"
+*|PROGRAM "Cadence Extraction QRC"
+*|VERSION "12.1 Linux 64 bit - (Fri Mar 15 17:53:47 PDT 2013)"
+*|DESIGN "CLKBUFX20"
+*|DIVIDER /
+*|DELIMITER :
+*|DeviceFingerDelim "@"
+*|BUSBIT []
+** caps2d version: 10
+*
+.GLOBAL  NW VDD VSS
+*
+.SUBCKT  CLKBUFX20 A Y
+*
+*Net Section
+*
+*|GROUND_NET VSS
+*
+*|NET A 4.06853e-16
+*|P (A X 0 4.1000 0.8550)
+C1 A VSS 4.06853e-16
+*
+*|NET Y 1.89568e-15
+*|P (Y X 0 0.1000 0.6650)
+*|I (Mmn1@1:d Mmn1@1 d X 0 0.1100 0.5075)
+*|I (Mmp1@1:d Mmp1@1 d X 0 0.1100 1.1325)
+C2 Mmp1@1:d VSS 1.06731e-15
+C3 Mmn1@1:d VSS 8.15143e-16
+C4 Y VSS 1.32273e-17
+Rk1 Mmn1@1:d Y 0.028035 $W=0.1
+Rk2 Mmp1@1:d Y 0.172613 $W=0.1
+*
+*|NET net44 1.83594e-15
+*|I (Mmn1@1:g Mmn1@1 g X 0 0.2025 0.5075)
+*|I (Mmn0@1:d Mmn0@1 d X 0 3.7900 0.5300)
+*|I (Mmp0@1:d Mmp0@1 d X 0 3.7900 1.1650)
+*|S (net44:55 3.7450 0.7850)
+C5 Mmp0@1:d VSS 2.264e-16
+C6 Mmn0@1:d VSS 1.32188e-16
+C7 Mmn1@1:g VSS 1.4549e-15
+C8 net44:55 VSS 2.24545e-17
+Rk3 net44:55 Mmn1@1:g 0.140397 $W=0.09
+Rk4 net44:55 Mmn0@1:d 0.137176 $W=0.1
+Rk5 net44:55 Mmp0@1:d 0.221239 $W=0.06
+*
+*Instance Section
+*
+Mmn1@1	Mmn1@1:d	Mmn1@1:g	VSS	VSS	g45n1svt
++ L=0.045U	W=0.305U
++ AD=0.04844P	AS=0.04864P	PD=0.92765U	PS=0.93U	M=17
++ fw=3.05e-07 sa=1.4e-07 sb=2e-06 sca=16.121 scb=0.0155296 scc=0.00139557
+Mmn0@1	Mmn0@1:d	A	VSS	VSS	g45n1svt	L=0.045U
++ W=0.26U
++ AD=0.04056P	AS=0.0425P	PD=0.832U	PS=0.858U	M=5
++ fw=2.6e-07 sa=2e-06 sb=9.6e-07 sca=17.5885 scb=0.0172826 scc=0.00162584
+Mmp1@1	Mmp1@1:d	Mmn1@1:g	VDD	NW	g45p1svt
++ L=0.045U	W=0.455U
++ AD=0.0637P	AS=0.0733P	PD=1.19U	PS=1.24U
++ fw=4.55e-07 sa=1.4e-07 sb=2e-06 sca=39.6635 scb=0.0369516 scc=0.00411991
+Mmp1@2	Mmp1@1:d	Mmn1@1:g	VDD	NW	g45p1svt
++ L=0.045U	W=0.46U
++ AD=0.0736P	AS=0.07332P	PD=1.24U	PS=1.24U	M=16
++ fw=4.6e-07 sa=3.42337e-07 sb=2e-06 sca=30.979 scb=0.0224787 scc=0.002898
+Mmp0@1	Mmp0@1:d	A	VDD	NW	g45p1svt	L=0.045U
++ W=0.39U
++ AD=0.06084P	AS=0.0638P	PD=1.092U	PS=1.128U	M=5
++ fw=3.9e-07 sa=2e-06 sb=9.6e-07 sca=16.7336 scb=0.0149207 scc=0.00128056
+.ENDS
+.END

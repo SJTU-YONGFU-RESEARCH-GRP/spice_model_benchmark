@@ -1,0 +1,108 @@
+test_dsm_coeff_b.sp3
+* Coefficient mapping test for dsm_arch_test.cir (Part B)
+* Requires cmload xtendedlib.cm
+
+.control
+
+delcirc all
+destroy all
+delete all
+
+setplot new
+nameplot myvars
+let ki1=(0.1;0.2;0.3;0.4;0.5)
+let kff=(1.8;1.9;2.0;2.1;2.2)
+let nsim=length(ki1)*length(kff)
+let SQNDRb=vector(nsim)*0
+
+let k=0
+while k le length(ki1)-1
+ let m=0
+ while m le length(kff)-1
+  
+  source dsm_arch_test.cir
+  let vfs=@@mi8:xi1[out_high]
+  let @@mi1:xi1[gain]=ki1[k]
+  let @@mi4:xi1[gain]=kff[m]
+ 
+  save v(vout)
+  set reltol=1e-6
+  set abstol=1e-15
+  set vntol=1e-9
+  ic v(vdac:xi1)=-2.0
+  ic v(vint1out:xi1)=0.0
+  ic v(vint2out:xi1)=0.0
+
+  echo "Simulating for ki1={round(ki1[k]*10)/10} and kff={round(kff[m]*10)/10} ({m+k*length(ki1)+1}/{nsim}) ..."
+  tran 1e-9 4.1e-3
+ 
+  shell "tran2psd -f 4.096e6 -w Blackman -z tran.raw > psd.raw"
+  set filetype=ascii
+  load "psd.raw"
+  let p=(mag(v(vpsd))*myvars.vfs*2)^2
+
+  let kbw=0
+  cursor kbw right frequency 8e3
+  let kleft=0
+  cursor kleft right frequency 2e3
+  let kright=kleft
+  while ((p[kleft-1] lt p[kleft])&(kleft gt 0)) 
+   kleft=kleft-1
+   end
+  while ((p[kright+1] lt p[kright])&(kright lt kbw)) 
+   kright=kright+1
+   end
+
+  let S=sum(p[kleft,kright])
+  let SQND=sum(p[3,kbw])
+  let SQNDRdB=10*log(S/(SQND-S))
+  let SQNDRb=((SQNDRdB-1.76)/6.02)
+
+  setplot myvars
+  let SQNDRb[m+k*length(ki1)]=sp1.SQNDRb
+
+  destroy sp1
+  destroy tran1
+  delcirc
+  let m=m+1
+  end
+ let k=k+1
+ end
+
+let ki1all=vector(nsim)*0
+let kffall=vector(nsim)*0
+
+echo " "
+echo " SQNDR[bit]"
+set label=( "  kff  " )
+let m=0
+while m le length(kff)-1 
+ set label=( $(label) {round(10*kff[m])/10} "  " )
+ let m=m+1
+ end
+echo $(label)
+echo " ki1   ------- ------- ------- ------- -------"
+let k=0
+while k le length(ki1)-1
+ set label=( " " {round(10*ki1[k])/10} "|")
+ let m=0
+ while m le length(kff)-1
+  set label=( $(label) {round(10*SQNDRb[m+k*length(ki1)])/10} "|")
+  let ki1all[m+k*length(ki1)]=ki1[k]
+  let kffall[m+k*length(ki1)]=kff[m]
+  let m=m+1
+  end
+ echo $(label)
+ let k=k+1
+ end
+echo "       ------- ------- ------- ------- -------"
+echo " "
+
+set filetype=ascii
+unset appendwrite
+write "test_dsm_coeff_b.raw" ki1all kffall SQNDRb
+
+.endc
+
+.end
+

@@ -1,0 +1,73 @@
+VALE Framework Component Module:
+   Load Row Templates
+
+Description:
+   Loads a SKILL file with Row definitions using the dbCreateRowRegionSpec SKILL procedure. 
+
+   Example:
+
+      ;;;;;;;;;;;;;;;;;;;;;;;;
+      ;; Create nppn528fin6 ;;
+      ;;;;;;;;;;;;;;;;;;;;;;;;
+      rowspecs = list(
+         list(nil 'name "n528a"
+                  'offset 0.0
+                  'orient "R0"
+                  'height 0.528
+                  'compAttrs list(
+                     list(nil 'allowedTypes nTypes
+                              'refOnArea "centerAlignment"
+                              'refOnComp "centerAlignment"
+                              'orients list("R0")
+                              'offset 0.048
+                     )
+                  )
+         )
+         list(nil 'name "p528a"
+                  'offset 0.528
+                  'orient "R0"
+                  'height 0.528
+                  'compAttrs list(
+                     list(nil 'allowedTypes pTypes
+                              'refOnArea "centerAlignment"
+                              'refOnComp "centerAlignment"
+                              'orients list("R0")
+                     )
+                  )
+         )
+         list(nil 'name "p528b"
+                  'offset 1.584
+                  'orient "MX"
+                  'height 0.528
+                  'compAttrs list(
+                     list(nil 'allowedTypes pTypes
+                              'refOnArea "centerAlignment"
+                              'refOnComp "centerAlignment"
+                              'orients list("R0")
+                              'offset 0.048
+                     )
+                  )
+         )
+         list(nil 'name "n528b"
+                  'offset 2.112
+                  'orient "MX"
+                  'height 0.528
+                  'compAttrs list(
+                     list(nil 'allowedTypes nTypes
+                              'refOnArea "centerAlignment"
+                              'refOnComp "centerAlignment"
+                              'orients list("R0")
+                     )
+                  )
+         )
+      )
+      dbCreateRowRegionSpec(cv "nppn528fin6" 2.112 rowspecs list("" "GFG")
+         list(0.0 0.024))
+
+Input Requirements:
+   An open cellview.
+
+Development Notes:
+   All aspects of this Component Module were developed by Cadence.
+   Please contact Jonathan Fales for more information: jfales@cadence.com
+

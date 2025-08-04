@@ -1,0 +1,27 @@
+VALE Framework Component Module:
+--------------------------------
+   Run Standard Fill
+
+Description:
+------------
+   Runs the PDK provided fill deck and generates the results in the current
+cell view.
+
+   The environment variable FILL_EDGE_HALO shrinks the fill application area
+from the boundary to the instide by the FILL_EDGE_HALO amount.  To set this
+variable, and other variables for the Fill Runset in VALE Framework, use the
+IMFdefaults.il configuration file:
+_IMFdat->compMod95->envVars->IMF_FILL_EDGE_HALO = "0.100"
+Notice that for every environment variable/switch in the Fill Runset, there is
+a corresponding variable in the VALE Framework configuration file that may be
+defined by with an IMF_ prefix to the environment variable name.  For example,
+for the BEOL_STACK setting:
+_IMFdat->compMod95->envVars->IMF_BEOL_STACK
+   For Fill Runset information, see the fill/docs directory in Cadence's GPDK
+available on support.cadence.com.
+      
+Development Notes:
+------------------
+   All aspects of this Component Module were developed by Cadence.
+   Please contact Jonathan Fales for more information: jfales@cadence.com
+

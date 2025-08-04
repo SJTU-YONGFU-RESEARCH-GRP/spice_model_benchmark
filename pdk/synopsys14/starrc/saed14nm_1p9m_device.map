@@ -1,0 +1,42 @@
+
+//#########################################################################################
+//# SAED 14NM 1p9m STAR-RC device mapping file					  #
+//#											  #
+//# Revision History:									  #
+//# Rev.		date		what						  #
+//# --------------------------------------------------------------------------------------#	
+//# 1.0		10/Jan/2018	(First draft)						  #
+//#########################################################################################
+
+
+// Fields:
+// dev_netlist_model   dev_lib   dev_cell   dev_view  pin_1 pin_2 [pin_3 pin_4 ....] 
+
+pres  analogLib   presistor  ivpcell  PLUS MINUS MAG=1.0
+pcap  analogLib   pcapacitor ivpcell  PLUS MINUS MAG=1.0
+
+
+n08	 SAED_PDK_14    nfet       ivpcell  	D G S B  MAG=1.5   PROPMAP w=wtot
+n15	 SAED_PDK_14    nfet_15    ivpcell  	D G S B  MAG=1.5   PROPMAP w=wtot
+n18	 SAED_PDK_14    nfet_18    ivpcell  	D G S B  MAG=1.5   PROPMAP w=wtot
+n08	 SAED_PDK_14    nfet       ivpcell  	D G S B  MAG=1.5   PROPMAP w=wtot
+n15	 SAED_PDK_14    nfet_15    ivpcell  	D G S B  MAG=1.5   PROPMAP w=wtot
+n18	 SAED_PDK_14    nfet_18    ivpcell  	D G S B  MAG=1.5   PROPMAP w=wtot
+n08_hvt	SAED_PDK_14    nfet_hvt   ivpcell  	D G S B  MAG=1.5   PROPMAP w=wtot
+n08_lvt	SAED_PDK_14    nfet_lvt   ivpcell  	D G S B  MAG=1.5   PROPMAP w=wtot
+n08_slvt SAED_PDK_14    nfet_slvt   ivpcell  	D G S B  MAG=1.5   PROPMAP w=wtot
+
+p08	 SAED_PDK_14   pfet       ivpcell      D G S B  MAG=1.5   PROPMAP w=wtot	       
+p08	 SAED_PDK_14   pfet       ivpcell      D G S B  MAG=1.5   PROPMAP w=wtot
+p15	 SAED_PDK_14   pfet_15    ivpcell      D G S B  MAG=1.5   PROPMAP w=wtot	       
+p18	 SAED_PDK_14   pfet_18    ivpcell      D G S B  MAG=1.5   PROPMAP w=wtot	       
+p08_hvt	SAED_PDK_14   pfet_hvt   ivpcell	   D G S B  MAG=1.5   PROPMAP w=wtot	       
+p08_lvt	SAED_PDK_14   pfet_lvt   ivpcell	   D G S B  MAG=1.5   PROPMAP w=wtot	      
+n08_slvt SAED_PDK_14  pfet_slvt   ivpcell  	D G S B  MAG=1.5   PROPMAP w=wtot
+
+nd	SAED_PDK_14 ND  ivpcell	   PLUS MINUS MAG=1.5	    
+pd	SAED_PDK_14 PD  ivpcell	   PLUS MINUS MAG=1.5	    
+
+rpoly	    SAED_PDK_14 rpoly  ivpcell	   PLUS MINUS MAG=1.5  PROPMAP l=Leff
+rmet	    SAED_PDK_14 rmet  ivpcell	   PLUS MINUS MAG=1.5  PROPMAP l=Leff
+

@@ -1,0 +1,16 @@
+#
+# Edit Lock-Stake file. CAUTION: Please do not change.
+#
+# Information about current Edit Lock Owner.
+#
+LockStakeVersion               1.1
+LoginName                      edbab
+HostName                       am04-saed-sym1
+ProcessIdentifier              10023
+ProcessCreationTime_UTC        1461387813
+ProcessCreationTime_Readable   Sat 23 Apr 2016 10:03:33 AM AMST AMST
+AppIdentifier                  OA File System Design Manager
+OSType                         unix
+ReasonForPlacingEditLock       OpenAccess edit lock
+FilePathUsedToEditLock         /remote/SCRATCH_fs01/edbab/SAED32_PDK_dev/build/SAED_PDK_32_28/vpnp/hspice/symbol.oa.cdslck
+TimeEditLocked                 Sat 23 Apr 2016 10:28:25 AM AMST AMST

@@ -1,0 +1,18 @@
+##############################################################
+# File: init.local.tcl                                       #
+# Location: $NEOHOME/lib/                                    #
+# Site-specfic initalization file for TCL interpreters       #
+#                                                            #
+# Site administrators and CAD managers:  Please make  site   #
+# specific edits in this file.                               #
+#                                                            #
+# Users:  Please make your specific edits in                 #
+# ~/.neolinear/tclrc.                                        #
+##############################################################
+
+package require NeoLinear.Modgen 2.0;
+package require NeoLinear.BasicGeometry 2.0;
+
+set DefaultMultiplier 1E9;
+
+# The end.

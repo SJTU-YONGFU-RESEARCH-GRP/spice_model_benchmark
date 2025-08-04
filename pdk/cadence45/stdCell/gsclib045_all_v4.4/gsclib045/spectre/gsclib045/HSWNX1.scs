@@ -1,0 +1,26 @@
+// Generated for: spectre (Feb  2 16:40:50 2012 )
+// Library name: gsclib045
+// Cell name: HSWNX1
+// View name: schematic
+
+simulator lang=spectre
+
+subckt HSWNX1 PSOn PSOn_out ExtVDD VSS VDD
+PM1 (PSOn_out n0 ExtVDD ExtVDD) g45p1svt w=(1.8u) l=45n nf=4 as=198f \
+        ad=144f ps=3.58u pd=2.44u nrd=44.4444m nrs=61.1111m sa=140n \
+        sb=140n sd=160n sca=106.17580 scb=0.08550 scc=0.01265 m=(1)
+mp0 (n0 PSOn ExtVDD ExtVDD) g45p1svt w=(900n) l=45n nf=2 as=126f ad=72f \
+        ps=2.36u pd=1.22u nrd=88.8889m nrs=155.556m sa=140n sb=140n \
+        sd=160n sca=106.17580 scb=0.08550 scc=0.01265 m=(1)
+NM0 (VSS n0 PSOn_out VSS) g45n1svt w=(1.2u) l=45n nf=4 as=132f ad=96f \
+        ps=2.68u pd=1.84u nrd=66.6667m nrs=91.6667m sa=140n sb=140n \
+        sd=160n sca=133.40892 scb=0.09829 scc=0.01624 m=(1)
+mn0 (VSS PSOn n0 VSS) g45n1svt w=(600n) l=45n nf=2 as=84f ad=48f \
+        ps=1.76u pd=920n nrd=133.333m nrs=233.333m sa=140n sb=140n sd=160n \
+        sca=133.40892 scb=0.09829 scc=0.01624 m=(1)
+PM0 (VDD n0 ExtVDD ExtVDD) g45p1hvt w=(1.8u) l=45n nf=4 as=198f ad=144f \
+        ps=3.58u pd=2.44u nrd=44.4444m nrs=61.1111m sa=140n sb=140n \
+        sd=160n sca=106.17580 scb=0.08550 scc=0.01265 m=(20)
+ends HSWNX1
+// End of subcircuit definition.
+

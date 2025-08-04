@@ -1,0 +1,84 @@
+;; These settings may be helpful with VALE Framework and are listed for 
+;; reference
+
+envSetVal("layoutXL" "autoArrange" 'boolean nil)
+
+;; User Preferences
+envSetVal("layout" "xSnapSpacing" 'float 0.001)
+envSetVal("layout" "ySnapSpacing" 'float 0.001)
+
+envSetVal("we" "weTrimInsertion" 'boolean nil)
+
+envSetVal("layout" "snapPatternDrawingStyle" 'cyclic  "boundary")
+
+envSetVal("layout" "displayResolution" 'string "Very High")
+envSetVal("layout" "displayPRHighestResolution" 'boolean t)
+
+envSetVal("layout" "drmSuppressSaveDialogBox" 'boolean t)
+
+envSetVal("ui" "sideDockTabs" 'cyclic "Side")
+;envSetVal("ui" "sideDockTabs" 'cyclic "Bottom")
+
+envSetVal("ui" "defaultEditorBackgroundColor" 'string "black")
+
+;; Wiring
+envSetVal("graphic" "viaStackSelection"      'boolean nil)
+envSetVal("layout"  "viaEnableValidPurposes" 'boolean t)
+
+;; Very important for the put-it-in, take-it-out use model
+envSetVal("layout"  "weAutoMergeWires"       'boolean nil)
+
+;envSetVal("layout" "autoLengthControl"       'boolean nil)
+;envSetVal("layout" "wireViaParamCalcMode"    'cyclic "viaDefDefaults")
+;envSetVal("layout" "viaParamCalcMode"        'cyclic "viaDefDefaults")
+;envSetVal("layout" "viaCheckMinNumCut"       'boolean nil)
+;envSetVal("layout" "enableMaximizeCuts"      'boolean nil)
+
+;; WSP
+envSetVal("layout" "snapPatternSnapping"     'boolean t)
+envSetVal("layout" "snapWireGrid"            'cyclic  "Snap Pattern")
+envSetVal("layout" "snapPatternDrawingStyle" 'cyclic  "boundary")
+envSetVal("graphic" "maskLayoutDefaultApp"   'string  "Layout XL")
+envSetVal("layout" "envelopeAdditionalNumTracks" 'int     1)
+;envSetVal("layout" "wspTemplateCell"         'string "MyTemplateLib/MyTemplateCell/layout")
+
+;; Extractor Options
+envSetVal("layoutXL" "netTracerMaxCutShapes" 'string  "Full")
+envSetVal("layout" "extractVerifyIllegalOverlapsForStoppedColoredShapes" 'boolean nil)
+envSetVal("layoutXL" "openConnRef" 'boolean nil)
+
+;; Create Pin Settings
+envSetVal("layout" "labelHeight" 'float 0.020)
+envSetVal("layout" "createPinLabel" 'boolean t)
+envSetVal("layout" "pinTextSameLayer" 'boolean t)
+envSetVal("layout" "pinTextPurpose" 'string "label")
+
+;; AUTO COLORING
+;envSetVal("mpt" "coloringEngineEnabled"      'boolean nil)
+;envSetVal("mpt" "defaultColoringMethod"      'cyclic  "managed")
+;envSetVal("mpt" "defaultColoringMethod"      'cyclic  "interactive")
+;envSetVal("dpt" "reColorReadOnlyCellView"    'boolean nil)
+;envSetVal("mpt" "unclusteredShapeColor"      'cyclic  "random")
+;envSetVal("mpt" "extractorStopLevel"         'int     1)
+envSetVal("dpt" "hideStitchingTools"         'boolean t)
+envSetVal("cdba" "copyMPAttributes"          'boolean t)
+;envSetVal("mpt" "explicitColoredPurposes"    'string  "drawing fill gapFill")
+;envSetVal("mpt" "coloredPurposeTypes"        'string  "fill gapFill")
+
+;; NET TRACING with CONNECTIVITY -> NETS -> MARK NET
+envSetVal("layout" "markNetAutoColorCycle"   'boolean nil)
+envSetVal("layout" "markNetThickline"        'boolean t)
+;envSetVal("layout" "markNetOptionsFile"      'string "/path/to/file")
+
+;; VIPVS
+;envSetVal("layout" "drdPVSErrorDisplayMaster" 'boolean nil)
+;envSetVal("layout" "drdBatchVioLimit" 'int 5000000)
+;envSetVal("layout" "drdVioLimitPerRule" 'int 500000)
+;setShellEnvVar("Virtuoso_IPVS_numProcs" "1")
+;setShellEnvVar("Virtuoso_IPVS_markerBrowser" "AnnotationBrowser")
+;setShellEnvVar("Virtuoso_IPVS_EnableSNPCreation" "YES")
+;setShellEnvVar("Virtuoso_IPVS_EnableSNPManagement" "YES")
+;setShellEnvVar("Virtuoso_IPVS_onlyVD" "YES")
+;setShellEnvVar("Virtuoso_IPVS_dir" "/path/to/temp/dir")
+
+

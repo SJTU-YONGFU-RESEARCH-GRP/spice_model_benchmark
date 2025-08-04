@@ -1,0 +1,48 @@
+*
+*|DSPF 1.5
+*
+*|DATE "Mon Sep 27 11:21:34 2010"
+*|VENDOR "Cadence Design Systems"
+*|PROGRAM "Assura RCX"
+*|VERSION "3.2 Red Hat Linux release 7.2 (Enigma) - (09/09/2009-10:39)"
+*|DESIGN "TBUFX3"
+*|DIVIDER /
+*|DELIMITER :
+*|DeviceFingerDelim "@"
+*|BUSBIT []
+** MATCHED
+** caps2d version: 10
+*
+.GLOBAL 
+*
+.SUBCKT  TBUFX3 VDD VSS A OE Y
+*
+*Instance Section
+*
+mn4	mn4:d	mn4:g	mn4:s	VSS:2	nmos1v	L=0.045U	W=0.26U
++ AD=0.0299P	AS=0.0299P	PD=0.75U	PS=0.75U
+mn3	mn3:d	mn3:g	mn3:s	VSS:2	nmos1v	L=0.045U	W=0.26U
++ AD=0.03679P	AS=0.03679P	PD=0.845U	PS=0.845U
+mn0	mn0:d	mn0:g	mn3:s	VSS:2	nmos1v	L=0.045U	W=0.145U
++ AD=0.04974P	AS=0.04974P	PD=0.98U	PS=0.98U
+mn2	mn2:d	mn2:g	mn2:s	VSS:2	nmos1v	L=0.045U	W=0.26U
++ AD=0.0615P	AS=0.0615P	PD=1.09U	PS=1.09U
+mn1	mn2:d	mn1:g	mn5@1:s	VSS:2	nmos1v	L=0.045U	W=0.26U
++ AD=0.06045P	AS=0.06045P	PD=0.985U	PS=0.985U
+mn5	mn5:d	mn5@2:g	mn5@1:s	VSS:2	nmos1v	L=0.045U
++ W=0.26U
++ AD=0.04442P	AS=0.04442P	PD=0.86167U	PS=0.86167U	M=3
+mp4	mp4:d	mp4:g	mp4:s	VDD:2	pmos1v	L=0.045U	W=0.39U
++ AD=0.0585P	AS=0.0585P	PD=1.08U	PS=1.08U
+mp3	mp4:d	mp3:g	mp3:s	VDD:2	pmos1v	L=0.045U	W=0.39U
++ AD=0.07272P	AS=0.07272P	PD=1.21U	PS=1.21U
+mp0	mp0:d	mp0:g	mp3:s	VDD:2	pmos1v	L=0.045U	W=0.215U
++ AD=0.05657P	AS=0.05657P	PD=1.015U	PS=1.015U
+mp2	mp2:d	mp2:g	mp2:s	VDD:2	pmos1v	L=0.045U	W=0.39U
++ AD=0.039P	AS=0.039P	PD=0.98U	PS=0.98U
+mp1	mp1:d	mp1:g	mp5@1:s	VDD:2	pmos1v	L=0.045U	W=0.39U
++ AD=0.04582P	AS=0.04582P	PD=1.015U	PS=1.015U
+mp5	mp5@2:d	mp5@2:g	mp5@1:s	VDD:2	pmos1v
++ L=0.045U	W=0.39U
++ AD=0.07387P	AS=0.07387P	PD=1.205U	PS=1.205U	M=3
+.ENDS

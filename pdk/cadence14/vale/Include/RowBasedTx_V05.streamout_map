@@ -1,0 +1,19 @@
+################################################################################
+#                                Stream Out layer mapping file
+#                                Layermap for advgpdk Xstream out
+#                                (c) 2019 Cadence Design Systems, Inc.
+################################################################################
+
+#Custom Map For LPA Utility in VALE Framework
+#Layer Name     Layer Purpose  Layer Stream Number  Datatype Stream Number
+Psvt      	drawing  		15  		0
+Plvt    	drawing  		15  		0
+Phvt    	drawing  		15  		0
+Nsvt      	drawing  		16  		0 
+Nlvt    	drawing  		16  		0 
+Nhvt    	drawing  		16  		0 
+Poly  		drawing  		20  		0 
+Poly  		dummy   		20  		0 
+Poly  		edge    		20  		0
+LiAct		drawing  		22  		0
+ 

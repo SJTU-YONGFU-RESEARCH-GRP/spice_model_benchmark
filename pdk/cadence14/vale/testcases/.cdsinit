@@ -1,0 +1,11 @@
+
+setShellEnvVar("CDS_MVS_IMF_CM" "/home/jfales/Public/GPDK/pre_cds_ff_mpt_v_1.0_042220/vale")
+
+if(isCallable('IMFappStart) then
+   ;; Initialize VALE Framework
+   IMFappStart()
+else
+   printf("VALE INFO: Cadence MVS is not installed properly.  Please check the ")
+   printf("environment settings for MVSHOME, DFMHOME and PATH and re-start.\n")
+)
+

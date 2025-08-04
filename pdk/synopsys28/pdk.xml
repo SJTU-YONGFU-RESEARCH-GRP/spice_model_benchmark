@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<file-format name="synopsysPDK" version="1.0">
+<process name="SAED 32/28nm" default="true">
+<application name="PVE" prefPrefix="xt">
+<variant name="1P10M" title="1-Poly 10-Metal" default="true">
+	<pveJob name="DRC" jobType="DRC">
+		<tool name="ICV" default="true">
+			<preference name="RunsetFile" valueType="path">
+				<value>$SAED32_28_PDK/icv/drc/saed32nm_1p9m_drc_rules.rs</value>
+			</preference>
+			<preference name="LoadRunset" visible="false">
+				<value>true</value>
+			</preference>
+			
+			<preference name="xtDRCRunDirNameTemplate"> 
+				<value>pvjob_%l.%c.%t.%j</value> 
+			</preference>
+			
+			<preference name="xtPVLayerMapFile" required="true" valueType="path" >
+				<value>$SAED32_28_PDK/techfiles/saed32nm_1p9m_gdsout.map</value>
+			</preference>	
+	
+		</tool>
+	</pveJob>
+
+	<pveJob name="LVS" jobType="LVS">
+		<preference name="LayDBFormat" visible="true" required="true" valueType="string">
+			<value>OpenAccess</value>
+		</preference>
+		<preference name="SchDBFormat" visible="true" required="true" valueType="string">
+			<value>OpenAccess</value>
+		</preference>
+		<tool name="ICV" default="true">
+			<preference name="RunsetFile" visible="true" mutable="false" required="true" valueType="path" override="true">
+				<value>$SAED32_28_PDK/icv/lvs/saed32nm_1p9m_lvs_rules.rs</value>
+			</preference>
+			<preference name="xtLVSICVOptions" required="true">
+			<value>-sf SPICE -ndg -verbose</value>
+			</preference>
+			<preference name="RunsetOptions" valueType="custom">
+			<item section="OPTIONS" name="IGNORE_CASE">FALSE</item>
+			</preference>
+			<preference name="xtPVLayerMapFile" required="true" valueType="path" >
+				<value>$SAED32_28_PDK/techfiles/saed32nm_1p9m_gdsout.map</value>
+			</preference>	
+			<preference name="LoadRunset" visible="false">
+				<value>true</value>
+			</preference>	
+			<preference name="xtLVSRunDirNameTemplate"> 
+				<value>pvjob_%l.%c.%t.lvs</value> 
+			</preference>
+		</tool>
+	</pveJob>
+	
+	<pveJob name="LPE" jobType="LPE">
+		<preference name="ViewOutput">
+			<value>true</value>
+		</preference>
+		<tool name="StarRC" default="true">
+			<preference name="RunsetFile" required="true">
+				<value>$SAED32_28_PDK/starrc/icv_cmd/saed32nm_1p9m_star_nominal.cmd</value>
+			</preference>
+			<preference name="RunsetOptions" valueType="custom" visible="true" mutable="true">
+				<item name="xref" visible="true" mutable="true">yes</item>
+				<item name="oa_remove_spicecard_prefix" visible="true" mutable="true">no</item>
+			</preference>			
+		</tool>
+		
+		<preference name="xtStarTcadGrdFile" required="true">
+			<value>$SAED32_28_PDK/starrc/nominal/saed32nm_1p9m_nominal.nxtgrd</value>
+		</preference>			
+		<preference name="xtStarNetlistFile" required="true">
+			<value>./starrc_results.spf</value>
+		</preference>			
+
+		<preference name="xtStarICVRunsetReportFile" required="true">
+			<value>pvjob_%l.%c.%t.lvs/pex_runset_report_file</value>
+		</preference>			
+		
+		<preference name="xtLPERunDirNameTemplate"> 
+			<value>pvjob_%l.%c.%t.%j</value> 
+		</preference>		
+		
+	
+	</pveJob>
+	
+
+	
+</variant>
+
+</application>
+</process>
+</file-format>
+
+
+
+

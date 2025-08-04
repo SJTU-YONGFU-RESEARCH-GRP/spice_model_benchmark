@@ -1,0 +1,31 @@
+*
+*|DSPF 1.5
+*
+*|DATE "Mon Sep 27 09:16:40 2010"
+*|VENDOR "Cadence Design Systems"
+*|PROGRAM "Assura RCX"
+*|VERSION "3.2 Red Hat Linux release 7.2 (Enigma) - (09/09/2009-10:39)"
+*|DESIGN "CLKBUFX3"
+*|DIVIDER /
+*|DELIMITER :
+*|DeviceFingerDelim "@"
+*|BUSBIT []
+** MATCHED
+** caps2d version: 10
+*
+.GLOBAL 
+*
+.SUBCKT  CLKBUFX3 VDD VSS A Y
+*
+*Instance Section
+*
+mn0	mn0:d	mn0:g	mn1@2:s	VSS:2	nmos1v	L=0.045U	W=0.26U
++ AD=0.04225P	AS=0.04225P	PD=0.845U	PS=0.845U
+mn1	mn1:d	mn1:g	mn1@2:s	VSS:2	nmos1v	L=0.045U	W=0.26U
++ AD=0.04182P	AS=0.04182P	PD=0.84167U	PS=0.84167U	M=3
+mp0	mp0:d	mp0:g	mp1@2:s	VDD:2	pmos1v	L=0.045U	W=0.39U
++ AD=0.05947P	AS=0.05947P	PD=1.085U	PS=1.085U
+mp1	mp1@1:d	mp1@2:g	mp1@2:s	VDD:2	pmos1v
++ L=0.045U	W=0.39U
++ AD=0.0611P	AS=0.0611P	PD=1.09333U	PS=1.09333U	M=3
+.ENDS

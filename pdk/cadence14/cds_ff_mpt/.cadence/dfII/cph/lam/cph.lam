@@ -1,0 +1,1003 @@
+<?xml version="1.0" ?>
+<!DOCTYPE LAM_FILE>
+<LIBRARY_DATA>
+	<VERSION NUMBER="0.4" />
+	<LOGICAL>
+		<LIB NAME="cds_ff_mpt">
+			<CELL NAME="rnwo">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>r w l</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model rsh calculatedParam nfin showSimParams dw pt ptc1 ptc2</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="rnws">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>r w l</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model rsh calculatedParam nfin showSimParams dw pt ptc1 ptc2</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="rspd">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model r segments connection effw effl</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>rsh rsh_end calculatedParam nfin showLayParams showSimParams dw pt ptc1 ptc2</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="rnspd">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model r segments connection effw effl</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>rsh rsh_end calculatedParam nfin showLayParams showSimParams dw pt ptc1 ptc2</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="rsnd">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model r segments connection effw effl</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>rsh rsh_end calculatedParam nfin showLayParams showSimParams dw pt ptc1 ptc2</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="rnsnd">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model r segments connection effw effl</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>rsh rsh_end calculatedParam nfin showLayParams showSimParams dw pt ptc1 ptc2</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="rnspp">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model r segments connection effw effl</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>rsh calculatedParam nfin showLayParams showSimParams dw pt ptc1 ptc2</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="rspp">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model r segments connection effw effl</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>rsh calculatedParam nfin showLayParams showSimParams dw pt ptc1 ptc2</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="rnsnp">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model r segments connection effw effl</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>rsh calculatedParam nfin showLayParams showSimParams dw pt ptc1 ptc2</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="rsnp">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model r segments connection effw effl</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>rsh calculatedParam nfin showLayParams showSimParams dw pt ptc1 ptc2</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="resmt">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model r segments connection effw effl</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>rsh calculatedParam polypitch nfin showLayParams showSimParams dw pt ptc1 ptc2</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="resm7">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model r segments connection effw effl</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>rsh calculatedParam polypitch nfin showLayParams showSimParams dw pt ptc1 ptc2</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="resm6">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model r segments connection effw effl</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>rsh calculatedParam polypitch nfin showLayParams showSimParams dw pt ptc1 ptc2</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="resm5">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model r segments connection effw effl</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>rsh calculatedParam polypitch nfin showLayParams showSimParams dw pt ptc1 ptc2</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="resm4">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model r segments connection effw effl</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>rsh calculatedParam polypitch nfin showLayParams showSimParams dw pt ptc1 ptc2</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="resm3">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model r segments connection effw effl</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>rsh calculatedParam polypitch nfin showLayParams showSimParams dw pt ptc1 ptc2</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="resm2">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model r segments connection effw effl</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>rsh calculatedParam polypitch nfin showLayParams showSimParams dw pt ptc1 ptc2</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="resm1">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model r segments connection effw effl</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>rsh calculatedParam polypitch nfin showLayParams showSimParams dw pt ptc1 ptc2</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="npn">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>m area</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model emitterSize</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="p2svt_s">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>nfin l nf ns m</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model showLayParams fw asej adej psej pdej lrsd lxSeriesTerms</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="n2svt_s">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>nfin l nf ns m</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model showLayParams fw asej adej psej pdej lrsd lxSeriesTerms</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="p1hvt_s">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>nfin l nf ns m</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model showLayParams fw asej adej psej pdej lrsd lxSeriesTerms</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="n1hvt_s">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>nfin l nf ns m</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model showLayParams fw asej adej psej pdej lrsd lxSeriesTerms</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="p1lvt_s">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>nfin l nf ns m</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model showLayParams fw asej adej psej pdej lrsd lxSeriesTerms</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="n1lvt_s">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>nfin l nf ns m</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model showLayParams fw asej adej psej pdej lrsd lxSeriesTerms</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="p1svt_s">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>nfin l nf ns m</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model showLayParams fw asej adej psej pdej lrsd lxSeriesTerms</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="n1svt_s">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>nfin l nf ns m</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model showLayParams fw asej adej psej pdej lrsd lxSeriesTerms</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="p2svt">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>nfin l nf m</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model showLayParams fw asej adej psej pdej lrsd</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="n2svt">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>nfin l nf m</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model showLayParams fw asej adej psej pdej lrsd</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="p1hvt">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>nfin l nf m</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model showLayParams fw asej adej psej pdej lrsd</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="n1hvt">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>nfin l nf m</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model showLayParams fw asej adej psej pdej lrsd</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="p1lvt">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>nfin l nf m</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model showLayParams fw asej adej psej pdej lrsd</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="n1lvt">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>nfin l nf m</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model showLayParams fw asej adej psej pdej lrsd</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="p1svt">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>nfin l nf m</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model showLayParams fw asej adej psej pdej lrsd</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="n1svt">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>nfin l nf m</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model showLayParams fw asej adej psej pdej lrsd</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="pd2svt">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>m area pj</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model finpitch dl showLayParams</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="pd1lvt">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>m area pj</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model finpitch dl showLayParams</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="pd1hvt">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>m area pj</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model finpitch dl showLayParams</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="pd1svt">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>m area pj</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model finpitch dl showLayParams</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="nd2svt">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>m area pj</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model finpitch dl showLayParams</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="nd1lvt">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>m area pj</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model finpitch dl showLayParams</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="nd1hvt">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>m area pj</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model finpitch dl showLayParams</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="nd1svt">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>m area pj</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model finpitch dl showLayParams</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="cmim">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>c w l m</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model ca cf calculatedParam</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+		</LIB>
+	</LOGICAL>
+	<PHYSICAL>
+          <COMPONENT_TYPE_GROUPS>
+            <LIB NAME="cds_ff_mpt">
+                <COMPONENT_TYPE_GROUP NAME="n1hvt_finfet">
+                    <COMP_CLASS>NFIN</COMP_CLASS>
+                    <NUM_FINS>nfin</NUM_FINS>
+                    <FOLD_THRESH_FINS>8</FOLD_THRESH_FINS>
+		    <ACTIVE_LP>Active drawing</ACTIVE_LP>
+                </COMPONENT_TYPE_GROUP>
+                <COMPONENT_TYPE_GROUP NAME="n1lvt_finfet">
+                    <COMP_CLASS>NFIN</COMP_CLASS>
+                    <NUM_FINS>nfin</NUM_FINS>
+                    <FOLD_THRESH_FINS>8</FOLD_THRESH_FINS>
+		    <ACTIVE_LP>Active drawing</ACTIVE_LP>
+                </COMPONENT_TYPE_GROUP>
+                <COMPONENT_TYPE_GROUP NAME="n1svt_finfet">
+                    <COMP_CLASS>NFIN</COMP_CLASS>
+                    <NUM_FINS>nfin</NUM_FINS>
+                    <FOLD_THRESH_FINS>8</FOLD_THRESH_FINS>
+		    <ACTIVE_LP>Active drawing</ACTIVE_LP>
+                </COMPONENT_TYPE_GROUP>
+                <COMPONENT_TYPE_GROUP NAME="n2svt_finfet">
+                    <COMP_CLASS>NFIN</COMP_CLASS>
+                    <NUM_FINS>nfin</NUM_FINS>
+                    <FOLD_THRESH_FINS>8</FOLD_THRESH_FINS>
+		    <ACTIVE_LP>Active drawing</ACTIVE_LP>
+                </COMPONENT_TYPE_GROUP>
+                <COMPONENT_TYPE_GROUP NAME="p1hvt_finfet">
+                    <COMP_CLASS>PFIN</COMP_CLASS>
+                    <NUM_FINS>nfin</NUM_FINS>
+                    <FOLD_THRESH_FINS>8</FOLD_THRESH_FINS>
+		    <ACTIVE_LP>Active drawing</ACTIVE_LP>
+                </COMPONENT_TYPE_GROUP>
+                <COMPONENT_TYPE_GROUP NAME="p1lvt_finfet">
+                    <COMP_CLASS>PFIN</COMP_CLASS>
+                    <NUM_FINS>nfin</NUM_FINS>
+                    <FOLD_THRESH_FINS>8</FOLD_THRESH_FINS>
+		    <ACTIVE_LP>Active drawing</ACTIVE_LP>
+                </COMPONENT_TYPE_GROUP>
+                <COMPONENT_TYPE_GROUP NAME="p1svt_finfet">
+                    <COMP_CLASS>PFIN</COMP_CLASS>
+                    <NUM_FINS>nfin</NUM_FINS>
+                    <FOLD_THRESH_FINS>8</FOLD_THRESH_FINS>
+		    <ACTIVE_LP>Active drawing</ACTIVE_LP>
+                </COMPONENT_TYPE_GROUP>
+                <COMPONENT_TYPE_GROUP NAME="p2svt_finfet">
+                    <COMP_CLASS>PFIN</COMP_CLASS>
+                    <NUM_FINS>nfin</NUM_FINS>
+                    <FOLD_THRESH_FINS>8</FOLD_THRESH_FINS>
+		    <ACTIVE_LP>Active drawing</ACTIVE_LP>
+                </COMPONENT_TYPE_GROUP>
+                <COMPONENT_TYPE_GROUP NAME="n1hvt_s_finfet">
+                    <COMP_CLASS>NFIN</COMP_CLASS>
+                    <NUM_FINS>nfin</NUM_FINS>
+                    <FOLD_THRESH_FINS>8</FOLD_THRESH_FINS>
+		    <ACTIVE_LP>Active drawing</ACTIVE_LP>
+                </COMPONENT_TYPE_GROUP>
+                <COMPONENT_TYPE_GROUP NAME="n1lvt_s_finfet">
+                    <COMP_CLASS>NFIN</COMP_CLASS>
+                    <NUM_FINS>nfin</NUM_FINS>
+                    <FOLD_THRESH_FINS>8</FOLD_THRESH_FINS>
+		    <ACTIVE_LP>Active drawing</ACTIVE_LP>
+                </COMPONENT_TYPE_GROUP>
+                <COMPONENT_TYPE_GROUP NAME="n1svt_s_finfet">
+                    <COMP_CLASS>NFIN</COMP_CLASS>
+                    <NUM_FINS>nfin</NUM_FINS>
+                    <FOLD_THRESH_FINS>8</FOLD_THRESH_FINS>
+		    <ACTIVE_LP>Active drawing</ACTIVE_LP>
+                </COMPONENT_TYPE_GROUP>
+                <COMPONENT_TYPE_GROUP NAME="n2svt_s_finfet">
+                    <COMP_CLASS>NFIN</COMP_CLASS>
+                    <NUM_FINS>nfin</NUM_FINS>
+                    <FOLD_THRESH_FINS>8</FOLD_THRESH_FINS>
+		    <ACTIVE_LP>Active drawing</ACTIVE_LP>
+                </COMPONENT_TYPE_GROUP>
+                <COMPONENT_TYPE_GROUP NAME="p1hvt_s_finfet">
+                    <COMP_CLASS>PFIN</COMP_CLASS>
+                    <NUM_FINS>nfin</NUM_FINS>
+                    <FOLD_THRESH_FINS>8</FOLD_THRESH_FINS>
+		    <ACTIVE_LP>Active drawing</ACTIVE_LP>
+                </COMPONENT_TYPE_GROUP>
+                <COMPONENT_TYPE_GROUP NAME="p1lvt_s_finfet">
+                    <COMP_CLASS>PFIN</COMP_CLASS>
+                    <NUM_FINS>nfin</NUM_FINS>
+                    <FOLD_THRESH_FINS>8</FOLD_THRESH_FINS>
+		    <ACTIVE_LP>Active drawing</ACTIVE_LP>
+                </COMPONENT_TYPE_GROUP>
+                <COMPONENT_TYPE_GROUP NAME="p1svt_s_finfet">
+                    <COMP_CLASS>PFIN</COMP_CLASS>
+                    <NUM_FINS>nfin</NUM_FINS>
+                    <FOLD_THRESH_FINS>8</FOLD_THRESH_FINS>
+		    <ACTIVE_LP>Active drawing</ACTIVE_LP>
+                </COMPONENT_TYPE_GROUP>
+                <COMPONENT_TYPE_GROUP NAME="p2svt_s_finfet">
+                    <COMP_CLASS>PFIN</COMP_CLASS>
+                    <NUM_FINS>nfin</NUM_FINS>
+                    <FOLD_THRESH_FINS>8</FOLD_THRESH_FINS>
+		    <ACTIVE_LP>Active drawing</ACTIVE_LP>
+                </COMPONENT_TYPE_GROUP>
+            </LIB>
+          </COMPONENT_TYPE_GROUPS>
+          <MAPPINGS>
+            <LIB NAME="cds_ff_mpt">
+                <CELL NAME="n1hvt">
+                    <COMPONENT_TYPE>
+                        <NAME>n1hvt_finfet</NAME>
+                        <LIB>cds_ff_mpt</LIB>
+                    </COMPONENT_TYPE>
+                </CELL>
+                <CELL NAME="n1lvt">
+                    <COMPONENT_TYPE>
+                        <NAME>n1lvt_finfet</NAME>
+                        <LIB>cds_ff_mpt</LIB>
+                    </COMPONENT_TYPE>
+                </CELL>
+                <CELL NAME="n1svt">
+                    <COMPONENT_TYPE>
+                        <NAME>n1svt_finfet</NAME>
+                        <LIB>cds_ff_mpt</LIB>
+                    </COMPONENT_TYPE>
+                </CELL>
+                <CELL NAME="n2svt">
+                    <COMPONENT_TYPE>
+                        <NAME>n2svt_finfet</NAME>
+                        <LIB>cds_ff_mpt</LIB>
+                    </COMPONENT_TYPE>
+                </CELL>
+                <CELL NAME="p1hvt">
+                    <COMPONENT_TYPE>
+                        <NAME>p1hvt_finfet</NAME>
+                        <LIB>cds_ff_mpt</LIB>
+                    </COMPONENT_TYPE>
+                </CELL>
+                <CELL NAME="p1lvt">
+                    <COMPONENT_TYPE>
+                        <NAME>p1lvt_finfet</NAME>
+                        <LIB>cds_ff_mpt</LIB>
+                    </COMPONENT_TYPE>
+                </CELL>
+                <CELL NAME="p1svt">
+                    <COMPONENT_TYPE>
+                        <NAME>p1svt_finfet</NAME>
+                        <LIB>cds_ff_mpt</LIB>
+                    </COMPONENT_TYPE>
+                </CELL>
+                <CELL NAME="p2svt">
+                    <COMPONENT_TYPE>
+                        <NAME>p2svt_finfet</NAME>
+                        <LIB>cds_ff_mpt</LIB>
+                    </COMPONENT_TYPE>
+                </CELL>
+                <CELL NAME="n1hvt_s">
+                    <COMPONENT_TYPE>
+                        <NAME>n1hvt_s_finfet</NAME>
+                        <LIB>cds_ff_mpt</LIB>
+                    </COMPONENT_TYPE>
+                </CELL>
+                <CELL NAME="n1lvt_s">
+                    <COMPONENT_TYPE>
+                        <NAME>n1lvt_s_finfet</NAME>
+                        <LIB>cds_ff_mpt</LIB>
+                    </COMPONENT_TYPE>
+                </CELL>
+                <CELL NAME="n1svt_s">
+                    <COMPONENT_TYPE>
+                        <NAME>n1svt_s_finfet</NAME>
+                        <LIB>cds_ff_mpt</LIB>
+                    </COMPONENT_TYPE>
+                </CELL>
+                <CELL NAME="n2svt_s">
+                    <COMPONENT_TYPE>
+                        <NAME>n2svt_s_finfet</NAME>
+                        <LIB>cds_ff_mpt</LIB>
+                    </COMPONENT_TYPE>
+                </CELL>
+                <CELL NAME="p1hvt_s">
+                    <COMPONENT_TYPE>
+                        <NAME>p1hvt_s_finfet</NAME>
+                        <LIB>cds_ff_mpt</LIB>
+                    </COMPONENT_TYPE>
+                </CELL>
+                <CELL NAME="p1lvt_s">
+                    <COMPONENT_TYPE>
+                        <NAME>p1lvt_s_finfet</NAME>
+                        <LIB>cds_ff_mpt</LIB>
+                    </COMPONENT_TYPE>
+                </CELL>
+                <CELL NAME="p1svt_s">
+                    <COMPONENT_TYPE>
+                        <NAME>p1svt_s_finfet</NAME>
+                        <LIB>cds_ff_mpt</LIB>
+                    </COMPONENT_TYPE>
+                </CELL>
+                <CELL NAME="p2svt_s">
+                    <COMPONENT_TYPE>
+                        <NAME>p2svt_s_finfet</NAME>
+                        <LIB>cds_ff_mpt</LIB>
+                    </COMPONENT_TYPE>
+                </CELL>
+            </LIB>
+          </MAPPINGS>
+	</PHYSICAL>
+</LIBRARY_DATA>

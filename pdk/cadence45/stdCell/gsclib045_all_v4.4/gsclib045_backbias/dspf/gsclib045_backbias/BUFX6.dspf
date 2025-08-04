@@ -1,0 +1,73 @@
+*
+*|DSPF 1.5
+*
+*|DATE "Wed May  8 08:21:16 2013"
+*|VENDOR "Cadence Design Systems"
+*|PROGRAM "Cadence Extraction QRC"
+*|VERSION "12.1 Linux 64 bit - (Fri Mar 15 17:53:47 PDT 2013)"
+*|DESIGN "BUFX6"
+*|DIVIDER /
+*|DELIMITER :
+*|DeviceFingerDelim "@"
+*|BUSBIT []
+** caps2d version: 10
+*
+.GLOBAL  NW VDD VSS
+*
+.SUBCKT  BUFX6 A Y
+*
+*Net Section
+*
+*|GROUND_NET VSS
+*
+*|NET A 2.3043e-16
+*|P (A X 0 1.5250 0.8000)
+*|I (Mmn0:g Mmn0 g X 0 1.2275 0.4800)
+*|S (A:6 1.4900 0.7150)
+*|S (A:8 1.5075 0.7150)
+*|S (A:9 1.5075 0.8000)
+C1 Mmn0:g VSS 1.55664e-16
+C2 A:8 VSS 2.88349e-17
+C3 A:6 VSS 1.0543e-17
+C4 A VSS 3.53883e-17
+Rl1 Mmn0:g A:6 49.885075 $W=0.094
+Rk2 A:8 A:6 0.006005 $W=0.179
+Rk3 A:9 A 0.006353 $W=0.179
+Rk4 A:9 A:8 0.037057 $W=0.1445
+*
+*|NET Y 4.73365e-16
+*|P (Y X 0 0.1000 0.8000)
+C5 Y VSS 4.73365e-16
+*
+*|NET n0 5.13167e-16
+*|I (Mmn1:g Mmn1 g X 0 0.2025 0.5050)
+*|I (Mmn0:s Mmn0 s X 0 1.3300 0.4800)
+*|I (Mmp0:d Mmp0 d X 0 1.3300 1.0950)
+*|S (n0:9 1.0750 0.7750)
+*|S (n0:18 1.3300 0.7750)
+C6 Mmp0:d VSS 7.78215e-17
+C7 Mmn0:s VSS 5.79466e-17
+C8 Mmn1:g VSS 3.005e-16
+C9 n0:18 VSS 4.30942e-17
+C10 n0:9 VSS 3.38054e-17
+Rl5 Mmn1:g n0:9 48.808784 $W=0.094
+Rk6 n0:18 n0:9 0.165152 $W=0.08
+Rk7 n0:18 Mmn0:s 37.747295 $W=0.08
+Rk8 n0:18 Mmp0:d 20.927835 $W=0.08
+*
+*Instance Section
+*
+Mmn1	VSS	Mmn1:g	Y	VSS	g45n1svt	L=0.045U	W=0.31U
++ AD=0.049P	AS=0.04836P	PD=0.94U	PS=0.932U	M=5
++ fw=3.1e-07 sa=1.4e-07 sb=1.29742e-06 sca=15.9751 scb=0.0153507 scc=0.00137372
+Mmn0	VSS	Mmn0:g	Mmn0:s	VSS	g45n1svt	L=0.045U	W=0.26U
++ AD=0.0415P	AS=0.0416P	PD=0.87U	PS=0.84U	M=2
++ fw=2.6e-07 sa=1.165e-06 sb=3.45e-07 sca=12.8392 scb=0.0126987 scc=0.00074151
+Mmp1	Y	Mmn1:g	VDD	NW	g45p1svt	L=0.045U	W=0.47U
++ AD=0.07332P	AS=0.07424P	PD=1.252U	PS=1.26U	M=5
++ fw=4.7e-07 sa=1.4e-07 sb=1.2934e-06 sca=40.6416 scb=0.0369115 scc=0.00420297
+Mmp0	Mmp0:d	Mmn0:g	VDD	NW	g45p1svt	L=0.045U	W=0.39U
++ AD=0.0624P	AS=0.0625P	PD=1.1U	PS=1.16U	M=2
++ fw=3.9e-07 sa=1.165e-06 sb=3.45e-07 sca=32.0467 scb=0.0213026 scc=0.00336306
+.ENDS
+.END

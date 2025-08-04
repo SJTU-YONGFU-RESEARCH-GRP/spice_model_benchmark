@@ -1,0 +1,215 @@
+process "gpdk090" {
+	background_dielectric_constant 1.0
+}
+diffusion "SOURCE_DRAIN" {
+	thickness 0.345
+	resistivity 1.0
+}
+conductor "POLYCIDE" {
+	min_spacing 0.12
+	min_width 0.1
+	height 0.35
+	thickness 0.15
+	resistivity 10.0
+	gate_forming_layer true
+}
+conductor "METAL_1" {
+	min_spacing 0.12
+	min_width 0.12
+	height 0.8
+	thickness 0.3
+	resistivity 0.08
+	gate_forming_layer false
+}
+conductor "METAL_2" {
+	min_spacing 0.14
+	min_width 0.14
+	height 1.4
+	thickness 0.36
+	resistivity 0.06
+	gate_forming_layer false
+}
+conductor "METAL_3" {
+	min_spacing 0.14
+	min_width 0.14
+	height 2.06
+	thickness 0.36
+	resistivity 0.06
+	gate_forming_layer false
+}
+conductor "METAL_4" {
+	min_spacing 0.14
+	min_width 0.14
+	height 2.72
+	thickness 0.36
+	resistivity 0.06
+	gate_forming_layer false
+}
+conductor "METAL_5" {
+	min_spacing 0.14
+	min_width 0.14
+	height 3.38
+	thickness 0.36
+	resistivity 0.06
+	gate_forming_layer false
+}
+conductor "METAL_6" {
+	min_spacing 0.14
+	min_width 0.14
+	height 4.04
+	thickness 0.36
+	resistivity 0.06
+	gate_forming_layer false
+}
+conductor "METAL_7" {
+	min_spacing 0.14
+	min_width 0.14
+	height 4.7
+	thickness 0.36
+	resistivity 0.06
+	gate_forming_layer false
+}
+conductor "METAL_8" {
+	min_spacing 0.44
+	min_width 0.44
+	height 5.66
+	thickness 1.0
+	resistivity 0.02
+	gate_forming_layer false
+}
+conductor "METAL_9" {
+	min_spacing 0.44
+	min_width 0.44
+	height 7.26
+	thickness 1.0
+	resistivity 0.02
+	gate_forming_layer false
+}
+dielectric "STI" {
+	conformal FALSE
+	height 0.0
+	thickness 0.35
+	dielectric_constant 3.9
+}
+dielectric "ILD" {
+	conformal FALSE
+	height 0.35
+	thickness 0.45
+	dielectric_constant 3.9
+}
+dielectric "IMD1" {
+	conformal FALSE
+	height 0.8
+	thickness 0.6
+	dielectric_constant 2.9
+}
+dielectric "IMD2" {
+	conformal FALSE
+	height 1.4
+	thickness 0.66
+	dielectric_constant 2.9
+}
+dielectric "IMD3" {
+	conformal FALSE
+	height 2.06
+	thickness 0.66
+	dielectric_constant 2.9
+}
+dielectric "IMD4" {
+	conformal FALSE
+	height 2.72
+	thickness 0.66
+	dielectric_constant 2.9
+}
+dielectric "IMD5" {
+	conformal FALSE
+	height 3.38
+	thickness 0.66
+	dielectric_constant 2.9
+}
+dielectric "IMD6" {
+	conformal FALSE
+	height 4.04
+	thickness 0.66
+	dielectric_constant 2.9
+}
+dielectric "IMD7" {
+	conformal FALSE
+	height 4.7
+	thickness 0.96
+	dielectric_constant 4.2
+}
+dielectric "IMD8" {
+	conformal FALSE
+	height 5.66
+	thickness 1.6
+	dielectric_constant 4.2
+}
+dielectric "PASS1" {
+	conformal FALSE
+	height 7.26
+	thickness 2.0
+	dielectric_constant 4.2
+}
+dielectric "PASS2" {
+	conformal FALSE
+	height 9.26
+	thickness 0.7
+	dielectric_constant 7.9
+}
+dielectric "AIR" {
+	conformal FALSE
+	height 9.96
+	thickness 40.0
+	dielectric_constant 1.0
+}
+via "CONT" {
+	top_layer "METAL_1"
+	bottom_layer "SOURCE_DRAIN"
+	contact_resistance 15
+}
+via "CONT" {
+	top_layer "METAL_1"
+	bottom_layer "POLYCIDE"
+	contact_resistance 10.0
+}
+via "VIA_1" {
+	top_layer "METAL_2"
+	bottom_layer "METAL_1"
+	contact_resistance 1.4
+}
+via "VIA_2" {
+	top_layer "METAL_3"
+	bottom_layer "METAL_2"
+	contact_resistance 1.4
+}
+via "VIA_3" {
+	top_layer "METAL_4"
+	bottom_layer "METAL_3"
+	contact_resistance 1.4
+}
+via "VIA_4" {
+	top_layer "METAL_5"
+	bottom_layer "METAL_4"
+	contact_resistance 1.4
+}
+via "VIA_5" {
+	top_layer "METAL_6"
+	bottom_layer "METAL_5"
+	contact_resistance 1.4
+}
+via "VIA_6" {
+	top_layer "METAL_7"
+	bottom_layer "METAL_6"
+	contact_resistance 1.4
+}
+via "VIA_7" {
+	top_layer "METAL_8"
+	bottom_layer "METAL_7"
+	contact_resistance 0.35
+}
+via "VIA_8" {
+	top_layer "METAL_9"
+	bottom_layer "METAL_8"
+	contact_resistance 0.35
+}

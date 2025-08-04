@@ -1,0 +1,47 @@
+`include "disciplines.vams"
+module sp1tswitch(t0, t1);
+  inout t0, t1;
+  electrical t0, t1;
+
+  // Not used. For compatibility only.
+  //parameter real    m             = 1.0 from (0.0:inf);
+
+  parameter real    offset        = 0.0;
+
+  // Use -1 to represent "not set on instance line".
+  parameter integer position      =  0 from [ 0:1];
+  parameter integer dc_position   = -1 from [-1:1];
+  parameter integer ac_position   = -1 from [-1:1];
+  parameter integer ic_position   = -1 from [-1:1];
+  parameter integer tran_position = -1 from [-1:1];
+
+  integer real_position;
+
+  analog begin
+    // Default to value of position
+    real_position = position;
+
+    // If analysis-specific position is set, it always overrides
+    if      (dc_position   > -1 && (analysis("static") || analysis("nodeset") || analysis("dc")))
+      real_position = dc_position;
+    else if (ic_position   > -1 && analysis("ic"))
+      real_position = ic_position;
+    else if (tran_position > -1 && analysis("tran"))
+      real_position = tran_position;
+    else if (ac_position   > -1 && (analysis("ac") || analysis("noise")))
+      real_position = ac_position;
+
+    // Some debug helpers
+    // $display("Instance: %m, real_position=%r, dc_position=%d", real_position, dc_position);
+    // if (analysis("tran")) $display("Instance: %m, tran");
+    // if (analysis("ac")) $display("Instance: %m, ac");
+    // if (analysis("dc")) $display("Instance: %m, dc");
+    // if (analysis("static")) $display("Instance: %m, static");
+
+    if (real_position == 0)
+      I(t1, t0) <+ 0.0;
+    else
+      V(t1, t0) <+ offset;
+
+  end
+endmodule

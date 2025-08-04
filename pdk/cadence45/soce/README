@@ -1,0 +1,30 @@
+
+Enclosed are 2 cap tables for encounter.
+
+gpdk045.basic.CapTbl - is a basic encounter cap table
+gpdk045.extended.CapTbl - is an extended cap table created with a pcs file and the coyote field solver
+
+The cap tables take from about 6 min(basic) to 19.5 hours(extended) to run on a Dual-Core Opteron 2.6GHz 4 CPU 8G Memory Linux workstation (/proc/cpuinfo & /proc/meminfo).
+
+Multithread kicks in in the extended cap table generation.
+
+These were built as follows:
+
+First, set up to use SOC81USR1_lnx86
+
+$ generateCapTbl -ict ./gpdk045.ict -output ./gpdk045.basic.CapTbl -basic
+
+$ generateCapTbl -ict ./gpdk045.ict -output ./gpdk045.extended.CapTbl 
+
+=================
+
+Multithread usage:
+
+$ encounter
+
+> setMultiCpuUsage -localCpu max 
+
+> generateCapTbl -ict ./gpdk045.ict -output ./gpdk045.basic.CapTbl -basic
+
+> generateCapTbl -ict ./gpdk045.ict -output ./gpdk045.extended.CapTbl 
+

@@ -1,0 +1,17 @@
+Check if unified qrcTechFile has RCgen component:
+==================
+Techgen -split $PROJECT/TECH/GPDK045/gpdk045/assura/rcx/qrcTechFile OUTPUT
+->No RCgen component (tch file for Encounter use). Most likely, The rcx qrcTechFile was generated using "Techgen -capgen" or "Techgen -tran"
+==================
+
+Running Techgen as RCgen:
+1. % Techgen -cell -plan -multi_machine hosts $PROJECT/TECH/GPDK045/gpdk045/soce/gpdk045.ict
+2. % Techgen -cell -parallel -autoconcat gpdk045.ict gpdk045.tch
+
+Note:Total run time is 159 hours distributed on total of 12 CPUs on 3 machines (so 159/12=13.25 hours real time).
+
+A little bit history (FYI):
+Icecaps(Fire&Ice 2003)->RCgen(Fire&Ice QXC QX 2005)->|                              |->RCgen component (Techgen -cell)
+                                                     |->Techgen (QRC 2010)->(-split)|
+                            Capgen(Assura RCX 2010)->|                              |->Capgen component (Techgen -tran or -capgen)
+

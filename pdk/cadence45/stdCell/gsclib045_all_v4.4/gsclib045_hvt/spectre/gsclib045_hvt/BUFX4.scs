@@ -1,0 +1,23 @@
+// Generated for: spectre (Apr  5 14:20:07 2013 )
+// Library name: gsclib045_hvt
+// Cell name: BUFX4
+// View name: schematic
+
+simulator lang=spectre
+
+subckt BUFX4 A Y VDD VSS
+mp1 (Y n0 VDD VDD) g45p1hvt w=(1.56u) l=45n nf=1 as=218.4f ad=218.4f \
+        ps=3.4u pd=3.4u nrd=89.7436m nrs=89.7436m sa=140n sb=140n sd=160n \
+        sca=61.39246 scb=0.05939 scc=0.00742 m=(1)
+mp0 (n0 A VDD VDD) g45p1hvt w=(390n) l=45n nf=1 as=54.6f ad=54.6f \
+        ps=1.06u pd=1.06u nrd=358.974m nrs=358.974m sa=140n sb=140n \
+        sd=160n sca=114.89040 scb=0.09003 scc=0.01377 m=(1)
+mn1 (VSS n0 Y VSS) g45n1hvt w=(1.04u) l=45n nf=1 as=145.6f ad=145.6f \
+        ps=2.36u pd=2.36u nrd=134.615m nrs=134.615m sa=140n sb=140n \
+        sd=160n sca=71.11936 scb=0.06501 scc=0.00848 m=(1)
+mn0 (VSS A n0 VSS) g45n1hvt w=(260n) l=45n nf=1 as=36.4f ad=36.4f \
+        ps=800n pd=800n nrd=538.462m nrs=538.462m sa=140n sb=140n sd=160n \
+        sca=144.98299 scb=0.10251 scc=0.01780 m=(1)
+ends BUFX4
+// End of subcircuit definition.
+

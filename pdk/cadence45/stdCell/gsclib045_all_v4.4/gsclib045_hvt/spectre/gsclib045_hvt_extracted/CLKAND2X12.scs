@@ -1,0 +1,130 @@
+// Generated for: spectre (May  1 09:13:36 2013 )
+// Library name: gsclib045_hvt
+// Cell name: CLKAND2X12
+// View name: extracted
+
+simulator lang=spectre
+
+subckt CLKAND2X12 A B VDD VSS Y
+mp1_1__rcx (\44\:net61 \2\:B \1\:VDD VDD) g45p1hvt w=(2.35e-07) \
+        l=4.5e-08 nf=1 as=5.53e-14 ad=3.76e-14 ps=1.43e-06 pd=7.9e-07 \
+        nrd=1.16667 nrs=1.16667 sa=1.4e-07 sb=2e-06 sd=160n sca=22.9528 \
+        scb=0.026615 scc=0.00120831 m=(5)
+mp0_1__rcx (\44\:net61 A \1\:VDD VDD) g45p1hvt w=(2.35e-07) l=4.5e-08 \
+        nf=1 as=7.119e-14 ad=3.76e-14 ps=1.66e-06 pd=7.9e-07 nrd=1.16667 \
+        nrs=1.16667 sa=3.45e-07 sb=2e-06 sd=160n sca=16.4006 scb=0.0157854 \
+        scc=0.000608134 m=(5)
+C1 (Y VSS) capacitor c=1.66749e-17
+C2 (B VSS) capacitor c=1.3991e-17
+C3 (VDD VSS) capacitor c=2.14813e-16
+C4 (A VSS) capacitor c=6.63702e-16
+C5 (7 VSS) capacitor c=2.60375e-18
+C6 (net61 VSS) capacitor c=8.40858e-16
+C7 (8 VSS) capacitor c=1.81486e-18
+C8 (9 VSS) capacitor c=4.09274e-18
+C9 (10 VSS) capacitor c=7.05118e-18
+C10 (11 VSS) capacitor c=1.93492e-18
+C11 (\16\:A VSS) capacitor c=6.73325e-17
+C12 (\13\:B VSS) capacitor c=5.64157e-17
+C13 (\14\:B VSS) capacitor c=2.50956e-17
+C14 (\12\:A VSS) capacitor c=3.284e-17
+C15 (\11\:A VSS) capacitor c=4.13281e-17
+C16 (\8\:B VSS) capacitor c=2.91402e-17
+C17 (\7\:B VSS) capacitor c=5.56445e-17
+C18 (\1\:A VSS) capacitor c=5.22635e-17
+C19 (\7\:A VSS) capacitor c=4.18917e-17
+C20 (\1\:B VSS) capacitor c=5.08407e-17
+C21 (\2\:B VSS) capacitor c=6.25694e-16
+C22 (\1\:VDD VSS) capacitor c=5.53928e-16
+C23 (\44\:net61 VSS) capacitor c=2.9277e-16
+C24 (\1\:Y VSS) capacitor c=4.89206e-16
+C25 (\54\:net61 VSS) capacitor c=2.45105e-17
+C26 (\40\:net61 VSS) capacitor c=1.52289e-16
+C27 (\42\:net61 VSS) capacitor c=5.68426e-17
+C28 (\38\:net61 VSS) capacitor c=7.24476e-17
+C29 (\39\:net61 VSS) capacitor c=8.83729e-17
+C30 (\9\:Y VSS) capacitor c=6.15551e-16
+Rk27 (\1\:Y Y) resistor r=0.2439 c=0
+Rk28 (Y \9\:Y) resistor r=0.05423 c=0
+Rk2 (\2\:B B) resistor r=0.02594 c=0
+Rk68 (\1\:VSS \11\:VSS) resistor r=0.3883 c=0
+Rk69 (\11\:VSS \12\:VSS) resistor r=0.04243 c=0
+Rk71 (\13\:VSS VSS) resistor r=0.2428 c=0
+Rk70 (\12\:VSS \13\:VSS) resistor r=0.3082 c=0
+Rk76 (\11\:VSS \23\:VSS) resistor r=0.254 c=0
+Rk77 (\13\:VSS \25\:VSS) resistor r=0.254 c=0
+Rk61 (\1\:VDD VDD) resistor r=0.02463 c=0
+Rk12 (net61 \38\:net61) resistor r=0.112 c=0
+Rk16 (\38\:net61 \44\:net61) resistor r=0.3956 c=0
+Rk13 (\38\:net61 \39\:net61) resistor r=0.4363 c=0
+Rk14 (\39\:net61 \41\:net61) resistor r=0.6352 c=0
+Rk15 (\41\:net61 \43\:net61) resistor r=0.5463 c=0
+Rk21 (\39\:net61 \55\:net61) resistor r=0.05786 c=0
+Rl21 (\2\:B \13\:B) resistor r=58.8489 c=0
+Rl22 (\2\:B \14\:B) resistor r=35.7713 c=0
+Rl12 (\2\:B \8\:B) resistor r=24.7951 c=0
+Rl11 (\2\:B \7\:B) resistor r=71.1317 c=0
+Rl1 (\2\:B \1\:B) resistor r=44.0258 c=0
+Rl25 (A \16\:A) resistor r=53.6412 c=0
+Rl17 (A \12\:A) resistor r=93.9123 c=0
+Rl16 (A \11\:A) resistor r=97.9249 c=0
+Rl3 (A \1\:A) resistor r=33.5003 c=0
+Rl8 (A \7\:A) resistor r=35.9003 c=0
+Rz17 (\23\:VSS \22\:VSS) resistor r=75 c=0
+Rz18 (\25\:VSS \24\:VSS) resistor r=75 c=0
+Rz1 (\41\:net61 \40\:net61) resistor r=75 c=0
+Rz2 (\43\:net61 \42\:net61) resistor r=37.5 c=0
+Rz3 (\55\:net61 \54\:net61) resistor r=37.5 c=0
+Ry22 (\1\:VSS \4\:VSS) resistor r=6.2 c=0
+Ry23 (\12\:VSS \4\:VSS) resistor r=5.1667 c=0
+mn1_1__rcx (\42\:net61 \1\:B 7 VSS) g45n1hvt w=(3.1e-07) l=4.5e-08 nf=1 \
+        as=2.635e-14 ad=4.34e-14 ps=7.9e-07 pd=9e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=2e-06 sd=160n sca=15.9751 scb=0.0153507 \
+        scc=0.00137372 m=(1)
+mn0_1__rcx (7 \7\:A \24\:VSS VSS) g45n1hvt w=(3.1e-07) l=4.5e-08 nf=1 \
+        as=4.96e-14 ad=2.635e-14 ps=9.4e-07 pd=7.9e-07 nrd=1.16667 \
+        nrs=1.16667 sa=2.7e-07 sb=2e-06 sd=160n sca=15.9751 scb=0.0153507 \
+        scc=0.00137372 m=(1)
+mn0_2__rcx (8 \1\:A \24\:VSS VSS) g45n1hvt w=(3.1e-07) l=4.5e-08 nf=1 \
+        as=4.96e-14 ad=1.86e-14 ps=9.4e-07 pd=7.4e-07 nrd=1.16667 \
+        nrs=1.16667 sa=4.75e-07 sb=2e-06 sd=160n sca=15.9751 scb=0.0153507 \
+        scc=0.00137372 m=(1)
+mn1_2__rcx (\40\:net61 \7\:B 8 VSS) g45n1hvt w=(3.1e-07) l=4.5e-08 nf=1 \
+        as=1.86e-14 ad=4.96e-14 ps=7.4e-07 pd=9.4e-07 nrd=1.16667 \
+        nrs=1.16667 sa=5.8e-07 sb=2e-06 sd=160n sca=15.9751 scb=0.0153507 \
+        scc=0.00137372 m=(1)
+mn1_3__rcx (\40\:net61 \8\:B 9 VSS) g45n1hvt w=(3.1e-07) l=4.5e-08 nf=1 \
+        as=4.34e-14 ad=4.96e-14 ps=9e-07 pd=9.4e-07 nrd=1.16667 \
+        nrs=1.16667 sa=7.85e-07 sb=2e-06 sd=160n sca=15.9751 scb=0.0153507 \
+        scc=0.00137372 m=(1)
+mn0_3__rcx (9 \11\:A \22\:VSS VSS) g45n1hvt w=(3.1e-07) l=4.5e-08 nf=1 \
+        as=4.96e-14 ad=4.34e-14 ps=9.4e-07 pd=9e-07 nrd=1.16667 \
+        nrs=1.16667 sa=9.7e-07 sb=2e-06 sd=160n sca=15.9751 scb=0.0153507 \
+        scc=0.00137372 m=(1)
+mn0_4__rcx (10 \12\:A \22\:VSS VSS) g45n1hvt w=(3.1e-07) l=4.5e-08 nf=1 \
+        as=4.96e-14 ad=6.665e-14 ps=9.4e-07 pd=1.05e-06 nrd=1.16667 \
+        nrs=1.16667 sa=1.175e-06 sb=2e-06 sd=160n sca=15.9751 \
+        scb=0.0153507 scc=0.00137372 m=(1)
+mn1_4__rcx (\54\:net61 \14\:B 10 VSS) g45n1hvt w=(3.1e-07) l=4.5e-08 nf=1 \
+        as=6.665e-14 ad=4.96e-14 ps=1.05e-06 pd=9.4e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.435e-06 sb=2e-06 sd=160n sca=15.9751 \
+        scb=0.0153507 scc=0.00137372 m=(1)
+mn1 (\54\:net61 \13\:B 11 VSS) g45n1hvt w=(3.1e-07) l=4.5e-08 nf=1 \
+        as=1.86e-14 ad=4.96e-14 ps=7.4e-07 pd=9.4e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.64e-06 sb=2e-06 sd=160n sca=15.9751 scb=0.0153507 \
+        scc=0.00137372 m=(1)
+mn0 (11 \16\:A \1\:VSS VSS) g45n1hvt w=(3.1e-07) l=4.5e-08 nf=1 \
+        as=7.13e-14 ad=1.86e-14 ps=1.08e-06 pd=7.4e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.745e-06 sb=2e-06 sd=160n sca=15.9751 \
+        scb=0.0153507 scc=0.00137372 m=(1)
+mn2_1__rcx (\1\:Y net61 \1\:VSS VSS) g45n1hvt w=(3.1e-07) l=4.5e-08 nf=1 \
+        as=5.332e-14 ad=4.96e-14 ps=9.64e-07 pd=9.4e-07 nrd=1.16667 \
+        nrs=1.16667 sa=2e-06 sb=2e-06 sd=160n sca=15.9751 scb=0.0153507 \
+        scc=0.00137372 m=(10)
+mp2_1__rcx (\9\:Y net61 \1\:VDD VDD) g45p1hvt w=(4.7e-07) l=4.5e-08 nf=1 \
+        as=7.798e-14 ad=7.52e-14 ps=1.32e-06 pd=1.26e-06 nrd=1.16667 \
+        nrs=1.16667 sa=1.06266e-06 sb=1.985e-06 sd=160n sca=26.9787 \
+        scb=0.0178954 scc=0.0027966 m=(10)
+ends CLKAND2X12
+// End of subcircuit definition.
+

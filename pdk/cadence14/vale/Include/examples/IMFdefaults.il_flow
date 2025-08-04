@@ -1,0 +1,12 @@
+
+;; Component Module 200 Definition
+_IMFdat->compMod200 = list(nil)
+_IMFdat->compMod200->name = "FillFlow1"
+_IMFdat->compMod200->version = "V05"
+_IMFdat->compMod200->shortName = "FillFlow1"
+_IMFdat->compMod200->flowList = list("compMod55" "compMod61" "compMod95" "compMod61")
+_IMFdat->compMod200->description = "Run Fill and Decomp post Trims"
+_IMFdat->compMod200->slider = "Custom Flows"
+
+
+

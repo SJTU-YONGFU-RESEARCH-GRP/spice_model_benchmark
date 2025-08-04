@@ -1,0 +1,156 @@
+*SPEF "IEEE 1481-1999"
+*DESIGN  "NAND2X1"
+*DATE "Mon Sep 27 10:07:55 2010"
+*VENDOR "Cadence Design Systems"
+*PROGRAM "Assura RCX"
+*VERSION "3.2 Red Hat Linux release 7.2 (Enigma) - (09/09/2009-10:39)"
+*DESIGN_FLOW "Physical Verification"
+*DIVIDER /
+*DELIMITER :
+*BUS_DELIMITER []
+*T_UNIT 1 PS
+*C_UNIT 1e15 FF
+*R_UNIT 1 OHM
+*L_UNIT 1 MH
+// DeviceFingerDelim "@"
+// MATCHED
+// caps2d version: 10
+
+*NAME_MAP
+*1 A
+*2 VDD
+*3 B
+*4 mn0
+*5 n0
+*6 mp0
+*7 mn1
+*8 mp1
+*9 VSS
+*10 Y
+
+*GROUND_NETS VSS
+
+*PORTS
+*2 I
+*9 I
+*1 I
+*3 I
+*10 O
+
+*D_NET *2 8.99967e-17
+
+*CONN
+*P *2 I *C 0.1000 1.7100 
+*I *6:s B *C 0.1100 1.1450 
+*I *8:s B *C 0.5150 1.2900 
+*N *2:2 *C 0.3000 1.7100 
+*N *2:3 *C 0.3000 1.7100 
+
+*CAP
+0 *8:s 4.91642e-18
+1 *6:s 3.80514e-17
+2 *2:2 4.5903e-17
+3 *2 1.12582e-18
+
+*RES
+0 *8:s *2:3 62.141708  // $metal1_conn
+1 *2:3 *2 0.100348  // $metal1_conn
+2 *2 *6:s 31.330345  // $metal1_conn
+3 *2:2 *2:3 25  // $metal1_conn
+
+*END
+
+*D_NET *9 0
+
+*CONN
+*P *9 I *C 0.1000 0.0000 
+*I *4:s B *C 0.1100 0.4450 
+*N *9:1 *C 0.3000 0.0000 
+
+
+*RES
+0 *9:1 *9 20.767014  // $metal1_conn
+1 *9 *4:s 37.78104  // $metal1_conn
+
+*END
+
+*D_NET *1 1.86869e-16
+
+*CONN
+*P *1 I *C 0.1350 0.8600 
+*I *4:g B *C 0.2025 0.4450 
+*I *6:g B *C 0.2025 1.1450 
+*N *1:2 *C 0.2025 0.8400 
+*N *1:3 *C 0.1450 0.8400 
+
+*CAP
+0 *6:g 3.45238e-17
+1 *4:g 5.85748e-17
+2 *1:2 2.90815e-17
+3 *1:3 6.46888e-17
+
+*RES
+0 *6:g *1:2 24.894089  // $poly_conn
+1 *1:2 *1:3 45.778431  // $poly_conn
+2 *1:2 *4:g 64.63768  // $poly_conn
+3 *1:3 *1 0.010243  // $metal1_conn
+
+*END
+
+*D_NET *3 2.18211e-16
+
+*CONN
+*P *3 I *C 0.3350 0.7000 
+*I *7:g B *C 0.3175 0.4450 
+*I *8:g B *C 0.4075 1.1450 
+*N *3:2 *C 0.3450 0.6850 
+*N *3:4 *C 0.3400 0.6850 
+*N *3:5 *C 0.3450 0.6850 
+
+*CAP
+0 *8:g 4.29257e-17
+1 *7:g 4.59983e-17
+2 *3:4 6.71106e-17
+3 *3:2 3.70048e-17
+4 *3 2.51711e-17
+
+*RES
+0 *8:g *3:2 60.839237  // $poly_conn
+1 *3:2 *7:g 17.398676  // $poly_conn
+2 *3:4 *3:5 0.001047  // $metal1_conn
+3 *3:4 *3 0.010339  // $metal1_conn
+4 *3:2 *3:5 45  // $metal1_conn
+
+*END
+
+*D_NET *10 1.8776e-16
+
+*CONN
+*P *10 O *C 0.5150 0.8000 
+*I *7:d B *C 0.4325 0.4450 
+*I *6:d B *C 0.3050 1.1450 
+*I *8:d B *C 0.3050 1.1450 
+
+*CAP
+0 *6:d 3.47083e-17
+1 *7:d 5.92891e-17
+2 *10 9.3763e-17
+
+*RES
+0 *7:d *10 37.731556  // $metal1_conn
+1 *10 *6:d 21.009777  // $metal1_conn
+
+*END
+
+*D_NET *5 0
+
+*CONN
+*I *4:d B *C 0.2600 0.4450 
+*I *7:s B *C 0.2600 0.4450 
+
+
+*RES
+0 *7:s *4:d 0.001  // $mwires
+
+*END
+

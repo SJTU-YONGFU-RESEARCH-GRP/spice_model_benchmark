@@ -1,0 +1,10 @@
+--pcdbVlog file, Rev:1.0
+
+#CELL
+* altos_dff_r_err *
+xinst1
+
+#CELL
+* altos_dff_r *
+xinst2
+

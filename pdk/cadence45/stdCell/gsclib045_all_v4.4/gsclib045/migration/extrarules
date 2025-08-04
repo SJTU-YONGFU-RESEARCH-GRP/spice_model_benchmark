@@ -1,0 +1,74 @@
+parameters
+ xiogrid = 0.20
+ yiogrid = 0.19
+ Numgrids = 9
+ CellHeight = yiogrid * Numgrids
+ CellWidth = xiogrid * 32
+
+ PPprbySpace = 0.72 //0.68
+ NPprbySpace = CellHeight - PPprbySpace - 0.16
+
+ NWfromBot = 0.82 //0.78
+ NWfromTop = CellHeight - NWfromBot
+end
+
+abutment_boundaries
+ //prBoundary origin 0,0 height CellHeight width CellWidth iogrid xiogrid yiogrid 
+ prBoundary origin 0,0 height CellHeight iogrid xiogrid yiogrid 
+	ports M1P leftright halfgrid topbottom halfgrid
+end
+
+alignment_locks
+ prBoundary OXIDE
+ prBoundary METAL1
+end
+
+functions
+ prbyShrinkY = prBoundary - 0.01 yonly
+ prbyTopBot = prBoundary & ~ prbyShrinkY
+
+ prbyShrinkX = prBoundary - 0.01 xonly
+ prbyEdge = prBoundary & ~ prbyShrinkX
+
+ M1small = METAL1 area < 0.2 //0.1
+end
+
+rules
+
+ rule prBoundary.W "Min prBoundary width" widen prBoundary by 0.1
+ rule prBoundary.E "Min prBoundary width" extend prBoundary over OXIDE by 0
+ rule prby.CONT.centera "Center CONT over prBoundary" space ~CONT from prBoundary by 0.03 maximum 0.03
+ rule prby.CONT.centerb "Center CONT over prBoundary" extend CONT over ~prBoundary by 0.03 
+ rule prby.CO.side "CONT connect on side" space CONT from ~prBoundary over prbyTopBot by 0.05 maximum 0.05
+
+ rule prby.NIMP.E "Extend NIMP over prby" extend NIMP over prBoundary by 0.06
+ rule prby.PIMP.E "Extend PIMP over prby" extend PIMP over prBoundary by 0.06
+
+ rule prby.NIMP.S "Space NIMP at boundary" space NIMP over prbyEdge by NPprbySpace
+ rule prby.PIMP.S "Space PIMP at boundary" space PIMP over prbyEdge by PPprbySpace
+
+ rule prby.NW.Top "NWELL in from Top" extend NWELL over ~prBoundary by NWfromTop
+ rule prby.NW.Bot "NWELL up from Bottom" extend prBoundary over NWELL by NWfromBot
+
+ rule OXIDE.prby.E "enclose OXIDE with prby" enclose OXIDE with prBoundary unless coincident by 0.04
+ rule POLY.prby.E "enclose POLY with prby" enclose POLY with prBoundary by 0.03
+ rule METAL1.prby.E "M1P inside prby" enclose METAL1 with prBoundary unless coincident by 0.03
+ rule M1P.prby.E "M1P inside prby" enclose M1P with prBoundary by 0.04
+
+
+ rule M1P.W  "M1P minWidth is 0.07" widen M1P by 0.08
+ rule M1P.S "M1P space .07" space M1P by xiogrid - 0.08 corner manhattan
+ rule M1P.E "M1P enclose by METAL1" enclose M1P with METAL1 by 0 end-of-line 0.025
+
+
+ rule M1small.W "Widen M1small by 0.08" widen M1small by 0.08
+
+
+// rule FILL.scaleM1 " scale M1" scale METAL1 by 0.3 maximum 0.12
+end
+
+rules
+recommended 10
+  rule POLY.E.2R "Min POLY over OXIDE 0.12" extend POLY over OXIDE by 0.12
+
+end

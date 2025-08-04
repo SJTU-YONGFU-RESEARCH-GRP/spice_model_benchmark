@@ -1,0 +1,17 @@
+// Generated for: spectre (Mar 20 14:08:19 2013 )
+// Library name: gsclib045
+// Cell name: INVX12
+// View name: schematic
+
+simulator lang=spectre
+
+subckt INVX12 A Y VSS VDD
+mp0 (Y A VDD VDD) g45p1svt w=(4.7u) l=45n nf=1 as=658f ad=658f ps=9.68u \
+        pd=9.68u nrd=29.7872m nrs=29.7872m sa=140n sb=140n sd=160n \
+        sca=47.81913 scb=0.05187 scc=0.00600 m=(1)
+mn0 (Y A VSS VSS) g45n1svt w=(3.1u) l=45n nf=1 as=434f ad=434f ps=6.48u \
+        pd=6.48u nrd=45.1613m nrs=45.1613m sa=140n sb=140n sd=160n \
+        sca=51.36485 scb=0.05380 scc=0.00636 m=(1)
+ends INVX12
+// End of subcircuit definition.
+

@@ -1,0 +1,1 @@
+../../../../verilog/slow_vdd1v0_basicCells_lvt.v

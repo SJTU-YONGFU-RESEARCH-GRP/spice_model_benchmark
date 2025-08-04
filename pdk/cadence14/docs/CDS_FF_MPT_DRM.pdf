@@ -1,0 +1,12908 @@
+%PDF-1.3
+1 0 obj
+<< /Length 2 0 R >>
+stream
+0 G 0 g
+BT
+46 759 Td
+/F0 12 Tf
+(Apr 14, 2020) Tj
+ET
+BT
+203 759 Td
+/F0 12 Tf
+(CDS_FF_MPT Design Rule Manual) Tj
+ET
+BT
+528 759 Td
+/F0 12 Tf
+(page i) Tj
+ET
+BT
+46 24 Td
+/F0 12 Tf
+(Cadence Confidential) Tj
+ET
+BT
+493 24 Td
+/F0 12 Tf
+(revision 1.0) Tj
+ET
+56 756 m
+556 756 l
+567.0 756 576 747.0 576 736 c
+576 56 l
+576 45.0 567.0 36 556 36 c
+56 36 l
+45.0 36 36 45.0 36 56 c
+36 736 l
+36 747.0 45.0 756 56 756 c
+S
+BT
+234 712 Td
+/F0 16 Tf
+(Table of Contents) Tj
+ET
+0 G 0 g
+BT
+72 664 Td
+/F0 12 Tf
+(CDS_FF_MPT Process Revision List    2) Tj
+ET
+72 661 m
+309 661 l
+S
+0 G 0 g
+BT
+72 641 Td
+/F0 12 Tf
+(CDS_FF_MPT Process Rules    4) Tj
+ET
+72 638 m
+263 638 l
+S
+0 G 0 g
+BT
+108 618 Td
+/F0 12 Tf
+(BURIEDNWELL RULES    4) Tj
+ET
+108 615 m
+261 615 l
+S
+0 G 0 g
+BT
+108 595 Td
+/F0 12 Tf
+(NWELL RULES    5) Tj
+ET
+108 592 m
+215 592 l
+S
+0 G 0 g
+BT
+144 572 Td
+/F0 12 Tf
+(NWELL RESISTOR WITHIN OXIDE RULES    6) Tj
+ET
+144 569 m
+406 569 l
+S
+0 G 0 g
+BT
+108 549 Td
+/F0 12 Tf
+(ACTIVE RULES    7) Tj
+ET
+108 546 m
+219 546 l
+S
+0 G 0 g
+BT
+108 526 Td
+/F0 12 Tf
+(CUT ACTIVE RULES    7) Tj
+ET
+108 523 m
+249 523 l
+S
+0 G 0 g
+BT
+108 503 Td
+/F0 12 Tf
+(FIN RULES    8) Tj
+ET
+108 500 m
+194 500 l
+S
+0 G 0 g
+BT
+108 480 Td
+/F0 12 Tf
+(THICK ACTIVE \(1.8V\) RULES    9) Tj
+ET
+108 477 m
+301 477 l
+S
+0 G 0 g
+BT
+108 457 Td
+/F0 12 Tf
+(SALICIDE BLOCKING RULES    10) Tj
+ET
+108 454 m
+308 454 l
+S
+0 G 0 g
+BT
+108 434 Td
+/F0 12 Tf
+(NSVT RULES    11) Tj
+ET
+108 431 m
+214 431 l
+S
+0 G 0 g
+BT
+108 411 Td
+/F0 12 Tf
+(NHVT RULES    11) Tj
+ET
+108 408 m
+216 408 l
+S
+0 G 0 g
+BT
+108 388 Td
+/F0 12 Tf
+(NLVT RULES    11) Tj
+ET
+108 385 m
+214 385 l
+S
+0 G 0 g
+BT
+108 365 Td
+/F0 12 Tf
+(PSVT RULES    12) Tj
+ET
+108 362 m
+212 362 l
+S
+0 G 0 g
+BT
+108 342 Td
+/F0 12 Tf
+(PHVT RULES    12) Tj
+ET
+108 339 m
+214 339 l
+S
+0 G 0 g
+BT
+108 319 Td
+/F0 12 Tf
+(PLVT RULES    12) Tj
+ET
+108 316 m
+212 316 l
+S
+0 G 0 g
+BT
+108 296 Td
+/F0 12 Tf
+(POLY RULES    13) Tj
+ET
+108 293 m
+214 293 l
+S
+0 G 0 g
+BT
+108 273 Td
+/F0 12 Tf
+(CUT POLY RULES    13) Tj
+ET
+108 270 m
+244 270 l
+S
+0 G 0 g
+BT
+108 250 Td
+/F0 12 Tf
+(LIPO RULES    14) Tj
+ET
+108 247 m
+210 247 l
+S
+0 G 0 g
+BT
+108 227 Td
+/F0 12 Tf
+(LIACT RULES    15) Tj
+ET
+108 224 m
+219 224 l
+S
+0 G 0 g
+BT
+108 204 Td
+/F0 12 Tf
+(V0 RULES    16) Tj
+ET
+108 201 m
+198 201 l
+S
+0 G 0 g
+BT
+108 181 Td
+/F0 12 Tf
+(METAL1_X RULES  \(X=1-3\)    17) Tj
+ET
+108 178 m
+304 178 l
+S
+0 G 0 g
+BT
+108 158 Td
+/F0 12 Tf
+(CUT METAL RULES    17) Tj
+ET
+108 155 m
+254 155 l
+S
+0 G 0 g
+BT
+108 135 Td
+/F0 12 Tf
+(VIA1X RULES \(X=1-3\)    18) Tj
+ET
+108 132 m
+273 132 l
+S
+0 G 0 g
+BT
+108 112 Td
+/F0 12 Tf
+(METAL4 RULES \(1X\)    19) Tj
+ET
+108 109 m
+260 109 l
+S
+0 G 0 g
+BT
+108 89 Td
+/F0 12 Tf
+(METAL1BX RULES \(X=1-3\)    20) Tj
+ET
+108 86 m
+302 86 l
+S
+endstream
+endobj
+2 0 obj
+2652
+endobj
+3 0 obj
+<<
+/ProcSet [/PDF /Text]
+/Font <<
+/F0 4 0 R
+>>
+/Pattern <<
+>>
+/ColorSpace << /Cs1 [/Pattern /DeviceRGB] >>
+>>
+endobj
+4 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F0
+/BaseFont /Helvetica-Bold
+>>
+endobj
+5 0 obj
+<< /Length 6 0 R >>
+stream
+0 G 0 g
+BT
+46 759 Td
+/F0 12 Tf
+(Apr 14, 2020) Tj
+ET
+BT
+203 759 Td
+/F0 12 Tf
+(CDS_FF_MPT Design Rule Manual) Tj
+ET
+BT
+524 759 Td
+/F0 12 Tf
+(page ii) Tj
+ET
+BT
+46 24 Td
+/F0 12 Tf
+(Cadence Confidential) Tj
+ET
+BT
+493 24 Td
+/F0 12 Tf
+(revision 1.0) Tj
+ET
+56 756 m
+556 756 l
+567.0 756 576 747.0 576 736 c
+576 56 l
+576 45.0 567.0 36 556 36 c
+56 36 l
+45.0 36 36 45.0 36 56 c
+36 736 l
+36 747.0 45.0 756 56 756 c
+S
+BT
+265 712 Td
+/F0 16 Tf
+(...contents) Tj
+ET
+0 G 0 g
+BT
+108 664 Td
+/F0 12 Tf
+(METAL1TX RULES \(X=2-4\)    20) Tj
+ET
+108 661 m
+302 661 l
+S
+0 G 0 g
+BT
+108 641 Td
+/F0 12 Tf
+(VIA2X RULES \(X=4-5\)    21) Tj
+ET
+108 638 m
+273 638 l
+S
+0 G 0 g
+BT
+108 618 Td
+/F0 12 Tf
+(METAL2X RULES  \(X=5-6\)    22) Tj
+ET
+108 615 m
+298 615 l
+S
+0 G 0 g
+BT
+108 595 Td
+/F0 12 Tf
+(METAL2X RULES  \(X=5\)    22) Tj
+ET
+108 592 m
+282 592 l
+S
+0 G 0 g
+BT
+108 572 Td
+/F0 12 Tf
+(VIA4X RULES \(X=6\)    23) Tj
+ET
+108 569 m
+257 569 l
+S
+0 G 0 g
+BT
+108 549 Td
+/F0 12 Tf
+(METAL4X RULES  \(X=7\)    24) Tj
+ET
+108 546 m
+282 546 l
+S
+0 G 0 g
+BT
+108 526 Td
+/F0 12 Tf
+(CAPACITOR METAL    25) Tj
+ET
+108 523 m
+259 523 l
+S
+0 G 0 g
+BT
+108 503 Td
+/F0 12 Tf
+(VIAT RULES    26) Tj
+ET
+108 500 m
+211 500 l
+S
+0 G 0 g
+BT
+108 480 Td
+/F0 12 Tf
+(METALT RULES    27) Tj
+ET
+108 477 m
+232 477 l
+S
+0 G 0 g
+BT
+108 457 Td
+/F0 12 Tf
+(LATCH-UP RULES    28) Tj
+ET
+108 454 m
+248 454 l
+S
+0 G 0 g
+BT
+108 434 Td
+/F0 12 Tf
+(ANTENNA RULES    29) Tj
+ET
+108 431 m
+242 431 l
+S
+0 G 0 g
+BT
+108 411 Td
+/F0 12 Tf
+(ESD RULES    30) Tj
+ET
+108 408 m
+206 408 l
+S
+0 G 0 g
+BT
+108 388 Td
+/F0 12 Tf
+(BONDPAD RULES    31) Tj
+ET
+108 385 m
+245 385 l
+S
+0 G 0 g
+BT
+72 365 Td
+/F0 12 Tf
+(Appendix A    A1) Tj
+ET
+72 362 m
+177 362 l
+S
+0 G 0 g
+BT
+72 342 Td
+/F0 12 Tf
+(Appendix B    B1) Tj
+ET
+72 339 m
+175 339 l
+S
+endstream
+endobj
+6 0 obj
+1717
+endobj
+7 0 obj
+<<
+/ProcSet [/PDF /Text]
+/Font <<
+/F0 8 0 R
+>>
+/Pattern <<
+>>
+/ColorSpace << /Cs1 [/Pattern /DeviceRGB] >>
+>>
+endobj
+8 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F0
+/BaseFont /Helvetica-Bold
+>>
+endobj
+9 0 obj
+<< /Length 10 0 R >>
+stream
+0 G 0 g
+BT
+46 759 Td
+/F0 12 Tf
+(Apr 14, 2020) Tj
+ET
+BT
+203 759 Td
+/F0 12 Tf
+(CDS_FF_MPT Design Rule Manual) Tj
+ET
+BT
+524 759 Td
+/F0 12 Tf
+(page 1) Tj
+ET
+BT
+46 24 Td
+/F0 12 Tf
+(Cadence Confidential) Tj
+ET
+BT
+493 24 Td
+/F0 12 Tf
+(revision 1.0) Tj
+ET
+56 756 m
+556 756 l
+567.0 756 576 747.0 576 736 c
+576 56 l
+576 45.0 567.0 36 556 36 c
+56 36 l
+45.0 36 36 45.0 36 56 c
+36 736 l
+36 747.0 45.0 756 56 756 c
+S
+q
+120 0 0 40 232 688 cm
+BI
+/W 120
+/H 40
+/BPC 8
+/CS /RGB
+/F [/A85 /Fl]
+ID 
+Gb"/fh/1%`%#"!sqUk&fXCQ[S32:QugEfIF+@M?T'E8ccIE4dG>U8T&9$FjJzz!!$sYb<5HmI4\O@p!4aF
+^HXpLMn]VoH?)WFYG:+tL>e:4Q??Ns]Ud5!_/Geja+UlW'PH1/kP-%o[ZsIWlR/f3MC'+nDtdOa5[_bl
+9siM0^6+R9'R!>LV&B^[6S[KdpH'n=oBO1BdgI<`@tCP_Z?Sen<$9pP+;rotaiYk6"T%2B1bMQ"GW\Bt
+`Va$QV3To5j:!.$7A'BQnin(+&t%55Tr9Sq/NX$efhHc3iU(gK>`o7+I81jNR:&PCa1h!EATem0ER[@<
+L=?-TG)5;?D=u2*eKh.AOa3O/G=7K:A_qQ8U@cI445ueGaUe&!'r8\6E$Y]PY@\)IGkF75G:i,e^!B-r
+]LgH>=g!KE;rc`3I&<pI>i62X(FMA%RL"&QH[:%0"h!-a56\mbqh!-[j7a@;%f.\+#i$*%2Ji3k[Bej,
+CSi^4Dr.N)B0gk@H<\#fl]o&NAHt>iV4+2O8:6^m:7UB(G#IQ5Mt\Ouzz!!$s."%!I,0E~>
+EI
+Q
+0 G 0 g
+BT
+90 642 Td
+/F0 14 Tf
+(Cadence Design Systems) Tj
+ET
+BT
+90 608 Td
+/F0 14 Tf
+(CDS_FF_MPT Design Rule Manual) Tj
+ET
+BT
+90 574 Td
+/F0 14 Tf
+(Finfet Process with Multi Patterning for 1X Metals) Tj
+ET
+BT
+90 540 Td
+/F0 14 Tf
+(4 1X Metals, 2 2X M2, 1 4X Metal, 1 Cap Metal, 1 Top Metal) Tj
+ET
+0 G 0 g
+BT
+98 454 Td
+/F1 10 Tf
+( DISCLAIMER) Tj
+ET
+BT
+98 428 Td
+/F1 10 Tf
+( The information contained herein is provided by Cadence on an "AS IS" basis) Tj
+ET
+BT
+98 415 Td
+/F1 10 Tf
+( without any warranty, and Cadence has no obligation to support or otherwise) Tj
+ET
+BT
+98 402 Td
+/F1 10 Tf
+( maintain the information.  Cadence disclaims any representation that the) Tj
+ET
+BT
+98 389 Td
+/F1 10 Tf
+( information does not infringe any intellectual property rights or proprietary) Tj
+ET
+BT
+98 376 Td
+/F1 10 Tf
+( rights of any third parties.  There are no other warranties given by Cadence,) Tj
+ET
+BT
+98 363 Td
+/F1 10 Tf
+( whether express, implied or statutory, including, without limitation, implied) Tj
+ET
+BT
+98 350 Td
+/F1 10 Tf
+( warranties of merchantability and fitness for a particular purpose.) Tj
+ET
+BT
+98 311 Td
+/F1 10 Tf
+( STATEMENT OF USE) Tj
+ET
+BT
+98 285 Td
+/F1 10 Tf
+( This information contains confidential and proprietary information of Cadence.) Tj
+ET
+BT
+98 272 Td
+/F1 10 Tf
+( No part of this information may be reproduced, transmitted, transcribed,) Tj
+ET
+BT
+98 259 Td
+/F1 10 Tf
+( stored in a retrieval system, or translated into any human or computer) Tj
+ET
+BT
+98 246 Td
+/F1 10 Tf
+( language, in any form or by any means, electronic, mechanical, magnetic,) Tj
+ET
+BT
+98 233 Td
+/F1 10 Tf
+( optical, chemical, manual, or otherwise, without the prior written permission) Tj
+ET
+BT
+98 220 Td
+/F1 10 Tf
+( of  Cadence.  This information was prepared for informational purpose and is for) Tj
+ET
+BT
+98 207 Td
+/F1 10 Tf
+( use by Cadence customers only.  Cadence reserves the right to make ) Tj
+ET
+BT
+98 194 Td
+/F1 10 Tf
+( changes in the information at any time and without notice.) Tj
+ET
+0 G 0 g
+endstream
+endobj
+10 0 obj
+3034
+endobj
+11 0 obj
+<<
+/ProcSet [/PDF /Text]
+/Font <<
+/F0 12 0 R
+/F1 13 0 R
+>>
+/Pattern <<
+>>
+/ColorSpace << /Cs1 [/Pattern /DeviceRGB] >>
+>>
+endobj
+12 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F0
+/BaseFont /Helvetica-Bold
+>>
+endobj
+13 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F1
+/BaseFont /Helvetica
+>>
+endobj
+14 0 obj
+<< /Length 15 0 R >>
+stream
+0 G 0 g
+BT
+46 759 Td
+/F0 12 Tf
+(Apr 14, 2020) Tj
+ET
+BT
+203 759 Td
+/F0 12 Tf
+(CDS_FF_MPT Design Rule Manual) Tj
+ET
+BT
+524 759 Td
+/F0 12 Tf
+(page 2) Tj
+ET
+BT
+46 24 Td
+/F0 12 Tf
+(Cadence Confidential) Tj
+ET
+BT
+493 24 Td
+/F0 12 Tf
+(revision 1.0) Tj
+ET
+56 756 m
+556 756 l
+567.0 756 576 747.0 576 736 c
+576 56 l
+576 45.0 567.0 36 556 36 c
+56 36 l
+45.0 36 36 45.0 36 56 c
+36 736 l
+36 747.0 45.0 756 56 756 c
+S
+0 G 0 g
+BT
+56 717 Td
+/F0 20 Tf
+(CDS_FF_MPT Process Revision List) Tj
+ET
+0 G 0 g
+56 56 504 632 re
+S
+BT
+58 678 Td
+/F1 10 Tf
+(0.1         04/07/16        Initial Design Rule Manual) Tj
+ET
+BT
+58 639 Td
+/F1 10 Tf
+(0.2         05/02/16        Changed LiPo overlap of V0 values.) Tj
+ET
+BT
+58 613 Td
+/F1 10 Tf
+(               05/04/16        Removed M4 coloring. Added non colored M4 Page) Tj
+ET
+BT
+58 587 Td
+/F1 10 Tf
+(               05/06/16        Added coloring for V1-V3) Tj
+ET
+BT
+58 561 Td
+/F1 10 Tf
+(               05/06/16        Added CutActive and CutPoly DRM sections) Tj
+ET
+BT
+58 535 Td
+/F1 10 Tf
+(               07/12/16        Changed LiPo to Active spacing values.) Tj
+ET
+BT
+58 509 Td
+/F1 10 Tf
+(               07/14/16        Added Cut Metal 1-3 with seperate layers for Grey, Mack1, Mask2) Tj
+ET
+BT
+58 483 Td
+/F1 10 Tf
+(               07/22/16        Added MOS CDF to control purpose of dummy poly shapes) Tj
+ET
+BT
+58 457 Td
+/F1 10 Tf
+(               07/25/16        Updated standard vias defintions to allow proper via stacking.) Tj
+ET
+BT
+58 431 Td
+/F1 10 Tf
+(               07/28/16        Updated dummy poly enclosure of active in pcells) Tj
+ET
+BT
+58 392 Td
+/F1 10 Tf
+(0.3         10/04/16        Changed LiPo space to V0 from .036 to .032) Tj
+ET
+BT
+58 353 Td
+/F1 10 Tf
+(0.4         04/02/18        Added custom vias for FEOL connections) Tj
+ET
+BT
+58 327 Td
+/F1 10 Tf
+(                                      Added WSP example library) Tj
+ET
+BT
+58 301 Td
+/F1 10 Tf
+(                                      Added QRC database) Tj
+ET
+BT
+58 275 Td
+/F1 10 Tf
+(                                      Added QRC ICT files and EM ICT file) Tj
+ET
+BT
+58 249 Td
+/F1 10 Tf
+(                                      Updated cph.lam file for chaining and folding) Tj
+ET
+BT
+58 223 Td
+/F1 10 Tf
+(                                      Updated PVS DRC and LVS files for parasitic extraction) Tj
+ET
+BT
+56 691 Td
+/F1 10 Tf
+(DRC Revision History) Tj
+ET
+endstream
+endobj
+15 0 obj
+2339
+endobj
+16 0 obj
+<<
+/ProcSet [/PDF /Text]
+/Font <<
+/F0 17 0 R
+/F1 18 0 R
+>>
+/Pattern <<
+>>
+/ColorSpace << /Cs1 [/Pattern /DeviceRGB] >>
+>>
+endobj
+17 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F0
+/BaseFont /Helvetica-Bold
+>>
+endobj
+18 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F1
+/BaseFont /Helvetica
+>>
+endobj
+19 0 obj
+<< /Length 20 0 R >>
+stream
+0 G 0 g
+BT
+46 759 Td
+/F0 12 Tf
+(Apr 14, 2020) Tj
+ET
+BT
+203 759 Td
+/F0 12 Tf
+(CDS_FF_MPT Design Rule Manual) Tj
+ET
+BT
+524 759 Td
+/F0 12 Tf
+(page 3) Tj
+ET
+BT
+46 24 Td
+/F0 12 Tf
+(Cadence Confidential) Tj
+ET
+BT
+493 24 Td
+/F0 12 Tf
+(revision 1.0) Tj
+ET
+56 756 m
+556 756 l
+567.0 756 576 747.0 576 736 c
+576 56 l
+576 45.0 567.0 36 556 36 c
+56 36 l
+45.0 36 36 45.0 36 56 c
+36 736 l
+36 747.0 45.0 756 56 756 c
+S
+0 G 0 g
+48 56 512 672 re
+S
+BT
+50 718 Td
+/F1 10 Tf
+(0.5         05/10/19       Added new standard cell library "cds_ff_mpt_scl") Tj
+ET
+BT
+50 692 Td
+/F1 10 Tf
+(                                      Added FILL, VIPVS, and VALE support files and database directories) Tj
+ET
+BT
+50 666 Td
+/F1 10 Tf
+(                                      Updated Trim methodology to AppDef \(mask1Color, mask2Color\) support only) Tj
+ET
+BT
+50 640 Td
+/F1 10 Tf
+(                                      Updated MSOA enablement to support latest  DRM and standard cell library) Tj
+ET
+BT
+50 614 Td
+/F1 10 Tf
+(                                      Updated WSP library to add M1 defintions and update DRM/color values) Tj
+ET
+BT
+50 588 Td
+/F1 10 Tf
+(                                      Updated QRC database to match latest DRM/parasitics) Tj
+ET
+BT
+50 562 Td
+/F1 10 Tf
+(                                      Updated EAD database to match latest DRM/parasitics) Tj
+ET
+BT
+50 536 Td
+/F1 10 Tf
+(                                      Updated ICT files and EM ICT file to match latest DRM/parasitics) Tj
+ET
+BT
+50 510 Td
+/F1 10 Tf
+(                                      Updated cph.lam file for chaining and folding for stacked devices) Tj
+ET
+BT
+50 484 Td
+/F1 10 Tf
+(                                      Updated PVS DRC and LVS files to match latest DRM/Coloring/Trim requirements) Tj
+ET
+BT
+50 458 Td
+/F1 10 Tf
+(                                      Updated techfile to support latest auto-place auto-route code updates) Tj
+ET
+BT
+50 432 Td
+/F1 10 Tf
+(                                      Fixed CCR's 2077019, 2077066, 2078490, 2078507, 20779758, 2080029,) Tj
+ET
+BT
+50 419 Td
+/F1 10 Tf
+(2080039, 2080049, 2080074, 2080148, 2080219, 2080267) Tj
+ET
+BT
+50 367 Td
+/F1 10 Tf
+(1.0         01/01/20       Updated rules LiAct.SP.1, LiAct.SE.7, and CutM1X.SP.2 to make standard cell) Tj
+ET
+BT
+50 354 Td
+/F1 10 Tf
+(layout easier) Tj
+ET
+BT
+50 328 Td
+/F1 10 Tf
+(                                     ?????) Tj
+ET
+BT
+48 731 Td
+/F1 10 Tf
+(LVS Revision History) Tj
+ET
+endstream
+endobj
+20 0 obj
+2418
+endobj
+21 0 obj
+<<
+/ProcSet [/PDF /Text]
+/Font <<
+/F0 22 0 R
+/F1 23 0 R
+>>
+/Pattern <<
+>>
+/ColorSpace << /Cs1 [/Pattern /DeviceRGB] >>
+>>
+endobj
+22 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F0
+/BaseFont /Helvetica-Bold
+>>
+endobj
+23 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F1
+/BaseFont /Helvetica
+>>
+endobj
+24 0 obj
+<< /Length 25 0 R >>
+stream
+0 G 0 g
+BT
+46 759 Td
+/F0 12 Tf
+(Apr 14, 2020) Tj
+ET
+BT
+203 759 Td
+/F0 12 Tf
+(CDS_FF_MPT Design Rule Manual) Tj
+ET
+BT
+524 759 Td
+/F0 12 Tf
+(page 4) Tj
+ET
+BT
+46 24 Td
+/F0 12 Tf
+(Cadence Confidential) Tj
+ET
+BT
+493 24 Td
+/F0 12 Tf
+(revision 1.0) Tj
+ET
+56 756 m
+556 756 l
+567.0 756 576 747.0 576 736 c
+576 56 l
+576 45.0 567.0 36 556 36 c
+56 36 l
+45.0 36 36 45.0 36 56 c
+36 736 l
+36 747.0 45.0 756 56 756 c
+S
+0 G 0 g
+BT
+56 651 Td
+/F0 14 Tf
+(BURIEDNWELL RULES) Tj
+ET
+0 G 0 g
+BT
+56 717 Td
+/F0 20 Tf
+(CDS_FF_MPT Process Rules) Tj
+ET
+0 G 0 g
+48 539 516 85 re
+S
+BT
+48 627 Td
+/F1 10 Tf
+(Data Table: NBL) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+49 607 514 16 re
+f
+0 G 0 g
+BT
+53 612 Td
+/F0 10 Tf
+(RuleName) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+149 607 414 16 re
+f
+0 G 0 g
+BT
+153 612 Td
+/F0 10 Tf
+(Description) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+465 607 98 16 re
+f
+0 G 0 g
+BT
+469 612 Td
+/F0 10 Tf
+(Value) Tj
+ET
+48 607 m
+564 607 l
+S
+BT
+53 595 Td
+/F0 10 Tf
+(NBL.W.1) Tj
+ET
+148 624 m
+148 539 l
+S
+BT
+153 595 Td
+/F1 10 Tf
+(Minimum Nburied Width) Tj
+ET
+464 624 m
+464 539 l
+S
+BT
+469 595 Td
+/F1 10 Tf
+(0.8) Tj
+ET
+48 590 m
+564 590 l
+S
+BT
+53 578 Td
+/F0 10 Tf
+(NBL.SP.1) Tj
+ET
+BT
+153 578 Td
+/F1 10 Tf
+(Minimum Nburied to Nburied spacing) Tj
+ET
+BT
+469 578 Td
+/F1 10 Tf
+(2.0) Tj
+ET
+48 573 m
+564 573 l
+S
+BT
+53 561 Td
+/F0 10 Tf
+(NBL.SE.1) Tj
+ET
+BT
+153 561 Td
+/F1 10 Tf
+(Minimum Nburied to non-related Nwell spacing) Tj
+ET
+BT
+469 561 Td
+/F1 10 Tf
+(2.2) Tj
+ET
+48 556 m
+564 556 l
+S
+BT
+53 544 Td
+/F0 10 Tf
+(NBL.SE.2) Tj
+ET
+BT
+153 544 Td
+/F1 10 Tf
+(Minimum Nburied to Oxide spacing) Tj
+ET
+BT
+469 544 Td
+/F1 10 Tf
+(1.2) Tj
+ET
+endstream
+endobj
+25 0 obj
+1604
+endobj
+26 0 obj
+<<
+/ProcSet [/PDF /Text]
+/Font <<
+/F0 27 0 R
+/F1 28 0 R
+>>
+/Pattern <<
+>>
+/ColorSpace << /Cs1 [/Pattern /DeviceRGB] >>
+>>
+endobj
+27 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F0
+/BaseFont /Helvetica-Bold
+>>
+endobj
+28 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F1
+/BaseFont /Helvetica
+>>
+endobj
+29 0 obj
+<< /Length 30 0 R >>
+stream
+0 G 0 g
+BT
+46 759 Td
+/F0 12 Tf
+(Apr 14, 2020) Tj
+ET
+BT
+203 759 Td
+/F0 12 Tf
+(CDS_FF_MPT Design Rule Manual) Tj
+ET
+BT
+524 759 Td
+/F0 12 Tf
+(page 5) Tj
+ET
+BT
+46 24 Td
+/F0 12 Tf
+(Cadence Confidential) Tj
+ET
+BT
+493 24 Td
+/F0 12 Tf
+(revision 1.0) Tj
+ET
+56 756 m
+556 756 l
+567.0 756 576 747.0 576 736 c
+576 56 l
+576 45.0 567.0 36 556 36 c
+56 36 l
+45.0 36 36 45.0 36 56 c
+36 736 l
+36 747.0 45.0 756 56 756 c
+S
+0 G 0 g
+BT
+56 715 Td
+/F0 14 Tf
+(NWELL RULES) Tj
+ET
+0 G 0 g
+48 485 516 187 re
+S
+BT
+48 675 Td
+/F1 10 Tf
+(Data Table: NWELL) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+49 655 514 16 re
+f
+0 G 0 g
+BT
+53 660 Td
+/F0 10 Tf
+(RuleName) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+149 655 414 16 re
+f
+0 G 0 g
+BT
+153 660 Td
+/F0 10 Tf
+(Description) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+465 655 98 16 re
+f
+0 G 0 g
+BT
+469 660 Td
+/F0 10 Tf
+(Value) Tj
+ET
+48 655 m
+564 655 l
+S
+BT
+53 643 Td
+/F0 10 Tf
+(NW.W.1) Tj
+ET
+148 672 m
+148 485 l
+S
+BT
+153 643 Td
+/F1 10 Tf
+(Minimum Nwell Width) Tj
+ET
+464 672 m
+464 485 l
+S
+BT
+469 643 Td
+/F1 10 Tf
+(0.146) Tj
+ET
+48 638 m
+564 638 l
+S
+BT
+53 626 Td
+/F0 10 Tf
+(NW.SP.1) Tj
+ET
+BT
+153 626 Td
+/F1 10 Tf
+(Minimum Nwell spacing) Tj
+ET
+BT
+469 626 Td
+/F1 10 Tf
+(0.162) Tj
+ET
+48 621 m
+564 621 l
+S
+BT
+53 609 Td
+/F0 10 Tf
+(NW.SE.1) Tj
+ET
+BT
+153 609 Td
+/F1 10 Tf
+(Minimum Nwell spacing to Active Area) Tj
+ET
+BT
+469 609 Td
+/F1 10 Tf
+(0.16) Tj
+ET
+48 604 m
+564 604 l
+S
+BT
+53 592 Td
+/F0 10 Tf
+(NW.SE.2) Tj
+ET
+BT
+153 592 Td
+/F1 10 Tf
+(Minimum Nwell spacing to 1.8V Active Area) Tj
+ET
+BT
+469 592 Td
+/F1 10 Tf
+(0.24) Tj
+ET
+48 587 m
+564 587 l
+S
+BT
+53 575 Td
+/F0 10 Tf
+(NW.E.1) Tj
+ET
+BT
+153 575 Td
+/F1 10 Tf
+(Minimum Nwell enclosure of Active Area) Tj
+ET
+BT
+469 575 Td
+/F1 10 Tf
+(0.021) Tj
+ET
+48 570 m
+564 570 l
+S
+BT
+53 558 Td
+/F0 10 Tf
+(NW.E.2) Tj
+ET
+BT
+153 558 Td
+/F1 10 Tf
+(Minimum Nwell enclosure of 1.8V Active Area) Tj
+ET
+BT
+469 558 Td
+/F1 10 Tf
+(0.034) Tj
+ET
+48 553 m
+564 553 l
+S
+BT
+53 541 Td
+/F0 10 Tf
+(NW.E.3) Tj
+ET
+BT
+153 541 Td
+/F1 10 Tf
+(Minimum Nwell enclosure of straddled NBL) Tj
+ET
+BT
+469 541 Td
+/F1 10 Tf
+(0.24) Tj
+ET
+48 536 m
+564 536 l
+S
+BT
+53 524 Td
+/F0 10 Tf
+(NW.E.4) Tj
+ET
+BT
+153 524 Td
+/F1 10 Tf
+(Minimum NBL extension into straddled NBL) Tj
+ET
+BT
+469 524 Td
+/F1 10 Tf
+(0.24) Tj
+ET
+48 519 m
+564 519 l
+S
+BT
+53 507 Td
+/F0 10 Tf
+(NW.A.1) Tj
+ET
+BT
+153 507 Td
+/F1 10 Tf
+(Minimum Nwell area) Tj
+ET
+BT
+469 507 Td
+/F1 10 Tf
+(0.03) Tj
+ET
+48 502 m
+564 502 l
+S
+BT
+53 490 Td
+/F0 10 Tf
+(NW.EA.1) Tj
+ET
+BT
+153 490 Td
+/F1 10 Tf
+(Minimum Nwell enclosed area) Tj
+ET
+BT
+469 490 Td
+/F1 10 Tf
+(0.18) Tj
+ET
+endstream
+endobj
+30 0 obj
+2508
+endobj
+31 0 obj
+<<
+/ProcSet [/PDF /Text]
+/Font <<
+/F0 32 0 R
+/F1 33 0 R
+>>
+/Pattern <<
+>>
+/ColorSpace << /Cs1 [/Pattern /DeviceRGB] >>
+>>
+endobj
+32 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F0
+/BaseFont /Helvetica-Bold
+>>
+endobj
+33 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F1
+/BaseFont /Helvetica
+>>
+endobj
+34 0 obj
+<< /Length 35 0 R >>
+stream
+0 G 0 g
+BT
+46 759 Td
+/F0 12 Tf
+(Apr 14, 2020) Tj
+ET
+BT
+203 759 Td
+/F0 12 Tf
+(CDS_FF_MPT Design Rule Manual) Tj
+ET
+BT
+524 759 Td
+/F0 12 Tf
+(page 6) Tj
+ET
+BT
+46 24 Td
+/F0 12 Tf
+(Cadence Confidential) Tj
+ET
+BT
+493 24 Td
+/F0 12 Tf
+(revision 1.0) Tj
+ET
+56 756 m
+556 756 l
+567.0 756 576 747.0 576 736 c
+576 56 l
+576 45.0 567.0 36 556 36 c
+56 36 l
+45.0 36 36 45.0 36 56 c
+36 736 l
+36 747.0 45.0 756 56 756 c
+S
+0 G 0 g
+BT
+56 691 Td
+/F0 14 Tf
+(NWELL RESISTOR WITHIN OXIDE RULES) Tj
+ET
+0 G 0 g
+48 605 516 51 re
+S
+BT
+48 659 Td
+/F1 10 Tf
+(Data Table: NWRES) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+49 639 514 16 re
+f
+0 G 0 g
+BT
+53 644 Td
+/F0 10 Tf
+(RuleName) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+149 639 414 16 re
+f
+0 G 0 g
+BT
+153 644 Td
+/F0 10 Tf
+(Description) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+465 639 98 16 re
+f
+0 G 0 g
+BT
+469 644 Td
+/F0 10 Tf
+(Value) Tj
+ET
+48 639 m
+564 639 l
+S
+BT
+53 627 Td
+/F0 10 Tf
+(NWR.E.1) Tj
+ET
+148 656 m
+148 605 l
+S
+BT
+153 627 Td
+/F1 10 Tf
+(Minimum Active enclosure of Nwell \(in resistor\)) Tj
+ET
+464 656 m
+464 605 l
+S
+BT
+469 627 Td
+/F1 10 Tf
+(0.021) Tj
+ET
+48 622 m
+564 622 l
+S
+BT
+53 610 Td
+/F0 10 Tf
+(NWR.SP.1) Tj
+ET
+BT
+153 610 Td
+/F1 10 Tf
+(Minimum Nwell resistor to other Nwell spacing) Tj
+ET
+BT
+469 610 Td
+/F1 10 Tf
+(0.3) Tj
+ET
+endstream
+endobj
+35 0 obj
+1263
+endobj
+36 0 obj
+<<
+/ProcSet [/PDF /Text]
+/Font <<
+/F0 37 0 R
+/F1 38 0 R
+>>
+/Pattern <<
+>>
+/ColorSpace << /Cs1 [/Pattern /DeviceRGB] >>
+>>
+endobj
+37 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F0
+/BaseFont /Helvetica-Bold
+>>
+endobj
+38 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F1
+/BaseFont /Helvetica
+>>
+endobj
+39 0 obj
+<< /Length 40 0 R >>
+stream
+0 G 0 g
+BT
+46 759 Td
+/F0 12 Tf
+(Apr 14, 2020) Tj
+ET
+BT
+203 759 Td
+/F0 12 Tf
+(CDS_FF_MPT Design Rule Manual) Tj
+ET
+BT
+524 759 Td
+/F0 12 Tf
+(page 7) Tj
+ET
+BT
+46 24 Td
+/F0 12 Tf
+(Cadence Confidential) Tj
+ET
+BT
+493 24 Td
+/F0 12 Tf
+(revision 1.0) Tj
+ET
+56 756 m
+556 756 l
+567.0 756 576 747.0 576 736 c
+576 56 l
+576 45.0 567.0 36 556 36 c
+56 36 l
+45.0 36 36 45.0 36 56 c
+36 736 l
+36 747.0 45.0 756 56 756 c
+S
+0 G 0 g
+BT
+48 715 Td
+/F0 14 Tf
+(ACTIVE RULES) Tj
+ET
+0 G 0 g
+48 578 516 102 re
+S
+BT
+48 683 Td
+/F1 10 Tf
+(Data Table: OXIDE) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+49 663 514 16 re
+f
+0 G 0 g
+BT
+53 668 Td
+/F0 10 Tf
+(RuleName) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+149 663 414 16 re
+f
+0 G 0 g
+BT
+153 668 Td
+/F0 10 Tf
+(Description) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+465 663 98 16 re
+f
+0 G 0 g
+BT
+469 668 Td
+/F0 10 Tf
+(Value) Tj
+ET
+48 663 m
+564 663 l
+S
+BT
+53 651 Td
+/F0 10 Tf
+(OXIDE.W.1) Tj
+ET
+148 680 m
+148 578 l
+S
+BT
+153 651 Td
+/F1 10 Tf
+(Minimum Active width in the Y direction in steps of 0.048) Tj
+ET
+464 680 m
+464 578 l
+S
+BT
+469 651 Td
+/F1 10 Tf
+(0.062) Tj
+ET
+48 646 m
+564 646 l
+S
+BT
+53 634 Td
+/F0 10 Tf
+(OXIDE.W.2) Tj
+ET
+BT
+153 634 Td
+/F1 10 Tf
+(Minimum Active width in the X direction) Tj
+ET
+BT
+469 634 Td
+/F1 10 Tf
+(0.068) Tj
+ET
+48 629 m
+564 629 l
+S
+BT
+53 617 Td
+/F0 10 Tf
+(OXIDE.SP.1) Tj
+ET
+BT
+153 617 Td
+/F1 10 Tf
+(Minimum Active space in the Y direction in steps of 0.048) Tj
+ET
+BT
+469 617 Td
+/F1 10 Tf
+(0.13) Tj
+ET
+48 612 m
+564 612 l
+S
+BT
+53 600 Td
+/F0 10 Tf
+(OXIDE.SP.2) Tj
+ET
+BT
+153 600 Td
+/F1 10 Tf
+(Minimum Active space in the X direction) Tj
+ET
+BT
+469 600 Td
+/F1 10 Tf
+(0.018) Tj
+ET
+48 595 m
+564 595 l
+S
+BT
+53 583 Td
+/F0 10 Tf
+(OXIDE.C.1) Tj
+ET
+BT
+153 583 Td
+/F1 10 Tf
+(Active must be covered by either a N+ type or P+ type implant) Tj
+ET
+0 G 0 g
+BT
+48 363 Td
+/F0 14 Tf
+(CUT ACTIVE RULES) Tj
+ET
+0 G 0 g
+48 213 516 115 re
+S
+BT
+48 331 Td
+/F1 10 Tf
+(Data Table: CPA) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+49 311 514 16 re
+f
+0 G 0 g
+BT
+53 316 Td
+/F0 10 Tf
+(RuleName) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+149 311 414 16 re
+f
+0 G 0 g
+BT
+153 316 Td
+/F0 10 Tf
+(Description) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+457 311 106 16 re
+f
+0 G 0 g
+BT
+461 316 Td
+/F0 10 Tf
+(Value) Tj
+ET
+48 311 m
+564 311 l
+S
+BT
+53 299 Td
+/F0 10 Tf
+(CUTACTIVE.W.1) Tj
+ET
+148 328 m
+148 213 l
+S
+BT
+153 299 Td
+/F1 10 Tf
+(Minimum CutActive width in the Y direction in steps of 0.048) Tj
+ET
+456 328 m
+456 213 l
+S
+BT
+461 299 Td
+/F1 10 Tf
+(0.082) Tj
+ET
+48 294 m
+564 294 l
+S
+BT
+53 282 Td
+/F0 10 Tf
+(CUTACTIVE.W.2) Tj
+ET
+BT
+153 282 Td
+/F1 10 Tf
+(Minimum CutActive width values in the X direction) Tj
+ET
+BT
+461 282 Td
+/F1 10 Tf
+( \(18, 20, 24, 28, 30\)) Tj
+ET
+BT
+461 269 Td
+/F1 10 Tf
+(nm) Tj
+ET
+48 264 m
+564 264 l
+S
+BT
+53 252 Td
+/F0 10 Tf
+(CUTACTIVE.SP.1) Tj
+ET
+BT
+153 252 Td
+/F1 10 Tf
+(Minimum CutActive space ) Tj
+ET
+BT
+461 252 Td
+/F1 10 Tf
+(0.068) Tj
+ET
+48 247 m
+564 247 l
+S
+BT
+53 235 Td
+/F0 10 Tf
+(CUTACTIVE.SE.1) Tj
+ET
+BT
+153 235 Td
+/F1 10 Tf
+(Minimum CutActive to Active space) Tj
+ET
+BT
+461 235 Td
+/F1 10 Tf
+(0.068) Tj
+ET
+48 230 m
+564 230 l
+S
+BT
+53 218 Td
+/F0 10 Tf
+(CUTACTIVE.E.1) Tj
+ET
+BT
+153 218 Td
+/F1 10 Tf
+(Minimum CutActive extension beyond Active) Tj
+ET
+BT
+461 218 Td
+/F1 10 Tf
+(0.01) Tj
+ET
+endstream
+endobj
+40 0 obj
+3203
+endobj
+41 0 obj
+<<
+/ProcSet [/PDF /Text]
+/Font <<
+/F0 42 0 R
+/F1 43 0 R
+>>
+/Pattern <<
+>>
+/ColorSpace << /Cs1 [/Pattern /DeviceRGB] >>
+>>
+endobj
+42 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F0
+/BaseFont /Helvetica-Bold
+>>
+endobj
+43 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F1
+/BaseFont /Helvetica
+>>
+endobj
+44 0 obj
+<< /Length 45 0 R >>
+stream
+0 G 0 g
+BT
+46 759 Td
+/F0 12 Tf
+(Apr 14, 2020) Tj
+ET
+BT
+203 759 Td
+/F0 12 Tf
+(CDS_FF_MPT Design Rule Manual) Tj
+ET
+BT
+524 759 Td
+/F0 12 Tf
+(page 8) Tj
+ET
+BT
+46 24 Td
+/F0 12 Tf
+(Cadence Confidential) Tj
+ET
+BT
+493 24 Td
+/F0 12 Tf
+(revision 1.0) Tj
+ET
+56 756 m
+556 756 l
+567.0 756 576 747.0 576 736 c
+576 56 l
+576 45.0 567.0 36 556 36 c
+56 36 l
+45.0 36 36 45.0 36 56 c
+36 736 l
+36 747.0 45.0 756 56 756 c
+S
+0 G 0 g
+BT
+48 715 Td
+/F0 14 Tf
+(FIN RULES) Tj
+ET
+0 G 0 g
+48 565 516 115 re
+S
+BT
+48 683 Td
+/F1 10 Tf
+(Data Table: FB48) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+49 663 514 16 re
+f
+0 G 0 g
+BT
+53 668 Td
+/F0 10 Tf
+(RuleName) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+149 663 414 16 re
+f
+0 G 0 g
+BT
+153 668 Td
+/F0 10 Tf
+(Description) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+465 663 98 16 re
+f
+0 G 0 g
+BT
+469 668 Td
+/F0 10 Tf
+(Value) Tj
+ET
+48 663 m
+564 663 l
+S
+BT
+53 651 Td
+/F0 10 Tf
+(FB48.W.1) Tj
+ET
+148 680 m
+148 565 l
+S
+BT
+153 651 Td
+/F1 10 Tf
+(Minimum Fin Area width in the Y direction in steps of 0.048) Tj
+ET
+464 680 m
+464 565 l
+S
+BT
+469 651 Td
+/F1 10 Tf
+(0.062) Tj
+ET
+48 646 m
+564 646 l
+S
+BT
+53 634 Td
+/F0 10 Tf
+(FB48.W.2) Tj
+ET
+BT
+153 634 Td
+/F1 10 Tf
+(Minimum Fin Area width in the X direction) Tj
+ET
+BT
+469 634 Td
+/F1 10 Tf
+(0.096) Tj
+ET
+48 629 m
+564 629 l
+S
+BT
+53 617 Td
+/F0 10 Tf
+(FB48.SP.1) Tj
+ET
+BT
+153 617 Td
+/F1 10 Tf
+(Minimum Fin Area space in the Y direction in steps of 0.48) Tj
+ET
+BT
+469 617 Td
+/F1 10 Tf
+(0.034) Tj
+ET
+48 612 m
+564 612 l
+S
+BT
+53 600 Td
+/F0 10 Tf
+(FB48.E.1 ) Tj
+ET
+BT
+153 600 Td
+/F1 10 Tf
+(Minimum Fin Area overlap Active in the Y direction in steps of ) Tj
+ET
+BT
+153 587 Td
+/F1 10 Tf
+(0.048) Tj
+ET
+BT
+469 600 Td
+/F1 10 Tf
+(0.048) Tj
+ET
+48 582 m
+564 582 l
+S
+BT
+53 570 Td
+/F0 10 Tf
+(FB48.E.2) Tj
+ET
+BT
+153 570 Td
+/F1 10 Tf
+(Minimum Fin Area overlap Active in the X direction) Tj
+ET
+BT
+469 570 Td
+/F1 10 Tf
+(0.017) Tj
+ET
+endstream
+endobj
+45 0 obj
+1855
+endobj
+46 0 obj
+<<
+/ProcSet [/PDF /Text]
+/Font <<
+/F0 47 0 R
+/F1 48 0 R
+>>
+/Pattern <<
+>>
+/ColorSpace << /Cs1 [/Pattern /DeviceRGB] >>
+>>
+endobj
+47 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F0
+/BaseFont /Helvetica-Bold
+>>
+endobj
+48 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F1
+/BaseFont /Helvetica
+>>
+endobj
+49 0 obj
+<< /Length 50 0 R >>
+stream
+0 G 0 g
+BT
+46 759 Td
+/F0 12 Tf
+(Apr 14, 2020) Tj
+ET
+BT
+203 759 Td
+/F0 12 Tf
+(CDS_FF_MPT Design Rule Manual) Tj
+ET
+BT
+524 759 Td
+/F0 12 Tf
+(page 9) Tj
+ET
+BT
+46 24 Td
+/F0 12 Tf
+(Cadence Confidential) Tj
+ET
+BT
+493 24 Td
+/F0 12 Tf
+(revision 1.0) Tj
+ET
+56 756 m
+556 756 l
+567.0 756 576 747.0 576 736 c
+576 56 l
+576 45.0 567.0 36 556 36 c
+56 36 l
+45.0 36 36 45.0 36 56 c
+36 736 l
+36 747.0 45.0 756 56 756 c
+S
+0 G 0 g
+BT
+48 723 Td
+/F0 14 Tf
+(THICK ACTIVE \(1.8V\) RULES) Tj
+ET
+0 G 0 g
+48 457 516 231 re
+S
+BT
+48 691 Td
+/F1 10 Tf
+(Data Table: OXIDETHK) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+49 671 514 16 re
+f
+0 G 0 g
+BT
+53 676 Td
+/F0 10 Tf
+(RuleName) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+149 671 414 16 re
+f
+0 G 0 g
+BT
+153 676 Td
+/F0 10 Tf
+(Description) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+465 671 98 16 re
+f
+0 G 0 g
+BT
+469 676 Td
+/F0 10 Tf
+(Value) Tj
+ET
+48 671 m
+564 671 l
+S
+BT
+53 659 Td
+/F0 10 Tf
+(OXIDETHK.W.1) Tj
+ET
+148 688 m
+148 457 l
+S
+BT
+153 659 Td
+/F1 10 Tf
+(Minimum Thick Active Area width in the Y direction) Tj
+ET
+464 688 m
+464 457 l
+S
+BT
+469 659 Td
+/F1 10 Tf
+(0.124) Tj
+ET
+48 654 m
+564 654 l
+S
+BT
+53 642 Td
+/F0 10 Tf
+(OXIDETHK.W.2) Tj
+ET
+BT
+153 642 Td
+/F1 10 Tf
+(Minimum Thick Active Area width in the X direction) Tj
+ET
+BT
+469 642 Td
+/F1 10 Tf
+(0.158) Tj
+ET
+48 637 m
+564 637 l
+S
+BT
+53 625 Td
+/F0 10 Tf
+(OXIDETHK.SP.1) Tj
+ET
+BT
+153 625 Td
+/F1 10 Tf
+(Minimum Thick Active Area to Thick Active Area spacing in the ) Tj
+ET
+BT
+153 612 Td
+/F1 10 Tf
+(Y direction) Tj
+ET
+BT
+469 625 Td
+/F1 10 Tf
+(0.068) Tj
+ET
+48 607 m
+564 607 l
+S
+BT
+53 595 Td
+/F0 10 Tf
+(OXIDETHK.SP.2) Tj
+ET
+BT
+153 595 Td
+/F1 10 Tf
+(Minimum Thick Active Area to Thick Active Area spacing in the ) Tj
+ET
+BT
+153 582 Td
+/F1 10 Tf
+(X direction) Tj
+ET
+BT
+469 595 Td
+/F1 10 Tf
+(0.064) Tj
+ET
+48 577 m
+564 577 l
+S
+BT
+53 565 Td
+/F0 10 Tf
+(OXIDETHK.SE.1) Tj
+ET
+BT
+153 565 Td
+/F1 10 Tf
+(Minimum Thick Active Area to Active Area spacing in the Y ) Tj
+ET
+BT
+153 552 Td
+/F1 10 Tf
+(direction) Tj
+ET
+BT
+469 565 Td
+/F1 10 Tf
+(0.099) Tj
+ET
+48 547 m
+564 547 l
+S
+BT
+53 535 Td
+/F0 10 Tf
+(OXIDETHK.SE.2) Tj
+ET
+BT
+153 535 Td
+/F1 10 Tf
+(Minimum Thick Active Area to Active Area spacing in the X ) Tj
+ET
+BT
+153 522 Td
+/F1 10 Tf
+(direction) Tj
+ET
+BT
+469 535 Td
+/F1 10 Tf
+(0.109) Tj
+ET
+48 517 m
+564 517 l
+S
+BT
+53 505 Td
+/F0 10 Tf
+(OXIDETHK.E.1) Tj
+ET
+BT
+153 505 Td
+/F1 10 Tf
+(Minimum Thick Active Area to Active Area enclosure in the Y ) Tj
+ET
+BT
+153 492 Td
+/F1 10 Tf
+(direction) Tj
+ET
+BT
+469 505 Td
+/F1 10 Tf
+(0.031) Tj
+ET
+48 487 m
+564 487 l
+S
+BT
+53 475 Td
+/F0 10 Tf
+(OXIDETHK.E.2) Tj
+ET
+BT
+153 475 Td
+/F1 10 Tf
+(Minimum Thick Active Area to Active Area enclosure in the X ) Tj
+ET
+BT
+153 462 Td
+/F1 10 Tf
+(direction) Tj
+ET
+BT
+469 475 Td
+/F1 10 Tf
+(0.045) Tj
+ET
+endstream
+endobj
+50 0 obj
+2714
+endobj
+51 0 obj
+<<
+/ProcSet [/PDF /Text]
+/Font <<
+/F0 52 0 R
+/F1 53 0 R
+>>
+/Pattern <<
+>>
+/ColorSpace << /Cs1 [/Pattern /DeviceRGB] >>
+>>
+endobj
+52 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F0
+/BaseFont /Helvetica-Bold
+>>
+endobj
+53 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F1
+/BaseFont /Helvetica
+>>
+endobj
+54 0 obj
+<< /Length 55 0 R >>
+stream
+0 G 0 g
+BT
+46 759 Td
+/F0 12 Tf
+(Apr 14, 2020) Tj
+ET
+BT
+203 759 Td
+/F0 12 Tf
+(CDS_FF_MPT Design Rule Manual) Tj
+ET
+BT
+516 759 Td
+/F0 12 Tf
+(page 10) Tj
+ET
+BT
+46 24 Td
+/F0 12 Tf
+(Cadence Confidential) Tj
+ET
+BT
+493 24 Td
+/F0 12 Tf
+(revision 1.0) Tj
+ET
+56 756 m
+556 756 l
+567.0 756 576 747.0 576 736 c
+576 56 l
+576 45.0 567.0 36 556 36 c
+56 36 l
+45.0 36 36 45.0 36 56 c
+36 736 l
+36 747.0 45.0 756 56 756 c
+S
+0 G 0 g
+BT
+56 723 Td
+/F0 14 Tf
+(SALICIDE BLOCKING RULES) Tj
+ET
+0 G 0 g
+48 526 516 170 re
+S
+BT
+48 699 Td
+/F1 10 Tf
+(Data Table: SIPROT) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+49 679 514 16 re
+f
+0 G 0 g
+BT
+53 684 Td
+/F0 10 Tf
+(RuleName) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+149 679 414 16 re
+f
+0 G 0 g
+BT
+153 684 Td
+/F0 10 Tf
+(Description) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+465 679 98 16 re
+f
+0 G 0 g
+BT
+469 684 Td
+/F0 10 Tf
+(Value) Tj
+ET
+48 679 m
+564 679 l
+S
+BT
+53 667 Td
+/F0 10 Tf
+(SIPROT.W.1) Tj
+ET
+148 696 m
+148 526 l
+S
+BT
+153 667 Td
+/F1 10 Tf
+(Minimum Salicide Block width) Tj
+ET
+464 696 m
+464 526 l
+S
+BT
+469 667 Td
+/F1 10 Tf
+(0.042) Tj
+ET
+48 662 m
+564 662 l
+S
+BT
+53 650 Td
+/F0 10 Tf
+(SIPROT.SP.1) Tj
+ET
+BT
+153 650 Td
+/F1 10 Tf
+(Minimum Salicide Block space) Tj
+ET
+BT
+469 650 Td
+/F1 10 Tf
+(0.044) Tj
+ET
+48 645 m
+564 645 l
+S
+BT
+53 633 Td
+/F0 10 Tf
+(SIPROT.SE.1) Tj
+ET
+BT
+153 633 Td
+/F1 10 Tf
+(Minimum Salicide Block to Contact spacing) Tj
+ET
+BT
+469 633 Td
+/F1 10 Tf
+(0.009) Tj
+ET
+48 628 m
+564 628 l
+S
+BT
+53 616 Td
+/F0 10 Tf
+(SIPROT.SE.2) Tj
+ET
+BT
+153 616 Td
+/F1 10 Tf
+(Minimum Salicide Block to unrelated Active Area spacing) Tj
+ET
+BT
+469 616 Td
+/F1 10 Tf
+(0.012) Tj
+ET
+48 611 m
+564 611 l
+S
+BT
+53 599 Td
+/F0 10 Tf
+(SIPROT.SE.3) Tj
+ET
+BT
+153 599 Td
+/F1 10 Tf
+(Minimum Salicide Block to Poly spacing) Tj
+ET
+BT
+469 599 Td
+/F1 10 Tf
+(0.022) Tj
+ET
+48 594 m
+564 594 l
+S
+BT
+53 582 Td
+/F0 10 Tf
+(SIPROT.E.1) Tj
+ET
+BT
+153 582 Td
+/F1 10 Tf
+(Minimum Salicide Block to Active Area enclosure) Tj
+ET
+BT
+469 582 Td
+/F1 10 Tf
+(0.012) Tj
+ET
+48 577 m
+564 577 l
+S
+BT
+53 565 Td
+/F0 10 Tf
+(SIPROT.E.2) Tj
+ET
+BT
+153 565 Td
+/F1 10 Tf
+(Minimum Active Area to Salicide Block enclosure) Tj
+ET
+BT
+469 565 Td
+/F1 10 Tf
+(0.012) Tj
+ET
+48 560 m
+564 560 l
+S
+BT
+53 548 Td
+/F0 10 Tf
+(SIPROT.E.3) Tj
+ET
+BT
+153 548 Td
+/F1 10 Tf
+(Minimum Salicide Block to Poly enclosure) Tj
+ET
+BT
+469 548 Td
+/F1 10 Tf
+(0.012) Tj
+ET
+48 543 m
+564 543 l
+S
+BT
+53 531 Td
+/F0 10 Tf
+(SIPROT.A.1) Tj
+ET
+BT
+153 531 Td
+/F1 10 Tf
+(Minimum Salicide Block area) Tj
+ET
+BT
+469 531 Td
+/F1 10 Tf
+(0.0042) Tj
+ET
+endstream
+endobj
+55 0 obj
+2463
+endobj
+56 0 obj
+<<
+/ProcSet [/PDF /Text]
+/Font <<
+/F0 57 0 R
+/F1 58 0 R
+>>
+/Pattern <<
+>>
+/ColorSpace << /Cs1 [/Pattern /DeviceRGB] >>
+>>
+endobj
+57 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F0
+/BaseFont /Helvetica-Bold
+>>
+endobj
+58 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F1
+/BaseFont /Helvetica
+>>
+endobj
+59 0 obj
+<< /Length 60 0 R >>
+stream
+0 G 0 g
+BT
+46 759 Td
+/F0 12 Tf
+(Apr 14, 2020) Tj
+ET
+BT
+203 759 Td
+/F0 12 Tf
+(CDS_FF_MPT Design Rule Manual) Tj
+ET
+BT
+516 759 Td
+/F0 12 Tf
+(page 11) Tj
+ET
+BT
+46 24 Td
+/F0 12 Tf
+(Cadence Confidential) Tj
+ET
+BT
+493 24 Td
+/F0 12 Tf
+(revision 1.0) Tj
+ET
+56 756 m
+556 756 l
+567.0 756 576 747.0 576 736 c
+576 56 l
+576 45.0 567.0 36 556 36 c
+56 36 l
+45.0 36 36 45.0 36 56 c
+36 736 l
+36 747.0 45.0 756 56 756 c
+S
+0 G 0 g
+BT
+48 719 Td
+/F0 14 Tf
+(NSVT RULES) Tj
+ET
+0 G 0 g
+BT
+48 479 Td
+/F0 14 Tf
+(NHVT RULES) Tj
+ET
+0 G 0 g
+BT
+48 231 Td
+/F0 14 Tf
+(NLVT RULES) Tj
+ET
+0 G 0 g
+48 308 496 136 re
+S
+BT
+48 447 Td
+/F1 10 Tf
+(Data Table: NHVT) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+49 427 494 16 re
+f
+0 G 0 g
+BT
+53 432 Td
+/F0 10 Tf
+(RuleName) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+121 427 422 16 re
+f
+0 G 0 g
+BT
+125 432 Td
+/F0 10 Tf
+(Description) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+453 427 90 16 re
+f
+0 G 0 g
+BT
+457 432 Td
+/F0 10 Tf
+(Value) Tj
+ET
+48 427 m
+544 427 l
+S
+BT
+53 415 Td
+/F0 10 Tf
+(NHVT.W.1) Tj
+ET
+120 444 m
+120 308 l
+S
+BT
+125 415 Td
+/F1 10 Tf
+(Minimum NHVT width) Tj
+ET
+452 444 m
+452 308 l
+S
+BT
+457 415 Td
+/F1 10 Tf
+(0.052) Tj
+ET
+48 410 m
+544 410 l
+S
+BT
+53 398 Td
+/F0 10 Tf
+(NHVT.SP.1) Tj
+ET
+BT
+125 398 Td
+/F1 10 Tf
+(Minimum NHVT spacing) Tj
+ET
+BT
+457 398 Td
+/F1 10 Tf
+(0.024) Tj
+ET
+48 393 m
+544 393 l
+S
+BT
+53 381 Td
+/F0 10 Tf
+(NHVT.SE.1) Tj
+ET
+BT
+125 381 Td
+/F1 10 Tf
+(Minimum NHVT to PActive space) Tj
+ET
+BT
+457 381 Td
+/F1 10 Tf
+(0.045) Tj
+ET
+48 376 m
+544 376 l
+S
+BT
+53 364 Td
+/F0 10 Tf
+(NHVT.A.1) Tj
+ET
+BT
+125 364 Td
+/F1 10 Tf
+(Minimum NHVT area) Tj
+ET
+BT
+457 364 Td
+/F1 10 Tf
+(0.03) Tj
+ET
+48 359 m
+544 359 l
+S
+BT
+53 347 Td
+/F0 10 Tf
+(NHVT.E.1) Tj
+ET
+BT
+125 347 Td
+/F1 10 Tf
+(Minimum NHVT to Poly enclosure) Tj
+ET
+BT
+457 347 Td
+/F1 10 Tf
+(\(\(\).045 0.065\)) Tj
+ET
+48 342 m
+544 342 l
+S
+BT
+53 330 Td
+/F0 10 Tf
+(NHVT.E.2) Tj
+ET
+BT
+125 330 Td
+/F1 10 Tf
+(Minimum NHVT to Active enclosure) Tj
+ET
+BT
+457 330 Td
+/F1 10 Tf
+(\(\(\).045 0.065\)) Tj
+ET
+48 325 m
+544 325 l
+S
+BT
+53 313 Td
+/F0 10 Tf
+(NHVT.X.1) Tj
+ET
+BT
+125 313 Td
+/F1 10 Tf
+(NHVT is NOT allowed on Ptype implant) Tj
+ET
+BT
+457 313 Td
+/F1 10 Tf
+(-) Tj
+ET
+0 G 0 g
+48 60 496 136 re
+S
+BT
+48 199 Td
+/F1 10 Tf
+(Data Table: NLVT) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+49 179 494 16 re
+f
+0 G 0 g
+BT
+53 184 Td
+/F0 10 Tf
+(RuleName) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+121 179 422 16 re
+f
+0 G 0 g
+BT
+125 184 Td
+/F0 10 Tf
+(Description) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+453 179 90 16 re
+f
+0 G 0 g
+BT
+457 184 Td
+/F0 10 Tf
+(Value) Tj
+ET
+48 179 m
+544 179 l
+S
+BT
+53 167 Td
+/F0 10 Tf
+(NLVT.W.1) Tj
+ET
+120 196 m
+120 60 l
+S
+BT
+125 167 Td
+/F1 10 Tf
+(Minimum NLVT width) Tj
+ET
+452 196 m
+452 60 l
+S
+BT
+457 167 Td
+/F1 10 Tf
+(0.052) Tj
+ET
+48 162 m
+544 162 l
+S
+BT
+53 150 Td
+/F0 10 Tf
+(NLVT.SP.1) Tj
+ET
+BT
+125 150 Td
+/F1 10 Tf
+(Minimum NLVT spacing) Tj
+ET
+BT
+457 150 Td
+/F1 10 Tf
+(0.024) Tj
+ET
+48 145 m
+544 145 l
+S
+BT
+53 133 Td
+/F0 10 Tf
+(NLVT.SE.1) Tj
+ET
+BT
+125 133 Td
+/F1 10 Tf
+(Minimum NLVT to PActive space) Tj
+ET
+BT
+457 133 Td
+/F1 10 Tf
+(0.045) Tj
+ET
+48 128 m
+544 128 l
+S
+BT
+53 116 Td
+/F0 10 Tf
+(NLVT.A.1) Tj
+ET
+BT
+125 116 Td
+/F1 10 Tf
+(Minimum NLVT area) Tj
+ET
+BT
+457 116 Td
+/F1 10 Tf
+(0.03) Tj
+ET
+48 111 m
+544 111 l
+S
+BT
+53 99 Td
+/F0 10 Tf
+(NLVT.E.1) Tj
+ET
+BT
+125 99 Td
+/F1 10 Tf
+(Minimum NLVT to Poly enclosure) Tj
+ET
+BT
+457 99 Td
+/F1 10 Tf
+(\(\(\).045 0.065\)) Tj
+ET
+48 94 m
+544 94 l
+S
+BT
+53 82 Td
+/F0 10 Tf
+(NLVT.E.2) Tj
+ET
+BT
+125 82 Td
+/F1 10 Tf
+(Minimum NLVT to Active enclosure) Tj
+ET
+BT
+457 82 Td
+/F1 10 Tf
+(\(\(\).045 0.065\)) Tj
+ET
+48 77 m
+544 77 l
+S
+BT
+53 65 Td
+/F0 10 Tf
+(NLVT.X.1) Tj
+ET
+BT
+125 65 Td
+/F1 10 Tf
+(NLVT is NOT allowed on Ptype implant) Tj
+ET
+BT
+457 65 Td
+/F1 10 Tf
+(-) Tj
+ET
+0 G 0 g
+48 548 496 136 re
+S
+BT
+48 687 Td
+/F1 10 Tf
+(Data Table: NSVT) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+49 667 494 16 re
+f
+0 G 0 g
+BT
+53 672 Td
+/F0 10 Tf
+(RuleName) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+121 667 422 16 re
+f
+0 G 0 g
+BT
+125 672 Td
+/F0 10 Tf
+(Description) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+453 667 90 16 re
+f
+0 G 0 g
+BT
+457 672 Td
+/F0 10 Tf
+(Value) Tj
+ET
+48 667 m
+544 667 l
+S
+BT
+53 655 Td
+/F0 10 Tf
+(NSVT.W.1) Tj
+ET
+120 684 m
+120 548 l
+S
+BT
+125 655 Td
+/F1 10 Tf
+(Minimum NSVT width) Tj
+ET
+452 684 m
+452 548 l
+S
+BT
+457 655 Td
+/F1 10 Tf
+(0.052) Tj
+ET
+48 650 m
+544 650 l
+S
+BT
+53 638 Td
+/F0 10 Tf
+(NSVT.SP.1) Tj
+ET
+BT
+125 638 Td
+/F1 10 Tf
+(Minimum NSVT spacing) Tj
+ET
+BT
+457 638 Td
+/F1 10 Tf
+(0.024) Tj
+ET
+48 633 m
+544 633 l
+S
+BT
+53 621 Td
+/F0 10 Tf
+(NSVT.SE.1) Tj
+ET
+BT
+125 621 Td
+/F1 10 Tf
+(Minimum NSVT to PActive space) Tj
+ET
+BT
+457 621 Td
+/F1 10 Tf
+(0.045) Tj
+ET
+48 616 m
+544 616 l
+S
+BT
+53 604 Td
+/F0 10 Tf
+(NSVT.A.1) Tj
+ET
+BT
+125 604 Td
+/F1 10 Tf
+(Minimum NSVT area) Tj
+ET
+BT
+457 604 Td
+/F1 10 Tf
+(0.017) Tj
+ET
+48 599 m
+544 599 l
+S
+BT
+53 587 Td
+/F0 10 Tf
+(NSVT.E.1) Tj
+ET
+BT
+125 587 Td
+/F1 10 Tf
+(Minimum NSVT to Poly enclosure) Tj
+ET
+BT
+457 587 Td
+/F1 10 Tf
+(\(\(\).045 0.065\)) Tj
+ET
+48 582 m
+544 582 l
+S
+BT
+53 570 Td
+/F0 10 Tf
+(NSVT.E.2) Tj
+ET
+BT
+125 570 Td
+/F1 10 Tf
+(Minimum NSVT to Active enclosure) Tj
+ET
+BT
+457 570 Td
+/F1 10 Tf
+(\(\(\).045 0.065\)) Tj
+ET
+48 565 m
+544 565 l
+S
+BT
+53 553 Td
+/F0 10 Tf
+(NSVT.X.1) Tj
+ET
+BT
+125 553 Td
+/F1 10 Tf
+(NSVT is NOT allowed on Ptype implant) Tj
+ET
+BT
+457 553 Td
+/F1 10 Tf
+(-) Tj
+ET
+endstream
+endobj
+60 0 obj
+5222
+endobj
+61 0 obj
+<<
+/ProcSet [/PDF /Text]
+/Font <<
+/F0 62 0 R
+/F1 63 0 R
+>>
+/Pattern <<
+>>
+/ColorSpace << /Cs1 [/Pattern /DeviceRGB] >>
+>>
+endobj
+62 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F0
+/BaseFont /Helvetica-Bold
+>>
+endobj
+63 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F1
+/BaseFont /Helvetica
+>>
+endobj
+64 0 obj
+<< /Length 65 0 R >>
+stream
+0 G 0 g
+BT
+46 759 Td
+/F0 12 Tf
+(Apr 14, 2020) Tj
+ET
+BT
+203 759 Td
+/F0 12 Tf
+(CDS_FF_MPT Design Rule Manual) Tj
+ET
+BT
+516 759 Td
+/F0 12 Tf
+(page 12) Tj
+ET
+BT
+46 24 Td
+/F0 12 Tf
+(Cadence Confidential) Tj
+ET
+BT
+493 24 Td
+/F0 12 Tf
+(revision 1.0) Tj
+ET
+56 756 m
+556 756 l
+567.0 756 576 747.0 576 736 c
+576 56 l
+576 45.0 567.0 36 556 36 c
+56 36 l
+45.0 36 36 45.0 36 56 c
+36 736 l
+36 747.0 45.0 756 56 756 c
+S
+0 G 0 g
+BT
+48 719 Td
+/F0 14 Tf
+(PSVT RULES) Tj
+ET
+0 G 0 g
+BT
+48 479 Td
+/F0 14 Tf
+(PHVT RULES) Tj
+ET
+0 G 0 g
+BT
+48 231 Td
+/F0 14 Tf
+(PLVT RULES) Tj
+ET
+0 G 0 g
+48 308 496 136 re
+S
+BT
+48 447 Td
+/F1 10 Tf
+(Data Table: PHVT) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+49 427 494 16 re
+f
+0 G 0 g
+BT
+53 432 Td
+/F0 10 Tf
+(RuleName) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+121 427 422 16 re
+f
+0 G 0 g
+BT
+125 432 Td
+/F0 10 Tf
+(Description) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+453 427 90 16 re
+f
+0 G 0 g
+BT
+457 432 Td
+/F0 10 Tf
+(Value) Tj
+ET
+48 427 m
+544 427 l
+S
+BT
+53 415 Td
+/F0 10 Tf
+(PHVT.W.1) Tj
+ET
+120 444 m
+120 308 l
+S
+BT
+125 415 Td
+/F1 10 Tf
+(Minimum PHVT width) Tj
+ET
+452 444 m
+452 308 l
+S
+BT
+457 415 Td
+/F1 10 Tf
+(0.052) Tj
+ET
+48 410 m
+544 410 l
+S
+BT
+53 398 Td
+/F0 10 Tf
+(PHVT.SP.1) Tj
+ET
+BT
+125 398 Td
+/F1 10 Tf
+(Minimum PHVT spacing) Tj
+ET
+BT
+457 398 Td
+/F1 10 Tf
+(0.024) Tj
+ET
+48 393 m
+544 393 l
+S
+BT
+53 381 Td
+/F0 10 Tf
+(PHVT.SE.1) Tj
+ET
+BT
+125 381 Td
+/F1 10 Tf
+(Minimum PHVT to NActive space) Tj
+ET
+BT
+457 381 Td
+/F1 10 Tf
+(0.045) Tj
+ET
+48 376 m
+544 376 l
+S
+BT
+53 364 Td
+/F0 10 Tf
+(PHVT.A.1) Tj
+ET
+BT
+125 364 Td
+/F1 10 Tf
+(Minimum PHVT area) Tj
+ET
+BT
+457 364 Td
+/F1 10 Tf
+(0.03) Tj
+ET
+48 359 m
+544 359 l
+S
+BT
+53 347 Td
+/F0 10 Tf
+(PHVT.E.1) Tj
+ET
+BT
+125 347 Td
+/F1 10 Tf
+(Minimum PHVT to Poly enclosure) Tj
+ET
+BT
+457 347 Td
+/F1 10 Tf
+(\(\(\).045 0.065\)) Tj
+ET
+48 342 m
+544 342 l
+S
+BT
+53 330 Td
+/F0 10 Tf
+(PHVT.E.2) Tj
+ET
+BT
+125 330 Td
+/F1 10 Tf
+(Minimum PHVT to Active enclosure) Tj
+ET
+BT
+457 330 Td
+/F1 10 Tf
+(\(\(\).045 0.065\)) Tj
+ET
+48 325 m
+544 325 l
+S
+BT
+53 313 Td
+/F0 10 Tf
+(PHVT.X.1) Tj
+ET
+BT
+125 313 Td
+/F1 10 Tf
+(PHVT is NOT allowed on Ptype implant) Tj
+ET
+BT
+457 313 Td
+/F1 10 Tf
+(-) Tj
+ET
+0 G 0 g
+48 60 496 136 re
+S
+BT
+48 199 Td
+/F1 10 Tf
+(Data Table: PLVT) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+49 179 494 16 re
+f
+0 G 0 g
+BT
+53 184 Td
+/F0 10 Tf
+(RuleName) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+121 179 422 16 re
+f
+0 G 0 g
+BT
+125 184 Td
+/F0 10 Tf
+(Description) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+453 179 90 16 re
+f
+0 G 0 g
+BT
+457 184 Td
+/F0 10 Tf
+(Value) Tj
+ET
+48 179 m
+544 179 l
+S
+BT
+53 167 Td
+/F0 10 Tf
+(PLVT.W.1) Tj
+ET
+120 196 m
+120 60 l
+S
+BT
+125 167 Td
+/F1 10 Tf
+(Minimum PLVT width) Tj
+ET
+452 196 m
+452 60 l
+S
+BT
+457 167 Td
+/F1 10 Tf
+(0.052) Tj
+ET
+48 162 m
+544 162 l
+S
+BT
+53 150 Td
+/F0 10 Tf
+(PLVT.SP.1) Tj
+ET
+BT
+125 150 Td
+/F1 10 Tf
+(Minimum PLVT spacing) Tj
+ET
+BT
+457 150 Td
+/F1 10 Tf
+(0.024) Tj
+ET
+48 145 m
+544 145 l
+S
+BT
+53 133 Td
+/F0 10 Tf
+(PLVT.SE.1) Tj
+ET
+BT
+125 133 Td
+/F1 10 Tf
+(Minimum PLVT to NActive space) Tj
+ET
+BT
+457 133 Td
+/F1 10 Tf
+(0.045) Tj
+ET
+48 128 m
+544 128 l
+S
+BT
+53 116 Td
+/F0 10 Tf
+(PLVT.A.1) Tj
+ET
+BT
+125 116 Td
+/F1 10 Tf
+(Minimum PLVT area) Tj
+ET
+BT
+457 116 Td
+/F1 10 Tf
+(0.03) Tj
+ET
+48 111 m
+544 111 l
+S
+BT
+53 99 Td
+/F0 10 Tf
+(PLVT.E.1) Tj
+ET
+BT
+125 99 Td
+/F1 10 Tf
+(Minimum PLVT to Poly enclosure) Tj
+ET
+BT
+457 99 Td
+/F1 10 Tf
+(\(\(\).045 0.065\)) Tj
+ET
+48 94 m
+544 94 l
+S
+BT
+53 82 Td
+/F0 10 Tf
+(PLVT.E.2) Tj
+ET
+BT
+125 82 Td
+/F1 10 Tf
+(Minimum PLVT to Active enclosure) Tj
+ET
+BT
+457 82 Td
+/F1 10 Tf
+(\(\(\).045 0.065\)) Tj
+ET
+48 77 m
+544 77 l
+S
+BT
+53 65 Td
+/F0 10 Tf
+(PLVT.X.1) Tj
+ET
+BT
+125 65 Td
+/F1 10 Tf
+(PLVT is NOT allowed on Ptype implant) Tj
+ET
+BT
+457 65 Td
+/F1 10 Tf
+(-) Tj
+ET
+0 G 0 g
+48 548 496 136 re
+S
+BT
+48 687 Td
+/F1 10 Tf
+(Data Table: PSVT) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+49 667 494 16 re
+f
+0 G 0 g
+BT
+53 672 Td
+/F0 10 Tf
+(RuleName) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+121 667 422 16 re
+f
+0 G 0 g
+BT
+125 672 Td
+/F0 10 Tf
+(Description) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+453 667 90 16 re
+f
+0 G 0 g
+BT
+457 672 Td
+/F0 10 Tf
+(Value) Tj
+ET
+48 667 m
+544 667 l
+S
+BT
+53 655 Td
+/F0 10 Tf
+(PSVT.W.1) Tj
+ET
+120 684 m
+120 548 l
+S
+BT
+125 655 Td
+/F1 10 Tf
+(Minimum PSVT width) Tj
+ET
+452 684 m
+452 548 l
+S
+BT
+457 655 Td
+/F1 10 Tf
+(0.052) Tj
+ET
+48 650 m
+544 650 l
+S
+BT
+53 638 Td
+/F0 10 Tf
+(PSVT.SP.1) Tj
+ET
+BT
+125 638 Td
+/F1 10 Tf
+(Minimum PSVT spacing) Tj
+ET
+BT
+457 638 Td
+/F1 10 Tf
+(0.024) Tj
+ET
+48 633 m
+544 633 l
+S
+BT
+53 621 Td
+/F0 10 Tf
+(PSVT.SE.1) Tj
+ET
+BT
+125 621 Td
+/F1 10 Tf
+(Minimum PSVT to NActive space) Tj
+ET
+BT
+457 621 Td
+/F1 10 Tf
+(0.045) Tj
+ET
+48 616 m
+544 616 l
+S
+BT
+53 604 Td
+/F0 10 Tf
+(PSVT.A.1) Tj
+ET
+BT
+125 604 Td
+/F1 10 Tf
+(Minimum PSVT area) Tj
+ET
+BT
+457 604 Td
+/F1 10 Tf
+(0.017) Tj
+ET
+48 599 m
+544 599 l
+S
+BT
+53 587 Td
+/F0 10 Tf
+(PSVT.E.1) Tj
+ET
+BT
+125 587 Td
+/F1 10 Tf
+(Minimum PSVT to Poly enclosure) Tj
+ET
+BT
+457 587 Td
+/F1 10 Tf
+(\(\(\).045 0.065\)) Tj
+ET
+48 582 m
+544 582 l
+S
+BT
+53 570 Td
+/F0 10 Tf
+(PSVT.E.2) Tj
+ET
+BT
+125 570 Td
+/F1 10 Tf
+(Minimum PSVT to Active enclosure) Tj
+ET
+BT
+457 570 Td
+/F1 10 Tf
+(\(\(\).045 0.065\)) Tj
+ET
+48 565 m
+544 565 l
+S
+BT
+53 553 Td
+/F0 10 Tf
+(PSVT.X.1) Tj
+ET
+BT
+125 553 Td
+/F1 10 Tf
+(PSVT is NOT allowed on Ptype implant) Tj
+ET
+BT
+457 553 Td
+/F1 10 Tf
+(-) Tj
+ET
+endstream
+endobj
+65 0 obj
+5222
+endobj
+66 0 obj
+<<
+/ProcSet [/PDF /Text]
+/Font <<
+/F0 67 0 R
+/F1 68 0 R
+>>
+/Pattern <<
+>>
+/ColorSpace << /Cs1 [/Pattern /DeviceRGB] >>
+>>
+endobj
+67 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F0
+/BaseFont /Helvetica-Bold
+>>
+endobj
+68 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F1
+/BaseFont /Helvetica
+>>
+endobj
+69 0 obj
+<< /Length 70 0 R >>
+stream
+0 G 0 g
+BT
+46 759 Td
+/F0 12 Tf
+(Apr 14, 2020) Tj
+ET
+BT
+203 759 Td
+/F0 12 Tf
+(CDS_FF_MPT Design Rule Manual) Tj
+ET
+BT
+516 759 Td
+/F0 12 Tf
+(page 13) Tj
+ET
+BT
+46 24 Td
+/F0 12 Tf
+(Cadence Confidential) Tj
+ET
+BT
+493 24 Td
+/F0 12 Tf
+(revision 1.0) Tj
+ET
+56 756 m
+556 756 l
+567.0 756 576 747.0 576 736 c
+576 56 l
+576 45.0 567.0 36 556 36 c
+56 36 l
+45.0 36 36 45.0 36 56 c
+36 736 l
+36 747.0 45.0 756 56 756 c
+S
+0 G 0 g
+BT
+48 723 Td
+/F0 14 Tf
+(POLY RULES) Tj
+ET
+0 G 0 g
+BT
+48 363 Td
+/F0 14 Tf
+(CUT POLY RULES) Tj
+ET
+0 G 0 g
+48 209 516 119 re
+S
+BT
+48 331 Td
+/F1 10 Tf
+(Data Table: CPO) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+49 311 514 16 re
+f
+0 G 0 g
+BT
+53 316 Td
+/F0 10 Tf
+(RuleName) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+141 311 422 16 re
+f
+0 G 0 g
+BT
+145 316 Td
+/F0 10 Tf
+(Description) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+449 311 114 16 re
+f
+0 G 0 g
+BT
+453 316 Td
+/F0 10 Tf
+(Value) Tj
+ET
+48 311 m
+564 311 l
+S
+BT
+53 299 Td
+/F0 10 Tf
+(CUTPOLY.W.1) Tj
+ET
+140 328 m
+140 209 l
+S
+BT
+145 299 Td
+/F1 10 Tf
+(Minimum CutPoly width in the X direction) Tj
+ET
+448 328 m
+448 209 l
+S
+BT
+453 299 Td
+/F1 10 Tf
+(0.06) Tj
+ET
+48 294 m
+564 294 l
+S
+BT
+53 282 Td
+/F0 10 Tf
+(CUTPOLY.W.2) Tj
+ET
+BT
+145 282 Td
+/F1 10 Tf
+(Allowed CutPoly width values in the Y direction) Tj
+ET
+BT
+453 282 Td
+/F1 10 Tf
+(\(0.06 0.07 0.1 0.12\)) Tj
+ET
+48 277 m
+564 277 l
+S
+BT
+53 265 Td
+/F0 10 Tf
+(CUTPOLY.SP.1) Tj
+ET
+BT
+145 265 Td
+/F1 10 Tf
+(Minimum CutPoly space ) Tj
+ET
+BT
+453 265 Td
+/F1 10 Tf
+(0.09) Tj
+ET
+48 260 m
+564 260 l
+S
+BT
+53 248 Td
+/F0 10 Tf
+(CUTPOLY.SE.1) Tj
+ET
+BT
+145 248 Td
+/F1 10 Tf
+(Minimum CutPoly to Active space) Tj
+ET
+BT
+453 248 Td
+/F1 10 Tf
+(0.02) Tj
+ET
+48 243 m
+564 243 l
+S
+BT
+53 231 Td
+/F0 10 Tf
+(CUTPOLY.SE.2) Tj
+ET
+BT
+145 231 Td
+/F1 10 Tf
+(Minimum CutPoly to LiPo space) Tj
+ET
+BT
+453 231 Td
+/F1 10 Tf
+(0.019) Tj
+ET
+48 226 m
+564 226 l
+S
+BT
+53 214 Td
+/F0 10 Tf
+(CUTPOLY.E.1) Tj
+ET
+BT
+145 214 Td
+/F1 10 Tf
+(Minimum CutPoly extension beyond Poly) Tj
+ET
+BT
+453 214 Td
+/F1 10 Tf
+(0.034) Tj
+ET
+0 G 0 g
+40 526 532 170 re
+S
+BT
+40 699 Td
+/F1 10 Tf
+(Data Table: POLY) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+41 679 530 16 re
+f
+0 G 0 g
+BT
+45 684 Td
+/F0 10 Tf
+(RuleName) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+105 679 466 16 re
+f
+0 G 0 g
+BT
+109 684 Td
+/F0 10 Tf
+(Description) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+385 679 186 16 re
+f
+0 G 0 g
+BT
+389 684 Td
+/F0 10 Tf
+(Value) Tj
+ET
+40 679 m
+572 679 l
+S
+BT
+45 667 Td
+/F0 10 Tf
+(POLY.P.1 ) Tj
+ET
+104 696 m
+104 526 l
+S
+BT
+109 667 Td
+/F1 10 Tf
+(Poly Pitches are restricted to \(86, 90, 94, 102, 104\)nm) Tj
+ET
+384 696 m
+384 526 l
+S
+BT
+389 667 Td
+/F1 10 Tf
+(-) Tj
+ET
+40 662 m
+572 662 l
+S
+BT
+45 650 Td
+/F0 10 Tf
+(POLY.W.1) Tj
+ET
+BT
+109 650 Td
+/F1 10 Tf
+(Minimum Poly length in the Y direction) Tj
+ET
+BT
+389 650 Td
+/F1 10 Tf
+(0.08) Tj
+ET
+40 645 m
+572 645 l
+S
+BT
+45 633 Td
+/F0 10 Tf
+(POLY.W.2) Tj
+ET
+BT
+109 633 Td
+/F1 10 Tf
+(Allowed width values for Poly \(X-direction\)) Tj
+ET
+BT
+389 633 Td
+/F1 10 Tf
+(\(0.018, 0.02 0.024, 0.028, >=0.03\)) Tj
+ET
+40 628 m
+572 628 l
+S
+BT
+45 616 Td
+/F0 10 Tf
+(POLY.W.3) Tj
+ET
+BT
+109 616 Td
+/F1 10 Tf
+(Maximum Poly width) Tj
+ET
+BT
+389 616 Td
+/F1 10 Tf
+(0.24) Tj
+ET
+40 611 m
+572 611 l
+S
+BT
+45 599 Td
+/F0 10 Tf
+(POLY.W.4) Tj
+ET
+BT
+109 599 Td
+/F1 10 Tf
+(Maximum Poly length) Tj
+ET
+BT
+389 599 Td
+/F1 10 Tf
+(10.0) Tj
+ET
+40 594 m
+572 594 l
+S
+BT
+45 582 Td
+/F0 10 Tf
+(POLY.SP.1) Tj
+ET
+BT
+109 582 Td
+/F1 10 Tf
+(Minimum Poly space) Tj
+ET
+BT
+389 582 Td
+/F1 10 Tf
+(0.068) Tj
+ET
+40 577 m
+572 577 l
+S
+BT
+45 565 Td
+/F0 10 Tf
+(POLY.SP.2) Tj
+ET
+BT
+109 565 Td
+/F1 10 Tf
+(Minimum Poly space with width >= 0.08) Tj
+ET
+BT
+389 565 Td
+/F1 10 Tf
+(0.12) Tj
+ET
+40 560 m
+572 560 l
+S
+BT
+45 548 Td
+/F0 10 Tf
+(POLY.SP.3) Tj
+ET
+BT
+109 548 Td
+/F1 10 Tf
+(Minimum Poly space with width >= 0.16) Tj
+ET
+BT
+389 548 Td
+/F1 10 Tf
+(0.20) Tj
+ET
+40 543 m
+572 543 l
+S
+BT
+45 531 Td
+/F0 10 Tf
+(POLY.E.1) Tj
+ET
+BT
+109 531 Td
+/F1 10 Tf
+(Minimum gate extension beyond Active Area) Tj
+ET
+BT
+389 531 Td
+/F1 10 Tf
+(0.048) Tj
+ET
+endstream
+endobj
+70 0 obj
+3930
+endobj
+71 0 obj
+<<
+/ProcSet [/PDF /Text]
+/Font <<
+/F0 72 0 R
+/F1 73 0 R
+>>
+/Pattern <<
+>>
+/ColorSpace << /Cs1 [/Pattern /DeviceRGB] >>
+>>
+endobj
+72 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F0
+/BaseFont /Helvetica-Bold
+>>
+endobj
+73 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F1
+/BaseFont /Helvetica
+>>
+endobj
+74 0 obj
+<< /Length 75 0 R >>
+stream
+0 G 0 g
+BT
+46 759 Td
+/F0 12 Tf
+(Apr 14, 2020) Tj
+ET
+BT
+203 759 Td
+/F0 12 Tf
+(CDS_FF_MPT Design Rule Manual) Tj
+ET
+BT
+516 759 Td
+/F0 12 Tf
+(page 14) Tj
+ET
+BT
+46 24 Td
+/F0 12 Tf
+(Cadence Confidential) Tj
+ET
+BT
+493 24 Td
+/F0 12 Tf
+(revision 1.0) Tj
+ET
+56 756 m
+556 756 l
+567.0 756 576 747.0 576 736 c
+576 56 l
+576 45.0 567.0 36 556 36 c
+56 36 l
+45.0 36 36 45.0 36 56 c
+36 736 l
+36 747.0 45.0 756 56 756 c
+S
+0 G 0 g
+BT
+56 723 Td
+/F0 14 Tf
+(LIPO RULES) Tj
+ET
+0 G 0 g
+48 526 516 170 re
+S
+BT
+48 699 Td
+/F1 10 Tf
+(Data Table: LIPO) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+49 679 514 16 re
+f
+0 G 0 g
+BT
+53 684 Td
+/F0 10 Tf
+(RuleName) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+149 679 414 16 re
+f
+0 G 0 g
+BT
+153 684 Td
+/F0 10 Tf
+(Description) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+465 679 98 16 re
+f
+0 G 0 g
+BT
+469 684 Td
+/F0 10 Tf
+(Value) Tj
+ET
+48 679 m
+564 679 l
+S
+BT
+53 667 Td
+/F0 10 Tf
+(LIPO.W.1) Tj
+ET
+148 696 m
+148 526 l
+S
+BT
+153 667 Td
+/F1 10 Tf
+(Allowed width values for LIPO) Tj
+ET
+464 696 m
+464 526 l
+S
+BT
+469 667 Td
+/F1 10 Tf
+(\(0.03, 0.04, 0.05\)) Tj
+ET
+48 662 m
+564 662 l
+S
+BT
+53 650 Td
+/F0 10 Tf
+(LIPO.W.2) Tj
+ET
+BT
+153 650 Td
+/F1 10 Tf
+(Maximum LIPO length) Tj
+ET
+BT
+469 650 Td
+/F1 10 Tf
+(5.0) Tj
+ET
+48 645 m
+564 645 l
+S
+BT
+53 633 Td
+/F0 10 Tf
+(LIPO.W.3) Tj
+ET
+BT
+153 633 Td
+/F1 10 Tf
+(Minimum LIPO length) Tj
+ET
+BT
+469 633 Td
+/F1 10 Tf
+(0.04) Tj
+ET
+48 628 m
+564 628 l
+S
+BT
+53 616 Td
+/F0 10 Tf
+(LIPO.SP.1) Tj
+ET
+BT
+153 616 Td
+/F1 10 Tf
+(Minimum LIPO spacing) Tj
+ET
+BT
+469 616 Td
+/F1 10 Tf
+(0.034) Tj
+ET
+48 611 m
+564 611 l
+S
+BT
+53 599 Td
+/F0 10 Tf
+(LIPO.SE.1) Tj
+ET
+BT
+153 599 Td
+/F1 10 Tf
+(Minimum LIPO to Poly spacing) Tj
+ET
+BT
+469 599 Td
+/F1 10 Tf
+(0.03) Tj
+ET
+48 594 m
+564 594 l
+S
+BT
+53 582 Td
+/F0 10 Tf
+(LIPO.SE.2) Tj
+ET
+BT
+153 582 Td
+/F1 10 Tf
+(Minimum LIPO to LIACT spacing) Tj
+ET
+BT
+469 582 Td
+/F1 10 Tf
+(0.013) Tj
+ET
+48 577 m
+564 577 l
+S
+BT
+53 565 Td
+/F0 10 Tf
+(LIPO.SE.3) Tj
+ET
+BT
+153 565 Td
+/F1 10 Tf
+(Minimum LIPO to Active spacing) Tj
+ET
+BT
+469 565 Td
+/F1 10 Tf
+(0.045) Tj
+ET
+48 560 m
+564 560 l
+S
+BT
+53 548 Td
+/F0 10 Tf
+(LIPO.E.1) Tj
+ET
+BT
+153 548 Td
+/F1 10 Tf
+(Minimum LIPO into Poly overlap ) Tj
+ET
+BT
+469 548 Td
+/F1 10 Tf
+(0.016) Tj
+ET
+48 543 m
+564 543 l
+S
+BT
+53 531 Td
+/F0 10 Tf
+(LIPO.E.2) Tj
+ET
+BT
+153 531 Td
+/F1 10 Tf
+(Minimum Poly to LIPO extension) Tj
+ET
+BT
+469 531 Td
+/F1 10 Tf
+(0.01) Tj
+ET
+endstream
+endobj
+75 0 obj
+2323
+endobj
+76 0 obj
+<<
+/ProcSet [/PDF /Text]
+/Font <<
+/F0 77 0 R
+/F1 78 0 R
+>>
+/Pattern <<
+>>
+/ColorSpace << /Cs1 [/Pattern /DeviceRGB] >>
+>>
+endobj
+77 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F0
+/BaseFont /Helvetica-Bold
+>>
+endobj
+78 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F1
+/BaseFont /Helvetica
+>>
+endobj
+79 0 obj
+<< /Length 80 0 R >>
+stream
+0 G 0 g
+BT
+46 759 Td
+/F0 12 Tf
+(Apr 14, 2020) Tj
+ET
+BT
+203 759 Td
+/F0 12 Tf
+(CDS_FF_MPT Design Rule Manual) Tj
+ET
+BT
+516 759 Td
+/F0 12 Tf
+(page 15) Tj
+ET
+BT
+46 24 Td
+/F0 12 Tf
+(Cadence Confidential) Tj
+ET
+BT
+493 24 Td
+/F0 12 Tf
+(revision 1.0) Tj
+ET
+56 756 m
+556 756 l
+567.0 756 576 747.0 576 736 c
+576 56 l
+576 45.0 567.0 36 556 36 c
+56 36 l
+45.0 36 36 45.0 36 56 c
+36 736 l
+36 747.0 45.0 756 56 756 c
+S
+0 G 0 g
+BT
+56 723 Td
+/F0 14 Tf
+(LIACT RULES) Tj
+ET
+0 G 0 g
+48 428 516 268 re
+S
+BT
+48 699 Td
+/F1 10 Tf
+(Data Table: LIACT) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+49 679 514 16 re
+f
+0 G 0 g
+BT
+53 684 Td
+/F0 10 Tf
+(RuleName) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+149 679 414 16 re
+f
+0 G 0 g
+BT
+153 684 Td
+/F0 10 Tf
+(Description) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+465 679 98 16 re
+f
+0 G 0 g
+BT
+469 684 Td
+/F0 10 Tf
+(Value) Tj
+ET
+48 679 m
+564 679 l
+S
+BT
+53 667 Td
+/F0 10 Tf
+(LIACT.W.1) Tj
+ET
+148 696 m
+148 428 l
+S
+BT
+153 667 Td
+/F1 10 Tf
+(Allowed width values for LIACT) Tj
+ET
+464 696 m
+464 428 l
+S
+BT
+469 667 Td
+/F1 10 Tf
+(\(0.03, 0.04, 0.05\)) Tj
+ET
+48 662 m
+564 662 l
+S
+BT
+53 650 Td
+/F0 10 Tf
+(LIACT.W.2) Tj
+ET
+BT
+153 650 Td
+/F1 10 Tf
+(Minimum length of LIACT for width value 0.03) Tj
+ET
+BT
+469 650 Td
+/F1 10 Tf
+(0.062) Tj
+ET
+48 645 m
+564 645 l
+S
+BT
+53 633 Td
+/F0 10 Tf
+(LIACT.W.3) Tj
+ET
+BT
+153 633 Td
+/F1 10 Tf
+(Minimum length of LIACT for width value 0.04) Tj
+ET
+BT
+469 633 Td
+/F1 10 Tf
+(0.068) Tj
+ET
+48 628 m
+564 628 l
+S
+BT
+53 616 Td
+/F0 10 Tf
+(LIACT.W.4) Tj
+ET
+BT
+153 616 Td
+/F1 10 Tf
+(Minimum length of LIACT for width value 0.05) Tj
+ET
+BT
+469 616 Td
+/F1 10 Tf
+(0.082) Tj
+ET
+48 611 m
+564 611 l
+S
+BT
+53 599 Td
+/F0 10 Tf
+(LIACT.W.5) Tj
+ET
+BT
+153 599 Td
+/F1 10 Tf
+(Maximum LIACT length) Tj
+ET
+BT
+469 599 Td
+/F1 10 Tf
+(5.0) Tj
+ET
+48 594 m
+564 594 l
+S
+BT
+53 582 Td
+/F0 10 Tf
+(LIACT.SP.1) Tj
+ET
+BT
+153 582 Td
+/F1 10 Tf
+(Minimum LIACT spacing) Tj
+ET
+BT
+469 582 Td
+/F1 10 Tf
+(0.045) Tj
+ET
+48 577 m
+564 577 l
+S
+BT
+53 565 Td
+/F0 10 Tf
+(LIACT.SE.1) Tj
+ET
+BT
+153 565 Td
+/F1 10 Tf
+(Minimum LIACT width=0.03 to Poly width=0.018 spacing) Tj
+ET
+BT
+469 565 Td
+/F1 10 Tf
+(0.019) Tj
+ET
+48 560 m
+564 560 l
+S
+BT
+53 548 Td
+/F0 10 Tf
+(LIACT.SE.2) Tj
+ET
+BT
+153 548 Td
+/F1 10 Tf
+(Minimum LIACT width=0.03 to Poly width>=0.02 spacing) Tj
+ET
+BT
+469 548 Td
+/F1 10 Tf
+(0.02) Tj
+ET
+48 543 m
+564 543 l
+S
+BT
+53 531 Td
+/F0 10 Tf
+(LIACT.SE.3) Tj
+ET
+BT
+153 531 Td
+/F1 10 Tf
+(Minimum LIACT width=0.03 to Poly width>=0.028 spacing) Tj
+ET
+BT
+469 531 Td
+/F1 10 Tf
+(0.022) Tj
+ET
+48 526 m
+564 526 l
+S
+BT
+53 514 Td
+/F0 10 Tf
+(LIACT.SE.4) Tj
+ET
+BT
+153 514 Td
+/F1 10 Tf
+(Minimum LIACT width=0.04 to Poly spacing) Tj
+ET
+BT
+469 514 Td
+/F1 10 Tf
+(0.04) Tj
+ET
+48 509 m
+564 509 l
+S
+BT
+53 497 Td
+/F0 10 Tf
+(LIACT.SE.5) Tj
+ET
+BT
+153 497 Td
+/F1 10 Tf
+(Minimum LIACT width=0.05 to Poly spacing) Tj
+ET
+BT
+469 497 Td
+/F1 10 Tf
+(0.045) Tj
+ET
+48 492 m
+564 492 l
+S
+BT
+53 480 Td
+/F0 10 Tf
+(LIACT.SE.6) Tj
+ET
+BT
+153 480 Td
+/F1 10 Tf
+(Minimum LIACT to Poly spacing width>=0.08) Tj
+ET
+BT
+469 480 Td
+/F1 10 Tf
+(0.07) Tj
+ET
+48 475 m
+564 475 l
+S
+BT
+53 463 Td
+/F0 10 Tf
+(LIACT.SE.7) Tj
+ET
+BT
+153 463 Td
+/F1 10 Tf
+(Minimum LIACT spacing to Active) Tj
+ET
+BT
+469 463 Td
+/F1 10 Tf
+(0.031) Tj
+ET
+48 458 m
+564 458 l
+S
+BT
+53 446 Td
+/F0 10 Tf
+(LIACT.E.1) Tj
+ET
+BT
+153 446 Td
+/F1 10 Tf
+(Minimum Active enclosure of LIACT on at least two opposite ) Tj
+ET
+BT
+153 433 Td
+/F1 10 Tf
+(sides) Tj
+ET
+BT
+469 446 Td
+/F1 10 Tf
+(0.014) Tj
+ET
+endstream
+endobj
+80 0 obj
+3377
+endobj
+81 0 obj
+<<
+/ProcSet [/PDF /Text]
+/Font <<
+/F0 82 0 R
+/F1 83 0 R
+>>
+/Pattern <<
+>>
+/ColorSpace << /Cs1 [/Pattern /DeviceRGB] >>
+>>
+endobj
+82 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F0
+/BaseFont /Helvetica-Bold
+>>
+endobj
+83 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F1
+/BaseFont /Helvetica
+>>
+endobj
+84 0 obj
+<< /Length 85 0 R >>
+stream
+0 G 0 g
+BT
+46 759 Td
+/F0 12 Tf
+(Apr 14, 2020) Tj
+ET
+BT
+203 759 Td
+/F0 12 Tf
+(CDS_FF_MPT Design Rule Manual) Tj
+ET
+BT
+516 759 Td
+/F0 12 Tf
+(page 16) Tj
+ET
+BT
+46 24 Td
+/F0 12 Tf
+(Cadence Confidential) Tj
+ET
+BT
+493 24 Td
+/F0 12 Tf
+(revision 1.0) Tj
+ET
+56 756 m
+556 756 l
+567.0 756 576 747.0 576 736 c
+576 56 l
+576 45.0 567.0 36 556 36 c
+56 36 l
+45.0 36 36 45.0 36 56 c
+36 736 l
+36 747.0 45.0 756 56 756 c
+S
+0 G 0 g
+BT
+56 723 Td
+/F0 14 Tf
+(V0 RULES) Tj
+ET
+0 G 0 g
+48 441 516 255 re
+S
+BT
+48 699 Td
+/F1 10 Tf
+(Data Table: V0) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+49 679 514 16 re
+f
+0 G 0 g
+BT
+53 684 Td
+/F0 10 Tf
+(RuleName) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+149 679 414 16 re
+f
+0 G 0 g
+BT
+153 684 Td
+/F0 10 Tf
+(Description) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+465 679 98 16 re
+f
+0 G 0 g
+BT
+469 684 Td
+/F0 10 Tf
+(Value) Tj
+ET
+48 679 m
+564 679 l
+S
+BT
+53 667 Td
+/F0 10 Tf
+(V0.W.1) Tj
+ET
+148 696 m
+148 441 l
+S
+BT
+153 667 Td
+/F1 10 Tf
+(Maximum and minimum V0 width/length) Tj
+ET
+464 696 m
+464 441 l
+S
+BT
+469 667 Td
+/F1 10 Tf
+(0.032) Tj
+ET
+48 662 m
+564 662 l
+S
+BT
+53 650 Td
+/F0 10 Tf
+(V0.SP.1) Tj
+ET
+BT
+153 650 Td
+/F1 10 Tf
+(Minimum V0 to V0 spacing) Tj
+ET
+BT
+469 650 Td
+/F1 10 Tf
+(0.032) Tj
+ET
+48 645 m
+564 645 l
+S
+BT
+53 633 Td
+/F0 10 Tf
+(V0.SE.1) Tj
+ET
+BT
+153 633 Td
+/F1 10 Tf
+(Minimum V0 to LiAct spacing) Tj
+ET
+BT
+469 633 Td
+/F1 10 Tf
+(0.012) Tj
+ET
+48 628 m
+564 628 l
+S
+BT
+53 616 Td
+/F0 10 Tf
+(V0.SE.2) Tj
+ET
+BT
+153 616 Td
+/F1 10 Tf
+(Minimum V0 to LiPo spacing) Tj
+ET
+BT
+469 616 Td
+/F1 10 Tf
+(0.024) Tj
+ET
+48 611 m
+564 611 l
+S
+BT
+53 599 Td
+/F0 10 Tf
+(V0.SE.3) Tj
+ET
+BT
+153 599 Td
+/F1 10 Tf
+(Minimum V0 to Poly spacing) Tj
+ET
+BT
+469 599 Td
+/F1 10 Tf
+(0.018) Tj
+ET
+48 594 m
+564 594 l
+S
+BT
+53 582 Td
+/F0 10 Tf
+(V0.E.1a) Tj
+ET
+BT
+153 582 Td
+/F1 10 Tf
+(Minimum LiAct to V0 enclosure with LiAct width 0.03) Tj
+ET
+BT
+469 582 Td
+/F1 10 Tf
+(\(-0.001 0.018\)) Tj
+ET
+48 577 m
+564 577 l
+S
+BT
+53 565 Td
+/F0 10 Tf
+(V0.E.1b) Tj
+ET
+BT
+153 565 Td
+/F1 10 Tf
+(Minimum LiAct to V0 enclosure  with LiAct width 0.04) Tj
+ET
+BT
+469 565 Td
+/F1 10 Tf
+(\(0.003 0.018\)) Tj
+ET
+48 560 m
+564 560 l
+S
+BT
+53 548 Td
+/F0 10 Tf
+(V0.E.1c) Tj
+ET
+BT
+153 548 Td
+/F1 10 Tf
+(Minimum LiAct to V0 enclosure  with LiAct width 0.05) Tj
+ET
+BT
+469 548 Td
+/F1 10 Tf
+(\(0.008 0.018\)) Tj
+ET
+48 543 m
+564 543 l
+S
+BT
+53 531 Td
+/F0 10 Tf
+(V0.E.2a) Tj
+ET
+BT
+153 531 Td
+/F1 10 Tf
+(Minimum LiPo to V0 enclosure with LiPo width 0.03) Tj
+ET
+BT
+469 531 Td
+/F1 10 Tf
+(\(-0.001 0.014\)) Tj
+ET
+48 526 m
+564 526 l
+S
+BT
+53 514 Td
+/F0 10 Tf
+(V0.E.2b) Tj
+ET
+BT
+153 514 Td
+/F1 10 Tf
+(Minimum LiPo to V0 enclosure with LiPo width 0.04) Tj
+ET
+BT
+469 514 Td
+/F1 10 Tf
+(\(0.004 0.012\)) Tj
+ET
+48 509 m
+564 509 l
+S
+BT
+53 497 Td
+/F0 10 Tf
+(V0.E.2c) Tj
+ET
+BT
+153 497 Td
+/F1 10 Tf
+(Minimum LiPo to V0 enclosure with LiPo width 0.05) Tj
+ET
+BT
+469 497 Td
+/F1 10 Tf
+(\(0.009 0.009\)) Tj
+ET
+48 492 m
+564 492 l
+S
+BT
+53 480 Td
+/F0 10 Tf
+(V0.E.3a) Tj
+ET
+BT
+153 480 Td
+/F1 10 Tf
+(Minimum M1 to V0 enclosure with M1 width \(Option 1\)) Tj
+ET
+BT
+469 480 Td
+/F1 10 Tf
+(\(0.0 0.04\)) Tj
+ET
+48 475 m
+564 475 l
+S
+BT
+53 463 Td
+/F0 10 Tf
+(V0.E.3b) Tj
+ET
+BT
+153 463 Td
+/F1 10 Tf
+(Minimum M1 to V0 enclosure with M1 width \(Option 2\)) Tj
+ET
+BT
+469 463 Td
+/F1 10 Tf
+(\(0.009 0.024\)) Tj
+ET
+48 458 m
+564 458 l
+S
+BT
+53 446 Td
+/F0 10 Tf
+(V0.E.X) Tj
+ET
+BT
+153 446 Td
+/F1 10 Tf
+(Minimum Active to V0 enclosure) Tj
+ET
+BT
+469 446 Td
+/F1 10 Tf
+(\(0.018 0.015\)) Tj
+ET
+endstream
+endobj
+85 0 obj
+3379
+endobj
+86 0 obj
+<<
+/ProcSet [/PDF /Text]
+/Font <<
+/F0 87 0 R
+/F1 88 0 R
+>>
+/Pattern <<
+>>
+/ColorSpace << /Cs1 [/Pattern /DeviceRGB] >>
+>>
+endobj
+87 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F0
+/BaseFont /Helvetica-Bold
+>>
+endobj
+88 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F1
+/BaseFont /Helvetica
+>>
+endobj
+89 0 obj
+<< /Length 90 0 R >>
+stream
+0 G 0 g
+BT
+46 759 Td
+/F0 12 Tf
+(Apr 14, 2020) Tj
+ET
+BT
+203 759 Td
+/F0 12 Tf
+(CDS_FF_MPT Design Rule Manual) Tj
+ET
+BT
+516 759 Td
+/F0 12 Tf
+(page 17) Tj
+ET
+BT
+46 24 Td
+/F0 12 Tf
+(Cadence Confidential) Tj
+ET
+BT
+493 24 Td
+/F0 12 Tf
+(revision 1.0) Tj
+ET
+56 756 m
+556 756 l
+567.0 756 576 747.0 576 736 c
+576 56 l
+576 45.0 567.0 36 556 36 c
+56 36 l
+45.0 36 36 45.0 36 56 c
+36 736 l
+36 747.0 45.0 756 56 756 c
+S
+0 G 0 g
+BT
+56 723 Td
+/F0 14 Tf
+(METAL1_X RULES  \(X=1-3\)) Tj
+ET
+0 G 0 g
+48 479 520 209 re
+S
+BT
+48 691 Td
+/F1 10 Tf
+(Data Table: METAL1X) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+49 671 518 16 re
+f
+0 G 0 g
+BT
+53 676 Td
+/F0 10 Tf
+(RuleName) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+145 671 422 16 re
+f
+0 G 0 g
+BT
+149 676 Td
+/F0 10 Tf
+(Description) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+505 671 62 16 re
+f
+0 G 0 g
+BT
+509 676 Td
+/F0 10 Tf
+(Value) Tj
+ET
+48 671 m
+568 671 l
+S
+BT
+53 659 Td
+/F0 10 Tf
+(METAL1X.W.1) Tj
+ET
+144 688 m
+144 479 l
+S
+BT
+149 659 Td
+/F1 10 Tf
+(Minimum MX width) Tj
+ET
+504 688 m
+504 479 l
+S
+BT
+509 659 Td
+/F1 10 Tf
+(0.032) Tj
+ET
+48 654 m
+568 654 l
+S
+BT
+53 642 Td
+/F0 10 Tf
+(METAL1X.W.2) Tj
+ET
+BT
+149 642 Td
+/F1 10 Tf
+(Maximum MX width) Tj
+ET
+BT
+509 642 Td
+/F1 10 Tf
+(2.0) Tj
+ET
+48 637 m
+568 637 l
+S
+BT
+53 625 Td
+/F0 10 Tf
+(METAL1X.SP.1.1) Tj
+ET
+BT
+149 625 Td
+/F1 10 Tf
+(Minimum MX to MX spacing) Tj
+ET
+BT
+509 625 Td
+/F1 10 Tf
+(0.032) Tj
+ET
+48 620 m
+568 620 l
+S
+BT
+53 608 Td
+/F0 10 Tf
+(METAL1X.SP.2.1) Tj
+ET
+BT
+149 608 Td
+/F1 10 Tf
+(Minimum MX to MX spacing \(same mask\)) Tj
+ET
+BT
+509 608 Td
+/F1 10 Tf
+(0.048) Tj
+ET
+48 603 m
+568 603 l
+S
+BT
+53 591 Td
+/F0 10 Tf
+(METAL1X.SP.2.2) Tj
+ET
+BT
+149 591 Td
+/F1 10 Tf
+(Minimum MX to [MX spacing width >= 0.1 run length>= 0.32\(same ) Tj
+ET
+BT
+149 578 Td
+/F1 10 Tf
+(mask\)]) Tj
+ET
+BT
+509 591 Td
+/F1 10 Tf
+(0.072) Tj
+ET
+48 573 m
+568 573 l
+S
+BT
+53 561 Td
+/F0 10 Tf
+(METAL1X.SP.2.3) Tj
+ET
+BT
+149 561 Td
+/F1 10 Tf
+(Minimum MX to [MX spacing width >= 0.75 run length>= 0.75\(same ) Tj
+ET
+BT
+149 548 Td
+/F1 10 Tf
+(mask\)]) Tj
+ET
+BT
+509 561 Td
+/F1 10 Tf
+(0.112) Tj
+ET
+48 543 m
+568 543 l
+S
+BT
+53 531 Td
+/F0 10 Tf
+(METAL1X.SP.2.4) Tj
+ET
+BT
+149 531 Td
+/F1 10 Tf
+(Minimum MX to [MX spacing width >= 1.5 run length>= 1.5\(same ) Tj
+ET
+BT
+149 518 Td
+/F1 10 Tf
+(mask\)]) Tj
+ET
+BT
+509 531 Td
+/F1 10 Tf
+(0.22) Tj
+ET
+48 513 m
+568 513 l
+S
+BT
+53 501 Td
+/F0 10 Tf
+(METAL1X.SP.4.1) Tj
+ET
+BT
+149 501 Td
+/F1 10 Tf
+(Minimum MX end of line spacing \(same mask\)) Tj
+ET
+BT
+509 501 Td
+/F1 10 Tf
+(0.064) Tj
+ET
+48 496 m
+568 496 l
+S
+BT
+53 484 Td
+/F0 10 Tf
+(METAL1X.A.1) Tj
+ET
+BT
+149 484 Td
+/F1 10 Tf
+(Minimum MX area) Tj
+ET
+BT
+509 484 Td
+/F1 10 Tf
+(0.006176) Tj
+ET
+0 G 0 g
+BT
+48 363 Td
+/F0 14 Tf
+(CUT METAL RULES) Tj
+ET
+0 G 0 g
+48 158 516 170 re
+S
+BT
+48 331 Td
+/F1 10 Tf
+(Data Table: CUTM1X) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+49 311 514 16 re
+f
+0 G 0 g
+BT
+53 316 Td
+/F0 10 Tf
+(RuleName) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+141 311 422 16 re
+f
+0 G 0 g
+BT
+145 316 Td
+/F0 10 Tf
+(Description) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+489 311 74 16 re
+f
+0 G 0 g
+BT
+493 316 Td
+/F0 10 Tf
+(Value) Tj
+ET
+48 311 m
+564 311 l
+S
+BT
+53 299 Td
+/F0 10 Tf
+(CUTM1X.W.1) Tj
+ET
+140 328 m
+140 158 l
+S
+BT
+145 299 Td
+/F1 10 Tf
+(Minimum CutMetal width in preferred metal direction) Tj
+ET
+488 328 m
+488 158 l
+S
+BT
+493 299 Td
+/F1 10 Tf
+(0.032) Tj
+ET
+48 294 m
+564 294 l
+S
+BT
+53 282 Td
+/F0 10 Tf
+(CUTM1X.W.2) Tj
+ET
+BT
+145 282 Td
+/F1 10 Tf
+(Minimum CutMetal length) Tj
+ET
+BT
+493 282 Td
+/F1 10 Tf
+(0.052) Tj
+ET
+48 277 m
+564 277 l
+S
+BT
+53 265 Td
+/F0 10 Tf
+(CUTM1X.W.3) Tj
+ET
+BT
+145 265 Td
+/F1 10 Tf
+(Maximum CutMetal length) Tj
+ET
+BT
+493 265 Td
+/F1 10 Tf
+(1.0) Tj
+ET
+48 260 m
+564 260 l
+S
+BT
+53 248 Td
+/F0 10 Tf
+(CUTM1X.SP.1) Tj
+ET
+BT
+145 248 Td
+/F1 10 Tf
+(Minimum CutMetal space \(same mask\)) Tj
+ET
+BT
+493 248 Td
+/F1 10 Tf
+(0.064) Tj
+ET
+48 243 m
+564 243 l
+S
+BT
+53 231 Td
+/F0 10 Tf
+(CUTM1X.SP.2) Tj
+ET
+BT
+145 231 Td
+/F1 10 Tf
+(Minimum CutMetal end of line space \(same mask\)) Tj
+ET
+BT
+493 231 Td
+/F1 10 Tf
+(0.07) Tj
+ET
+48 226 m
+564 226 l
+S
+BT
+53 214 Td
+/F0 10 Tf
+(CUTM1X.SP.3) Tj
+ET
+BT
+145 214 Td
+/F1 10 Tf
+(Minimum CutMetal end of line space \(exactly aligned\) \(same mask\)) Tj
+ET
+BT
+493 214 Td
+/F1 10 Tf
+(0.02) Tj
+ET
+48 209 m
+564 209 l
+S
+BT
+53 197 Td
+/F0 10 Tf
+(CUTM1X.SP.4) Tj
+ET
+BT
+145 197 Td
+/F1 10 Tf
+(Minimum CutMetal space \(diff mask\)) Tj
+ET
+BT
+493 197 Td
+/F1 10 Tf
+(0.012) Tj
+ET
+48 192 m
+564 192 l
+S
+BT
+53 180 Td
+/F0 10 Tf
+(CUTM1X.SE.1) Tj
+ET
+BT
+145 180 Td
+/F1 10 Tf
+(Minimum CutMetal to Metal space \(same mask\)) Tj
+ET
+BT
+493 180 Td
+/F1 10 Tf
+(0.038) Tj
+ET
+48 175 m
+564 175 l
+S
+BT
+53 163 Td
+/F0 10 Tf
+(CUTM1X.E.1) Tj
+ET
+BT
+145 163 Td
+/F1 10 Tf
+(Minimum CutMetal extension beyond Metal) Tj
+ET
+BT
+493 163 Td
+/F1 10 Tf
+(0.01) Tj
+ET
+endstream
+endobj
+90 0 obj
+4663
+endobj
+91 0 obj
+<<
+/ProcSet [/PDF /Text]
+/Font <<
+/F0 92 0 R
+/F1 93 0 R
+>>
+/Pattern <<
+>>
+/ColorSpace << /Cs1 [/Pattern /DeviceRGB] >>
+>>
+endobj
+92 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F0
+/BaseFont /Helvetica-Bold
+>>
+endobj
+93 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F1
+/BaseFont /Helvetica
+>>
+endobj
+94 0 obj
+<< /Length 95 0 R >>
+stream
+0 G 0 g
+BT
+46 759 Td
+/F0 12 Tf
+(Apr 14, 2020) Tj
+ET
+BT
+203 759 Td
+/F0 12 Tf
+(CDS_FF_MPT Design Rule Manual) Tj
+ET
+BT
+516 759 Td
+/F0 12 Tf
+(page 18) Tj
+ET
+BT
+46 24 Td
+/F0 12 Tf
+(Cadence Confidential) Tj
+ET
+BT
+493 24 Td
+/F0 12 Tf
+(revision 1.0) Tj
+ET
+56 756 m
+556 756 l
+567.0 756 576 747.0 576 736 c
+576 56 l
+576 45.0 567.0 36 556 36 c
+56 36 l
+45.0 36 36 45.0 36 56 c
+36 736 l
+36 747.0 45.0 756 56 756 c
+S
+0 G 0 g
+BT
+56 723 Td
+/F0 14 Tf
+(VIA1X RULES \(X=1-3\)) Tj
+ET
+0 G 0 g
+48 560 516 136 re
+S
+BT
+48 699 Td
+/F1 10 Tf
+(Data Table: VIA1X) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+49 679 514 16 re
+f
+0 G 0 g
+BT
+53 684 Td
+/F0 10 Tf
+(RuleName) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+149 679 414 16 re
+f
+0 G 0 g
+BT
+153 684 Td
+/F0 10 Tf
+(Description) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+465 679 98 16 re
+f
+0 G 0 g
+BT
+469 684 Td
+/F0 10 Tf
+(Value) Tj
+ET
+48 679 m
+564 679 l
+S
+BT
+53 667 Td
+/F0 10 Tf
+(VIA1X.W.1) Tj
+ET
+148 696 m
+148 560 l
+S
+BT
+153 667 Td
+/F1 10 Tf
+(Minimum and Maximim square VX width and length) Tj
+ET
+464 696 m
+464 560 l
+S
+BT
+469 667 Td
+/F1 10 Tf
+(0.032) Tj
+ET
+48 662 m
+564 662 l
+S
+BT
+53 650 Td
+/F0 10 Tf
+(VIA1X.W.2) Tj
+ET
+BT
+153 650 Td
+/F1 10 Tf
+(Minimum and Maximim rect VX width and length) Tj
+ET
+BT
+469 650 Td
+/F1 10 Tf
+(\(0.064  0.032\)) Tj
+ET
+48 645 m
+564 645 l
+S
+BT
+53 633 Td
+/F0 10 Tf
+(VIA1X.SP.1) Tj
+ET
+BT
+153 633 Td
+/F1 10 Tf
+(Minimum VX to VX spacing) Tj
+ET
+BT
+469 633 Td
+/F1 10 Tf
+(0.042) Tj
+ET
+48 628 m
+564 628 l
+S
+BT
+53 616 Td
+/F0 10 Tf
+(VIA1X.SP.2) Tj
+ET
+BT
+153 616 Td
+/F1 10 Tf
+(Minimum VX to VX spacing \(same mask\)) Tj
+ET
+BT
+469 616 Td
+/F1 10 Tf
+(0.080) Tj
+ET
+48 611 m
+564 611 l
+S
+BT
+53 599 Td
+/F0 10 Tf
+(VIA1X.C.1.1) Tj
+ET
+BT
+153 599 Td
+/F1 10 Tf
+(Minimum number of VX in MX width >=0.032 region) Tj
+ET
+BT
+469 599 Td
+/F1 10 Tf
+(1) Tj
+ET
+48 594 m
+564 594 l
+S
+BT
+53 582 Td
+/F0 10 Tf
+(VIA1X.C.1.3) Tj
+ET
+BT
+153 582 Td
+/F1 10 Tf
+(Minimum number of VX in MX width >=0.3 region) Tj
+ET
+BT
+469 582 Td
+/F1 10 Tf
+(2) Tj
+ET
+48 577 m
+564 577 l
+S
+BT
+53 565 Td
+/F0 10 Tf
+(VIA1X.C.1.4) Tj
+ET
+BT
+153 565 Td
+/F1 10 Tf
+(Minimum number of VX in MX width >=1.0 region) Tj
+ET
+BT
+469 565 Td
+/F1 10 Tf
+(4) Tj
+ET
+endstream
+endobj
+95 0 obj
+2125
+endobj
+96 0 obj
+<<
+/ProcSet [/PDF /Text]
+/Font <<
+/F0 97 0 R
+/F1 98 0 R
+>>
+/Pattern <<
+>>
+/ColorSpace << /Cs1 [/Pattern /DeviceRGB] >>
+>>
+endobj
+97 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F0
+/BaseFont /Helvetica-Bold
+>>
+endobj
+98 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F1
+/BaseFont /Helvetica
+>>
+endobj
+99 0 obj
+<< /Length 100 0 R >>
+stream
+0 G 0 g
+BT
+46 759 Td
+/F0 12 Tf
+(Apr 14, 2020) Tj
+ET
+BT
+203 759 Td
+/F0 12 Tf
+(CDS_FF_MPT Design Rule Manual) Tj
+ET
+BT
+516 759 Td
+/F0 12 Tf
+(page 19) Tj
+ET
+BT
+46 24 Td
+/F0 12 Tf
+(Cadence Confidential) Tj
+ET
+BT
+493 24 Td
+/F0 12 Tf
+(revision 1.0) Tj
+ET
+56 756 m
+556 756 l
+567.0 756 576 747.0 576 736 c
+576 56 l
+576 45.0 567.0 36 556 36 c
+56 36 l
+45.0 36 36 45.0 36 56 c
+36 736 l
+36 747.0 45.0 756 56 756 c
+S
+0 G 0 g
+BT
+56 723 Td
+/F0 14 Tf
+(METAL4 RULES \(1X\)) Tj
+ET
+0 G 0 g
+48 535 516 153 re
+S
+BT
+48 691 Td
+/F1 10 Tf
+(Data Table: METAL4) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+49 671 514 16 re
+f
+0 G 0 g
+BT
+53 676 Td
+/F0 10 Tf
+(RuleName) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+149 671 414 16 re
+f
+0 G 0 g
+BT
+153 676 Td
+/F0 10 Tf
+(Description) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+505 671 58 16 re
+f
+0 G 0 g
+BT
+509 676 Td
+/F0 10 Tf
+(Value) Tj
+ET
+48 671 m
+564 671 l
+S
+BT
+53 659 Td
+/F0 10 Tf
+(METAL4.W.1) Tj
+ET
+148 688 m
+148 535 l
+S
+BT
+153 659 Td
+/F1 10 Tf
+(Minimum M4 width) Tj
+ET
+504 688 m
+504 535 l
+S
+BT
+509 659 Td
+/F1 10 Tf
+(0.032) Tj
+ET
+48 654 m
+564 654 l
+S
+BT
+53 642 Td
+/F0 10 Tf
+(METAL4.W.2) Tj
+ET
+BT
+153 642 Td
+/F1 10 Tf
+(Maximum M4 width) Tj
+ET
+BT
+509 642 Td
+/F1 10 Tf
+(2.0) Tj
+ET
+48 637 m
+564 637 l
+S
+BT
+53 625 Td
+/F0 10 Tf
+(METAL4.SP.2.1) Tj
+ET
+BT
+153 625 Td
+/F1 10 Tf
+(Minimum M4 to M4 spacing) Tj
+ET
+BT
+509 625 Td
+/F1 10 Tf
+(0.048) Tj
+ET
+48 620 m
+564 620 l
+S
+BT
+53 608 Td
+/F0 10 Tf
+(METAL4.SP.2.2) Tj
+ET
+BT
+153 608 Td
+/F1 10 Tf
+(Minimum M4 to [M4 spacing width >= 0.1 run length>= 0.32]) Tj
+ET
+BT
+509 608 Td
+/F1 10 Tf
+(0.072) Tj
+ET
+48 603 m
+564 603 l
+S
+BT
+53 591 Td
+/F0 10 Tf
+(METAL4.SP.2.3) Tj
+ET
+BT
+153 591 Td
+/F1 10 Tf
+(Minimum M4 to [M4 spacing width >= 0.75 run length>= 0.75]) Tj
+ET
+BT
+509 591 Td
+/F1 10 Tf
+(0.112) Tj
+ET
+48 586 m
+564 586 l
+S
+BT
+53 574 Td
+/F0 10 Tf
+(METAL4.SP.2.4) Tj
+ET
+BT
+153 574 Td
+/F1 10 Tf
+(Minimum M4 to [M4 spacing width >= 1.5 run length>= 1.5]) Tj
+ET
+BT
+509 574 Td
+/F1 10 Tf
+(0.22) Tj
+ET
+48 569 m
+564 569 l
+S
+BT
+53 557 Td
+/F0 10 Tf
+(METAL4.SP.4.1) Tj
+ET
+BT
+153 557 Td
+/F1 10 Tf
+(Minimum M4 end of line spacing) Tj
+ET
+BT
+509 557 Td
+/F1 10 Tf
+(0.064) Tj
+ET
+48 552 m
+564 552 l
+S
+BT
+53 540 Td
+/F0 10 Tf
+(METAL4.A.1) Tj
+ET
+BT
+153 540 Td
+/F1 10 Tf
+(Minimum M4 area) Tj
+ET
+BT
+509 540 Td
+/F1 10 Tf
+(0.006176) Tj
+ET
+endstream
+endobj
+100 0 obj
+2256
+endobj
+101 0 obj
+<<
+/ProcSet [/PDF /Text]
+/Font <<
+/F0 102 0 R
+/F1 103 0 R
+>>
+/Pattern <<
+>>
+/ColorSpace << /Cs1 [/Pattern /DeviceRGB] >>
+>>
+endobj
+102 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F0
+/BaseFont /Helvetica-Bold
+>>
+endobj
+103 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F1
+/BaseFont /Helvetica
+>>
+endobj
+104 0 obj
+<< /Length 105 0 R >>
+stream
+0 G 0 g
+BT
+46 759 Td
+/F0 12 Tf
+(Apr 14, 2020) Tj
+ET
+BT
+203 759 Td
+/F0 12 Tf
+(CDS_FF_MPT Design Rule Manual) Tj
+ET
+BT
+516 759 Td
+/F0 12 Tf
+(page 20) Tj
+ET
+BT
+46 24 Td
+/F0 12 Tf
+(Cadence Confidential) Tj
+ET
+BT
+493 24 Td
+/F0 12 Tf
+(revision 1.0) Tj
+ET
+56 756 m
+556 756 l
+567.0 756 576 747.0 576 736 c
+576 56 l
+576 45.0 567.0 36 556 36 c
+56 36 l
+45.0 36 36 45.0 36 56 c
+36 736 l
+36 747.0 45.0 756 56 756 c
+S
+0 G 0 g
+BT
+48 395 Td
+/F0 14 Tf
+(METAL1TX RULES \(X=2-4\)) Tj
+ET
+0 G 0 g
+BT
+56 723 Td
+/F0 14 Tf
+(METAL1BX RULES \(X=1-3\)) Tj
+ET
+0 G 0 g
+48 469 516 227 re
+S
+BT
+48 699 Td
+/F1 10 Tf
+(Data Table: METAL1BX) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+49 679 514 16 re
+f
+0 G 0 g
+BT
+53 684 Td
+/F0 10 Tf
+(RuleName) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+165 679 398 16 re
+f
+0 G 0 g
+BT
+169 684 Td
+/F0 10 Tf
+(Description) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+425 679 138 16 re
+f
+0 G 0 g
+BT
+429 684 Td
+/F0 10 Tf
+(Value) Tj
+ET
+48 679 m
+564 679 l
+S
+BT
+53 667 Td
+/F0 10 Tf
+(METAL1BX.E.1.1) Tj
+ET
+164 696 m
+164 469 l
+S
+BT
+169 667 Td
+/F1 10 Tf
+(Minimum MX width < 0.052 enclosure VX square ) Tj
+ET
+BT
+169 654 Td
+/F1 10 Tf
+(on 4 sides) Tj
+ET
+424 696 m
+424 469 l
+S
+BT
+429 667 Td
+/F1 10 Tf
+(\(0.01 0.01 0.0 0.0\)) Tj
+ET
+48 649 m
+564 649 l
+S
+BT
+53 637 Td
+/F0 10 Tf
+(METAL1BX.E.1.3) Tj
+ET
+BT
+169 637 Td
+/F1 10 Tf
+(Minimum MX width >= 0.052 and < 0.068  ) Tj
+ET
+BT
+169 624 Td
+/F1 10 Tf
+(enclosure VX square on 4 sides) Tj
+ET
+BT
+429 637 Td
+/F1 10 Tf
+(\(0.028 0.028 0.01 0.01\)) Tj
+ET
+48 619 m
+564 619 l
+S
+BT
+53 607 Td
+/F0 10 Tf
+(METAL1BX.E.1.4) Tj
+ET
+BT
+169 607 Td
+/F1 10 Tf
+(Minimum MX width >= 0.068 enclosure VX square ) Tj
+ET
+BT
+169 594 Td
+/F1 10 Tf
+(on 4 sides) Tj
+ET
+BT
+429 607 Td
+/F1 10 Tf
+(\(0.018 0.018 0.018 0.018\)) Tj
+ET
+48 589 m
+564 589 l
+S
+BT
+53 577 Td
+/F0 10 Tf
+(METAL1BX.E.2.1) Tj
+ET
+BT
+169 577 Td
+/F1 10 Tf
+(Minimum MX width < 0.05 enclosure VX rect on ) Tj
+ET
+BT
+169 564 Td
+/F1 10 Tf
+(opp sides) Tj
+ET
+BT
+429 577 Td
+/F1 10 Tf
+(\(0.02 0.0\)) Tj
+ET
+48 559 m
+564 559 l
+S
+BT
+53 547 Td
+/F0 10 Tf
+(METAL1BX.E.2.2) Tj
+ET
+BT
+169 547 Td
+/F1 10 Tf
+(Minimum MX width >= 0.05 and < 0.052enclosure ) Tj
+ET
+BT
+169 534 Td
+/F1 10 Tf
+(VX rect on opp sides) Tj
+ET
+BT
+429 547 Td
+/F1 10 Tf
+(\(0.012 0.009\)) Tj
+ET
+48 529 m
+564 529 l
+S
+BT
+53 517 Td
+/F0 10 Tf
+(METAL1BX.E.2.3) Tj
+ET
+BT
+169 517 Td
+/F1 10 Tf
+(Minimum MX width >= 0.052 and < 0.106  ) Tj
+ET
+BT
+169 504 Td
+/F1 10 Tf
+(enclosure VX rect on opp sides) Tj
+ET
+BT
+429 517 Td
+/F1 10 Tf
+(\(0.01 0.01\)) Tj
+ET
+48 499 m
+564 499 l
+S
+BT
+53 487 Td
+/F0 10 Tf
+(METAL1BX.E.2.4) Tj
+ET
+BT
+169 487 Td
+/F1 10 Tf
+(Minimum MX width >= 0.106 enclosure VX rect on ) Tj
+ET
+BT
+169 474 Td
+/F1 10 Tf
+(opp sides) Tj
+ET
+BT
+429 487 Td
+/F1 10 Tf
+(\(0.01 0.0\)) Tj
+ET
+0 G 0 g
+48 141 516 227 re
+S
+BT
+48 371 Td
+/F1 10 Tf
+(Data Table: METAL1TX) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+49 351 514 16 re
+f
+0 G 0 g
+BT
+53 356 Td
+/F0 10 Tf
+(RuleName) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+165 351 398 16 re
+f
+0 G 0 g
+BT
+169 356 Td
+/F0 10 Tf
+(Description) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+425 351 138 16 re
+f
+0 G 0 g
+BT
+429 356 Td
+/F0 10 Tf
+(Value) Tj
+ET
+48 351 m
+564 351 l
+S
+BT
+53 339 Td
+/F0 10 Tf
+(METAL1TX.E.1.1) Tj
+ET
+164 368 m
+164 141 l
+S
+BT
+169 339 Td
+/F1 10 Tf
+(Minimum MX width < 0.052 enclosure V\(X-1\) ) Tj
+ET
+BT
+169 326 Td
+/F1 10 Tf
+(square on 4 sides) Tj
+ET
+424 368 m
+424 141 l
+S
+BT
+429 339 Td
+/F1 10 Tf
+(\(0.01 0.01 0.0 0.0\)) Tj
+ET
+48 321 m
+564 321 l
+S
+BT
+53 309 Td
+/F0 10 Tf
+(METAL1TX.E.1.3) Tj
+ET
+BT
+169 309 Td
+/F1 10 Tf
+(Minimum MX width >= 0.052 and < 0.068  ) Tj
+ET
+BT
+169 296 Td
+/F1 10 Tf
+(enclosure V\(X-1\) square on 4 sides) Tj
+ET
+BT
+429 309 Td
+/F1 10 Tf
+(\(0.028 0.028 0.01 0.01\)) Tj
+ET
+48 291 m
+564 291 l
+S
+BT
+53 279 Td
+/F0 10 Tf
+(METAL1TX.E.1.4) Tj
+ET
+BT
+169 279 Td
+/F1 10 Tf
+(Minimum MX width >= 0.068 enclosure V\(X-1\) ) Tj
+ET
+BT
+169 266 Td
+/F1 10 Tf
+(square on 4 sides) Tj
+ET
+BT
+429 279 Td
+/F1 10 Tf
+(\(0.018 0.018 0.018 0.018\)) Tj
+ET
+48 261 m
+564 261 l
+S
+BT
+53 249 Td
+/F0 10 Tf
+(METAL1TX.E.2.1) Tj
+ET
+BT
+169 249 Td
+/F1 10 Tf
+(Minimum MX width < 0.05 enclosure V\(X-1\) rect on ) Tj
+ET
+BT
+169 236 Td
+/F1 10 Tf
+(opp sides) Tj
+ET
+BT
+429 249 Td
+/F1 10 Tf
+(\(0.02 0.0\)) Tj
+ET
+48 231 m
+564 231 l
+S
+BT
+53 219 Td
+/F0 10 Tf
+(METAL1TX.E.2.2) Tj
+ET
+BT
+169 219 Td
+/F1 10 Tf
+(Minimum MX width >= 0.05 and < 0.052 enclosure ) Tj
+ET
+BT
+169 206 Td
+/F1 10 Tf
+(V\(X-1\) rect on opp sides) Tj
+ET
+BT
+429 219 Td
+/F1 10 Tf
+(\(0.012 0.009\)) Tj
+ET
+48 201 m
+564 201 l
+S
+BT
+53 189 Td
+/F0 10 Tf
+(METAL1TX.E.2.3) Tj
+ET
+BT
+169 189 Td
+/F1 10 Tf
+(Minimum MX width >= 0.052 and < 0.106  ) Tj
+ET
+BT
+169 176 Td
+/F1 10 Tf
+(enclosure V\(X-1\) rect on opp sides) Tj
+ET
+BT
+429 189 Td
+/F1 10 Tf
+(\(0.01 0.01\)) Tj
+ET
+48 171 m
+564 171 l
+S
+BT
+53 159 Td
+/F0 10 Tf
+(METAL1TX.E.2.4) Tj
+ET
+BT
+169 159 Td
+/F1 10 Tf
+(Minimum MX width >= 0.106 enclosure V\(X-1\) rect ) Tj
+ET
+BT
+169 146 Td
+/F1 10 Tf
+(on opp sides) Tj
+ET
+BT
+429 159 Td
+/F1 10 Tf
+(\(0.01 0.0\)) Tj
+ET
+endstream
+endobj
+105 0 obj
+4873
+endobj
+106 0 obj
+<<
+/ProcSet [/PDF /Text]
+/Font <<
+/F0 107 0 R
+/F1 108 0 R
+>>
+/Pattern <<
+>>
+/ColorSpace << /Cs1 [/Pattern /DeviceRGB] >>
+>>
+endobj
+107 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F0
+/BaseFont /Helvetica-Bold
+>>
+endobj
+108 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F1
+/BaseFont /Helvetica
+>>
+endobj
+109 0 obj
+<< /Length 110 0 R >>
+stream
+0 G 0 g
+BT
+46 759 Td
+/F0 12 Tf
+(Apr 14, 2020) Tj
+ET
+BT
+203 759 Td
+/F0 12 Tf
+(CDS_FF_MPT Design Rule Manual) Tj
+ET
+BT
+516 759 Td
+/F0 12 Tf
+(page 21) Tj
+ET
+BT
+46 24 Td
+/F0 12 Tf
+(Cadence Confidential) Tj
+ET
+BT
+493 24 Td
+/F0 12 Tf
+(revision 1.0) Tj
+ET
+56 756 m
+556 756 l
+567.0 756 576 747.0 576 736 c
+576 56 l
+576 45.0 567.0 36 556 36 c
+56 36 l
+45.0 36 36 45.0 36 56 c
+36 736 l
+36 747.0 45.0 756 56 756 c
+S
+0 G 0 g
+BT
+56 723 Td
+/F0 14 Tf
+(VIA2X RULES \(X=4-5\)) Tj
+ET
+0 G 0 g
+48 560 516 136 re
+S
+BT
+48 699 Td
+/F1 10 Tf
+(Data Table: VIA2X) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+49 679 514 16 re
+f
+0 G 0 g
+BT
+53 684 Td
+/F0 10 Tf
+(RuleName) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+149 679 414 16 re
+f
+0 G 0 g
+BT
+153 684 Td
+/F0 10 Tf
+(Description) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+465 679 98 16 re
+f
+0 G 0 g
+BT
+469 684 Td
+/F0 10 Tf
+(Value) Tj
+ET
+48 679 m
+564 679 l
+S
+BT
+53 667 Td
+/F0 10 Tf
+(VIA2X.W.1) Tj
+ET
+148 696 m
+148 560 l
+S
+BT
+153 667 Td
+/F1 10 Tf
+(Minimum and Maximim VX width and length) Tj
+ET
+464 696 m
+464 560 l
+S
+BT
+469 667 Td
+/F1 10 Tf
+(0.042) Tj
+ET
+48 662 m
+564 662 l
+S
+BT
+53 650 Td
+/F0 10 Tf
+(VIA2X.SP.1) Tj
+ET
+BT
+153 650 Td
+/F1 10 Tf
+(Minimum VX to VX spacing) Tj
+ET
+BT
+469 650 Td
+/F1 10 Tf
+(0.062) Tj
+ET
+48 645 m
+564 645 l
+S
+BT
+53 633 Td
+/F0 10 Tf
+(VIA2X.SP.2) Tj
+ET
+BT
+153 633 Td
+/F1 10 Tf
+(Minimum 3 adjacent VX to VX spacing) Tj
+ET
+BT
+469 633 Td
+/F1 10 Tf
+(0.078) Tj
+ET
+48 628 m
+564 628 l
+S
+BT
+53 616 Td
+/F0 10 Tf
+(VIA2X.C.1.1) Tj
+ET
+BT
+153 616 Td
+/F1 10 Tf
+(Minimum number of VX in MX width >=0.042 region) Tj
+ET
+BT
+469 616 Td
+/F1 10 Tf
+(1) Tj
+ET
+48 611 m
+564 611 l
+S
+BT
+53 599 Td
+/F0 10 Tf
+(VIA2X.C.1.3) Tj
+ET
+BT
+153 599 Td
+/F1 10 Tf
+(Minimum number of VX in MX width >=0.3 region) Tj
+ET
+BT
+469 599 Td
+/F1 10 Tf
+(2) Tj
+ET
+48 594 m
+564 594 l
+S
+BT
+53 582 Td
+/F0 10 Tf
+(VIA2X.C.1.4) Tj
+ET
+BT
+153 582 Td
+/F1 10 Tf
+(Minimum number of VX in MX width >=1.0 region) Tj
+ET
+BT
+469 582 Td
+/F1 10 Tf
+(4) Tj
+ET
+48 577 m
+564 577 l
+S
+BT
+53 565 Td
+/F0 10 Tf
+(VIA2X.E.1) Tj
+ET
+BT
+153 565 Td
+/F1 10 Tf
+(Minimum last \(1X\) MX enclosure of first \(2X\) VX) Tj
+ET
+BT
+469 565 Td
+/F1 10 Tf
+(\(0.008 0.008\)) Tj
+ET
+endstream
+endobj
+110 0 obj
+2121
+endobj
+111 0 obj
+<<
+/ProcSet [/PDF /Text]
+/Font <<
+/F0 112 0 R
+/F1 113 0 R
+>>
+/Pattern <<
+>>
+/ColorSpace << /Cs1 [/Pattern /DeviceRGB] >>
+>>
+endobj
+112 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F0
+/BaseFont /Helvetica-Bold
+>>
+endobj
+113 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F1
+/BaseFont /Helvetica
+>>
+endobj
+114 0 obj
+<< /Length 115 0 R >>
+stream
+0 G 0 g
+BT
+46 759 Td
+/F0 12 Tf
+(Apr 14, 2020) Tj
+ET
+BT
+203 759 Td
+/F0 12 Tf
+(CDS_FF_MPT Design Rule Manual) Tj
+ET
+BT
+516 759 Td
+/F0 12 Tf
+(page 22) Tj
+ET
+BT
+46 24 Td
+/F0 12 Tf
+(Cadence Confidential) Tj
+ET
+BT
+493 24 Td
+/F0 12 Tf
+(revision 1.0) Tj
+ET
+56 756 m
+556 756 l
+567.0 756 576 747.0 576 736 c
+576 56 l
+576 45.0 567.0 36 556 36 c
+56 36 l
+45.0 36 36 45.0 36 56 c
+36 736 l
+36 747.0 45.0 756 56 756 c
+S
+0 G 0 g
+BT
+56 723 Td
+/F0 14 Tf
+(METAL2X RULES  \(X=5-6\)) Tj
+ET
+0 G 0 g
+BT
+56 427 Td
+/F0 14 Tf
+(METAL2X RULES  \(X=5\)) Tj
+ET
+0 G 0 g
+48 543 524 153 re
+S
+BT
+48 699 Td
+/F1 10 Tf
+(Data Table: METAL2X) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+49 679 522 16 re
+f
+0 G 0 g
+BT
+53 684 Td
+/F0 10 Tf
+(RuleName) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+149 679 422 16 re
+f
+0 G 0 g
+BT
+153 684 Td
+/F0 10 Tf
+(Description) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+433 679 138 16 re
+f
+0 G 0 g
+BT
+437 684 Td
+/F0 10 Tf
+(Value) Tj
+ET
+48 679 m
+572 679 l
+S
+BT
+53 667 Td
+/F0 10 Tf
+(METAL2X.W.1) Tj
+ET
+148 696 m
+148 543 l
+S
+BT
+153 667 Td
+/F1 10 Tf
+(Minimum MX width) Tj
+ET
+432 696 m
+432 543 l
+S
+BT
+437 667 Td
+/F1 10 Tf
+(0.058) Tj
+ET
+48 662 m
+572 662 l
+S
+BT
+53 650 Td
+/F0 10 Tf
+(METAL2X.W.2) Tj
+ET
+BT
+153 650 Td
+/F1 10 Tf
+(Maximum MX width) Tj
+ET
+BT
+437 650 Td
+/F1 10 Tf
+(3.0) Tj
+ET
+48 645 m
+572 645 l
+S
+BT
+53 633 Td
+/F0 10 Tf
+(METAL2X.SP.1.1) Tj
+ET
+BT
+153 633 Td
+/F1 10 Tf
+(Minimum MX to MX spacing ) Tj
+ET
+BT
+437 633 Td
+/F1 10 Tf
+(0.068) Tj
+ET
+48 628 m
+572 628 l
+S
+BT
+53 616 Td
+/F0 10 Tf
+(METAL2X.SP.1.2) Tj
+ET
+BT
+153 616 Td
+/F1 10 Tf
+(Minimum MX to MX spacing width >= 0.06) Tj
+ET
+BT
+437 616 Td
+/F1 10 Tf
+(0.08) Tj
+ET
+48 611 m
+572 611 l
+S
+BT
+53 599 Td
+/F0 10 Tf
+(METAL2X.SP.1.3) Tj
+ET
+BT
+153 599 Td
+/F1 10 Tf
+(Minimum MX to MX spacing width >= 0.09) Tj
+ET
+BT
+437 599 Td
+/F1 10 Tf
+(0.10) Tj
+ET
+48 594 m
+572 594 l
+S
+BT
+53 582 Td
+/F0 10 Tf
+(METAL2X.SP.2.1) Tj
+ET
+BT
+153 582 Td
+/F1 10 Tf
+(Minimum MX end of line spacing) Tj
+ET
+BT
+437 582 Td
+/F1 10 Tf
+(0.074) Tj
+ET
+48 577 m
+572 577 l
+S
+BT
+53 565 Td
+/F0 10 Tf
+(METAL2X.A.1) Tj
+ET
+BT
+153 565 Td
+/F1 10 Tf
+(Minimum MX area) Tj
+ET
+BT
+437 565 Td
+/F1 10 Tf
+(0.0082) Tj
+ET
+48 560 m
+572 560 l
+S
+BT
+53 548 Td
+/F0 10 Tf
+(METAL2TX.E.1.1) Tj
+ET
+BT
+153 548 Td
+/F1 10 Tf
+(Minimum MX enclosure V\(X-1\)) Tj
+ET
+BT
+437 548 Td
+/F1 10 Tf
+(\(0.008 0.008\)) Tj
+ET
+0 G 0 g
+48 358 524 34 re
+S
+BT
+48 395 Td
+/F1 10 Tf
+(Data Table: METAL2BX) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+49 375 522 16 re
+f
+0 G 0 g
+BT
+53 380 Td
+/F0 10 Tf
+(RuleName) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+149 375 422 16 re
+f
+0 G 0 g
+BT
+153 380 Td
+/F0 10 Tf
+(Description) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+433 375 138 16 re
+f
+0 G 0 g
+BT
+437 380 Td
+/F0 10 Tf
+(Value) Tj
+ET
+48 375 m
+572 375 l
+S
+BT
+53 363 Td
+/F0 10 Tf
+(METAL2BX.E.1.1) Tj
+ET
+148 392 m
+148 358 l
+S
+BT
+153 363 Td
+/F1 10 Tf
+(Minimum MX enclosure VX) Tj
+ET
+432 392 m
+432 358 l
+S
+BT
+437 363 Td
+/F1 10 Tf
+(\(0.008 0.008\)) Tj
+ET
+endstream
+endobj
+115 0 obj
+2882
+endobj
+116 0 obj
+<<
+/ProcSet [/PDF /Text]
+/Font <<
+/F0 117 0 R
+/F1 118 0 R
+>>
+/Pattern <<
+>>
+/ColorSpace << /Cs1 [/Pattern /DeviceRGB] >>
+>>
+endobj
+117 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F0
+/BaseFont /Helvetica-Bold
+>>
+endobj
+118 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F1
+/BaseFont /Helvetica
+>>
+endobj
+119 0 obj
+<< /Length 120 0 R >>
+stream
+0 G 0 g
+BT
+46 759 Td
+/F0 12 Tf
+(Apr 14, 2020) Tj
+ET
+BT
+203 759 Td
+/F0 12 Tf
+(CDS_FF_MPT Design Rule Manual) Tj
+ET
+BT
+516 759 Td
+/F0 12 Tf
+(page 23) Tj
+ET
+BT
+46 24 Td
+/F0 12 Tf
+(Cadence Confidential) Tj
+ET
+BT
+493 24 Td
+/F0 12 Tf
+(revision 1.0) Tj
+ET
+56 756 m
+556 756 l
+567.0 756 576 747.0 576 736 c
+576 56 l
+576 45.0 567.0 36 556 36 c
+56 36 l
+45.0 36 36 45.0 36 56 c
+36 736 l
+36 747.0 45.0 756 56 756 c
+S
+0 G 0 g
+BT
+56 723 Td
+/F0 14 Tf
+(VIA4X RULES \(X=6\)) Tj
+ET
+0 G 0 g
+48 560 516 136 re
+S
+BT
+48 699 Td
+/F1 10 Tf
+(Data Table: VIA4X) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+49 679 514 16 re
+f
+0 G 0 g
+BT
+53 684 Td
+/F0 10 Tf
+(RuleName) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+149 679 414 16 re
+f
+0 G 0 g
+BT
+153 684 Td
+/F0 10 Tf
+(Description) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+465 679 98 16 re
+f
+0 G 0 g
+BT
+469 684 Td
+/F0 10 Tf
+(Value) Tj
+ET
+48 679 m
+564 679 l
+S
+BT
+53 667 Td
+/F0 10 Tf
+(VIA4X.W.1) Tj
+ET
+148 696 m
+148 560 l
+S
+BT
+153 667 Td
+/F1 10 Tf
+(Minimum and Maximim VX width and length) Tj
+ET
+464 696 m
+464 560 l
+S
+BT
+469 667 Td
+/F1 10 Tf
+(0.064) Tj
+ET
+48 662 m
+564 662 l
+S
+BT
+53 650 Td
+/F0 10 Tf
+(VIA4X.SP.1) Tj
+ET
+BT
+153 650 Td
+/F1 10 Tf
+(Minimum VX to VX spacing) Tj
+ET
+BT
+469 650 Td
+/F1 10 Tf
+(0.084) Tj
+ET
+48 645 m
+564 645 l
+S
+BT
+53 633 Td
+/F0 10 Tf
+(VIA4X.SP.2) Tj
+ET
+BT
+153 633 Td
+/F1 10 Tf
+(Minimum 3 adjacent VX to VX spacing) Tj
+ET
+BT
+469 633 Td
+/F1 10 Tf
+(0.1) Tj
+ET
+48 628 m
+564 628 l
+S
+BT
+53 616 Td
+/F0 10 Tf
+(VIA4X.C.1.1) Tj
+ET
+BT
+153 616 Td
+/F1 10 Tf
+(Minimum number of VX in MX width >=0.064 region) Tj
+ET
+BT
+469 616 Td
+/F1 10 Tf
+(1) Tj
+ET
+48 611 m
+564 611 l
+S
+BT
+53 599 Td
+/F0 10 Tf
+(VIA4X.C.1.3) Tj
+ET
+BT
+153 599 Td
+/F1 10 Tf
+(Minimum number of VX in MX width >=0.6 region) Tj
+ET
+BT
+469 599 Td
+/F1 10 Tf
+(2) Tj
+ET
+48 594 m
+564 594 l
+S
+BT
+53 582 Td
+/F0 10 Tf
+(VIA4X.C.1.4) Tj
+ET
+BT
+153 582 Td
+/F1 10 Tf
+(Minimum number of VX in MX width >=1.3 region) Tj
+ET
+BT
+469 582 Td
+/F1 10 Tf
+(4) Tj
+ET
+48 577 m
+564 577 l
+S
+BT
+53 565 Td
+/F0 10 Tf
+(VIA4X.E.1) Tj
+ET
+BT
+153 565 Td
+/F1 10 Tf
+(Minimum last \(2X\) MX enclosure of first \(4X\) VX) Tj
+ET
+BT
+469 565 Td
+/F1 10 Tf
+(\(0.015 0.015\)) Tj
+ET
+endstream
+endobj
+120 0 obj
+2117
+endobj
+121 0 obj
+<<
+/ProcSet [/PDF /Text]
+/Font <<
+/F0 122 0 R
+/F1 123 0 R
+>>
+/Pattern <<
+>>
+/ColorSpace << /Cs1 [/Pattern /DeviceRGB] >>
+>>
+endobj
+122 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F0
+/BaseFont /Helvetica-Bold
+>>
+endobj
+123 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F1
+/BaseFont /Helvetica
+>>
+endobj
+124 0 obj
+<< /Length 125 0 R >>
+stream
+0 G 0 g
+BT
+46 759 Td
+/F0 12 Tf
+(Apr 14, 2020) Tj
+ET
+BT
+203 759 Td
+/F0 12 Tf
+(CDS_FF_MPT Design Rule Manual) Tj
+ET
+BT
+516 759 Td
+/F0 12 Tf
+(page 24) Tj
+ET
+BT
+46 24 Td
+/F0 12 Tf
+(Cadence Confidential) Tj
+ET
+BT
+493 24 Td
+/F0 12 Tf
+(revision 1.0) Tj
+ET
+56 756 m
+556 756 l
+567.0 756 576 747.0 576 736 c
+576 56 l
+576 45.0 567.0 36 556 36 c
+56 36 l
+45.0 36 36 45.0 36 56 c
+36 736 l
+36 747.0 45.0 756 56 756 c
+S
+0 G 0 g
+BT
+56 723 Td
+/F0 14 Tf
+(METAL4X RULES  \(X=7\)) Tj
+ET
+0 G 0 g
+48 535 524 153 re
+S
+BT
+48 691 Td
+/F1 10 Tf
+(Data Table: METAL4X) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+49 671 522 16 re
+f
+0 G 0 g
+BT
+53 676 Td
+/F0 10 Tf
+(RuleName) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+149 671 422 16 re
+f
+0 G 0 g
+BT
+153 676 Td
+/F0 10 Tf
+(Description) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+433 671 138 16 re
+f
+0 G 0 g
+BT
+437 676 Td
+/F0 10 Tf
+(Value) Tj
+ET
+48 671 m
+572 671 l
+S
+BT
+53 659 Td
+/F0 10 Tf
+(METAL4X.W.1) Tj
+ET
+148 688 m
+148 535 l
+S
+BT
+153 659 Td
+/F1 10 Tf
+(Minimum MX width) Tj
+ET
+432 688 m
+432 535 l
+S
+BT
+437 659 Td
+/F1 10 Tf
+(0.069) Tj
+ET
+48 654 m
+572 654 l
+S
+BT
+53 642 Td
+/F0 10 Tf
+(METAL4X.W.2) Tj
+ET
+BT
+153 642 Td
+/F1 10 Tf
+(Maximum MX width) Tj
+ET
+BT
+437 642 Td
+/F1 10 Tf
+(4.0) Tj
+ET
+48 637 m
+572 637 l
+S
+BT
+53 625 Td
+/F0 10 Tf
+(METAL4X.SP.2.1) Tj
+ET
+BT
+153 625 Td
+/F1 10 Tf
+(Minimum MX to MX spacing) Tj
+ET
+BT
+437 625 Td
+/F1 10 Tf
+(0.09) Tj
+ET
+48 620 m
+572 620 l
+S
+BT
+53 608 Td
+/F0 10 Tf
+(METAL4X.SP.2.2) Tj
+ET
+BT
+153 608 Td
+/F1 10 Tf
+(Minimum MX to MX spacing width >= 0.5) Tj
+ET
+BT
+437 608 Td
+/F1 10 Tf
+(0.12) Tj
+ET
+48 603 m
+572 603 l
+S
+BT
+53 591 Td
+/F0 10 Tf
+(METAL4X.SP.2.3) Tj
+ET
+BT
+153 591 Td
+/F1 10 Tf
+(Minimum MX to MX spacing width >= 1.0) Tj
+ET
+BT
+437 591 Td
+/F1 10 Tf
+(0.4) Tj
+ET
+48 586 m
+572 586 l
+S
+BT
+53 574 Td
+/F0 10 Tf
+(METAL4X.SP.4.1) Tj
+ET
+BT
+153 574 Td
+/F1 10 Tf
+(Minimum MX end of line spacing ) Tj
+ET
+BT
+437 574 Td
+/F1 10 Tf
+(0.096) Tj
+ET
+48 569 m
+572 569 l
+S
+BT
+53 557 Td
+/F0 10 Tf
+(METAL4X.A.1) Tj
+ET
+BT
+153 557 Td
+/F1 10 Tf
+(Minimum MX area) Tj
+ET
+BT
+437 557 Td
+/F1 10 Tf
+(0.01) Tj
+ET
+48 552 m
+572 552 l
+S
+BT
+53 540 Td
+/F0 10 Tf
+(METAL4X.E.1.1) Tj
+ET
+BT
+153 540 Td
+/F1 10 Tf
+(Minimum MX enclosure V\(X-1\)) Tj
+ET
+BT
+437 540 Td
+/F1 10 Tf
+(\(0.015 0.015\)) Tj
+ET
+endstream
+endobj
+125 0 obj
+2204
+endobj
+126 0 obj
+<<
+/ProcSet [/PDF /Text]
+/Font <<
+/F0 127 0 R
+/F1 128 0 R
+>>
+/Pattern <<
+>>
+/ColorSpace << /Cs1 [/Pattern /DeviceRGB] >>
+>>
+endobj
+127 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F0
+/BaseFont /Helvetica-Bold
+>>
+endobj
+128 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F1
+/BaseFont /Helvetica
+>>
+endobj
+129 0 obj
+<< /Length 130 0 R >>
+stream
+0 G 0 g
+BT
+46 759 Td
+/F0 12 Tf
+(Apr 14, 2020) Tj
+ET
+BT
+203 759 Td
+/F0 12 Tf
+(CDS_FF_MPT Design Rule Manual) Tj
+ET
+BT
+516 759 Td
+/F0 12 Tf
+(page 25) Tj
+ET
+BT
+46 24 Td
+/F0 12 Tf
+(Cadence Confidential) Tj
+ET
+BT
+493 24 Td
+/F0 12 Tf
+(revision 1.0) Tj
+ET
+56 756 m
+556 756 l
+567.0 756 576 747.0 576 736 c
+576 56 l
+576 45.0 567.0 36 556 36 c
+56 36 l
+45.0 36 36 45.0 36 56 c
+36 736 l
+36 747.0 45.0 756 56 756 c
+S
+0 G 0 g
+BT
+64 715 Td
+/F0 14 Tf
+(CAPACITOR METAL) Tj
+ET
+0 G 0 g
+48 603 516 85 re
+S
+BT
+48 691 Td
+/F1 10 Tf
+(Data Table: CAPMET) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+49 671 514 16 re
+f
+0 G 0 g
+BT
+53 676 Td
+/F0 10 Tf
+(RuleName) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+149 671 414 16 re
+f
+0 G 0 g
+BT
+153 676 Td
+/F0 10 Tf
+(Description) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+465 671 98 16 re
+f
+0 G 0 g
+BT
+469 676 Td
+/F0 10 Tf
+(Value) Tj
+ET
+48 671 m
+564 671 l
+S
+BT
+53 659 Td
+/F0 10 Tf
+(CAPMET.W.1) Tj
+ET
+148 688 m
+148 603 l
+S
+BT
+153 659 Td
+/F1 10 Tf
+(Minimum width of CMT) Tj
+ET
+464 688 m
+464 603 l
+S
+BT
+469 659 Td
+/F1 10 Tf
+(0.26) Tj
+ET
+48 654 m
+564 654 l
+S
+BT
+53 642 Td
+/F0 10 Tf
+(CAPMET.S.1) Tj
+ET
+BT
+153 642 Td
+/F1 10 Tf
+(Minimum space of CMT) Tj
+ET
+BT
+469 642 Td
+/F1 10 Tf
+(1.0) Tj
+ET
+48 637 m
+564 637 l
+S
+BT
+53 625 Td
+/F0 10 Tf
+(CAPMET.E.1) Tj
+ET
+BT
+153 625 Td
+/F1 10 Tf
+(Minimum CMT overlap of VT) Tj
+ET
+BT
+469 625 Td
+/F1 10 Tf
+(\(0.08 0.08\)) Tj
+ET
+48 620 m
+564 620 l
+S
+BT
+53 608 Td
+/F0 10 Tf
+(CAPMET.E.2) Tj
+ET
+BT
+153 608 Td
+/F1 10 Tf
+(Minimum last M4X overlap of CMT) Tj
+ET
+BT
+469 608 Td
+/F1 10 Tf
+(\(0.04 0.04\)) Tj
+ET
+endstream
+endobj
+130 0 obj
+1537
+endobj
+131 0 obj
+<<
+/ProcSet [/PDF /Text]
+/Font <<
+/F0 132 0 R
+/F1 133 0 R
+>>
+/Pattern <<
+>>
+/ColorSpace << /Cs1 [/Pattern /DeviceRGB] >>
+>>
+endobj
+132 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F0
+/BaseFont /Helvetica-Bold
+>>
+endobj
+133 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F1
+/BaseFont /Helvetica
+>>
+endobj
+134 0 obj
+<< /Length 135 0 R >>
+stream
+0 G 0 g
+BT
+46 759 Td
+/F0 12 Tf
+(Apr 14, 2020) Tj
+ET
+BT
+203 759 Td
+/F0 12 Tf
+(CDS_FF_MPT Design Rule Manual) Tj
+ET
+BT
+516 759 Td
+/F0 12 Tf
+(page 26) Tj
+ET
+BT
+46 24 Td
+/F0 12 Tf
+(Cadence Confidential) Tj
+ET
+BT
+493 24 Td
+/F0 12 Tf
+(revision 1.0) Tj
+ET
+56 756 m
+556 756 l
+567.0 756 576 747.0 576 736 c
+576 56 l
+576 45.0 567.0 36 556 36 c
+56 36 l
+45.0 36 36 45.0 36 56 c
+36 736 l
+36 747.0 45.0 756 56 756 c
+S
+0 G 0 g
+BT
+56 723 Td
+/F0 14 Tf
+(VIAT RULES) Tj
+ET
+0 G 0 g
+48 560 516 136 re
+S
+BT
+48 699 Td
+/F1 10 Tf
+(Data Table: VIAT) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+49 679 514 16 re
+f
+0 G 0 g
+BT
+53 684 Td
+/F0 10 Tf
+(RuleName) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+149 679 414 16 re
+f
+0 G 0 g
+BT
+153 684 Td
+/F0 10 Tf
+(Description) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+465 679 98 16 re
+f
+0 G 0 g
+BT
+469 684 Td
+/F0 10 Tf
+(Value) Tj
+ET
+48 679 m
+564 679 l
+S
+BT
+53 667 Td
+/F0 10 Tf
+(VIAT.W.1) Tj
+ET
+148 696 m
+148 560 l
+S
+BT
+153 667 Td
+/F1 10 Tf
+(Minimum and Maximim VT width and length) Tj
+ET
+464 696 m
+464 560 l
+S
+BT
+469 667 Td
+/F1 10 Tf
+(0.1) Tj
+ET
+48 662 m
+564 662 l
+S
+BT
+53 650 Td
+/F0 10 Tf
+(VIAT.SP.1) Tj
+ET
+BT
+153 650 Td
+/F1 10 Tf
+(Minimum VT to VT spacing) Tj
+ET
+BT
+469 650 Td
+/F1 10 Tf
+(0.12) Tj
+ET
+48 645 m
+564 645 l
+S
+BT
+53 633 Td
+/F0 10 Tf
+(VIAT.SP.2) Tj
+ET
+BT
+153 633 Td
+/F1 10 Tf
+(Minimum 3 adjacent VT to VT spacing) Tj
+ET
+BT
+469 633 Td
+/F1 10 Tf
+(0.16) Tj
+ET
+48 628 m
+564 628 l
+S
+BT
+53 616 Td
+/F0 10 Tf
+(VIAT.C.1.1) Tj
+ET
+BT
+153 616 Td
+/F1 10 Tf
+(Minimum number of VT in MX width >=0.15 region) Tj
+ET
+BT
+469 616 Td
+/F1 10 Tf
+(1) Tj
+ET
+48 611 m
+564 611 l
+S
+BT
+53 599 Td
+/F0 10 Tf
+(VIAT.C.1.3) Tj
+ET
+BT
+153 599 Td
+/F1 10 Tf
+(Minimum number of VT in MX width >=1.0 region) Tj
+ET
+BT
+469 599 Td
+/F1 10 Tf
+(2) Tj
+ET
+48 594 m
+564 594 l
+S
+BT
+53 582 Td
+/F0 10 Tf
+(VIAT.C.1.4) Tj
+ET
+BT
+153 582 Td
+/F1 10 Tf
+(Minimum number of VT in MX width >=2.0 region) Tj
+ET
+BT
+469 582 Td
+/F1 10 Tf
+(4) Tj
+ET
+48 577 m
+564 577 l
+S
+BT
+53 565 Td
+/F0 10 Tf
+(VIAT.E.1) Tj
+ET
+BT
+153 565 Td
+/F1 10 Tf
+(Minimum last \(4X\) MX enclosure of VT) Tj
+ET
+BT
+469 565 Td
+/F1 10 Tf
+(\(0.03 0.03\)) Tj
+ET
+endstream
+endobj
+135 0 obj
+2082
+endobj
+136 0 obj
+<<
+/ProcSet [/PDF /Text]
+/Font <<
+/F0 137 0 R
+/F1 138 0 R
+>>
+/Pattern <<
+>>
+/ColorSpace << /Cs1 [/Pattern /DeviceRGB] >>
+>>
+endobj
+137 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F0
+/BaseFont /Helvetica-Bold
+>>
+endobj
+138 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F1
+/BaseFont /Helvetica
+>>
+endobj
+139 0 obj
+<< /Length 140 0 R >>
+stream
+0 G 0 g
+BT
+46 759 Td
+/F0 12 Tf
+(Apr 14, 2020) Tj
+ET
+BT
+203 759 Td
+/F0 12 Tf
+(CDS_FF_MPT Design Rule Manual) Tj
+ET
+BT
+516 759 Td
+/F0 12 Tf
+(page 27) Tj
+ET
+BT
+46 24 Td
+/F0 12 Tf
+(Cadence Confidential) Tj
+ET
+BT
+493 24 Td
+/F0 12 Tf
+(revision 1.0) Tj
+ET
+56 756 m
+556 756 l
+567.0 756 576 747.0 576 736 c
+576 56 l
+576 45.0 567.0 36 556 36 c
+56 36 l
+45.0 36 36 45.0 36 56 c
+36 736 l
+36 747.0 45.0 756 56 756 c
+S
+0 G 0 g
+BT
+56 723 Td
+/F0 14 Tf
+(METALT RULES) Tj
+ET
+0 G 0 g
+48 526 516 170 re
+S
+BT
+48 699 Td
+/F1 10 Tf
+(Data Table: METALT) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+49 679 514 16 re
+f
+0 G 0 g
+BT
+53 684 Td
+/F0 10 Tf
+(RuleName) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+149 679 414 16 re
+f
+0 G 0 g
+BT
+153 684 Td
+/F0 10 Tf
+(Description) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+465 679 98 16 re
+f
+0 G 0 g
+BT
+469 684 Td
+/F0 10 Tf
+(Value) Tj
+ET
+48 679 m
+564 679 l
+S
+BT
+53 667 Td
+/F0 10 Tf
+(METALT.W.1) Tj
+ET
+148 696 m
+148 526 l
+S
+BT
+153 667 Td
+/F1 10 Tf
+(Minimum MT width) Tj
+ET
+464 696 m
+464 526 l
+S
+BT
+469 667 Td
+/F1 10 Tf
+(0.22) Tj
+ET
+48 662 m
+564 662 l
+S
+BT
+53 650 Td
+/F0 10 Tf
+(METALT.W.2) Tj
+ET
+BT
+153 650 Td
+/F1 10 Tf
+(Maximum MT width) Tj
+ET
+BT
+469 650 Td
+/F1 10 Tf
+(6.0) Tj
+ET
+48 645 m
+564 645 l
+S
+BT
+53 633 Td
+/F0 10 Tf
+(METALT.SP.1.1) Tj
+ET
+BT
+153 633 Td
+/F1 10 Tf
+(Minimum MT to MT spacing) Tj
+ET
+BT
+469 633 Td
+/F1 10 Tf
+(0.20) Tj
+ET
+48 628 m
+564 628 l
+S
+BT
+53 616 Td
+/F0 10 Tf
+(METALT.SP.1.2) Tj
+ET
+BT
+153 616 Td
+/F1 10 Tf
+(Minimum MT to MT spacing width >= 0.75 ) Tj
+ET
+BT
+469 616 Td
+/F1 10 Tf
+(0.35) Tj
+ET
+48 611 m
+564 611 l
+S
+BT
+53 599 Td
+/F0 10 Tf
+(METALT.SP.1.3) Tj
+ET
+BT
+153 599 Td
+/F1 10 Tf
+(Minimum MT to MT spacing width >= 1.5 ) Tj
+ET
+BT
+469 599 Td
+/F1 10 Tf
+(0.55) Tj
+ET
+48 594 m
+564 594 l
+S
+BT
+53 582 Td
+/F0 10 Tf
+(METALT.SP.1.4) Tj
+ET
+BT
+153 582 Td
+/F1 10 Tf
+(Minimum MT to MT spacing width >= 2.5 ) Tj
+ET
+BT
+469 582 Td
+/F1 10 Tf
+(0.75) Tj
+ET
+48 577 m
+564 577 l
+S
+BT
+53 565 Td
+/F0 10 Tf
+(METALT.SP.1.5) Tj
+ET
+BT
+153 565 Td
+/F1 10 Tf
+(Minimum MT to MT spacing width >= 3.5 ) Tj
+ET
+BT
+469 565 Td
+/F1 10 Tf
+(1.25) Tj
+ET
+48 560 m
+564 560 l
+S
+BT
+53 548 Td
+/F0 10 Tf
+(METALT.E.1) Tj
+ET
+BT
+153 548 Td
+/F1 10 Tf
+(Minimum MT to VT enclosure) Tj
+ET
+BT
+469 548 Td
+/F1 10 Tf
+(\(0.06 0.06\)) Tj
+ET
+48 543 m
+564 543 l
+S
+BT
+53 531 Td
+/F0 10 Tf
+(METALT.A.1) Tj
+ET
+BT
+153 531 Td
+/F1 10 Tf
+(Minimum MT area) Tj
+ET
+BT
+469 531 Td
+/F1 10 Tf
+(0.0484) Tj
+ET
+endstream
+endobj
+140 0 obj
+2362
+endobj
+141 0 obj
+<<
+/ProcSet [/PDF /Text]
+/Font <<
+/F0 142 0 R
+/F1 143 0 R
+>>
+/Pattern <<
+>>
+/ColorSpace << /Cs1 [/Pattern /DeviceRGB] >>
+>>
+endobj
+142 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F0
+/BaseFont /Helvetica-Bold
+>>
+endobj
+143 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F1
+/BaseFont /Helvetica
+>>
+endobj
+144 0 obj
+<< /Length 145 0 R >>
+stream
+0 G 0 g
+BT
+46 759 Td
+/F0 12 Tf
+(Apr 14, 2020) Tj
+ET
+BT
+203 759 Td
+/F0 12 Tf
+(CDS_FF_MPT Design Rule Manual) Tj
+ET
+BT
+516 759 Td
+/F0 12 Tf
+(page 28) Tj
+ET
+BT
+46 24 Td
+/F0 12 Tf
+(Cadence Confidential) Tj
+ET
+BT
+493 24 Td
+/F0 12 Tf
+(revision 1.0) Tj
+ET
+56 756 m
+556 756 l
+567.0 756 576 747.0 576 736 c
+576 56 l
+576 45.0 567.0 36 556 36 c
+56 36 l
+45.0 36 36 45.0 36 56 c
+36 736 l
+36 747.0 45.0 756 56 756 c
+S
+0 G 0 g
+BT
+56 723 Td
+/F0 14 Tf
+(LATCH-UP RULES) Tj
+ET
+0 G 0 g
+48 572 516 124 re
+S
+BT
+48 699 Td
+/F1 10 Tf
+(Data Table: LATCHUP) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+49 679 514 16 re
+f
+0 G 0 g
+BT
+53 684 Td
+/F0 10 Tf
+(RuleName) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+149 679 414 16 re
+f
+0 G 0 g
+BT
+153 684 Td
+/F0 10 Tf
+(Description) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+465 679 98 16 re
+f
+0 G 0 g
+BT
+469 684 Td
+/F0 10 Tf
+(Value) Tj
+ET
+48 679 m
+564 679 l
+S
+BT
+53 667 Td
+/F0 10 Tf
+(LATCHUP.1) Tj
+ET
+148 696 m
+148 572 l
+S
+BT
+153 667 Td
+/F1 10 Tf
+(The maximum distance from any point in a P+ source/drain ) Tj
+ET
+BT
+153 654 Td
+/F1 10 Tf
+(Active Area to the nearest Nwell pick-up in the same Nwell) Tj
+ET
+464 696 m
+464 572 l
+S
+BT
+469 667 Td
+/F1 10 Tf
+(20.0) Tj
+ET
+48 649 m
+564 649 l
+S
+BT
+53 637 Td
+/F0 10 Tf
+(LATCHUP.2) Tj
+ET
+BT
+153 637 Td
+/F1 10 Tf
+(The maximum distance from any point in a N+ source/drain ) Tj
+ET
+BT
+153 624 Td
+/F1 10 Tf
+(Active Area to the nearest Psub pick-up in the same Psub) Tj
+ET
+BT
+469 637 Td
+/F1 10 Tf
+(20.0) Tj
+ET
+48 619 m
+564 619 l
+S
+BT
+53 607 Td
+/F0 10 Tf
+(LATCHUP.3) Tj
+ET
+BT
+153 607 Td
+/F1 10 Tf
+(Minimum I/O or ESD NMOS to PMOS spacing) Tj
+ET
+BT
+469 607 Td
+/F1 10 Tf
+(10.0) Tj
+ET
+48 602 m
+564 602 l
+S
+BT
+53 590 Td
+/F0 10 Tf
+(LATCHUP.4) Tj
+ET
+BT
+153 590 Td
+/F1 10 Tf
+(Minimum I/O or ESD NMOS to PMOS spacing when not blocked ) Tj
+ET
+BT
+153 577 Td
+/F1 10 Tf
+(by a double guardring) Tj
+ET
+BT
+469 590 Td
+/F1 10 Tf
+(30.0) Tj
+ET
+endstream
+endobj
+145 0 obj
+1865
+endobj
+146 0 obj
+<<
+/ProcSet [/PDF /Text]
+/Font <<
+/F0 147 0 R
+/F1 148 0 R
+>>
+/Pattern <<
+>>
+/ColorSpace << /Cs1 [/Pattern /DeviceRGB] >>
+>>
+endobj
+147 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F0
+/BaseFont /Helvetica-Bold
+>>
+endobj
+148 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F1
+/BaseFont /Helvetica
+>>
+endobj
+149 0 obj
+<< /Length 150 0 R >>
+stream
+0 G 0 g
+BT
+46 759 Td
+/F0 12 Tf
+(Apr 14, 2020) Tj
+ET
+BT
+203 759 Td
+/F0 12 Tf
+(CDS_FF_MPT Design Rule Manual) Tj
+ET
+BT
+516 759 Td
+/F0 12 Tf
+(page 29) Tj
+ET
+BT
+46 24 Td
+/F0 12 Tf
+(Cadence Confidential) Tj
+ET
+BT
+493 24 Td
+/F0 12 Tf
+(revision 1.0) Tj
+ET
+56 756 m
+556 756 l
+567.0 756 576 747.0 576 736 c
+576 56 l
+576 45.0 567.0 36 556 36 c
+56 36 l
+45.0 36 36 45.0 36 56 c
+36 736 l
+36 747.0 45.0 756 56 756 c
+S
+0 G 0 g
+BT
+56 723 Td
+/F0 14 Tf
+(ANTENNA RULES) Tj
+ET
+0 G 0 g
+48 473 516 223 re
+S
+BT
+48 699 Td
+/F1 10 Tf
+(Data Table: ANT) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+49 679 514 16 re
+f
+0 G 0 g
+BT
+53 684 Td
+/F0 10 Tf
+(RuleName) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+149 679 414 16 re
+f
+0 G 0 g
+BT
+153 684 Td
+/F0 10 Tf
+(Description) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+465 679 98 16 re
+f
+0 G 0 g
+BT
+469 684 Td
+/F0 10 Tf
+(Value) Tj
+ET
+48 679 m
+564 679 l
+S
+BT
+53 667 Td
+/F0 10 Tf
+(ANT.1) Tj
+ET
+148 696 m
+148 473 l
+S
+BT
+153 667 Td
+/F1 10 Tf
+(Maximum ratio of Poly area to the gate area the Poly is ) Tj
+ET
+BT
+153 654 Td
+/F1 10 Tf
+(connected to) Tj
+ET
+464 696 m
+464 473 l
+S
+BT
+469 667 Td
+/F1 10 Tf
+(275.0) Tj
+ET
+48 649 m
+564 649 l
+S
+BT
+53 637 Td
+/F0 10 Tf
+(ANT.2) Tj
+ET
+BT
+153 637 Td
+/F1 10 Tf
+(Maximum ratio of Poly sidewall area to the gate area the Poly ) Tj
+ET
+BT
+153 624 Td
+/F1 10 Tf
+(is connected to) Tj
+ET
+BT
+469 637 Td
+/F1 10 Tf
+(550.0) Tj
+ET
+48 619 m
+564 619 l
+S
+BT
+53 607 Td
+/F0 10 Tf
+(ANT.3) Tj
+ET
+BT
+153 607 Td
+/F1 10 Tf
+(Maximum ratio of Poly Contact area to the gate area the ) Tj
+ET
+BT
+153 594 Td
+/F1 10 Tf
+(Contact is connected with) Tj
+ET
+BT
+469 607 Td
+/F1 10 Tf
+(15.0) Tj
+ET
+48 589 m
+564 589 l
+S
+BT
+53 577 Td
+/F0 10 Tf
+(ANT.4) Tj
+ET
+BT
+153 577 Td
+/F1 10 Tf
+(Maximum ratio of Metal x \(x=1,2,3,4,5,6,7,8,9,10,11\) area to ) Tj
+ET
+BT
+153 564 Td
+/F1 10 Tf
+(the gate area the Metal x is connected to \(without diode ) Tj
+ET
+BT
+153 551 Td
+/F1 10 Tf
+(protection\)) Tj
+ET
+BT
+469 577 Td
+/F1 10 Tf
+(475.0) Tj
+ET
+48 546 m
+564 546 l
+S
+BT
+53 534 Td
+/F0 10 Tf
+(ANT.5) Tj
+ET
+BT
+153 534 Td
+/F1 10 Tf
+(Maximum ratio of Via x \(x=1,2,3,4,5,6,7,8,9,10\) area to the ) Tj
+ET
+BT
+153 521 Td
+/F1 10 Tf
+(gate area the Via x is connected with \(without diode ) Tj
+ET
+BT
+153 508 Td
+/F1 10 Tf
+(protection\)) Tj
+ET
+BT
+469 534 Td
+/F1 10 Tf
+(25.0) Tj
+ET
+48 503 m
+564 503 l
+S
+BT
+53 491 Td
+/F0 10 Tf
+(ANT.6) Tj
+ET
+BT
+153 491 Td
+/F1 10 Tf
+(Maximum ratio of cummulative Metal areas to the gate area ) Tj
+ET
+BT
+153 478 Td
+/F1 10 Tf
+(the Metals are connected to \(without diode protection\)) Tj
+ET
+BT
+469 491 Td
+/F1 10 Tf
+(1200.0) Tj
+ET
+endstream
+endobj
+150 0 obj
+2526
+endobj
+151 0 obj
+<<
+/ProcSet [/PDF /Text]
+/Font <<
+/F0 152 0 R
+/F1 153 0 R
+>>
+/Pattern <<
+>>
+/ColorSpace << /Cs1 [/Pattern /DeviceRGB] >>
+>>
+endobj
+152 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F0
+/BaseFont /Helvetica-Bold
+>>
+endobj
+153 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F1
+/BaseFont /Helvetica
+>>
+endobj
+154 0 obj
+<< /Length 155 0 R >>
+stream
+0 G 0 g
+BT
+46 759 Td
+/F0 12 Tf
+(Apr 14, 2020) Tj
+ET
+BT
+203 759 Td
+/F0 12 Tf
+(CDS_FF_MPT Design Rule Manual) Tj
+ET
+BT
+516 759 Td
+/F0 12 Tf
+(page 30) Tj
+ET
+BT
+46 24 Td
+/F0 12 Tf
+(Cadence Confidential) Tj
+ET
+BT
+493 24 Td
+/F0 12 Tf
+(revision 1.0) Tj
+ET
+56 756 m
+556 756 l
+567.0 756 576 747.0 576 736 c
+576 56 l
+576 45.0 567.0 36 556 36 c
+56 36 l
+45.0 36 36 45.0 36 56 c
+36 736 l
+36 747.0 45.0 756 56 756 c
+S
+0 G 0 g
+48 406 516 274 re
+S
+BT
+48 683 Td
+/F1 10 Tf
+(Data Table: ESD) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+49 663 514 16 re
+f
+0 G 0 g
+BT
+53 668 Td
+/F0 10 Tf
+(RuleName) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+149 663 414 16 re
+f
+0 G 0 g
+BT
+153 668 Td
+/F0 10 Tf
+(Description) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+465 663 98 16 re
+f
+0 G 0 g
+BT
+469 668 Td
+/F0 10 Tf
+(Value) Tj
+ET
+48 663 m
+564 663 l
+S
+BT
+53 651 Td
+/F0 10 Tf
+(ESD.1.MIN) Tj
+ET
+148 680 m
+148 406 l
+S
+BT
+153 651 Td
+/F1 10 Tf
+(Minimum width of each finger of NMOS and PMOS in I/O ) Tj
+ET
+BT
+153 638 Td
+/F1 10 Tf
+(buffers and in Vdd to Vss ESD protection) Tj
+ET
+464 680 m
+464 406 l
+S
+BT
+469 651 Td
+/F1 10 Tf
+(10.0) Tj
+ET
+48 633 m
+564 633 l
+S
+BT
+53 621 Td
+/F0 10 Tf
+(ESD.1.MAX) Tj
+ET
+BT
+153 621 Td
+/F1 10 Tf
+(Maximum width of each finger of NMOS and PMOS in I/O ) Tj
+ET
+BT
+153 608 Td
+/F1 10 Tf
+(buffers and in Vdd to Vss ESD protection) Tj
+ET
+BT
+469 621 Td
+/F1 10 Tf
+(30.0) Tj
+ET
+48 603 m
+564 603 l
+S
+BT
+53 591 Td
+/F0 10 Tf
+(ESD.2) Tj
+ET
+BT
+153 591 Td
+/F1 10 Tf
+(Minimum NMOS combined finger width for I/O buffers and in ) Tj
+ET
+BT
+153 578 Td
+/F1 10 Tf
+(Vdd to Vss ESD protection) Tj
+ET
+BT
+469 591 Td
+/F1 10 Tf
+(210.0) Tj
+ET
+48 573 m
+564 573 l
+S
+BT
+53 561 Td
+/F0 10 Tf
+(ESD.3) Tj
+ET
+BT
+153 561 Td
+/F1 10 Tf
+(Minimum PMOS combined finger width for I/O buffers and in ) Tj
+ET
+BT
+153 548 Td
+/F1 10 Tf
+(Vdd to Vss ESD protection) Tj
+ET
+BT
+469 561 Td
+/F1 10 Tf
+(210.0) Tj
+ET
+48 543 m
+564 543 l
+S
+BT
+53 531 Td
+/F0 10 Tf
+(ESD.11) Tj
+ET
+BT
+153 531 Td
+/F1 10 Tf
+(Minimum SiProt to Poly gate overlap in NMOS and PMOS drains) Tj
+ET
+BT
+469 531 Td
+/F1 10 Tf
+(0.05) Tj
+ET
+48 526 m
+564 526 l
+S
+BT
+53 514 Td
+/F0 10 Tf
+(ESD.12) Tj
+ET
+BT
+153 514 Td
+/F1 10 Tf
+(Minimum enclosure of SiProt edge to Poly gate edge in NMOS ) Tj
+ET
+BT
+153 501 Td
+/F1 10 Tf
+(and PMOS drains) Tj
+ET
+BT
+469 514 Td
+/F1 10 Tf
+(0.9) Tj
+ET
+48 496 m
+564 496 l
+S
+BT
+53 484 Td
+/F0 10 Tf
+(ESD.13) Tj
+ET
+BT
+153 484 Td
+/F1 10 Tf
+(Minimum SiProt to Oxide overlap in NMOS and PMOS I/O ) Tj
+ET
+BT
+153 471 Td
+/F1 10 Tf
+(drains) Tj
+ET
+BT
+469 484 Td
+/F1 10 Tf
+(0.9) Tj
+ET
+48 466 m
+564 466 l
+S
+BT
+53 454 Td
+/F0 10 Tf
+(ESD.14) Tj
+ET
+BT
+153 454 Td
+/F1 10 Tf
+(Exact gate length of NMOS and PMOS in I/O buffers and in ) Tj
+ET
+BT
+153 441 Td
+/F1 10 Tf
+(Vdd to Vss ESD protection) Tj
+ET
+BT
+469 454 Td
+/F1 10 Tf
+(0.2) Tj
+ET
+48 436 m
+564 436 l
+S
+BT
+53 424 Td
+/F0 10 Tf
+(ESD.15) Tj
+ET
+BT
+153 424 Td
+/F1 10 Tf
+(Minimu Poly gate to Contact spacing in NMOS and PMOS in I/O ) Tj
+ET
+BT
+153 411 Td
+/F1 10 Tf
+(buffers and in Vdd to Vss ESD protection) Tj
+ET
+BT
+469 424 Td
+/F1 10 Tf
+(0.12) Tj
+ET
+0 G 0 g
+BT
+48 723 Td
+/F0 14 Tf
+(ESD RULES) Tj
+ET
+endstream
+endobj
+155 0 obj
+3038
+endobj
+156 0 obj
+<<
+/ProcSet [/PDF /Text]
+/Font <<
+/F0 157 0 R
+/F1 158 0 R
+>>
+/Pattern <<
+>>
+/ColorSpace << /Cs1 [/Pattern /DeviceRGB] >>
+>>
+endobj
+157 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F0
+/BaseFont /Helvetica-Bold
+>>
+endobj
+158 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F1
+/BaseFont /Helvetica
+>>
+endobj
+159 0 obj
+<< /Length 160 0 R >>
+stream
+0 G 0 g
+BT
+46 759 Td
+/F0 12 Tf
+(Apr 14, 2020) Tj
+ET
+BT
+203 759 Td
+/F0 12 Tf
+(CDS_FF_MPT Design Rule Manual) Tj
+ET
+BT
+516 759 Td
+/F0 12 Tf
+(page 31) Tj
+ET
+BT
+46 24 Td
+/F0 12 Tf
+(Cadence Confidential) Tj
+ET
+BT
+493 24 Td
+/F0 12 Tf
+(revision 1.0) Tj
+ET
+56 756 m
+556 756 l
+567.0 756 576 747.0 576 736 c
+576 56 l
+576 45.0 567.0 36 556 36 c
+56 36 l
+45.0 36 36 45.0 36 56 c
+36 736 l
+36 747.0 45.0 756 56 756 c
+S
+0 G 0 g
+BT
+48 723 Td
+/F0 14 Tf
+(BONDPAD RULES) Tj
+ET
+0 G 0 g
+48 62 516 634 re
+S
+BT
+48 699 Td
+/F1 10 Tf
+(Data Table: BONDPAD) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+49 679 514 16 re
+f
+0 G 0 g
+BT
+53 684 Td
+/F0 10 Tf
+(RuleName) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+165 679 398 16 re
+f
+0 G 0 g
+BT
+169 684 Td
+/F0 10 Tf
+(Description) Tj
+ET
+0.90 0.90 0.82 RG
+0.90 0.90 0.82 rg
+521 679 42 16 re
+f
+0 G 0 g
+BT
+525 684 Td
+/F0 10 Tf
+(Value) Tj
+ET
+48 679 m
+564 679 l
+S
+BT
+53 667 Td
+/F0 10 Tf
+(BONDPAD.W.1) Tj
+ET
+164 696 m
+164 62 l
+S
+BT
+169 667 Td
+/F1 10 Tf
+(Minimum Bondpad width of edges parallel to the die edge) Tj
+ET
+520 696 m
+520 62 l
+S
+BT
+525 667 Td
+/F1 10 Tf
+(55.0) Tj
+ET
+48 662 m
+564 662 l
+S
+BT
+53 650 Td
+/F0 10 Tf
+(BONDPAD.L.1) Tj
+ET
+BT
+169 650 Td
+/F1 10 Tf
+(Minimum Bondpad length of edges perpendicular to the die edge) Tj
+ET
+BT
+525 650 Td
+/F1 10 Tf
+(68.0) Tj
+ET
+48 645 m
+564 645 l
+S
+BT
+53 633 Td
+/F0 10 Tf
+(BONDPAD.SP.1) Tj
+ET
+BT
+169 633 Td
+/F1 10 Tf
+(Minimum Bondpad to Bondpad spacing) Tj
+ET
+BT
+525 633 Td
+/F1 10 Tf
+(8.0) Tj
+ET
+48 628 m
+564 628 l
+S
+BT
+53 616 Td
+/F0 10 Tf
+(BONDPAD.E.1) Tj
+ET
+BT
+169 616 Td
+/F1 10 Tf
+(Minimum Metal \(all levels\) enclosure of Bondpad) Tj
+ET
+BT
+525 616 Td
+/F1 10 Tf
+(2.0) Tj
+ET
+48 611 m
+564 611 l
+S
+BT
+53 599 Td
+/F0 10 Tf
+(BONDPAD.SP.2) Tj
+ET
+BT
+169 599 Td
+/F1 10 Tf
+(Minimum Bondpad Metal to Metal \(including Bondpad Metal\) spacing) Tj
+ET
+BT
+525 599 Td
+/F1 10 Tf
+(3.0) Tj
+ET
+48 594 m
+564 594 l
+S
+BT
+53 582 Td
+/F0 10 Tf
+(BONDPAD.B.1.MIN) Tj
+ET
+BT
+169 582 Td
+/F1 10 Tf
+(Minimum length of Bondpad Metal beveled corner) Tj
+ET
+BT
+169 569 Td
+/F1 10 Tf
+(All Bondpad Metal corners must be beveled at 45 degrees) Tj
+ET
+BT
+525 582 Td
+/F1 10 Tf
+(1.8) Tj
+ET
+48 564 m
+564 564 l
+S
+BT
+53 552 Td
+/F0 10 Tf
+(BONDPAD.B.1.MAX) Tj
+ET
+BT
+169 552 Td
+/F1 10 Tf
+(Maximum length of Bondpad Metal beveled corner) Tj
+ET
+BT
+169 539 Td
+/F1 10 Tf
+(All Bondpad Metal corners must be beveled at 45 degrees) Tj
+ET
+BT
+525 552 Td
+/F1 10 Tf
+(3.2) Tj
+ET
+48 534 m
+564 534 l
+S
+BT
+53 522 Td
+/F0 10 Tf
+(BONDPAD.W.2) Tj
+ET
+BT
+169 522 Td
+/F1 10 Tf
+(Minimum and maximum Bondpad Via k width ) Tj
+ET
+BT
+169 509 Td
+/F1 10 Tf
+(\(k=1,2,3,4,5,6,7,8\)) Tj
+ET
+BT
+525 522 Td
+/F1 10 Tf
+(0.14) Tj
+ET
+48 504 m
+564 504 l
+S
+BT
+53 492 Td
+/F0 10 Tf
+(BONDPAD.W.3) Tj
+ET
+BT
+169 492 Td
+/F1 10 Tf
+(Minimum and maximum Bondpad Via k width ) Tj
+ET
+BT
+169 479 Td
+/F1 10 Tf
+(\(k=9,10\)) Tj
+ET
+BT
+525 492 Td
+/F1 10 Tf
+(0.36) Tj
+ET
+48 474 m
+564 474 l
+S
+BT
+53 462 Td
+/F0 10 Tf
+(BONDPAD.SP.3) Tj
+ET
+BT
+169 462 Td
+/F1 10 Tf
+(Minimum Bondpad Via k to Bondpad Via k spacing ) Tj
+ET
+BT
+169 449 Td
+/F1 10 Tf
+(\(k=1,2,3,4,5,6,7,8\)) Tj
+ET
+BT
+525 462 Td
+/F1 10 Tf
+(0.22) Tj
+ET
+48 444 m
+564 444 l
+S
+BT
+53 432 Td
+/F0 10 Tf
+(BONDPAD.SP.4) Tj
+ET
+BT
+169 432 Td
+/F1 10 Tf
+(Minimum Bondpad Via k to Bondpad Via k spacing ) Tj
+ET
+BT
+169 419 Td
+/F1 10 Tf
+(\(k=9,10\)) Tj
+ET
+BT
+525 432 Td
+/F1 10 Tf
+(0.54) Tj
+ET
+48 414 m
+564 414 l
+S
+BT
+53 402 Td
+/F0 10 Tf
+(BONDPAD.E.2) Tj
+ET
+BT
+169 402 Td
+/F1 10 Tf
+(Minimum Bondpad Metal k to Bondpad Via k enclsure) Tj
+ET
+BT
+169 389 Td
+/F1 10 Tf
+(\(k=1,2,3,4,5,6,7,8\)) Tj
+ET
+BT
+169 376 Td
+/F1 10 Tf
+(Minimum Bondpad Metal k+1 to Bondpad Via k enclosure) Tj
+ET
+BT
+169 363 Td
+/F1 10 Tf
+(\(k=1,2,3,4,5,6,7,8\)) Tj
+ET
+BT
+525 402 Td
+/F1 10 Tf
+(0.05) Tj
+ET
+48 358 m
+564 358 l
+S
+BT
+53 346 Td
+/F0 10 Tf
+(BONDPAD.E.3) Tj
+ET
+BT
+169 346 Td
+/F1 10 Tf
+(Minimum Bondpad Metal k to Bondpad Via k enclsure) Tj
+ET
+BT
+169 333 Td
+/F1 10 Tf
+(\(k=9,10\)\)) Tj
+ET
+BT
+169 320 Td
+/F1 10 Tf
+(Minimum Bondpad Metal k+1 to Bondpad Via k enclosure) Tj
+ET
+BT
+169 307 Td
+/F1 10 Tf
+(\(k=9,10\)) Tj
+ET
+BT
+525 346 Td
+/F1 10 Tf
+(0.09) Tj
+ET
+48 302 m
+564 302 l
+S
+BT
+53 290 Td
+/F0 10 Tf
+(BONDPAD.R.1) Tj
+ET
+BT
+169 290 Td
+/F1 10 Tf
+(Minimum Bondpad Via k inside Metal k to Metal k+1 crossing) Tj
+ET
+BT
+169 277 Td
+/F1 10 Tf
+(\(k=1,2,3,4,5,6,7,8\)) Tj
+ET
+BT
+525 290 Td
+/F1 10 Tf
+(16.0) Tj
+ET
+48 272 m
+564 272 l
+S
+BT
+53 260 Td
+/F0 10 Tf
+(BONDPAD.R.2) Tj
+ET
+BT
+169 260 Td
+/F1 10 Tf
+(Minimum Bondpad Via k inside Metal k to Metal k+1 crossing) Tj
+ET
+BT
+169 247 Td
+/F1 10 Tf
+(\(k=9,10\)) Tj
+ET
+BT
+525 260 Td
+/F1 10 Tf
+(4.0) Tj
+ET
+48 242 m
+564 242 l
+S
+BT
+53 230 Td
+/F0 10 Tf
+(BONDPAD.SP.5) Tj
+ET
+BT
+169 230 Td
+/F1 10 Tf
+(Minimum and Maximum Pad Metal slot to Pad Metal slot spacing) Tj
+ET
+BT
+525 230 Td
+/F1 10 Tf
+(1.5) Tj
+ET
+48 225 m
+564 225 l
+S
+BT
+53 213 Td
+/F0 10 Tf
+(BONDPAD.W.4) Tj
+ET
+BT
+169 213 Td
+/F1 10 Tf
+(Minimum and Maximum Pad Metal slot width ) Tj
+ET
+BT
+169 200 Td
+/F1 10 Tf
+(\(except first slot on each edge of Pad\)) Tj
+ET
+BT
+525 213 Td
+/F1 10 Tf
+(1.0) Tj
+ET
+48 195 m
+564 195 l
+S
+BT
+53 183 Td
+/F0 10 Tf
+(BONDPAD.W.5) Tj
+ET
+BT
+169 183 Td
+/F1 10 Tf
+(Minimum and Maximum Pad Metal k width in outer ring of Pad Metal k ) Tj
+ET
+BT
+169 170 Td
+/F1 10 Tf
+(\(except for the beveled corners\)) Tj
+ET
+BT
+169 157 Td
+/F1 10 Tf
+(\(k=1,2,3,4,5,6,7,8,9,10,11\)) Tj
+ET
+BT
+525 183 Td
+/F1 10 Tf
+(5.0) Tj
+ET
+48 152 m
+564 152 l
+S
+BT
+53 140 Td
+/F0 10 Tf
+(BONDPAD.SP.6.MIN) Tj
+ET
+BT
+169 140 Td
+/F1 10 Tf
+(Minimum Pad Metal k ring to nearest Pad Metal k across first slot) Tj
+ET
+BT
+169 127 Td
+/F1 10 Tf
+(\(k=1,2,3,4,5,6,7,8,9,10,11\)) Tj
+ET
+BT
+525 140 Td
+/F1 10 Tf
+(1.0) Tj
+ET
+48 122 m
+564 122 l
+S
+BT
+53 110 Td
+/F0 10 Tf
+(BONDPAD.SP.6.MAX) Tj
+ET
+BT
+169 110 Td
+/F1 10 Tf
+(Maximum Pad Metal k ring to nearest Pad Metal k across first slot) Tj
+ET
+BT
+169 97 Td
+/F1 10 Tf
+(\(k=1,2,3,4,5,6,7,8,9,10,11\)) Tj
+ET
+BT
+525 110 Td
+/F1 10 Tf
+(3.5) Tj
+ET
+48 92 m
+564 92 l
+S
+BT
+53 80 Td
+/F0 10 Tf
+(BONDPAD.SP.7) Tj
+ET
+BT
+169 80 Td
+/F1 10 Tf
+(Minimum Pad Via k array to Pad Via k array spacing) Tj
+ET
+BT
+169 67 Td
+/F1 10 Tf
+(..  ..  ..) Tj
+ET
+BT
+525 80 Td
+/F1 10 Tf
+(1.1) Tj
+ET
+endstream
+endobj
+160 0 obj
+6004
+endobj
+161 0 obj
+<<
+/ProcSet [/PDF /Text]
+/Font <<
+/F0 162 0 R
+/F1 163 0 R
+>>
+/Pattern <<
+>>
+/ColorSpace << /Cs1 [/Pattern /DeviceRGB] >>
+>>
+endobj
+162 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F0
+/BaseFont /Helvetica-Bold
+>>
+endobj
+163 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F1
+/BaseFont /Helvetica
+>>
+endobj
+164 0 obj
+<< /Length 165 0 R >>
+stream
+0 G 0 g
+BT
+46 759 Td
+/F0 12 Tf
+(Apr 14, 2020) Tj
+ET
+BT
+203 759 Td
+/F0 12 Tf
+(CDS_FF_MPT Design Rule Manual) Tj
+ET
+BT
+515 759 Td
+/F0 12 Tf
+(page A1) Tj
+ET
+BT
+46 24 Td
+/F0 12 Tf
+(Cadence Confidential) Tj
+ET
+BT
+493 24 Td
+/F0 12 Tf
+(revision 1.0) Tj
+ET
+0 G 0 g
+36 756 m
+576 756 l
+S
+36 743 m
+576 743 l
+S
+36 756 m
+36 743 l
+S
+576 756 m
+576 743 l
+S
+171 756 m
+171 743 l
+S
+441 756 m
+441 743 l
+S
+/Cs1 cs 0.88 0.56 0.52 /P0 scn
+38 745 16 9 re
+f
+0 G 0 g
+[] 0 d 1 w
+38 745 16 9 re
+S
+[] 0 d 1 w
+0 G 0 g
+BT
+58 746 Td
+/F1 10 Tf
+(Active) Tj
+ET
+BT
+173 746 Td
+/F1 10 Tf
+(undefined) Tj
+ET
+0 G 0 g
+36 743 m
+576 743 l
+S
+36 730 m
+576 730 l
+S
+36 743 m
+36 730 l
+S
+576 743 m
+576 730 l
+S
+171 743 m
+171 730 l
+S
+441 743 m
+441 730 l
+S
+/Cs1 cs 0.87 0.62 0.57 /P1 scn
+38 732 16 9 re
+f
+0 G 0 g
+[] 0 d 1 w
+38 732 16 9 re
+S
+[] 0 d 1 w
+0 G 0 g
+BT
+58 733 Td
+/F1 10 Tf
+(BurriedNWell) Tj
+ET
+BT
+173 733 Td
+/F1 10 Tf
+(undefined) Tj
+ET
+0 G 0 g
+36 730 m
+576 730 l
+S
+36 717 m
+576 717 l
+S
+36 730 m
+36 717 l
+S
+576 730 m
+576 717 l
+S
+171 730 m
+171 717 l
+S
+441 730 m
+441 717 l
+S
+/Cs1 cs 0.9 0.9 0.92 /P2 scn
+38 719 16 9 re
+f
+0 G 0 g
+[] 0 d 1 w
+38 719 16 9 re
+S
+[] 0 d 1 w
+0 G 0 g
+BT
+58 720 Td
+/F1 10 Tf
+(CMT) Tj
+ET
+BT
+173 720 Td
+/F1 10 Tf
+(undefined) Tj
+ET
+0 G 0 g
+36 717 m
+576 717 l
+S
+36 704 m
+576 704 l
+S
+36 717 m
+36 704 l
+S
+576 717 m
+576 704 l
+S
+171 717 m
+171 704 l
+S
+441 717 m
+441 704 l
+S
+0 G 0 g
+[3 0] 0 d 3 w
+38 706 16 9 re
+S
+[] 0 d 1 w
+0 G 0 g
+BT
+58 707 Td
+/F1 10 Tf
+(CutActive) Tj
+ET
+BT
+173 707 Td
+/F1 10 Tf
+(undefined) Tj
+ET
+0 G 0 g
+36 704 m
+576 704 l
+S
+36 691 m
+576 691 l
+S
+36 704 m
+36 691 l
+S
+576 704 m
+576 691 l
+S
+171 704 m
+171 691 l
+S
+441 704 m
+441 691 l
+S
+0 G 0 g
+[3 0] 0 d 3 w
+38 693 16 9 re
+S
+[] 0 d 1 w
+0 G 0 g
+BT
+58 694 Td
+/F1 10 Tf
+(CutPoly) Tj
+ET
+BT
+173 694 Td
+/F1 10 Tf
+(undefined) Tj
+ET
+0 G 0 g
+36 691 m
+576 691 l
+S
+36 678 m
+576 678 l
+S
+36 691 m
+36 678 l
+S
+576 691 m
+576 678 l
+S
+171 691 m
+171 678 l
+S
+441 691 m
+441 678 l
+S
+1.0 0.95 0.87 rg
+38 680 16 9 re
+f
+0 G 0 g
+[] 0 d 1 w
+38 680 16 9 re
+S
+[] 0 d 1 w
+0 G 0 g
+BT
+58 681 Td
+/F1 10 Tf
+(ISOPSUB) Tj
+ET
+BT
+173 681 Td
+/F1 10 Tf
+(undefined) Tj
+ET
+0 G 0 g
+36 678 m
+576 678 l
+S
+36 665 m
+576 665 l
+S
+36 678 m
+36 665 l
+S
+576 678 m
+576 665 l
+S
+171 678 m
+171 665 l
+S
+441 678 m
+441 665 l
+S
+/Cs1 cs 1.0 0.95 0.87 /P4 scn
+38 667 16 9 re
+f
+0 G 0 g
+[] 0 d 1 w
+38 667 16 9 re
+S
+[] 0 d 1 w
+0 G 0 g
+BT
+58 668 Td
+/F1 10 Tf
+(LiAct) Tj
+ET
+BT
+173 668 Td
+/F1 10 Tf
+(undefined) Tj
+ET
+BT
+443 668 Td
+/F1 10 Tf
+(via) Tj
+ET
+0 G 0 g
+36 665 m
+576 665 l
+S
+36 652 m
+576 652 l
+S
+36 665 m
+36 652 l
+S
+576 665 m
+576 652 l
+S
+171 665 m
+171 652 l
+S
+441 665 m
+441 652 l
+S
+/Cs1 cs 1.0 0.95 0.87 /P4 scn
+38 654 16 9 re
+f
+0 G 0 g
+[] 0 d 1 w
+38 654 16 9 re
+S
+[] 0 d 1 w
+0 G 0 g
+BT
+58 655 Td
+/F1 10 Tf
+(LiPo) Tj
+ET
+BT
+173 655 Td
+/F1 10 Tf
+(undefined) Tj
+ET
+BT
+443 655 Td
+/F1 10 Tf
+(via) Tj
+ET
+0 G 0 g
+36 652 m
+576 652 l
+S
+36 639 m
+576 639 l
+S
+36 652 m
+36 639 l
+S
+576 652 m
+576 639 l
+S
+171 652 m
+171 639 l
+S
+441 652 m
+441 639 l
+S
+/Cs1 cs 0.77 0.77 0.82 /P0 scn
+38 641 16 9 re
+f
+0 G 0 g
+[] 0 d 1 w
+38 641 16 9 re
+S
+[] 0 d 1 w
+0 G 0 g
+BT
+58 642 Td
+/F1 10 Tf
+(M1) Tj
+ET
+BT
+173 642 Td
+/F1 10 Tf
+(undefined) Tj
+ET
+0 G 0 g
+36 639 m
+576 639 l
+S
+36 626 m
+576 626 l
+S
+36 639 m
+36 626 l
+S
+576 639 m
+576 626 l
+S
+171 639 m
+171 626 l
+S
+441 639 m
+441 626 l
+S
+/Cs1 cs 1.0 0.5 0.5 /P0 scn
+38 628 16 9 re
+f
+0 G 0 g
+[] 0 d 1 w
+38 628 16 9 re
+S
+[] 0 d 1 w
+0 G 0 g
+BT
+58 629 Td
+/F1 10 Tf
+(M2) Tj
+ET
+BT
+173 629 Td
+/F1 10 Tf
+(undefined) Tj
+ET
+0 G 0 g
+36 626 m
+576 626 l
+S
+36 613 m
+576 613 l
+S
+36 626 m
+36 613 l
+S
+576 626 m
+576 613 l
+S
+171 626 m
+171 613 l
+S
+441 626 m
+441 613 l
+S
+/Cs1 cs 0.5 0.9 0.7 /P0 scn
+38 615 16 9 re
+f
+0 G 0 g
+[] 0 d 1 w
+38 615 16 9 re
+S
+[] 0 d 1 w
+0 G 0 g
+BT
+58 616 Td
+/F1 10 Tf
+(M3) Tj
+ET
+BT
+173 616 Td
+/F1 10 Tf
+(undefined) Tj
+ET
+0 G 0 g
+36 613 m
+576 613 l
+S
+36 600 m
+576 600 l
+S
+36 613 m
+36 600 l
+S
+576 613 m
+576 600 l
+S
+171 613 m
+171 600 l
+S
+441 613 m
+441 600 l
+S
+/Cs1 cs 1.0 1.0 0.5 /P5 scn
+38 602 16 9 re
+f
+0 G 0 g
+[] 0 d 1 w
+38 602 16 9 re
+S
+[] 0 d 1 w
+0 G 0 g
+BT
+58 603 Td
+/F1 10 Tf
+(M4) Tj
+ET
+BT
+173 603 Td
+/F1 10 Tf
+(undefined) Tj
+ET
+0 G 0 g
+36 600 m
+576 600 l
+S
+36 587 m
+576 587 l
+S
+36 600 m
+36 587 l
+S
+576 600 m
+576 587 l
+S
+171 600 m
+171 587 l
+S
+441 600 m
+441 587 l
+S
+/Cs1 cs 0.8 0.5 0.95 /P5 scn
+38 589 16 9 re
+f
+0 G 0 g
+[] 0 d 1 w
+38 589 16 9 re
+S
+[] 0 d 1 w
+0 G 0 g
+BT
+58 590 Td
+/F1 10 Tf
+(M5) Tj
+ET
+BT
+173 590 Td
+/F1 10 Tf
+(undefined) Tj
+ET
+0 G 0 g
+36 587 m
+576 587 l
+S
+36 574 m
+576 574 l
+S
+36 587 m
+36 574 l
+S
+576 587 m
+576 574 l
+S
+171 587 m
+171 574 l
+S
+441 587 m
+441 574 l
+S
+/Cs1 cs 0.75 0.57 0.57 /P5 scn
+38 576 16 9 re
+f
+0 G 0 g
+[] 0 d 1 w
+38 576 16 9 re
+S
+[] 0 d 1 w
+0 G 0 g
+BT
+58 577 Td
+/F1 10 Tf
+(M6) Tj
+ET
+BT
+173 577 Td
+/F1 10 Tf
+(undefined) Tj
+ET
+0 G 0 g
+36 574 m
+576 574 l
+S
+36 561 m
+576 561 l
+S
+36 574 m
+36 561 l
+S
+576 574 m
+576 561 l
+S
+171 574 m
+171 561 l
+S
+441 574 m
+441 561 l
+S
+/Cs1 cs 0.77 0.77 0.82 /P5 scn
+38 563 16 9 re
+f
+0 G 0 g
+[] 0 d 1 w
+38 563 16 9 re
+S
+[] 0 d 1 w
+0 G 0 g
+BT
+58 564 Td
+/F1 10 Tf
+(M7) Tj
+ET
+BT
+173 564 Td
+/F1 10 Tf
+(undefined) Tj
+ET
+0 G 0 g
+36 561 m
+576 561 l
+S
+36 548 m
+576 548 l
+S
+36 561 m
+36 548 l
+S
+576 561 m
+576 548 l
+S
+171 561 m
+171 548 l
+S
+441 561 m
+441 548 l
+S
+/Cs1 cs 0.89 0.75 0.72 /P5 scn
+38 550 16 9 re
+f
+0 G 0 g
+[] 0 d 1 w
+38 550 16 9 re
+S
+[] 0 d 1 w
+0 G 0 g
+BT
+58 551 Td
+/F1 10 Tf
+(MT) Tj
+ET
+BT
+173 551 Td
+/F1 10 Tf
+(undefined) Tj
+ET
+0 G 0 g
+36 548 m
+576 548 l
+S
+36 535 m
+576 535 l
+S
+36 548 m
+36 535 l
+S
+576 548 m
+576 535 l
+S
+171 548 m
+171 535 l
+S
+441 548 m
+441 535 l
+S
+/Cs1 cs 0.87 0.62 0.57 /P6 scn
+38 537 16 9 re
+f
+0 G 0 g
+[] 0 d 1 w
+38 537 16 9 re
+S
+[] 0 d 1 w
+0 G 0 g
+BT
+58 538 Td
+/F1 10 Tf
+(NWell) Tj
+ET
+BT
+173 538 Td
+/F1 10 Tf
+(undefined) Tj
+ET
+0 G 0 g
+36 535 m
+576 535 l
+S
+36 522 m
+576 522 l
+S
+36 535 m
+36 522 l
+S
+576 535 m
+576 522 l
+S
+171 535 m
+171 522 l
+S
+441 535 m
+441 522 l
+S
+0 G 0 g
+[1 3] 0 d 1 w
+38 524 16 9 re
+S
+[] 0 d 1 w
+0 G 0 g
+BT
+58 525 Td
+/F1 10 Tf
+(Nsvt) Tj
+ET
+BT
+173 525 Td
+/F1 10 Tf
+(undefined) Tj
+ET
+0 G 0 g
+36 522 m
+576 522 l
+S
+36 509 m
+576 509 l
+S
+36 522 m
+36 509 l
+S
+576 522 m
+576 509 l
+S
+171 522 m
+171 509 l
+S
+441 522 m
+441 509 l
+S
+/Cs1 cs 1.0 0.95 0.87 /P7 scn
+38 511 16 9 re
+f
+0 G 0 g
+[] 0 d 1 w
+38 511 16 9 re
+S
+[] 0 d 1 w
+0 G 0 g
+BT
+58 512 Td
+/F1 10 Tf
+(P_SUBSTRATE) Tj
+ET
+BT
+173 512 Td
+/F1 10 Tf
+(undefined) Tj
+ET
+0 G 0 g
+36 509 m
+576 509 l
+S
+36 496 m
+576 496 l
+S
+36 509 m
+36 496 l
+S
+576 509 m
+576 496 l
+S
+171 509 m
+171 496 l
+S
+441 509 m
+441 496 l
+S
+/Cs1 cs 0.5 0.9 0.7 /P4 scn
+38 498 16 9 re
+f
+0 G 0 g
+[] 0 d 1 w
+38 498 16 9 re
+S
+[] 0 d 1 w
+0 G 0 g
+BT
+58 499 Td
+/F1 10 Tf
+(Poly) Tj
+ET
+BT
+173 499 Td
+/F1 10 Tf
+(undefined) Tj
+ET
+0 G 0 g
+36 496 m
+576 496 l
+S
+36 483 m
+576 483 l
+S
+36 496 m
+36 483 l
+S
+576 496 m
+576 483 l
+S
+171 496 m
+171 483 l
+S
+441 496 m
+441 483 l
+S
+0 G 0 g
+[1 3] 0 d 1 w
+38 485 16 9 re
+S
+[] 0 d 1 w
+0 G 0 g
+BT
+58 486 Td
+/F1 10 Tf
+(Psvt) Tj
+ET
+BT
+173 486 Td
+/F1 10 Tf
+(undefined) Tj
+ET
+0 G 0 g
+36 483 m
+576 483 l
+S
+36 470 m
+576 470 l
+S
+36 483 m
+36 470 l
+S
+576 483 m
+576 470 l
+S
+171 483 m
+171 470 l
+S
+441 483 m
+441 470 l
+S
+/Cs1 cs 1.0 1.0 0.9 /P8 scn
+38 472 16 9 re
+f
+0 G 0 g
+[] 0 d 1 w
+38 472 16 9 re
+S
+[] 0 d 1 w
+0 G 0 g
+BT
+58 473 Td
+/F1 10 Tf
+(V0) Tj
+ET
+BT
+173 473 Td
+/F1 10 Tf
+(undefined) Tj
+ET
+BT
+443 473 Td
+/F1 10 Tf
+(via) Tj
+ET
+0 G 0 g
+36 470 m
+576 470 l
+S
+36 457 m
+576 457 l
+S
+36 470 m
+36 457 l
+S
+576 470 m
+576 457 l
+S
+171 470 m
+171 457 l
+S
+441 470 m
+441 457 l
+S
+/Cs1 cs 0.61 0.87 1.0 /P8 scn
+38 459 16 9 re
+f
+0 G 0 g
+[] 0 d 1 w
+38 459 16 9 re
+S
+[] 0 d 1 w
+0 G 0 g
+BT
+58 460 Td
+/F1 10 Tf
+(V1) Tj
+ET
+BT
+173 460 Td
+/F1 10 Tf
+(undefined) Tj
+ET
+BT
+443 460 Td
+/F1 10 Tf
+(via) Tj
+ET
+0 G 0 g
+36 457 m
+576 457 l
+S
+36 444 m
+576 444 l
+S
+36 457 m
+36 444 l
+S
+576 457 m
+576 444 l
+S
+171 457 m
+171 444 l
+S
+441 457 m
+441 444 l
+S
+/Cs1 cs 1.0 0.75 0.5 /P8 scn
+38 446 16 9 re
+f
+0 G 0 g
+[] 0 d 1 w
+38 446 16 9 re
+S
+[] 0 d 1 w
+0 G 0 g
+BT
+58 447 Td
+/F1 10 Tf
+(V2) Tj
+ET
+BT
+173 447 Td
+/F1 10 Tf
+(undefined) Tj
+ET
+BT
+443 447 Td
+/F1 10 Tf
+(via) Tj
+ET
+0 G 0 g
+36 444 m
+576 444 l
+S
+36 431 m
+576 431 l
+S
+36 444 m
+36 431 l
+S
+576 444 m
+576 431 l
+S
+171 444 m
+171 431 l
+S
+441 444 m
+441 431 l
+S
+/Cs1 cs 0.5 0.9 0.7 /P9 scn
+38 433 16 9 re
+f
+0 G 0 g
+[] 0 d 1 w
+38 433 16 9 re
+S
+[] 0 d 1 w
+0 G 0 g
+BT
+58 434 Td
+/F1 10 Tf
+(V3) Tj
+ET
+BT
+173 434 Td
+/F1 10 Tf
+(undefined) Tj
+ET
+BT
+443 434 Td
+/F1 10 Tf
+(via) Tj
+ET
+0 G 0 g
+36 431 m
+576 431 l
+S
+36 418 m
+576 418 l
+S
+36 431 m
+36 418 l
+S
+576 431 m
+576 418 l
+S
+171 431 m
+171 418 l
+S
+441 431 m
+441 418 l
+S
+/Cs1 cs 1.0 1.0 0.5 /P9 scn
+38 420 16 9 re
+f
+0 G 0 g
+[] 0 d 1 w
+38 420 16 9 re
+S
+[] 0 d 1 w
+0 G 0 g
+BT
+58 421 Td
+/F1 10 Tf
+(V4) Tj
+ET
+BT
+173 421 Td
+/F1 10 Tf
+(undefined) Tj
+ET
+BT
+443 421 Td
+/F1 10 Tf
+(via) Tj
+ET
+0 G 0 g
+36 418 m
+576 418 l
+S
+36 405 m
+576 405 l
+S
+36 418 m
+36 405 l
+S
+576 418 m
+576 405 l
+S
+171 418 m
+171 405 l
+S
+441 418 m
+441 405 l
+S
+/Cs1 cs 0.8 0.5 0.95 /P9 scn
+38 407 16 9 re
+f
+0 G 0 g
+[] 0 d 1 w
+38 407 16 9 re
+S
+[] 0 d 1 w
+0 G 0 g
+BT
+58 408 Td
+/F1 10 Tf
+(V5) Tj
+ET
+BT
+173 408 Td
+/F1 10 Tf
+(undefined) Tj
+ET
+BT
+443 408 Td
+/F1 10 Tf
+(via) Tj
+ET
+0 G 0 g
+36 405 m
+576 405 l
+S
+36 392 m
+576 392 l
+S
+36 405 m
+36 392 l
+S
+576 405 m
+576 392 l
+S
+171 405 m
+171 392 l
+S
+441 405 m
+441 392 l
+S
+/Cs1 cs 0.75 0.5 0.5 /P9 scn
+38 394 16 9 re
+f
+0 G 0 g
+[] 0 d 1 w
+38 394 16 9 re
+S
+[] 0 d 1 w
+0 G 0 g
+BT
+58 395 Td
+/F1 10 Tf
+(V6) Tj
+ET
+BT
+173 395 Td
+/F1 10 Tf
+(undefined) Tj
+ET
+BT
+443 395 Td
+/F1 10 Tf
+(via) Tj
+ET
+0 G 0 g
+36 392 m
+576 392 l
+S
+36 379 m
+576 379 l
+S
+36 392 m
+36 379 l
+S
+576 392 m
+576 379 l
+S
+171 392 m
+171 379 l
+S
+441 392 m
+441 379 l
+S
+/Cs1 cs 0.77 0.77 0.82 /P9 scn
+38 381 16 9 re
+f
+0 G 0 g
+[] 0 d 1 w
+38 381 16 9 re
+S
+[] 0 d 1 w
+0 G 0 g
+BT
+58 382 Td
+/F1 10 Tf
+(VT) Tj
+ET
+BT
+173 382 Td
+/F1 10 Tf
+(undefined) Tj
+ET
+BT
+443 382 Td
+/F1 10 Tf
+(via) Tj
+ET
+endstream
+endobj
+165 0 obj
+9570
+endobj
+166 0 obj
+<<
+/ProcSet [/PDF /Text]
+/Font <<
+/F0 167 0 R
+/F1 168 0 R
+>>
+/Pattern <<
+/P0 169 0 R
+/P1 171 0 R
+/P2 173 0 R
+/P3 175 0 R
+/P4 177 0 R
+/P5 179 0 R
+/P6 181 0 R
+/P7 183 0 R
+/P8 185 0 R
+/P9 187 0 R
+>>
+/ColorSpace << /Cs1 [/Pattern /DeviceRGB] >>
+>>
+endobj
+167 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F0
+/BaseFont /Helvetica-Bold
+>>
+endobj
+168 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F1
+/BaseFont /Helvetica
+>>
+endobj
+169 0 obj
+<<
+/Type /Pattern
+/PatternType 1
+/Resources << /ProcSet [/PDF /ImageB] /XObject <</Im0 170 0 R >> >>
+/PaintType 2
+/TilingType 1
+/Matrix [16 0 0 16 0 0]
+/BBox [0 0 1 1]
+/XStep 1
+/YStep 1
+/Length 12
+>>
+stream
+q
+/Im0 Do
+Q
+endstream
+endobj
+170 0 obj
+<<
+/Type /XObject
+/Subtype /Image
+/Width 16
+/Height 16
+/BitsPerComponent 1
+/ImageMask true
+/Length 43
+/Filter /ASCII85Decode
+>>
+stream
+]=\+CmdC,T]=\+CmdC,T]=\+CmdC,T]=\+CmdC,T~>
+endstream
+endobj
+171 0 obj
+<<
+/Type /Pattern
+/PatternType 1
+/Resources << /ProcSet [/PDF /ImageB] /XObject <</Im1 172 0 R >> >>
+/PaintType 2
+/TilingType 1
+/Matrix [16 0 0 16 0 0]
+/BBox [0 0 1 1]
+/XStep 1
+/YStep 1
+/Length 12
+>>
+stream
+q
+/Im1 Do
+Q
+endstream
+endobj
+172 0 obj
+<<
+/Type /XObject
+/Subtype /Image
+/Width 16
+/Height 16
+/BitsPerComponent 1
+/ImageMask true
+/Length 43
+/Filter /ASCII85Decode
+>>
+stream
+s8W-!s8RRus8W-!s8Vifs8W-!s8RRus8W-!s8Vif~>
+endstream
+endobj
+173 0 obj
+<<
+/Type /Pattern
+/PatternType 1
+/Resources << /ProcSet [/PDF /ImageB] /XObject <</Im2 174 0 R >> >>
+/PaintType 2
+/TilingType 1
+/Matrix [16 0 0 16 0 0]
+/BBox [0 0 1 1]
+/XStep 1
+/YStep 1
+/Length 12
+>>
+stream
+q
+/Im2 Do
+Q
+endstream
+endobj
+174 0 obj
+<<
+/Type /XObject
+/Subtype /Image
+/Width 16
+/Height 16
+/BitsPerComponent 1
+/ImageMask true
+/Length 43
+/Filter /ASCII85Decode
+>>
+stream
+WiB'!WiB'!WiB'!WiB'!WiB'!WiB'!WiB'!WiB'!~>
+endstream
+endobj
+175 0 obj
+<<
+/Type /Pattern
+/PatternType 1
+/Resources << /ProcSet [/PDF /ImageB] /XObject <</Im3 176 0 R >> >>
+/PaintType 2
+/TilingType 1
+/Matrix [16 0 0 16 0 0]
+/BBox [0 0 1 1]
+/XStep 1
+/YStep 1
+/Length 12
+>>
+stream
+q
+/Im3 Do
+Q
+endstream
+endobj
+176 0 obj
+<<
+/Type /XObject
+/Subtype /Image
+/Width 16
+/Height 16
+/BitsPerComponent 1
+/ImageMask true
+/Length 43
+/Filter /ASCII85Decode
+>>
+stream
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!~>
+endstream
+endobj
+177 0 obj
+<<
+/Type /Pattern
+/PatternType 1
+/Resources << /ProcSet [/PDF /ImageB] /XObject <</Im4 178 0 R >> >>
+/PaintType 2
+/TilingType 1
+/Matrix [16 0 0 16 0 0]
+/BBox [0 0 1 1]
+/XStep 1
+/YStep 1
+/Length 12
+>>
+stream
+q
+/Im4 Do
+Q
+endstream
+endobj
+178 0 obj
+<<
+/Type /XObject
+/Subtype /Image
+/Width 16
+/Height 16
+/BitsPerComponent 1
+/ImageMask true
+/Length 43
+/Filter /ASCII85Decode
+>>
+stream
+GB^'eh;,*2GB^'eh;,*2GB^'eh;,*2GB^'eh;,*2~>
+endstream
+endobj
+179 0 obj
+<<
+/Type /Pattern
+/PatternType 1
+/Resources << /ProcSet [/PDF /ImageB] /XObject <</Im5 180 0 R >> >>
+/PaintType 2
+/TilingType 1
+/Matrix [16 0 0 16 0 0]
+/BBox [0 0 1 1]
+/XStep 1
+/YStep 1
+/Length 12
+>>
+stream
+q
+/Im5 Do
+Q
+endstream
+endobj
+180 0 obj
+<<
+/Type /XObject
+/Subtype /Image
+/Width 16
+/Height 16
+/BitsPerComponent 1
+/ImageMask true
+/Length 43
+/Filter /ASCII85Decode
+>>
+stream
+mdAoe]=W92mdAoe]=W92mdAoe]=W92mdAoe]=W92~>
+endstream
+endobj
+181 0 obj
+<<
+/Type /Pattern
+/PatternType 1
+/Resources << /ProcSet [/PDF /ImageB] /XObject <</Im6 182 0 R >> >>
+/PaintType 2
+/TilingType 1
+/Matrix [16 0 0 16 0 0]
+/BBox [0 0 1 1]
+/XStep 1
+/YStep 1
+/Length 12
+>>
+stream
+q
+/Im6 Do
+Q
+endstream
+endobj
+182 0 obj
+<<
+/Type /XObject
+/Subtype /Image
+/Width 16
+/Height 16
+/BitsPerComponent 1
+/ImageMask true
+/Length 43
+/Filter /ASCII85Decode
+>>
+stream
+n*f/khqu2`^V>8Js*t%Irr2lprVcWjqtp-^p\4.F~>
+endstream
+endobj
+183 0 obj
+<<
+/Type /Pattern
+/PatternType 1
+/Resources << /ProcSet [/PDF /ImageB] /XObject <</Im7 184 0 R >> >>
+/PaintType 2
+/TilingType 1
+/Matrix [16 0 0 16 0 0]
+/BBox [0 0 1 1]
+/XStep 1
+/YStep 1
+/Length 12
+>>
+stream
+q
+/Im7 Do
+Q
+endstream
+endobj
+184 0 obj
+<<
+/Type /XObject
+/Subtype /Image
+/Width 16
+/Height 16
+/BitsPerComponent 1
+/ImageMask true
+/Length 43
+/Filter /ASCII85Decode
+>>
+stream
+s8W-!s8W-!s8W-!s8W+Ks8W&ts8W-!s8W-!s8W-!~>
+endstream
+endobj
+185 0 obj
+<<
+/Type /Pattern
+/PatternType 1
+/Resources << /ProcSet [/PDF /ImageB] /XObject <</Im8 186 0 R >> >>
+/PaintType 2
+/TilingType 1
+/Matrix [16 0 0 16 0 0]
+/BBox [0 0 1 1]
+/XStep 1
+/YStep 1
+/Length 12
+>>
+stream
+q
+/Im8 Do
+Q
+endstream
+endobj
+186 0 obj
+<<
+/Type /XObject
+/Subtype /Image
+/Width 16
+/Height 16
+/BitsPerComponent 1
+/ImageMask true
+/Length 43
+/Filter /ASCII85Decode
+>>
+stream
+s8V!6hr!>K#7'/Dhr!>Ks8Vunqtp9fi8FM0qtp9f~>
+endstream
+endobj
+187 0 obj
+<<
+/Type /Pattern
+/PatternType 1
+/Resources << /ProcSet [/PDF /ImageB] /XObject <</Im9 188 0 R >> >>
+/PaintType 2
+/TilingType 1
+/Matrix [16 0 0 16 0 0]
+/BBox [0 0 1 1]
+/XStep 1
+/YStep 1
+/Length 12
+>>
+stream
+q
+/Im9 Do
+Q
+endstream
+endobj
+188 0 obj
+<<
+/Type /XObject
+/Subtype /Image
+/Width 16
+/Height 16
+/BitsPerComponent 1
+/ImageMask true
+/Length 43
+/Filter /ASCII85Decode
+>>
+stream
+s8W-!s8W-!s8W+Ks*sqgs*t&us8W-!s8W-!s8W-!~>
+endstream
+endobj
+189 0 obj
+<< /Length 190 0 R >>
+stream
+0 G 0 g
+BT
+46 759 Td
+/F0 12 Tf
+(Apr 14, 2020) Tj
+ET
+BT
+203 759 Td
+/F0 12 Tf
+(CDS_FF_MPT Design Rule Manual) Tj
+ET
+BT
+516 759 Td
+/F0 12 Tf
+(page B1) Tj
+ET
+BT
+46 24 Td
+/F0 12 Tf
+(Cadence Confidential) Tj
+ET
+BT
+493 24 Td
+/F0 12 Tf
+(revision 1.0) Tj
+ET
+endstream
+endobj
+190 0 obj
+249
+endobj
+191 0 obj
+<<
+/ProcSet [/PDF /Text]
+/Font <<
+/F0 192 0 R
+/F1 193 0 R
+>>
+/Pattern <<
+>>
+/ColorSpace << /Cs1 [/Pattern /DeviceRGB] >>
+>>
+endobj
+192 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F0
+/BaseFont /Helvetica-Bold
+>>
+endobj
+193 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /F1
+/BaseFont /Helvetica
+>>
+endobj
+194 0 obj
+<<
+/Type /Pages
+/Kids [
+195 0 R 
+196 0 R 
+197 0 R 
+198 0 R 
+199 0 R 
+200 0 R 
+201 0 R 
+202 0 R 
+203 0 R 
+204 0 R 
+205 0 R 
+206 0 R 
+207 0 R 
+208 0 R 
+209 0 R 
+210 0 R 
+211 0 R 
+212 0 R 
+213 0 R 
+214 0 R 
+215 0 R 
+216 0 R 
+217 0 R 
+218 0 R 
+219 0 R 
+220 0 R 
+221 0 R 
+222 0 R 
+223 0 R 
+224 0 R 
+225 0 R 
+226 0 R 
+227 0 R 
+228 0 R 
+229 0 R 
+]
+/Count 35
+/MediaBox [0 0 612 792]
+>>
+endobj
+195 0 obj
+<<
+/Type /Page
+/Parent 194 0 R
+/Contents 1 0 R
+/Resources 3 0 R
+>>
+endobj
+196 0 obj
+<<
+/Type /Page
+/Parent 194 0 R
+/Contents 5 0 R
+/Resources 7 0 R
+>>
+endobj
+197 0 obj
+<<
+/Type /Page
+/Parent 194 0 R
+/Contents 9 0 R
+/Resources 11 0 R
+>>
+endobj
+198 0 obj
+<<
+/Type /Page
+/Parent 194 0 R
+/Contents 14 0 R
+/Resources 16 0 R
+>>
+endobj
+199 0 obj
+<<
+/Type /Page
+/Parent 194 0 R
+/Contents 19 0 R
+/Resources 21 0 R
+>>
+endobj
+200 0 obj
+<<
+/Type /Page
+/Parent 194 0 R
+/Contents 24 0 R
+/Resources 26 0 R
+>>
+endobj
+201 0 obj
+<<
+/Type /Page
+/Parent 194 0 R
+/Contents 29 0 R
+/Resources 31 0 R
+>>
+endobj
+202 0 obj
+<<
+/Type /Page
+/Parent 194 0 R
+/Contents 34 0 R
+/Resources 36 0 R
+>>
+endobj
+203 0 obj
+<<
+/Type /Page
+/Parent 194 0 R
+/Contents 39 0 R
+/Resources 41 0 R
+>>
+endobj
+204 0 obj
+<<
+/Type /Page
+/Parent 194 0 R
+/Contents 44 0 R
+/Resources 46 0 R
+>>
+endobj
+205 0 obj
+<<
+/Type /Page
+/Parent 194 0 R
+/Contents 49 0 R
+/Resources 51 0 R
+>>
+endobj
+206 0 obj
+<<
+/Type /Page
+/Parent 194 0 R
+/Contents 54 0 R
+/Resources 56 0 R
+>>
+endobj
+207 0 obj
+<<
+/Type /Page
+/Parent 194 0 R
+/Contents 59 0 R
+/Resources 61 0 R
+>>
+endobj
+208 0 obj
+<<
+/Type /Page
+/Parent 194 0 R
+/Contents 64 0 R
+/Resources 66 0 R
+>>
+endobj
+209 0 obj
+<<
+/Type /Page
+/Parent 194 0 R
+/Contents 69 0 R
+/Resources 71 0 R
+>>
+endobj
+210 0 obj
+<<
+/Type /Page
+/Parent 194 0 R
+/Contents 74 0 R
+/Resources 76 0 R
+>>
+endobj
+211 0 obj
+<<
+/Type /Page
+/Parent 194 0 R
+/Contents 79 0 R
+/Resources 81 0 R
+>>
+endobj
+212 0 obj
+<<
+/Type /Page
+/Parent 194 0 R
+/Contents 84 0 R
+/Resources 86 0 R
+>>
+endobj
+213 0 obj
+<<
+/Type /Page
+/Parent 194 0 R
+/Contents 89 0 R
+/Resources 91 0 R
+>>
+endobj
+214 0 obj
+<<
+/Type /Page
+/Parent 194 0 R
+/Contents 94 0 R
+/Resources 96 0 R
+>>
+endobj
+215 0 obj
+<<
+/Type /Page
+/Parent 194 0 R
+/Contents 99 0 R
+/Resources 101 0 R
+>>
+endobj
+216 0 obj
+<<
+/Type /Page
+/Parent 194 0 R
+/Contents 104 0 R
+/Resources 106 0 R
+>>
+endobj
+217 0 obj
+<<
+/Type /Page
+/Parent 194 0 R
+/Contents 109 0 R
+/Resources 111 0 R
+>>
+endobj
+218 0 obj
+<<
+/Type /Page
+/Parent 194 0 R
+/Contents 114 0 R
+/Resources 116 0 R
+>>
+endobj
+219 0 obj
+<<
+/Type /Page
+/Parent 194 0 R
+/Contents 119 0 R
+/Resources 121 0 R
+>>
+endobj
+220 0 obj
+<<
+/Type /Page
+/Parent 194 0 R
+/Contents 124 0 R
+/Resources 126 0 R
+>>
+endobj
+221 0 obj
+<<
+/Type /Page
+/Parent 194 0 R
+/Contents 129 0 R
+/Resources 131 0 R
+>>
+endobj
+222 0 obj
+<<
+/Type /Page
+/Parent 194 0 R
+/Contents 134 0 R
+/Resources 136 0 R
+>>
+endobj
+223 0 obj
+<<
+/Type /Page
+/Parent 194 0 R
+/Contents 139 0 R
+/Resources 141 0 R
+>>
+endobj
+224 0 obj
+<<
+/Type /Page
+/Parent 194 0 R
+/Contents 144 0 R
+/Resources 146 0 R
+>>
+endobj
+225 0 obj
+<<
+/Type /Page
+/Parent 194 0 R
+/Contents 149 0 R
+/Resources 151 0 R
+>>
+endobj
+226 0 obj
+<<
+/Type /Page
+/Parent 194 0 R
+/Contents 154 0 R
+/Resources 156 0 R
+>>
+endobj
+227 0 obj
+<<
+/Type /Page
+/Parent 194 0 R
+/Contents 159 0 R
+/Resources 161 0 R
+>>
+endobj
+228 0 obj
+<<
+/Type /Page
+/Parent 194 0 R
+/Contents 164 0 R
+/Resources 166 0 R
+>>
+endobj
+229 0 obj
+<<
+/Type /Page
+/Parent 194 0 R
+/Contents 189 0 R
+/Resources 191 0 R
+>>
+endobj
+230 0 obj
+<<
+/Type /Outlines
+/First 231 0 R
+/Last 272 0 R
+>>
+endobj
+231 0 obj
+<<
+/Title (Table of Contents)
+/Parent 230 0 R
+/Next 232 0 R
+/Dest [195 0 R /XYZ 0 792 null]
+>>
+endobj
+232 0 obj
+<<
+/Title (CDS_FF_MPT Process Revision List)
+/Parent 230 0 R
+/Prev 231 0 R
+/Next 233 0 R
+/Dest [198 0 R /XYZ 0 792 null]
+>>
+endobj
+233 0 obj
+<<
+/Title (CDS_FF_MPT Process Rules)
+/Parent 230 0 R
+/Prev 232 0 R
+/Next 234 0 R
+/Dest [200 0 R /XYZ 0 792 null]
+>>
+endobj
+234 0 obj
+<<
+/Title (    BURIEDNWELL RULES)
+/Parent 230 0 R
+/Prev 233 0 R
+/Next 235 0 R
+/Dest [200 0 R /XYZ 0 792 null]
+>>
+endobj
+235 0 obj
+<<
+/Title (    NWELL RULES)
+/Parent 230 0 R
+/Prev 234 0 R
+/Next 236 0 R
+/Dest [201 0 R /XYZ 0 792 null]
+>>
+endobj
+236 0 obj
+<<
+/Title (        NWELL RESISTOR WITHIN OXIDE RULES)
+/Parent 230 0 R
+/Prev 235 0 R
+/Next 237 0 R
+/Dest [202 0 R /XYZ 0 792 null]
+>>
+endobj
+237 0 obj
+<<
+/Title (    ACTIVE RULES)
+/Parent 230 0 R
+/Prev 236 0 R
+/Next 238 0 R
+/Dest [203 0 R /XYZ 0 792 null]
+>>
+endobj
+238 0 obj
+<<
+/Title (    CUT ACTIVE RULES)
+/Parent 230 0 R
+/Prev 237 0 R
+/Next 239 0 R
+/Dest [203 0 R /XYZ 0 792 null]
+>>
+endobj
+239 0 obj
+<<
+/Title (    FIN RULES)
+/Parent 230 0 R
+/Prev 238 0 R
+/Next 240 0 R
+/Dest [204 0 R /XYZ 0 792 null]
+>>
+endobj
+240 0 obj
+<<
+/Title (    THICK ACTIVE (1.8V) RULES)
+/Parent 230 0 R
+/Prev 239 0 R
+/Next 241 0 R
+/Dest [205 0 R /XYZ 0 792 null]
+>>
+endobj
+241 0 obj
+<<
+/Title (    SALICIDE BLOCKING RULES)
+/Parent 230 0 R
+/Prev 240 0 R
+/Next 242 0 R
+/Dest [206 0 R /XYZ 0 792 null]
+>>
+endobj
+242 0 obj
+<<
+/Title (    NSVT RULES)
+/Parent 230 0 R
+/Prev 241 0 R
+/Next 243 0 R
+/Dest [207 0 R /XYZ 0 792 null]
+>>
+endobj
+243 0 obj
+<<
+/Title (    NHVT RULES)
+/Parent 230 0 R
+/Prev 242 0 R
+/Next 244 0 R
+/Dest [207 0 R /XYZ 0 792 null]
+>>
+endobj
+244 0 obj
+<<
+/Title (    NLVT RULES)
+/Parent 230 0 R
+/Prev 243 0 R
+/Next 245 0 R
+/Dest [207 0 R /XYZ 0 792 null]
+>>
+endobj
+245 0 obj
+<<
+/Title (    PSVT RULES)
+/Parent 230 0 R
+/Prev 244 0 R
+/Next 246 0 R
+/Dest [208 0 R /XYZ 0 792 null]
+>>
+endobj
+246 0 obj
+<<
+/Title (    PHVT RULES)
+/Parent 230 0 R
+/Prev 245 0 R
+/Next 247 0 R
+/Dest [208 0 R /XYZ 0 792 null]
+>>
+endobj
+247 0 obj
+<<
+/Title (    PLVT RULES)
+/Parent 230 0 R
+/Prev 246 0 R
+/Next 248 0 R
+/Dest [208 0 R /XYZ 0 792 null]
+>>
+endobj
+248 0 obj
+<<
+/Title (    POLY RULES)
+/Parent 230 0 R
+/Prev 247 0 R
+/Next 249 0 R
+/Dest [209 0 R /XYZ 0 792 null]
+>>
+endobj
+249 0 obj
+<<
+/Title (    CUT POLY RULES)
+/Parent 230 0 R
+/Prev 248 0 R
+/Next 250 0 R
+/Dest [209 0 R /XYZ 0 792 null]
+>>
+endobj
+250 0 obj
+<<
+/Title (    LIPO RULES)
+/Parent 230 0 R
+/Prev 249 0 R
+/Next 251 0 R
+/Dest [210 0 R /XYZ 0 792 null]
+>>
+endobj
+251 0 obj
+<<
+/Title (    LIACT RULES)
+/Parent 230 0 R
+/Prev 250 0 R
+/Next 252 0 R
+/Dest [211 0 R /XYZ 0 792 null]
+>>
+endobj
+252 0 obj
+<<
+/Title (    V0 RULES)
+/Parent 230 0 R
+/Prev 251 0 R
+/Next 253 0 R
+/Dest [212 0 R /XYZ 0 792 null]
+>>
+endobj
+253 0 obj
+<<
+/Title (    METAL1_X RULES  (X=1-3))
+/Parent 230 0 R
+/Prev 252 0 R
+/Next 254 0 R
+/Dest [213 0 R /XYZ 0 792 null]
+>>
+endobj
+254 0 obj
+<<
+/Title (    CUT METAL RULES)
+/Parent 230 0 R
+/Prev 253 0 R
+/Next 255 0 R
+/Dest [213 0 R /XYZ 0 792 null]
+>>
+endobj
+255 0 obj
+<<
+/Title (    VIA1X RULES (X=1-3))
+/Parent 230 0 R
+/Prev 254 0 R
+/Next 256 0 R
+/Dest [214 0 R /XYZ 0 792 null]
+>>
+endobj
+256 0 obj
+<<
+/Title (    METAL4 RULES (1X))
+/Parent 230 0 R
+/Prev 255 0 R
+/Next 257 0 R
+/Dest [215 0 R /XYZ 0 792 null]
+>>
+endobj
+257 0 obj
+<<
+/Title (    METAL1BX RULES (X=1-3))
+/Parent 230 0 R
+/Prev 256 0 R
+/Next 258 0 R
+/Dest [216 0 R /XYZ 0 792 null]
+>>
+endobj
+258 0 obj
+<<
+/Title (    METAL1TX RULES (X=2-4))
+/Parent 230 0 R
+/Prev 257 0 R
+/Next 259 0 R
+/Dest [216 0 R /XYZ 0 792 null]
+>>
+endobj
+259 0 obj
+<<
+/Title (    VIA2X RULES (X=4-5))
+/Parent 230 0 R
+/Prev 258 0 R
+/Next 260 0 R
+/Dest [217 0 R /XYZ 0 792 null]
+>>
+endobj
+260 0 obj
+<<
+/Title (    METAL2X RULES  (X=5-6))
+/Parent 230 0 R
+/Prev 259 0 R
+/Next 261 0 R
+/Dest [218 0 R /XYZ 0 792 null]
+>>
+endobj
+261 0 obj
+<<
+/Title (    METAL2X RULES  (X=5))
+/Parent 230 0 R
+/Prev 260 0 R
+/Next 262 0 R
+/Dest [218 0 R /XYZ 0 792 null]
+>>
+endobj
+262 0 obj
+<<
+/Title (    VIA4X RULES (X=6))
+/Parent 230 0 R
+/Prev 261 0 R
+/Next 263 0 R
+/Dest [219 0 R /XYZ 0 792 null]
+>>
+endobj
+263 0 obj
+<<
+/Title (    METAL4X RULES  (X=7))
+/Parent 230 0 R
+/Prev 262 0 R
+/Next 264 0 R
+/Dest [220 0 R /XYZ 0 792 null]
+>>
+endobj
+264 0 obj
+<<
+/Title (    CAPACITOR METAL)
+/Parent 230 0 R
+/Prev 263 0 R
+/Next 265 0 R
+/Dest [221 0 R /XYZ 0 792 null]
+>>
+endobj
+265 0 obj
+<<
+/Title (    VIAT RULES)
+/Parent 230 0 R
+/Prev 264 0 R
+/Next 266 0 R
+/Dest [222 0 R /XYZ 0 792 null]
+>>
+endobj
+266 0 obj
+<<
+/Title (    METALT RULES)
+/Parent 230 0 R
+/Prev 265 0 R
+/Next 267 0 R
+/Dest [223 0 R /XYZ 0 792 null]
+>>
+endobj
+267 0 obj
+<<
+/Title (    LATCH-UP RULES)
+/Parent 230 0 R
+/Prev 266 0 R
+/Next 268 0 R
+/Dest [224 0 R /XYZ 0 792 null]
+>>
+endobj
+268 0 obj
+<<
+/Title (    ANTENNA RULES)
+/Parent 230 0 R
+/Prev 267 0 R
+/Next 269 0 R
+/Dest [225 0 R /XYZ 0 792 null]
+>>
+endobj
+269 0 obj
+<<
+/Title (    ESD RULES)
+/Parent 230 0 R
+/Prev 268 0 R
+/Next 270 0 R
+/Dest [226 0 R /XYZ 0 792 null]
+>>
+endobj
+270 0 obj
+<<
+/Title (    BONDPAD RULES)
+/Parent 230 0 R
+/Prev 269 0 R
+/Next 271 0 R
+/Dest [227 0 R /XYZ 0 792 null]
+>>
+endobj
+271 0 obj
+<<
+/Title (Appendix A)
+/Parent 230 0 R
+/Prev 270 0 R
+/Next 272 0 R
+/Dest [228 0 R /XYZ 0 792 null]
+>>
+endobj
+272 0 obj
+<<
+/Title (Appendix B)
+/Parent 230 0 R
+/Prev 271 0 R
+/Dest [229 0 R /XYZ 0 792 null]
+>>
+endobj
+273 0 obj
+<<
+/Dests 274 0 R
+>>
+endobj
+274 0 obj
+<<
+/Names [
+(appendixA) 275 0 R 
+(appendixB) 276 0 R 
+]
+>>
+endobj
+275 0 obj
+<<
+/D [228 0 R /XYZ 0 792 null]/S/GoTo
+>>
+endobj
+276 0 obj
+<<
+/D [229 0 R /XYZ 0 792 null]/S/GoTo
+>>
+endobj
+277 0 obj
+<<
+/Type /Catalog
+/Pages 194 0 R
+/Outlines 230 0 R
+/PageMode /UseOutlines
+/Names 273 0 R
+>>
+endobj
+xref
+0 278
+0000000000 65535 f 
+0000000009 00000 n 
+0000002713 00000 n 
+0000002733 00000 n 
+0000002858 00000 n 
+0000002943 00000 n 
+0000004712 00000 n 
+0000004732 00000 n 
+0000004857 00000 n 
+0000004942 00000 n 
+0000008029 00000 n 
+0000008050 00000 n 
+0000008188 00000 n 
+0000008274 00000 n 
+0000008355 00000 n 
+0000010748 00000 n 
+0000010769 00000 n 
+0000010907 00000 n 
+0000010993 00000 n 
+0000011074 00000 n 
+0000013546 00000 n 
+0000013567 00000 n 
+0000013705 00000 n 
+0000013791 00000 n 
+0000013872 00000 n 
+0000015530 00000 n 
+0000015551 00000 n 
+0000015689 00000 n 
+0000015775 00000 n 
+0000015856 00000 n 
+0000018418 00000 n 
+0000018439 00000 n 
+0000018577 00000 n 
+0000018663 00000 n 
+0000018744 00000 n 
+0000020061 00000 n 
+0000020082 00000 n 
+0000020220 00000 n 
+0000020306 00000 n 
+0000020387 00000 n 
+0000023644 00000 n 
+0000023665 00000 n 
+0000023803 00000 n 
+0000023889 00000 n 
+0000023970 00000 n 
+0000025879 00000 n 
+0000025900 00000 n 
+0000026038 00000 n 
+0000026124 00000 n 
+0000026205 00000 n 
+0000028973 00000 n 
+0000028994 00000 n 
+0000029132 00000 n 
+0000029218 00000 n 
+0000029299 00000 n 
+0000031816 00000 n 
+0000031837 00000 n 
+0000031975 00000 n 
+0000032061 00000 n 
+0000032142 00000 n 
+0000037418 00000 n 
+0000037439 00000 n 
+0000037577 00000 n 
+0000037663 00000 n 
+0000037744 00000 n 
+0000043020 00000 n 
+0000043041 00000 n 
+0000043179 00000 n 
+0000043265 00000 n 
+0000043346 00000 n 
+0000047330 00000 n 
+0000047351 00000 n 
+0000047489 00000 n 
+0000047575 00000 n 
+0000047656 00000 n 
+0000050033 00000 n 
+0000050054 00000 n 
+0000050192 00000 n 
+0000050278 00000 n 
+0000050359 00000 n 
+0000053790 00000 n 
+0000053811 00000 n 
+0000053949 00000 n 
+0000054035 00000 n 
+0000054116 00000 n 
+0000057549 00000 n 
+0000057570 00000 n 
+0000057708 00000 n 
+0000057794 00000 n 
+0000057875 00000 n 
+0000062592 00000 n 
+0000062613 00000 n 
+0000062751 00000 n 
+0000062837 00000 n 
+0000062918 00000 n 
+0000065097 00000 n 
+0000065118 00000 n 
+0000065256 00000 n 
+0000065342 00000 n 
+0000065423 00000 n 
+0000067734 00000 n 
+0000067756 00000 n 
+0000067897 00000 n 
+0000067984 00000 n 
+0000068066 00000 n 
+0000072995 00000 n 
+0000073017 00000 n 
+0000073158 00000 n 
+0000073245 00000 n 
+0000073327 00000 n 
+0000075504 00000 n 
+0000075526 00000 n 
+0000075667 00000 n 
+0000075754 00000 n 
+0000075836 00000 n 
+0000078774 00000 n 
+0000078796 00000 n 
+0000078937 00000 n 
+0000079024 00000 n 
+0000079106 00000 n 
+0000081279 00000 n 
+0000081301 00000 n 
+0000081442 00000 n 
+0000081529 00000 n 
+0000081611 00000 n 
+0000083871 00000 n 
+0000083893 00000 n 
+0000084034 00000 n 
+0000084121 00000 n 
+0000084203 00000 n 
+0000085796 00000 n 
+0000085818 00000 n 
+0000085959 00000 n 
+0000086046 00000 n 
+0000086128 00000 n 
+0000088266 00000 n 
+0000088288 00000 n 
+0000088429 00000 n 
+0000088516 00000 n 
+0000088598 00000 n 
+0000091016 00000 n 
+0000091038 00000 n 
+0000091179 00000 n 
+0000091266 00000 n 
+0000091348 00000 n 
+0000093269 00000 n 
+0000093291 00000 n 
+0000093432 00000 n 
+0000093519 00000 n 
+0000093601 00000 n 
+0000096183 00000 n 
+0000096205 00000 n 
+0000096346 00000 n 
+0000096433 00000 n 
+0000096515 00000 n 
+0000099609 00000 n 
+0000099631 00000 n 
+0000099772 00000 n 
+0000099859 00000 n 
+0000099941 00000 n 
+0000106001 00000 n 
+0000106023 00000 n 
+0000106164 00000 n 
+0000106251 00000 n 
+0000106333 00000 n 
+0000115959 00000 n 
+0000115981 00000 n 
+0000116242 00000 n 
+0000116329 00000 n 
+0000116411 00000 n 
+0000116657 00000 n 
+0000116862 00000 n 
+0000117108 00000 n 
+0000117313 00000 n 
+0000117559 00000 n 
+0000117764 00000 n 
+0000118010 00000 n 
+0000118215 00000 n 
+0000118461 00000 n 
+0000118666 00000 n 
+0000118912 00000 n 
+0000119117 00000 n 
+0000119363 00000 n 
+0000119568 00000 n 
+0000119814 00000 n 
+0000120019 00000 n 
+0000120265 00000 n 
+0000120470 00000 n 
+0000120716 00000 n 
+0000120921 00000 n 
+0000121226 00000 n 
+0000121247 00000 n 
+0000121388 00000 n 
+0000121475 00000 n 
+0000121557 00000 n 
+0000121952 00000 n 
+0000122036 00000 n 
+0000122120 00000 n 
+0000122205 00000 n 
+0000122291 00000 n 
+0000122377 00000 n 
+0000122463 00000 n 
+0000122549 00000 n 
+0000122635 00000 n 
+0000122721 00000 n 
+0000122807 00000 n 
+0000122893 00000 n 
+0000122979 00000 n 
+0000123065 00000 n 
+0000123151 00000 n 
+0000123237 00000 n 
+0000123323 00000 n 
+0000123409 00000 n 
+0000123495 00000 n 
+0000123581 00000 n 
+0000123667 00000 n 
+0000123754 00000 n 
+0000123842 00000 n 
+0000123930 00000 n 
+0000124018 00000 n 
+0000124106 00000 n 
+0000124194 00000 n 
+0000124282 00000 n 
+0000124370 00000 n 
+0000124458 00000 n 
+0000124546 00000 n 
+0000124634 00000 n 
+0000124722 00000 n 
+0000124810 00000 n 
+0000124898 00000 n 
+0000124986 00000 n 
+0000125054 00000 n 
+0000125166 00000 n 
+0000125307 00000 n 
+0000125440 00000 n 
+0000125570 00000 n 
+0000125694 00000 n 
+0000125844 00000 n 
+0000125969 00000 n 
+0000126098 00000 n 
+0000126220 00000 n 
+0000126358 00000 n 
+0000126494 00000 n 
+0000126617 00000 n 
+0000126740 00000 n 
+0000126863 00000 n 
+0000126986 00000 n 
+0000127109 00000 n 
+0000127232 00000 n 
+0000127355 00000 n 
+0000127482 00000 n 
+0000127605 00000 n 
+0000127729 00000 n 
+0000127850 00000 n 
+0000127986 00000 n 
+0000128114 00000 n 
+0000128246 00000 n 
+0000128376 00000 n 
+0000128511 00000 n 
+0000128646 00000 n 
+0000128778 00000 n 
+0000128913 00000 n 
+0000129046 00000 n 
+0000129176 00000 n 
+0000129309 00000 n 
+0000129437 00000 n 
+0000129560 00000 n 
+0000129685 00000 n 
+0000129812 00000 n 
+0000129938 00000 n 
+0000130060 00000 n 
+0000130186 00000 n 
+0000130305 00000 n 
+0000130410 00000 n 
+0000130448 00000 n 
+0000130524 00000 n 
+0000130583 00000 n 
+0000130642 00000 n 
+trailer
+<<
+/Size 278
+/Root 277 0 R
+>>
+startxref
+130751
+%%EOF

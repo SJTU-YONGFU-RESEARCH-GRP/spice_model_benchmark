@@ -1,0 +1,29 @@
+// Generated for: spectre (Apr  5 14:20:20 2013 )
+// Library name: gsclib045_hvt
+// Cell name: CLKAND2X12
+// View name: schematic
+
+simulator lang=spectre
+
+subckt CLKAND2X12 A B Y VSS VDD
+mp1 (net61 B VDD VDD) g45p1hvt w=(1.175u) l=45n nf=1 as=164.5f ad=164.5f \
+        ps=2.63u pd=2.63u nrd=119.149m nrs=119.149m sa=140n sb=140n \
+        sd=160n sca=67.80688 scb=0.06308 scc=0.00811 m=(1)
+mp0 (net61 A VDD VDD) g45p1hvt w=(1.175u) l=45n nf=1 as=164.5f ad=164.5f \
+        ps=2.63u pd=2.63u nrd=119.149m nrs=119.149m sa=140n sb=140n \
+        sd=160n sca=67.80688 scb=0.06308 scc=0.00811 m=(1)
+mp2 (Y net61 VDD VDD) g45p1hvt w=(4.7u) l=45n nf=1 as=658f ad=658f \
+        ps=9.68u pd=9.68u nrd=29.7872m nrs=29.7872m sa=140n sb=140n \
+        sd=160n sca=47.81913 scb=0.05187 scc=0.00600 m=(1)
+mn2 (Y net61 VSS VSS) g45n1hvt w=(3.1u) l=45n nf=1 as=434f ad=434f \
+        ps=6.48u pd=6.48u nrd=45.1613m nrs=45.1613m sa=140n sb=140n \
+        sd=160n sca=51.36485 scb=0.05380 scc=0.00636 m=(1)
+mn0 (net69 A VSS VSS) g45n1hvt w=(1.55u) l=45n nf=1 as=217f ad=217f \
+        ps=3.38u pd=3.38u nrd=90.3226m nrs=90.3226m sa=140n sb=140n \
+        sd=160n sca=61.52026 scb=0.05946 scc=0.00743 m=(1)
+mn1 (net61 B net69 VSS) g45n1hvt w=(1.55u) l=45n nf=1 as=217f ad=217f \
+        ps=3.38u pd=3.38u nrd=90.3226m nrs=90.3226m sa=140n sb=140n \
+        sd=160n sca=61.52026 scb=0.05946 scc=0.00743 m=(1)
+ends CLKAND2X12
+// End of subcircuit definition.
+

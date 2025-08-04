@@ -1,0 +1,77 @@
+// Generated for: spectre (Apr 26 15:41:42 2013 )
+// Library name: gsclib045_backbias
+// Cell name: TLATNTSCAX20
+// View name: schematic
+
+simulator lang=spectre
+
+subckt TLATNTSCAX20 CK E ECK SE VSS VDD NW
+mn1 (Eb E VSS VSS) g45n1svt w=(145n) l=45n nf=1 as=20.3f ad=20.3f \
+        ps=570n pd=570n nrd=965.517m nrs=965.517m sa=140n sb=140n sd=160n \
+        sca=203.41795 scb=0.11509 scc=0.02523 m=(1)
+mn0 (Eb SE VSS VSS) g45n1svt w=(145n) l=45n nf=1 as=20.3f ad=20.3f \
+        ps=570n pd=570n nrd=965.517m nrs=965.517m sa=140n sb=140n sd=160n \
+        sca=203.41795 scb=0.11509 scc=0.02523 m=(1)
+mn22 (ECK ECKb VSS VSS) g45n1svt w=(5.185u) l=45n nf=1 as=725.9f \
+        ad=725.9f ps=10.65u pd=10.65u nrd=27.001m nrs=27.001m sa=140n \
+        sb=140n sd=160n sca=47.17159 scb=0.05152 scc=0.00593 m=(1)
+mn21 (ECKb CKbb net271 VSS) g45n1svt w=(1.3u) l=45n nf=1 as=182f ad=182f \
+        ps=2.88u pd=2.88u nrd=107.692m nrs=107.692m sa=140n sb=140n \
+        sd=160n sca=65.32613 scb=0.06164 scc=0.00784 m=(1)
+mn20 (net271 Eint VSS VSS) g45n1svt w=(1.3u) l=45n nf=1 as=182f ad=182f \
+        ps=2.88u pd=2.88u nrd=107.692m nrs=107.692m sa=140n sb=140n \
+        sd=160n sca=65.32613 scb=0.06164 scc=0.00784 m=(1)
+mn16 (n5 CKbb net263 VSS) g45n1svt w=(145n) l=45n nf=1 as=20.3f ad=20.3f \
+        ps=570n pd=570n nrd=965.517m nrs=965.517m sa=140n sb=140n sd=160n \
+        sca=203.41795 scb=0.11509 scc=0.02523 m=(1)
+mn15 (net263 Eint VSS VSS) g45n1svt w=(145n) l=45n nf=1 as=20.3f \
+        ad=20.3f ps=570n pd=570n nrd=965.517m nrs=965.517m sa=140n sb=140n \
+        sd=160n sca=203.41795 scb=0.11509 scc=0.02523 m=(1)
+mn2 (CKb CK VSS VSS) g45n1svt w=(145n) l=45n nf=1 as=20.3f ad=20.3f \
+        ps=570n pd=570n nrd=965.517m nrs=965.517m sa=140n sb=140n sd=160n \
+        sca=203.41795 scb=0.11509 scc=0.02523 m=(1)
+mn10 (Eint n5 VSS VSS) g45n1svt w=(520n) l=45n nf=1 as=72.8f ad=72.8f \
+        ps=1.32u pd=1.32u nrd=269.231m nrs=269.231m sa=140n sb=140n \
+        sd=160n sca=98.28759 scb=0.08111 scc=0.01166 m=(1)
+mn5 (Eb CKb n5 VSS) g45n1svt w=(145n) l=45n nf=1 as=20.3f ad=20.3f \
+        ps=570n pd=570n nrd=965.517m nrs=965.517m sa=140n sb=140n sd=160n \
+        sca=203.41795 scb=0.11509 scc=0.02523 m=(1)
+mn3 (CKbb CKb VSS VSS) g45n1svt w=(145n) l=45n nf=1 as=20.3f ad=20.3f \
+        ps=570n pd=570n nrd=965.517m nrs=965.517m sa=140n sb=140n sd=160n \
+        sca=203.41795 scb=0.11509 scc=0.02523 m=(1)
+mp1 (Eb E net246 NW) g45p1svt w=(215n) l=45n nf=1 as=30.1f ad=30.1f \
+        ps=710n pd=710n nrd=651.163m nrs=651.163m sa=140n sb=140n sd=160n \
+        sca=162.02845 scb=0.10751 scc=0.02009 m=(1)
+mp0 (net246 SE VDD NW) g45p1svt w=(215n) l=45n nf=1 as=30.1f ad=30.1f \
+        ps=710n pd=710n nrd=651.163m nrs=651.163m sa=140n sb=140n sd=160n \
+        sca=162.02845 scb=0.10751 scc=0.02009 m=(1)
+mp22 (ECK ECKb VDD NW) g45p1svt w=(7.815u) l=45n nf=1 as=1.0941p \
+        ad=1.0941p ps=15.91u pd=15.91u nrd=17.9143m nrs=17.9143m sa=140n \
+        sb=140n sd=160n sca=45.04913 scb=0.05038 scc=0.00572 m=(1)
+mp16 (n5 CKb net234 NW) g45p1svt w=(215n) l=45n nf=1 as=30.1f ad=30.1f \
+        ps=710n pd=710n nrd=651.163m nrs=651.163m sa=140n sb=140n sd=160n \
+        sca=162.02845 scb=0.10751 scc=0.02009 m=(1)
+mp15 (net234 Eint VDD NW) g45p1svt w=(215n) l=45n nf=1 as=30.1f ad=30.1f \
+        ps=710n pd=710n nrd=651.163m nrs=651.163m sa=140n sb=140n sd=160n \
+        sca=162.02845 scb=0.10751 scc=0.02009 m=(1)
+mp2 (CKb CK VDD NW) g45p1svt w=(215n) l=45n nf=1 as=30.1f ad=30.1f \
+        ps=710n pd=710n nrd=651.163m nrs=651.163m sa=140n sb=140n sd=160n \
+        sca=162.02845 scb=0.10751 scc=0.02009 m=(1)
+mp10 (Eint n5 VDD NW) g45p1svt w=(780n) l=45n nf=1 as=109.2f ad=109.2f \
+        ps=1.84u pd=1.84u nrd=179.487m nrs=179.487m sa=140n sb=140n \
+        sd=160n sca=80.49887 scb=0.07059 scc=0.00954 m=(1)
+mp3 (CKbb CKb VDD NW) g45p1svt w=(215n) l=45n nf=1 as=30.1f ad=30.1f \
+        ps=710n pd=710n nrd=651.163m nrs=651.163m sa=140n sb=140n sd=160n \
+        sca=162.02845 scb=0.10751 scc=0.02009 m=(1)
+mp5 (n5 CKbb Eb NW) g45p1svt w=(215n) l=45n nf=1 as=30.1f ad=30.1f \
+        ps=710n pd=710n nrd=651.163m nrs=651.163m sa=140n sb=140n sd=160n \
+        sca=162.02845 scb=0.10751 scc=0.02009 m=(1)
+mp21 (ECKb CKbb VDD NW) g45p1svt w=(1.95u) l=45n nf=1 as=273f ad=273f \
+        ps=4.18u pd=4.18u nrd=71.7949m nrs=71.7949m sa=140n sb=140n \
+        sd=160n sca=57.40007 scb=0.05714 scc=0.00699 m=(1)
+mp20 (ECKb Eint VDD NW) g45p1svt w=(1.95u) l=45n nf=1 as=273f ad=273f \
+        ps=4.18u pd=4.18u nrd=71.7949m nrs=71.7949m sa=140n sb=140n \
+        sd=160n sca=57.40007 scb=0.05714 scc=0.00699 m=(1)
+ends TLATNTSCAX20
+// End of subcircuit definition.
+

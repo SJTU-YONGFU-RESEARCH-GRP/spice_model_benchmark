@@ -1,0 +1,108 @@
+; Translated with ADS Netlist Translator (*) 270.400 Jul 24 2004
+;
+;  **************************************************************************
+;  JUNCTION VARACTOR MODEL :
+;  
+;
+;      Model name      L(um)    W(um)   Finger   Unit Cell
+;      ---------------------------------------------------
+;       xjvar_w40      0.42      40       1       50     7
+;      ---------------------------------------------------      
+;  *************************************************************************
+
+define xjvar_w40 ( anode cathode gnode)
+parameters  nf=1 ad1="UNDEF" pd1="UNDEF" ad2="UNDEF" pd2="UNDEF"
+ADS_ad1_0=40u*nf*0.60u
+ADS_ad1_1=if (ad1 == "UNDEF") then ADS_ad1_0 else ad1 endif
+
+
+ADS_pd1_2=2*nf*(0.60u+40u)
+ADS_pd1_3=if (pd1 == "UNDEF") then ADS_pd1_2 else pd1 endif
+
+
+ADS_ad2_4=1.60u*(nf+1)*(40u+1u)
+ADS_ad2_5=if (ad2 == "UNDEF") then ADS_ad2_4 else ad2 endif
+
+
+ADS_pd2_6=2*((40u+1u)+(nf+1)*1.60u)
+ADS_pd2_7=if (pd2 == "UNDEF") then ADS_pd2_6 else pd2 endif
+
+
+rval = if ( (nf >= 1) && (nf <=6) ) then (-0.467*nf+4.367) else (-0.0181*nf+1.2265) endif
+lval = if ( (nf >= 1) && (nf <=6) ) then (-3.083*nf+22.583)*1e-12 else (-0.1276*nf+65.893)*1e-12 endif
+
+R:r1 anode node1 R=rval
+L:l1 node1 node2 L=lval
+R:r2 node4 cathode R=rval
+L:l2 node3 node4 L=lval
+
+pdiodejv:d1 node2 node3 Area=ADS_ad1_1 Periph=ADS_pd1_3
+nwdiodejv:d2 node5 node3 Area=ADS_ad2_5 Periph=ADS_pd2_7
+R:rsub node5 gnode R=(-1.0647*nf+141.98)
+C:csub node5 gnode C=(0.9091*nf+70.9091)*1e-15
+model pdiodejv Diode Tnom=25 Level=3 Is=2.50e-7 Rs=1.0e-10 N=1.03 Bv=10.1 Ibv=1e-3 Ikf=1e20 \
+      Isw=4.00e-13  Area=7.5e-8 Periph=1.1e-3 Cjo=1.121e-3 Vj=0.895226 M=0.4476 Cjsw=2.241e-10 Vj=0.6 Msw=0.05 \
+      Tlev=1 Eg=1.17 Xti=3 Tbv1=8.8e-4 Trs=1.2e-4 Tlevc=1 Tcjo=9.739001e-4 Tcjsw=4.130718e-4 \
+      Tvjsw=1.572025e-3 Tvj=1.572025e-3 Fc=0 Fcsw=0
+model nwdiodejv Diode Tnom=25 Level=3 Is=6.50e-7 Rs=1.0e-10 N=1.03 Bv=14.75 Ibv=1e-3 Ikf=1e20 \
+      Isw=9.75e-13 Area=7.5e-8 Periph=1.1e-3 Cjo=1.337566e-4 Vj=0.5846489 M=0.3883243 Cjsw=5.333577e-10 \
+      Vj=0.5846489 Msw=0.2345684 Tlev=1 Eg=1.17 Xti=3 Tbv1=9.6e-4 Trs=1.125e-3 Tlevc=1 Tcjo=2.8425e-3 \
+      Tcjsw=1.5284e-3 Tvjsw=2.819e-3 Tvj=2.819e-3 Fc=0 Fcsw=0
+end xjvar_w40
+;Spectre Math Constants
+#ifndef SPECTRE_MATH_CONSTANTS
+;Define a CPP variable so the constants will not be redefined
+#define SPECTRE_MATH_CONSTANTS
+M_E=e
+M_LOG2E=1.44269504088896
+M_LOG10E=log(e)
+M_LN2=ln(2)
+M_LN10=ln10
+M_PI=pi
+M_TWOPI=2*pi
+M_PI_2=pi/2
+M_PI_4=pi/4
+M_1_PI=1/pi
+M_2_PI=2/pi
+M_2_SQRTPI=2/sqrt(pi)
+M_SQRT1_2=sqrt(1/2)
+M_DEGPERRAD=57.2957795130823208772
+M_SQRT2=sqrt(2)
+;End of Spectre Math Constants
+#endif
+
+;Spectre Physical Constants
+#ifndef SPECTRE_PHYSICAL_CONSTANTS
+;Define a CPP variable so the constants will not be redefined
+#define SPECTRE_PHYSICAL_CONSTANTS
+P_Q=qelectron
+P_C=c0
+P_K=boltzmann
+P_H=planck
+P_EPS0=e0
+P_U0=u0
+P_CELSIUS0=273.15
+;End of Spectre Physical Constants
+#endif
+
+;Spectre boolean function replacements
+#ifndef SPECTRE_BOOLEAN_EQUATIONS
+;Define a value so the functions will not be included multiple times
+#define SPECTRE_BOOLEAN_EQUATIONS
+;Spectre Equals
+ADS_SCS_EQ(x,y)=if (x == y) then 1 else 0 endif
+;Spectre Not Equal
+ADS_SCS_NEQ(x,y)=if (x != y) then 1 else 0 endif
+;Spectre Less Than
+ADS_SCS_LT(x,y)=if (x < y) then 1 else 0 endif
+;Spectre Greater Than
+ADS_SCS_GT(x,y)=if (x > y) then 1 else 0 endif
+;Spectre Less Than or Equal To
+ADS_SCS_LTE(x,y)=if (x <= y) then 1 else 0 endif
+;Spectre Greater Than or Equal To
+ADS_SCS_GTE(x,y)=if (x >= y) then 1 else 0 endif
+;Spectre Trinary
+ADS_SCS_TRINARY(z,x,y)=if (z == 1) then x else y endif
+;End of the Spectre boolean function replacement block
+#endif
+

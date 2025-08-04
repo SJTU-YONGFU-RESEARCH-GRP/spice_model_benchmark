@@ -1,0 +1,934 @@
+;old
+; *****************************************************************************
+; Disclaimer:
+;
+; The information contained herein is provided "as is" and without warranty of
+; any kind, express, implied or statutory including without limitation any
+; warranty of title, noninfringement, merchantability and fitness for a
+; particular purpose. In no event shall Ciranova, Inc. be liable for any
+; indirect, punitive, special, incidental or consequential damages arising
+; from, out of or in connection with the information or any use of the
+; information, or be liable for any claim, damages or other liability, however
+; it arises and on any theory of liability, whether in an action for contract,
+; strict liability or tort (including negligence), or otherwise, arising from,
+; out of or in connection with the information or any use of the information.
+; *****************************************************************************
+
+; If you make changes to the techfile, please, increase revision or version
+; number. In case of version number increase, revision number should be set to 0.
+; The version number increase indicates major changes that most probably will
+; require modification of SantanaDisplay.tech and/or SantanaDisplay.drf and/or
+; PyCell code using this technology, for example, adding new layers to
+; layerMapping() section should increase the version number. The revision number
+; increase indicates minor changes, for example, changing DRC-commands section of
+; one physical rule should increase the revision number.
+
+techId(
+ ( name      "Ciranova Fictional 0.1um"  )
+ ( version   4                           )
+ ( revision  0                           )
+);techId
+
+viewTypeUnits(
+;( view-type        user-unit  DBU-per-UU )
+;( ---------------  ---------  ---------- )
+ ( maskLayout       micron     1000       )
+ ( schematic        inch       160        )
+ ( schematicSymbol  inch       160        )
+ ( netlist          inch       160        )
+);viewTypeUnits
+
+mfgGridResolution(
+ ( 0.001 )
+);mfgGridResolution
+
+;************************************************************************
+; LAYERS
+;************************************************************************
+
+layerMapping(
+;( name           number )
+;( -------        ------ )
+;User-Defined Layers
+ ( NWELL          1 	)
+ ( DIFF           3 	)
+ ( DIFF_18        6     )
+ ( DIFF_25        75    )
+ ( PIMP           4 	)
+ ( NIMP           5 	)
+ ( PO             10    )
+ ( RMARK          49    )
+ ( CO             28    )
+ ( M1             11    )
+ ( VIA1           12	)
+ ( M2             13    )
+ ( VIA2           14	)
+ ( M3             15    )
+ ( VIA3           16	)
+ ( M4             17    )
+ ( VIA4           18	)
+ ( M5             19    )
+ ( VIA5           20	)
+ ( M6             21    )
+ ( VIA6           22	)
+ ( M7             23    )
+ ( DIOD       	  46    )
+ ( HVTIMP         29    )
+ ( LVTIMP         30    )
+ ( SBLK           9     )
+ ;( VARMARK       70    )
+ ( CBMMARK        71    )
+ ;( INDMARK       72    )
+ ( BJTMY          47    )
+ 
+ ( CTMMARK        73    )
+ ( METDMY         74    )
+ ;( INDPINM       79    )
+ 
+;Auxiliary Layers
+ ( flightLine     100    ) ;for Route.FlightLine()
+ ( bbox           177    ) ;for Helix
+
+;System-Reserved Layers
+ ( Unrouted       200    )
+ ( Row            201    )
+ ( Group          202    )
+ ( Cannotoccupy   203    )
+ ( Canplace       204    )
+ ( hardFence      205    )
+ ( softFence      206    )
+ ( y0             207    )
+ ( y1             208    )
+ ( y2             209    )
+ ( y3             210    )
+ ( y4             211    )
+ ( y5             212    )
+ ( y6             213    )
+ ( y7             214    )
+ ( y8             215    )
+ ( y9             216    )
+ ( designFlow     217    )
+ ( stretch        218    )
+ ( edgeLayer      219    )
+ ( changedLayer   220    )
+ ( unset          221    )
+ ( unknown        222    )
+ ( spike          223    )
+ ( hiz            224    )
+ ( resist         225    )
+ ( drive          226    )
+ ( supply         227    )
+ ( wire           228    )
+ ( pin            229    )
+ ( text           230    )
+ ( device         231    )
+ ( border         232    )
+ ( snap           233    )
+ ( align          234    )
+ ( prBoundary     235    )
+ ( instance       236    )
+ ( annotate       237    )
+ ( marker         238    )
+ ( select         239    )
+ ( grid           251    )
+ ( axis           252    )
+ ( hilite         253    )
+ ( background     254    )
+);layerMapping
+
+maskNumbers(
+;( layer        mask )
+;( -------      ---- )
+ ( NWELL        1    )	
+ ( DIFF         2    )	
+ ( DIFF_18      3    )
+ ( DIFF_25      75   )	   
+ ( PO           53   )	
+ ( PIMP         4    )	
+ ( NIMP         5    )	
+ ( RMARK        65   )
+ ( CO           23   )	
+ ( M1           6   )	
+ ( VIA1         7   )	
+ ( M2           8   )	
+ ( VIA2         9   )	
+ ( M3           10   )	
+ ( VIA3         11   )	
+ ( M4           12   )	
+ ( VIA4         13   )	
+ ( M5           14   )	
+ ( VIA5         15   )	
+ ( M6           16   )	
+ ( VIA6         17   )	
+ ( M7           18   )
+ ( HVTIMP       38   )
+ ( LVTIMP       41   )
+ ( SBLK         66   )
+ ;( VARMARK	68   )
+ ( CBMMARK	69   )
+ ;( INDMARK	70   )
+ ( BJTMY	24   )
+ ( DIOD  	25   )
+ ( CTMMARK      71   )
+ ( METDMY       72   )
+ ;( INDPINM	79   )	
+);maskNumbers
+
+layerMaterials(
+;( layer    material    )
+;( -------  ---------   )
+ ;( PWELL    pWell       )
+ ( NWELL    nWell       )
+ ( DIFF     diffusion   )
+ ( DIFF_18      recognition )
+ ( DIFF_25      recognition )
+ ( PO    poly        )
+ ( PIMP     pImplant    )
+ ( NIMP     nImplant    )
+ ( RMARK      other       )
+ ( CO  cut         )
+ ( M1   metal       )
+ ( VIA1     cut         )
+ ( M2   metal       )
+ ( VIA2     cut         )
+ ( M3   metal       )
+ ( VIA3     cut         )
+ ( M4   metal       )
+ ( VIA4     cut         )
+ ( M5   metal       )
+ ( VIA5     cut         )
+ ( M6   metal       )
+ ( VIA6     cut         )
+ ( M7   metal        )
+ ( HVTIMP   other    )
+ ( LVTIMP   other    )
+ ( SBLK     other    )
+ ;( VARMARK  other    )
+ ( CBMMARK  other    )
+ ;( INDMARK  other    )
+ ( BJTMY  other    )
+ ( DIOD   other    )
+ ( CTMMARK  other    ) 
+ ( METDMY   other    )
+ ;( INDPINM  other    ) 
+);layerMaterials
+
+purposeMapping(
+;( name   number )
+;( -----  ------ )
+;User-Defined Purposes
+ ( dummy  1      )
+
+;System-Reserved Purposes
+ ( redundant      -8     )
+ ( gapFill        -7     )
+ ( annotation     -6     )
+ ( OPCAntiSerif   -5     )
+ ( OPCSerif       -4     )
+ ( slot           -3     )
+ ( fill           -2     )
+ ( drawing        -1     )
+ ( fatal          223    )
+ ( critical       224    )
+ ( soCritical     225    )
+ ( soError        226    )
+ ( ackWarn        227    )
+ ( info           228    )
+ ( track          229    )
+ ( blockage       230    )
+ ( warning        234    )
+ ( tool1          235    )
+ ( tool0          236    )
+ ( label          237    )
+ ( flight         238    )
+ ( error          239    )
+ ( annotate       240    )
+ ( drawing1       241    )
+ ( drawing2       242    )
+ ( drawing3       243    )
+ ( drawing4       244    )
+ ( drawing5       245    )
+ ( drawing6       246    )
+ ( drawing7       247    )
+ ( drawing8       248    )
+ ( drawing9       249    )
+ ( boundary       250    )
+ ( pin            251    )
+ ( net            253    )
+ ( cell           254    )
+;( all            255    )
+);purposeMapping
+
+derivedLayers(
+;( name(derivation)                                                             creation )
+;( ---------------------------------------------------------------------------  -------- )
+ ( NDIFF( AND(NIMP DIFF) )                                                        	 )
+ ( PDIFF( AND(PIMP DIFF) )                                                               )
+ ( NTAP( AND(NDIFF NWELL) )                                                              )
+ ( NACT( NOT(NDIFF NWELL) )                                                              )
+ ( PTAP( NOT(PDIFF NWELL) )                                                              )
+ ( PACT( AND(PDIFF NWELL) )                                                              )
+ ( ACT(   OR(PACT NACT) )                                                                )
+ ( TAP(   OR(PTAP NTAP) )                                                                )
+ ( BJTDIFF( AND(DIFF BJTMY) )								 )
+ ( GATE( AND(PO DIFF) )                                                               	 )
+ ( D1825(OR(DIFF_18 DIFF_25) )							 	 )
+ ( GATET( NOT(GATE D1825 ) )							 	 )
+ ( GATEH( AND(GATE DIFF_18) )                                                            )
+ ( GATEH25( AND(GATE DIFF_25) )                                                          )
+ ( DIFFH( AND(DIFF_18 DIFF) )                                                            )
+ ( DIFFH25( AND(DIFF_25 DIFF) )                                                          )
+ ( FPOLY( NOT(PO DIFF) )                                                              	 )
+ ( DCONT( OUTSIDE(CO PO) )                                                       	 )
+ ( PCONT( OUTSIDE(CO PO NEGATED) )                                               	 )
+ ( NGATE( AND(GATE NIMP) )                                                               )
+ ( PGATE( AND(GATE PIMP) )                                                               )
+ ( PSD( NOT(PACT PO) )                                                                	 )
+ ( NSD( NOT(NACT PO) )                                                                	 )
+ ( GATE_W( INSIDE_EDGE(PO DIFF) )                                                     	 )
+ ( GATEN_W( INSIDE_EDGE(GATE_W DIFF_18 NEGATED) )                                        )
+ ( GATEN25_W( INSIDE_EDGE(GATE_W DIFF_25 NEGATED) )                                      )
+ ( GATEH_W( INSIDE_EDGE(GATE_W DIFF_18) )                                                )
+ ( GATEH25_W( INSIDE_EDGE(GATE_W DIFF_25) )                                              )
+ ( EXNGATE( tmp1( SIZE(NGATE 0.03) ) tmp2( AND(tmp1 PO) ) SIZE(tmp2 0.32) )              ) 
+ ( EXPGATE( tmp1( SIZE(PGATE 0.03) ) tmp2( AND(tmp1 PO) ) SIZE(tmp2 0.32) )              ) 
+ ( IMP(		OR(PIMP NIMP) )								 )
+);derivedLayers
+
+connectivity(
+; connectivity-statement(layer-parameters)
+; ----------------------------------------
+  connectBy(M1 PTAP DCONT)
+  connectBy(M1 NTAP DCONT)
+  connectBy(M1 PSD DCONT)
+  connectBy(M1 NSD DCONT)
+  connectBy(M1 PO PCONT)
+  connectBy(M1 M2 VIA1)
+  connectBy(M2 M3 VIA2)
+  connectBy(M3 M4 VIA3)
+  connectBy(M4 M5 VIA4)
+  connectBy(M5 M6 VIA5)
+  connectBy(M6 M7 VIA6)
+  softConnect(NTAP NWELL)
+);connectivity
+
+viaLayers(
+;( bottom layer  via layer  top layer )
+;( ------------  ---------  --------- )
+ ( PO        CO    	M1    )
+ ( DIFF      CO    	M1    )
+ ( M1        VIA1       M2    )
+ ( M2        VIA2       M3    )
+ ( M3        VIA3       M4    )
+ ( M4        VIA4       M5    )
+ ( M5        VIA5       M6    )
+ ( M6        VIA6       M7    )
+);viaLayers
+
+;************************************************************************
+; PHYSICAL RULES
+;************************************************************************
+
+physicalRules( "default"
+    spacingRules(
+    ;                         ID( rule        layer1   layer2   value  DRC-commands                                                                    comment                                                                 )
+    ;---------------------------( ----------  -------  -------  -----  ------------------------------------------------------------------------------  ----------------------------------------------------------------------- )
+                  OFFGRID.RMARK(				       OFFGRID(RMARK   0.001)							  "PWELL vertex not located on 0.001 grid"				  )
+		  OFFGRID.METDMY(				       OFFGRID(METDMY   0.001)							  "PWELL vertex not located on 0.001 grid"				  )
+		 OFFGRID.CTMMARK(				       OFFGRID(CTMMARK  0.001)							  "PWELL vertex not located on 0.001 grid"				  )
+		 ;OFFGRID.VARMARK(				       OFFGRID(VARMARK  0.001)							  "PWELL vertex not located on 0.001 grid"				  )
+		 OFFGRID.CBMMARK(				       OFFGRID(CBMMARK  0.001)							  "PWELL vertex not located on 0.001 grid"				  )
+		 ;OFFGRID.INDMARK(				       OFFGRID(INDMARK  0.001)							  "PWELL vertex not located on 0.001 grid"				  )
+		;OFFGRID.INDPINM(				       OFFGRID(INDPINM  0.001)							  "INDPINM vertex not located on 0.001 grid"				  )
+		 OFFGRID.BJTMY( 				       OFFGRID(BJTMY  0.001)							  "PWELL vertex not located on 0.001 grid"				  )
+                OFFGRID.DIOD(	                                       OFFGRID(DIOD 0.001)                                                          "PWELL vertex not located on 0.001 grid"                                )
+		    OFFGRID.SBLK(                                      OFFGRID(SBLK     0.001)                                                          "PWELL vertex not located on 0.001 grid"                                )
+		  OFFGRID.HVTIMP(                                      OFFGRID(HVTIMP   0.001)                                                          "PWELL vertex not located on 0.001 grid"                                )
+		  OFFGRID.LVTIMP(                                      OFFGRID(LVTIMP   0.001)                                                          "PWELL vertex not located on 0.001 grid"                                )
+		   ;OFFGRID.PWELL(                                      OFFGRID(PWELL    0.001)                                                          "PWELL vertex not located on 0.001 grid"                                )
+                   OFFGRID.NWELL(                                      OFFGRID(NWELL    0.001)                                                          "NWELL vertex not located on 0.001 grid"                                )
+                      OFFGRID.OD(                                      OFFGRID(DIFF     0.001)                                                          "OD vertex not located on 0.001 grid"                                   )
+                  OFFGRID.THGATE(                                      OFFGRID(DIFF_18  0.001)                                                          "DIFF_18 vertex not located on 0.001 grid"                              )
+		OFFGRID.THGATE25(                                      OFFGRID(DIFF_25  0.001)                                                          "DIFF_25 vertex not located on 0.001 grid"                              )
+                   OFFGRID.PPLUS(                                      OFFGRID(PIMP     0.001)                                                          "PPLUS vertex not located on 0.001 grid"                                )
+                   OFFGRID.NPLUS(                                      OFFGRID(NIMP     0.001)                                                          "NPLUS vertex not located on 0.001 grid"                                )
+                    OFFGRID.POLY(                                      OFFGRID(PO       0.001)                                                          "POLY vertex not located on 0.001 grid"                                 )
+                      OFFGRID.CO(                                      OFFGRID(CO       0.001)                                                          "CO vertex not located on 0.001 grid"                                   )
+                      OFFGRID.M1(                                      OFFGRID(M1       0.001)                                                          "M1 vertex not located on 0.001 grid"                                   )
+                    OFFGRID.VIA1(                                      OFFGRID(VIA1     0.001)                                                          "VIA1 vertex not located on 0.001 grid"                                 )
+                      OFFGRID.M2(                                      OFFGRID(M2       0.001)                                                          "M2 vertex not located on 0.001 grid"                                   )
+                    OFFGRID.VIA2(                                      OFFGRID(VIA2     0.001)                                                          "VIA2 vertex not located on 0.001 grid"                                 )
+                      OFFGRID.M3(                                      OFFGRID(M3       0.001)                                                          "M3 vertex not located on 0.001 grid"                                   )
+                    OFFGRID.VIA3(                                      OFFGRID(VIA3     0.001)                                                          "VIA3 vertex not located on 0.001 grid"                                 )
+                      OFFGRID.M4(                                      OFFGRID(M4       0.001)                                                          "M4 vertex not located on 0.001 grid"                                   )
+                    OFFGRID.VIA4(                                      OFFGRID(VIA4     0.001)                                                          "VIA4 vertex not located on 0.001 grid"                                 )
+                      OFFGRID.M5(                                      OFFGRID(M5       0.001)                                                          "M5 vertex not located on 0.001 grid"                                   )
+                    OFFGRID.VIA5(                                      OFFGRID(VIA5     0.001)                                                          "VIA5 vertex not located on 0.001 grid"                                 )
+                      OFFGRID.M6(                                      OFFGRID(M6       0.001)                                                          "M6 vertex not located on 0.001 grid"                                   )
+                    OFFGRID.VIA6(                                      OFFGRID(VIA6     0.001)                                                          "VIA6 vertex not located on 0.001 grid"                                 )
+                      OFFGRID.M7(                                      OFFGRID(M7       0.001)                                                          "M7 vertex not located on 0.001 grid"                                   )
+                     NWELL.WIDTH( minWidth    NWELL             0.23   WIDTH(NWELL <0.23 ABUT SINGULAR)                                                 "NWELL width < 0.23" )
+                   NWELL.SPACE.1( minSpacing  NWELL             0.23   SPACING(NWELL <0.23 ABUT)                                                        "NWELL space [same potential] < 0.23"                                   )
+                   NWELL.SPACE.2( minDiffPotentialSpacing NWELL 0.46    SPACING(NWELL <0.46 ABUT DIFF_NET)                                                "NWELL space [different potentials] < 0.46"                               )
+                ;NWELL.CLEAR.POLY( minClearance NWELL        PO  0.05   SPACING(NWELL PO <0.05 ABUT >0<90)					       "PPLUS space to non-butting NTAP < 0.04" 			     )      
+	        ;NWELL.CLEAR.POLY( minClearance NWELL        PO  0.05   SPACING(NWELL PO <0.05 ABUT >0<90)					       "PPLUS space to non-butting NTAP < 0.04" 			     )      
+	       		 OD.WARN(                                      NOT(DIFF IMP)                                                                    "OD without implant"                                                     )
+                        OD.WIDTH( minWidth    DIFF              0.044   WIDTH(DIFF <0.044 ABUT SINGULAR)                                                  "OD width for MOS and interconnect < 0.044"                               )
+                        OD.SPACE( minSpacing  DIFF              0.05   SPACING(DIFF <0.05 ABUT SINGULAR)                                                "OD space < 0.05"                                                        )
+                      OD.CLEAR.1(                                      (
+                                                                        A( INSIDE(NDIFF NWELL NEGATED) )
+                                                                        SPACING(A NWELL <0.065 ABUT OVERLAPPING SINGULAR)
+                                                                       )                                                                                "NWELL to NDIFF space < 0.065"                                            )
+                      OD.CLEAR.2(                                      (
+                                                                        X( NOT(PDIFF NWELL) )
+                                                                        SPACING(X NWELL <0.07 ABUT SINGULAR)
+                                                                       )                                                                                "NWELL space PDIFF outside NW < 0.07"                                     )
+                        ; OD.AREA( minArea       DIFF            0.02   AREA(DIFF <0.02)                                                               "OD area < 0.02"                                                    )
+		    THGATE.WIDTH( minWidth      DIFF_18		0.33   WIDTH(DIFF_18 <0.33 ABUT SINGULAR)						"DIFF_18 width < 0.33"						)
+                    THGATE.SPACE( minSpacing    DIFF_18		0.33   SPACING(DIFF_18 <0.33 ABUT SINGULAR)						"DIFF_18 space < 0.33"						)
+		  THGATE25.WIDTH( minWidth      DIFF_25		0.33   WIDTH(DIFF_25 <0.33 ABUT SINGULAR)						"DIFF_25 width < 0.33"						)
+                  THGATE25.SPACE( minSpacing    DIFF_25		0.33   SPACING(DIFF_25 <0.33 ABUT SINGULAR)						"DIFF_25 space < 0.33"						)
+                 THGATE.CLEAR.OD( minClearance  DIFF_18	 DIFF   0.15   SPACING(DIFF_18 DIFF <0.15 ABUT SINGULAR)			 	        "DIFF_18 space to OD < 0.15"					)
+               THGATE.CLEAR.GATE( minClearance  DIFF_18  GATEN_W 0.235  SPACING(DIFF_18 GATEN_W <0.235 ABUT)						"DIFF_18 space std voltage GATE < 0.235"				)
+	       THGATE25.CLEAR.OD( minClearance  DIFF_25	 DIFF   0.15   SPACING(DIFF_25 DIFF <0.15 ABUT SINGULAR)			 	        "DIFF_25 space to OD < 0.15"					        )
+           THGATE25.CLEAR.GATE( minClearance  DIFF_25  GATEN25_W 0.235  SPACING(DIFF_25 GATEN25_W <0.235 ABUT)						"DIFF_25 space std voltage GATE < 0.235"				)
+                   SBLK.CLEAR.CO( minClearance  SBLK      CO    0.13   SPACING(SBLK CO <0.13)                                                          "PPLUS space to POLY < 0.05"                                              )
+                  RMARK.CLEAR.CO( minClearance  RMARK     CO    0.13   SPACING(RMARK CO <0.13)                                                          "PPLUS space to POLY < 0.05"                                              )		 	         
+		      POLY.WIDTH( minWidth      PO              0.03    WIDTH(PO <0.03 ABUT SINGULAR)                                                     "POLY width for interconnect < 0.03"                                          )
+                      POLY.SPACE( minSpacing    PO              0.086   SPACING(PO <0.086 ABUT SINGULAR)                                                  "POLY space: on OD w/o CO and interconnect < 0.086"                          )
+                       POLY.AREA( minArea       PO              0.012   AREA(PO <0.012)                                                                   "POLY area < 0.012"                                                          )
+                   POLY.CLEAR.OD(minClearance   PO        DIFF  0.05   SPACING(PO DIFF <0.05 ABUT <89.5 SINGULAR)                                       "POLY on field space to active < 0.05"                                      )
+		  POLY.BADGATE.1(                                      (
+                                                                        SPACING(GATE_W <0.03 ABUT =90 INTERSECTING_ONLY)
+                                                                        WIDTH(GATE_W <0.03 ABUT =90 INTERSECTING_ONLY)
+                                                                       )                                                                                "90 degree gate not allowed/L and U shape gate are not allowed"          )
+                  POLY.BADGATE.2(                                      (
+                                                                        GATE_POLY_EDGE( COIN_EDGE(GATE DIFF) )
+                                                                        GATE_DIFF_EDGE( COIN_EDGE(GATE DIFF NEGATED) )
+                                                                        BAD_ANGLE_1( SLOPE(GATE_POLY_EDGE >0<90) )
+                                                                        BAD_ANGLE_2( SLOPE(GATE_DIFF_EDGE >0<90) )
+                                                                        BAD_GATE_1( WITH_EDGE(GATE BAD_ANGLE_1) )
+                                                                        BAD_GATE_2( WITH_EDGE(GATE BAD_ANGLE_2) )
+                                                                        OR(BAD_GATE_1 BAD_GATE_2)
+                                                                       )                                                                                "Non-rectangular gates are not allowed"                                 )
+                   PPLUS.WIDTH( minWidth      PIMP              0.102   WIDTH(PIMP <0.102 ABUT SINGULAR)                                                  "PPLUS width < 0.102"                                                    )
+                   PPLUS.SPACE( minSpacing    PIMP              0.17   SPACING(PIMP <0.17 ABUT)                                                         "PPLUS space < 0.17"                                                    )
+              PPLUS.OVER.OD( minClearance  PIMP        DIFF  0.02   (
+                                                                        OVERLAP(PIMP NACT <0.02 ABUT >0<90)
+                                                                        X( SPACING(PIMP NACT <0.001 ABUT =0 EDGE_OUTPUT2) )
+                                                                        Y( GROW_EDGE(X OUTSIDE_GROWTH 0.001) )
+                                                                        INTERACT(Y PDIFF NEGATED)
+                                                                       )                                                                                "PPLUS space to n active in PWELL < 0.05"                               )
+              PPLUS.CLEAR.NTAP( minClearance PIMP         NTAP  0.05    SPACING(PIMP NTAP <0.05 ABUT >0<90)                                             "PPLUS space to non-butting NTAP < 0.22"                              )
+              PPLUS.CLEAR.POLY( minClearance PIMP         PO    0.02    SPACING(PIMP PO <0.02)                                                          "PPLUS space to POLY < 0.32"                                              )
+           PPLUS.ENCLOSE.PGATE(                                         NOT(EXPGATE PIMP)                                                               "PPLUS extension over (P gate) + (field poly within 0.35 um) < 0.32"        )
+               PPLUS.OVER.PACT( minOverlap   DIFF         PIMP  0.02    OVERLAP(DIFF PIMP <0.02 ABUT >0<90 SINGULAR)                                    "PPLUS extends into p active < 0.02"                                      )
+        ;            PPLUS.AREA( minArea      PIMP               0.0576  AREA(PIMP <0.0576)                                                              "PPLUS area < 0.0576"                                                )
+   PPLUS.NPLUS.COINCIDENT.DIFF(                                         COIN_INSIDE_EDGE(IMP DIFF)                                                      "Implant can not coincident OD edge except butted diffusion"           )
+           PPLUS.OVERLAP.NPLUS(                                         AND(PIMP NIMP)                                                                  "PPLUS and NPLUS not allowed to overlap"                               )
+                   NPLUS.WIDTH( minWidth     NIMP               0.102    WIDTH(NIMP <0.102 ABUT SINGULAR)                                                 "NPLUS width < 0.102"                                                   )
+                   NPLUS.SPACE( minSpacing   NIMP               0.17    SPACING(NIMP <0.17 ABUT)                                                        "NPLUS space < 0.17"                                                   )
+                 NPLUS.OVER.OD( minClearance NIMP         DIFF  0.05   (
+                                                                        OVERLAP(NIMP PACT <0.05 ABUT >0<90)
+                                                                        X( SPACING(NIMP PACT <0.001 ABUT =0 EDGE_OUTPUT2) )
+                                                                        Y( GROW_EDGE(X OUTSIDE_GROWTH 0.001) )
+                                                                        INTERACT(Y NDIFF NEGATED)
+                                                                       )                                                                                "NPLUS space to p active in NWELL < 0.05"			       )
+              NPLUS.CLEAR.PTAP( minClearance NIMP     PTAP     0.05    SPACING(NIMP PTAP <0.05 ABUT >0<90)                                              "NPLUS space to non-butting ptap < 0.22"			      )
+              NPLUS.CLEAR.POLY( minClearance NIMP     PO       0.02    SPACING(NIMP PO <0.02)                                                           "NPLUS space to POLY < 0.32"						  )
+           NPLUS.ENCLOSE.NGATE(                                        NOT(EXNGATE NIMP)                                                                "NPLUS extension over (N gate) + (field poly within 0.35 um) < 0.32"   )
+               NPLUS.OVER.NACT( minOverlap  DIFF      NIMP     0.02    OVERLAP(DIFF NIMP <0.02 ABUT >0<90 SINGULAR)                                     "NPLUS extends into n active < 0.02"				       )
+                    NPLUS.AREA( minArea     NIMP               0.0576  AREA(NIMP <0.0576)                                                               "NPLUS area < 0.0576"						     )
+                  HVTIMP.WIDTH( minWidth    HVTIMP              0.2   WIDTH(HVTIMP <0.85 ABUT SINGULAR)                                                "PPLUS width < 0.85"						     )
+                  HVTIMP.SPACE( minSpacing  HVTIMP              0.2   SPACING(HVTIMP <0.85 ABUT)                                                       "PPLUS space < 0.85"						     )
+              HVTIMP.OVER.PACT( minOverlap  DIFF     HVTIMP     0.05   OVERLAP(DIFF HVTIMP <0.05 ABUT >0<90 SINGULAR)                                   "PPLUS extends into p active < 0.05"					)
+		  LVTIMP.WIDTH( minWidth    LVTIMP              0.2   WIDTH(LVTIMP <0.85 ABUT SINGULAR)                                                "PPLUS width < 0.85"						     )
+		  LVTIMP.SPACE( minSpacing  LVTIMP              0.2   SPACING(LVTIMP <0.85 ABUT)                                                       "PPLUS space < 0.85"						     )
+              LVTIMP.OVER.PACT( minOverlap  DIFF     LVTIMP     0.05   OVERLAP(DIFF LVTIMP <0.05 ABUT >0<90 SINGULAR)                                   "PPLUS extends into p active < 0.05"					)
+		
+                 CONTACT.WIDTH( minWidth    CO                  0.042   RECTANGLES(CO SIDE_LENGTH1 =0.042 SIDE_LENGTH2 =0.042 NEGATED)                     "CONTACT width must be 0.042 x 0.042"					    )
+                 CONTACT.SPACE( minSpacing  CO                  0.05   SPACING(CO <0.05 SINGULAR)                                                       "CONTACT space < 0.05"  						    )
+
+
+
+
+
+
+
+
+              CONTACT.CLEAR.POLY( minClearance CO       PO      0.04   SPACING(DCONT PO <0.04 ABUT SINGULAR INSIDE_IS_ERROR)                            "Diffusion CONTACT space to GATE < 0.04"                                 )	      
+	      CONTACT.CLEAR.GATE18( minClearance CO     GATEH      0.07   SPACING(DCONT GATEH <0.07 ABUT SINGULAR INSIDE_IS_ERROR)                            "Diffusion CONTACT space to GATE < 0.08"                                 )
+
+	      CONTACT.CLEAR.GATE25( minClearance CO     GATEH25    0.07   SPACING(DCONT GATEH25 <0.07 ABUT SINGULAR INSIDE_IS_ERROR)                            "Diffusion CONTACT space to GATE < 0.08"                                 )
+; These lines intentionally left blank.
+                CONTACT.CLEAR.OD( minClearance PCONT    DIFF    0.05   SPACING(PCONT DIFF <0.05 ABUT)                                                   "Poly CONTACT space to OD < 0.05"                                     )
+                    METAL1.WIDTH( minWidth    M1                0.05   WIDTH(M1 <0.05 ABUT SINGULAR)                                                    "METAL1 width < 0.05"                                                     )
+                    METAL1.SPACE( minSpacing  M1                0.05   SPACING(M1 <0.05 ABUT)                                                           "METAL1 space < 0.05"                                                     )
+;
+; These lines intentionally left blank.
+;
+;
+                     METAL1.AREA( minArea     M1                0.01    AREA(M1 <0.01)                                                                  "METAL1 area < 0.01"                                                    )
+                      VIA1.WIDTH( minWidth    VIA1              0.05   RECTANGLES(VIA1 ORTHOGONAL_ONLY SIDE_LENGTH1 =0.05 SIDE_LENGTH2 =0.05 NEGATED)   "VIA1 must be 0.05 x 0.05"                                            )
+                      VIA1.SPACE( minSpacing  VIA1              0.07   SPACING(VIA1 <0.07 SINGULAR)                                                     "VIA1 space < 0.07"                                                   )
+;
+; These lines intentionally left blank.
+;
+;
+;
+;
+;
+;
+                    METAL2.WIDTH( minWidth    M2            0.056    WIDTH(M2 <0.056 ABUT SINGULAR)                                                       "METAL2 width < 0.056"                                                      )
+                    METAL2.SPACE( minSpacing  M2            0.056    SPACING(M2 <0.056 ABUT)                                                              "METAL2 space < 0.056"                                                      )
+;
+; These lines intentionally left blank.
+;
+;
+                     METAL2.AREA( minArea     M2            0.016    AREA(M2 <0.016)                                                                      "METAL2 area < 0.016"                                                       )
+                      VIA2.WIDTH( minWidth    VIA2          0.05   RECTANGLES(VIA2 ORTHOGONAL_ONLY SIDE_LENGTH1 =0.05 SIDE_LENGTH2 =0.05 NEGATED)       "VIA2 must be 0.05 x 0.05"                                           )
+                      VIA2.SPACE( minSpacing  VIA2          0.07   SPACING(VIA2 <0.07 SINGULAR)                                                         "VIA2 space < 0.16"                                                  )
+;
+; These lines intentionally left blank.
+;
+;
+;
+;
+;
+;
+                    METAL3.WIDTH( minWidth    M3            0.056    WIDTH(M3 <0.056 ABUT SINGULAR)                                                         "METAL3 width < 0.056"                                                       )
+                    METAL3.SPACE( minSpacing  M3            0.056    SPACING(M3 <0.056 ABUT)                                                                "METAL3 space < 0.056"                                                       )
+;
+; These lines intentionally left blank.
+;
+;
+                     METAL3.AREA( minArea     M3            0.016    AREA(M3 <0.016)                                                                        "METAL3 area < 0.016"                                                        )
+                      VIA3.WIDTH( minWidth    VIA3          0.05   RECTANGLES(VIA3 ORTHOGONAL_ONLY SIDE_LENGTH1 =0.05 SIDE_LENGTH2 =0.05 NEGATED)       "VIA3 must be 0.05 x 0.05"                                              )
+                      VIA3.SPACE( minSpacing  VIA3          0.07   SPACING(VIA3 <0.07 SINGULAR)                                                         "VIA3 space < 0.07"                                                     )
+;
+; These lines intentionally left blank.
+;
+;
+;
+;
+;
+;
+                    METAL4.WIDTH( minWidth    M4            0.056    WIDTH(M4 <0.056 ABUT SINGULAR)                                                         "METAL4 width < 0.056"                                                       )
+                    METAL4.SPACE( minSpacing  M4            0.056    SPACING(M4 <0.056 ABUT)                                                                "METAL4 space < 0.056"                                                       )
+;
+; These lines intentionally left blank.
+;
+;
+                     METAL4.AREA( minArea     M4            0.016    AREA(M4 <0.016)                                                                        "METAL4 area < 0.016"                                                        )
+                      VIA4.WIDTH( minWidth    VIA4          0.05   RECTANGLES(VIA4 ORTHOGONAL_ONLY SIDE_LENGTH1 =0.05 SIDE_LENGTH2 =0.05 NEGATED)       "VIA4 must be 0.05 x 0.05"                                              )
+                      VIA4.SPACE( minSpacing  VIA4          0.07   SPACING(VIA4 <0.07 SINGULAR)                                                         "VIA4 space < 0.07"                                                     )
+;
+; These lines intentionally left blank.
+;
+;
+;
+;
+;
+;
+                    METAL5.WIDTH( minWidth    M5            0.056    WIDTH(M5 <0.056 ABUT SINGULAR)                                                         "METAL5 width < 0.056"                                                      )
+                    METAL5.SPACE( minSpacing  M5            0.056    SPACING(M5 <0.056 ABUT)                                                                "METAL5 space < 0.056"                                                      )
+;
+; These lines intentionally left blank.
+;
+;
+                     METAL5.AREA( minArea     M5            0.016    AREA(M5 <0.016)                                                                        "METAL5 area < 0.056"                                                       )
+                      VIA5.WIDTH( minWidth    VIA5          0.05   RECTANGLES(VIA5 ORTHOGONAL_ONLY SIDE_LENGTH1 =0.05 SIDE_LENGTH2 =0.05 NEGATED)       "VIA5 must be 0.05 x 0.05"                                             )
+                      VIA5.SPACE( minSpacing  VIA5          0.07   SPACING(VIA5 <0.07 SINGULAR)                                                         "VIA5 space < 0.07"                                                    )
+;
+; These lines intentionally left blank.
+;
+;
+;
+;
+;
+;
+                    METAL6.WIDTH( minWidth    M6            0.056    WIDTH(M6 <0.056 ABUT SINGULAR)                                                         "METAL6 width < 0.056"                                                     )
+                    METAL6.SPACE( minSpacing  M6            0.056    SPACING(M6 <0.056 ABUT)                                                                "METAL6 space < 0.056"                                                     )
+;
+; These lines intentionally left blank.
+;
+;
+                     METAL6.AREA( minArea     M6            0.016    AREA(M6 <0.016)                                                                        "METAL6 area < 0.016"                                                      )
+                      VIA6.WIDTH( minWidth    VIA6          0.05   RECTANGLES(VIA6 ORTHOGONAL_ONLY SIDE_LENGTH1 =0.05 SIDE_LENGTH2 =0.05 NEGATED)       "VIA6 must be 0.05 x 0.05"                                            )
+                      VIA6.SPACE( minSpacing  VIA6          0.07   SPACING(VIA6 <0.07 SINGULAR)                                                         "VIA6 space < 0.07"                                                   )
+                    METAL7.WIDTH( minWidth    M7            0.056   WIDTH(M7 <0.056 ABUT SINGULAR)                                                        "METAL7 width < 0.056"                                                     )
+                    METAL7.SPACE( minSpacing  M7            0.056    SPACING(M7 <0.056 ABUT)                                                                "METAL7 space < 0.0560"                                                     )
+                     METAL7.AREA( minArea     M7            0.016    AREA(M7 <0.016)                                                                        "METAL7 area < 0.01600"                                                     )
+    );spacingRules
+
+    orderedSpacingRules(
+    ;                 ID( rule                 layer1   layer2     value   DRC-commands                                                                 comment                                                 )
+    ;-------------------( ------------         -------  -------    -----   --------------------------------------                                       ------------------------------------------------------- )
+                 OD.NW.1( minExtension         NWELL    NDIFF      0.07    ENCLOSURE(NWELL NDIFF <0.07 ABUT OVERLAPPING SINGULAR)                         "NWELL overlap NDIFF tie down < 0.07"                      )
+                 OD.NW.1( minExtension         NWELL    DIFF       0.07    ENCLOSURE(NWELL DIFF <0.065 ABUT OVERLAPPING SINGULAR)                         "NWELL overlap NDIFF tie down < 0.07"                      )		 
+                 OD.NW.2( minExtension         NWELL    PDIFF      0.065   ENCLOSURE(NWELL PDIFF <0.065 ABUT OVERLAPPING SINGULAR)                       "NWELL overlap PDIFF < 0.065"                            )
+     THGATE.ENCLOSE.GATE( minExtension         GATEH_W  DIFF_18    0.08    ENCLOSURE(GATEH_W DIFF_18 <0.08 ABUT)                                       "DIFF_18 enclosure high voltage GATE < 0.08"      )
+       THGATE.ENCLOSE.OD( minExtension         DIFF_18  DIFF       0.15    ENCLOSURE(DIFF_18 DIFF <0.15 ABUT)                                       "DIFF_18 enclosure high voltage GATE < 0.15"      )
+   THGATE25.ENCLOSE.GATE( minExtension         GATEH25_W  DIFF_25  0.08    ENCLOSURE(GATEH25_W DIFF_25 <0.08 ABUT)                                       "DIFF_25 enclosure high voltage GATE < 0.08"      )
+     THGATE25.ENCLOSE.OD( minExtension         DIFF_25  DIFF       0.15    ENCLOSURE(DIFF_25 DIFF <0.15 ABUT)                                       "DIFF_25 enclosure high voltage GATE < 0.15"      )
+       SBLK.ENCLOSE.POLY( minExtension         SBLK     PO         0.18    ENCLOSURE(SBLK PO <0.18 ABUT)                                       "DIFF_18 enclosure high voltage GATE < 0.16"      )
+        RMARK.ENCLOSE.OD( minExtension         RMARK    DIFF       0.05    ENCLOSURE(RMARK DIFF <0.05 ABUT)                                       "DIFF_18 enclosure high voltage GATE < 0.16"      )    
+      RMARK.ENCLOSE.POLY( minExtension         RMARK    PO         0.05    ENCLOSURE(RMARK PO <0.05 ABUT)                                       "DIFF_18 enclosure high voltage GATE < 0.16"      )    
+	    POLY.SDWIDTH( minExtension         DIFF     PO         0.102   ENCLOSURE(DIFF PO <0.102 ABUT <89.5 SINGULAR)                                 "OD overhang gate < 0.08"                                  )
+             POLY.ENDCAP( minExtension         PO       GATET      0.06    ENCLOSURE(PO GATET <0.06 ABUT <89.5 SINGULAR)                                 "Transistor endcap < 0.08"                                 )
+            POLY.ENDCAP1( minExtension         PO       GATEH      0.08    ENCLOSURE(PO GATEH <0.08 ABUT )                                 "Transistor endcap < 0.08"                                 )	     
+            POLY.ENDCAP2( minExtension         PO       GATEH25    0.08    ENCLOSURE(PO GATEH25 <0.08 ABUT )                                 "Transistor endcap < 0.08"                                 )
+      PPLUS.ENCLOSE.POLY( minExtension         PIMP     PO         0.065   ENCLOSURE(PIMP PO <0.065 ABUT)                                       "PIMP enclosure high voltage GATE < 0.16"      )    
+      NPLUS.ENCLOSE.POLY( minExtension         NIMP     PO         0.065   ENCLOSURE(NIMP PO <0.065 ABUT)                                       "NIMP enclosure high voltage GATE < 0.16"      )    
+        PPLUS.ENCLOSE.CO( minExtension         PIMP     CO         0.04    ENCLOSURE(PIMP CO <0.04 ABUT)                                       "PIMP enclosure high voltage GATE < 0.16"      )    
+        NPLUS.ENCLOSE.CO( minExtension         NIMP     CO         0.04    ENCLOSURE(NIMP CO <0.04 ABUT)                                       "NIMP enclosure high voltage GATE < 0.16"      )    
+      NWELL.ENCLOSE.POLY( minExtension         NWELL     PO         0.02   ENCLOSURE(NWELL PO <0.02 ABUT)                                       "NWELL enclosure high voltage GATE < 0.02"      )    
+      PPLUS.ENCLOSE.OD( minExtension           PIMP     BJTDIFF    0.25    ENCLOSURE(PIMP BJTDIFF <0.25 ABUT )
+                                                                          
+                                                                                                                                                      "PPLUS enclosure OD < 0.05"                             )
+
+      PPLUS.ENCLOSE.OD( minExtension           NIMP     BJTDIFF    0.25   ENCLOSURE(NIMP BJTDIFF <0.25 ABUT SINGULAR)
+                                                                           
+                                                                                                                                                      "PPLUS enclosure OD < 0.05"                             )
+      
+      PPLUS.ENCLOSE.OD( minExtension           PIMP     DIFF       0.05   (
+                                                                           ENCLOSURE(PIMP ACT <0.05 ABUT SINGULAR)
+                                                                           Y( ENCLOSURE(PIMP PACT <0.001 ABUT =0 EDGE_OUTPUT2) )
+                                                                           Z( GROW_EDGE(Y OUTSIDE_GROWTH 0.001) )
+                                                                           INTERACT(Z NDIFF NEGATED)
+                                                                          )                                                                            "PPLUS enclosure OD < 0.05"                             )
+      PPLUS.ENCLOSE.PTAP( minExtension         PIMP     PTAP       0.02   (
+                                                                           ENCLOSURE(PIMP TAP <0.02 ABUT SINGULAR)
+                                                                           X( ENCLOSURE(PIMP PTAP <0.001 ABUT =0 EDGE_OUTPUT2) )
+                                                                           Y( GROW_EDGE(X OUTSIDE_GROWTH 0.001) )
+                                                                           INTERACT(Y NDIFF NEGATED)
+                                                                          )                                                                            "Enclosure of PTAP by PPLUS < 0.02"                     )
+      NPLUS.ENCLOSE.OD( minExtension           NIMP     DIFF       0.05   (
+                                                                           ENCLOSURE(NIMP ACT <0.05 ABUT SINGULAR)
+                                                                           Y( ENCLOSURE(NIMP NACT <0.001 ABUT =0 EDGE_OUTPUT2) )
+                                                                           Z( GROW_EDGE(Y OUTSIDE_GROWTH 0.001) )
+                                                                           INTERACT(Z PDIFF NEGATED)
+                                                                          )                                                                            "NPLUS enclosure OD < 0.05"                             )
+      NPLUS.ENCLOSE.NTAP( minExtension         NIMP     NTAP       0.02   (
+                                                                           ENCLOSURE(NIMP TAP <0.02 ABUT SINGULAR)
+                                                                           X( ENCLOSURE(NIMP NTAP <0.001 ABUT =0 EDGE_OUTPUT2) )
+                                                                           Y( GROW_EDGE(X OUTSIDE_GROWTH 0.001) )
+                                                                           INTERACT(Y PDIFF NEGATED)
+                                                                          )                                                                            "Enclosure of NTAP by NPLUS < 0.02"                     )
+            
+            
+     HVTIMP.ENCLOSE.PACT( minExtension         HVTIMP   DIFF       0.05   (
+                                                                           ENCLOSURE(HVTIMP ACT <0.05 ABUT SINGULAR)
+                                                                           Y( ENCLOSURE(HVTIMP PACT <0.001 ABUT =0 EDGE_OUTPUT2) )
+                                                                           Z( GROW_EDGE(Y OUTSIDE_GROWTH 0.001) )
+                                                                           INTERACT(Z NDIFF NEGATED)
+                                                                          )                                                                            "PPLUS enclosure OD < 0.05"                             )
+     LVTIMP.ENCLOSE.PACT( minExtension         LVTIMP   DIFF       0.05   (
+                                                                           ENCLOSURE(LVTIMP ACT <0.05 ABUT SINGULAR)
+                                                                           Y( ENCLOSURE(LVTIMP PACT <0.001 ABUT =0 EDGE_OUTPUT2) )
+                                                                           Z( GROW_EDGE(Y OUTSIDE_GROWTH 0.001) )
+                                                                           INTERACT(Z NDIFF NEGATED)
+                                                                          )                                                                            "PPLUS enclosure OD < 0.05"                             )
+;       CONTACT.ENCLOSE.2( minDualExtension     DIFF       CO     (0.02 0.01)
+;    									  (
+;                                                                           X( ENCLOSURE(DIFF CO <0.02 OPPOSITE EDGE_OUTPUT2) )
+;                                                                           WIDTH(X <0.082 ABUT =90)
+;                                                                          )                                                                       "POLY enclosure CONTACT < 0.02"    )
+;									  
+;       CONTACT.ENCLOSE.2( minDualExtension     PO       CO     (0.02 0.034)
+;    									  (
+;                                                                           X( ENCLOSURE(PO CO <0.034 OPPOSITE EDGE_OUTPUT2) )
+;                                                                           WIDTH(X <0.082 ABUT =90)
+;                                                                          )                                                                       "POLY enclosure CONTACT < 0.02"    )
+;                                                                                						                                
+       CONTACT.ENCLOSE.2( minExtension         DIFF       CO     0.02     (    									  
+                                                                           ENCLOSURE(DIFF CO <0.02 ABUT SINGULAR)
+                                                                           Y( ENCLOSURE(DIFF CO <0.001 ABUT =0 EDGE_OUTPUT2) )
+                                                                           Z( GROW_EDGE(Y OUTSIDE_GROWTH 0.001) )
+                                                                           INTERACT(Z NDIFF NEGATED)
+                                                                          )                                                                            "PPLUS enclosure OD < 0.05" )
+
+									  
+       CONTACT.ENCLOSE.2( minExtension         PO       CO       0.034    (    									  
+                                                                           ENCLOSURE(PO CO <0.034 ABUT SINGULAR)
+                                                                           Y( ENCLOSURE(PO CO <0.001 ABUT =0 EDGE_OUTPUT2) )
+                                                                           Z( GROW_EDGE(Y OUTSIDE_GROWTH 0.001) )
+                                                                           INTERACT(Z NDIFF NEGATED)
+                                                                          )                                                                            "PPLUS enclosure OD < 0.05"  )
+
+								  
+        METAL1.ENCLOSE.1(                                                 ENCLOSURE(M1 CO <0.004 ABUT OVERLAPPING SINGULAR OUTSIDE_IS_ERROR)   "Enclosure of METAL1 beyond CONTACT is 0.05"                    )
+        METAL1.ENCLOSE.2( minDualExtension     M1       CO     (0.004 0.02)
+                                                                          (
+                                                                           X( ENCLOSURE(M1 CO <0.02 OPPOSITE EDGE_OUTPUT2) )
+                                                                           WIDTH(X <0.05 ABUT =90)
+                                                                          )                                                                            "Enclosure of METAL1 end-of-line beyond CONTACT is 0.05")
+          VIA1.ENCLOSE.1(                                                 ENCLOSURE(M1 VIA1 <0.001 ABUT OVERLAPPING SINGULAR OUTSIDE_IS_ERROR)      "Enclosure of METAL1 beyond VIA1 is 0.005"                 )
+          VIA1.ENCLOSE.2( minDualExtension     M1       VIA1   (0.005 0.03)
+                                                                          (
+                                                                           X( ENCLOSURE(M1 VIA1 <0.03 OPPOSITE EDGE_OUTPUT2) )
+                                                                           WIDTH(X <0.056 ABUT =90)
+                                                                          )                                                                            "Enclosure of METAL1 end-of-line beyond VIA1 is 0.05"   )
+        METAL2.ENCLOSE.1(                                                 ENCLOSURE(M2 VIA1 <0.005 ABUT OVERLAPPING SINGULAR OUTSIDE_IS_ERROR)      "Enclosure of METAL2 beyond VIA1 is 0.005"                 )
+        METAL2.ENCLOSE.2( minDualExtension     M2       VIA1   (0.005 0.03)
+                                                                          (
+                                                                           X( ENCLOSURE(M2 VIA1 <0.03 OPPOSITE EDGE_OUTPUT2) )
+                                                                           WIDTH(X <0.056 ABUT =90)
+                                                                          )                                                                            "Enclosure of METAL2 end-of-line beyond VIA1 is 0.05"   )
+          VIA2.ENCLOSE.1(                                                 ENCLOSURE(M2 VIA2 <0.03 ABUT OVERLAPPING SINGULAR OUTSIDE_IS_ERROR)      "Enclosure of METAL2 beyond VIA2 is 0.03"                   )
+          VIA2.ENCLOSE.2( minDualExtension     M2       VIA2   (0.005 0.03)
+                                                                          (
+                                                                           X( ENCLOSURE(M2 VIA2 <0.03 OPPOSITE EDGE_OUTPUT2) )
+                                                                           WIDTH(X <0.056 ABUT =90)
+                                                                          )                                                                            "Enclosure of METAL2 end-of-line beyond VIA2 is 0.10"   )
+        METAL3.ENCLOSE.1(                                                 ENCLOSURE(M3 VIA2 <0.03 ABUT OVERLAPPING SINGULAR OUTSIDE_IS_ERROR)      "Enclosure of METAL3 beyond VIA2 is 0.03"                   )
+        METAL3.ENCLOSE.2( minDualExtension     M3       VIA2   (0.005 0.03)
+                                                                          (
+                                                                           X( ENCLOSURE(M3 VIA2 <0.03 OPPOSITE EDGE_OUTPUT2) )
+                                                                           WIDTH(X <0.056 ABUT =90)
+                                                                          )                                                                            "Enclosure of METAL3 end-of-line beyond VIA2 is 0.10"   )
+          VIA3.ENCLOSE.1(                                                 ENCLOSURE(M3 VIA3 <0.03 ABUT OVERLAPPING SINGULAR OUTSIDE_IS_ERROR)      "Enclosure of METAL3 beyond VIA3 is 0.03"                   )
+          VIA3.ENCLOSE.2( minDualExtension     M3   	VIA3   (0.005 0.03)
+                                                    	    		 (
+                                                    	    		  X( ENCLOSURE(M3 VIA3 <0.03 OPPOSITE EDGE_OUTPUT2) )
+                                                    	    		  WIDTH(X <0.056 ABUT =90)
+                                                    	    		 )									      "Enclosure of METAL3 end-of-line beyond VIA3 is 0.10"   )
+        METAL4.ENCLOSE.1(                           	    		 ENCLOSURE(M4 VIA3 <0.03 ABUT OVERLAPPING SINGULAR OUTSIDE_IS_ERROR)	  "Enclosure of METAL4 beyond VIA3 is 0.03"		      )
+        METAL4.ENCLOSE.2( minDualExtension     M4   	VIA3   (0.005 0.03)
+                                                    	    		 (
+                                                    	    		  X( ENCLOSURE(M4 VIA3 <0.03 OPPOSITE EDGE_OUTPUT2) )
+                                                    	    		  WIDTH(X <0.056 ABUT =90)
+                                                    	    		 )									      "Enclosure of METAL4 end-of-line beyond VIA3 is 0.10"   )
+          VIA4.ENCLOSE.1(                           	    		 ENCLOSURE(M4 VIA4 <0.03 ABUT OVERLAPPING SINGULAR OUTSIDE_IS_ERROR)	  "Enclosure of METAL4 beyond VIA4 is 0.03"		      )
+          VIA4.ENCLOSE.2( minDualExtension     M4   	VIA4   (0.005 0.03)
+                                                    	    		 (
+                                                    	    		  X( ENCLOSURE(M4 VIA4 <0.03 OPPOSITE EDGE_OUTPUT2) )
+                                                    	    		  WIDTH(X <0.056 ABUT =90)
+                                                    	    		 )									      "Enclosure of METAL4 end-of-line beyond VIA4 is 0.10"   )
+        METAL5.ENCLOSE.1(                           	    		 ENCLOSURE(M5 VIA4 <0.03 ABUT OVERLAPPING SINGULAR OUTSIDE_IS_ERROR)	  "Enclosure of METAL5 beyond VIA4 is 0.03"		      )
+        METAL5.ENCLOSE.2( minDualExtension     M5   	VIA4   (0.005 0.03)
+                                                    	    		 (
+                                                    	    		  X( ENCLOSURE(M5 VIA4 <0.03 OPPOSITE EDGE_OUTPUT2) )
+                                                    	    		  WIDTH(X <0.056 ABUT =90)
+                                                    	    		 )									      "Enclosure of METAL5 end-of-line beyond VIA4 is 0.10"   )
+          VIA5.ENCLOSE.1(                           	    		 ENCLOSURE(M5 VIA5 <0.03 ABUT OVERLAPPING SINGULAR OUTSIDE_IS_ERROR)	  "Enclosure of METAL5 beyond VIA5 is 0.03"		      )
+          VIA5.ENCLOSE.2( minDualExtension     M5   	VIA5   (0.005 0.03)
+                                                    	    		 (
+                                                    	    		  X( ENCLOSURE(M5 VIA5 <0.03 OPPOSITE EDGE_OUTPUT2) )
+                                                    	    		  WIDTH(X <0.056 ABUT =90)
+                                                    	    		 )									      "Enclosure of METAL5 end-of-line beyond VIA5 is 0.10"   )
+        METAL6.ENCLOSE.1(                           	    		 ENCLOSURE(M6 VIA5 <0.03 ABUT OVERLAPPING SINGULAR OUTSIDE_IS_ERROR)	  "Enclosure of METAL6 beyond VIA5 is 0.03"		      )
+        METAL6.ENCLOSE.2( minDualExtension     M6   	VIA5   (0.005 0.03)
+                                                    	    		 (
+                                                    	    		  X( ENCLOSURE(M6 VIA5 <0.03 OPPOSITE EDGE_OUTPUT2) )
+                                                    	    		  WIDTH(X <0.056 ABUT =90)
+                                                    	    		 )									      "Enclosure of METAL6 end-of-line beyond VIA5 is 0.10"   )
+          VIA6.ENCLOSE.1(                           	    		 ENCLOSURE(M6 VIA6 <0.03 ABUT OVERLAPPING SINGULAR OUTSIDE_IS_ERROR)	  "Enclosure of METAL6 beyond VIA6 is 0.03"		      )
+          VIA6.ENCLOSE.2( minDualExtension     M6   	VIA6   (0.005 0.03)
+                                                    	    		 (
+                                                    	    		  X( ENCLOSURE(M6 VIA6 <0.03 OPPOSITE EDGE_OUTPUT2) )
+                                                    	    		  WIDTH(X <0.056 ABUT =90)
+                                                    	    		 )									      "Enclosure of METAL6 end-of-line beyond VIA6 is 0.10"   )
+          METAL7.ENCLOSE( minExtension         M7   	VIA6       0.03   ENCLOSURE(M7 VIA6 <0.03 ABUT OVERLAPPING SINGULAR OUTSIDE_IS_ERROR)      "Enclosure of METAL7 beyond VIA6 is 0.10" 	              )
+    );orderedSpacingRules
+)
+
+; These lines intentionally left blank.
+; 
+; 
+; 
+; 
+; 
+; 
+; 
+; 
+; 
+; 
+; 
+; 
+; 
+
+;************************************************************************
+; ELECTRICAL RULES
+;************************************************************************
+
+characterizationRules(
+;( rule             layer1   layer2  value     )
+;( ---------------  -------  ------  --------- )
+ ( areaCap          M1               3.37e-05  )
+ ( areaCap          M2               1.487e-05 )
+ ( areaCap          M3               9.54e-06  )
+ ( areaCap          M4               7.02e-06  )
+ ( areaCap          M5               5.5e-06   )
+ ( contactRes       PIMP             0.5       )
+ ( contactRes       NIMP             0.5       )
+ ( contactRes       PO               0.5       )
+ ( currentDensity   CO               0.001     ) ;Amps/CO
+ ( currentDensity   M1               0.0008    ) ;Amps/um
+ ( currentDensity   VIA1             0.001     ) ;Amps/via
+ ( currentDensity   M2               0.0008    ) ;Amps/um
+ ( currentDensity   VIA2             0.001     ) ;Amps/via
+ ( currentDensity   M3               0.0008    ) ;Amps/um
+ ( currentDensity   VIA3             0.001     ) ;Amps/via
+ ( currentDensity   M4               0.0008    ) ;Amps/um
+ ( currentDensity   VIA4             0.001     ) ;Amps/VIA
+ ( currentDensity   M5               0.0008    ) ;Amps/um
+ ( deltaW           NWELL            0.15      ) ;um
+ ( sheetRes         NWELL            580       ) ;Ohms per square
+ ( sheetRes         PIMP             100       )
+ ( sheetRes         NIMP             100       )
+ ( sheetRes         PO               350       )
+ ( sheetRes         M1               0.12      )
+ ( sheetRes         M2               0.12      )
+ ( sheetRes         M3               0.12      )
+ ( sheetRes         M4               0.12      )
+ ( sheetRes         M5               0.12      )
+ ( sheetRes         M6               0.05      )
+ ( areaCap          PO       M1      6.5e-05   )
+ ( areaCap          M1       M2      4e-05     )
+ ( areaCap          M1       M3      4e-05     )
+ ( areaCap          M2       M3      4e-05     )
+ ( areaCap          M3       M4      4e-05     )
+ ( areaCap          M4       M5      4e-05     )
+ ( edgeCapacitance  PO       M1      66.5e-12  )
+ ( edgeCapacitance  M1       M2      44e-12    )
+ ( edgeCapacitance  M1       M3      44e-12    )
+ ( edgeCapacitance  M2       M3      44e-12    )
+ ( edgeCapacitance  M3       M4      44e-12    )
+ ( edgeCapacitance  M4       M5      44e-12    )
+			    
+			    
+);characterizationRules
+
+oxideDefinitions(
+thick(
+;( parameter  value   )
+;( ---------  ------- )
+ ( supply     2.5     ) ;volts
+ ( tox        6.8e-09 ) ;meters
+);thick
+thin(
+;( parameter  value    )
+;( ---------  -------- )
+ ( supply     1.2      ) ;volts
+ ( tox        4.08e-09 ) ;meters
+);thin
+);oxideDefinitions
+
+mosfetDefinitions(
+(
+;( parameter  value       )
+;( ---------  ----------- )
+ ( type       nmos        )
+ ( oxide      thick       )
+ ( cj         0.000896    )
+ ( cjsw       2.506e-10   )
+ ( kp         0.000180384 )
+ ( ld         4e-08       )
+ ( maxLength  1           )
+ ( maxWidth   16          )
+ ( minLength  0.15        )  
+ ( minWidth   0.16        )
+ ( mj         0.326       )
+ ( mjsw       0.151       )
+ ( n          15          )
+ ( u          0.0385      )
+ ( vt         0.792       )
+);
+(
+;( parameter  value      )
+;( ---------  ---------- )
+ ( type       nmos       )
+ ( oxide      thin       )
+ ( cj         0.00100027 )
+ ( cjsw       2.0405e-10 )
+ ( kp         0.00032719 )
+ ( ld         1e-08      )
+ ( maxLength  1          )
+ ( maxWidth   16         )
+ ( minLength  0.03        )  
+ ( minWidth   0.1       )
+ ( mj         0.36       )
+ ( mjsw       0.2004     )
+ ( n          15         )
+ ( u          0.0419     )
+ ( vt         0.465      )
+);
+(
+;( parameter  value       )
+;( ---------  ----------- )
+ ( type       nmos        )
+ ( oxide      thicknes    )
+ ( cj         0.001035    )
+ ( cjsw       2.2312e-10  )
+ ( kp         4.68529e-05 )
+ ( ld         3.5e-08     )
+ ( maxLength  1           )
+ ( maxWidth   16          )
+ ( minLength  0.26        ) 
+ ( minWidth   0.36        )
+ ( mj         0.395       )
+ ( mjsw       0.257       )
+ ( n          25          )
+ ( u          0.01        )
+ ( vt         0.706       )
+);
+
+(
+;( parameter  value       )
+;( ---------  ----------- )
+ ( type       pmos        )
+ ( oxide      thick       )
+ ( cj         0.001035    )
+ ( cjsw       2.2312e-10  )
+ ( kp         4.68529e-05 )
+ ( ld         3.5e-08     )
+ ( maxLength  1           )
+ ( maxWidth   16          )
+ ( minLength  0.15        ) 
+ ( minWidth   0.16        )
+ ( mj         0.395       )
+ ( mjsw       0.257       )
+ ( n          25          )
+ ( u          0.01        )
+ ( vt         0.706       )
+);
+(
+;( parameter  value       )
+;( ---------  ----------- )
+ ( type       pmos        )
+ ( oxide      thin        )
+ ( cj         0.00121     )
+ ( cjsw       2.481e-10   )
+ ( kp         7.73074e-05 )
+ ( ld         5e-09       )
+ ( maxLength  1           )
+ ( maxWidth   16          )
+ ( minLength  0.03         )  
+ ( minWidth   0.1        )
+ ( mj         0.44        )
+ ( mjsw       0.368       )
+ ( n          25          )
+ ( u          0.0099      )
+ ( vt         0.445       )
+);
+(
+;( parameter  value       )
+;( ---------  ----------- )
+ ( type       pmos        )
+ ( oxide      thicknes    )
+ ( cj         0.001035    )
+ ( cjsw       2.2312e-10  )
+ ( kp         4.68529e-05 )
+ ( ld         3.5e-08     )
+ ( maxLength  1           )
+ ( maxWidth   16          )
+ ( minLength  0.26        ) 
+ ( minWidth   0.36         )
+ ( mj         0.395       )
+ ( mjsw       0.257       )
+ ( n          25          )
+ ( u          0.01        )
+ ( vt         0.706       )
+);
+);mosfetDefinitions

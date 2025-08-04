@@ -1,0 +1,52 @@
+/* $Id: zinteg2sc.ifs v2014.04.21 FSG $ */
+
+NAME_TABLE:
+
+Spice_Model_Name: zinteg2sc
+C_Function_Name:  cm_zinteg2sc
+Description:      "Z-domain SC integrator"
+
+PORT_TABLE:
+
+Port_Name:        inp       clk       out
+Description:      "input"   "clock"   "output"
+Direction:        in        in        out
+Default_Type:     v         d         v
+Allowed_Types:    [v]       [d]       [v]
+Vector:           no        no        no
+Vector_Bounds:    -         -         -
+Null_Allowed:     no        no        no
+
+PARAMETER_TABLE:
+
+Parameter_Name:   kgain                pos_edge                  out_ic
+Description:      "input gain factor"  "L->H edge output sync?"  "output initial condition"
+Data_Type:        real                 int                       real
+Default_Value:    1.0                  0                         0.0
+Limits:           [0 -]                [0 1]                     -
+Vector:           no                   no                        no
+Vector_Bounds:    -                    -                         -
+Null_Allowed:     no                   no                        no
+
+PARAMETER_TABLE:
+
+Parameter_Name:   out_min               out_max
+Description:      "lower output limit"  "upper output limit"
+Data_Type:        real                  real
+Default_Value:    -1.0                  1.0
+Limits:           -                     -
+Vector:           no                    no
+Vector_Bounds:    -                     -
+Null_Allowed:     no                    no
+
+PARAMETER_TABLE:
+
+Parameter_Name:   G                 GBW                       SR
+Description:      "open loop gain"  "gain bandwidth product"  "slew-rate"
+Data_Type:        real              real                      real
+Default_Value:    1e3               1e6                       1e6
+Limits:           [0 -]             [0 -]                     [0 -]
+Vector:           no                no                        no
+Vector_Bounds:    -                 -                         -
+Null_Allowed:     no                no                        no
+

@@ -1,0 +1,36 @@
+/* $Id: dscope_step.ifs v2017.10.26 FSG $ */
+
+NAME_TABLE:
+
+Spice_Model_Name: dscope_step
+C_Function_Name:  cm_dscope_step
+Description:      "digital scope by time step to SPICE3 raw file"
+
+PORT_TABLE:
+
+Port_Name:        inp       
+Description:      "input"   
+Direction:        in        
+Default_Type:     d         
+Allowed_Types:    [d]       
+Vector:           no        
+Vector_Bounds:    -         
+Null_Allowed:     no        
+
+PARAMETER_TABLE:
+
+Parameter_Name:     tstep       nsamp               fname
+Description:        "time step" "number of samples" "filename"
+Data_Type:          real        int                 string
+Default_Value:      1.0e-9      1                   "tran.raw"
+Limits:             [1e-12 -]   [1 -]               -
+Vector:             no          no                  no
+Vector_Bounds:      -           -                   -
+Null_Allowed:       no          no                  no
+
+STATIC_VAR_TABLE:
+
+Static_Var_Name:       ncount                 tnext
+Data_Type:             pointer                pointer
+Description:           "current sample index" "next breakpoint time"
+

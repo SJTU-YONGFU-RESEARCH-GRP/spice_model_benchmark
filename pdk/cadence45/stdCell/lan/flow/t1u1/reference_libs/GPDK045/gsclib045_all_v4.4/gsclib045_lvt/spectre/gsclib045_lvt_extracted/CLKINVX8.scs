@@ -1,0 +1,31 @@
+// Generated for: spectre (May  1 09:13:07 2013 )
+// Library name: gsclib045_lvt
+// Cell name: CLKINVX8
+// View name: extracted
+
+simulator lang=spectre
+
+subckt CLKINVX8 A VDD VSS Y
+mp0 (\1\:Y \1\:A \1\:VDD VDD) g45p1lvt w=(4.45e-07) l=4.5e-08 nf=1 \
+        as=6.993e-14 ad=6.993e-14 ps=1.20429e-06 pd=1.20429e-06 \
+        nrd=1.16667 nrs=1.16667 sa=1.4e-07 sb=1.37e-06 sd=160n sca=37.2769 \
+        scb=0.0322553 scc=0.00356814 m=(7)
+C1 (A VSS) capacitor c=2.08287e-17
+C2 (Y VSS) capacitor c=1.4391e-17
+C3 (VDD VSS) capacitor c=5.07893e-17
+C4 (\1\:A VSS) capacitor c=3.97175e-16
+C5 (\1\:Y VSS) capacitor c=2.79443e-16
+C6 (\1\:VDD VSS) capacitor c=2.18315e-16
+C7 (\4\:Y VSS) capacitor c=1.62689e-16
+Rk29 (\1\:VSS VSS) resistor r=0.02458 c=0
+Rk3 (\1\:A A) resistor r=0.02659 c=0
+Rk5 (\1\:Y Y) resistor r=0.1992 c=0
+Rk6 (Y \4\:Y) resistor r=0.01233 c=0
+Rk21 (\1\:VDD VDD) resistor r=0.02458 c=0
+mn0 (\4\:Y \1\:A \1\:VSS VSS) g45n1lvt w=(2.95e-07) l=4.5e-08 nf=1 \
+        as=4.636e-14 ad=4.636e-14 ps=9.0429e-07 pd=9.0429e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=1.37e-06 sd=160n sca=16.4223 \
+        scb=0.0158966 scc=0.0014413 m=(7)
+ends CLKINVX8
+// End of subcircuit definition.
+

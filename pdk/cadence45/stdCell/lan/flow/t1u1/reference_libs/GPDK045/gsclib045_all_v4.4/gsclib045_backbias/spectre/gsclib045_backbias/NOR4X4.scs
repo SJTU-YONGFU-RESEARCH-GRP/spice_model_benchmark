@@ -1,0 +1,35 @@
+// Generated for: spectre (Apr 26 15:40:27 2013 )
+// Library name: gsclib045_backbias
+// Cell name: NOR4X4
+// View name: schematic
+
+simulator lang=spectre
+
+subckt NOR4X4 A B C D Y NW VSS VDD
+mn2 (Y C VSS VSS) g45n1svt w=(1.04u) l=45n nf=1 as=145.6f ad=145.6f \
+        ps=2.36u pd=2.36u nrd=134.615m nrs=134.615m sa=140n sb=140n \
+        sd=160n sca=71.11936 scb=0.06501 scc=0.00848 m=(1)
+mn3 (Y D VSS VSS) g45n1svt w=(1.04u) l=45n nf=1 as=145.6f ad=145.6f \
+        ps=2.36u pd=2.36u nrd=134.615m nrs=134.615m sa=140n sb=140n \
+        sd=160n sca=71.11936 scb=0.06501 scc=0.00848 m=(1)
+mn0 (Y A VSS VSS) g45n1svt w=(1.04u) l=45n nf=1 as=145.6f ad=145.6f \
+        ps=2.36u pd=2.36u nrd=134.615m nrs=134.615m sa=140n sb=140n \
+        sd=160n sca=71.11936 scb=0.06501 scc=0.00848 m=(1)
+mn1 (Y B VSS VSS) g45n1svt w=(1.04u) l=45n nf=1 as=145.6f ad=145.6f \
+        ps=2.36u pd=2.36u nrd=134.615m nrs=134.615m sa=140n sb=140n \
+        sd=160n sca=71.11936 scb=0.06501 scc=0.00848 m=(1)
+mp1 (n1 B n0 NW) g45p1svt w=(1.56u) l=45n nf=1 as=218.4f ad=218.4f \
+        ps=3.4u pd=3.4u nrd=89.7436m nrs=89.7436m sa=140n sb=140n sd=160n \
+        sca=61.39246 scb=0.05939 scc=0.00742 m=(1)
+mp3 (Y D n2 NW) g45p1svt w=(1.56u) l=45n nf=1 as=218.4f ad=218.4f ps=3.4u \
+        pd=3.4u nrd=89.7436m nrs=89.7436m sa=140n sb=140n sd=160n \
+        sca=61.39246 scb=0.05939 scc=0.00742 m=(1)
+mp2 (n2 C n1 NW) g45p1svt w=(1.56u) l=45n nf=1 as=218.4f ad=218.4f \
+        ps=3.4u pd=3.4u nrd=89.7436m nrs=89.7436m sa=140n sb=140n sd=160n \
+        sca=61.39246 scb=0.05939 scc=0.00742 m=(1)
+mp0 (n0 A VDD NW) g45p1svt w=(1.56u) l=45n nf=1 as=218.4f ad=218.4f \
+        ps=3.4u pd=3.4u nrd=89.7436m nrs=89.7436m sa=140n sb=140n sd=160n \
+        sca=61.39246 scb=0.05939 scc=0.00742 m=(1)
+ends NOR4X4
+// End of subcircuit definition.
+

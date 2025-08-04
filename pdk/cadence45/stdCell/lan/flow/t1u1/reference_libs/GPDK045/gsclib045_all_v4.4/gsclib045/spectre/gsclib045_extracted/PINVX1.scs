@@ -1,0 +1,55 @@
+// Generated for: spectre (May  1 08:12:05 2013 )
+// Library name: gsclib045
+// Cell name: PINVX1
+// View name: extracted
+
+simulator lang=spectre
+
+subckt PINVX1 A ExtVDD VSS Y
+mp0 (\1\:Y \4\:A \3\:ExtVDD ExtVDD) g45p1svt w=(3.9e-07) l=4.5e-08 nf=1 \
+        as=5.46e-14 ad=5.46e-14 ps=1.06e-06 pd=1.06e-06 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=1.4e-07 sd=160n sca=18.861 scb=0.0206295 \
+        scc=0.000579006 m=(1)
+C1 (A VSS) capacitor c=4.78643e-17
+C2 (Y VSS) capacitor c=4.53947e-17
+C3 (ExtVDD VSS) capacitor c=1.15389e-16
+C4 (VDD VSS) capacitor c=9.13081e-17
+C5 (\4\:A VSS) capacitor c=4.86922e-17
+C6 (\1\:A VSS) capacitor c=2.93564e-17
+C7 (\3\:A VSS) capacitor c=2.42076e-17
+C8 (\3\:ExtVDD VSS) capacitor c=6.41832e-17
+C9 (\1\:Y VSS) capacitor c=5.77712e-17
+C10 (\4\:Y VSS) capacitor c=5.55742e-17
+C11 (VDD VSS) capacitor c=1.16537e-16
+C12 (ExtVDD VSS) capacitor c=3.71853e-17
+C13 (\2\:A VSS) capacitor c=3.54712e-17
+Rk2 (A \5\:A) resistor r=0.002587 c=0
+Rk3 (Y \2\:Y) resistor r=0.1934 c=0
+Rk4 (\2\:Y \3\:Y) resistor r=0.1899 c=0
+Rk5 (Y \5\:Y) resistor r=0.3413 c=0
+Rk6 (ExtVDD ExtVDD) resistor r=0.05793 c=0
+Rk7 (ExtVDD \2\:ExtVDD) resistor r=0.2377 c=0
+Rk9 (\2\:ExtVDD \5\:ExtVDD) resistor r=0.08272 c=0
+Rk14 (VDD VDD) resistor r=0.08905 c=0
+Rk15 (VSS VSS) resistor r=0.1156 c=0
+Rk13 (VSS VSS) resistor r=0.0142 c=0
+Rk11 (\2\:VSS VSS) resistor r=0.3358 c=0
+Rl3 (\2\:A \4\:A) resistor r=144.875 c=0
+Rl1 (\1\:A \2\:A) resistor r=49.397 c=0
+Rl2 (\2\:A \3\:A) resistor r=90.5727 c=0
+Rz1 (\4\:Y \5\:Y) resistor r=37.5 c=0
+Rz2 (\1\:ExtVDD \2\:ExtVDD) resistor r=75 c=0
+Rz3 (\1\:ExtVDD \5\:ExtVDD) resistor r=75 c=0
+Rz4 (\1\:VSS \2\:VSS) resistor r=37.5 c=0
+Ry1 (\1\:Y \2\:Y) resistor r=62 c=0
+Ry2 (\1\:Y \3\:Y) resistor r=62 c=0
+Ry3 (\3\:ExtVDD \2\:ExtVDD) resistor r=62 c=0
+Ry4 (\3\:ExtVDD \5\:ExtVDD) resistor r=62 c=0
+Rx1 (\3\:A \5\:A) resistor r=45 c=0
+mn0 (\4\:Y \1\:A \1\:VSS VSS) g45n1svt w=(2.6e-07) l=4.5e-08 nf=1 \
+        as=3.64e-14 ad=3.64e-14 ps=8e-07 pd=8e-07 nrd=1.16667 nrs=1.16667 \
+        sa=1.4e-07 sb=1.4e-07 sd=160n sca=8.97712 scb=0.00732387 \
+        scc=0.000196032 m=(1)
+ends PINVX1
+// End of subcircuit definition.
+

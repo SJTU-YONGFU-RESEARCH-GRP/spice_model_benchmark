@@ -1,0 +1,206 @@
+// Generated for: spectre (May  1 09:12:41 2013 )
+// Library name: gsclib045_lvt
+// Cell name: TBUFX6
+// View name: extracted
+
+simulator lang=spectre
+
+subckt TBUFX6 A OE VDD VSS Y
+mp2_1__rcx (\16\:non OEb 7 VDD) g45p1lvt w=(2.6e-07) l=4.5e-08 nf=1 \
+        as=1.56e-14 ad=3.64e-14 ps=6.4e-07 pd=8e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=2e-06 sd=160n sca=14.3604 scb=0.0136769 \
+        scc=0.000743805 m=(1)
+mp1_1__rcx (7 \10\:A \14\:VDD VDD) g45p1lvt w=(2.6e-07) l=4.5e-08 nf=1 \
+        as=5.98e-14 ad=1.56e-14 ps=9.8e-07 pd=6.4e-07 nrd=1.16667 \
+        nrs=1.16667 sa=2.45e-07 sb=2e-06 sd=160n sca=14.3604 scb=0.0136769 \
+        scc=0.000743805 m=(1)
+mp1_2__rcx (6 \13\:A \14\:VDD VDD) g45p1lvt w=(2.6e-07) l=4.5e-08 nf=1 \
+        as=5.98e-14 ad=4.81e-14 ps=9.8e-07 pd=8.9e-07 nrd=1.16667 \
+        nrs=1.16667 sa=5.2e-07 sb=1.98e-06 sd=160n sca=14.3604 \
+        scb=0.0136769 scc=0.000743805 m=(1)
+mp2_2__rcx (\13\:non \9\:OEb 6 VDD) g45p1lvt w=(2.6e-07) l=4.5e-08 nf=1 \
+        as=4.81e-14 ad=4.29e-14 ps=8.9e-07 pd=8.5e-07 nrd=1.16667 \
+        nrs=1.16667 sa=7.5e-07 sb=1.75e-06 sd=160n sca=14.3604 \
+        scb=0.0136769 scc=0.000743805 m=(1)
+mp2 (\13\:non \4\:OEb 8 VDD) g45p1lvt w=(2.6e-07) l=4.5e-08 nf=1 \
+        as=2.47e-14 ad=4.29e-14 ps=7.1e-07 pd=8.5e-07 nrd=1.16667 \
+        nrs=1.16667 sa=9.6e-07 sb=1.54e-06 sd=160n sca=14.3604 \
+        scb=0.0136769 scc=0.000743805 m=(1)
+mp1 (8 \18\:A \1\:VDD VDD) g45p1lvt w=(2.6e-07) l=4.5e-08 nf=1 \
+        as=6.24e-14 ad=2.47e-14 ps=1.16e-06 pd=7.1e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.1e-06 sb=1.4e-06 sd=160n sca=14.3604 \
+        scb=0.0136769 scc=0.000743805 m=(1)
+mp4_1__rcx (\13\:pon OE \16\:VDD VDD) g45p1lvt w=(2.6e-07) l=4.5e-08 \
+        nf=1 as=3.987e-14 ad=4.29e-14 ps=8.2667e-07 pd=8.5e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=1.40433e-06 sd=160n sca=23.1083 \
+        scb=0.0266933 scc=0.00125052 m=(3)
+mp3_1__rcx (\13\:pon \1\:A \16\:VDD VDD) g45p1lvt w=(2.6e-07) l=4.5e-08 \
+        nf=1 as=5.925e-14 ad=4.29e-14 ps=1.1e-06 pd=8.5e-07 nrd=1.16667 \
+        nrs=1.16667 sa=3.6e-07 sb=1.18433e-06 sd=160n sca=16.3479 \
+        scb=0.0155274 scc=0.000646302 m=(3)
+C1 (Y VSS) capacitor c=3.79811e-16
+C2 (A VSS) capacitor c=2.34996e-17
+C3 (VDD VSS) capacitor c=2.29852e-16
+C4 (OE VSS) capacitor c=4.17904e-16
+C5 (12 VSS) capacitor c=1.62221e-18
+C6 (pon VSS) capacitor c=2.79784e-16
+C7 (13 VSS) capacitor c=2.34057e-18
+C8 (OEb VSS) capacitor c=9.05948e-17
+C9 (non VSS) capacitor c=2.23172e-16
+C10 (7 VSS) capacitor c=2.23816e-18
+C11 (6 VSS) capacitor c=6.89697e-18
+C12 (8 VSS) capacitor c=2.90695e-18
+C13 (\18\:A VSS) capacitor c=7.94912e-17
+C14 (\4\:OEb VSS) capacitor c=4.87488e-17
+C15 (\9\:OEb VSS) capacitor c=3.3048e-17
+C16 (\13\:A VSS) capacitor c=4.75988e-17
+C17 (\10\:A VSS) capacitor c=7.20938e-17
+C18 (\10\:OE VSS) capacitor c=6.28533e-17
+C19 (\1\:A VSS) capacitor c=4.50722e-16
+C20 (\11\:A VSS) capacitor c=5.22262e-16
+C21 (\13\:OE VSS) capacitor c=3.41186e-17
+C22 (\9\:A VSS) capacitor c=8.48195e-17
+C23 (\8\:OE VSS) capacitor c=4.03479e-17
+C24 (\9\:OE VSS) capacitor c=5.05528e-17
+C25 (\6\:A VSS) capacitor c=3.56188e-17
+C26 (\4\:A VSS) capacitor c=6.46405e-17
+C27 (\3\:OE VSS) capacitor c=6.11797e-17
+C28 (\7\:non VSS) capacitor c=5.86071e-17
+C29 (\2\:OEb VSS) capacitor c=3.69877e-16
+C30 (\12\:OE VSS) capacitor c=4.10042e-17
+C31 (\1\:VDD VSS) capacitor c=2.61222e-16
+C32 (\13\:non VSS) capacitor c=4.84623e-17
+C33 (\14\:VDD VSS) capacitor c=5.2671e-17
+C34 (\16\:non VSS) capacitor c=1.28419e-16
+C35 (\15\:OEb VSS) capacitor c=6.03981e-17
+C36 (\13\:pon VSS) capacitor c=4.45566e-16
+C37 (\4\:VDD VSS) capacitor c=2.28573e-17
+C38 (\19\:non VSS) capacitor c=1.3963e-16
+C39 (\13\:OEb VSS) capacitor c=4.27663e-17
+C40 (\21\:pon VSS) capacitor c=9.1024e-17
+C41 (\19\:pon VSS) capacitor c=1.08753e-16
+C42 (\3\:A VSS) capacitor c=2.52945e-17
+C43 (\11\:OE VSS) capacitor c=3.01544e-17
+C44 (\16\:OE VSS) capacitor c=5.21264e-17
+C45 (\12\:OEb VSS) capacitor c=2.81379e-17
+C46 (\15\:non VSS) capacitor c=1.01411e-16
+C47 (\18\:non VSS) capacitor c=8.42277e-17
+C48 (\25\:non VSS) capacitor c=4.63025e-17
+C49 (\12\:pon VSS) capacitor c=2.75582e-16
+C50 (\13\:VDD VSS) capacitor c=2.89653e-17
+C51 (\16\:VDD VSS) capacitor c=1.35609e-16
+Rk8 (A \1\:A) resistor r=0.01324 c=0
+Rk10 (\1\:A \11\:A) resistor r=0.8981 c=0
+Rk58 (\1\:VDD \13\:VDD) resistor r=0.4234 c=0
+Rk59 (\13\:VDD \15\:VDD) resistor r=0.2987 c=0
+Rk69 (\16\:VDD VDD) resistor r=0.02463 c=0
+Rk60 (\13\:VDD \16\:VDD) resistor r=0.4024 c=0
+Rk3 (OE \16\:OE) resistor r=0.1909 c=0
+Rk42 (\1\:VSS \12\:VSS) resistor r=0.2396 c=0
+Rk44 (\13\:VSS VSS) resistor r=0.1801 c=0
+Rk43 (\12\:VSS \13\:VSS) resistor r=0.3716 c=0
+Rk50 (\12\:VSS \25\:VSS) resistor r=0.3631 c=0
+Rk51 (\13\:VSS \27\:VSS) resistor r=0.2196 c=0
+Rk20 (\12\:pon \13\:pon) resistor r=2.1909 c=0
+Rk23 (\13\:pon \20\:pon) resistor r=0.5868 c=0
+Rk24 (\20\:pon \22\:pon) resistor r=0.518 c=0
+Rk5 (\2\:OEb \12\:OEb) resistor r=0.09138 c=0
+Rk6 (\12\:OEb \14\:OEb) resistor r=0.2222 c=0
+Rk7 (\12\:OEb \16\:OEb) resistor r=0.2842 c=0
+Rk13 (\14\:non \15\:non) resistor r=0.1328 c=0
+Rk14 (\15\:non \17\:non) resistor r=0.7773 c=0
+Rk16 (\18\:non \19\:non) resistor r=0.0254 c=0
+Rk15 (\15\:non \18\:non) resistor r=0.2504 c=0
+Rk19 (\18\:non \25\:non) resistor r=0.1562 c=0
+Rl30 (\11\:A \18\:A) resistor r=184.181 c=0
+Rl22 (\11\:A \13\:A) resistor r=178.693 c=0
+Rl20 (\11\:A \10\:A) resistor r=176.489 c=0
+Rl14 (\1\:A \9\:A) resistor r=156.093 c=0
+Rl4 (\3\:A \1\:A) resistor r=58.644 c=0
+Rl7 (\3\:A \6\:A) resistor r=35.772 c=0
+Rl5 (\3\:A \4\:A) resistor r=123.503 c=0
+Rl11 (OE \8\:OE) resistor r=37.4796 c=0
+Rl12 (OE \9\:OE) resistor r=83.5649 c=0
+Rl2 (OE \3\:OE) resistor r=102.615 c=0
+Rl15 (\11\:OE \10\:OE) resistor r=205.747 c=0
+Rl17 (\11\:OE \13\:OE) resistor r=30.4507 c=0
+Rl16 (\11\:OE \12\:OE) resistor r=36.87 c=0
+Rl24 (\2\:OEb \4\:OEb) resistor r=137.695 c=0
+Rl28 (\2\:OEb \9\:OEb) resistor r=107.487 c=0
+Rl18 (\2\:OEb OEb) resistor r=132.258 c=0
+Rl46 (non \7\:non) resistor r=11.1519 c=0
+Rz19 (\1\:VDD \4\:VDD) resistor r=6.8182 c=0
+Rz20 (\16\:VDD \4\:VDD) resistor r=6.25 c=0
+Rz17 (\25\:VSS \24\:VSS) resistor r=75 c=0
+Rz18 (\27\:VSS \26\:VSS) resistor r=75 c=0
+Rz5 (\20\:pon \19\:pon) resistor r=75 c=0
+Rz6 (\22\:pon \21\:pon) resistor r=75 c=0
+Rz1 (\14\:OEb \13\:OEb) resistor r=75 c=0
+Ry16 (\15\:VDD \14\:VDD) resistor r=62 c=0
+Ry10 (\1\:VSS \4\:VSS) resistor r=5.6364 c=0
+Ry11 (\12\:VSS \4\:VSS) resistor r=5.1667 c=0
+Ry1 (\16\:OEb \15\:OEb) resistor r=62 c=0
+Ry2 (\14\:non \13\:non) resistor r=62 c=0
+Ry3 (\17\:non \16\:non) resistor r=62 c=0
+Rx3 (\16\:OE \12\:OE) resistor r=45 c=0
+Rx12 (\12\:pon pon) resistor r=45 c=0
+Rx11 (\25\:non \7\:non) resistor r=45 c=0
+mn4_1__rcx (\19\:pon \3\:OE 12 VSS) g45n1lvt w=(1.7e-07) l=4.5e-08 nf=1 \
+        as=1.02e-14 ad=2.38e-14 ps=4.6e-07 pd=6.2e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=1.26618e-06 sd=160n sca=13.6381 \
+        scb=0.0141729 scc=0.000783402 m=(1)
+mn3_1__rcx (12 \4\:A \26\:VSS VSS) g45n1lvt w=(1.7e-07) l=4.5e-08 nf=1 \
+        as=5.12e-14 ad=1.02e-14 ps=1.01e-06 pd=4.6e-07 nrd=1.16667 \
+        nrs=1.16667 sa=2.45e-07 sb=1.16118e-06 sd=160n sca=13.6381 \
+        scb=0.0141729 scc=0.000783402 m=(1)
+mn3_2__rcx (13 \6\:A \26\:VSS VSS) g45n1lvt w=(1.7e-07) l=4.5e-08 nf=1 \
+        as=5.12e-14 ad=1.36e-14 ps=1.01e-06 pd=5e-07 nrd=1.16667 \
+        nrs=1.16667 sa=5.1e-07 sb=8.96176e-07 sd=160n sca=13.6381 \
+        scb=0.0141729 scc=0.000783402 m=(1)
+mn4_2__rcx (\21\:pon \9\:OE 13 VSS) g45n1lvt w=(1.7e-07) l=4.5e-08 nf=1 \
+        as=1.36e-14 ad=2.77e-14 ps=5e-07 pd=6.7e-07 nrd=1.16667 \
+        nrs=1.16667 sa=6.35e-07 sb=7.71176e-07 sd=160n sca=13.6381 \
+        scb=0.0141729 scc=0.000783402 m=(1)
+mn2 (\19\:non \2\:OEb \1\:VSS VSS) g45n1lvt w=(1.7e-07) l=4.5e-08 nf=1 \
+        as=5.872e-14 ad=2.933e-14 ps=1.37e-06 pd=6.85e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1e-07 sb=2e-06 sd=160n sca=12.2924 scb=0.0124108 \
+        scc=0.000563444 m=(2)
+mn1 (\19\:non \11\:A \1\:VSS VSS) g45n1lvt w=(1.7e-07) l=4.5e-08 nf=1 \
+        as=8.005e-14 ad=2.932e-14 ps=1.47e-06 pd=6.85e-07 nrd=1.16667 \
+        nrs=1.16667 sa=3.3e-07 sb=2e-06 sd=160n sca=12.2924 scb=0.0124108 \
+        scc=0.000563444 m=(2)
+mn4 (\21\:pon \8\:OE 14 VSS) g45n1lvt w=(1.75e-07) l=4.5e-08 nf=1 \
+        as=1.05e-14 ad=2.77e-14 ps=4.7e-07 pd=6.7e-07 nrd=1.16667 \
+        nrs=1.16667 sa=8.18857e-07 sb=5.68143e-07 sd=160n sca=13.8761 \
+        scb=0.0144385 scc=0.000829722 m=(1)
+mn3 (14 \9\:A \24\:VSS VSS) g45n1lvt w=(1.75e-07) l=4.5e-08 nf=1 \
+        as=3.9e-14 ad=1.05e-14 ps=8.3e-07 pd=4.7e-07 nrd=1.16667 \
+        nrs=1.16667 sa=9.23857e-07 sb=4.63143e-07 sd=160n sca=13.8761 \
+        scb=0.0144385 scc=0.000829722 m=(1)
+mn2_2__rcx (\19\:non \2\:OEb \1\:VSS VSS) g45n1lvt w=(1.75e-07) \
+        l=4.5e-08 nf=1 as=7.605e-14 ad=2.8e-14 ps=1.42e-06 pd=6.7e-07 \
+        nrd=1.16667 nrs=1.16667 sa=1.06371e-06 sb=1.59e-06 sd=160n \
+        sca=12.1767 scb=0.0122352 scc=0.000549928 m=(1)
+mn1_2__rcx (\19\:non \11\:A \1\:VSS VSS) g45n1lvt w=(1.75e-07) l=4.5e-08 \
+        nf=1 as=3.912e-14 ad=2.8e-14 ps=8.7e-07 pd=6.7e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.26871e-06 sb=1.385e-06 sd=160n sca=12.1767 \
+        scb=0.0122352 scc=0.000549928 m=(1)
+mn0 (\13\:OEb \13\:OE \24\:VSS VSS) g45n1lvt w=(1.45e-07) l=4.5e-08 nf=1 \
+        as=3.9e-14 ad=3.553e-14 ps=8.3e-07 pd=7.8e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.20448e-06 sb=2.45e-07 sd=160n sca=14.7993 \
+        scb=0.0157101 scc=0.000964917 m=(1)
+mn5_1__rcx (Y non \1\:VSS VSS) g45n1lvt w=(2.6e-07) l=4.5e-08 nf=1 \
+        as=4.032e-14 ad=4.16e-14 ps=8.3833e-07 pd=8.4e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.03471e-06 sb=1.165e-06 sd=160n sca=10.5507 \
+        scb=0.0097116 scc=0.000384728 m=(6)
+mp0 (\15\:OEb \10\:OE \16\:VDD VDD) g45p1lvt w=(2.15e-07) l=4.5e-08 nf=1 \
+        as=9.455e-14 ad=3.01e-14 ps=1.62e-06 pd=7.1e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.445e-06 sb=1.4e-07 sd=160n sca=14.5646 \
+        scb=0.0142004 scc=0.000753562 m=(1)
+mp5_1__rcx (Y pon \1\:VDD VDD) g45p1lvt w=(3.9e-07) l=4.5e-08 nf=1 \
+        as=6.11e-14 ad=6.24e-14 ps=1.10333e-06 pd=1.1e-06 nrd=1.16667 \
+        nrs=1.16667 sa=9.23333e-07 sb=1.165e-06 sd=160n sca=30.5009 \
+        scb=0.0202006 scc=0.00336097 m=(6)
+ends TBUFX6
+// End of subcircuit definition.
+

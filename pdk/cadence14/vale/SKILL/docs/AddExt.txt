@@ -1,0 +1,19 @@
+VALE Framework Component Module:
+   Extend Via Overlaps
+
+Description:
+   This Component Module runs pattern analysis with hotspot fixing to improve the overlay of metal past vias.  This is just an example.  There are other, more sophisticated ways to do via optimization.
+
+   AddExt extends M2 overlap past V1 or V2 if the current overlap is less than 100nm, and there is a 160nm space on that line end.
+
+Dependencies:
+
+Input Requirements:
+   1. An open cellview in Virtuoso Layout
+   2. One or more colored M2 wires with a V1 or V2 shape within 100nm of the
+line end.
+
+Development Notes:
+   All aspects of this Component Module were developed by Cadence.
+   Please contact Jonathan Fales for more information: jfales@cadence.com
+

@@ -1,0 +1,46 @@
+*
+*|DSPF 1.5
+*
+*|DATE "Wed May  8 09:37:51 2013"
+*|VENDOR "Cadence Design Systems"
+*|PROGRAM "Cadence Extraction QRC"
+*|VERSION "12.1 Linux 64 bit - (Fri Mar 15 17:53:47 PDT 2013)"
+*|DESIGN "CLKINVX6"
+*|DIVIDER /
+*|DELIMITER :
+*|DeviceFingerDelim "@"
+*|BUSBIT []
+** caps2d version: 10
+*
+.GLOBAL  VDD VSS
+*
+.SUBCKT  CLKINVX6 A Y
+*
+*Net Section
+*
+*|GROUND_NET VSS
+*
+*|NET A 3.59528e-16
+*|P (A X 0 0.5000 0.6650)
+C1 A VSS 3.59528e-16
+*
+*|NET Y 4.27259e-16
+*|P (Y X 0 0.9000 0.8550)
+*|I (Mmn0:d Mmn0 d X 0 0.3100 0.4000)
+*|I (Mmp0:d Mmp0 d X 0 0.3050 1.1350)
+C2 Mmp0:d VSS 2.03408e-16
+C3 Mmn0:d VSS 2.07293e-16
+C4 Y VSS 1.65583e-17
+Rk1 Mmn0:d Y 0.223284 $W=0.1
+Rk2 Mmp0:d Y 0.027327 $W=0.1
+*
+*Instance Section
+*
+Mmn0	Mmn0:d	A	VSS	VSS	g45n1lvt	L=0.045U	W=0.31U
++ AD=0.0496P	AS=0.04836P	PD=0.94U	PS=0.932U	M=5
++ sa=1.4e-07 sb=9.7e-07 sca=9.23999 scb=0.00771541 scc=0.000252587
+Mmp0	Mmp0:d	A	VDD	VDD	g45p1lvt	L=0.045U	W=0.47U
++ AD=0.07332P	AS=0.0752P	PD=1.252U	PS=1.26U	M=5
++ fw=4.7e-07 sa=1.4e-07 sb=9.7e-07 sca=40.6416 scb=0.0369115 scc=0.00420297
+.ENDS
+.END

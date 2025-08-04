@@ -1,0 +1,166 @@
+// Generated for: spectre (May  1 08:11:27 2013 )
+// Library name: gsclib045
+// Cell name: HSWDNX1
+// View name: extracted
+
+simulator lang=spectre
+
+subckt HSWDNX1 ExtVDD PSO1n PSO1n_out PSO2n PSO2n_out VDD VSS
+PM3 (\56\:VDD n2 \13\:ExtVDD ExtVDD) g45p1hvt w=(4.5e-07) l=4.5e-08 \
+        nf=1 as=6.3e-14 ad=6.3e-14 ps=1.18e-06 pd=1.18e-06 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=1.4e-07 sd=160n sca=14.7101 \
+        scb=0.0128174 scc=0.00128324 m=(1)
+PM0_23__rcx (VDD n1 ExtVDD ExtVDD) g45p1hvt w=(4.5e-07) l=4.5e-08 nf=1 \
+        as=7.071e-14 ad=7.2e-14 ps=1.21429e-06 pd=1.22e-06 nrd=1.16667 \
+        nrs=1.16667 sa=1.165e-06 sb=1.37e-06 sd=160n sca=4.07325 \
+        scb=0.000378105 scc=2.57733e-07 m=(14)
+PM0_21__rcx (VDD n1 ExtVDD ExtVDD) g45p1hvt w=(4.5e-07) l=4.5e-08 nf=1 \
+        as=7.071e-14 ad=7.2e-14 ps=1.21429e-06 pd=1.22e-06 nrd=1.16667 \
+        nrs=1.16667 sa=1.165e-06 sb=1.37e-06 sd=160n sca=35.2833 \
+        scb=0.0187724 scc=0.00367895 m=(14)
+PM0_1__rcx (VDD n1 ExtVDD ExtVDD) g45p1hvt w=(4.5e-07) l=4.5e-08 nf=1 \
+        as=7.02e-14 ad=7.2e-14 ps=1.212e-06 pd=1.22e-06 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=2e-06 sd=160n sca=37.8738 scb=0.0220613 \
+        scc=0.00371947 m=(20)
+PM2 (\11\:n2 \4\:PSO2n \49\:ExtVDD ExtVDD) g45p1svt w=(4.5e-07) \
+        l=4.5e-08 nf=1 as=6.3e-14 ad=6.3e-14 ps=1.18e-06 pd=1.18e-06 \
+        nrd=1.16667 nrs=1.16667 sa=1.4e-07 sb=1.4e-07 sd=160n sca=34.1613 \
+        scb=0.0368451 scc=0.00393009 m=(1)
+PM1_3__rcx (\70\:n1 \1\:PSO1n \66\:ExtVDD ExtVDD) g45p1svt w=(4.5e-07) \
+        l=4.5e-08 nf=1 as=7.2e-14 ad=6.75e-14 ps=1.22e-06 pd=1.2e-06 \
+        nrd=1.16667 nrs=1.16667 sa=5.5e-07 sb=3.45e-07 sd=160n sca=18.7693 \
+        scb=0.0154144 scc=0.00171488 m=(4)
+PM6 (\1\:PSO1n_out \62\:n1 \64\:ExtVDD ExtVDD) g45p1svt w=(4.5e-07) \
+        l=4.5e-08 nf=1 as=6.3e-14 ad=7.2e-14 ps=1.18e-06 pd=1.22e-06 \
+        nrd=1.16667 nrs=1.16667 sa=1.4e-07 sb=3.45e-07 sd=160n sca=16.5166 \
+        scb=0.0139334 scc=0.0015954 m=(2)
+PM5 (\2\:PSO2n_out \2\:n2 \15\:ExtVDD ExtVDD) g45p1svt w=(4.5e-07) \
+        l=4.5e-08 nf=1 as=6.3e-14 ad=7.2e-14 ps=1.18e-06 pd=1.22e-06 \
+        nrd=1.16667 nrs=1.16667 sa=1.4e-07 sb=3.45e-07 sd=160n sca=16.0001 \
+        scb=0.0136275 scc=0.00128433 m=(2)
+C1 (PSO1n_out VSS) capacitor c=4.62381e-17
+C2 (PSO1n VSS) capacitor c=4.5217e-17
+C3 (VDD VSS) capacitor c=2.57283e-16
+C4 (ExtVDD VSS) capacitor c=2.04267e-15
+C5 (PSO2n VSS) capacitor c=1.00412e-16
+C6 (PSO2n_out VSS) capacitor c=3.2778e-17
+C7 (n2 VSS) capacitor c=4.0864e-17
+C8 (n1 VSS) capacitor c=1.16771e-15
+C9 (\1\:PSO1n VSS) capacitor c=2.72881e-16
+C10 (\4\:PSO2n VSS) capacitor c=3.96518e-17
+C11 (\1\:PSO2n VSS) capacitor c=3.10349e-17
+C12 (\15\:n1 VSS) capacitor c=1.23866e-16
+C13 (\4\:n2 VSS) capacitor c=1.05843e-17
+C14 (\3\:PSO2n VSS) capacitor c=9.87632e-18
+C15 (\1\:ExtVDD VSS) capacitor c=1.46729e-17
+C16 (\2\:ExtVDD VSS) capacitor c=1.2966e-17
+C17 (\1\:PSO1n_out VSS) capacitor c=8.16379e-17
+C18 (\56\:VDD VSS) capacitor c=8.66912e-17
+C19 (\13\:ExtVDD VSS) capacitor c=9.68554e-17
+C20 (\2\:PSO2n_out VSS) capacitor c=5.61553e-17
+C21 (\11\:n2 VSS) capacitor c=8.59291e-17
+C22 (\49\:ExtVDD VSS) capacitor c=6.05317e-17
+C23 (\3\:PSO1n_out VSS) capacitor c=8.20573e-17
+C24 (\4\:PSO2n_out VSS) capacitor c=8.07893e-17
+C25 (\13\:n2 VSS) capacitor c=5.89852e-17
+C26 (\2\:PSO2n VSS) capacitor c=1.21493e-17
+C27 (\2\:n2 VSS) capacitor c=1.31846e-16
+C28 (VDD VSS) capacitor c=2.65869e-15
+C29 (ExtVDD VSS) capacitor c=8.90332e-16
+C30 (ExtVDD VSS) capacitor c=8.61478e-16
+C31 (\62\:n1 VSS) capacitor c=1.09559e-16
+C32 (\14\:PSO1n VSS) capacitor c=4.81637e-17
+C33 (\9\:n2 VSS) capacitor c=2.81506e-17
+C34 (\10\:n2 VSS) capacitor c=3.96023e-17
+C35 (\1\:PSO2n_out VSS) capacitor c=4.66324e-17
+C36 (\69\:n1 VSS) capacitor c=1.09465e-16
+C37 (\70\:n1 VSS) capacitor c=4.11134e-16
+C38 (\12\:ExtVDD VSS) capacitor c=6.49501e-17
+C39 (\15\:ExtVDD VSS) capacitor c=2.51387e-16
+C40 (\18\:ExtVDD VSS) capacitor c=4.2632e-17
+C41 (\64\:ExtVDD VSS) capacitor c=2.49452e-16
+C42 (\66\:ExtVDD VSS) capacitor c=3.3836e-16
+C43 (\69\:ExtVDD VSS) capacitor c=3.87864e-17
+C44 (\11\:VDD VSS) capacitor c=1.64024e-16
+Rk19 (\2\:PSO1n_out PSO1n_out) resistor r=0.2132 c=0
+Rk20 (PSO1n_out \4\:PSO1n_out) resistor r=0.3315 c=0
+Rk3 (PSO1n \13\:PSO1n) resistor r=0.001816 c=0
+Rk6 (\13\:PSO1n \14\:PSO1n) resistor r=0.03169 c=0
+Rk5 (\14\:PSO1n \15\:PSO1n) resistor r=0.003689 c=0
+Rk91 (\11\:VDD VDD) resistor r=0.4232 c=0
+Rk90 (VDD \11\:VDD) resistor r=0.4676 c=0
+Rk114 (\11\:VDD \57\:VDD) resistor r=0.3802 c=0
+Rk29 (ExtVDD \12\:ExtVDD) resistor r=0.1571 c=0
+Rk30 (\12\:ExtVDD \14\:ExtVDD) resistor r=0.6608 c=0
+Rk31 (\14\:ExtVDD \15\:ExtVDD) resistor r=0.4254 c=0
+Rk33 (\15\:ExtVDD \17\:ExtVDD) resistor r=0.3538 c=0
+Rk34 (\17\:ExtVDD \18\:ExtVDD) resistor r=0.05298 c=0
+Rk50 (\17\:ExtVDD \50\:ExtVDD) resistor r=0.221 c=0
+Rk61 (ExtVDD \64\:ExtVDD) resistor r=0.3292 c=0
+Rk63 (\64\:ExtVDD \66\:ExtVDD) resistor r=0.2587 c=0
+Rk66 (\66\:ExtVDD \69\:ExtVDD) resistor r=0.05298 c=0
+Rk116 (\3\:VSS VSS) resistor r=0.3006 c=0
+Rk115 (\2\:VSS \3\:VSS) resistor r=0.9527 c=0
+Rk119 (\4\:VSS VSS) resistor r=0.1199 c=0
+Rk117 (VSS \4\:VSS) resistor r=0.3761 c=0
+Rk128 (\20\:VSS VSS) resistor r=0.3006 c=0
+Rk127 (\19\:VSS \20\:VSS) resistor r=0.9527 c=0
+Rk133 (\21\:VSS VSS) resistor r=0.1577 c=0
+Rk129 (VSS \21\:VSS) resistor r=0.6845 c=0
+Rk134 (VSS \28\:VSS) resistor r=0.394 c=0
+Rk10 (PSO2n_out \1\:PSO2n_out) resistor r=0.01984 c=0
+Rk11 (\1\:PSO2n_out \3\:PSO2n_out) resistor r=0.0891 c=0
+Rk12 (\1\:PSO2n_out \5\:PSO2n_out) resistor r=0.4335 c=0
+Rk7 (\9\:n2 \10\:n2) resistor r=0.1619 c=0
+Rk8 (\10\:n2 \12\:n2) resistor r=0.2718 c=0
+Rk9 (\10\:n2 \14\:n2) resistor r=0.2143 c=0
+Rk13 (\69\:n1 \70\:n1) resistor r=0.447 c=0
+Rl1 (\2\:ExtVDD \1\:ExtVDD) resistor r=52.0063 c=0
+Rl4 (\2\:PSO2n \4\:PSO2n) resistor r=38.9859 c=0
+Rl2 (\1\:PSO2n \2\:PSO2n) resistor r=59.6246 c=0
+Rl3 (\2\:PSO2n \3\:PSO2n) resistor r=3.1183 c=0
+Rl16 (\2\:n2 n2) resistor r=191.771 c=0
+Rl18 (\2\:n2 \4\:n2) resistor r=9.0434 c=0
+Rl36 (n1 \15\:n1) resistor r=314.651 c=0
+Rl83 (\62\:n1 \15\:n1) resistor r=50.14 c=0
+Rz5 (\4\:PSO1n_out \3\:PSO1n_out) resistor r=37.5 c=0
+Rz14 (\28\:VSS \27\:VSS) resistor r=37.5 c=0
+Rz2 (\5\:PSO2n_out \4\:PSO2n_out) resistor r=37.5 c=0
+Rz1 (\14\:n2 \13\:n2) resistor r=37.5 c=0
+Ry5 (\2\:PSO1n_out \1\:PSO1n_out) resistor r=20.6667 c=0
+Ry67 (\57\:VDD \56\:VDD) resistor r=20.6667 c=0
+Ry8 (\14\:ExtVDD \13\:ExtVDD) resistor r=20.6667 c=0
+Ry23 (\50\:ExtVDD \49\:ExtVDD) resistor r=20.6667 c=0
+Ry70 (VSS \1\:VSS) resistor r=5.1667 c=0
+Ry68 (\2\:VSS \1\:VSS) resistor r=8.8571 c=0
+Ry69 (\3\:VSS \1\:VSS) resistor r=5.1667 c=0
+Ry71 (\19\:VSS \18\:VSS) resistor r=8.8571 c=0
+Ry72 (\20\:VSS \18\:VSS) resistor r=5.1667 c=0
+Ry73 (\21\:VSS \18\:VSS) resistor r=5.1667 c=0
+Ry2 (\3\:PSO2n_out \2\:PSO2n_out) resistor r=20.6667 c=0
+Ry1 (\12\:n2 \11\:n2) resistor r=20.6667 c=0
+Rx2 (\15\:PSO1n \1\:PSO1n) resistor r=45 c=0
+Rx5 (\18\:ExtVDD \1\:ExtVDD) resistor r=45 c=0
+Rx6 (\69\:ExtVDD \2\:ExtVDD) resistor r=45 c=0
+Rx1 (\3\:PSO2n PSO2n) resistor r=45 c=0
+Rx3 (\9\:n2 \4\:n2) resistor r=45 c=0
+Rx4 (\69\:n1 \15\:n1) resistor r=9 c=0
+NM1 (\27\:VSS \1\:PSO2n \13\:n2 VSS) g45n1svt w=(3e-07) l=4.5e-08 nf=1 \
+        as=4.2e-14 ad=4.2e-14 ps=8.8e-07 pd=8.8e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=1.4e-07 sd=160n sca=16.2701 \
+        scb=0.0157116 scc=0.00141809 m=(1)
+NM4 (\4\:VSS \62\:n1 \3\:PSO1n_out VSS) g45n1svt w=(3e-07) l=4.5e-08 \
+        nf=1 as=4.8e-14 ad=4.2e-14 ps=9.2e-07 pd=8.8e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=3.45e-07 sd=160n sca=15.667 \
+        scb=0.0153545 scc=0.001049 m=(2)
+NM3 (\21\:VSS \2\:n2 \4\:PSO2n_out VSS) g45n1svt w=(3e-07) l=4.5e-08 \
+        nf=1 as=4.8e-14 ad=4.2e-14 ps=9.2e-07 pd=8.8e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=3.45e-07 sd=160n sca=16.2701 \
+        scb=0.0157116 scc=0.00141809 m=(2)
+NM0_2__rcx (VSS \1\:PSO1n \70\:n1 VSS) g45n1svt w=(3e-07) l=4.5e-08 nf=1 \
+        as=4.5e-14 ad=4.8e-14 ps=9e-07 pd=9.2e-07 nrd=1.16667 nrs=1.16667 \
+        sa=1.4e-07 sb=7.55e-07 sd=160n sca=10.637 scb=0.00973476 \
+        scc=0.000429831 m=(4)
+ends HSWDNX1
+// End of subcircuit definition.
+

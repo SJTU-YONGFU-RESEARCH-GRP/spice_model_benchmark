@@ -1,0 +1,17 @@
+// Generated for: spectre (Apr 26 15:36:49 2013 )
+// Library name: gsclib045_backbias
+// Cell name: CLKINVX20
+// View name: schematic
+
+simulator lang=spectre
+
+subckt CLKINVX20 A Y VDD VSS NW
+mp0 (Y A VDD NW) g45p1svt w=(7.815u) l=45n nf=1 as=1.0941p ad=1.0941p \
+        ps=15.91u pd=15.91u nrd=17.9143m nrs=17.9143m sa=140n sb=140n \
+        sd=160n sca=45.04913 scb=0.05038 scc=0.00572 m=(1)
+mn0 (Y A VSS VSS) g45n1svt w=(5.185u) l=45n nf=1 as=725.9f ad=725.9f \
+        ps=10.65u pd=10.65u nrd=27.001m nrs=27.001m sa=140n sb=140n \
+        sd=160n sca=47.17159 scb=0.05152 scc=0.00593 m=(1)
+ends CLKINVX20
+// End of subcircuit definition.
+

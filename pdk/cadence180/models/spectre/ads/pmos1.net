@@ -1,0 +1,262 @@
+; Translated with ADS Netlist Translator (*) 270.day Jul 17 2004
+;
+;*************************************************************
+;   Generic PDK BSIM3V3 Spectre pmos1.scs           05/12/01
+;   PMOS                                          PDK Factory
+;*************************************************************
+;simulator lang=spectre
+;library gpdk
+
+; Nominal Corner
+#ifdef nom
+toxp=4.0e-9
+dvthp=0
+dxlp=0
+dxwp=0
+cjp=0.0011
+cjswp=2.5e-10
+cjswgp=4.2e-10
+cgop=3.3e-10
+hdifp=2e-7
+#define mos 
+#endif
+
+; Slow Corner
+#ifdef slow
+toxp=4.2e-9
+dvthp=-0.07
+dxlp=1.3e-8
+dxwp=-1.5e-8
+cjp=0.0012
+cjswp=2.6e-10
+cjswgp=4.4e-10
+cgop=3.1e-10
+hdifp=2e-7
+#define mos 
+#endif
+
+; Fast Corner
+#ifdef fast
+toxp=3.9e-9
+dvthp=0.07
+dxlp=-1.3e-8
+dxwp=1.5e-8
+cjp=0.0011
+cjswp=2.4e-10
+cjswgp=4.0e-10
+cgop=3.4e-10
+hdifp=2e-7
+#define mos 
+#endif
+
+#ifdef mos
+
+; 1: *   .18u <= gate length <= .5u   &&    .4u <= gate width < 10u
+; 2: *   .5u  <  gate length <= 1.0u  &&    .4u <= gate width < 10u
+; 3: *   1.0u <  gate length <= 20u   &&    .4u <= gate width < 10u
+; 4: *   .18u <= gate length <= .5u   &&    10u <= gate width < 100u
+; 5: *   .5u  <  gate length <= 1.0u  &&    10u <= gate width < 100u
+; 6: *   1.0u <  gate length <= 20u   &&    10u <= gate width < 100u
+
+model pmos1_1 MOSFET Version=3.1 Tnom=25 Paramchk=1 Idsmod=8 Capmod=0 W=5e-6 Tox=toxp Eg=1.12452 \
+      Sc=1.0e20 Imax=1 L=5e-6 NMOS=no Lmin=0.17e-6 Lmax=0.501e-6 Wmin=0.4e-6 Wmax=10.001e-6 \
+      Xj=1.7e-7 Nch=3.9e+17 Lln=1 Lwn=1 Wln=1 Wwn=1 Lint=1.5e-8 Ll=0 Lw=0 Lwl=0 Wint=1.5e-8 Wl=0 \
+      Ww=0 Wwl=0 Mobmod=1 Binunit=2 Xl=-2e-8+dxlp Xw=0+dxwp Dwg=0 Dwb=0 Ldif=9e-8 Hdif=hdifp \
+      Rsh=7.2 Rd=0 Rs=0 Vth0=-0.43+dvthp Lvth0=-1.37e-8 Wvth0=-8.48e-9 Pvth0=5.43e-15 K1=0.75 \
+      Lk1=-1.21e-8 Wk1=-1.56e-7 Pk1=1.88e-14 K2=-0.04 Lk2=6.06e-9 Wk2=5.28e-8 Pk2=-7.49e-15 \
+      K3=0 Dvt0=0 Dvt1=0 Dvt2=0 Dvt0w=0 Dvt1w=0 Dvt2w=0 Nlx=0 W0=0 K3b=0 Vsat=130812 Lvsat=-0.00036 \
+      Ua=-3.88e-10 Lua=6.66e-17 Wua=9.31e-16 Pua=-1.27e-22 Ub=1.71e-18 Lub=-7.86e-26 Wub=-1.10e-24 \
+      Pub=1.21e-31 Uc=-2.69e-11 Luc=5.12e-18 Wuc=-1.38e-16 Puc=7.55e-24 Rdsw=530 Prwb=0 Prwg=0 \
+      Wr=1 U0=0.0063 Lu0=2.97e-10 Wu0=1.59e-9 Pu0=-2.39e-16 A0=0.38 La0=1.91e-7 Wa0=6.28e-7 \
+      Pa0=-1.11e-13 Keta=0.016 Lketa=-1.31e-9 Wketa=7.53e-9 Pketa=-1.55e-15 A1=0 A2=0.4 Ags=0.0068 \
+      Lags=5.95e-9 Wags=1.68e-8 Pags=-7.56e-15 B0=0 B1=0 Voff=-0.13 Lvoff=5.74e-10 Wvoff=2.75e-9 \
+      Pvoff=-2.44e-15 Nfactor=1 Cit=0.00013 Lcit=4.80e-11 Wcit=-2.75e-11 Pcit=3.58e-18 Cdsc=0 \
+      Cdscb=0 Cdscd=0 Eta0=-0.00047 Leta0=2.56e-10 Etab=0.00067 Letab=-3.47e-10 Dsub=0 Pclm=0.84 \
+      Lpclm=7.067e-8 Wpclm=7.40e-8 Ppclm=-3.33e-14 Pdiblc1=1e-6 Pdiblc2=0.0096 Lpdiblc2=1.70e-10 \
+      Wpdiblc2=-2.10e-9 Ppdiblc2=9.45e-16 Pdiblcb=0.01 Drout=0 Pscbe1=3.5e+08 Pscbe2=5e-7 \
+      Pvag=0 Delta=0.01 Alpha0=8.93e-7 Beta0=22.68 Kt1=-0.22 Lkt1=-4.41e-9 Wkt1=1.69e-9 Pkt1=4.61e-16 \
+      Kt2=-0.017 Lkt2=-3.22e-9 Wkt2=-9.67e-9 Pkt2=2.43e-15 At=10000 Ute=-0.58 Lute=9.19e-9 \
+      Wute=-5.58e-8 Pute=-3.93e-16 Ua1=1.22e-9 Ub1=-1.64e-18 Lub1=7.95e-26 Wub1=1.12e-25 \
+      Pub1=-3.52e-32 Uc1=-5.64e-11 Luc1=1.18e-17 Wuc1=1.13e-16 Puc1=-1.48e-23 Kt1l=0 Prt=0 \
+      Cj=cjp Pb=0.89 Mj=0.4476 Cjsw=cjswp Pbsw=0.89 Mjsw=0.37 Cjswg=cjswgp Pbswg=0.89 Mjswg=0.37 \
+      Cgdo=cgop Cgso=cgop Cta=0.001 Ctp=0.0004 Pta=0.0016 Ptp=0.0016 Js=4.92e-6 Jsw=9e-10 \
+      Nj=1 Xti=3 Nqsmod=0 Xpart=1 Cf=0 Tlev=1 Tlevc=1 Dlc=2e-9 PMOS=yes
+
+model pmos1_2 MOSFET Version=3.1 Tnom=25 Paramchk=1 Idsmod=8 Capmod=0 W=5e-6 Tox=toxp Eg=1.12452 \
+      Sc=1.0e20 Imax=1 L=5e-6 NMOS=no Lmin=0.5e-6 Lmax=1.001e-6 Wmin=0.4e-6 Wmax=10.001e-6 \
+      Xj=1.7e-7 Nch=3.9e+17 Lln=1 Lwn=1 Wln=1 Wwn=1 Lint=1.5e-8 Ll=0 Lw=0 Lwl=0 Wint=1.5e-8 Wl=0 \
+      Ww=0 Wwl=0 Mobmod=1 Binunit=2 Xl=-2e-8+dxlp Xw=0+dxwp Dwg=0 Dwb=0 Ldif=9e-8 Hdif=hdifp \
+      Rsh=7.2 Rd=0 Rs=0 Vth0=-0.46+dvthp Lvth0=-3.30e-9 Wvth0=1.54e-8 Pvth0=-5.32e-15 K1=0.47 \
+      Lk1=1.18e-7 Wk1=6.61e-8 Pk1=-8.10e-14 K2=0.06 Lk2=-3.93e-8 Wk2=-2.52e-8 Pk2=2.76e-14 \
+      K3=0 Dvt0=0 Dvt1=0 Dvt2=0 Dvt0w=0 Dvt1w=0 Dvt2w=0 Nlx=0 W0=0 K3b=0 Vsat=146428 Lvsat=-0.0074 \
+      Ua=1.026e-9 Lua=-5.70e-16 Wua=-1.49e-16 Pua=3.59e-22 Ub=1.20e-18 Lub=1.48e-25 Wub=-6.66e-25 \
+      Pub=-7.48e-32 Uc=-5.05e-11 Luc=1.57e-17 Wuc=-9.043e-17 Puc=-1.39e-23 Rdsw=530 Prwb=0 \
+      Prwg=0 Wr=1 U0=0.011 Lu0=-1.81e-9 Wu0=-1.38e-9 Pu0=1.10e-15 A0=1.20 La0=-1.75e-7 Wa0=-1.30e-7 \
+      Pa0=2.31e-13 Keta=0.04 Lketa=-1.27e-8 Wketa=-1.19e-8 Pketa=7.20e-15 A1=0 A2=0.4 Ags=0.02 \
+      B0=0 B1=0 Voff=-0.14 Lvoff=7.61e-9 Wvoff=1.20e-8 Pvoff=-6.58e-15 Nfactor=1 Cit=-0.00032 \
+      Lcit=2.52e-10 Wcit=1.259109e-11 Pcit=-1.447976e-17 Cdsc=0 Cdscb=0 Cdscd=0 Eta0=1.79e-5 \
+      Leta0=3.70e-11 Etab=-1.79e-5 Letab=-3.70e-11 Dsub=0 Pclm=0.67 Drout=0 Lpclm=1.48e-7 \
+      Pdiblc1=1e-6 Pdiblc2=0.0018 Lpdiblc2=3.70e-9 Pdiblcb=0.01 Pscbe1=3.5e+08 Pscbe2=5e-7 \
+      Pvag=0 Delta=0.01 Alpha0=8.93e-7 Beta0=22.68 Kt1=-0.24 Lkt1=5.36e-9 Wkt1=1.38e-8 Pkt1=-4.98e-15 \
+      Kt2=-0.026 Lkt2=3.035e-9 Wkt2=2.81e-10 Pkt2=-2.04e-15 At=10000 Ute=-0.82 Lute=1.17e-7 \
+      Wute=1.12e-7 Pute=-7.59e-14 Ua1=1.22e-9 Ub1=-1.18e-18 Lub1=-1.29e-25 Wub1=-1.15e-25 \
+      Pub1=6.68e-32 Uc1=2.76e-11 Luc1=-2.60e-17 Wuc1=3.26e-17 Puc1=2.15e-23 Kt1l=0 Prt=0 \
+      Cj=cjp Pb=0.89 Mj=0.45 Cjsw=cjswp Pbsw=0.89 Mjsw=0.37 Cjswg=cjswgp Pbswg=0.89 Mjswg=0.37 \
+      Cgdo=cgop Cgso=cgop Cta=0.001 Ctp=0.0004 Pta=0.0016 Ptp=0.0016 Js=4.92e-6 Jsw=9e-10 \
+      Nj=1 Xti=3 Nqsmod=0 Xpart=1 Cf=0 Tlev=1 Tlevc=1 Dlc=2e-9 PMOS=yes
+
+model pmos1_3 MOSFET Version=3.1 Tnom=25 Paramchk=1 Idsmod=8 Capmod=0 W=5e-6 Tox=toxp Eg=1.12452 \
+      Sc=1.0e20 Imax=1 L=5e-6 NMOS=no Lmin=1.0e-6 Lmax=20.001e-6 Wmin=0.4e-6 Wmax=10.001e-6 \
+      Xj=1.7e-7 Nch=3.9e+17 Lln=1 Lwn=1 Wln=1 Wwn=1 Lint=1.5e-8 Ll=0 Lw=0 Lwl=0 Wint=1.5e-8 Wl=0 \
+      Ww=0 Wwl=0 Mobmod=1 Binunit=2 Xl=-2e-8+dxlp Xw=0+dxwp Dwg=0 Dwb=0 Ldif=9e-8 Hdif=hdifp \
+      Rsh=7.2 Rd=0 Rs=0 Vth0=-0.42+dvthp Lvth0=-4.21e-8 Wvth0=-2.78e-9 Pvth0=1.56e-14 K1=0.54 \
+      Lk1=2.99e-8 Wk1=2.44e-9 Pk1=-7.80e-15 K2=0.03 Lk2=-9.44e-9 Wk2=-3.69e-9 Pk2=2.84e-15 \
+      K3=0 Dvt0=0 Dvt1=0 Dvt2=0 Dvt0w=0 Dvt1w=0 Dvt2w=0 Nlx=0 W0=0 K3b=0 Vsat=151306 Lvsat=-0.013 \
+      Ua=1.11e-9 Lua=-6.62e-16 Wua=-1.37e-16 Pua=3.45e-22 Ub=2.17e-19 Lub=1.28e-24 Wub=-9.54e-26 \
+      Pub=-7.32e-31 Uc=-1.20e-10 Luc=9.54e-17 Wuc=-3.31e-17 Puc=-7.98e-23 Rdsw=530 Prwb=0 \
+      Prwg=0 Wr=1 U0=0.01 Lu0=-9.70e-10 Wu0=-1.85e-10 Pu0=-2.79e-16 A0=0.99 La0=6.35e-8 Wa0=7.64e-9 \
+      Pa0=7.19e-14 Keta=0.03 Lketa=-5.18e-10 Wketa=1.77e-9 Pketa=-8.54e-15 A1=0 A2=0.4 Ags=0.02 \
+      B0=0 B1=0 Voff=-0.13 Lvoff=-1.22e-8 Wvoff=-8.98e-10 Pvoff=8.21e-15 Nfactor=1 Cit=-0.0001 \
+      Cdsc=0 Cdscb=0 Cdscd=0 Eta0=5e-5 Etab=-5e-5 Dsub=0 Pclm=0.57 Lpclm=2.60e-7 Pdiblc1=1e-6 \
+      Pdiblc2=0.0005 Lpdiblc2=5.20e-9 Pdiblcb=0.01 Drout=0 Pscbe1=1.80e+08 Lpscbe1=195 Pscbe2=5e-7 \
+      Pvag=0 Delta=0.01 Alpha0=8.93e-7 Beta0=22.68 Kt1=-0.23 Lkt1=-1.02e-8 Wkt1=7.38e-9 Pkt1=2.38e-15 \
+      Kt2=-0.023 Lkt2=-2.21e-10 Wkt2=-4.04e-10 Pkt2=-1.26e-15 At=10000 Ute=-0.75 Lute=3.49e-8 \
+      Wute=-1.30e-8 Pute=6.79e-14 Ua1=1.22e-9 Ub1=-1.39e-18 Lub1=1.15e-25 Wub1=5.93e-26 \
+      Pub1=-1.34e-31 Uc1=-9.74e-12 Luc1=1.70e-17 Wuc1=2.76e-17 Puc1=2.73e-23 Kt1l=0 Prt=0 \
+      Cj=cjp Pb=0.89 Mj=0.45 Cjsw=cjswp Pbsw=0.89 Mjsw=0.37 Cjswg=cjswgp Pbswg=0.89 Mjswg=0.37 \
+      Cgdo=cgop Cgso=cgop Cta=0.001 Ctp=0.0004 Pta=0.0016 Ptp=0.0016 Js=4.92e-6 Jsw=9e-10 \
+      Nj=1 Xti=3 Nqsmod=0 Xpart=1 Cf=0 Tlev=1 Tlevc=1 Dlc=2e-9 PMOS=yes
+
+model pmos1_4 MOSFET Version=3.1 Tnom=25 Paramchk=1 Idsmod=8 Capmod=0 W=5e-6 Tox=toxp Eg=1.12452 \
+      Sc=1.0e20 Imax=1 L=5e-6 NMOS=no Lmin=0.18e-6 Lmax=0.501e-6 Wmin=10e-6 Wmax=100.001e-6 \
+      Xj=1.7e-7 Nch=3.9e+17 Lln=1 Lwn=1 Wln=1 Wwn=1 Lint=1.5e-8 Ll=0 Lw=0 Lwl=0 Wint=1.5e-8 Wl=0 \
+      Ww=0 Wwl=0 Mobmod=1 Binunit=2 Xl=-2e-8+dxlp Xw=0+dxwp Dwg=0 Dwb=0 Ldif=9e-8 Hdif=hdifp \
+      Rsh=7.2 Rd=0 Rs=0 Vth0=-0.46+dvthp Lvth0=-7.57e-9 Wvth0=6.82e-8 Pvth0=-6.75e-15 K1=0.51 \
+      Lk1=1.84e-8 Wk1=2.49e-7 Pk1=-1.53e-14 K2=0.048 Lk2=-6.75e-9 Wk2=-1.05e-7 Pk2=8.72e-15 \
+      K3=0 Dvt0=0 Dvt1=0 Dvt2=0 Dvt0w=0 Dvt1w=0 Dvt2w=0 Nlx=0 W0=0 K3b=0 Vsat=130812 Lvsat=-0.00037 \
+      Ua=1.08e-9 Lua=-1.69e-16 Wua=-2.09e-15 Pua=8.69e-23 Ub=1.74e-19 Lub=1.86e-25 Wub=3.68e-24 \
+      Pub=-6.39e-31 Uc=-1.46e-10 Luc=2.67e-17 Wuc=-1.016e-16 Puc=-8.24e-23 Rdsw=530 Prwb=0 \
+      Prwg=0 Wr=1 U0=0.0096 Lu0=-7.39e-11 Wu0=-6.54e-10 Pu0=-2.55e-16 A0=1.23 La0=-1.64e-8 \
+      Wa0=-9.40e-8 Pa0=3.27e-13 Keta=0.017 Lketa=-7.68e-10 Wketa=-7.48e-9 Pketa=-6.11e-16 \
+      A1=0 A2=0.4 Ags=0.02 B0=0 B1=0 Voff=-0.13 Lvoff=-2.05e-9 Wvoff=-4.06e-8 Pvoff=2.03e-14 \
+      Nfactor=1 Cit=-0.0001 Lcit=1.47e-10 Wcit=6.46e-10 Pcit=-3.71e-16 Cdsc=0 Cdscb=0 Cdscd=0 \
+      Eta0=-0.0005 Leta0=2.56e-10 Etab=0.001 Letab=-5.30e-10 Dsub=0 Pclm=0.92 Lpclm=3.61e-8 \
+      Wpclm=-9.53e-8 Ppclm=4.29e-14 Pdiblc1=1e-6 Pdiblc2=0.006 Lpdiblc2=1.93e-9 Wpdiblc2=2.27e-8 \
+      Ppdiblc2=-1.02e-14 Pdiblcb=0.01 Drout=0 Pscbe1=3.5e+08 Pscbe2=5e-7 Pvag=0 Delta=0.01 \
+      Alpha0=8.93e-7 Beta0=22.68 Kt1=-0.23 Lkt1=-2.66e-9 Kt2=-0.024 Lkt2=-2.31e-10 At=10000 \
+      Ute=-0.74 Lute=3.28e-9 Wute=2.66e-7 Pute=-1.70e-14 Ua1=1.22e-9 Ub1=-1.38e-18 Lub1=2.88e-26 \
+      Uc1=6.70e-11 Luc1=-6.86e-18 Kt1l=0 Prt=0 Cj=cjp Pb=0.89 Mj=0.45 Cjsw=cjswp Pbsw=0.89 \
+      Mjsw=0.37 Cjswg=cjswgp Pbswg=0.89 Mjswg=0.37 Cgdo=cgop Cgso=cgop Cta=0.001 Ctp=0.0004 \
+      Pta=0.0016 Ptp=0.0016 Js=4.92e-6 Jsw=9e-10 Nj=1 Xti=3 Nqsmod=0 Xpart=1 Cf=0 Tlev=1 Tlevc=1 \
+      Dlc=2e-9 PMOS=yes
+
+model pmos1_5 MOSFET Version=3.1 Tnom=25 Paramchk=1 Idsmod=8 Capmod=0 W=5e-6 Tox=toxp Eg=1.12452 \
+      Sc=1.0e20 Imax=1 L=5e-6 NMOS=no Lmin=0.5e-6 Lmax=1.001e-6 Wmin=10e-6 Wmax=100.001e-6 \
+      Xj=1.7e-7 Nch=3.9e+17 Lln=1 Lwn=1 Wln=1 Wwn=1 Lint=1.5e-8 Ll=0 Lw=0 Lwl=0 Wint=1.5e-8 Wl=0 \
+      Ww=0 Wwl=0 Mobmod=1 Binunit=2 Xl=-2e-8+dxlp Xw=0+dxwp Dwg=0 Dwb=0 Ldif=9e-8 Hdif=hdifp \
+      Rsh=7.2 Rd=0 Rs=0 Vth0=-0.45+dvthp Lvth0=-1.12e-8 Wvth0=-4.79e-8 Pvth0=4.54e-14 K1=0.53 \
+      Lk1=6.23e-9 Wk1=6.22e-8 Pk1=6.89e-14 K2=0.035 Lk2=-1.28e-9 Wk2=-9.52e-9 Pk2=-3.42e-14 \
+      K3=0 Dvt0=0 Dvt1=0 Dvt2=0 Dvt0w=0 Dvt1w=0 Dvt2w=0 Nlx=0 W0=0 K3b=0 Vsat=146428 Lvsat=-0.0074 \
+      Ua=8.91e-10 Lua=-8.33e-17 Wua=-3.67e-15 Pua=8.01e-22 Ub=3.98e-19 Lub=8.49e-26 Wub=7.82e-24 \
+      Pub=-2.50e-30 Uc=-1.22e-10 Luc=1.62e-17 Wuc=7.98e-16 Puc=-4.87e-22 Rdsw=530 Prwb=0 \
+      Prwg=0 Wr=1 U0=0.01 Lu0=-2.69e-10 Wu0=1.86e-9 Pu0=-1.38e-15 A0=1.02 La0=7.79e-8 Wa0=-1.93e-7 \
+      Pa0=3.71e-13 Keta=0.03 Lketa=-7.20e-9 Wketa=1.26e-8 Pketa=-9.67e-15 A1=0 A2=0.4 Ags=0.02 \
+      B0=0 B1=0 Voff=-0.13 Lvoff=-6.49e-10 Wvoff=1.14e-8 Pvoff=-3.07e-15 Nfactor=1 Cit=-0.0003 \
+      Lcit=2.37e-10 Wcit=1.15e-10 Pcit=-1.32e-16 Cdsc=0 Cdscb=0 Cdscd=0 Eta0=1.79e-5 Leta0=3.70e-11 \
+      Etab=-1.79e-5 Letab=-3.70e-11 Dsub=0 Pclm=0.67 Lpclm=1.48e-7 Pdiblc1=1e-6 Pdiblc2=0.0017 \
+      Lpdiblc2=3.70e-9 Pdiblcb=0.01 Drout=0 Pscbe1=3.5e+08 Pscbe2=5e-7 Pvag=0 Delta=0.01 \
+      Alpha0=8.93e-7 Beta0=22.68 Kt1=-0.24 Lkt1=1.57e-9 Kt2=-0.028 Lkt2=9.73e-10 At=10000 \
+      Ute=-0.77 Lute=1.98e-8 Wute=-1.47e-7 Pute=1.69e-13 Ua1=1.22e-9 Ub1=-1.38e-18 Lub1=3.096e-26 \
+      Uc1=-1.45e-11 Luc1=2.98e-17 Kt1l=0 Prt=0 Cj=cjp Pb=0.89 Mj=0.45 Cjsw=cjswp Pbsw=0.89 \
+      Mjsw=0.37 Cjswg=cjswgp Pbswg=0.89 Mjswg=0.37 Cgdo=cgop Cgso=cgop Cta=0.001 Ctp=0.0004 \
+      Pta=0.0016 Ptp=0.0016 Js=4.92e-6 Jsw=9e-10 Nj=1 Xti=3 Nqsmod=0 Xpart=1 Cf=0 Tlev=1 Tlevc=1 \
+      Dlc=2e-9 PMOS=yes
+
+model pmos1_6 MOSFET Version=3.1 Tnom=25 Paramchk=1 Idsmod=8 Capmod=0 W=5e-6 Tox=toxp Eg=1.12452 \
+      Sc=1.0e20 Imax=1 L=5e-6 NMOS=no Lmin=1.0e-6 Lmax=20.001e-6 Wmin=10e-6 Wmax=100.001e-6 \
+      Xj=1.7e-7 Nch=3.9e+17 Lln=1 Lwn=1 Wln=1 Wwn=1 Lint=1.5e-8 Ll=0 Lw=0 Lwl=0 Wint=1.5e-8 Wl=0 \
+      Ww=0 Wwl=0 Mobmod=1 Binunit=2 Xl=-2e-8+dxlp Xw=0+dxwp Dwg=0 Dwb=0 Ldif=9e-8 Hdif=hdifp \
+      Rsh=7.2 Rd=0 Rs=0 Vth0=-0.44+dvthp Lvth0=-2.16e-8 Wvth0=1.99e-8 Pvth0=-3.25e-14 K1=0.52 \
+      Lk1=1.90e-8 Wk1=1.24e-7 Pk1=-2.51e-15 K2=0.039 Lk2=-5.04e-9 Wk2=-3.54e-8 Pk2=-4.46e-15 \
+      K3=0 Dvt0=0 Dvt1=0 Dvt2=0 Dvt0w=0 Dvt1w=0 Dvt2w=0 Nlx=0 W0=0 K3b=0 Vsat=151306 Lvsat=-0.013 \
+      Ua=8.54e-10 Lua=-4.10e-17 Wua=8.14e-17 Pua=-3.51e-21 Ub=5.26e-19 Lub=-6.28e-26 Wub=1.15e-24 \
+      Pub=5.16e-30 Uc=-9.95e-11 Luc=-1.02e-17 Wuc=1.11e-16 Puc=3.03e-22 Rdsw=530 Prwb=0 Prwg=0 \
+      Wr=1 U0=0.011 Lu0=-1.27e-9 Wu0=8.484e-10 Pu0=-2.24e-16 A0=0.99 La0=1.19e-7 Wa0=5.13e-7 \
+      Nfactor=1 Pa0=-4.41e-13 Keta=0.026 Lketa=-1.71e-9 Wketa=7.13e-9 Pketa=-3.34e-15 A1=0 \
+      A2=0.4 Ags=0.02 B0=0 B1=0 Voff=-0.13 Lvoff=-7.01e-10 Wvoff=1.92e-8 Pvoff=-1.21e-14 Cit=-0.0001 \
+      Cdsc=0 Cdscb=0 Cdscd=0 Eta0=5e-5 Etab=-5e-5 Dsub=0 Pclm=0.57 Lpclm=2.60e-7 Pdiblc1=1e-6 \
+      Pdiblc2=0.00048 Lpdiblc2=5.20e-9 Pdiblcb=0.01 Drout=0 Pscbe1=1.803977e+08 Lpscbe1=195.0426 \
+      Pscbe2=5e-7 Pvag=0 Delta=0.01 Alpha0=8.93e-7 Beta0=22.68 Kt1=-0.23 Lkt1=-1.53e-8 Kt2=-0.024 \
+      Lkt2=-3.08e-9 At=10000 Ute=-0.84 Lute=9.62e-8 Ua1=1.22e-9 Ub1=-1.40e-18 Lub1=4.81e-26 \
+      Uc1=-6.72e-12 Luc1=2.09e-17 Kt1l=0 Prt=0 Cj=cjp Pb=0.90 Mj=0.45 Cjsw=cjswp Pbsw=0.90 \
+      Mjsw=0.37 Cjswg=cjswgp Pbswg=0.90 Mjswg=0.37 Cgdo=cgop Cgso=cgop Cta=0.00098 Ctp=0.0004 \
+      Pta=0.0016 Ptp=0.0016 Js=4.92e-6 Jsw=9e-10 Nj=1 Xti=3 Nqsmod=0 Xpart=1 Cf=0 Tlev=1 Tlevc=1 \
+      Dlc=2e-9 PMOS=yes
+
+model pmos1 BinModel Param[1]="Length" Param[2]="Width" Model[1]="pmos1_1" Max[1,1]=0.501e-6 \
+      Min[1,1]=0.17e-6 Max[1,2]=10.001e-6 Min[1,2]=0.4e-6 Model[2]="pmos1_2" Max[2,1]=1.001e-6 \
+      Min[2,1]=0.5e-6 Max[2,2]=10.001e-6 Min[2,2]=0.4e-6 Model[3]="pmos1_3" Max[3,1]=20.001e-6 \
+      Min[3,1]=1.0e-6 Max[3,2]=10.001e-6 Min[3,2]=0.4e-6 Model[4]="pmos1_4" Max[4,1]=0.501e-6 \
+      Min[4,1]=0.18e-6 Max[4,2]=100.001e-6 Min[4,2]=10e-6 Model[5]="pmos1_5" Max[5,1]=1.001e-6 \
+      Min[5,1]=0.5e-6 Max[5,2]=100.001e-6 Min[5,2]=10e-6 Model[6]="pmos1_6" Max[6,1]=20.001e-6 \
+      Min[6,1]=1.0e-6 Max[6,2]=100.001e-6 Min[6,2]=10e-6
+#endif
+;endlibrary gpdk
+
+;Spectre Math Constants
+#ifndef SPECTRE_MATH_CONSTANTS
+;Define a CPP variable so the constants will not be redefined
+#define SPECTRE_MATH_CONSTANTS
+M_E=e
+M_LOG2E=1.44269504088896
+M_LOG10E=log(e)
+M_LN2=ln(2)
+M_LN10=ln10
+M_PI=pi
+M_TWOPI=2*pi
+M_PI_2=pi/2
+M_PI_4=pi/4
+M_1_PI=1/pi
+M_2_PI=2/pi
+M_2_SQRTPI=2/sqrt(pi)
+M_SQRT1_2=sqrt(1/2)
+M_DEGPERRAD=57.2957795130823208772
+M_SQRT2=sqrt(2)
+;End of Spectre Math Constants
+#endif
+
+;Spectre Physical Constants
+#ifndef SPECTRE_PHYSICAL_CONSTANTS
+;Define a CPP variable so the constants will not be redefined
+#define SPECTRE_PHYSICAL_CONSTANTS
+P_Q=qelectron
+P_C=c0
+P_K=boltzmann
+P_H=planck
+P_EPS0=e0
+P_U0=u0
+P_CELSIUS0=273.15
+;End of Spectre Physical Constants
+#endif
+
+;Spectre boolean function replacements
+#ifndef SPECTRE_BOOLEAN_EQUATIONS
+;Define a value so the functions will not be included multiple times
+#define SPECTRE_BOOLEAN_EQUATIONS
+;Spectre Equals
+ADS_SCS_EQ(x,y)=if (x == y) then 1 else 0 endif
+;Spectre Not Equal
+ADS_SCS_NEQ(x,y)=if (x != y) then 1 else 0 endif
+;Spectre Less Than
+ADS_SCS_LT(x,y)=if (x < y) then 1 else 0 endif
+;Spectre Greater Than
+ADS_SCS_GT(x,y)=if (x > y) then 1 else 0 endif
+;Spectre Less Than or Equal To
+ADS_SCS_LTE(x,y)=if (x <= y) then 1 else 0 endif
+;Spectre Greater Than or Equal To
+ADS_SCS_GTE(x,y)=if (x >= y) then 1 else 0 endif
+;Spectre Trinary
+ADS_SCS_TRINARY(z,x,y)=if (z == 1) then x else y endif
+;End of the Spectre boolean function replacement block
+#endif
+

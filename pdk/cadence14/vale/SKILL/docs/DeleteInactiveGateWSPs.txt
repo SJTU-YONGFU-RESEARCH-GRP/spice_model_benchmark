@@ -1,0 +1,10 @@
+VALE Framework Component Module:
+   Delete Inactive Poly WSPs
+
+Description:
+   This Component Module removes Poly WSP definitions from the current cellview. It will not remove WSP definitions from the techfile. 
+
+Development Notes:
+   All aspects of this Component Module were developed by Cadence.
+   Please contact Jonathan Fales for more information: jfales@cadence.com
+

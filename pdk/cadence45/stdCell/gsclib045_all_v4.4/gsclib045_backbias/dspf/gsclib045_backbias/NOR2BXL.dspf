@@ -1,0 +1,116 @@
+*
+*|DSPF 1.5
+*
+*|DATE "Wed May  8 08:45:41 2013"
+*|VENDOR "Cadence Design Systems"
+*|PROGRAM "Cadence Extraction QRC"
+*|VERSION "12.1 Linux 64 bit - (Fri Mar 15 17:53:47 PDT 2013)"
+*|DESIGN "NOR2BXL"
+*|DIVIDER /
+*|DELIMITER :
+*|DeviceFingerDelim "@"
+*|BUSBIT []
+** caps2d version: 10
+*
+.GLOBAL  NW VDD VSS
+*
+.SUBCKT  NOR2BXL AN B Y
+*
+*Net Section
+*
+*|GROUND_NET VSS
+*
+*|NET AN 2.71753e-16
+*|P (AN X 0 0.5000 1.0450)
+*|I (Mmn0:g Mmn0 g X 0 0.6725 0.3325)
+*|I (Mmp0:g Mmp0 g X 0 0.6725 1.2525)
+*|S (AN:2 0.6725 0.7750)
+*|S (AN:3 0.6150 0.7750)
+C1 Mmp0:g VSS 4.13467e-17
+C2 Mmn0:g VSS 4.90994e-17
+C3 AN:2 VSS 4.22525e-17
+C4 AN:3 VSS 6.97537e-17
+C5 AN VSS 6.93008e-17
+Rl1 AN:2 AN:3 46.266560 $W=0.094
+Rl2 AN:2 Mmn0:g 138.175674 $W=0.039
+Rl3 Mmp0:g AN:2 138.175674 $W=0.039
+Rk4 AN:3 AN 0.190767 $W=0.1
+*
+*|NET B 3.03132e-16
+*|P (B X 0 0.3000 0.8550)
+*|I (Mmn2:g Mmn2 g X 0 0.2625 0.3325)
+*|I (Mmp2:g Mmp2 g X 0 0.3625 1.2525)
+*|S (B:2 0.2900 0.7000)
+C6 Mmp2:g VSS 7.56791e-17
+C7 Mmn2:g VSS 3.66183e-17
+C8 B:2 VSS 1.05983e-16
+C9 B VSS 8.48518e-17
+Rl5 B:2 Mmn2:g 95.948906 $W=0.039
+Rl6 Mmp2:g B:2 161.515656 $W=0.039
+Rk7 B B:2 45.092777 $W=0.1
+*
+*|NET Y 2.29019e-16
+*|P (Y X 0 0.1000 1.2350)
+*|I (Mmn2:d Mmn2 d X 0 0.3650 0.3325)
+*|I (Mmp2:d Mmp2 d X 0 0.2700 1.2525)
+C10 Mmp2:d VSS 2.7097e-17
+C11 Mmn2:d VSS 1.21143e-16
+C12 Y VSS 8.07788e-17
+Rk8 Mmn2:d Y 75.807304 $W=0.08
+Rk9 Y Mmp2:d 62.114288 $W=0.1
+*
+*|NET net76 4.0092e-16
+*|I (Mmn1:g Mmn1 g X 0 0.4675 0.3325)
+*|I (Mmn0:d Mmn0 d X 0 0.7650 0.3325)
+*|I (Mmp1:g Mmp1 g X 0 0.4675 1.2525)
+*|I (Mmp0:d Mmp0 d X 0 0.7650 1.2525)
+*|S (net76:1 0.5250 0.5400)
+*|S (net76:2 0.4675 0.5400)
+*|S (net76:6 0.7750 0.5700)
+C13 Mmp0:d VSS 5.38384e-17
+C14 Mmp1:g VSS 9.95998e-17
+C15 Mmn0:d VSS 2.52391e-17
+C16 Mmn1:g VSS 3.28502e-17
+C17 net76:6 VSS 5.16359e-17
+C18 net76:2 VSS 7.35498e-17
+C19 net76:1 VSS 6.42065e-17
+Rl10 net76:1 net76:2 46.233437 $W=0.114
+Rl11 net76:2 Mmn1:g 46.956516 $W=0.039
+Rl12 net76:2 Mmp1:g 227.725739 $W=0.039
+Rk13 net76:6 net76:1 0.155632 $W=0.08
+Rk14 net76:6 Mmn0:d 75.162605 $W=0.09
+Rk15 Mmp0:d net76:6 62.457508 $W=0.09
+*
+*|NET net59 0
+*|I (Mmp2:s Mmp2 s X 0 0.4150 1.2525)
+*|I (Mmp1:d Mmp1 d X 0 0.4150 1.2525)
+Rmw16 Mmp1:d Mmp2:s 0.001000 $W=1
+*
+*Instance Section
+*
+Mmn2	Mmn2:d	Mmn2:g	VSS	VSS	g45n1svt	L=0.045U
++ W=0.145U
++ AD=0.0232P	AS=0.0203P	PD=0.61U	PS=0.57U
++ fw=1.45e-07 sa=1.4e-07 sb=5.5e-07 sca=7.09016 scb=0.00401586 scc=3.69756e-05
+Mmn1	Mmn2:d	Mmn1:g	VSS	VSS	g45n1svt	L=0.045U
++ W=0.145U
++ AD=0.0232P	AS=0.0232P	PD=0.61U	PS=0.61U
++ fw=1.45e-07 sa=3.45e-07 sb=3.45e-07 sca=7.09016 scb=0.00401586 scc=3.69756e-05
+Mmn0	Mmn0:d	Mmn0:g	VSS	VSS	g45n1svt	L=0.045U
++ W=0.145U
++ AD=0.0203P	AS=0.0232P	PD=0.57U	PS=0.61U
++ fw=1.45e-07 sa=5.5e-07 sb=1.4e-07 sca=7.09016 scb=0.00401586 scc=3.69756e-05
+Mmp2	Mmp2:d	Mmp2:g	Mmp2:s	NW	g45p1svt	L=0.045U
++ W=0.215U
++ AD=0.0301P	AS=0.0129P	PD=0.71U	PS=0.55U
++ fw=2.15e-07 sa=1.4e-07 sb=4.5e-07 sca=16.4797 scb=0.0152074 scc=0.000231472
+Mmp1	Mmp1:d	Mmp1:g	VDD	NW	g45p1svt	L=0.045U
++ W=0.215U
++ AD=0.0129P	AS=0.0344P	PD=0.55U	PS=0.75U
++ fw=2.15e-07 sa=2.45e-07 sb=3.45e-07 sca=15.2571 scb=0.0126505 scc=0.000156674
+Mmp0	Mmp0:d	Mmp0:g	VDD	NW	g45p1svt	L=0.045U
++ W=0.215U
++ AD=0.0301P	AS=0.0344P	PD=0.71U	PS=0.75U
++ fw=2.15e-07 sa=4.5e-07 sb=1.4e-07 sca=17.3518 scb=0.0169054 scc=0.000309574
+.ENDS
+.END

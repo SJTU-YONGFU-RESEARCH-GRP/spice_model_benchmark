@@ -1,0 +1,41 @@
+// Generated for: spectre (May  1 08:18:06 2013 )
+// Library name: gsclib045
+// Cell name: TIEHI
+// View name: extracted
+
+simulator lang=spectre
+
+subckt TIEHI VDD VSS Y
+mp0 (\1\:Y net25 \1\:VDD VDD) g45p1svt w=(3.9e-07) l=4.5e-08 nf=1 \
+        as=5.46e-14 ad=5.46e-14 ps=1.06e-06 pd=1.06e-06 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=1.4e-07 sd=160n sca=47.9961 \
+        scb=0.0439169 scc=0.00481722 m=(1)
+C1 (Y VSS) capacitor c=8.53014e-17
+C2 (VDD VSS) capacitor c=3.46211e-17
+C3 (net25 VSS) capacitor c=3.42719e-17
+C4 (\3\:net25 VSS) capacitor c=2.09088e-17
+C5 (\2\:net25 VSS) capacitor c=1.67874e-17
+C6 (\1\:VDD VSS) capacitor c=5.52866e-17
+C7 (\5\:net25 VSS) capacitor c=3.20839e-17
+C8 (\4\:net25 VSS) capacitor c=2.64357e-17
+C9 (\4\:VDD VSS) capacitor c=1.59733e-18
+Rk1 (Y \2\:Y) resistor r=0.02976 c=0
+Rk6 (\4\:VSS VSS) resistor r=0.09927 c=0
+Rk5 (\2\:VSS \4\:VSS) resistor r=0.3126 c=0
+Rk4 (\4\:VDD VDD) resistor r=0.09927 c=0
+Rk3 (\2\:VDD \4\:VDD) resistor r=0.4506 c=0
+Rk2 (\4\:net25 \6\:net25) resistor r=0.1853 c=0
+Rl1 (net25 \2\:net25) resistor r=48.7687 c=0
+Rl2 (\2\:net25 \3\:net25) resistor r=29.5379 c=0
+Rz3 (\1\:VSS \2\:VSS) resistor r=75 c=0
+Rz1 (\5\:net25 \6\:net25) resistor r=75 c=0
+Ry1 (\1\:Y \2\:Y) resistor r=20.6667 c=0
+Ry2 (\1\:VDD \2\:VDD) resistor r=20.6667 c=0
+Rx1 (\2\:net25 \4\:net25) resistor r=45 c=0
+mn0 (\5\:net25 \3\:net25 \1\:VSS VSS) g45n1svt w=(2.6e-07) l=4.5e-08 \
+        nf=1 as=3.64e-14 ad=3.64e-14 ps=8e-07 pd=8e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=1.4e-07 sd=160n sca=14.4034 \
+        scb=0.0144248 scc=0.00102063 m=(1)
+ends TIEHI
+// End of subcircuit definition.
+

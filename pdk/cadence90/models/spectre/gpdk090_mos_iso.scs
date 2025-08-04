@@ -1,0 +1,14 @@
+
+simulator lang = spectre
+
+library gpdk090
+
+section ALL
+subckt gpdk090_nmos1v_iso (n1 n2 n3 n4 n5)
+parameters w=120n l=100n as=69.6f ad=69.6f ps=1.04u pd=1.04u multi=1 region="triode"
+MAIN (n1 n2 n3 n4) gpdk090_nmos1v  w=w l=l as=as ad=ad ps=ps pd=pd m=multi
+DIODE (n4 n5) gpdk090_nwdio area=as*ad pj=ps+pd
+ends gpdk090_nmos1v_iso
+endsection ALL
+
+endlibrary

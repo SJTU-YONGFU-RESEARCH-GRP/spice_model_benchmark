@@ -1,0 +1,108 @@
+test_dsm_coeff_a.sp3
+* Coefficient mapping test for dsm_arch_test.cir (Part A)
+* Requires cmload xtendedlib.cm
+
+.control
+
+delcirc all
+destroy all
+delete all
+
+setplot new
+nameplot myvars
+let ki1=(0.1;0.2;0.3;0.4;0.5)
+let ki2=(0.5;0.6;0.7;0.8;0.9)
+let nsim=length(ki1)*length(ki2)
+let SQNDRb=vector(nsim)*0
+
+let k=0
+while k le length(ki1)-1
+ let m=0
+ while m le length(ki2)-1
+  
+  source dsm_arch_test.cir
+  let vfs=@@mi8:xi1[out_high]
+  let @@mi1:xi1[gain]=ki1[k]
+  let @@mi3:xi1[gain]=ki2[m]
+ 
+  save v(vout)
+  set reltol=1e-6
+  set abstol=1e-15
+  set vntol=1e-9
+  ic v(vdac:xi1)=-2.0
+  ic v(vint1out:xi1)=0.0
+  ic v(vint2out:xi1)=0.0
+
+  echo "Simulating for ki1={round(ki1[k]*10)/10} and ki2={round(ki2[m]*10)/10} ({m+k*length(ki1)+1}/{nsim}) ..."
+  tran 1e-9 4.1e-3
+ 
+  shell "tran2psd -f 4.096e6 -w Blackman -z tran.raw > psd.raw"
+  set filetype=ascii
+  load "psd.raw"
+  let p=(mag(v(vpsd))*myvars.vfs*2)^2
+
+  let kbw=0
+  cursor kbw right frequency 8e3
+  let kleft=0
+  cursor kleft right frequency 2e3
+  let kright=kleft
+  while ((p[kleft-1] lt p[kleft])&(kleft gt 0)) 
+   kleft=kleft-1
+   end
+  while ((p[kright+1] lt p[kright])&(kright lt kbw)) 
+   kright=kright+1
+   end
+
+  let S=sum(p[kleft,kright])
+  let SQND=sum(p[3,kbw])
+  let SQNDRdB=10*log(S/(SQND-S))
+  let SQNDRb=((SQNDRdB-1.76)/6.02)
+
+  setplot myvars
+  let SQNDRb[m+k*length(ki1)]=sp1.SQNDRb
+
+  destroy sp1
+  destroy tran1
+  delcirc
+  let m=m+1
+  end
+ let k=k+1
+ end
+
+let ki1all=vector(nsim)*0
+let ki2all=vector(nsim)*0
+
+echo " "
+echo " SQNDR[bit]"
+set label=( "  ki2  " )
+let m=0
+while m le length(ki2)-1 
+ set label=( $(label) {round(10*ki2[m])/10} "  " )
+ let m=m+1
+ end
+echo $(label)
+echo " ki1   ------- ------- ------- ------- -------"
+let k=0
+while k le length(ki1)-1
+ set label=( " " {round(10*ki1[k])/10} "|")
+ let m=0
+ while m le length(ki2)-1
+  set label=( $(label) {round(10*SQNDRb[m+k*length(ki1)])/10} "|")
+  let ki1all[m+k*length(ki1)]=ki1[k]
+  let ki2all[m+k*length(ki1)]=ki2[m]
+  let m=m+1
+  end
+ echo $(label)
+ let k=k+1
+ end
+echo "       ------- ------- ------- ------- -------"
+echo " "
+
+set filetype=ascii
+unset appendwrite
+write "test_dsm_coeff_a.raw" ki1all ki2all SQNDRb
+
+.endc
+
+.end
+

@@ -1,0 +1,346 @@
+*
+****************************************************
+Generic  .25um transistor models for 2.5V operation
+****************************************************
+*
+simulator lang=spectre
+
+library gpdk
+
+//  *************** TT CORNER MODEL ***************
+section tt
+parameters deltox_25=0
++          delvthn_25=0
++          delvthp_25=0
++          delxl_25=0
++          delxw_25=0
++          cscalejn=1.0
++          cscalego=1.0
+include "mos25gen.scs" section=mos25
+endsection tt
+//  *************** SS CORNER MODEL ***************
+section ss
+parameters deltox_25=0.4e-9
++          delvthn_25=.07
++          delvthp_25=-.05
++          delxl_25=2e-08
++          delxw_25=-1e-08
++          cscalejn=1.05
++          cscalego=0.95
+include "mos25gen.scs" section=mos25
+endsection ss
+//  *************** FF CORNER MODEL ***************
+section ff
+parameters deltox_25=-0.4e-9
++          delvthn_25= -.07
++          delvthp_25= .05
++          delxl_25= -2e-08
++          delxw_25= 1e-08
++          cscalejn= 0.95
++          cscalego=1.05
+include "mos25gen.scs" section=mos25
+endsection ff
+//  *************** SF  CORNER MODEL ***************
+section sf
+parameters deltox_25=0
++          delvthn_25=.07
++          delvthp_25=.05
++          delxl_25=0
++          delxw_25=0
++          cscalejn=1.0
++          cscalego=1.0
+include "mos25gen.scs" section=mos25
+endsection sf
+//  *************** FS CORNER MODEL ***************
+section fs
+parameters deltox_25=0
++          delvthn_25=-.07
++          delvthp_25=-.05
++          delxl_25=0
++          delxw_25=0
++          cscalejn=1.0
++          cscalego=1.0
+include "mos25gen.scs" section=mos25
+endsection fs
+
+****************************************************************
+
+section  mos25
+
+model nmos25  bsim3v3  
++      type = n
++       vtho = .530 + delvthn_25
++        vfb = -.920
++         k1 = .8
++         k2 = -2e-02
++         k3 = 40
++        k3b = 0  
++         w0 = 0  
++        nlx = .07e-7
++        vbm = -3  
++       dvt0 = 1.5
++       dvt1 = .5
++       dvt2 = .57 
++      dvt0w = 0
++      dvt1w = 0
++      dvt2w = 0  
++         a0 = .65
++        b0 = 0  
++         b1 = 0  
++         a1 = 0
++         a2 = .99
++        ags = 0
++       keta = -70e-3
++        nch = 4e17  
++         xj = 1.50e-7
++       lint = 30n
++       wint = 15n
++        dwg = 0 
++        dwb = 0
++        tox = 5.5n + deltox_25
++     dtoxcv = 0
++       toxm = 5.5n + deltox_25
++         xt = 155n 
++       rdsw = 200  
++       prwb = 0  
++       prwg = 0  
++         wr = 1
++    binunit = 2
++     mobmod = 1
++         u0 = 330
++        lu0 = -8e-6
++       vsat = 1.05e5
++       lvsat = -.3e-2
++         ua = -8e-10
++         ub = 2e-18
++         uc = .7e-10
++      drout = 0
++       pclm = .7
++    pdiblc1 = 2e-5
++    lpdiblc1 = 3e-9
++    pdiblc2 = 1e-4
++    pdiblcb = .01
++     pscbe1 = 3e8
++     pscbe2 = 1e-6
++       pvag = 0
++      delta = .01 
++    nfactor = .9
++        cit = -1e-4
++       voff = -.07
++       dsub = 0
++       eta0 = 0
++       leta0 = 8e-10
++       etab = 1  
++     alpha0 = 0  
++     alpha1 = .4
++      beta0 = 15 
++        rsh = 8  
++       ldif = 70n
++       hdif = 120n
++       minr = .01
++         js = 1e-7
++        jsw = 5e-11
++          n = 1
++       cgso = 3e-10*cscalego
++       cgdo = 3e-10*cscalego
++     ckappa = .600
++         cj = 1e-3
++         mj = .35
++         pb = .7  
++         fc = .5
++       cjsw = 8e-11*cscalejn
++       mjsw = .1
++       pbsw = .7
++      cjswg = 2e-10*cscalejn
++      mjswg = .35
++      pbswg = .7
++     capmod = 3
++     nqsmod = 0
++        dwc = 15n
++        dlc = 14n
++        clc = 100n
++        cle = .6
++         cf = 0  
++        elm = 5
++      vfbcv = -1
++       acde = 1
++       moin = 15 
++       noff = 1
++     voffcv = 0
++      xpart = 1
++    version = 3.2
++       tnom = 25 
++       tlev = 1
++      tlevc = 1
++         eg = 1.12
+*       gap1 = 7e-4
+*       gap2 = 1.1e3
++        kt1 = -.3
++       kt1l = 0 
++        kt2 = -.03
++         at = 2e4
++        ua1 = 1.6e-9
++        ub1 = 1e-19 
++        uc1 = -1e-10
++        prt = 0  
++        trs = 0  
++        trd = 0  
++        ute = -.99
++        xti = 3
++        pta = 0 
++        tpb = .001
++        ptp = 0 
++      tpbsw = .001
++     tpbswg = .001
++        cta = 0 
++        tcj = .001 
++        ctp = 0 
++      tcjsw = .001
++     tcjswg = .001
++     noimod = 1
++         kf = 5e-28
++         af = .9
++         ef = .95
++         xl = -20n + delxl_25
++         xw = 10n + delxw_25
+
+model pmos25  bsim3v3
++       type = p
++        vtho = -.51 + delvthp_25
++         vfb = -1.4 
++          k1 = .75
++          k2 = .07
++          k3 = 40
++         k3b = 0  
++          w0 = 0
++         nlx = 0
++         vbm = -3  
++        dvt0 = 2
++        dvt1 = .5
++        dvt2 = -.03  
++       dvt0w = 0
++       dvt1w = 0
++       dvt2w = 0 
++          a0 = .6 
++          b0 = 0  
++          b1 = 0  
++          a1 = 0
++          a2 = .99
++         ags =.02
++        keta = -.05
++         nch = 7e+17  
++         xj = 2.0e-7
++       lint = 35n
++       wint = 15n
++        dwg = 0 
++        dwb = 0 
++        tox = 5.75n + deltox_25
++     dtoxcv = 0
++       toxm = 5.75n  + deltox_25
++         xt = 150n
++       rdsw = 900
++       prwb = 0 
++       prwg = 0 
++         wr = 1
++    binunit = 2
++     mobmod = 1
++         u0 = 101
++         lu0 = 1.5e-6
++       vsat = 4e4
++       lvsat = 1e-2
++         ua = 4e-10
++         ub = 1e-18
++         uc = 1e-11
++      drout = 0
++       pclm = .5
++    pdiblc1 = 1e-04
++    lpdiblc1 = 2e-10
++    pdiblc2 = 1e-4
++    pdiblcb = .01
++     pscbe1 = 4e8
++     pscbe2 = 5e-7
++       pvag = 0
++      delta = .01 
++    nfactor = 1
++        cit = -4e-4
++       voff = -.067
++       dsub = 0
++       eta0 = 0
++       leta0 = 4e-10
++       etab = .002
++     alpha0 = 0 
++     alpha1 = .3
++      beta0 = 20
++        rsh = 7
++       ldif = 70n
++       hdif = 120n 
++       minr = .01
++         js = 1e-6
++        jsw = 2e-12
++          n = 1
++       cgso = 2.5e-10*cscalego
++       cgdo = 2.5e-10*cscalego
++     ckappa = .6
++         cj = 1.2e-3*cscalejn
++         mj = .4
++         pb = .8
++         fc = .5
++       cjsw = 6.e-11*cscalejn
++       mjsw = .1
++       pbsw = .8
++      cjswg = 2e-10*cscalejn
++      mjswg = .3
++      pbswg = .8
++     capmod = 3
++     nqsmod = 0
++        dwc = 10n
++        dlc = 14n
++        clc = 100n
++        cle = .6
++         cf = 0 
++        elm = 5
++      vfbcv = -1
++       acde = 1
++       moin = 15
++       noff = 1
++     voffcv = 0
++      xpart = 1
++    version = 3.2
++       tnom = 25
++       tlev = 1
++      tlevc = 1
++         eg = 1.12
+*       gap1 = 7e-4
+*       gap2 = 1.1e3
++        kt1 = -.3
++       kt1l = 0 
++        kt2 = -.030
++         at = -9.e4
++        ua1 = 2n
++        ub1 = -3e-18
++        uc1 = -9e-11
++        prt = 0  
++        trs = 0  
++        trd = 0  
++        ute = -.97
++        xti = 3
++        pta = 0 
++        tpb = 2e-3
++        ptp = 0  
++      tpbsw = 2e-3
++     tpbswg = 2e-3
++        cta = 0  
++        tcj = 1e-3
++        ctp = 0  
++      tcjsw = .1e-3
++     tcjswg = .1e-3
++     noimod = 1
++         kf = 5e-28
++         af = 1
++         ef = 1.1
++         xl = -20n + delxl_25
++         xw = 10n + delxw_25
+
+endsection  mos25
+endlibrary gpdk
+

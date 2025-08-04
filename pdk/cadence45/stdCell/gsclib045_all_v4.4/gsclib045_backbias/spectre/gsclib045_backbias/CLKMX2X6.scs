@@ -1,0 +1,47 @@
+// Generated for: spectre (Apr 26 15:36:57 2013 )
+// Library name: gsclib045_backbias
+// Cell name: CLKMX2X6
+// View name: schematic
+
+simulator lang=spectre
+
+subckt CLKMX2X6 A B S0 Y VDD NW VSS
+mn3 (net140 B VSS VSS) g45n1svt w=(205n) l=45n nf=1 as=28.7f ad=28.7f \
+        ps=690n pd=690n nrd=682.927m nrs=682.927m sa=140n sb=140n sd=160n \
+        sca=166.60249 scb=0.10864 scc=0.02069 m=(1)
+mn0 (S0b S0 VSS VSS) g45n1svt w=(145n) l=45n nf=1 as=20.3f ad=20.3f \
+        ps=570n pd=570n nrd=965.517m nrs=965.517m sa=140n sb=140n sd=160n \
+        sca=203.41795 scb=0.11509 scc=0.02523 m=(1)
+mn2 (n0 S0b net148 VSS) g45n1svt w=(205n) l=45n nf=1 as=28.7f ad=28.7f \
+        ps=690n pd=690n nrd=682.927m nrs=682.927m sa=140n sb=140n sd=160n \
+        sca=166.60249 scb=0.10864 scc=0.02069 m=(1)
+mn1 (net148 A VSS VSS) g45n1svt w=(205n) l=45n nf=1 as=28.7f ad=28.7f \
+        ps=690n pd=690n nrd=682.927m nrs=682.927m sa=140n sb=140n sd=160n \
+        sca=166.60249 scb=0.10864 scc=0.02069 m=(1)
+mn5 (Y n0 VSS VSS) g45n1svt w=(1.55u) l=45n nf=1 as=217f ad=217f \
+        ps=3.38u pd=3.38u nrd=90.3226m nrs=90.3226m sa=140n sb=140n \
+        sd=160n sca=61.52026 scb=0.05946 scc=0.00743 m=(1)
+mn4 (n0 S0 net140 VSS) g45n1svt w=(205n) l=45n nf=1 as=28.7f ad=28.7f \
+        ps=690n pd=690n nrd=682.927m nrs=682.927m sa=140n sb=140n sd=160n \
+        sca=166.60249 scb=0.10864 scc=0.02069 m=(1)
+mp4 (n0 S0b net115 NW) g45p1svt w=(310n) l=45n nf=1 as=43.4f ad=43.4f \
+        ps=900n pd=900n nrd=451.613m nrs=451.613m sa=140n sb=140n sd=160n \
+        sca=130.90642 scb=0.09728 scc=0.01590 m=(1)
+mp3 (net115 B VDD NW) g45p1svt w=(310n) l=45n nf=1 as=43.4f ad=43.4f \
+        ps=900n pd=900n nrd=451.613m nrs=451.613m sa=140n sb=140n sd=160n \
+        sca=130.90642 scb=0.09728 scc=0.01590 m=(1)
+mp5 (Y n0 VDD NW) g45p1svt w=(2.35u) l=45n nf=1 as=329f ad=329f ps=4.98u \
+        pd=4.98u nrd=59.5745m nrs=59.5745m sa=140n sb=140n sd=160n \
+        sca=54.64759 scb=0.05560 scc=0.00670 m=(1)
+mp2 (n0 S0 net123 NW) g45p1svt w=(310n) l=45n nf=1 as=43.4f ad=43.4f \
+        ps=900n pd=900n nrd=451.613m nrs=451.613m sa=140n sb=140n sd=160n \
+        sca=130.90642 scb=0.09728 scc=0.01590 m=(1)
+mp0 (S0b S0 VDD NW) g45p1svt w=(215n) l=45n nf=1 as=30.1f ad=30.1f \
+        ps=710n pd=710n nrd=651.163m nrs=651.163m sa=140n sb=140n sd=160n \
+        sca=162.02845 scb=0.10751 scc=0.02009 m=(1)
+mp1 (net123 A VDD NW) g45p1svt w=(310n) l=45n nf=1 as=43.4f ad=43.4f \
+        ps=900n pd=900n nrd=451.613m nrs=451.613m sa=140n sb=140n sd=160n \
+        sca=130.90642 scb=0.09728 scc=0.01590 m=(1)
+ends CLKMX2X6
+// End of subcircuit definition.
+

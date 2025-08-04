@@ -1,0 +1,75 @@
+<deck version_str="1.0">
+ <properties lpa_xml_version="2.0"/>
+
+ <target_sels_map map_name="E2">
+  <remap from_sel="M2MASK1" to_sel="M2MASK2"/>
+ </target_sels_map>
+ <target_sels_map map_name="GR">
+  <remap from_sel="M2MASK1" to_sel="M2"/>
+ </target_sels_map>
+
+ <rule>
+  <!-- Intentionally set the required spacing to 160 in order to leave room
+       for specific trim pattern optimization later on -->
+  <rulename>M2lineEndExtV1</rulename>
+  <report custom_orients="R0 R180" />
+  <target_sels_map_name>E2</target_sels_map_name>
+  <target_sels_map_name>GR</target_sels_map_name>
+  <pattern_def type="squish"
+    signature="L2
+               0 0 0 0 /
+               1 3 1 0 /
+               0 0 0 0 "
+    x_deltas="10 32 1-99 160"
+    y_deltas="10 32-136 10" >
+   <pattern sel="M2MASK1" />
+   <pattern sel="V1" />
+   <overlay_scanline_range range_str="x2-10 y1-10 x3+10 y2+10" output_layer="MARKER" />
+   <properties primary_layer="M2MASK1" hotspot_type="WIDTH" hotspot_level="1" >
+    <repair>
+     <hint>
+      <group>
+       <overlay_scanline_range range_str="x2 x3 y1 y2" output_layer="PATTERNREF_M2" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x2 x3 y1 y2" output_layer="PROPERTY_LOCKCOLOR" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x2 x3 y1 y2" output_layer="NOPATTERNREF_M2/drawing" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x2 x3 y1 y2" output_layer="PROPERTY_imfGenerated:string:AddExt" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x3 x2+100 y1 y2" output_layer="M2/drawing-addpath" action="ADDPATH"/>
+      </group>
+     </hint>
+    </repair>
+   </properties>
+  </pattern_def>
+ </rule>
+
+ <rule>
+  <rulename>M2lineEndExtV2</rulename>
+  <report custom_orients="R0 R180" />
+  <target_sels_map_name>E2</target_sels_map_name>
+  <target_sels_map_name>GR</target_sels_map_name>
+  <pattern_def type="squish"
+    signature="L2
+               0 0 0 0 /
+               1 3 1 0 /
+               0 0 0 0 "
+    x_deltas="10 32 1-99 100"
+    y_deltas="10 32-136 10" >
+   <pattern sel="M2MASK1" />
+   <pattern sel="V2" />
+   <overlay_scanline_range range_str="x2-10 y1-10 x3+10 y2+10" output_layer="MARKER" />
+   <properties primary_layer="M2MASK1" hotspot_type="WIDTH" hotspot_level="1" >
+    <repair>
+     <hint>
+      <group>
+       <overlay_scanline_range range_str="x2 x3 y1 y2" output_layer="PATTERNREF_M2" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x2 x3 y1 y2" output_layer="PROPERTY_LOCKCOLOR" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x2 x3 y1 y2" output_layer="NOPATTERNREF_M2/drawing" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x2 x3 y1 y2" output_layer="PROPERTY_imfGenerated:string:AddExt" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x3 x2+100 y1 y2" output_layer="M2/drawing-addpath" action="ADDPATH"/>
+      </group>
+     </hint>
+    </repair>
+   </properties>
+  </pattern_def>
+ </rule>
+
+</deck>

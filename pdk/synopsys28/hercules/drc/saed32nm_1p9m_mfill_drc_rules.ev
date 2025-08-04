@@ -1,0 +1,619 @@
+MACROS  
+/*
+#########################################################################################
+# SAED 32/28NM 1p9m hercules fill deck							#
+#											#
+# Revision History:									#
+# Rev.		date		what							#
+# ------------------------------------------------------------------------------------	#	
+# 1.0		02/Feb/2011	(First draft)						#
+#########################################################################################
+*/
+
+@define MilkyWay "N"
+
+IF (MilkyWay == "Y"){
+HEADER {
+    INLIB = MwALibName
+    BLOCK = TOPCELLNAME
+    FORMAT = MILKYWAY
+    OUTPUT_LAYOUT_PATH = .
+}
+
+}
+ELSE IF (MilkyWay == "N"){
+HEADER {
+    INLIB = GDSFILENAME
+    BLOCK = TOPCELLNAME
+    FORMAT = GDSII
+
+    OUTLIB = EV_OUT
+    OUTPUT_FORMAT = GDSII
+    GROUP_DIR = group 
+    LAYOUT_PATH = .
+}
+
+}
+
+OPTIONS {
+    PRINT_ERRSUM_FILE = TRUE
+    IGNORE_CASE=FALSE
+    RESOLUTION=0.001	    /* tool resolution, layout grid is 0.001 */
+    NET_PREFIX = N_
+    ERR_PREFIX = "ERR"
+    PROTOTYPE_PLACEMENTS = TRUE
+    GDSIN_OPTIONS = "-nl"
+    MAXIMUM_CELLNAME_LENGTH = 1274
+    /*EXPLORER_DATA = TRUE*/
+    CREATE_VUE_OUTPUT = TRUE
+    GRAPHICS_PREFIX = FILL_mx
+}
+
+TECHNOLOGY_OPTIONS {
+        COMPRESS_MIN_PLACEMENT_COUNT = 10
+}
+
+@define gr_metal1 0.7
+@define gr_metal2 0.71
+@define gr_metal3 0.71
+@define gr_metal4 0.71
+@define gr_metal5 0.71
+@define gr_metal6 0.71
+@define gr_metal7 0.71
+@define gr_metal8 0.71
+@define gr_metal9 0.6
+@define wrm_metal1 0.1
+@define wrm_metal2 0.14
+@define wrm_metal3 0.14
+@define wrm_metal4 0.14
+@define wrm_metal5 0.14
+@define wrm_metal6 0.14
+@define wrm_metal7 0.14
+@define wrm_metal8 0.14
+@define wrm_metal9 0.14
+@define wr_metal1 0.9
+@define wr_metal2 0.9
+@define wr_metal3 0.9
+@define wr_metal4 0.9
+@define wr_metal5 0.9
+@define wr_metal6 0.9
+@define wr_metal7 0.9
+@define wr_metal8 0.9
+@define wr_metal9 0.9
+@define w_window 1.1
+@define l_window 0.9
+@define stepX 10.0
+@define stepY 10.0
+@define w_tile 0.4
+@define l_tile 0.7
+@define d_tile 0.3
+@define d_tile_chip 0.2
+@define stagger "Y"
+@define stagger_dir Y
+@define stagger_dist 0.2
+@define PcFillChip( layer, chipBoundary, ratio, w_tile, l_tile, d_tile, d_tile_chip, fillOutput )\
+DENSITY layer { \
+	VERBOSE = TRUE 		 \
+	COMMENT = "Fill candidates within chip" \
+	RATIO < ratio\
+    BOUNDARY_LAYER = chipBoundary \
+} temp = candidates \
+SIZE layer { OVERSIZE = d_tile_chip } temp = sized_layer \
+BOOLEAN candidates NOT sized_layer {} temp = fill_candidates \
+IF (stagger == "Y"){\
+FILL_PATTERN fill_candidates { \
+    WIDTH  = w_tile \
+    HEIGHT = l_tile \
+    SPACE_X = d_tile \
+    SPACE_Y = d_tile \
+    STAGGER_DIR = stagger_dir\
+    STAGGER_DIST = stagger_dist\
+	OUTPUT_AREF=TRUE\
+        } temp = fillOutput \
+} ELSE IF (stagger == "N"){\
+FILL_PATTERN fill_candidates { \
+    WIDTH  = w_tile \
+    HEIGHT = l_tile \
+    SPACE_X = d_tile \
+    SPACE_Y = d_tile \
+	OUTPUT_AREF=TRUE\
+        } temp = fillOutput \
+}\
+
+@define PcFillWindow( layer, layer_d, chipBoundary, ratio, w_tile, l_tile, d_tile, d_tile_chip,w_window, l_window, stepX, stepY,stagger, stagger_dir, stagger_dist, fillOutput)\
+DENSITY layer { \
+    VERBOSE = TRUE \
+    COMMENT = "Fill candidates within window" \
+    RATIO = [0.00000000001, ratio] \
+	DELTA_WINDOW = [0,0,w_window,l_window] \
+	DELTA_X = stepX \
+	DELTA_Y = stepY \
+    BOUNDARY_LAYER = chipBoundary \
+} temp = candidates1 \
+SIZE layer { OVERSIZE = d_tile_chip } temp = sized_layer \
+BOOLEAN candidates1 NOT layer_d {} temp = candidates \
+BOOLEAN candidates NOT sized_layer {} temp = fill_candidates1 \
+SELECT fill_candidates1 INTERACT blockage {} temp = bad_fill \
+BOOLEAN fill_candidates1 NOT bad_fill {} temp = fill_candidates\
+IF (stagger == "Y"){\
+FILL_PATTERN fill_candidates { \
+    WIDTH  = w_tile \
+    HEIGHT = l_tile \
+    SPACE_X = d_tile \
+    SPACE_Y = d_tile \
+    STAGGER_DIR = stagger_dir\
+    STAGGER_DIST = stagger_dist\
+	OUTPUT_AREF=TRUE\
+        } temp = fillOutput1 \
+SIZE fillOutput1 { OVERSIZE = 0.2 } temp = fillOutput1_1 \
+BOOLEAN fill_candidates NOT fillOutput1_1 {} temp = fill_candidates_s\
+FILL_PATTERN fill_candidates_s { \
+    WIDTH  = 1 \
+    HEIGHT = 0.75 \
+    SPACE_X = 0.25 \
+    SPACE_Y = 0.25 \
+    STAGGER_DIR = Y\
+    STAGGER_DIST = 0.25\
+	OUTPUT_AREF=TRUE\
+        } temp = fillOutput2 \
+SIZE fillOutput2 { OVERSIZE = 0.2 } temp = fillOutput2_1 \
+BOOLEAN fill_candidates_s NOT fillOutput2_1 {} temp = fill_candidates_s_1\
+FILL_PATTERN fill_candidates_s_1 { \
+    WIDTH  = 0.5 \
+    HEIGHT = 0.5 \
+    SPACE_X = 0.2 \
+    SPACE_Y = 0.2 \
+    STAGGER_DIR = Y\
+    STAGGER_DIST = 0.2\
+	OUTPUT_AREF=TRUE\
+        } temp = fillOutput3 \
+BOOLEAN fillOutput2 OR fillOutput1 OR fillOutput3{} temp = fillOutput\
+} ELSE IF (stagger == "N"){\
+FILL_PATTERN fill_candidates { \
+    WIDTH  = w_tile \
+    HEIGHT = l_tile \
+    SPACE_X = d_tile \
+    SPACE_Y = d_tile \
+    	OUTPUT_AREF=TRUE\
+        } temp = fillOutput1 \
+SIZE fillOutput1 { OVERSIZE = 0.2 } temp = fillOutput1_1 \
+BOOLEAN fill_candidates NOT fillOutput1_1 {} temp = fill_candidates_s\
+FILL_PATTERN fill_candidates_s { \
+    WIDTH  = 1 \
+    HEIGHT = 0.75 \
+    SPACE_X = 0.25 \
+    SPACE_Y = 0.25 \
+    	OUTPUT_AREF=TRUE\
+        } temp = fillOutput2 \
+SIZE fillOutput2 { OVERSIZE = 0.2 } temp = fillOutput2_1 \
+BOOLEAN fill_candidates_s NOT fillOutput2_1 {} temp = fill_candidates_s_1\
+FILL_PATTERN fill_candidates_s_1 { \
+    WIDTH  = 0.5 \
+    HEIGHT = 0.5 \
+    SPACE_X = 0.2 \
+    SPACE_Y = 0.2 \
+    STAGGER_DIR = Y\
+    STAGGER_DIST = 0.2\
+	OUTPUT_AREF=TRUE\
+        } temp = fillOutput3 \
+BOOLEAN fillOutput2 OR fillOutput1 OR fillOutput3{} temp = fillOutput\
+}\
+
+@define PcCheckChipDensity( layer, chipBoundary, ratio, reportFile, errorOutput ) \
+DENSITY layer {  \
+    VERBOSE = TRUE \
+    COMMENT = "Densisty across chip" \
+    RATIO >= ratio \
+    BOUNDARY_LAYER = chipBoundary \
+    WINDOW_STATISTICS_FILE = reportFile \
+} temp = errorOutput
+
+@define PcCheckWindowDensity( layer, chipBoundary, ratio, reportFile, errorOutput, w_window, l_window, stepX, stepY ) \
+DENSITY layer { \
+    VERBOSE = TRUE \
+    COMMENT = "Density across window" \
+    RATIO >=  ratio \
+    	DELTA_WINDOW = [0,0,w_window,l_window] \
+	DELTA_X = stepX \
+	DELTA_Y = stepY \
+    WINDOW_STATISTICS_FILE = reportFile \
+    BOUNDARY_LAYER = chipBoundary \
+} temp = errorOutput
+
+ASSIGN {
+	NWELLi	  (1)
+	DNWi	  (2)
+	DIFFi	  (3)
+	DDMYi	  (3;1)
+	PIMPi	  (4)
+	NIMPi	  (5)
+	DIFF_18i  (6)
+	PADi	  (7)
+	ESD_25	  (8)
+	SBLKi	  (9)
+	POi       (10)
+	PODMYi    (10;1)
+	M1i       (11)   
+	M1DMYi    (11;1)
+	VIA1i     (12)
+	M2i       (13)   
+	M2DMYi    (13;1)
+        VIA2i     (14)
+	M3i       (15)   
+        M3DMYi    (15;1)
+        VIA3i     (16)
+	M4i       (17)   
+        M4DMYi    (17;1)
+        VIA4i     (18)
+	M5i       (19)   
+        M5DMYi    (19;1)
+        VIA5i     (20)
+	M6i       (21)   
+	M6DMYi    (21;1)
+	VIA6i     (22)
+	M7i       (23)   
+	M7DMYi    (23;1)
+	VIA7i     (24)
+	M8i       (25)   
+	M8DMYi    (25;1)
+	VIA8i     (26)
+	M9i       (27)   
+	M9DMYi    (27;1)
+	COi       (28)
+	HVTIMPi   (29)   
+	LVTIMPi   (30)   
+	M1PIN     (31)   
+	M2PIN     (32)   
+	M3PIN     (33)   
+	M4PIN     (34)   
+	M5PIN     (35)   
+	M6PIN     (36)   
+	M7PIN     (37)   
+	M8PIN     (38)	 
+	M9PIN     (39)   
+	MRDLi     (41)
+	VIARDLi	  (42)
+	HOTNWLi   (44)
+	DIODi 	  (46)
+	BJTMYi 	  (47)
+	RNWi      (48)
+	RMARKi    (49)
+	LOGO      (51)
+	IP        (52)
+	RM1i      (53)
+	RM2i      (54)
+	RM3i      (55)
+	RM4i      (56)
+	RM5i      (57)
+	RM6i      (58)
+	RM7i      (59)
+	RM8i      (60)
+	RM9i      (61)
+	DM1EXCLi (64) 
+	DM2EXCLi (65) 
+	DM3EXCLi (66 )
+	DM4EXCLi (67 )
+	DM5EXCLi (68 )
+	DM6EXCLi (69 )
+	DM7EXCLi (70 )
+	DM8EXCLi (71 )
+	DM9EXCLi (72 )
+	DIFFEXCLi (73)
+	POEXCLi   (74)
+	DIFF_25i  (75)
+}
+
+GRID_CHECK {
+    ASSIGN_LAYERS = TRUE
+    GRID = 0.001
+    CHECK_45 = TRUE
+} TEMP=DEFAULT_GRID_CHECK_OUTPUT
+
+
+/*
+EXPLODE_OPTIONS{
+        NO_EXPLODE = {}
+}
+*/
+
+
+BOOLEAN M1DMYi OR M1i {} temp = ME1
+BOOLEAN M2DMYi OR M2i {} temp = ME2
+BOOLEAN M3DMYi OR M3i {} temp = ME3
+BOOLEAN M4DMYi OR M4i {} temp = ME4
+BOOLEAN M5DMYi OR M5i {} temp = ME5
+BOOLEAN M6DMYi OR M6i {} temp = ME6
+BOOLEAN M7DMYi OR M7i {} temp = ME7
+BOOLEAN M8DMYi OR M8i {} temp = ME8
+/*BOOLEAN ME9DMYi OR M9i {} temp = ME9*/
+
+
+
+CELL_EXTENT { CELL_LIST = $EV_INPUT_BLOCK } TEMP = chip_extents
+CELL_EXTENT  { CELL_LIST = {} } temp = blockage
+SIZE blockage {OVERSIZE =  0.4 } TEMP = blockage
+
+/*
+First report global chip density
+*/
+PcCheckChipDensity( ME1, chip_extents, gr_metal1, ME1.global.start, ME1.GD.S)
+PcCheckChipDensity( ME2, chip_extents, gr_metal2, ME2.global.start, ME2.GD.S)
+PcCheckChipDensity( ME3, chip_extents, gr_metal3, ME3.global.start, ME3.GD.S)
+PcCheckChipDensity( ME4, chip_extents, gr_metal4, ME4.global.start, ME4.GD.S)
+PcCheckChipDensity( ME5, chip_extents, gr_metal5, ME5.global.start, ME5.GD.S)
+PcCheckChipDensity( ME6, chip_extents, gr_metal6, ME6.global.start, ME6.GD.S)
+PcCheckChipDensity( ME7, chip_extents, gr_metal7, ME7.global.start, ME7.GD.S)
+PcCheckChipDensity( ME8, chip_extents, gr_metal8, ME8.global.start, ME8.GD.S)
+/*PcCheckChipDensity( ME9, chip_extents, gr_metal9, ME9.global.start, ME9.GD.S)*/
+
+/*
+Second report local window density
+*/
+PcCheckWindowDensity( ME1, chip_extents, wr_metal1, ME1.window.start, ME1.LD.S, w_window, l_window, stepX, stepY )
+PcCheckWindowDensity( ME2, chip_extents, wr_metal2, ME2.window.start, ME2.LD.S, w_window, l_window, stepX, stepY )
+PcCheckWindowDensity( ME3, chip_extents, wr_metal3, ME3.window.start, ME3.LD.S, w_window, l_window, stepX, stepY )
+PcCheckWindowDensity( ME4, chip_extents, wr_metal4, ME4.window.start, ME4.LD.S, w_window, l_window, stepX, stepY )
+PcCheckWindowDensity( ME5, chip_extents, wr_metal5, ME5.window.start, ME5.LD.S, w_window, l_window, stepX, stepY )
+PcCheckWindowDensity( ME6, chip_extents, wr_metal6, ME6.window.start, ME6.LD.S, w_window, l_window, stepX, stepY )
+PcCheckWindowDensity( ME7, chip_extents, wr_metal7, ME7.window.start, ME7.LD.S, w_window, l_window, stepX, stepY )
+PcCheckWindowDensity( ME8, chip_extents, wr_metal8, ME8.window.start, ME8.LD.S, w_window, l_window, stepX, stepY )
+/*PcCheckWindowDensity( ME9, chip_extents, wr_metal9, ME9.window.start, ME9.LD.S, w_window, l_window, stepX, stepY )*/
+
+
+/*
+Now fill the windows with tiles
+*/
+PcFillWindow( M1i, DM1EXCLi, chip_extents, wrm_metal1, w_tile, l_tile, d_tile, d_tile_chip, w_window, l_window, stepX, stepY, stagger, stagger_dir, stagger_dist, fillOutput_m1)
+PcFillWindow( M2i, DM2EXCLi, chip_extents, wrm_metal2, w_tile, l_tile, d_tile, d_tile_chip, w_window, l_window, stepX, stepY,stagger, stagger_dir, stagger_dist, fillOutput_m2)
+PcFillWindow( M3i, DM3EXCLi, chip_extents, wrm_metal3, w_tile, l_tile, d_tile, d_tile_chip, w_window, l_window, stepX, stepY,stagger, stagger_dir, stagger_dist, fillOutput_m3)
+PcFillWindow( M4i, DM4EXCLi, chip_extents, wrm_metal4, w_tile, l_tile, d_tile, d_tile_chip, w_window, l_window, stepX, stepY,stagger, stagger_dir, stagger_dist, fillOutput_m4)
+PcFillWindow( M5i, DM5EXCLi, chip_extents, wrm_metal5, w_tile, l_tile, d_tile, d_tile_chip, w_window, l_window, stepX, stepY,stagger, stagger_dir, stagger_dist, fillOutput_m5)
+PcFillWindow( M6i, DM6EXCLi, chip_extents, wrm_metal6, w_tile, l_tile, d_tile, d_tile_chip, w_window, l_window, stepX, stepY,stagger, stagger_dir, stagger_dist, fillOutput_m6)
+PcFillWindow( M7i, DM7EXCLi, chip_extents, wrm_metal7, w_tile, l_tile, d_tile, d_tile_chip, w_window, l_window, stepX, stepY,stagger, stagger_dir, stagger_dist, fillOutput_m7)
+PcFillWindow( M8i, DM8EXCLi, chip_extents, wrm_metal8, w_tile, l_tile, d_tile, d_tile_chip, w_window, l_window, stepX, stepY,stagger, stagger_dir, stagger_dist, fillOutput_m8)
+/*PcFillWindow( M9i, DM9EXCLi, chip_extents, wrm_metal9, w_tile, l_tile, d_tile, d_tile_chip, w_window, l_window, stepX, stepY,stagger, stagger_dir, stagger_dist, fillOutput_m9)*/
+
+
+COPY fillOutput_m1 {} TEMP = ME1_FILL
+COPY fillOutput_m2 {} TEMP = ME2_FILL
+COPY fillOutput_m3 {} TEMP = ME3_FILL
+COPY fillOutput_m4 {} TEMP = ME4_FILL
+COPY fillOutput_m5 {} TEMP = ME5_FILL
+COPY fillOutput_m6 {} TEMP = ME6_FILL 
+COPY fillOutput_m7 {} TEMP = ME7_FILL
+COPY fillOutput_m8 {} TEMP = ME8_FILL
+/*COPY fillOutput_m9 {} TEMP = ME9_FILL */
+
+
+/*
+Recreate ALL metal for final checks
+*/
+BOOLEAN ME1_FILL OR M1i {} temp = ME1D
+BOOLEAN ME2_FILL OR M2i {} temp = ME2D
+BOOLEAN ME3_FILL OR M3i {} temp = ME3D
+BOOLEAN ME4_FILL OR M4i {} temp = ME4D
+BOOLEAN ME5_FILL OR M5i {} temp = ME5D
+BOOLEAN ME6_FILL OR M6i {} temp = ME6D
+BOOLEAN ME7_FILL OR M7i {} temp = ME7D
+BOOLEAN ME8_FILL OR M8i {} temp = ME8D
+/*BOOLEAN ME9_FILL OR M9i {} temp = ME9D*/
+
+
+/*
+Lets see what the density over the full chip has become
+*/
+PcCheckChipDensity( ME1D, chip_extents, gr_metal1, ME1.global.end, ME1.GD.E)
+PcCheckChipDensity( ME2D, chip_extents, gr_metal2, ME2.global.end, ME2.GD.E)
+PcCheckChipDensity( ME3D, chip_extents, gr_metal3, ME3.global.end, ME3.GD.E)
+PcCheckChipDensity( ME4D, chip_extents, gr_metal4, ME4.global.end, ME4.GD.E)
+PcCheckChipDensity( ME5D, chip_extents, gr_metal5, ME5.global.end, ME5.GD.E)
+PcCheckChipDensity( ME6D, chip_extents, gr_metal6, ME6.global.end, ME6.GD.E)
+PcCheckChipDensity( ME7D, chip_extents, gr_metal7, ME7.global.end, ME7.GD.E)
+PcCheckChipDensity( ME8D, chip_extents, gr_metal8, ME8.global.end, ME8.GD.E)
+/*PcCheckChipDensity( ME9D, chip_extents, gr_metal9, ME9.global.end, ME9.GD.E)*/
+
+
+/*
+Lets see what the density in any window has become
+*/
+PcCheckWindowDensity( ME1D, chip_extents, wr_metal1, ME1.window.end, ME1.LD.E, w_window, l_window, stepX, stepY )
+PcCheckWindowDensity( ME2D, chip_extents, wr_metal2, ME2.window.end, ME2.LD.E, w_window, l_window, stepX, stepY )
+PcCheckWindowDensity( ME3D, chip_extents, wr_metal3, ME3.window.end, ME3.LD.E, w_window, l_window, stepX, stepY )
+PcCheckWindowDensity( ME4D, chip_extents, wr_metal4, ME4.window.end, ME4.LD.E, w_window, l_window, stepX, stepY )
+PcCheckWindowDensity( ME5D, chip_extents, wr_metal5, ME5.window.end, ME5.LD.E, w_window, l_window, stepX, stepY )
+PcCheckWindowDensity( ME6D, chip_extents, wr_metal6, ME6.window.end, ME6.LD.E, w_window, l_window, stepX, stepY )
+PcCheckWindowDensity( ME7D, chip_extents, wr_metal7, ME7.window.end, ME7.LD.E, w_window, l_window, stepX, stepY )
+PcCheckWindowDensity( ME8D, chip_extents, wr_metal8, ME8.window.end, ME8.LD.E, w_window, l_window, stepX, stepY )
+/*PcCheckWindowDensity( ME9D, chip_extents, wr_metal9, ME9.window.end, ME9.LD.E, w_window, l_window, stepX, stepY )*/
+
+
+IF (MilkyWay == "Y"){
+
+WRITE_MILKYWAY {
+	LIBRARY_PATH = .
+        LIBRARY_NAME = FILL_OUTPUT
+	OUTPUT_BLOCK = test.out
+	VIEW_NAME = FILL
+        OUTPUT_MODE = OVERWRITE
+        OUTPUT_HIERARCHY = TRUE
+
+	NWELLi	  (1)
+	DNWi	  (2)
+	DIFFi	  (3)
+	DDMYi	  (3;1)
+	PIMPi	  (4)
+	NIMPi	  (5)
+	DIFF_18i  (6)
+	PADi	  (7)
+	ESD_25	  (8)
+	SBLKi	  (9)
+	POi       (10)
+	PODMYi    (10;1)
+	M1i       (11)   
+	M1DMYi    (11;1)
+	VIA1i     (12)
+	M2i       (13)   
+	M2DMYi    (13;1)
+        VIA2i     (14)
+	M3i       (15)   
+        M3DMYi    (15;1)
+        VIA3i     (16)
+	M4i       (17)   
+        M4DMYi    (17;1)
+        VIA4i     (18)
+	M5i       (19)   
+        M5DMYi    (19;1)
+        VIA5i     (20)
+	M6i       (21)   
+	M6DMYi    (21;1)
+	VIA6i     (22)
+	M7i       (23)   
+	M7DMYi    (23;1)
+	VIA7i     (24)
+	M8i       (25)   
+	M8DMYi    (25;1)
+	VIA8i     (26)
+	M9i       (27)   
+	M9DMYi    (27;1)
+	COi       (28)
+	HVTIMPi   (29)   
+	LVTIMPi   (30)   
+	M1PIN     (31)   
+	M2PIN     (32)   
+	M3PIN     (33)   
+	M4PIN     (34)   
+	M5PIN     (35)   
+	M6PIN     (36)   
+	M7PIN     (37)   
+	M8PIN     (38)	 
+	M9PIN     (39)   
+	MRDLi     (41)
+	VIARDLi	  (42)
+	HOTNWLi   (44)
+	DIODi 	  (46)
+	BJTMYi 	  (47)
+	RNWi      (48)
+	RMARKi    (49)
+	LOGO      (51)
+	IP        (52)
+	RM1i      (53)
+	RM2i      (54)
+	RM3i      (55)
+	RM4i      (56)
+	RM5i      (57)
+	RM6i      (58)
+	RM7i      (59)
+	RM8i      (60)
+	RM9i      (61)
+	DM1EXCLi (64) 
+	DM2EXCLi (65) 
+	DM3EXCLi (66 )
+	DM4EXCLi (67 )
+	DM5EXCLi (68 )
+	DM6EXCLi (69 )
+	DM7EXCLi (70 )
+	DM8EXCLi (71 )
+	DM9EXCLi (72 )
+	DIFFEXCLi (73)
+	POEXCLi   (74)
+	DIFF_25i  (75)
+    	
+       ME1_FILL {
+		COMPRESS = TRUE
+                aref_cell_name_prefix = ME1_FILL_array
+                aref_inst_name_prefix = ME1_FILL_insty
+        } (11;1)
+       ME2_FILL {
+		COMPRESS = TRUE
+                aref_cell_name_prefix = ME2_FILL_array
+                aref_inst_name_prefix = ME2_FILL_insty
+        } (12;1)
+       ME3_FILL {
+		COMPRESS = TRUE
+                aref_cell_name_prefix = ME3_FILL_array
+                aref_inst_name_prefix = ME3_FILL_insty
+        } (13;1)
+       ME4_FILL {
+		COMPRESS = TRUE
+                aref_cell_name_prefix = ME4_FILL_array
+                aref_inst_name_prefix = ME4_FILL_insty
+        } (14;1)
+       ME5_FILL {
+		COMPRESS = TRUE
+                aref_cell_name_prefix = ME5_FILL_array
+                aref_inst_name_prefix = ME5_FILL_insty
+        } (15;1)
+       ME6_FILL {
+		COMPRESS = TRUE
+                aref_cell_name_prefix = ME6_FILL_array
+                aref_inst_name_prefix = ME6_FILL_insty
+        } (16;1)
+       ME7_FILL {
+		COMPRESS = TRUE
+                aref_cell_name_prefix = ME7_FILL_array
+                aref_inst_name_prefix = ME7_FILL_insty
+        } (17;1)
+       ME8_FILL {
+		COMPRESS = TRUE
+                aref_cell_name_prefix = ME8_FILL_array
+                aref_inst_name_prefix = ME8_FILL_insty
+        } (18;1)
+       /*ME9_FILL {
+		COMPRESS = TRUE
+                aref_cell_name_prefix = ME9_FILL_array
+                aref_inst_name_prefix = ME9_FILL_insty
+        } (19;1)*/
+
+   }
+
+}
+
+ELSE IF (MilkyWay == "N"){
+
+GRAPHICS {
+
+       MERGE_INPUT_LAYOUT = TRUE /*merges input gdsii with fill*/
+       
+       ME1_FILL {
+                COMPRESS = TRUE
+                aref_cell_name_prefix = ME1_FILL_array
+                aref_inst_name_prefix = ME1_FILL_insty
+        } (11;1)
+       ME2_FILL {
+             	COMPRESS = TRUE
+             	aref_cell_name_prefix = ME2_FILL_array
+             	aref_inst_name_prefix = ME2_FILL_insty
+        } (12;1)
+       ME3_FILL {
+             	COMPRESS = TRUE
+             	aref_cell_name_prefix = ME3_FILL_array
+             	aref_inst_name_prefix = ME3_FILL_insty
+        } (13;1)
+       ME4_FILL {
+             	COMPRESS = TRUE
+             	aref_cell_name_prefix = ME4_FILL_array
+             	aref_inst_name_prefix = ME4_FILL_insty
+        } (14;1)
+       ME5_FILL {
+             	COMPRESS = TRUE
+             	aref_cell_name_prefix = ME5_FILL_array
+             	aref_inst_name_prefix = ME5_FILL_insty
+        } (15;1)
+       ME6_FILL {
+             	COMPRESS = TRUE
+             	aref_cell_name_prefix = ME6_FILL_array
+             	aref_inst_name_prefix = ME6_FILL_insty
+        } (16;1)
+       ME7_FILL {
+		COMPRESS = TRUE
+                aref_cell_name_prefix = ME7_FILL_array
+                aref_inst_name_prefix = ME7_FILL_insty
+        } (17;1)
+       ME8_FILL {
+		COMPRESS = TRUE
+                aref_cell_name_prefix = ME8_FILL_array
+                aref_inst_name_prefix = ME8_FILL_insty
+        } (18;1)
+   }
+
+}

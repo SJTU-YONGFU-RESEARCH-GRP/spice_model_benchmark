@@ -1,0 +1,52 @@
+
+
+
+Synopsys 32/28nm and 90nm Interoperable PDKs FAQ
+====================================================
+
+	1. What are the 32/28nm and 90nm Interoperable Process Design Kits?
+	--------------------------------------------------------------------
+		The Synopsys 32/28nm and 90nm Interoperable Process Design Kits (PDK) is a set of required technological components needed for use in mixed-signal/custom design using Synopsys Custom Implementation tools. It allows implementing various IC designs in an educational environment.
+
+	2. What is included in the 32/28nm and 90nm PDKs?
+	--------------------------------------------------------------------
+		All files needed for custom design: Documentation, technology files (techfile, display resource file and layer mapping file), LVS/DRC decks, device SPICE models, parasitic extraction decks, schematic symbol library and parameterized cells (PCells written in Python).
+
+	3. For what devices are there PCells?
+	--------------------------------------------------------------------
+		The 32/28nm and 90nm iPDKs contain 24 different PCells for MOS transistors, resistors, capacitors, diodes, BJT, inductors and varactors.
+
+	4. What differentiates the Synopsys 32/28nm and 90nm PDKs from others available through MOSIS, EuroPractice, etc.?
+	--------------------------------------------------------------------
+		The Synopsys 32/28nm and 90nm PDKs were designed specifically for teaching custom design with no IP restriction. Their targeted use is in the university classroom using the Synopsys Custom Implementation tool set.
+
+	5. How can you provide iPDKs with technological information without providing confidential information?
+	--------------------------------------------------------------------
+		During creation of the PDKs information from open sources such as the Interoperable PDK Libraries (IPL now), Predictive Technology Model (PTM) developed by the Nanoscale Integration and Modeling Group (NIMO) of Arizona State University (ASU), scalable design rules of MOSIS, and models of parasitics estimation developed by NIMO group of ASU was used. These models and rules have been refined and calibrated using real silicon data to deliver representative results for the iPDKs.
+
+	6. Is it possible to use the iPDKs with EDA tools of other companies, Cadence, for example?
+	--------------------------------------------------------------------
+		Yes, as technology files and symbol library are in OpenAccess format, but items specific to Synopsys tools such as the LVS/DRC Hercules decks and other features would need to be recreated in representations needed for the other tools.
+
+	7. What is the installation process for the iPDKs?
+	--------------------------------------------------------------------
+		The PDK installation is done manually by copying/modifying 2 files: lib.defs and cdesigner.tcl (both are placed in the PDK root directory). First the 'dir' variable in the 'cdesigner.tcl' file should be redirected to the full path of the SAED_iPDK_32/28nm folder or SAED_PDK_90nm folder. Then the 'cdesigner.tcl' file needs to be copied to the user's home directory and the 'lib.defs' file copied to the current working directory where Custom Designer will be run.
+
+	8. Are there any tutorials/training materials available to start using the 32/28nm and/or 90nm iPDKs?
+	--------------------------------------------------------------------
+		A Getting Started PDF document and 2 reference designs are provided with the PDKs. Additional materials to support use of the PDKs are as follows:
+			* Full-Semester Courses:
+			* Analog Integrated Circuits (updated for Custom Designer tool)
+			* Mixed Signal IC Design (updated for Custom Designer tool)
+			* Digital Integrated Circuits w/Custom Designer (New)
+			* Workshops/Lectures/Labs:
+			* How to Create an Interoperable PDK
+			* Software Methodology Module
+			* RF IC Design labs (updated for Custom Designer tool)
+			* RF Circuits and Systems labs (updated for Custom Designer tool)
+			* Design of Special I/Os labs w/Customer Designer (New)
+
+	9. How do I get technical support for the iPDKs?
+	--------------------------------------------------------------------
+		The Synopsys 32/28nm and 90nm Interoperable PDKs are provided as-is with no support. If you have questions or issues regarding use of the PDKs we will attempt to address them as time allows. All inquiries may be sent directly to pdk@synopsys.com.
+

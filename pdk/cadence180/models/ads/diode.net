@@ -1,0 +1,82 @@
+; Translated with ADS Netlist Translator (*) 270.day Jul 17 2004
+;
+;*************************************************************
+;   Generic PDK Bipolar models                        05/17/01
+;                                                  PDK Factory
+;*************************************************************
+
+;simulator lang=spectre
+;library gpdk
+
+#ifdef dio
+;
+model ndio Diode Tnom=25 Level=11 Is=8.4e-6 N=1.3 Bv=10.7 Ibv=1e-3 Ns=1.32 Nbv=1.32 Imax=1e40\
+      AllowScaling=yes Isw=1.24e-11 Cjo=1.0003e-3 Vj=0.69 M=0.36 Cjsw=2.04e-10 Vjsw=0.69 \
+      Msw=0.20 Tlev=1 Eg=1.17 Xti=3 Tbv1=-9.3e-4 Tlevc=1 Tcjo=1.04e-3 Tcjsw=6.45e-4 Tvj=1.55e-3 \
+      Tvjsw=1.55e-3 Fc=0 Fcsw=0
+;
+model pdio Diode Tnom=25 Level=11 Is=4.92e-6 N=1.25 Bv=10.2 Ibv=1e-3 Ns=1.25 Nbv=1.25 Imax=1e40 \
+      AllowScaling=yes Isw=1.02e-11 Cjo=1.12e-3 Vj=0.90 M=0.45 Cjsw=2.48e-10 Vjsw=0.90 Msw=0.37 \
+      Tlev=1 Eg=1.17 Xti=3 Tbv1=-8.8e-4 Tlevc=1 Tcjo=9.74e-4 Tcjsw=4.13e-4 Tvj=1.57e-3 Tvjsw=1.57e-3 \
+      Fc=0 Fcsw=0
+;
+#endif
+
+;endlibrary gpdk
+;Spectre Math Constants
+#ifndef SPECTRE_MATH_CONSTANTS
+;Define a CPP variable so the constants will not be redefined
+#define SPECTRE_MATH_CONSTANTS
+M_E=e
+M_LOG2E=1.44269504088896
+M_LOG10E=log(e)
+M_LN2=ln(2)
+M_LN10=ln10
+M_PI=pi
+M_TWOPI=2*pi
+M_PI_2=pi/2
+M_PI_4=pi/4
+M_1_PI=1/pi
+M_2_PI=2/pi
+M_2_SQRTPI=2/sqrt(pi)
+M_SQRT1_2=sqrt(1/2)
+M_DEGPERRAD=57.2957795130823208772
+M_SQRT2=sqrt(2)
+;End of Spectre Math Constants
+#endif
+
+;Spectre Physical Constants
+#ifndef SPECTRE_PHYSICAL_CONSTANTS
+;Define a CPP variable so the constants will not be redefined
+#define SPECTRE_PHYSICAL_CONSTANTS
+P_Q=qelectron
+P_C=c0
+P_K=boltzmann
+P_H=planck
+P_EPS0=e0
+P_U0=u0
+P_CELSIUS0=273.15
+;End of Spectre Physical Constants
+#endif
+
+;Spectre boolean function replacements
+#ifndef SPECTRE_BOOLEAN_EQUATIONS
+;Define a value so the functions will not be included multiple times
+#define SPECTRE_BOOLEAN_EQUATIONS
+;Spectre Equals
+ADS_SCS_EQ(x,y)=if (x == y) then 1 else 0 endif
+;Spectre Not Equal
+ADS_SCS_NEQ(x,y)=if (x != y) then 1 else 0 endif
+;Spectre Less Than
+ADS_SCS_LT(x,y)=if (x < y) then 1 else 0 endif
+;Spectre Greater Than
+ADS_SCS_GT(x,y)=if (x > y) then 1 else 0 endif
+;Spectre Less Than or Equal To
+ADS_SCS_LTE(x,y)=if (x <= y) then 1 else 0 endif
+;Spectre Greater Than or Equal To
+ADS_SCS_GTE(x,y)=if (x >= y) then 1 else 0 endif
+;Spectre Trinary
+ADS_SCS_TRINARY(z,x,y)=if (z == 1) then x else y endif
+;End of the Spectre boolean function replacement block
+#endif
+

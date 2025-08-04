@@ -1,0 +1,1502 @@
+<!DOCTYPE LAM_FILE>
+<LIBRARY_DATA>
+	<VERSION NUMBER="6.0" />
+	<LOGICAL>
+		<LIB NAME="gpdk045">
+			<CELL NAME="nmos1v_hvt_3">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>m l w</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>bulkn model simM simW AreaFormula threshold showSimParams editAreaPerim ad as pd ps nrd nrs sa ls sb Vds sd Vbs sca Vgs scb scc geo ld dtemp region degradation isnoisy off pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="resnwoxide_2">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model segments connection r effW effL</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>bulkn ssegs psegs segR cntCols AreaFormula showOtherParams rend rsh rcont dl dw tc1 tc2 isnoisy dtemp pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="ressnpoly_2">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model segments connection r effW effL</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>bulkn ssegs psegs segR cntCols AreaFormula showOtherParams rend rsh rcont dl dw tc1 tc2 isnoisy dtemp pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="resm7">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model segments connection r effW effL</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>ssegs psegs segR AreaFormula showOtherParams rsh rend dw dl tc1 tc2 isnoisy dtemp pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="resm6">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model segments connection r effW effL</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>ssegs psegs segR AreaFormula showOtherParams rsh rend dw dl tc1 tc2 isnoisy dtemp pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="resspdiff_2">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model segments connection r effW effL</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>bulkp ssegs psegs segR cntCols AreaFormula showOtherParams rend rsh rcont dl dw tc1 tc2 isnoisy dtemp pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="resm10">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model segments connection r effW effL</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>ssegs psegs segR AreaFormula showOtherParams rsh rend dw dl tc1 tc2 isnoisy dtemp pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="resnwoxide">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model segments connection r effW effL</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>ssegs psegs segR cntCols AreaFormula showOtherParams rend rsh rcont dl dw tc1 tc2 isnoisy dtemp pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK>B</CHECK>
+							<GEN>B</GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="pmos1v_hvt_3">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>m l w</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>bulkp model simM simW AreaFormula threshold showSimParams editAreaPerim ad as pd ps nrd nrs sa ls sb Vds sd Vbs sca Vgs scb scc geo ld dtemp region degradation isnoisy off pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="pmos1v_lvt_3">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>m l w</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>bulkp model simM simW AreaFormula threshold showSimParams editAreaPerim ad as pd ps nrd nrs sa ls sb Vds sd Vbs sca Vgs scb scc geo ld dtemp region degradation isnoisy off pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="resm2">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model segments connection r effW effL</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>ssegs psegs segR AreaFormula showOtherParams rsh rend dw dl tc1 tc2 isnoisy dtemp pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="nmos2v_nat">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>m l w</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model simM simW AreaFormula threshold showSimParams editAreaPerim ad as pd ps nrd nrs sa ls sb Vds sd Vbs sca Vgs scb scc geo ld dtemp region degradation isnoisy off pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="pmos1v_3">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>m l w</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>bulkp model simM simW AreaFormula threshold showSimParams editAreaPerim ad as pd ps nrd nrs sa ls sb Vds sd Vbs sca Vgs scb scc geo ld dtemp region degradation isnoisy off pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="resspdiff">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model segments connection r effW effL</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>ssegs psegs segR cntCols AreaFormula showOtherParams rend rsh rcont dl dw tc1 tc2 isnoisy dtemp pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="ind_s">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>rad width space nr m</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model AreaFormula dtemp off</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK>B</CHECK>
+							<GEN>B</GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="resnsnpoly">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model segments connection r effW effL</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>ssegs psegs segR cntCols AreaFormula showOtherParams rend rsh rcont dl dw tc1 tc2 isnoisy dtemp pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK>B</CHECK>
+							<GEN>B</GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="ressppoly">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model segments connection r effW effL</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>ssegs psegs segR cntCols AreaFormula showOtherParams rend rsh rcont dl dw tc1 tc2 isnoisy dtemp pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK>B</CHECK>
+							<GEN>B</GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="ndio_2v_nvt">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>area m pj</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model AreaFormula off showSimParams Vd perim trise scale isnoisy region wp lp wm lm dtemp mode pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="npn2">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>area m</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model bn AreaFormula Vbe Vce off trise region dtemp areab areac isnoisy</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="resm1">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model segments connection r effW effL</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>ssegs psegs segR AreaFormula showOtherParams rsh rend dw dl tc1 tc2 isnoisy dtemp pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="ndio_nvt">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>area m pj</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model AreaFormula off showSimParams Vd perim trise scale isnoisy region wp lp wm lm dtemp mode pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="nmoscap1v">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>m l w</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model simM simW AreaFormula showSimParams ca cf Vgs geo dtemp region pasUpdateParamList degradation isnoisy off</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="ressndiff">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model segments connection r effW effL</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>ssegs psegs segR cntCols AreaFormula showOtherParams rend rsh rcont dl dw tc1 tc2 isnoisy dtemp pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK>B</CHECK>
+							<GEN>B</GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="resnwsti_2">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model segments connection r effW effL</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>bulkn ssegs psegs segR cntCols AreaFormula showOtherParams rend rsh rcont dl dw tc1 tc2 isnoisy dtemp pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="pmos2v_3">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>m l w</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>bulkp model simM simW AreaFormula threshold showSimParams editAreaPerim ad as pd ps nrd nrs sa ls sb Vds sd Vbs sca Vgs scb scc geo ld dtemp region degradation isnoisy off pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="ressnpoly">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model segments connection r effW effL</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>ssegs psegs segR cntCols AreaFormula showOtherParams rend rsh rcont dl dw tc1 tc2 isnoisy dtemp pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK>B</CHECK>
+							<GEN>B</GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="vpnp2">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>area m</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model bn AreaFormula Vbe Vce off trise region dtemp areab areac isnoisy</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="pdio_lvt">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>area m pj</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model AreaFormula off showSimParams Vd perim trise scale isnoisy region wp lp wm lm dtemp mode pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="nmos2v_nat_3">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>m l w</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>bulkn model simM simW AreaFormula threshold showSimParams editAreaPerim ad as pd ps nrd nrs sa ls sb Vds sd Vbs sca Vgs scb scc geo ld dtemp region degradation isnoisy off pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="pmos1v_hvt">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>m l w</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model simM simW AreaFormula threshold showSimParams editAreaPerim ad as pd ps nrd nrs sa ls sb Vds sd Vbs sca Vgs scb scc geo ld dtemp region degradation isnoisy off pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="resnsppoly">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model segments connection r effW effL</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>ssegs psegs segR cntCols AreaFormula showOtherParams rend rsh rcont dl dw tc1 tc2 isnoisy dtemp pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK>B</CHECK>
+							<GEN>B</GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="nmoscap2v">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>m l w</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model simM simW AreaFormula showSimParams ca cf Vgs geo dtemp region pasUpdateParamList degradation isnoisy off</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="ndio_lvt">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>area m pj</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model AreaFormula off showSimParams Vd perim trise scale isnoisy region wp lp wm lm dtemp mode pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="resnspdiff_2">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model segments connection r effW effL</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>bulkp ssegs psegs segR cntCols AreaFormula showOtherParams rend rsh rcont dl dw tc1 tc2 isnoisy dtemp pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="resm9">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model segments connection r effW effL</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>ssegs psegs segR AreaFormula showOtherParams rsh rend dw dl tc1 tc2 isnoisy dtemp pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="resnspdiff">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model segments connection r effW effL</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>ssegs psegs segR cntCols AreaFormula showOtherParams rend rsh rcont dl dw tc1 tc2 isnoisy dtemp pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="pmoscap1v">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>m l w</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model simM simW AreaFormula showSimParams ca cf Vgs geo dtemp region pasUpdateParamList degradation isnoisy off</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="pmoscap2v">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>m l w</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model simM simW AreaFormula showSimParams ca cf Vgs geo dtemp region pasUpdateParamList degradation isnoisy off</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="pmos1v">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>m l w</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model simM simW AreaFormula threshold showSimParams editAreaPerim ad as pd ps nrd nrs sa ls sb Vds sd Vbs sca Vgs scb scc geo ld dtemp region degradation isnoisy off pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="resm8">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model segments connection r effW effL</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>ssegs psegs segR AreaFormula showOtherParams rsh rend dw dl tc1 tc2 isnoisy dtemp pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="nmos1v">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>m l w</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model simM simW AreaFormula threshold showSimParams editAreaPerim ad as pd ps nrd nrs sa ls sb Vds sd Vbs sca Vgs scb scc geo ld dtemp region degradation isnoisy off pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="resm4">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model segments connection r effW effL</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>ssegs psegs segR AreaFormula showOtherParams rsh rend dw dl tc1 tc2 isnoisy dtemp pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="ressppoly_2">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model segments connection r effW effL</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>bulkp ssegs psegs segR cntCols AreaFormula showOtherParams rend rsh rcont dl dw tc1 tc2 isnoisy dtemp pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="ndio_2v">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>area m pj</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model AreaFormula off showSimParams Vd perim trise scale isnoisy region wp lp wm lm dtemp mode pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="vpnp10">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>area m</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model bn AreaFormula Vbe Vce off trise region dtemp areab areac isnoisy</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="ndio_hvt">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>area m pj</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model AreaFormula off showSimParams Vd perim trise scale isnoisy region wp lp wm lm dtemp mode pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="nmos1v_hvt">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>m l w</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model simM simW AreaFormula threshold showSimParams editAreaPerim ad as pd ps nrd nrs sa ls sb Vds sd Vbs sca Vgs scb scc geo ld dtemp region degradation isnoisy off pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="ndio">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>area m pj</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model AreaFormula off showSimParams Vd perim trise scale isnoisy region wp lp wm lm dtemp mode pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="resnsppoly_2">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model segments connection r effW effL</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>bulkp ssegs psegs segR cntCols AreaFormula showOtherParams rend rsh rcont dl dw tc1 tc2 isnoisy dtemp pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="vpnp5">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>area m</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model bn AreaFormula Vbe Vce off trise region dtemp areab areac isnoisy</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="nmos1v_nat">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>m l w</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model simM simW AreaFormula threshold showSimParams editAreaPerim ad as pd ps nrd nrs sa ls sb Vds sd Vbs sca Vgs scb scc geo ld dtemp region degradation isnoisy off pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="nmos1v_lvt_3">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>m l w</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>bulkn model simM simW AreaFormula threshold showSimParams editAreaPerim ad as pd ps nrd nrs sa ls sb Vds sd Vbs sca Vgs scb scc geo ld dtemp region degradation isnoisy off pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="ind_a">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>rad width space nr m</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model AreaFormula dtemp off</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK>B</CHECK>
+							<GEN>B</GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="resm11">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model segments connection r effW effL</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>ssegs psegs segR AreaFormula showOtherParams rsh rend dw dl tc1 tc2 isnoisy dtemp pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="npn10">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>area m</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model bn AreaFormula Vbe Vce off trise region dtemp areab areac isnoisy</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="pmos1v_lvt">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>m l w</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model simM simW AreaFormula threshold showSimParams editAreaPerim ad as pd ps nrd nrs sa ls sb Vds sd Vbs sca Vgs scb scc geo ld dtemp region degradation isnoisy off pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="pdio_hvt">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>area m pj</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model AreaFormula off showSimParams Vd perim trise scale isnoisy region wp lp wm lm dtemp mode pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="mimcap">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>w l m</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model showSimParams ca cf area perim AreaFormula ic scale trise tc1 tc2 dtemp polyCoef c1 c2 c3 c4 c5 c6 c7 c8 c9 c10 c11 c12 c13 c14 c15 c16 c17 c18 c19 c20 source qmode q freq pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK>B</CHECK>
+							<GEN>B</GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="resnsndiff">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model segments connection r effW effL</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>ssegs psegs segR cntCols AreaFormula showOtherParams rend rsh rcont dl dw tc1 tc2 isnoisy dtemp pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK>B</CHECK>
+							<GEN>B</GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="pdio">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>area m pj</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model AreaFormula off showSimParams Vd perim trise scale isnoisy region wp lp wm lm dtemp mode pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="resm5">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model segments connection r effW effL</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>ssegs psegs segR AreaFormula showOtherParams rsh rend dw dl tc1 tc2 isnoisy dtemp pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="nmos2v_3">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>m l w</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>bulkn model simM simW AreaFormula threshold showSimParams editAreaPerim ad as pd ps nrd nrs sa ls sb Vds sd Vbs sca Vgs scb scc geo ld dtemp region degradation isnoisy off pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="resnwsti">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model segments connection r effW effL</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>ssegs psegs segR cntCols AreaFormula showOtherParams rend rsh rcont dl dw tc1 tc2 isnoisy dtemp pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK>B</CHECK>
+							<GEN>B</GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="nmos1v_3">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>m l w</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>bulkn model simM simW AreaFormula threshold showSimParams editAreaPerim ad as pd ps nrd nrs sa ls sb Vds sd Vbs sca Vgs scb scc geo ld dtemp region degradation isnoisy off pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="nmos2v">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>m l w</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model simM simW AreaFormula threshold showSimParams editAreaPerim ad as pd ps nrd nrs sa ls sb Vds sd Vbs sca Vgs scb scc geo ld dtemp region degradation isnoisy off pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="ressndiff_2">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model segments connection r effW effL</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>bulkn ssegs psegs segR cntCols AreaFormula showOtherParams rend rsh rcont dl dw tc1 tc2 isnoisy dtemp pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="resm3">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model segments connection r effW effL</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>ssegs psegs segR AreaFormula showOtherParams rsh rend dw dl tc1 tc2 isnoisy dtemp pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="resnsnpoly_2">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model segments connection r effW effL</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>bulkn ssegs psegs segR cntCols AreaFormula showOtherParams rend rsh rcont dl dw tc1 tc2 isnoisy dtemp pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="npn5">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>area m</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model bn AreaFormula Vbe Vce off trise region dtemp areab areac isnoisy</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="nmos1v_nat_3">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>m l w</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>bulkn model simM simW AreaFormula threshold showSimParams editAreaPerim ad as pd ps nrd nrs sa ls sb Vds sd Vbs sca Vgs scb scc geo ld dtemp region degradation isnoisy off pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="resnsndiff_2">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>model segments connection r effW effL</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>bulkn ssegs psegs segR cntCols AreaFormula showOtherParams rend rsh rcont dl dw tc1 tc2 isnoisy dtemp pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="pmos2v">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>m l w</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model simM simW AreaFormula threshold showSimParams editAreaPerim ad as pd ps nrd nrs sa ls sb Vds sd Vbs sca Vgs scb scc geo ld dtemp region degradation isnoisy off pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="nmos1v_lvt">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>m l w</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model simM simW AreaFormula threshold showSimParams editAreaPerim ad as pd ps nrd nrs sa ls sb Vds sd Vbs sca Vgs scb scc geo ld dtemp region degradation isnoisy off pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+			<CELL NAME="pdio_2v">
+				<VIEW NAME="symbol">
+					<PARAMETERS>
+						<INCLUDE>
+							<CHECK>area m pj</CHECK>
+						</INCLUDE>
+						<IGNORE>
+							<GEN>model AreaFormula off showSimParams Vd perim trise scale isnoisy region wp lp wm lm dtemp mode pasUpdateParamList</GEN>
+						</IGNORE>
+					</PARAMETERS>
+					<TERMINALS>
+						<IGNORE>
+							<CHECK></CHECK>
+							<GEN></GEN>
+						</IGNORE>
+					</TERMINALS>
+				</VIEW>
+			</CELL>
+		</LIB>
+	</LOGICAL>
+	<PHYSICAL>
+		<COMPONENT_TYPE_GROUPS>
+			<LIB NAME="gpdk045">
+				<COMPONENT_TYPE_GROUP NAME = "gpdk045PMOS">
+					<COMP_CLASS>PMOS</COMP_CLASS>
+					<VIEWS>layout</VIEWS>
+				</COMPONENT_TYPE_GROUP>
+				<COMPONENT_TYPE_GROUP NAME = "gpdk045NMOS">
+					<COMP_CLASS>NMOS</COMP_CLASS>
+					<VIEWS>layout</VIEWS>
+				</COMPONENT_TYPE_GROUP>
+			</LIB>
+		</COMPONENT_TYPE_GROUPS>
+		<MAPPINGS>
+			<LIB NAME="gpdk045">
+				<CELL NAME="pmos2v">
+					<COMPONENT_TYPE>
+						<NAME>gpdk045PMOS</NAME>
+						<LIB>gpdk045</LIB>
+					</COMPONENT_TYPE>
+				</CELL>
+				<CELL NAME="pmos1v_lvt">
+					<COMPONENT_TYPE>
+						<NAME>gpdk045PMOS</NAME>
+						<LIB>gpdk045</LIB>
+					</COMPONENT_TYPE>
+				</CELL>
+				<CELL NAME="pmos1v">
+					<COMPONENT_TYPE>
+						<NAME>gpdk045PMOS</NAME>
+						<LIB>gpdk045</LIB>
+					</COMPONENT_TYPE>
+				</CELL>
+				<CELL NAME="pmoscap2v">
+					<COMPONENT_TYPE>
+						<NAME>gpdk045PMOS</NAME>
+						<LIB>gpdk045</LIB>
+					</COMPONENT_TYPE>
+				</CELL>
+				<CELL NAME="pmoscap1v">
+					<COMPONENT_TYPE>
+						<NAME>gpdk045PMOS</NAME>
+						<LIB>gpdk045</LIB>
+					</COMPONENT_TYPE>
+				</CELL>
+				<CELL NAME="pmos1v_hvt">
+					<COMPONENT_TYPE>
+						<NAME>gpdk045PMOS</NAME>
+						<LIB>gpdk045</LIB>
+					</COMPONENT_TYPE>
+				</CELL>
+				<CELL NAME="pmos2v_3">
+					<COMPONENT_TYPE>
+						<NAME>gpdk045PMOS</NAME>
+						<LIB>gpdk045</LIB>
+					</COMPONENT_TYPE>
+				</CELL>
+				<CELL NAME="pmos1v_3">
+					<COMPONENT_TYPE>
+						<NAME>gpdk045PMOS</NAME>
+						<LIB>gpdk045</LIB>
+					</COMPONENT_TYPE>
+				</CELL>
+				<CELL NAME="pmos1v_lvt_3">
+					<COMPONENT_TYPE>
+						<NAME>gpdk045PMOS</NAME>
+						<LIB>gpdk045</LIB>
+					</COMPONENT_TYPE>
+				</CELL>
+				<CELL NAME="pmos1v_hvt_3">
+					<COMPONENT_TYPE>
+						<NAME>gpdk045PMOS</NAME>
+						<LIB>gpdk045</LIB>
+					</COMPONENT_TYPE>
+				</CELL>
+				<CELL NAME="nmos1v_lvt">
+					<COMPONENT_TYPE>
+						<NAME>gpdk045NMOS</NAME>
+						<LIB>gpdk045</LIB>
+					</COMPONENT_TYPE>
+				</CELL>
+				<CELL NAME="nmos1v_nat_3">
+					<COMPONENT_TYPE>
+						<NAME>gpdk045NMOS</NAME>
+						<LIB>gpdk045</LIB>
+					</COMPONENT_TYPE>
+				</CELL>
+				<CELL NAME="nmos2v">
+					<COMPONENT_TYPE>
+						<NAME>gpdk045NMOS</NAME>
+						<LIB>gpdk045</LIB>
+					</COMPONENT_TYPE>
+				</CELL>
+				<CELL NAME="nmos1v_3">
+					<COMPONENT_TYPE>
+						<NAME>gpdk045NMOS</NAME>
+						<LIB>gpdk045</LIB>
+					</COMPONENT_TYPE>
+				</CELL>
+				<CELL NAME="nmos2v_3">
+					<COMPONENT_TYPE>
+						<NAME>gpdk045NMOS</NAME>
+						<LIB>gpdk045</LIB>
+					</COMPONENT_TYPE>
+				</CELL>
+				<CELL NAME="nmos1v_lvt_3">
+					<COMPONENT_TYPE>
+						<NAME>gpdk045NMOS</NAME>
+						<LIB>gpdk045</LIB>
+					</COMPONENT_TYPE>
+				</CELL>
+				<CELL NAME="nmos1v_nat">
+					<COMPONENT_TYPE>
+						<NAME>gpdk045NMOS</NAME>
+						<LIB>gpdk045</LIB>
+					</COMPONENT_TYPE>
+				</CELL>
+				<CELL NAME="nmos1v_hvt">
+					<COMPONENT_TYPE>
+						<NAME>gpdk045NMOS</NAME>
+						<LIB>gpdk045</LIB>
+					</COMPONENT_TYPE>
+				</CELL>
+				<CELL NAME="nmos1v">
+					<COMPONENT_TYPE>
+						<NAME>gpdk045NMOS</NAME>
+						<LIB>gpdk045</LIB>
+					</COMPONENT_TYPE>
+				</CELL>
+				<CELL NAME="nmoscap2v">
+					<COMPONENT_TYPE>
+						<NAME>gpdk045NMOS</NAME>
+						<LIB>gpdk045</LIB>
+					</COMPONENT_TYPE>
+				</CELL>
+				<CELL NAME="nmos2v_nat_3">
+					<COMPONENT_TYPE>
+						<NAME>gpdk045NMOS</NAME>
+						<LIB>gpdk045</LIB>
+					</COMPONENT_TYPE>
+				</CELL>
+				<CELL NAME="nmoscap1v">
+					<COMPONENT_TYPE>
+						<NAME>gpdk045NMOS</NAME>
+						<LIB>gpdk045</LIB>
+					</COMPONENT_TYPE>
+				</CELL>
+				<CELL NAME="nmos2v_nat">
+					<COMPONENT_TYPE>
+						<NAME>gpdk045NMOS</NAME>
+						<LIB>gpdk045</LIB>
+					</COMPONENT_TYPE>
+				</CELL>
+				<CELL NAME="nmos1v_hvt_3">
+					<COMPONENT_TYPE>
+						<NAME>gpdk045NMOS</NAME>
+						<LIB>gpdk045</LIB>
+					</COMPONENT_TYPE>
+				</CELL>
+		</LIB>
+		</MAPPINGS>
+	</PHYSICAL>
+</LIBRARY_DATA>

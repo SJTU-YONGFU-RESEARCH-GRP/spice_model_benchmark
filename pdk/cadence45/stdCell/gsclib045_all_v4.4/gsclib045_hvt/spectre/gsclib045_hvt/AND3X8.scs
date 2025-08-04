@@ -1,0 +1,35 @@
+// Generated for: spectre (Apr  5 14:19:06 2013 )
+// Library name: gsclib045_hvt
+// Cell name: AND3X8
+// View name: schematic
+
+simulator lang=spectre
+
+subckt AND3X8 A B C Y VDD VSS
+mp1 (net95 B VDD VDD) g45p1hvt w=(780n) l=45n nf=1 as=109.2f ad=109.2f \
+        ps=1.84u pd=1.84u nrd=179.487m nrs=179.487m sa=140n sb=140n \
+        sd=160n sca=80.49887 scb=0.07059 scc=0.00954 m=(1)
+mp2 (net95 C VDD VDD) g45p1hvt w=(780n) l=45n nf=1 as=109.2f ad=109.2f \
+        ps=1.84u pd=1.84u nrd=179.487m nrs=179.487m sa=140n sb=140n \
+        sd=160n sca=80.49887 scb=0.07059 scc=0.00954 m=(1)
+mp0 (net95 A VDD VDD) g45p1hvt w=(780n) l=45n nf=1 as=109.2f ad=109.2f \
+        ps=1.84u pd=1.84u nrd=179.487m nrs=179.487m sa=140n sb=140n \
+        sd=160n sca=80.49887 scb=0.07059 scc=0.00954 m=(1)
+mp3 (Y net95 VDD VDD) g45p1hvt w=(3.115u) l=45n nf=1 as=436.1f ad=436.1f \
+        ps=6.51u pd=6.51u nrd=44.9438m nrs=44.9438m sa=140n sb=140n \
+        sd=160n sca=51.31501 scb=0.05377 scc=0.00636 m=(1)
+mn3 (Y net95 VSS VSS) g45n1hvt w=(2.065u) l=45n nf=1 as=289.1f ad=289.1f \
+        ps=4.41u pd=4.41u nrd=67.7966m nrs=67.7966m sa=140n sb=140n \
+        sd=160n sca=56.50260 scb=0.05663 scc=0.00690 m=(1)
+mn1 (net107 B net103 VSS) g45n1hvt w=(520n) l=45n nf=1 as=72.8f ad=72.8f \
+        ps=1.32u pd=1.32u nrd=269.231m nrs=269.231m sa=140n sb=140n \
+        sd=160n sca=98.28759 scb=0.08111 scc=0.01166 m=(1)
+mn0 (net103 A VSS VSS) g45n1hvt w=(520n) l=45n nf=1 as=72.8f ad=72.8f \
+        ps=1.32u pd=1.32u nrd=269.231m nrs=269.231m sa=140n sb=140n \
+        sd=160n sca=98.28759 scb=0.08111 scc=0.01166 m=(1)
+mn2 (net95 C net107 VSS) g45n1hvt w=(520n) l=45n nf=1 as=72.8f ad=72.8f \
+        ps=1.32u pd=1.32u nrd=269.231m nrs=269.231m sa=140n sb=140n \
+        sd=160n sca=98.28759 scb=0.08111 scc=0.01166 m=(1)
+ends AND3X8
+// End of subcircuit definition.
+

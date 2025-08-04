@@ -1,0 +1,43 @@
+VALE Framework Component Module:
+--------------------------------
+   Get Shapes from Other Cell, GetShapes
+
+Description:
+------------
+   Provides a path to pull shapes from another cellview, mapping layer and
+purpose along the way.
+
+Dependencies:
+-------------
+   1. Two layout files, one with shapes that will be imported into the second
+
+Input Requirements:
+-------------------
+   Open the target cellview, and run this Component Module.  The results will
+appear in the current cellview.
+
+   One of the options is to specify a layer map file, the syntax is:
+
+   layerMap = list(
+      list("RX" "drawing" "Active" "drawing")
+      list("PC" "drawing" "Poly" "drawing")
+   )
+
+   Simply add list(<source layer> <source purpose> <target layer> <target
+purpose>) lines as needed.  Keep the "layerMap =" line unmodified, as well as
+the closing parenthesis.
+
+   The component module only copies shapes from the source cellview for the
+current level of hierarchy only.  The "Run Hierarchy" option on the form is a
+place-holder for future development, and is grayed-out.
+
+   This Component Module will also copy the via shapes from a via in the
+source cellview to a new shape in the target cellview.  The via object is not
+mapped or translated.
+
+      
+Development Notes:
+------------------
+   All aspects of this Component Module were developed by Cadence.
+   Please contact Jonathan Fales for more information: jfales@cadence.com
+

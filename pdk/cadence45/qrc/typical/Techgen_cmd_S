@@ -1,0 +1,3 @@
+#!/bin/csh
+source ../setup.csh
+Techgen -simulation -multi_cpu 8 -openprocess -cleanup GPDK045.ict

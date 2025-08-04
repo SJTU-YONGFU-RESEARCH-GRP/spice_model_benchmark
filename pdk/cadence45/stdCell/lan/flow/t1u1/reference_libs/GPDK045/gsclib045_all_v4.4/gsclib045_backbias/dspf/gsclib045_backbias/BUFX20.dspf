@@ -1,0 +1,72 @@
+*
+*|DSPF 1.5
+*
+*|DATE "Wed May  8 08:20:52 2013"
+*|VENDOR "Cadence Design Systems"
+*|PROGRAM "Cadence Extraction QRC"
+*|VERSION "12.1 Linux 64 bit - (Fri Mar 15 17:53:47 PDT 2013)"
+*|DESIGN "BUFX20"
+*|DIVIDER /
+*|DELIMITER :
+*|DeviceFingerDelim "@"
+*|BUSBIT []
+** caps2d version: 10
+*
+.GLOBAL  NW VDD VSS
+*
+.SUBCKT  BUFX20 A Y
+*
+*Net Section
+*
+*|GROUND_NET VSS
+*
+*|NET A 4.218e-16
+*|P (A X 0 4.3350 0.8000)
+*|I (Mmn0@1:g Mmn0@1 g X 0 3.6875 0.5300)
+C1 Mmn0@1:g VSS 3.79229e-16
+C2 A VSS 4.25709e-17
+Rk1 Mmn0@1:g A 0.121094 $W=0.1
+*
+*|NET Y 2.24758e-15
+*|P (Y X 0 0.1000 0.8000)
+*|I (Mmn1@1:s Mmn1@1 s X 0 0.1100 0.5075)
+*|I (Mmp1@1:d Mmp1@1 d X 0 0.1100 1.1350)
+C3 Mmp1@1:d VSS 1.1188e-15
+C4 Mmn1@1:s VSS 1.1137e-15
+C5 Y VSS 1.50751e-17
+Rk2 Mmn1@1:s Y 0.073404 $W=0.1
+Rk3 Mmp1@1:d Y 0.094543 $W=0.1
+*
+*|NET n0 2.16688e-15
+*|I (Mmn1@1:g Mmn1@1 g X 0 0.2025 0.5075)
+*|I (Mmn0@1:s Mmn0@1 s X 0 3.7900 0.5300)
+*|I (Mmp0@1:d Mmp0@1 d X 0 3.7900 1.1700)
+*|S (n0:55 3.7450 0.8050)
+C6 Mmp0@1:d VSS 2.54125e-16
+C7 Mmn0@1:s VSS 2.3278e-16
+C8 Mmn1@1:g VSS 1.65988e-15
+C9 n0:55 VSS 2.00956e-17
+Rk4 n0:55 Mmn1@1:g 0.146946 $W=0.08
+Rk5 Mmn0@1:s n0:55 0.131458 $W=0.09
+Rk6 n0:55 Mmp0@1:d 0.206720 $W=0.06
+*
+*Instance Section
+*
+Mmn1@1	VSS	Mmn1@1:g	Mmn1@1:s	VSS	g45n1svt
++ L=0.045U	W=0.305U
++ AD=0.04864P	AS=0.04844P	PD=0.93U	PS=0.92765U	M=17
++ fw=3.05e-07 sa=1.4e-07 sb=2e-06 sca=16.121 scb=0.0155296 scc=0.00139557
+Mmn0@1	VSS	Mmn0@1:g	Mmn0@1:s	VSS	g45n1svt
++ L=0.045U	W=0.26U
++ AD=0.0425P	AS=0.04056P	PD=0.858U	PS=0.832U	M=5
++ fw=2.6e-07 sa=2e-06 sb=9.6e-07 sca=17.5885 scb=0.0172826 scc=0.00162584
+Mmp1@1	Mmp1@1:d	Mmn1@1:g	VDD	NW	g45p1svt
++ L=0.045U	W=0.46U
++ AD=0.07306P	AS=0.07335P	PD=1.23765U	PS=1.24U	M=17
++ fw=4.6e-07 sa=1.4e-07 sb=2e-06 sca=39.4883 scb=0.0368308 scc=0.00409097
+Mmp0@1	Mmp0@1:d	Mmn0@1:g	VDD	NW	g45p1svt
++ L=0.045U	W=0.39U
++ AD=0.06084P	AS=0.0638P	PD=1.092U	PS=1.128U	M=5
++ fw=3.9e-07 sa=2e-06 sb=9.6e-07 sca=16.2669 scb=0.0145797 scc=0.00118861
+.ENDS
+.END

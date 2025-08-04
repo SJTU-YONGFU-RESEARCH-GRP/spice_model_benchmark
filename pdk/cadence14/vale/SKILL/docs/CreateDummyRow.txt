@@ -1,0 +1,12 @@
+VALE Framework Component Module:
+   Create Dummy Row
+
+Description:
+   This Component Module is part of a row-based design methodology. It asks the designer to select a row object in the layout, and it marks that row object with a shape on the layer defined by _IMFdat->dummyRowLpp in the config file (IMFdefaults.il by default).  For example:
+   _IMFdat->dummyRowLpp = list("designFlow" "drawing5")
+
+   The shape created around the row may be used later on in the design flow to generate dummy or fill devices or shapes. 
+
+Development Notes:
+   All aspects of this Component Module were developed by Cadence.
+   Please contact Jonathan Fales for more information: jfales@cadence.com

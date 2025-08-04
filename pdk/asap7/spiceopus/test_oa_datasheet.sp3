@@ -1,0 +1,78 @@
+test_oa_datasheet.sp3
+* OpAmp datasheet extraction
+
+.control
+delcirc all
+destroy all
+delete all
+save all
+set units=degrees
+
+source oa_qopenloop.cir
+source oa_follower_pulse.cir
+
+setcirc ckt1
+
+op
+let pd=-i(vi6)*v(vdd)*1e3
+let dwm=?
+let dlm=?
+let dwc=?
+let dlc=?
+let aream1=(@xi1:xi0[w]+2*{dwm})*(@xi1:xi0[l]+2*{dlm})*(@xi1:xi0[m])
+let aream2=(@xi2:xi0[w]+2*{dwm})*(@xi2:xi0[l]+2*{dlm})*(@xi2:xi0[m])
+let aream3=(@xi3:xi0[w]+2*{dwm})*(@xi3:xi0[l]+2*{dlm})*(@xi3:xi0[m])
+let aream4=(@xi4:xi0[w]+2*{dwm})*(@xi4:xi0[l]+2*{dlm})*(@xi4:xi0[m])
+let aream5=(@xi5:xi0[w]+2*{dwm})*(@xi5:xi0[l]+2*{dlm})*(@xi5:xi0[m])
+let aream6=(@xi6:xi0[w]+2*{dwm})*(@xi6:xi0[l]+2*{dlm})*(@xi6:xi0[m])
+let aream7=(@xi7:xi0[w]+2*{dwm})*(@xi7:xi0[l]+2*{dlm})*(@xi7:xi0[m])
+let aream8=(@xi8:xi0[w]+2*{dwm})*(@xi8:xi0[l]+2*{dlm})*(@xi8:xi0[m])
+let areaccomp=(@xi9:xi0[w]+{dwc})*(@xi9:xi0[l]+{dlc})*(@xi9:xi0[m])
+let area=(aream1+aream2+aream3+aream4+aream5+aream6+aream7+aream8+areaccomp)*1e6 
+
+ac dec 50 10 100e6
+let gmag=20*log10(mag(v(vout)))
+let gph=phase(v(vout))
+let gdc=gmag[0]
+let c=0
+cursor c right gmag 0
+let gbw=abs(frequency[%c])/1e6
+let pm=180+gph[%c]
+plot gmag gph vs frequency xlog xlabel 'Frequency [Hz]' ylabel 'Magnitude [dB] & Phase [deg]' title 'Bode Diagram' ylimit -180 100
+
+setcirc ckt2
+
+tran 1n 5u
+let vout=v(vout)
+let c=0
+cursor c right vout 2.1
+let t1=time[%c]
+cursor c right vout 2.9
+let t2=time[%c]
+let srpos=0.8/(t2-t1)*1e-6
+cursor c right time 3u
+cursor c right vout 2.9
+let t1=time[%c]
+cursor c right vout 2.1
+let t2=time[%c]
+let srneg=0.8/(t2-t1)*1e-6
+plot vout vs time xlabel 'Time [s]' ylabel 'Output Voltage [V]' title 'Step Response'
+
+echo " "
+echo "******************"
+echo "Param Units Value"
+echo "******************"
+echo "G      [dB] {round(ac1.gdc*10)/10}"
+echo "GBW   [MHz] {round(ac1.gbw*100)/100}"
+echo "PM    [deg] {round(ac1.pm*10)/10}"
+echo "SR+  [V/us] {round(tran1.srpos*10)/10}"
+echo "SR-  [V/us] {round(tran1.srneg*10)/10}"
+echo "PD     [mW] {round(op1.pd*100)/100}"
+echo "Area  [mm2] {round(op1.area*1000)/1000}"
+echo "******************"
+echo " "
+
+.endc
+
+.end
+

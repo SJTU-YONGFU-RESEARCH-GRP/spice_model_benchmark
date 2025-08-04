@@ -1,0 +1,264 @@
+test_oa_optimize.sp3
+*OpAmp circuit optimization
+
+.control
+delcirc all
+destroy all
+delete all
+save all
+set units=degrees
+source oa_qopenloop.cir
+source oa_follower_pulse.cir
+
+**** Initial Values
+setcirc ckt1
+op
+let pd=-i(vi6)*v(vdd)*1e3
+let w1i=@xi1:xi0[w]*1e6
+let l1i=@xi1:xi0[l]*1e6
+let m1i=@xi1:xi0[m]
+let w6i=@xi6:xi0[w]*1e6
+let l6i=@xi6:xi0[l]*1e6
+let m6i=@xi6:xi0[m]
+let w3i=@xi3:xi0[w]*1e6
+let l3i=@xi3:xi0[l]*1e6
+let m3i=@xi3:xi0[m]
+let w8i=@xi8:xi0[w]*1e6
+let l8i=@xi8:xi0[l]*1e6
+let m8i=@xi8:xi0[m]
+let m5i=@xi5:xi0[m]
+let m7i=@xi7:xi0[m]
+let wccompi=@xi9:xi0[w]*1e6
+let lccompi=@xi9:xi0[l]*1e6
+let mccompi=@xi9:xi0[m]
+let aream1=m1i*(w1i+12.5)*(l1i+11)
+let aream6=m6i*(w6i+12.5)*(l6i+11)
+let aream3=m3i*(w3i+12.5)*(l3i+11)
+let aream8=m8i*(w8i+12.5)*(l8i+11)
+let areaccomp=mccompi*(wccompi+6.25)*(lccompi+10.5)
+let area=(2*aream1+aream6+2*aream3+(1+(m7i+m5i)/m8i)*aream8+areaccomp)*1e-6 
+ac dec 50 10 100e6
+let gmag=20*log10(mag(v(vout)))
+let gph=phase(v(vout))
+let c=0
+let gdc=gmag[c]
+cursor c right gmag 0
+let gbw=abs(frequency[%c])/1e6
+let pm=180+gph[%c]
+if pm ge 90
+ pm=pm-360
+end
+setcirc ckt2
+tran 1n 5u
+let vout=v(vout)
+let c=0
+cursor c right vout 2.1
+let t1=time[%c]
+cursor c right vout 2.9
+let t2=time[%c]
+let srpos=0.8/(t2-t1)*1e-6
+cursor c right time 3u
+cursor c right vout 2.9
+let t1=time[%c]
+cursor c right vout 2.1
+let t2=time[%c]
+let srneg=0.8/(t2-t1)*1e-6
+
+**** Optimization Process
+optimize parameter 0 @xi1:xi0[w] low 6u high 250u initial 32u
+optimize parameter 1 @xi6:xi0[m] low 5 high 50 initial 10
+optimize parameter 2 @xi5:xi0[m] low 1 high 50 initial 16
+optimize parameter 3 @xi7:xi0[m] low 1 high 50 initial 4
+optimize parameter 4 @xi9:xi0[w] low 50u high 250u initial 100u
+
+optimize analysis 0 setplot new
+optimize analysis 1 nameplot myvalues
+optimize analysis 2 let m1_w=@xi1:xi0[w]
+optimize analysis 3 let m6_m=@xi6:xi0[m]
+optimize analysis 4 let m5_m=@xi5:xi0[m]
+optimize analysis 5 let m7_m=@xi7:xi0[m]
+optimize analysis 6 let ccomp_w=@xi9:xi0[w]
+optimize analysis 7 setcirc ckt1
+optimize analysis 8 let @xi1:xi0[w]=myvalues.m1_w
+optimize analysis 9 let @xi6:xi0[m]=myvalues.m6_m
+optimize analysis 10 let @xi5:xi0[m]=myvalues.m5_m
+optimize analysis 11 let @xi7:xi0[m]=myvalues.m7_m
+optimize analysis 12 let @xi9:xi0[w]=myvalues.ccomp_w
+optimize analysis 13 let @xi2:xi0[w]=@xi1:xi0[w]
+optimize analysis 14 let @xi3:xi0[m]=ceil(@xi7:xi0[m]/@xi5:xi0[m]/2*@xi6:xi0[m])
+optimize analysis 15 let @xi4:xi0[m]=@xi3:xi0[m]
+optimize analysis 16 let @xi9:xi0[l]=@xi9:xi0[w]
+optimize analysis 17 op
+optimize analysis 18 let pd=-i(vi6)*v(vdd)*1e3
+optimize analysis 19 let aream12=2*(@xi1:xi0[m])*(@xi1:xi0[w]+12.5u)*(@xi1:xi0[l]+11u)
+optimize analysis 20 let aream6=(@xi6:xi0[m])*(@xi6:xi0[w]+12.5u)*(@xi6:xi0[l]+11u)
+optimize analysis 21 let aream34=2*(@xi3:xi0[m])*(@xi3:xi0[w]+12.5u)*(@xi3:xi0[l]+11u)
+optimize analysis 22 let aream875=(@xi8:xi0[m]+@xi7:xi0[m]+@xi5:xi0[m])*(@xi8:xi0[w]+12.5u)*(@xi8:xi0[l]+11u)
+optimize analysis 23 let areaccomp=(@xi9:xi0[m])*(@xi9:xi0[w]+6.25u)*(@xi9:xi0[l]+10.5u)
+optimize analysis 24 let area=(aream12+aream6+aream34+aream875+areaccomp)*1e6 
+optimize analysis 25 ac dec 50 10 100e6
+optimize analysis 26 let gmag=20*log10(mag(v(vout)))
+optimize analysis 27 let gph=phase(v(vout))
+optimize analysis 28 let c=0
+optimize analysis 29 let gdc=gmag[c]
+optimize analysis 30 cursor c right gmag 0
+optimize analysis 31 let gbw=abs(frequency[%c])/1e6
+optimize analysis 32 let pm=180+gph[%c]
+optimize analysis 33 if pm ge 90
+optimize analysis 34  pm=pm-360
+optimize analysis 35 end
+optimize analysis 36 setcirc ckt2
+optimize analysis 37 let @xi1:xi0[w]=myvalues.m1_w
+optimize analysis 38 let @xi6:xi0[m]=myvalues.m6_m
+optimize analysis 39 let @xi5:xi0[m]=myvalues.m5_m
+optimize analysis 40 let @xi7:xi0[m]=myvalues.m7_m
+optimize analysis 41 let @xi9:xi0[w]=myvalues.ccomp_w
+optimize analysis 41 let @xi2:xi0[w]=@xi1:xi0[w]
+optimize analysis 43 let @xi3:xi0[m]=ceil(@xi7:xi0[m]/@xi5:xi0[m]/2*@xi6:xi0[m])
+optimize analysis 44 let @xi4:xi0[m]=@xi3:xi0[m]
+optimize analysis 45 let @xi9:xi0[l]=@xi9:xi0[w]
+optimize analysis 46 tran 1n 5u
+optimize analysis 47 let vout=v(vout)
+optimize analysis 48 let c=0
+optimize analysis 49 cursor c right vout 2.1
+optimize analysis 50 let t1=time[%c]
+optimize analysis 51 cursor c right vout 2.9
+optimize analysis 52 let t2=time[%c]
+optimize analysis 53 let srpos=0.8/(t2-t1)*1e-6
+optimize analysis 54 cursor c right time 3u
+optimize analysis 55 cursor c right vout 2.9
+optimize analysis 56 let t1=time[%c]
+optimize analysis 57 cursor c right vout 2.1
+optimize analysis 58 let t2=time[%c]
+optimize analysis 59 let srneg=0.8/(t2-t1)*1e-6
+
+optimize implicit 0 ac2.gdc gt 60
+optimize implicit 1 ac2.pm gt 60
+optimize implicit 3 op2.pd lt 2.5
+
+optimize cost ?
+
+optimize method genetic elitism yes maxgen 100
+*optimize method monte_carlo 
+*optimize method complex oscillation_detection yes k 10 alpha 1.3 size 2.5u
+
+optimize options number_of_iterations 1000
+
+rusage
+optimize
+rusage
+
+**** Final Solution
+
+setplot optimize1
+setcirc ckt1
+let @xi1:xi0[w]=parameter[0]
+let @xi6:xi0[m]=parameter[1]
+let @xi5:xi0[m]=parameter[2]
+let @xi7:xi0[m]=parameter[3]
+let @xi9:xi0[w]=parameter[4]
+let @xi2:xi0[w]=@xi1:xi0[w]
+let @xi3:xi0[m]=ceil(@xi7:xi0[m]/@xi5:xi0[m]/2*@xi6:xi0[m])
+let @xi4:xi0[m]=@xi3:xi0[m]
+let @xi9:xi0[l]=@xi9:xi0[w]
+op
+let pd=-i(vi6)*v(vdd)*1e3
+let w1f=@xi1:xi0[w]*1e6
+let l1f=@xi1:xi0[l]*1e6
+let m1f=@xi1:xi0[m]
+let w6f=@xi6:xi0[w]*1e6
+let l6f=@xi6:xi0[l]*1e6
+let m6f=@xi6:xi0[m]
+let w3f=@xi3:xi0[w]*1e6
+let l3f=@xi3:xi0[l]*1e6
+let m3f=@xi3:xi0[m]
+let w8f=@xi8:xi0[w]*1e6
+let l8f=@xi8:xi0[l]*1e6
+let m8f=@xi8:xi0[m]
+let m5f=@xi5:xi0[m]
+let m7f=@xi7:xi0[m]
+let wccompf=@xi9:xi0[w]*1e6
+let lccompf=@xi9:xi0[l]*1e6
+let mccompf=@xi9:xi0[m]
+let aream1=m1f*(w1f+12.5)*(l1f+11)
+let aream6=m6f*(w6f+12.5)*(l6f+11)
+let aream3=m3f*(w3f+12.5)*(l3f+11)
+let aream8=m8f*(w8f+12.5)*(l8f+11)
+let areaccomp=mccompf*(wccompf+6.25)*(lccompf+10.5)
+let area=(2*aream1+aream6+2*aream3+(1+(m7f+m5f)/m8f)*aream8+areaccomp)*1e-6 
+ac dec 50 10 100e6
+let gmag=20*log10(mag(v(vout)))
+let gph=phase(v(vout))
+let c=0
+let gdc=gmag[c]
+cursor c right gmag 0
+let gbw=abs(frequency[%c])/1e6
+let pm=180+gph[%c]
+if pm ge 90
+ pm=pm-360
+end
+setcirc ckt2
+setplot op2
+let @xi1:xi0[w]=w1f*1e-6
+let @xi6:xi0[m]=m6f
+let @xi5:xi0[m]=m5f
+let @xi7:xi0[m]=m7f
+let @xi9:xi0[w]=wccompf*1e-6
+let @xi2:xi0[w]=@xi1:xi0[w]
+let @xi3:xi0[m]=ceil(@xi7:xi0[m]/@xi5:xi0[m]/2*@xi6:xi0[m])
+let @xi4:xi0[m]=@xi3:xi0[m]
+let @xi9:xi0[l]=@xi9:xi0[w]
+tran 1n 5u
+let vout=v(vout)
+let c=0
+cursor c right vout 2.1
+let t1=time[%c]
+cursor c right vout 2.9
+let t2=time[%c]
+let srpos=0.8/(t2-t1)*1e-6
+cursor c right time 3u
+cursor c right vout 2.9
+let t1=time[%c]
+cursor c right vout 2.1
+let t2=time[%c]
+let srneg=0.8/(t2-t1)*1e-6
+
+**** Comparative Table
+
+echo " "
+echo "********************************"
+echo "Device  Units Before      After"
+echo "********************************"
+echo "M1 M2 [um/um] {round(op1.m1i)}x{round(op1.w1i*100)/100}/{round(op1.l1i*100)/100} {round(op2.m1f)}x{round(op2.w1f*100)/100}/{round(op2.l1f*100)/100}"
+echo "M3 M4 [um/um] {round(op1.m3i)}x{round(op1.w3i*100)/100}/{round(op1.l3i*100)/100} {round(op2.m3f)}x{round(op2.w3f*100)/100}/{round(op2.l3f*100)/100}"
+echo "M6    [um/um] {round(op1.m6i)}x{round(op1.w6i*100)/100}/{round(op1.l6i*100)/100} {round(op2.m6f)}x{round(op2.w6f*100)/100}/{round(op2.l6f*100)/100}"
+echo "M8    [um/um] 1x{round(op1.w8i*100)/100}/{round(op1.l8i*100)/100} 1x{round(op2.w8f*100)/100}/{round(op2.l8f*100)/100}"
+echo "M5    [um/um] {round(op1.m5i)}x{round(op1.w8i*100)/100}/{round(op1.l8i*100)/100} {round(op2.m5f)}x{round(op2.w8f*100)/100}/{round(op2.l8f*100)/100}"
+echo "M7    [um/um] {round(op1.m7i)}x{round(op1.w8i*100)/100}/{round(op1.l8i*100)/100} {round(op2.m7f)}x{round(op2.w8f*100)/100}/{round(op2.l8f*100)/100}"
+echo "Ccomp [umxum] {round(op1.mccompi)}x{round(op1.wccompi*100)/100}x{round(op1.lccompi*100)/100} {round(op2.mccompf)}x{round(op2.wccompf*100)/100}x{round(op2.lccompf*100)/100}"
+echo "********************************"
+echo "Param Units Before  After"
+echo "********************************"
+echo "G      [dB] {round(ac1.gdc*10)/10}    {round(ac2.gdc*10)/10}"
+echo "GBW   [MHz] {round(ac1.gbw*100)/100}    {round(ac2.gbw*100)/100}"
+echo "PM    [deg] {round(ac1.pm*10)/10}    {round(ac2.pm*10)/10}"
+echo "SR+  [V/us] {round(tran1.srpos*10)/10}    {round(tran2.srpos*10)/10}"
+echo "SR-  [V/us] {round(tran1.srneg*10)/10}    {round(tran2.srneg*10)/10}"
+echo "PD     [mW] {round(op1.pd*100)/100}    {round(op2.pd*100)/100}"
+echo "Area  [mm2] {round(op1.area*1000)/1000}    {round(op2.area*1000)/1000}"
+echo "********************************"
+echo " "
+
+setplot optimize1
+plot xi1:xi0_w*1e6 xi6:xi0_m xi5:xi0_m xi7:xi0_m xi9:xi0_w*1e6 vs iteration ylabel 'm1[w],m6[m],m7[m],m5[m] & ccomp[w,l]' xlabel 'Iteration' title 'Parameter Evolution'
+set color2 = r255g000b000
+set color3 = r255g000b000
+set color4 = r000g255b000
+set color5 = r000g255b000
+plot ac1.gmag ac1.gph vs ac1.frequency ac2.gmag ac2.gph vs ac2.frequency xlabel 'Frequency [Hz]' ylabel 'Magnitude [dB] & Phase [deg]' title 'Bode Diagram' ylimit -180 100
+set color2 = r255g000b000
+set color3 = r000g255b000
+plot tran1.vout vs tran1.time tran2.vout vs tran2.time xlabel 'Time [s]' ylabel 'Output Voltage [V]' title 'Step Response'
+
+.endc
+.end

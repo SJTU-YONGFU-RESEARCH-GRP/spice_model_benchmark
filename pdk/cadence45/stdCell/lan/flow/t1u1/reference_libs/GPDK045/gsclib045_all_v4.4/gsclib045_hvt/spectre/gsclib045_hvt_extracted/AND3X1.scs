@@ -1,0 +1,113 @@
+// Generated for: spectre (May  1 09:12:12 2013 )
+// Library name: gsclib045_hvt
+// Cell name: AND3X1
+// View name: extracted
+
+simulator lang=spectre
+
+subckt AND3X1 A B C VDD VSS Y
+mp2 (\7\:net086 \4\:C \6\:VDD VDD) g45p1hvt w=(2.15e-07) l=4.5e-08 nf=1 \
+        as=6.57e-14 ad=3.01e-14 ps=1.41e-06 pd=7.1e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=9.95e-07 sd=160n sca=15.6848 \
+        scb=0.0150605 scc=0.00022885 m=(1)
+mp1 (\11\:net086 \1\:B \6\:VDD VDD) g45p1hvt w=(2.15e-07) l=4.5e-08 nf=1 \
+        as=6.57e-14 ad=5.913e-14 ps=1.41e-06 pd=9.8e-07 nrd=1.16667 \
+        nrs=1.16667 sa=4.05e-07 sb=7.3e-07 sd=160n sca=11.8763 \
+        scb=0.00832069 scc=7.33429e-05 m=(1)
+mp0 (\11\:net086 \1\:A \1\:VDD VDD) g45p1hvt w=(2.15e-07) l=4.5e-08 nf=1 \
+        as=6.265e-14 ad=5.913e-14 ps=1.2e-06 pd=9.8e-07 nrd=1.16667 \
+        nrs=1.16667 sa=7.25e-07 sb=4.1e-07 sd=160n sca=12.6661 \
+        scb=0.00970078 scc=8.28205e-05 m=(1)
+C1 (B VSS) capacitor c=5.50045e-17
+C2 (Y VSS) capacitor c=3.81307e-17
+C3 (VDD VSS) capacitor c=1.39859e-16
+C4 (C VSS) capacitor c=7.4176e-17
+C5 (A VSS) capacitor c=1.07278e-16
+C6 (net0106 VSS) capacitor c=3.45924e-18
+C7 (net086 VSS) capacitor c=5.55202e-17
+C8 (net0102 VSS) capacitor c=7.37195e-18
+C9 (\1\:A VSS) capacitor c=3.53756e-17
+C10 (\1\:B VSS) capacitor c=5.03372e-17
+C11 (\4\:C VSS) capacitor c=3.64815e-17
+C12 (\3\:net086 VSS) capacitor c=3.30483e-17
+C13 (\3\:A VSS) capacitor c=4.83883e-17
+C14 (\3\:B VSS) capacitor c=4.29988e-17
+C15 (\1\:C VSS) capacitor c=5.49272e-17
+C16 (\2\:net086 VSS) capacitor c=2.93631e-17
+C17 (\2\:A VSS) capacitor c=4.19747e-17
+C18 (\2\:B VSS) capacitor c=5.6811e-17
+C19 (\3\:C VSS) capacitor c=1.74217e-17
+C20 (\3\:Y VSS) capacitor c=5.55222e-17
+C21 (\1\:VDD VSS) capacitor c=4.57657e-17
+C22 (\11\:net086 VSS) capacitor c=1.53279e-17
+C23 (\6\:VDD VSS) capacitor c=1.63619e-17
+C24 (\7\:net086 VSS) capacitor c=3.46866e-17
+C25 (\1\:Y VSS) capacitor c=1.80809e-17
+C26 (\9\:net086 VSS) capacitor c=3.19277e-17
+C27 (\2\:C VSS) capacitor c=5.24036e-17
+C28 (\4\:B VSS) capacitor c=5.13344e-17
+C29 (\4\:net086 VSS) capacitor c=6.40741e-17
+C30 (\5\:net086 VSS) capacitor c=9.72727e-17
+C31 (\6\:net086 VSS) capacitor c=8.45039e-17
+C32 (\4\:VDD VSS) capacitor c=2.21709e-17
+C33 (\5\:VDD VSS) capacitor c=9.00338e-18
+Rk16 (\4\:VSS VSS) resistor r=0.2995 c=0
+Rk15 (\2\:VSS \4\:VSS) resistor r=0.4236 c=0
+Rk2 (\4\:B B) resistor r=0.1521 c=0
+Rk9 (Y \2\:Y) resistor r=0.0806 c=0
+Rk10 (Y \4\:Y) resistor r=0.3403 c=0
+Rk11 (\2\:VDD \4\:VDD) resistor r=0.3956 c=0
+Rk13 (\5\:VDD VDD) resistor r=0.1819 c=0
+Rk12 (\4\:VDD \5\:VDD) resistor r=0.1172 c=0
+Rk14 (\5\:VDD \7\:VDD) resistor r=0.07288 c=0
+Rk1 (\5\:C C) resistor r=0.003669 c=0
+Rk3 (\4\:A A) resistor r=0.002985 c=0
+Rk4 (\4\:net086 \5\:net086) resistor r=0.3756 c=0
+Rk5 (\5\:net086 \6\:net086) resistor r=0.524 c=0
+Rk6 (\6\:net086 \8\:net086) resistor r=0.3158 c=0
+Rk7 (\5\:net086 \10\:net086) resistor r=0.2639 c=0
+Rk8 (\6\:net086 \12\:net086) resistor r=0.05686 c=0
+Rl4 (\1\:B \2\:B) resistor r=127.615 c=0
+Rl5 (\2\:B \3\:B) resistor r=87.2302 c=0
+Rl3 (\2\:C \4\:C) resistor r=49.4619 c=0
+Rl1 (\1\:C \2\:C) resistor r=191.817 c=0
+Rl2 (\2\:C \3\:C) resistor r=23.4547 c=0
+Rl6 (\1\:A \2\:A) resistor r=55.7692 c=0
+Rl7 (\2\:A \3\:A) resistor r=160.714 c=0
+Rl8 (net086 \2\:net086) resistor r=114.56 c=0
+Rl9 (\2\:net086 \3\:net086) resistor r=26.098 c=0
+Rz4 (\1\:VSS \2\:VSS) resistor r=75 c=0
+Rz2 (\1\:Y \2\:Y) resistor r=75 c=0
+Rz1 (\9\:net086 \10\:net086) resistor r=75 c=0
+Ry3 (\3\:Y \4\:Y) resistor r=20.6667 c=0
+Ry4 (\1\:VDD \2\:VDD) resistor r=62 c=0
+Ry5 (\6\:VDD \7\:VDD) resistor r=62 c=0
+Ry1 (\7\:net086 \8\:net086) resistor r=62 c=0
+Ry2 (\11\:net086 \12\:net086) resistor r=62 c=0
+Rx2 (\2\:B \4\:B) resistor r=45 c=0
+Rx1 (\3\:C \5\:C) resistor r=45 c=0
+Rx3 (\2\:A \4\:A) resistor r=45 c=0
+Rx4 (\2\:net086 \4\:net086) resistor r=45 c=0
+mn2 (\9\:net086 \1\:C net0106 VSS) g45n1hvt w=(1.45e-07) l=4.5e-08 nf=1 \
+        as=1.667e-14 ad=2.03e-14 ps=5.2e-07 pd=5.7e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=8.9e-07 sd=160n sca=14.3814 \
+        scb=0.0152134 scc=0.00088947 m=(1)
+mn1 (net0106 \3\:B net0102 VSS) g45n1hvt w=(1.45e-07) l=4.5e-08 nf=1 \
+        as=3.19e-14 ad=1.667e-14 ps=7.3e-07 pd=5.2e-07 nrd=1.16667 \
+        nrs=1.16667 sa=3e-07 sb=7.3e-07 sd=160n sca=14.3814 scb=0.0152134 \
+        scc=0.00088947 m=(1)
+mn0 (net0102 \3\:A \1\:VSS VSS) g45n1hvt w=(1.45e-07) l=4.5e-08 nf=1 \
+        as=5.452e-14 ad=3.19e-14 ps=1.05e-06 pd=7.3e-07 nrd=1.16667 \
+        nrs=1.16667 sa=5.65e-07 sb=4.65e-07 sd=160n sca=14.3814 \
+        scb=0.0152134 scc=0.00088947 m=(1)
+mn3 (\1\:Y \3\:net086 \1\:VSS VSS) g45n1hvt w=(2.6e-07) l=4.5e-08 nf=1 \
+        as=5.452e-14 ad=4.03e-14 ps=1.05e-06 pd=8.3e-07 nrd=1.16667 \
+        nrs=1.16667 sa=5.49904e-07 sb=1.55e-07 sd=160n sca=11.5806 \
+        scb=0.0111274 scc=0.000535497 m=(1)
+mp3 (\3\:Y net086 \1\:VDD VDD) g45p1hvt w=(3.9e-07) l=4.5e-08 nf=1 \
+        as=6.265e-14 ad=6.045e-14 ps=1.2e-06 pd=1.09e-06 nrd=1.16667 \
+        nrs=1.16667 sa=5.85128e-07 sb=1.55e-07 sd=160n sca=23.7459 \
+        scb=0.0272453 scc=0.00137918 m=(1)
+ends AND3X1
+// End of subcircuit definition.
+

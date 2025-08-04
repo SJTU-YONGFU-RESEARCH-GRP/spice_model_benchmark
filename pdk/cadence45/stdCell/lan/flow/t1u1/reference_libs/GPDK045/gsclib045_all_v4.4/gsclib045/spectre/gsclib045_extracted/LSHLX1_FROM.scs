@@ -1,0 +1,89 @@
+// Generated for: spectre (May  1 08:11:41 2013 )
+// Library name: gsclib045
+// Cell name: LSHLX1_FROM
+// View name: extracted
+
+simulator lang=spectre
+
+subckt LSHLX1_FROM A ExtVDD VSS Y
+mp0 (\7\:n0 \4\:A \5\:ExtVDD ExtVDD) g45p1svt w=(2.15e-07) l=4.5e-08 \
+        nf=1 as=3.01e-14 ad=3.01e-14 ps=7.1e-07 pd=7.1e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=1.4e-07 sd=160n sca=25.5989 \
+        scb=0.0265176 scc=0.00266093 m=(1)
+C1 (VDD VSS) capacitor c=9.43014e-17
+C2 (Y VSS) capacitor c=2.40733e-17
+C3 (A VSS) capacitor c=4.73951e-17
+C4 (ExtVDD VSS) capacitor c=2.26139e-16
+C5 (n0 VSS) capacitor c=2.74457e-17
+C6 (\4\:n0 VSS) capacitor c=4.04001e-17
+C7 (\4\:A VSS) capacitor c=2.95487e-17
+C8 (\1\:A VSS) capacitor c=4.36616e-17
+C9 (\3\:n0 VSS) capacitor c=1.53574e-17
+C10 (\3\:A VSS) capacitor c=2.44847e-17
+C11 (\2\:Y VSS) capacitor c=5.88214e-17
+C12 (\1\:ExtVDD VSS) capacitor c=7.32107e-17
+C13 (\5\:ExtVDD VSS) capacitor c=4.08353e-17
+C14 (\7\:n0 VSS) capacitor c=6.56298e-17
+C15 (\4\:Y VSS) capacitor c=3.41668e-17
+C16 (\9\:n0 VSS) capacitor c=2.82798e-17
+C17 (VDD VSS) capacitor c=1.42925e-16
+C18 (\2\:A VSS) capacitor c=3.74319e-17
+C19 (\2\:n0 VSS) capacitor c=1.45494e-17
+C20 (\5\:n0 VSS) capacitor c=8.44294e-17
+C21 (\6\:n0 VSS) capacitor c=9.0973e-17
+C22 (\1\:Y VSS) capacitor c=3.59226e-17
+Rk20 (VDD VDD) resistor r=0.2965 c=0
+Rk14 (\3\:VSS VSS) resistor r=0.1177 c=0
+Rk13 (\2\:VSS \3\:VSS) resistor r=0.4603 c=0
+Rk15 (VSS \4\:VSS) resistor r=0.04845 c=0
+Rk17 (\5\:VSS VSS) resistor r=0.3226 c=0
+Rk16 (\4\:VSS \5\:VSS) resistor r=0.1035 c=0
+Rk18 (\3\:VSS \7\:VSS) resistor r=0.2373 c=0
+Rk19 (\5\:VSS \9\:VSS) resistor r=0.2236 c=0
+Rk21 (\11\:VSS VSS) resistor r=0.5783 c=0
+Rk23 (\12\:VSS VSS) resistor r=0.4265 c=0
+Rk22 (VSS \12\:VSS) resistor r=0.04845 c=0
+Rk10 (Y \1\:Y) resistor r=0.05657 c=0
+Rk11 (\1\:Y \3\:Y) resistor r=0.3412 c=0
+Rk12 (\1\:Y \5\:Y) resistor r=0.1954 c=0
+Rk4 (ExtVDD ExtVDD) resistor r=0.002072 c=0
+Rk3 (\2\:ExtVDD ExtVDD) resistor r=0.4254 c=0
+Rk6 (ExtVDD \6\:ExtVDD) resistor r=0.3519 c=0
+Rk7 (\5\:n0 \6\:n0) resistor r=0.5398 c=0
+Rk8 (\6\:n0 \8\:n0) resistor r=0.4375 c=0
+Rk9 (\6\:n0 \10\:n0) resistor r=0.193 c=0
+Rl3 (\2\:A \4\:A) resistor r=45.6656 c=0
+Rl1 (\1\:A \2\:A) resistor r=206.123 c=0
+Rl2 (\2\:A \3\:A) resistor r=100.588 c=0
+Rl6 (\2\:n0 \4\:n0) resistor r=131.254 c=0
+Rl4 (n0 \2\:n0) resistor r=67.093 c=0
+Rl5 (\2\:n0 \3\:n0) resistor r=3.1183 c=0
+Rz4 (\6\:VSS \7\:VSS) resistor r=37.5 c=0
+Rz5 (\8\:VSS \9\:VSS) resistor r=75 c=0
+Rz3 (\4\:Y \5\:Y) resistor r=37.5 c=0
+Rz2 (\9\:n0 \10\:n0) resistor r=75 c=0
+Ry5 (\1\:VSS \2\:VSS) resistor r=62 c=0
+Ry6 (\1\:VSS \4\:VSS) resistor r=5.1667 c=0
+Ry7 (\10\:VSS \11\:VSS) resistor r=62 c=0
+Ry8 (\10\:VSS \12\:VSS) resistor r=5.1667 c=0
+Ry4 (\2\:Y \3\:Y) resistor r=20.6667 c=0
+Ry1 (\1\:ExtVDD \2\:ExtVDD) resistor r=20.6667 c=0
+Ry2 (\5\:ExtVDD \6\:ExtVDD) resistor r=62 c=0
+Ry3 (\7\:n0 \8\:n0) resistor r=62 c=0
+Rx1 (\3\:A A) resistor r=45 c=0
+Rx2 (\3\:n0 \5\:n0) resistor r=45 c=0
+mn0 (\9\:n0 \1\:A \8\:VSS VSS) g45n1svt w=(1.45e-07) l=4.5e-08 nf=1 \
+        as=2.03e-14 ad=2.03e-14 ps=5.7e-07 pd=5.7e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=1.4e-07 sd=160n sca=11.7118 \
+        scb=0.0116498 scc=0.000458536 m=(1)
+NM0 (\4\:Y n0 \6\:VSS VSS) g45n1svt w=(2.6e-07) l=4.5e-08 nf=1 \
+        as=3.64e-14 ad=3.64e-14 ps=8e-07 pd=8e-07 nrd=1.16667 nrs=1.16667 \
+        sa=1.4e-07 sb=1.4e-07 sd=160n sca=13.5771 scb=0.0135427 \
+        scc=0.000870653 m=(1)
+PM0 (\2\:Y \4\:n0 \1\:ExtVDD ExtVDD) g45p1svt w=(3.9e-07) l=4.5e-08 nf=1 \
+        as=5.46e-14 ad=5.46e-14 ps=1.06e-06 pd=1.06e-06 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=1.4e-07 sd=160n sca=28.2335 \
+        scb=0.0309342 scc=0.00288503 m=(1)
+ends LSHLX1_FROM
+// End of subcircuit definition.
+

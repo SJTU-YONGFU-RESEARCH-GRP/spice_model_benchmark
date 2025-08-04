@@ -1,0 +1,1324 @@
+**************************************************************
+*   Generic PDK MOS models                            12/03/04
+*                                                  PDK Factory
+*   12/03/04 KENN: Added ageMOS model for hv.   
+*                  Modified nba=0.5 for hv.
+*                           nba=0.75
+*                           nba=0.70
+**************************************************************
+simulator lang = spectre insensitive = yes
+
+library gpdk090
+
+section TT_s1v
+parameters 
++           s1v_rs_ne =        0.000000e+000          s1v_vsat_ne =        1.120000e+005        s1v_pldd_surf =        6.000000e+019 
++          s1v_uc1_ne =        3.700000e-010            s1v_u0_ne =        2.000000e-002           s1v_nch_ne =        5.200000e+017 
++          s1v_rsc_ne =        4.082483e-014          s1v_cgbo_ne =        1.482000e-011           s1v_prt_ne =        1.000000e+001 
++          s1v_rdc_ne =        4.082483e-014          s1v_vth0_ne =        1.692662e-001            s1v_k2_ne =        0.000000e+000 
++         s1v_cgdo_ne =        2.667600e-010        s1v_ckappa_ne =        4.605336e+000          s1v_wint_ne =        6.000000e-009 
++           s1v_k1_ne =        2.825346e-001          s1v_cgsl_ne =        1.111500e-010        s1v_nldd_surf =        3.000000e+019 
++           s1v_js_ne =        3.366667e-006          s1v_hdif_ne =        1.400000e-007          s1v_rdsw_ne =        3.900000e-006 
++          s1v_jsw_ne =        3.366667e-010           s1v_tox_ne =        2.330000e-009            s1v_cj_ne =        7.983537e-004 
++         s1v_cjsw_ne =        4.790122e-011          s1v_ldif_ne =        1.000000e-008            s1v_xj_ne =        2.500000e-008 
++           s1v_rd_ne =        0.000000e+000            s1v_pb_ne =        9.918524e-001            s1v_cf_ne =        4.594612e-011 
++         s1v_lint_ne =        1.500000e-008         s1v_cjswg_ne =        1.995884e-011           s1v_rsh_ne =        1.000000e+001 
++           s1v_u0_pe =        1.200000e-002           s1v_nch_pe =        4.000000e+017           s1v_rsc_pe =        2.886751e-014 
++         s1v_cgbo_pe =        1.392363e-011           s1v_rdc_pe =        2.886751e-014          s1v_vth0_pe =       -1.359511e-001 
++           s1v_k2_pe =        0.000000e+000          s1v_cgdo_pe =        2.506253e-010        s1v_ckappa_pe =        1.043477e+001 
++         s1v_wint_pe =        5.000000e-009            s1v_k1_pe =        2.637520e-001          s1v_cgsl_pe =        1.044272e-010 
++           s1v_js_pe =        3.350000e-006          s1v_hdif_pe =        1.400000e-007          s1v_rdsw_pe =        7.800000e-006 
++          s1v_jsw_pe =        3.350000e-010           s1v_tox_pe =        2.480000e-009            s1v_cj_pe =        7.912252e-004 
++         s1v_cjsw_pe =        4.747351e-011          s1v_ldif_pe =        1.000000e-008            s1v_xj_pe =        2.500000e-008 
++           s1v_rd_pe =        0.000000e+000            s1v_pb_pe =        1.009805e+000            s1v_cf_pe =        4.527118e-011 
++         s1v_lint_pe =        1.500000e-008         s1v_cjswg_pe =        1.978063e-011           s1v_rsh_pe =        2.000000e+001 
++           s1v_rs_pe =        0.000000e+000          s1v_vsat_pe =        1.000000e+005 
+include "gpdk090_mos.scs" section = s1v_mos
+endsection TT_s1v
+
+section FF_s1v
+parameters 
++           s1v_rs_ne =        0.000000e+000          s1v_vsat_ne =        1.120000e+005        s1v_pldd_surf =        6.000000e+019 
++          s1v_uc1_ne =        3.700000e-010            s1v_u0_ne =        2.600000e-002           s1v_nch_ne =        4.680000e+017 
++          s1v_rsc_ne =        4.082483e-014          s1v_cgbo_ne =        1.482000e-011           s1v_prt_ne =        1.000000e+001 
++          s1v_rdc_ne =        4.082483e-014          s1v_vth0_ne =        1.518852e-001            s1v_k2_ne =        0.000000e+000 
++         s1v_cgdo_ne =        2.667600e-010        s1v_ckappa_ne =        4.605336e+000          s1v_wint_ne =        5.400000e-009 
++           s1v_k1_ne =        2.825346e-001          s1v_cgsl_ne =        1.111500e-010        s1v_nldd_surf =        3.000000e+019 
++           s1v_js_ne =        3.366667e-006          s1v_hdif_ne =        1.400000e-007          s1v_rdsw_ne =        3.900000e-006 
++          s1v_jsw_ne =        3.366667e-010           s1v_tox_ne =        2.097000e-009            s1v_cj_ne =        7.983537e-004 
++         s1v_cjsw_ne =        4.790122e-011          s1v_ldif_ne =        1.000000e-008            s1v_xj_ne =        2.500000e-008 
++           s1v_rd_ne =        0.000000e+000            s1v_pb_ne =        9.918524e-001            s1v_cf_ne =        4.594612e-011 
++         s1v_lint_ne =        1.650000e-008         s1v_cjswg_ne =        1.995884e-011           s1v_rsh_ne =        1.000000e+001 
++           s1v_u0_pe =        1.560000e-002           s1v_nch_pe =        3.600000e+017           s1v_rsc_pe =        2.886751e-014 
++         s1v_cgbo_pe =        1.392363e-011           s1v_rdc_pe =        2.886751e-014          s1v_vth0_pe =       -1.228104e-001 
++           s1v_k2_pe =        0.000000e+000          s1v_cgdo_pe =        2.506253e-010        s1v_ckappa_pe =        1.043477e+001 
++         s1v_wint_pe =        4.500000e-009            s1v_k1_pe =        2.637520e-001          s1v_cgsl_pe =        1.044272e-010 
++           s1v_js_pe =        3.350000e-006          s1v_hdif_pe =        1.400000e-007          s1v_rdsw_pe =        7.800000e-006 
++          s1v_jsw_pe =        3.350000e-010           s1v_tox_pe =        2.232000e-009            s1v_cj_pe =        7.912252e-004 
++         s1v_cjsw_pe =        4.747351e-011          s1v_ldif_pe =        1.000000e-008            s1v_xj_pe =        2.500000e-008 
++           s1v_rd_pe =        0.000000e+000            s1v_pb_pe =        1.009805e+000            s1v_cf_pe =        4.527118e-011 
++         s1v_lint_pe =        1.650000e-008         s1v_cjswg_pe =        1.978063e-011           s1v_rsh_pe =        2.000000e+001 
++           s1v_rs_pe =        0.000000e+000          s1v_vsat_pe =        1.000000e+005 
+include "gpdk090_mos.scs" section = s1v_mos
+endsection FF_s1v
+
+section SS_s1v
+parameters 
++           s1v_rs_ne =        0.000000e+000          s1v_vsat_ne =        1.120000e+005        s1v_pldd_surf =        6.000000e+019 
++          s1v_uc1_ne =        3.700000e-010            s1v_u0_ne =        1.400000e-002           s1v_nch_ne =        5.720000e+017 
++          s1v_rsc_ne =        4.082483e-014          s1v_cgbo_ne =        1.482000e-011           s1v_prt_ne =        1.000000e+001 
++          s1v_rdc_ne =        4.082483e-014          s1v_vth0_ne =        1.866039e-001            s1v_k2_ne =        0.000000e+000 
++         s1v_cgdo_ne =        2.667600e-010        s1v_ckappa_ne =        4.605336e+000          s1v_wint_ne =        6.600000e-009 
++           s1v_k1_ne =        2.825346e-001          s1v_cgsl_ne =        1.111500e-010        s1v_nldd_surf =        3.000000e+019 
++           s1v_js_ne =        3.366667e-006          s1v_hdif_ne =        1.400000e-007          s1v_rdsw_ne =        3.900000e-006 
++          s1v_jsw_ne =        3.366667e-010           s1v_tox_ne =        2.563000e-009            s1v_cj_ne =        7.983537e-004 
++         s1v_cjsw_ne =        4.790122e-011          s1v_ldif_ne =        1.000000e-008            s1v_xj_ne =        2.500000e-008 
++           s1v_rd_ne =        0.000000e+000            s1v_pb_ne =        9.918524e-001            s1v_cf_ne =        4.594612e-011 
++         s1v_lint_ne =        1.350000e-008         s1v_cjswg_ne =        1.995884e-011           s1v_rsh_ne =        1.000000e+001 
++           s1v_u0_pe =        8.400000e-003           s1v_nch_pe =        4.400000e+017           s1v_rsc_pe =        2.886751e-014 
++         s1v_cgbo_pe =        1.392363e-011           s1v_rdc_pe =        2.886751e-014          s1v_vth0_pe =       -1.491351e-001 
++           s1v_k2_pe =        0.000000e+000          s1v_cgdo_pe =        2.506253e-010        s1v_ckappa_pe =        1.043477e+001 
++         s1v_wint_pe =        5.500000e-009            s1v_k1_pe =        2.637520e-001          s1v_cgsl_pe =        1.044272e-010 
++           s1v_js_pe =        3.350000e-006          s1v_hdif_pe =        1.400000e-007          s1v_rdsw_pe =        7.800000e-006 
++          s1v_jsw_pe =        3.350000e-010           s1v_tox_pe =        2.728000e-009            s1v_cj_pe =        7.912252e-004 
++         s1v_cjsw_pe =        4.747351e-011          s1v_ldif_pe =        1.000000e-008            s1v_xj_pe =        2.500000e-008 
++           s1v_rd_pe =        0.000000e+000            s1v_pb_pe =        1.009805e+000            s1v_cf_pe =        4.527118e-011 
++         s1v_lint_pe =        1.350000e-008         s1v_cjswg_pe =        1.978063e-011           s1v_rsh_pe =        2.000000e+001 
++           s1v_rs_pe =        0.000000e+000          s1v_vsat_pe =        1.000000e+005 
+include "gpdk090_mos.scs" section = s1v_mos
+endsection SS_s1v
+
+section FS_s1v
+parameters 
++           s1v_rs_ne =        0.000000e+000          s1v_vsat_ne =        1.120000e+005        s1v_pldd_surf =        6.000000e+019 
++          s1v_uc1_ne =        3.700000e-010            s1v_u0_ne =        2.600000e-002           s1v_nch_ne =        4.680000e+017 
++          s1v_rsc_ne =        4.082483e-014          s1v_cgbo_ne =        1.482000e-011           s1v_prt_ne =        1.000000e+001 
++          s1v_rdc_ne =        4.082483e-014          s1v_vth0_ne =        1.518852e-001            s1v_k2_ne =        0.000000e+000 
++         s1v_cgdo_ne =        2.667600e-010        s1v_ckappa_ne =        4.605336e+000          s1v_wint_ne =        5.400000e-009 
++           s1v_k1_ne =        2.825346e-001          s1v_cgsl_ne =        1.111500e-010        s1v_nldd_surf =        3.000000e+019 
++           s1v_js_ne =        3.366667e-006          s1v_hdif_ne =        1.400000e-007          s1v_rdsw_ne =        3.900000e-006 
++          s1v_jsw_ne =        3.366667e-010           s1v_tox_ne =        2.097000e-009            s1v_cj_ne =        7.983537e-004 
++         s1v_cjsw_ne =        4.790122e-011          s1v_ldif_ne =        1.000000e-008            s1v_xj_ne =        2.500000e-008 
++           s1v_rd_ne =        0.000000e+000            s1v_pb_ne =        9.918524e-001            s1v_cf_ne =        4.594612e-011 
++         s1v_lint_ne =        1.650000e-008         s1v_cjswg_ne =        1.995884e-011           s1v_rsh_ne =        1.000000e+001 
++           s1v_u0_pe =        8.400000e-003           s1v_nch_pe =        4.400000e+017           s1v_rsc_pe =        2.886751e-014 
++         s1v_cgbo_pe =        1.392363e-011           s1v_rdc_pe =        2.886751e-014          s1v_vth0_pe =       -1.491351e-001 
++           s1v_k2_pe =        0.000000e+000          s1v_cgdo_pe =        2.506253e-010        s1v_ckappa_pe =        1.043477e+001 
++         s1v_wint_pe =        5.500000e-009            s1v_k1_pe =        2.637520e-001          s1v_cgsl_pe =        1.044272e-010 
++           s1v_js_pe =        3.350000e-006          s1v_hdif_pe =        1.400000e-007          s1v_rdsw_pe =        7.800000e-006 
++          s1v_jsw_pe =        3.350000e-010           s1v_tox_pe =        2.728000e-009            s1v_cj_pe =        7.912252e-004 
++         s1v_cjsw_pe =        4.747351e-011          s1v_ldif_pe =        1.000000e-008            s1v_xj_pe =        2.500000e-008 
++           s1v_rd_pe =        0.000000e+000            s1v_pb_pe =        1.009805e+000            s1v_cf_pe =        4.527118e-011 
++         s1v_lint_pe =        1.350000e-008         s1v_cjswg_pe =        1.978063e-011           s1v_rsh_pe =        2.000000e+001 
++           s1v_rs_pe =        0.000000e+000          s1v_vsat_pe =        1.000000e+005 
+include "gpdk090_mos.scs" section = s1v_mos
+endsection FS_s1v
+
+section SF_s1v
+parameters 
++           s1v_rs_ne =        0.000000e+000          s1v_vsat_ne =        1.120000e+005        s1v_pldd_surf =        6.000000e+019 
++          s1v_uc1_ne =        3.700000e-010            s1v_u0_ne =        1.400000e-002           s1v_nch_ne =        5.720000e+017 
++          s1v_rsc_ne =        4.082483e-014          s1v_cgbo_ne =        1.482000e-011           s1v_prt_ne =        1.000000e+001 
++          s1v_rdc_ne =        4.082483e-014          s1v_vth0_ne =        1.866039e-001            s1v_k2_ne =        0.000000e+000 
++         s1v_cgdo_ne =        2.667600e-010        s1v_ckappa_ne =        4.605336e+000          s1v_wint_ne =        6.600000e-009 
++           s1v_k1_ne =        2.825346e-001          s1v_cgsl_ne =        1.111500e-010        s1v_nldd_surf =        3.000000e+019 
++           s1v_js_ne =        3.366667e-006          s1v_hdif_ne =        1.400000e-007          s1v_rdsw_ne =        3.900000e-006 
++          s1v_jsw_ne =        3.366667e-010           s1v_tox_ne =        2.563000e-009            s1v_cj_ne =        7.983537e-004 
++         s1v_cjsw_ne =        4.790122e-011          s1v_ldif_ne =        1.000000e-008            s1v_xj_ne =        2.500000e-008 
++           s1v_rd_ne =        0.000000e+000            s1v_pb_ne =        9.918524e-001            s1v_cf_ne =        4.594612e-011 
++         s1v_lint_ne =        1.350000e-008         s1v_cjswg_ne =        1.995884e-011           s1v_rsh_ne =        1.000000e+001 
++           s1v_u0_pe =        1.560000e-002           s1v_nch_pe =        3.600000e+017           s1v_rsc_pe =        2.886751e-014 
++         s1v_cgbo_pe =        1.392363e-011           s1v_rdc_pe =        2.886751e-014          s1v_vth0_pe =       -1.228104e-001 
++           s1v_k2_pe =        0.000000e+000          s1v_cgdo_pe =        2.506253e-010        s1v_ckappa_pe =        1.043477e+001 
++         s1v_wint_pe =        4.500000e-009            s1v_k1_pe =        2.637520e-001          s1v_cgsl_pe =        1.044272e-010 
++           s1v_js_pe =        3.350000e-006          s1v_hdif_pe =        1.400000e-007          s1v_rdsw_pe =        7.800000e-006 
++          s1v_jsw_pe =        3.350000e-010           s1v_tox_pe =        2.232000e-009            s1v_cj_pe =        7.912252e-004 
++         s1v_cjsw_pe =        4.747351e-011          s1v_ldif_pe =        1.000000e-008            s1v_xj_pe =        2.500000e-008 
++           s1v_rd_pe =        0.000000e+000            s1v_pb_pe =        1.009805e+000            s1v_cf_pe =        4.527118e-011 
++         s1v_lint_pe =        1.650000e-008         s1v_cjswg_pe =        1.978063e-011           s1v_rsh_pe =        2.000000e+001 
++           s1v_rs_pe =        0.000000e+000          s1v_vsat_pe =        1.000000e+005 
+include "gpdk090_mos.scs" section = s1v_mos
+endsection SF_s1v
+
+section TT_s1v_g
+parameters 
++           s1v_rs_ne =        0.000000e+000          s1v_vsat_ne =        1.120000e+005        s1v_pldd_surf =        6.000000e+019 
++          s1v_uc1_ne =        3.700000e-010            s1v_u0_ne =        2.000000e-002           s1v_nch_ne =        5.200000e+017 
++          s1v_rsc_ne =        4.082483e-014          s1v_cgbo_ne =        1.482000e-011           s1v_prt_ne =        1.000000e+001 
++          s1v_rdc_ne =        4.082483e-014          s1v_vth0_ne =        1.692662e-001            s1v_k2_ne =        0.000000e+000 
++         s1v_cgdo_ne =        2.667600e-010        s1v_ckappa_ne =        4.605336e+000          s1v_wint_ne =        6.000000e-009 
++           s1v_k1_ne =        2.825346e-001          s1v_cgsl_ne =        1.111500e-010        s1v_nldd_surf =        3.000000e+019 
++           s1v_js_ne =        3.366667e-006          s1v_hdif_ne =        1.400000e-007          s1v_rdsw_ne =        3.900000e-006 
++          s1v_jsw_ne =        3.366667e-010           s1v_tox_ne =        2.330000e-009            s1v_cj_ne =        7.983537e-004 
++         s1v_cjsw_ne =        4.790122e-011          s1v_ldif_ne =        1.000000e-008            s1v_xj_ne =        2.500000e-008 
++           s1v_rd_ne =        0.000000e+000            s1v_pb_ne =        9.918524e-001            s1v_cf_ne =        4.594612e-011 
++         s1v_lint_ne =        1.500000e-008         s1v_cjswg_ne =        1.995884e-011           s1v_rsh_ne =        1.000000e+001 
++           s1v_u0_pe =        1.200000e-002           s1v_nch_pe =        4.000000e+017           s1v_rsc_pe =        2.886751e-014 
++         s1v_cgbo_pe =        1.392363e-011           s1v_rdc_pe =        2.886751e-014          s1v_vth0_pe =       -1.359511e-001 
++           s1v_k2_pe =        0.000000e+000          s1v_cgdo_pe =        2.506253e-010        s1v_ckappa_pe =        1.043477e+001 
++         s1v_wint_pe =        5.000000e-009            s1v_k1_pe =        2.637520e-001          s1v_cgsl_pe =        1.044272e-010 
++           s1v_js_pe =        3.350000e-006          s1v_hdif_pe =        1.400000e-007          s1v_rdsw_pe =        7.800000e-006 
++          s1v_jsw_pe =        3.350000e-010           s1v_tox_pe =        2.480000e-009            s1v_cj_pe =        7.912252e-004 
++         s1v_cjsw_pe =        4.747351e-011          s1v_ldif_pe =        1.000000e-008            s1v_xj_pe =        2.500000e-008 
++           s1v_rd_pe =        0.000000e+000            s1v_pb_pe =        1.009805e+000            s1v_cf_pe =        4.527118e-011 
++         s1v_lint_pe =        1.500000e-008         s1v_cjswg_pe =        1.978063e-011           s1v_rsh_pe =        2.000000e+001 
++           s1v_rs_pe =        0.000000e+000          s1v_vsat_pe =        1.000000e+005 
+include "gpdk090_mos.scs" section = s1v_mos
+include "gpdk090_mos.scs" section = s1v_mac
+endsection TT_s1v_g
+
+section FF_s1v_g
+parameters 
++           s1v_rs_ne =        0.000000e+000          s1v_vsat_ne =        1.120000e+005        s1v_pldd_surf =        6.000000e+019 
++          s1v_uc1_ne =        3.700000e-010            s1v_u0_ne =        2.600000e-002           s1v_nch_ne =        4.680000e+017 
++          s1v_rsc_ne =        4.082483e-014          s1v_cgbo_ne =        1.482000e-011           s1v_prt_ne =        1.000000e+001 
++          s1v_rdc_ne =        4.082483e-014          s1v_vth0_ne =        1.518852e-001            s1v_k2_ne =        0.000000e+000 
++         s1v_cgdo_ne =        2.667600e-010        s1v_ckappa_ne =        4.605336e+000          s1v_wint_ne =        5.400000e-009 
++           s1v_k1_ne =        2.825346e-001          s1v_cgsl_ne =        1.111500e-010        s1v_nldd_surf =        3.000000e+019 
++           s1v_js_ne =        3.366667e-006          s1v_hdif_ne =        1.400000e-007          s1v_rdsw_ne =        3.900000e-006 
++          s1v_jsw_ne =        3.366667e-010           s1v_tox_ne =        2.097000e-009            s1v_cj_ne =        7.983537e-004 
++         s1v_cjsw_ne =        4.790122e-011          s1v_ldif_ne =        1.000000e-008            s1v_xj_ne =        2.500000e-008 
++           s1v_rd_ne =        0.000000e+000            s1v_pb_ne =        9.918524e-001            s1v_cf_ne =        4.594612e-011 
++         s1v_lint_ne =        1.650000e-008         s1v_cjswg_ne =        1.995884e-011           s1v_rsh_ne =        1.000000e+001 
++           s1v_u0_pe =        1.560000e-002           s1v_nch_pe =        3.600000e+017           s1v_rsc_pe =        2.886751e-014 
++         s1v_cgbo_pe =        1.392363e-011           s1v_rdc_pe =        2.886751e-014          s1v_vth0_pe =       -1.228104e-001 
++           s1v_k2_pe =        0.000000e+000          s1v_cgdo_pe =        2.506253e-010        s1v_ckappa_pe =        1.043477e+001 
++         s1v_wint_pe =        4.500000e-009            s1v_k1_pe =        2.637520e-001          s1v_cgsl_pe =        1.044272e-010 
++           s1v_js_pe =        3.350000e-006          s1v_hdif_pe =        1.400000e-007          s1v_rdsw_pe =        7.800000e-006 
++          s1v_jsw_pe =        3.350000e-010           s1v_tox_pe =        2.232000e-009            s1v_cj_pe =        7.912252e-004 
++         s1v_cjsw_pe =        4.747351e-011          s1v_ldif_pe =        1.000000e-008            s1v_xj_pe =        2.500000e-008 
++           s1v_rd_pe =        0.000000e+000            s1v_pb_pe =        1.009805e+000            s1v_cf_pe =        4.527118e-011 
++         s1v_lint_pe =        1.650000e-008         s1v_cjswg_pe =        1.978063e-011           s1v_rsh_pe =        2.000000e+001 
++           s1v_rs_pe =        0.000000e+000          s1v_vsat_pe =        1.000000e+005 
+include "gpdk090_mos.scs" section = s1v_mos
+include "gpdk090_mos.scs" section = s1v_mac
+endsection FF_s1v_g
+
+section SS_s1v_g
+parameters 
++           s1v_rs_ne =        0.000000e+000          s1v_vsat_ne =        1.120000e+005        s1v_pldd_surf =        6.000000e+019 
++          s1v_uc1_ne =        3.700000e-010            s1v_u0_ne =        1.400000e-002           s1v_nch_ne =        5.720000e+017 
++          s1v_rsc_ne =        4.082483e-014          s1v_cgbo_ne =        1.482000e-011           s1v_prt_ne =        1.000000e+001 
++          s1v_rdc_ne =        4.082483e-014          s1v_vth0_ne =        1.866039e-001            s1v_k2_ne =        0.000000e+000 
++         s1v_cgdo_ne =        2.667600e-010        s1v_ckappa_ne =        4.605336e+000          s1v_wint_ne =        6.600000e-009 
++           s1v_k1_ne =        2.825346e-001          s1v_cgsl_ne =        1.111500e-010        s1v_nldd_surf =        3.000000e+019 
++           s1v_js_ne =        3.366667e-006          s1v_hdif_ne =        1.400000e-007          s1v_rdsw_ne =        3.900000e-006 
++          s1v_jsw_ne =        3.366667e-010           s1v_tox_ne =        2.563000e-009            s1v_cj_ne =        7.983537e-004 
++         s1v_cjsw_ne =        4.790122e-011          s1v_ldif_ne =        1.000000e-008            s1v_xj_ne =        2.500000e-008 
++           s1v_rd_ne =        0.000000e+000            s1v_pb_ne =        9.918524e-001            s1v_cf_ne =        4.594612e-011 
++         s1v_lint_ne =        1.350000e-008         s1v_cjswg_ne =        1.995884e-011           s1v_rsh_ne =        1.000000e+001 
++           s1v_u0_pe =        8.400000e-003           s1v_nch_pe =        4.400000e+017           s1v_rsc_pe =        2.886751e-014 
++         s1v_cgbo_pe =        1.392363e-011           s1v_rdc_pe =        2.886751e-014          s1v_vth0_pe =       -1.491351e-001 
++           s1v_k2_pe =        0.000000e+000          s1v_cgdo_pe =        2.506253e-010        s1v_ckappa_pe =        1.043477e+001 
++         s1v_wint_pe =        5.500000e-009            s1v_k1_pe =        2.637520e-001          s1v_cgsl_pe =        1.044272e-010 
++           s1v_js_pe =        3.350000e-006          s1v_hdif_pe =        1.400000e-007          s1v_rdsw_pe =        7.800000e-006 
++          s1v_jsw_pe =        3.350000e-010           s1v_tox_pe =        2.728000e-009            s1v_cj_pe =        7.912252e-004 
++         s1v_cjsw_pe =        4.747351e-011          s1v_ldif_pe =        1.000000e-008            s1v_xj_pe =        2.500000e-008 
++           s1v_rd_pe =        0.000000e+000            s1v_pb_pe =        1.009805e+000            s1v_cf_pe =        4.527118e-011 
++         s1v_lint_pe =        1.350000e-008         s1v_cjswg_pe =        1.978063e-011           s1v_rsh_pe =        2.000000e+001 
++           s1v_rs_pe =        0.000000e+000          s1v_vsat_pe =        1.000000e+005 
+include "gpdk090_mos.scs" section = s1v_mos
+include "gpdk090_mos.scs" section = s1v_mac
+endsection SS_s1v_g
+
+section FS_s1v_g
+parameters 
++           s1v_rs_ne =        0.000000e+000          s1v_vsat_ne =        1.120000e+005        s1v_pldd_surf =        6.000000e+019 
++          s1v_uc1_ne =        3.700000e-010            s1v_u0_ne =        2.600000e-002           s1v_nch_ne =        4.680000e+017 
++          s1v_rsc_ne =        4.082483e-014          s1v_cgbo_ne =        1.482000e-011           s1v_prt_ne =        1.000000e+001 
++          s1v_rdc_ne =        4.082483e-014          s1v_vth0_ne =        1.518852e-001            s1v_k2_ne =        0.000000e+000 
++         s1v_cgdo_ne =        2.667600e-010        s1v_ckappa_ne =        4.605336e+000          s1v_wint_ne =        5.400000e-009 
++           s1v_k1_ne =        2.825346e-001          s1v_cgsl_ne =        1.111500e-010        s1v_nldd_surf =        3.000000e+019 
++           s1v_js_ne =        3.366667e-006          s1v_hdif_ne =        1.400000e-007          s1v_rdsw_ne =        3.900000e-006 
++          s1v_jsw_ne =        3.366667e-010           s1v_tox_ne =        2.097000e-009            s1v_cj_ne =        7.983537e-004 
++         s1v_cjsw_ne =        4.790122e-011          s1v_ldif_ne =        1.000000e-008            s1v_xj_ne =        2.500000e-008 
++           s1v_rd_ne =        0.000000e+000            s1v_pb_ne =        9.918524e-001            s1v_cf_ne =        4.594612e-011 
++         s1v_lint_ne =        1.650000e-008         s1v_cjswg_ne =        1.995884e-011           s1v_rsh_ne =        1.000000e+001 
++           s1v_u0_pe =        8.400000e-003           s1v_nch_pe =        4.400000e+017           s1v_rsc_pe =        2.886751e-014 
++         s1v_cgbo_pe =        1.392363e-011           s1v_rdc_pe =        2.886751e-014          s1v_vth0_pe =       -1.491351e-001 
++           s1v_k2_pe =        0.000000e+000          s1v_cgdo_pe =        2.506253e-010        s1v_ckappa_pe =        1.043477e+001 
++         s1v_wint_pe =        5.500000e-009            s1v_k1_pe =        2.637520e-001          s1v_cgsl_pe =        1.044272e-010 
++           s1v_js_pe =        3.350000e-006          s1v_hdif_pe =        1.400000e-007          s1v_rdsw_pe =        7.800000e-006 
++          s1v_jsw_pe =        3.350000e-010           s1v_tox_pe =        2.728000e-009            s1v_cj_pe =        7.912252e-004 
++         s1v_cjsw_pe =        4.747351e-011          s1v_ldif_pe =        1.000000e-008            s1v_xj_pe =        2.500000e-008 
++           s1v_rd_pe =        0.000000e+000            s1v_pb_pe =        1.009805e+000            s1v_cf_pe =        4.527118e-011 
++         s1v_lint_pe =        1.350000e-008         s1v_cjswg_pe =        1.978063e-011           s1v_rsh_pe =        2.000000e+001 
++           s1v_rs_pe =        0.000000e+000          s1v_vsat_pe =        1.000000e+005 
+include "gpdk090_mos.scs" section = s1v_mos
+include "gpdk090_mos.scs" section = s1v_mac
+endsection FS_s1v_g
+
+section SF_s1v_g
+parameters 
++           s1v_rs_ne =        0.000000e+000          s1v_vsat_ne =        1.120000e+005        s1v_pldd_surf =        6.000000e+019 
++          s1v_uc1_ne =        3.700000e-010            s1v_u0_ne =        1.400000e-002           s1v_nch_ne =        5.720000e+017 
++          s1v_rsc_ne =        4.082483e-014          s1v_cgbo_ne =        1.482000e-011           s1v_prt_ne =        1.000000e+001 
++          s1v_rdc_ne =        4.082483e-014          s1v_vth0_ne =        1.866039e-001            s1v_k2_ne =        0.000000e+000 
++         s1v_cgdo_ne =        2.667600e-010        s1v_ckappa_ne =        4.605336e+000          s1v_wint_ne =        6.600000e-009 
++           s1v_k1_ne =        2.825346e-001          s1v_cgsl_ne =        1.111500e-010        s1v_nldd_surf =        3.000000e+019 
++           s1v_js_ne =        3.366667e-006          s1v_hdif_ne =        1.400000e-007          s1v_rdsw_ne =        3.900000e-006 
++          s1v_jsw_ne =        3.366667e-010           s1v_tox_ne =        2.563000e-009            s1v_cj_ne =        7.983537e-004 
++         s1v_cjsw_ne =        4.790122e-011          s1v_ldif_ne =        1.000000e-008            s1v_xj_ne =        2.500000e-008 
++           s1v_rd_ne =        0.000000e+000            s1v_pb_ne =        9.918524e-001            s1v_cf_ne =        4.594612e-011 
++         s1v_lint_ne =        1.350000e-008         s1v_cjswg_ne =        1.995884e-011           s1v_rsh_ne =        1.000000e+001 
++           s1v_u0_pe =        1.560000e-002           s1v_nch_pe =        3.600000e+017           s1v_rsc_pe =        2.886751e-014 
++         s1v_cgbo_pe =        1.392363e-011           s1v_rdc_pe =        2.886751e-014          s1v_vth0_pe =       -1.228104e-001 
++           s1v_k2_pe =        0.000000e+000          s1v_cgdo_pe =        2.506253e-010        s1v_ckappa_pe =        1.043477e+001 
++         s1v_wint_pe =        4.500000e-009            s1v_k1_pe =        2.637520e-001          s1v_cgsl_pe =        1.044272e-010 
++           s1v_js_pe =        3.350000e-006          s1v_hdif_pe =        1.400000e-007          s1v_rdsw_pe =        7.800000e-006 
++          s1v_jsw_pe =        3.350000e-010           s1v_tox_pe =        2.232000e-009            s1v_cj_pe =        7.912252e-004 
++         s1v_cjsw_pe =        4.747351e-011          s1v_ldif_pe =        1.000000e-008            s1v_xj_pe =        2.500000e-008 
++           s1v_rd_pe =        0.000000e+000            s1v_pb_pe =        1.009805e+000            s1v_cf_pe =        4.527118e-011 
++         s1v_lint_pe =        1.650000e-008         s1v_cjswg_pe =        1.978063e-011           s1v_rsh_pe =        2.000000e+001 
++           s1v_rs_pe =        0.000000e+000          s1v_vsat_pe =        1.000000e+005 
+include "gpdk090_mos.scs" section = s1v_mos
+include "gpdk090_mos.scs" section = s1v_mac
+endsection SF_s1v_g
+
+section TT_lp
+parameters 
++            lp_rs_ne =        0.000000e+000           lp_vsat_ne =        1.120000e+005         lp_pldd_surf =        6.000000e+019 
++           lp_uc1_ne =       -6.420000e-011             lp_u0_ne =        2.000000e-002            lp_nch_ne =        8.500000e+017 
++           lp_rsc_ne =        4.082483e-014           lp_cgbo_ne =        1.482000e-011            lp_prt_ne =        0.000000e+000 
++           lp_rdc_ne =        4.082483e-014           lp_vth0_ne =        2.742286e-001             lp_k2_ne =        0.000000e+000 
++          lp_cgdo_ne =        2.667600e-010         lp_ckappa_ne =        4.605336e+000           lp_wint_ne =        6.000000e-009 
++            lp_k1_ne =        3.612264e-001           lp_cgsl_ne =        1.111500e-010         lp_nldd_surf =        3.000000e+019 
++            lp_js_ne =        3.366667e-006           lp_hdif_ne =        1.400000e-007           lp_rdsw_ne =        3.900000e-006 
++           lp_jsw_ne =        3.366667e-010            lp_tox_ne =        2.330000e-009             lp_cj_ne =        7.983537e-004 
++          lp_cjsw_ne =        4.790122e-011           lp_ldif_ne =        1.000000e-008             lp_xj_ne =        2.500000e-008 
++            lp_rd_ne =        0.000000e+000             lp_pb_ne =        9.918524e-001             lp_cf_ne =        4.594612e-011 
++          lp_lint_ne =        1.500000e-008          lp_cjswg_ne =        1.995884e-011            lp_rsh_ne =        1.000000e+001 
++            lp_u0_pe =        1.200000e-002            lp_nch_pe =        6.700000e+017            lp_rsc_pe =        2.886751e-014 
++          lp_cgbo_pe =        1.392363e-011            lp_rdc_pe =        2.886751e-014           lp_vth0_pe =       -2.405796e-001 
++            lp_k2_pe =        0.000000e+000           lp_cgdo_pe =        2.506253e-010         lp_ckappa_pe =        1.043477e+001 
++          lp_wint_pe =        5.000000e-009             lp_k1_pe =        3.413526e-001           lp_cgsl_pe =        1.044272e-010 
++            lp_js_pe =        3.350000e-006           lp_hdif_pe =        1.400000e-007           lp_rdsw_pe =        7.800000e-006 
++           lp_jsw_pe =        3.350000e-010            lp_tox_pe =        2.480000e-009             lp_cj_pe =        7.912252e-004 
++          lp_cjsw_pe =        4.747351e-011           lp_ldif_pe =        1.000000e-008             lp_xj_pe =        2.500000e-008 
++            lp_rd_pe =        0.000000e+000             lp_pb_pe =        1.009805e+000             lp_cf_pe =        4.527118e-011 
++          lp_lint_pe =        1.500000e-008          lp_cjswg_pe =        1.978063e-011            lp_rsh_pe =        2.000000e+001 
++            lp_rs_pe =        0.000000e+000           lp_vsat_pe =        1.000000e+005 
+include "gpdk090_mos.scs" section = lp_mos
+endsection TT_lp
+
+section FF_lp
+parameters 
++            lp_rs_ne =        0.000000e+000           lp_vsat_ne =        1.120000e+005         lp_pldd_surf =        6.000000e+019 
++           lp_uc1_ne =       -6.420000e-011             lp_u0_ne =        2.600000e-002            lp_nch_ne =        7.650000e+017 
++           lp_rsc_ne =        4.082483e-014           lp_cgbo_ne =        1.482000e-011            lp_prt_ne =        0.000000e+000 
++           lp_rdc_ne =        4.082483e-014           lp_vth0_ne =        2.463513e-001             lp_k2_ne =        0.000000e+000 
++          lp_cgdo_ne =        2.667600e-010         lp_ckappa_ne =        4.605336e+000           lp_wint_ne =        5.400000e-009 
++            lp_k1_ne =        3.612264e-001           lp_cgsl_ne =        1.111500e-010         lp_nldd_surf =        3.000000e+019 
++            lp_js_ne =        3.366667e-006           lp_hdif_ne =        1.400000e-007           lp_rdsw_ne =        3.900000e-006 
++           lp_jsw_ne =        3.366667e-010            lp_tox_ne =        2.097000e-009             lp_cj_ne =        7.983537e-004 
++          lp_cjsw_ne =        4.790122e-011           lp_ldif_ne =        1.000000e-008             lp_xj_ne =        2.500000e-008 
++            lp_rd_ne =        0.000000e+000             lp_pb_ne =        9.918524e-001             lp_cf_ne =        4.594612e-011 
++          lp_lint_ne =        1.650000e-008          lp_cjswg_ne =        1.995884e-011            lp_rsh_ne =        1.000000e+001 
++            lp_u0_pe =        1.560000e-002            lp_nch_pe =        6.030000e+017            lp_rsc_pe =        2.886751e-014 
++          lp_cgbo_pe =        1.392363e-011            lp_rdc_pe =        2.886751e-014           lp_vth0_pe =       -2.169761e-001 
++            lp_k2_pe =        0.000000e+000           lp_cgdo_pe =        2.506253e-010         lp_ckappa_pe =        1.043477e+001 
++          lp_wint_pe =        4.500000e-009             lp_k1_pe =        3.413526e-001           lp_cgsl_pe =        1.044272e-010 
++            lp_js_pe =        3.350000e-006           lp_hdif_pe =        1.400000e-007           lp_rdsw_pe =        7.800000e-006 
++           lp_jsw_pe =        3.350000e-010            lp_tox_pe =        2.232000e-009             lp_cj_pe =        7.912252e-004 
++          lp_cjsw_pe =        4.747351e-011           lp_ldif_pe =        1.000000e-008             lp_xj_pe =        2.500000e-008 
++            lp_rd_pe =        0.000000e+000             lp_pb_pe =        1.009805e+000             lp_cf_pe =        4.527118e-011 
++          lp_lint_pe =        1.650000e-008          lp_cjswg_pe =        1.978063e-011            lp_rsh_pe =        2.000000e+001 
++            lp_rs_pe =        0.000000e+000           lp_vsat_pe =        1.000000e+005 
+include "gpdk090_mos.scs" section = lp_mos
+endsection FF_lp
+
+section SS_lp
+parameters 
++            lp_rs_ne =        0.000000e+000           lp_vsat_ne =        1.120000e+005         lp_pldd_surf =        6.000000e+019 
++           lp_uc1_ne =       -6.420000e-011             lp_u0_ne =        1.400000e-002            lp_nch_ne =        9.350000e+017 
++           lp_rsc_ne =        4.082483e-014           lp_cgbo_ne =        1.482000e-011            lp_prt_ne =        0.000000e+000 
++           lp_rdc_ne =        4.082483e-014           lp_vth0_ne =        3.020626e-001             lp_k2_ne =        0.000000e+000 
++          lp_cgdo_ne =        2.667600e-010         lp_ckappa_ne =        4.605336e+000           lp_wint_ne =        6.600000e-009 
++            lp_k1_ne =        3.612264e-001           lp_cgsl_ne =        1.111500e-010         lp_nldd_surf =        3.000000e+019 
++            lp_js_ne =        3.366667e-006           lp_hdif_ne =        1.400000e-007           lp_rdsw_ne =        3.900000e-006 
++           lp_jsw_ne =        3.366667e-010            lp_tox_ne =        2.563000e-009             lp_cj_ne =        7.983537e-004 
++          lp_cjsw_ne =        4.790122e-011           lp_ldif_ne =        1.000000e-008             lp_xj_ne =        2.500000e-008 
++            lp_rd_ne =        0.000000e+000             lp_pb_ne =        9.918524e-001             lp_cf_ne =        4.594612e-011 
++          lp_lint_ne =        1.350000e-008          lp_cjswg_ne =        1.995884e-011            lp_rsh_ne =        1.000000e+001 
++            lp_u0_pe =        8.400000e-003            lp_nch_pe =        7.370000e+017            lp_rsc_pe =        2.886751e-014 
++          lp_cgbo_pe =        1.392363e-011            lp_rdc_pe =        2.886751e-014           lp_vth0_pe =       -2.642265e-001 
++            lp_k2_pe =        0.000000e+000           lp_cgdo_pe =        2.506253e-010         lp_ckappa_pe =        1.043477e+001 
++          lp_wint_pe =        5.500000e-009             lp_k1_pe =        3.413526e-001           lp_cgsl_pe =        1.044272e-010 
++            lp_js_pe =        3.350000e-006           lp_hdif_pe =        1.400000e-007           lp_rdsw_pe =        7.800000e-006 
++           lp_jsw_pe =        3.350000e-010            lp_tox_pe =        2.728000e-009             lp_cj_pe =        7.912252e-004 
++          lp_cjsw_pe =        4.747351e-011           lp_ldif_pe =        1.000000e-008             lp_xj_pe =        2.500000e-008 
++            lp_rd_pe =        0.000000e+000             lp_pb_pe =        1.009805e+000             lp_cf_pe =        4.527118e-011 
++          lp_lint_pe =        1.350000e-008          lp_cjswg_pe =        1.978063e-011            lp_rsh_pe =        2.000000e+001 
++            lp_rs_pe =        0.000000e+000           lp_vsat_pe =        1.000000e+005 
+include "gpdk090_mos.scs" section = lp_mos
+endsection SS_lp
+
+section FS_lp
+parameters 
++            lp_rs_ne =        0.000000e+000           lp_vsat_ne =        1.120000e+005         lp_pldd_surf =        6.000000e+019 
++           lp_uc1_ne =       -6.420000e-011             lp_u0_ne =        2.600000e-002            lp_nch_ne =        7.650000e+017 
++           lp_rsc_ne =        4.082483e-014           lp_cgbo_ne =        1.482000e-011            lp_prt_ne =        0.000000e+000 
++           lp_rdc_ne =        4.082483e-014           lp_vth0_ne =        2.463513e-001             lp_k2_ne =        0.000000e+000 
++          lp_cgdo_ne =        2.667600e-010         lp_ckappa_ne =        4.605336e+000           lp_wint_ne =        5.400000e-009 
++            lp_k1_ne =        3.612264e-001           lp_cgsl_ne =        1.111500e-010         lp_nldd_surf =        3.000000e+019 
++            lp_js_ne =        3.366667e-006           lp_hdif_ne =        1.400000e-007           lp_rdsw_ne =        3.900000e-006 
++           lp_jsw_ne =        3.366667e-010            lp_tox_ne =        2.097000e-009             lp_cj_ne =        7.983537e-004 
++          lp_cjsw_ne =        4.790122e-011           lp_ldif_ne =        1.000000e-008             lp_xj_ne =        2.500000e-008 
++            lp_rd_ne =        0.000000e+000             lp_pb_ne =        9.918524e-001             lp_cf_ne =        4.594612e-011 
++          lp_lint_ne =        1.650000e-008          lp_cjswg_ne =        1.995884e-011            lp_rsh_ne =        1.000000e+001 
++            lp_u0_pe =        8.400000e-003            lp_nch_pe =        7.370000e+017            lp_rsc_pe =        2.886751e-014 
++          lp_cgbo_pe =        1.392363e-011            lp_rdc_pe =        2.886751e-014           lp_vth0_pe =       -2.642265e-001 
++            lp_k2_pe =        0.000000e+000           lp_cgdo_pe =        2.506253e-010         lp_ckappa_pe =        1.043477e+001 
++          lp_wint_pe =        5.500000e-009             lp_k1_pe =        3.413526e-001           lp_cgsl_pe =        1.044272e-010 
++            lp_js_pe =        3.350000e-006           lp_hdif_pe =        1.400000e-007           lp_rdsw_pe =        7.800000e-006 
++           lp_jsw_pe =        3.350000e-010            lp_tox_pe =        2.728000e-009             lp_cj_pe =        7.912252e-004 
++          lp_cjsw_pe =        4.747351e-011           lp_ldif_pe =        1.000000e-008             lp_xj_pe =        2.500000e-008 
++            lp_rd_pe =        0.000000e+000             lp_pb_pe =        1.009805e+000             lp_cf_pe =        4.527118e-011 
++          lp_lint_pe =        1.350000e-008          lp_cjswg_pe =        1.978063e-011            lp_rsh_pe =        2.000000e+001 
++            lp_rs_pe =        0.000000e+000           lp_vsat_pe =        1.000000e+005 
+include "gpdk090_mos.scs" section = lp_mos
+endsection FS_lp
+
+section SF_lp
+parameters 
++            lp_rs_ne =        0.000000e+000           lp_vsat_ne =        1.120000e+005         lp_pldd_surf =        6.000000e+019 
++           lp_uc1_ne =       -6.420000e-011             lp_u0_ne =        1.400000e-002            lp_nch_ne =        9.350000e+017 
++           lp_rsc_ne =        4.082483e-014           lp_cgbo_ne =        1.482000e-011            lp_prt_ne =        0.000000e+000 
++           lp_rdc_ne =        4.082483e-014           lp_vth0_ne =        3.020626e-001             lp_k2_ne =        0.000000e+000 
++          lp_cgdo_ne =        2.667600e-010         lp_ckappa_ne =        4.605336e+000           lp_wint_ne =        6.600000e-009 
++            lp_k1_ne =        3.612264e-001           lp_cgsl_ne =        1.111500e-010         lp_nldd_surf =        3.000000e+019 
++            lp_js_ne =        3.366667e-006           lp_hdif_ne =        1.400000e-007           lp_rdsw_ne =        3.900000e-006 
++           lp_jsw_ne =        3.366667e-010            lp_tox_ne =        2.563000e-009             lp_cj_ne =        7.983537e-004 
++          lp_cjsw_ne =        4.790122e-011           lp_ldif_ne =        1.000000e-008             lp_xj_ne =        2.500000e-008 
++            lp_rd_ne =        0.000000e+000             lp_pb_ne =        9.918524e-001             lp_cf_ne =        4.594612e-011 
++          lp_lint_ne =        1.350000e-008          lp_cjswg_ne =        1.995884e-011            lp_rsh_ne =        1.000000e+001 
++            lp_u0_pe =        1.560000e-002            lp_nch_pe =        6.030000e+017            lp_rsc_pe =        2.886751e-014 
++          lp_cgbo_pe =        1.392363e-011            lp_rdc_pe =        2.886751e-014           lp_vth0_pe =       -2.169761e-001 
++            lp_k2_pe =        0.000000e+000           lp_cgdo_pe =        2.506253e-010         lp_ckappa_pe =        1.043477e+001 
++          lp_wint_pe =        4.500000e-009             lp_k1_pe =        3.413526e-001           lp_cgsl_pe =        1.044272e-010 
++            lp_js_pe =        3.350000e-006           lp_hdif_pe =        1.400000e-007           lp_rdsw_pe =        7.800000e-006 
++           lp_jsw_pe =        3.350000e-010            lp_tox_pe =        2.232000e-009             lp_cj_pe =        7.912252e-004 
++          lp_cjsw_pe =        4.747351e-011           lp_ldif_pe =        1.000000e-008             lp_xj_pe =        2.500000e-008 
++            lp_rd_pe =        0.000000e+000             lp_pb_pe =        1.009805e+000             lp_cf_pe =        4.527118e-011 
++          lp_lint_pe =        1.650000e-008          lp_cjswg_pe =        1.978063e-011            lp_rsh_pe =        2.000000e+001 
++            lp_rs_pe =        0.000000e+000           lp_vsat_pe =        1.000000e+005 
+include "gpdk090_mos.scs" section = lp_mos
+endsection SF_lp
+
+section TT_lp_g
+parameters 
++            lp_rs_ne =        0.000000e+000           lp_vsat_ne =        1.120000e+005         lp_pldd_surf =        6.000000e+019 
++           lp_uc1_ne =       -6.420000e-011             lp_u0_ne =        2.000000e-002            lp_nch_ne =        8.500000e+017 
++           lp_rsc_ne =        4.082483e-014           lp_cgbo_ne =        1.482000e-011            lp_prt_ne =        0.000000e+000 
++           lp_rdc_ne =        4.082483e-014           lp_vth0_ne =        2.742286e-001             lp_k2_ne =        0.000000e+000 
++          lp_cgdo_ne =        2.667600e-010         lp_ckappa_ne =        4.605336e+000           lp_wint_ne =        6.000000e-009 
++            lp_k1_ne =        3.612264e-001           lp_cgsl_ne =        1.111500e-010         lp_nldd_surf =        3.000000e+019 
++            lp_js_ne =        3.366667e-006           lp_hdif_ne =        1.400000e-007           lp_rdsw_ne =        3.900000e-006 
++           lp_jsw_ne =        3.366667e-010            lp_tox_ne =        2.330000e-009             lp_cj_ne =        7.983537e-004 
++          lp_cjsw_ne =        4.790122e-011           lp_ldif_ne =        1.000000e-008             lp_xj_ne =        2.500000e-008 
++            lp_rd_ne =        0.000000e+000             lp_pb_ne =        9.918524e-001             lp_cf_ne =        4.594612e-011 
++          lp_lint_ne =        1.500000e-008          lp_cjswg_ne =        1.995884e-011            lp_rsh_ne =        1.000000e+001 
++            lp_u0_pe =        1.200000e-002            lp_nch_pe =        6.700000e+017            lp_rsc_pe =        2.886751e-014 
++          lp_cgbo_pe =        1.392363e-011            lp_rdc_pe =        2.886751e-014           lp_vth0_pe =       -2.405796e-001 
++            lp_k2_pe =        0.000000e+000           lp_cgdo_pe =        2.506253e-010         lp_ckappa_pe =        1.043477e+001 
++          lp_wint_pe =        5.000000e-009             lp_k1_pe =        3.413526e-001           lp_cgsl_pe =        1.044272e-010 
++            lp_js_pe =        3.350000e-006           lp_hdif_pe =        1.400000e-007           lp_rdsw_pe =        7.800000e-006 
++           lp_jsw_pe =        3.350000e-010            lp_tox_pe =        2.480000e-009             lp_cj_pe =        7.912252e-004 
++          lp_cjsw_pe =        4.747351e-011           lp_ldif_pe =        1.000000e-008             lp_xj_pe =        2.500000e-008 
++            lp_rd_pe =        0.000000e+000             lp_pb_pe =        1.009805e+000             lp_cf_pe =        4.527118e-011 
++          lp_lint_pe =        1.500000e-008          lp_cjswg_pe =        1.978063e-011            lp_rsh_pe =        2.000000e+001 
++            lp_rs_pe =        0.000000e+000           lp_vsat_pe =        1.000000e+005 
+include "gpdk090_mos.scs" section = lp_mos
+include "gpdk090_mos.scs" section = lp_mac
+endsection TT_lp_g
+
+section FF_lp_g
+parameters 
++            lp_rs_ne =        0.000000e+000           lp_vsat_ne =        1.120000e+005         lp_pldd_surf =        6.000000e+019 
++           lp_uc1_ne =       -6.420000e-011             lp_u0_ne =        2.600000e-002            lp_nch_ne =        7.650000e+017 
++           lp_rsc_ne =        4.082483e-014           lp_cgbo_ne =        1.482000e-011            lp_prt_ne =        0.000000e+000 
++           lp_rdc_ne =        4.082483e-014           lp_vth0_ne =        2.463513e-001             lp_k2_ne =        0.000000e+000 
++          lp_cgdo_ne =        2.667600e-010         lp_ckappa_ne =        4.605336e+000           lp_wint_ne =        5.400000e-009 
++            lp_k1_ne =        3.612264e-001           lp_cgsl_ne =        1.111500e-010         lp_nldd_surf =        3.000000e+019 
++            lp_js_ne =        3.366667e-006           lp_hdif_ne =        1.400000e-007           lp_rdsw_ne =        3.900000e-006 
++           lp_jsw_ne =        3.366667e-010            lp_tox_ne =        2.097000e-009             lp_cj_ne =        7.983537e-004 
++          lp_cjsw_ne =        4.790122e-011           lp_ldif_ne =        1.000000e-008             lp_xj_ne =        2.500000e-008 
++            lp_rd_ne =        0.000000e+000             lp_pb_ne =        9.918524e-001             lp_cf_ne =        4.594612e-011 
++          lp_lint_ne =        1.650000e-008          lp_cjswg_ne =        1.995884e-011            lp_rsh_ne =        1.000000e+001 
++            lp_u0_pe =        1.560000e-002            lp_nch_pe =        6.030000e+017            lp_rsc_pe =        2.886751e-014 
++          lp_cgbo_pe =        1.392363e-011            lp_rdc_pe =        2.886751e-014           lp_vth0_pe =       -2.169761e-001 
++            lp_k2_pe =        0.000000e+000           lp_cgdo_pe =        2.506253e-010         lp_ckappa_pe =        1.043477e+001 
++          lp_wint_pe =        4.500000e-009             lp_k1_pe =        3.413526e-001           lp_cgsl_pe =        1.044272e-010 
++            lp_js_pe =        3.350000e-006           lp_hdif_pe =        1.400000e-007           lp_rdsw_pe =        7.800000e-006 
++           lp_jsw_pe =        3.350000e-010            lp_tox_pe =        2.232000e-009             lp_cj_pe =        7.912252e-004 
++          lp_cjsw_pe =        4.747351e-011           lp_ldif_pe =        1.000000e-008             lp_xj_pe =        2.500000e-008 
++            lp_rd_pe =        0.000000e+000             lp_pb_pe =        1.009805e+000             lp_cf_pe =        4.527118e-011 
++          lp_lint_pe =        1.650000e-008          lp_cjswg_pe =        1.978063e-011            lp_rsh_pe =        2.000000e+001 
++            lp_rs_pe =        0.000000e+000           lp_vsat_pe =        1.000000e+005 
+include "gpdk090_mos.scs" section = lp_mos
+include "gpdk090_mos.scs" section = lp_mac
+endsection FF_lp_g
+
+section SS_lp_g
+parameters 
++            lp_rs_ne =        0.000000e+000           lp_vsat_ne =        1.120000e+005         lp_pldd_surf =        6.000000e+019 
++           lp_uc1_ne =       -6.420000e-011             lp_u0_ne =        1.400000e-002            lp_nch_ne =        9.350000e+017 
++           lp_rsc_ne =        4.082483e-014           lp_cgbo_ne =        1.482000e-011            lp_prt_ne =        0.000000e+000 
++           lp_rdc_ne =        4.082483e-014           lp_vth0_ne =        3.020626e-001             lp_k2_ne =        0.000000e+000 
++          lp_cgdo_ne =        2.667600e-010         lp_ckappa_ne =        4.605336e+000           lp_wint_ne =        6.600000e-009 
++            lp_k1_ne =        3.612264e-001           lp_cgsl_ne =        1.111500e-010         lp_nldd_surf =        3.000000e+019 
++            lp_js_ne =        3.366667e-006           lp_hdif_ne =        1.400000e-007           lp_rdsw_ne =        3.900000e-006 
++           lp_jsw_ne =        3.366667e-010            lp_tox_ne =        2.563000e-009             lp_cj_ne =        7.983537e-004 
++          lp_cjsw_ne =        4.790122e-011           lp_ldif_ne =        1.000000e-008             lp_xj_ne =        2.500000e-008 
++            lp_rd_ne =        0.000000e+000             lp_pb_ne =        9.918524e-001             lp_cf_ne =        4.594612e-011 
++          lp_lint_ne =        1.350000e-008          lp_cjswg_ne =        1.995884e-011            lp_rsh_ne =        1.000000e+001 
++            lp_u0_pe =        8.400000e-003            lp_nch_pe =        7.370000e+017            lp_rsc_pe =        2.886751e-014 
++          lp_cgbo_pe =        1.392363e-011            lp_rdc_pe =        2.886751e-014           lp_vth0_pe =       -2.642265e-001 
++            lp_k2_pe =        0.000000e+000           lp_cgdo_pe =        2.506253e-010         lp_ckappa_pe =        1.043477e+001 
++          lp_wint_pe =        5.500000e-009             lp_k1_pe =        3.413526e-001           lp_cgsl_pe =        1.044272e-010 
++            lp_js_pe =        3.350000e-006           lp_hdif_pe =        1.400000e-007           lp_rdsw_pe =        7.800000e-006 
++           lp_jsw_pe =        3.350000e-010            lp_tox_pe =        2.728000e-009             lp_cj_pe =        7.912252e-004 
++          lp_cjsw_pe =        4.747351e-011           lp_ldif_pe =        1.000000e-008             lp_xj_pe =        2.500000e-008 
++            lp_rd_pe =        0.000000e+000             lp_pb_pe =        1.009805e+000             lp_cf_pe =        4.527118e-011 
++          lp_lint_pe =        1.350000e-008          lp_cjswg_pe =        1.978063e-011            lp_rsh_pe =        2.000000e+001 
++            lp_rs_pe =        0.000000e+000           lp_vsat_pe =        1.000000e+005 
+include "gpdk090_mos.scs" section = lp_mos
+include "gpdk090_mos.scs" section = lp_mac
+endsection SS_lp_g
+
+section FS_lp_g
+parameters 
++            lp_rs_ne =        0.000000e+000           lp_vsat_ne =        1.120000e+005         lp_pldd_surf =        6.000000e+019 
++           lp_uc1_ne =       -6.420000e-011             lp_u0_ne =        2.600000e-002            lp_nch_ne =        7.650000e+017 
++           lp_rsc_ne =        4.082483e-014           lp_cgbo_ne =        1.482000e-011            lp_prt_ne =        0.000000e+000 
++           lp_rdc_ne =        4.082483e-014           lp_vth0_ne =        2.463513e-001             lp_k2_ne =        0.000000e+000 
++          lp_cgdo_ne =        2.667600e-010         lp_ckappa_ne =        4.605336e+000           lp_wint_ne =        5.400000e-009 
++            lp_k1_ne =        3.612264e-001           lp_cgsl_ne =        1.111500e-010         lp_nldd_surf =        3.000000e+019 
++            lp_js_ne =        3.366667e-006           lp_hdif_ne =        1.400000e-007           lp_rdsw_ne =        3.900000e-006 
++           lp_jsw_ne =        3.366667e-010            lp_tox_ne =        2.097000e-009             lp_cj_ne =        7.983537e-004 
++          lp_cjsw_ne =        4.790122e-011           lp_ldif_ne =        1.000000e-008             lp_xj_ne =        2.500000e-008 
++            lp_rd_ne =        0.000000e+000             lp_pb_ne =        9.918524e-001             lp_cf_ne =        4.594612e-011 
++          lp_lint_ne =        1.650000e-008          lp_cjswg_ne =        1.995884e-011            lp_rsh_ne =        1.000000e+001 
++            lp_u0_pe =        8.400000e-003            lp_nch_pe =        7.370000e+017            lp_rsc_pe =        2.886751e-014 
++          lp_cgbo_pe =        1.392363e-011            lp_rdc_pe =        2.886751e-014           lp_vth0_pe =       -2.642265e-001 
++            lp_k2_pe =        0.000000e+000           lp_cgdo_pe =        2.506253e-010         lp_ckappa_pe =        1.043477e+001 
++          lp_wint_pe =        5.500000e-009             lp_k1_pe =        3.413526e-001           lp_cgsl_pe =        1.044272e-010 
++            lp_js_pe =        3.350000e-006           lp_hdif_pe =        1.400000e-007           lp_rdsw_pe =        7.800000e-006 
++           lp_jsw_pe =        3.350000e-010            lp_tox_pe =        2.728000e-009             lp_cj_pe =        7.912252e-004 
++          lp_cjsw_pe =        4.747351e-011           lp_ldif_pe =        1.000000e-008             lp_xj_pe =        2.500000e-008 
++            lp_rd_pe =        0.000000e+000             lp_pb_pe =        1.009805e+000             lp_cf_pe =        4.527118e-011 
++          lp_lint_pe =        1.350000e-008          lp_cjswg_pe =        1.978063e-011            lp_rsh_pe =        2.000000e+001 
++            lp_rs_pe =        0.000000e+000           lp_vsat_pe =        1.000000e+005 
+include "gpdk090_mos.scs" section = lp_mos
+include "gpdk090_mos.scs" section = lp_mac
+endsection FS_lp_g
+
+section SF_lp_g
+parameters 
++            lp_rs_ne =        0.000000e+000           lp_vsat_ne =        1.120000e+005         lp_pldd_surf =        6.000000e+019 
++           lp_uc1_ne =       -6.420000e-011             lp_u0_ne =        1.400000e-002            lp_nch_ne =        9.350000e+017 
++           lp_rsc_ne =        4.082483e-014           lp_cgbo_ne =        1.482000e-011            lp_prt_ne =        0.000000e+000 
++           lp_rdc_ne =        4.082483e-014           lp_vth0_ne =        3.020626e-001             lp_k2_ne =        0.000000e+000 
++          lp_cgdo_ne =        2.667600e-010         lp_ckappa_ne =        4.605336e+000           lp_wint_ne =        6.600000e-009 
++            lp_k1_ne =        3.612264e-001           lp_cgsl_ne =        1.111500e-010         lp_nldd_surf =        3.000000e+019 
++            lp_js_ne =        3.366667e-006           lp_hdif_ne =        1.400000e-007           lp_rdsw_ne =        3.900000e-006 
++           lp_jsw_ne =        3.366667e-010            lp_tox_ne =        2.563000e-009             lp_cj_ne =        7.983537e-004 
++          lp_cjsw_ne =        4.790122e-011           lp_ldif_ne =        1.000000e-008             lp_xj_ne =        2.500000e-008 
++            lp_rd_ne =        0.000000e+000             lp_pb_ne =        9.918524e-001             lp_cf_ne =        4.594612e-011 
++          lp_lint_ne =        1.350000e-008          lp_cjswg_ne =        1.995884e-011            lp_rsh_ne =        1.000000e+001 
++            lp_u0_pe =        1.560000e-002            lp_nch_pe =        6.030000e+017            lp_rsc_pe =        2.886751e-014 
++          lp_cgbo_pe =        1.392363e-011            lp_rdc_pe =        2.886751e-014           lp_vth0_pe =       -2.169761e-001 
++            lp_k2_pe =        0.000000e+000           lp_cgdo_pe =        2.506253e-010         lp_ckappa_pe =        1.043477e+001 
++          lp_wint_pe =        4.500000e-009             lp_k1_pe =        3.413526e-001           lp_cgsl_pe =        1.044272e-010 
++            lp_js_pe =        3.350000e-006           lp_hdif_pe =        1.400000e-007           lp_rdsw_pe =        7.800000e-006 
++           lp_jsw_pe =        3.350000e-010            lp_tox_pe =        2.232000e-009             lp_cj_pe =        7.912252e-004 
++          lp_cjsw_pe =        4.747351e-011           lp_ldif_pe =        1.000000e-008             lp_xj_pe =        2.500000e-008 
++            lp_rd_pe =        0.000000e+000             lp_pb_pe =        1.009805e+000             lp_cf_pe =        4.527118e-011 
++          lp_lint_pe =        1.650000e-008          lp_cjswg_pe =        1.978063e-011            lp_rsh_pe =        2.000000e+001 
++            lp_rs_pe =        0.000000e+000           lp_vsat_pe =        1.000000e+005 
+include "gpdk090_mos.scs" section = lp_mos
+include "gpdk090_mos.scs" section = lp_mac
+endsection SF_lp_g
+
+section TT_hv
+parameters 
++            hv_rs_ne =        0.000000e+000           hv_vsat_ne =        1.120000e+005         hv_pldd_surf =        6.000000e+019 
++           hv_uc1_ne =       -6.420000e-011             hv_u0_ne =        2.000000e-002            hv_nch_ne =        4.000000e+017 
++           hv_rsc_ne =        4.082483e-014           hv_cgbo_ne =        6.166179e-012            hv_prt_ne =        0.000000e+000 
++           hv_rdc_ne =        4.082483e-014           hv_vth0_ne =        4.485433e-001             hv_k2_ne =        0.000000e+000 
++          hv_cgdo_ne =        1.109912e-010         hv_ckappa_ne =        2.660269e+001           hv_wint_ne =        6.000000e-009 
++            hv_k1_ne =        5.955691e-001           hv_cgsl_ne =        4.624634e-011         hv_nldd_surf =        3.000000e+019 
++            hv_js_ne =        3.366667e-006           hv_hdif_ne =        1.400000e-007           hv_rdsw_ne =        3.900000e-006 
++           hv_jsw_ne =        3.366667e-010            hv_tox_ne =        5.600000e-009             hv_cj_ne =        7.983537e-004 
++          hv_cjsw_ne =        4.790122e-011           hv_ldif_ne =        1.000000e-008             hv_xj_ne =        2.500000e-008 
++            hv_rd_ne =        0.000000e+000             hv_pb_ne =        9.918524e-001             hv_cf_ne =        3.654122e-011 
++          hv_lint_ne =        1.500000e-008          hv_cjswg_ne =        1.995884e-011            hv_rsh_ne =        1.000000e+001 
++            hv_u0_pe =        1.200000e-002            hv_nch_pe =        3.300000e+017            hv_rsc_pe =        2.886751e-014 
++          hv_cgbo_pe =        5.953552e-012            hv_rdc_pe =        2.886751e-014           hv_vth0_pe =       -4.023550e-001 
++            hv_k2_pe =        0.000000e+000           hv_cgdo_pe =        1.071639e-010         hv_ckappa_pe =        5.707362e+001 
++          hv_wint_pe =        5.000000e-009             hv_k1_pe =        5.602722e-001           hv_cgsl_pe =        4.465164e-011 
++            hv_js_pe =        3.350000e-006           hv_hdif_pe =        1.400000e-007           hv_rdsw_pe =        7.800000e-006 
++           hv_jsw_pe =        3.350000e-010            hv_tox_pe =        5.800000e-009             hv_cj_pe =        7.912252e-004 
++          hv_cjsw_pe =        4.747351e-011           hv_ldif_pe =        1.000000e-008             hv_xj_pe =        2.500000e-008 
++            hv_rd_pe =        0.000000e+000             hv_pb_pe =        1.009805e+000             hv_cf_pe =        3.616963e-011 
++          hv_lint_pe =        1.500000e-008          hv_cjswg_pe =        1.978063e-011            hv_rsh_pe =        2.000000e+001 
++            hv_rs_pe =        0.000000e+000           hv_vsat_pe =        1.000000e+005 
+include "gpdk090_mos_age.scs" section = hv_mos
+endsection TT_hv
+
+section FF_hv
+parameters 
++            hv_rs_ne =        0.000000e+000           hv_vsat_ne =        1.120000e+005         hv_pldd_surf =        6.000000e+019 
++           hv_uc1_ne =       -6.420000e-011             hv_u0_ne =        2.600000e-002            hv_nch_ne =        3.600000e+017 
++           hv_rsc_ne =        4.082483e-014           hv_cgbo_ne =        6.166179e-012            hv_prt_ne =        0.000000e+000 
++           hv_rdc_ne =        4.082483e-014           hv_vth0_ne =        4.032345e-001             hv_k2_ne =        0.000000e+000 
++          hv_cgdo_ne =        1.109912e-010         hv_ckappa_ne =        2.660269e+001           hv_wint_ne =        5.400000e-009 
++            hv_k1_ne =        5.955691e-001           hv_cgsl_ne =        4.624634e-011         hv_nldd_surf =        3.000000e+019 
++            hv_js_ne =        3.366667e-006           hv_hdif_ne =        1.400000e-007           hv_rdsw_ne =        3.900000e-006 
++           hv_jsw_ne =        3.366667e-010            hv_tox_ne =        5.040000e-009             hv_cj_ne =        7.983537e-004 
++          hv_cjsw_ne =        4.790122e-011           hv_ldif_ne =        1.000000e-008             hv_xj_ne =        2.500000e-008 
++            hv_rd_ne =        0.000000e+000             hv_pb_ne =        9.918524e-001             hv_cf_ne =        3.654122e-011 
++          hv_lint_ne =        1.650000e-008          hv_cjswg_ne =        1.995884e-011            hv_rsh_ne =        1.000000e+001 
++            hv_u0_pe =        1.560000e-002            hv_nch_pe =        2.970000e+017            hv_rsc_pe =        2.886751e-014 
++          hv_cgbo_pe =        5.953552e-012            hv_rdc_pe =        2.886751e-014           hv_vth0_pe =       -3.625740e-001 
++            hv_k2_pe =        0.000000e+000           hv_cgdo_pe =        1.071639e-010         hv_ckappa_pe =        5.707362e+001 
++          hv_wint_pe =        4.500000e-009             hv_k1_pe =        5.602722e-001           hv_cgsl_pe =        4.465164e-011 
++            hv_js_pe =        3.350000e-006           hv_hdif_pe =        1.400000e-007           hv_rdsw_pe =        7.800000e-006 
++           hv_jsw_pe =        3.350000e-010            hv_tox_pe =        5.220000e-009             hv_cj_pe =        7.912252e-004 
++          hv_cjsw_pe =        4.747351e-011           hv_ldif_pe =        1.000000e-008             hv_xj_pe =        2.500000e-008 
++            hv_rd_pe =        0.000000e+000             hv_pb_pe =        1.009805e+000             hv_cf_pe =        3.616963e-011 
++          hv_lint_pe =        1.650000e-008          hv_cjswg_pe =        1.978063e-011            hv_rsh_pe =        2.000000e+001 
++            hv_rs_pe =        0.000000e+000           hv_vsat_pe =        1.000000e+005 
+include "gpdk090_mos.scs" section = hv_mos
+endsection FF_hv
+
+section SS_hv
+parameters 
++            hv_rs_ne =        0.000000e+000           hv_vsat_ne =        1.120000e+005         hv_pldd_surf =        6.000000e+019 
++           hv_uc1_ne =       -6.420000e-011             hv_u0_ne =        1.400000e-002            hv_nch_ne =        4.400000e+017 
++           hv_rsc_ne =        4.082483e-014           hv_cgbo_ne =        6.166179e-012            hv_prt_ne =        0.000000e+000 
++           hv_rdc_ne =        4.082483e-014           hv_vth0_ne =        4.938087e-001             hv_k2_ne =        0.000000e+000 
++          hv_cgdo_ne =        1.109912e-010         hv_ckappa_ne =        2.660269e+001           hv_wint_ne =        6.600000e-009 
++            hv_k1_ne =        5.955691e-001           hv_cgsl_ne =        4.624634e-011         hv_nldd_surf =        3.000000e+019 
++            hv_js_ne =        3.366667e-006           hv_hdif_ne =        1.400000e-007           hv_rdsw_ne =        3.900000e-006 
++           hv_jsw_ne =        3.366667e-010            hv_tox_ne =        6.160000e-009             hv_cj_ne =        7.983537e-004 
++          hv_cjsw_ne =        4.790122e-011           hv_ldif_ne =        1.000000e-008             hv_xj_ne =        2.500000e-008 
++            hv_rd_ne =        0.000000e+000             hv_pb_ne =        9.918524e-001             hv_cf_ne =        3.654122e-011 
++          hv_lint_ne =        1.350000e-008          hv_cjswg_ne =        1.995884e-011            hv_rsh_ne =        1.000000e+001 
++            hv_u0_pe =        8.400000e-003            hv_nch_pe =        3.630000e+017            hv_rsc_pe =        2.886751e-014 
++          hv_cgbo_pe =        5.953552e-012            hv_rdc_pe =        2.886751e-014           hv_vth0_pe =       -4.421794e-001 
++            hv_k2_pe =        0.000000e+000           hv_cgdo_pe =        1.071639e-010         hv_ckappa_pe =        5.707362e+001 
++          hv_wint_pe =        5.500000e-009             hv_k1_pe =        5.602722e-001           hv_cgsl_pe =        4.465164e-011 
++            hv_js_pe =        3.350000e-006           hv_hdif_pe =        1.400000e-007           hv_rdsw_pe =        7.800000e-006 
++           hv_jsw_pe =        3.350000e-010            hv_tox_pe =        6.380000e-009             hv_cj_pe =        7.912252e-004 
++          hv_cjsw_pe =        4.747351e-011           hv_ldif_pe =        1.000000e-008             hv_xj_pe =        2.500000e-008 
++            hv_rd_pe =        0.000000e+000             hv_pb_pe =        1.009805e+000             hv_cf_pe =        3.616963e-011 
++          hv_lint_pe =        1.350000e-008          hv_cjswg_pe =        1.978063e-011            hv_rsh_pe =        2.000000e+001 
++            hv_rs_pe =        0.000000e+000           hv_vsat_pe =        1.000000e+005 
+include "gpdk090_mos.scs" section = hv_mos
+endsection SS_hv
+
+section FS_hv
+parameters 
++            hv_rs_ne =        0.000000e+000           hv_vsat_ne =        1.120000e+005         hv_pldd_surf =        6.000000e+019 
++           hv_uc1_ne =       -6.420000e-011             hv_u0_ne =        2.600000e-002            hv_nch_ne =        3.600000e+017 
++           hv_rsc_ne =        4.082483e-014           hv_cgbo_ne =        6.166179e-012            hv_prt_ne =        0.000000e+000 
++           hv_rdc_ne =        4.082483e-014           hv_vth0_ne =        4.032345e-001             hv_k2_ne =        0.000000e+000 
++          hv_cgdo_ne =        1.109912e-010         hv_ckappa_ne =        2.660269e+001           hv_wint_ne =        5.400000e-009 
++            hv_k1_ne =        5.955691e-001           hv_cgsl_ne =        4.624634e-011         hv_nldd_surf =        3.000000e+019 
++            hv_js_ne =        3.366667e-006           hv_hdif_ne =        1.400000e-007           hv_rdsw_ne =        3.900000e-006 
++           hv_jsw_ne =        3.366667e-010            hv_tox_ne =        5.040000e-009             hv_cj_ne =        7.983537e-004 
++          hv_cjsw_ne =        4.790122e-011           hv_ldif_ne =        1.000000e-008             hv_xj_ne =        2.500000e-008 
++            hv_rd_ne =        0.000000e+000             hv_pb_ne =        9.918524e-001             hv_cf_ne =        3.654122e-011 
++          hv_lint_ne =        1.650000e-008          hv_cjswg_ne =        1.995884e-011            hv_rsh_ne =        1.000000e+001 
++            hv_u0_pe =        8.400000e-003            hv_nch_pe =        3.630000e+017            hv_rsc_pe =        2.886751e-014 
++          hv_cgbo_pe =        5.953552e-012            hv_rdc_pe =        2.886751e-014           hv_vth0_pe =       -4.421794e-001 
++            hv_k2_pe =        0.000000e+000           hv_cgdo_pe =        1.071639e-010         hv_ckappa_pe =        5.707362e+001 
++          hv_wint_pe =        5.500000e-009             hv_k1_pe =        5.602722e-001           hv_cgsl_pe =        4.465164e-011 
++            hv_js_pe =        3.350000e-006           hv_hdif_pe =        1.400000e-007           hv_rdsw_pe =        7.800000e-006 
++           hv_jsw_pe =        3.350000e-010            hv_tox_pe =        6.380000e-009             hv_cj_pe =        7.912252e-004 
++          hv_cjsw_pe =        4.747351e-011           hv_ldif_pe =        1.000000e-008             hv_xj_pe =        2.500000e-008 
++            hv_rd_pe =        0.000000e+000             hv_pb_pe =        1.009805e+000             hv_cf_pe =        3.616963e-011 
++          hv_lint_pe =        1.350000e-008          hv_cjswg_pe =        1.978063e-011            hv_rsh_pe =        2.000000e+001 
++            hv_rs_pe =        0.000000e+000           hv_vsat_pe =        1.000000e+005 
+include "gpdk090_mos.scs" section = hv_mos
+endsection FS_hv
+
+section SF_hv
+parameters 
++            hv_rs_ne =        0.000000e+000           hv_vsat_ne =        1.120000e+005         hv_pldd_surf =        6.000000e+019 
++           hv_uc1_ne =       -6.420000e-011             hv_u0_ne =        1.400000e-002            hv_nch_ne =        4.400000e+017 
++           hv_rsc_ne =        4.082483e-014           hv_cgbo_ne =        6.166179e-012            hv_prt_ne =        0.000000e+000 
++           hv_rdc_ne =        4.082483e-014           hv_vth0_ne =        4.938087e-001             hv_k2_ne =        0.000000e+000 
++          hv_cgdo_ne =        1.109912e-010         hv_ckappa_ne =        2.660269e+001           hv_wint_ne =        6.600000e-009 
++            hv_k1_ne =        5.955691e-001           hv_cgsl_ne =        4.624634e-011         hv_nldd_surf =        3.000000e+019 
++            hv_js_ne =        3.366667e-006           hv_hdif_ne =        1.400000e-007           hv_rdsw_ne =        3.900000e-006 
++           hv_jsw_ne =        3.366667e-010            hv_tox_ne =        6.160000e-009             hv_cj_ne =        7.983537e-004 
++          hv_cjsw_ne =        4.790122e-011           hv_ldif_ne =        1.000000e-008             hv_xj_ne =        2.500000e-008 
++            hv_rd_ne =        0.000000e+000             hv_pb_ne =        9.918524e-001             hv_cf_ne =        3.654122e-011 
++          hv_lint_ne =        1.350000e-008          hv_cjswg_ne =        1.995884e-011            hv_rsh_ne =        1.000000e+001 
++            hv_u0_pe =        1.560000e-002            hv_nch_pe =        2.970000e+017            hv_rsc_pe =        2.886751e-014 
++          hv_cgbo_pe =        5.953552e-012            hv_rdc_pe =        2.886751e-014           hv_vth0_pe =       -3.625740e-001 
++            hv_k2_pe =        0.000000e+000           hv_cgdo_pe =        1.071639e-010         hv_ckappa_pe =        5.707362e+001 
++          hv_wint_pe =        4.500000e-009             hv_k1_pe =        5.602722e-001           hv_cgsl_pe =        4.465164e-011 
++            hv_js_pe =        3.350000e-006           hv_hdif_pe =        1.400000e-007           hv_rdsw_pe =        7.800000e-006 
++           hv_jsw_pe =        3.350000e-010            hv_tox_pe =        5.220000e-009             hv_cj_pe =        7.912252e-004 
++          hv_cjsw_pe =        4.747351e-011           hv_ldif_pe =        1.000000e-008             hv_xj_pe =        2.500000e-008 
++            hv_rd_pe =        0.000000e+000             hv_pb_pe =        1.009805e+000             hv_cf_pe =        3.616963e-011 
++          hv_lint_pe =        1.650000e-008          hv_cjswg_pe =        1.978063e-011            hv_rsh_pe =        2.000000e+001 
++            hv_rs_pe =        0.000000e+000           hv_vsat_pe =        1.000000e+005 
+include "gpdk090_mos.scs" section = hv_mos
+endsection SF_hv
+
+section TT_hv_g
+parameters 
++            hv_rs_ne =        0.000000e+000           hv_vsat_ne =        1.120000e+005         hv_pldd_surf =        6.000000e+019 
++           hv_uc1_ne =       -6.420000e-011             hv_u0_ne =        2.000000e-002            hv_nch_ne =        4.000000e+017 
++           hv_rsc_ne =        4.082483e-014           hv_cgbo_ne =        6.166179e-012            hv_prt_ne =        0.000000e+000 
++           hv_rdc_ne =        4.082483e-014           hv_vth0_ne =        4.485433e-001             hv_k2_ne =        0.000000e+000 
++          hv_cgdo_ne =        1.109912e-010         hv_ckappa_ne =        2.660269e+001           hv_wint_ne =        6.000000e-009 
++            hv_k1_ne =        5.955691e-001           hv_cgsl_ne =        4.624634e-011         hv_nldd_surf =        3.000000e+019 
++            hv_js_ne =        3.366667e-006           hv_hdif_ne =        1.400000e-007           hv_rdsw_ne =        3.900000e-006 
++           hv_jsw_ne =        3.366667e-010            hv_tox_ne =        5.600000e-009             hv_cj_ne =        7.983537e-004 
++          hv_cjsw_ne =        4.790122e-011           hv_ldif_ne =        1.000000e-008             hv_xj_ne =        2.500000e-008 
++            hv_rd_ne =        0.000000e+000             hv_pb_ne =        9.918524e-001             hv_cf_ne =        3.654122e-011 
++          hv_lint_ne =        1.500000e-008          hv_cjswg_ne =        1.995884e-011            hv_rsh_ne =        1.000000e+001 
++            hv_u0_pe =        1.200000e-002            hv_nch_pe =        3.300000e+017            hv_rsc_pe =        2.886751e-014 
++          hv_cgbo_pe =        5.953552e-012            hv_rdc_pe =        2.886751e-014           hv_vth0_pe =       -4.023550e-001 
++            hv_k2_pe =        0.000000e+000           hv_cgdo_pe =        1.071639e-010         hv_ckappa_pe =        5.707362e+001 
++          hv_wint_pe =        5.000000e-009             hv_k1_pe =        5.602722e-001           hv_cgsl_pe =        4.465164e-011 
++            hv_js_pe =        3.350000e-006           hv_hdif_pe =        1.400000e-007           hv_rdsw_pe =        7.800000e-006 
++           hv_jsw_pe =        3.350000e-010            hv_tox_pe =        5.800000e-009             hv_cj_pe =        7.912252e-004 
++          hv_cjsw_pe =        4.747351e-011           hv_ldif_pe =        1.000000e-008             hv_xj_pe =        2.500000e-008 
++            hv_rd_pe =        0.000000e+000             hv_pb_pe =        1.009805e+000             hv_cf_pe =        3.616963e-011 
++          hv_lint_pe =        1.500000e-008          hv_cjswg_pe =        1.978063e-011            hv_rsh_pe =        2.000000e+001 
++            hv_rs_pe =        0.000000e+000           hv_vsat_pe =        1.000000e+005 
+include "gpdk090_mos.scs" section = hv_mos
+include "gpdk090_mos.scs" section = hv_mac
+endsection TT_hv_g
+
+section FF_hv_g
+parameters 
++            hv_rs_ne =        0.000000e+000           hv_vsat_ne =        1.120000e+005         hv_pldd_surf =        6.000000e+019 
++           hv_uc1_ne =       -6.420000e-011             hv_u0_ne =        2.600000e-002            hv_nch_ne =        3.600000e+017 
++           hv_rsc_ne =        4.082483e-014           hv_cgbo_ne =        6.166179e-012            hv_prt_ne =        0.000000e+000 
++           hv_rdc_ne =        4.082483e-014           hv_vth0_ne =        4.032345e-001             hv_k2_ne =        0.000000e+000 
++          hv_cgdo_ne =        1.109912e-010         hv_ckappa_ne =        2.660269e+001           hv_wint_ne =        5.400000e-009 
++            hv_k1_ne =        5.955691e-001           hv_cgsl_ne =        4.624634e-011         hv_nldd_surf =        3.000000e+019 
++            hv_js_ne =        3.366667e-006           hv_hdif_ne =        1.400000e-007           hv_rdsw_ne =        3.900000e-006 
++           hv_jsw_ne =        3.366667e-010            hv_tox_ne =        5.040000e-009             hv_cj_ne =        7.983537e-004 
++          hv_cjsw_ne =        4.790122e-011           hv_ldif_ne =        1.000000e-008             hv_xj_ne =        2.500000e-008 
++            hv_rd_ne =        0.000000e+000             hv_pb_ne =        9.918524e-001             hv_cf_ne =        3.654122e-011 
++          hv_lint_ne =        1.650000e-008          hv_cjswg_ne =        1.995884e-011            hv_rsh_ne =        1.000000e+001 
++            hv_u0_pe =        1.560000e-002            hv_nch_pe =        2.970000e+017            hv_rsc_pe =        2.886751e-014 
++          hv_cgbo_pe =        5.953552e-012            hv_rdc_pe =        2.886751e-014           hv_vth0_pe =       -3.625740e-001 
++            hv_k2_pe =        0.000000e+000           hv_cgdo_pe =        1.071639e-010         hv_ckappa_pe =        5.707362e+001 
++          hv_wint_pe =        4.500000e-009             hv_k1_pe =        5.602722e-001           hv_cgsl_pe =        4.465164e-011 
++            hv_js_pe =        3.350000e-006           hv_hdif_pe =        1.400000e-007           hv_rdsw_pe =        7.800000e-006 
++           hv_jsw_pe =        3.350000e-010            hv_tox_pe =        5.220000e-009             hv_cj_pe =        7.912252e-004 
++          hv_cjsw_pe =        4.747351e-011           hv_ldif_pe =        1.000000e-008             hv_xj_pe =        2.500000e-008 
++            hv_rd_pe =        0.000000e+000             hv_pb_pe =        1.009805e+000             hv_cf_pe =        3.616963e-011 
++          hv_lint_pe =        1.650000e-008          hv_cjswg_pe =        1.978063e-011            hv_rsh_pe =        2.000000e+001 
++            hv_rs_pe =        0.000000e+000           hv_vsat_pe =        1.000000e+005 
+include "gpdk090_mos.scs" section = hv_mos
+include "gpdk090_mos.scs" section = hv_mac
+endsection FF_hv_g
+
+section SS_hv_g
+parameters 
++            hv_rs_ne =        0.000000e+000           hv_vsat_ne =        1.120000e+005         hv_pldd_surf =        6.000000e+019 
++           hv_uc1_ne =       -6.420000e-011             hv_u0_ne =        1.400000e-002            hv_nch_ne =        4.400000e+017 
++           hv_rsc_ne =        4.082483e-014           hv_cgbo_ne =        6.166179e-012            hv_prt_ne =        0.000000e+000 
++           hv_rdc_ne =        4.082483e-014           hv_vth0_ne =        4.938087e-001             hv_k2_ne =        0.000000e+000 
++          hv_cgdo_ne =        1.109912e-010         hv_ckappa_ne =        2.660269e+001           hv_wint_ne =        6.600000e-009 
++            hv_k1_ne =        5.955691e-001           hv_cgsl_ne =        4.624634e-011         hv_nldd_surf =        3.000000e+019 
++            hv_js_ne =        3.366667e-006           hv_hdif_ne =        1.400000e-007           hv_rdsw_ne =        3.900000e-006 
++           hv_jsw_ne =        3.366667e-010            hv_tox_ne =        6.160000e-009             hv_cj_ne =        7.983537e-004 
++          hv_cjsw_ne =        4.790122e-011           hv_ldif_ne =        1.000000e-008             hv_xj_ne =        2.500000e-008 
++            hv_rd_ne =        0.000000e+000             hv_pb_ne =        9.918524e-001             hv_cf_ne =        3.654122e-011 
++          hv_lint_ne =        1.350000e-008          hv_cjswg_ne =        1.995884e-011            hv_rsh_ne =        1.000000e+001 
++            hv_u0_pe =        8.400000e-003            hv_nch_pe =        3.630000e+017            hv_rsc_pe =        2.886751e-014 
++          hv_cgbo_pe =        5.953552e-012            hv_rdc_pe =        2.886751e-014           hv_vth0_pe =       -4.421794e-001 
++            hv_k2_pe =        0.000000e+000           hv_cgdo_pe =        1.071639e-010         hv_ckappa_pe =        5.707362e+001 
++          hv_wint_pe =        5.500000e-009             hv_k1_pe =        5.602722e-001           hv_cgsl_pe =        4.465164e-011 
++            hv_js_pe =        3.350000e-006           hv_hdif_pe =        1.400000e-007           hv_rdsw_pe =        7.800000e-006 
++           hv_jsw_pe =        3.350000e-010            hv_tox_pe =        6.380000e-009             hv_cj_pe =        7.912252e-004 
++          hv_cjsw_pe =        4.747351e-011           hv_ldif_pe =        1.000000e-008             hv_xj_pe =        2.500000e-008 
++            hv_rd_pe =        0.000000e+000             hv_pb_pe =        1.009805e+000             hv_cf_pe =        3.616963e-011 
++          hv_lint_pe =        1.350000e-008          hv_cjswg_pe =        1.978063e-011            hv_rsh_pe =        2.000000e+001 
++            hv_rs_pe =        0.000000e+000           hv_vsat_pe =        1.000000e+005 
+include "gpdk090_mos.scs" section = hv_mos
+include "gpdk090_mos.scs" section = hv_mac
+endsection SS_hv_g
+
+section FS_hv_g
+parameters 
++            hv_rs_ne =        0.000000e+000           hv_vsat_ne =        1.120000e+005         hv_pldd_surf =        6.000000e+019 
++           hv_uc1_ne =       -6.420000e-011             hv_u0_ne =        2.600000e-002            hv_nch_ne =        3.600000e+017 
++           hv_rsc_ne =        4.082483e-014           hv_cgbo_ne =        6.166179e-012            hv_prt_ne =        0.000000e+000 
++           hv_rdc_ne =        4.082483e-014           hv_vth0_ne =        4.032345e-001             hv_k2_ne =        0.000000e+000 
++          hv_cgdo_ne =        1.109912e-010         hv_ckappa_ne =        2.660269e+001           hv_wint_ne =        5.400000e-009 
++            hv_k1_ne =        5.955691e-001           hv_cgsl_ne =        4.624634e-011         hv_nldd_surf =        3.000000e+019 
++            hv_js_ne =        3.366667e-006           hv_hdif_ne =        1.400000e-007           hv_rdsw_ne =        3.900000e-006 
++           hv_jsw_ne =        3.366667e-010            hv_tox_ne =        5.040000e-009             hv_cj_ne =        7.983537e-004 
++          hv_cjsw_ne =        4.790122e-011           hv_ldif_ne =        1.000000e-008             hv_xj_ne =        2.500000e-008 
++            hv_rd_ne =        0.000000e+000             hv_pb_ne =        9.918524e-001             hv_cf_ne =        3.654122e-011 
++          hv_lint_ne =        1.650000e-008          hv_cjswg_ne =        1.995884e-011            hv_rsh_ne =        1.000000e+001 
++            hv_u0_pe =        8.400000e-003            hv_nch_pe =        3.630000e+017            hv_rsc_pe =        2.886751e-014 
++          hv_cgbo_pe =        5.953552e-012            hv_rdc_pe =        2.886751e-014           hv_vth0_pe =       -4.421794e-001 
++            hv_k2_pe =        0.000000e+000           hv_cgdo_pe =        1.071639e-010         hv_ckappa_pe =        5.707362e+001 
++          hv_wint_pe =        5.500000e-009             hv_k1_pe =        5.602722e-001           hv_cgsl_pe =        4.465164e-011 
++            hv_js_pe =        3.350000e-006           hv_hdif_pe =        1.400000e-007           hv_rdsw_pe =        7.800000e-006 
++           hv_jsw_pe =        3.350000e-010            hv_tox_pe =        6.380000e-009             hv_cj_pe =        7.912252e-004 
++          hv_cjsw_pe =        4.747351e-011           hv_ldif_pe =        1.000000e-008             hv_xj_pe =        2.500000e-008 
++            hv_rd_pe =        0.000000e+000             hv_pb_pe =        1.009805e+000             hv_cf_pe =        3.616963e-011 
++          hv_lint_pe =        1.350000e-008          hv_cjswg_pe =        1.978063e-011            hv_rsh_pe =        2.000000e+001 
++            hv_rs_pe =        0.000000e+000           hv_vsat_pe =        1.000000e+005 
+include "gpdk090_mos.scs" section = hv_mos
+include "gpdk090_mos.scs" section = hv_mac
+endsection FS_hv_g
+
+section SF_hv_g
+parameters 
++            hv_rs_ne =        0.000000e+000           hv_vsat_ne =        1.120000e+005         hv_pldd_surf =        6.000000e+019 
++           hv_uc1_ne =       -6.420000e-011             hv_u0_ne =        1.400000e-002            hv_nch_ne =        4.400000e+017 
++           hv_rsc_ne =        4.082483e-014           hv_cgbo_ne =        6.166179e-012            hv_prt_ne =        0.000000e+000 
++           hv_rdc_ne =        4.082483e-014           hv_vth0_ne =        4.938087e-001             hv_k2_ne =        0.000000e+000 
++          hv_cgdo_ne =        1.109912e-010         hv_ckappa_ne =        2.660269e+001           hv_wint_ne =        6.600000e-009 
++            hv_k1_ne =        5.955691e-001           hv_cgsl_ne =        4.624634e-011         hv_nldd_surf =        3.000000e+019 
++            hv_js_ne =        3.366667e-006           hv_hdif_ne =        1.400000e-007           hv_rdsw_ne =        3.900000e-006 
++           hv_jsw_ne =        3.366667e-010            hv_tox_ne =        6.160000e-009             hv_cj_ne =        7.983537e-004 
++          hv_cjsw_ne =        4.790122e-011           hv_ldif_ne =        1.000000e-008             hv_xj_ne =        2.500000e-008 
++            hv_rd_ne =        0.000000e+000             hv_pb_ne =        9.918524e-001             hv_cf_ne =        3.654122e-011 
++          hv_lint_ne =        1.350000e-008          hv_cjswg_ne =        1.995884e-011            hv_rsh_ne =        1.000000e+001 
++            hv_u0_pe =        1.560000e-002            hv_nch_pe =        2.970000e+017            hv_rsc_pe =        2.886751e-014 
++          hv_cgbo_pe =        5.953552e-012            hv_rdc_pe =        2.886751e-014           hv_vth0_pe =       -3.625740e-001 
++            hv_k2_pe =        0.000000e+000           hv_cgdo_pe =        1.071639e-010         hv_ckappa_pe =        5.707362e+001 
++          hv_wint_pe =        4.500000e-009             hv_k1_pe =        5.602722e-001           hv_cgsl_pe =        4.465164e-011 
++            hv_js_pe =        3.350000e-006           hv_hdif_pe =        1.400000e-007           hv_rdsw_pe =        7.800000e-006 
++           hv_jsw_pe =        3.350000e-010            hv_tox_pe =        5.220000e-009             hv_cj_pe =        7.912252e-004 
++          hv_cjsw_pe =        4.747351e-011           hv_ldif_pe =        1.000000e-008             hv_xj_pe =        2.500000e-008 
++            hv_rd_pe =        0.000000e+000             hv_pb_pe =        1.009805e+000             hv_cf_pe =        3.616963e-011 
++          hv_lint_pe =        1.650000e-008          hv_cjswg_pe =        1.978063e-011            hv_rsh_pe =        2.000000e+001 
++            hv_rs_pe =        0.000000e+000           hv_vsat_pe =        1.000000e+005 
+include "gpdk090_mos.scs" section = hv_mos
+include "gpdk090_mos.scs" section = hv_mac
+endsection SF_hv_g
+
+section s1v_mos
+simulator lang = spice
+* model gpdk090_nmos1v bsim3v3 type = n 
+.model  gpdk090_nmos1v  nmos  level = 54
+
++                lmin =                   0.0                lmax =                  1.0                 wmin =                  0.0 
++                wmax =                  1.0                 tnom =                 25.0              version =                  3.2 
++                 tox =           s1v_tox_ne                 toxm =           s1v_tox_ne                   xj =            s1v_xj_ne 
++                 nch =           s1v_nch_ne                  lln =            1.0000000                  lwn =            1.0000000 
++                 wln =            1.0000000                  wwn =           -1.0000000                 lint =          s1v_lint_ne 
++                  ll =                 0.00                   lw =                 0.00                  lwl =                 0.00 
++                wint =          s1v_wint_ne                   wl =                 0.00                   ww =                 0.00 
++                 wwl =                 0.00               mobmod =                    1              binunit =                    2 
++                  xl =                    0                   xw =                    0                  dwg =                 0.00 
++                 dwb =                 0.00                  acm =                   12                 ldif =          s1v_ldif_ne 
++                hdif =          s1v_hdif_ne                  rsh =           s1v_rsh_ne                   rd =            s1v_rd_ne 
++                  rs =            s1v_rs_ne                  rsc =           s1v_rsc_ne                  rdc =           s1v_rdc_ne 
++                vth0 =          s1v_vth0_ne                   k1 =            s1v_k1_ne                   k2 =            s1v_k2_ne 
++                  k3 =           -2.3000000                 dvt0 =              3.86366                 dvt1 =                  1.2 
++                dvt2 =        5.0299990E-02                dvt0w =                 0.00                dvt1w =                 0.00 
++               dvt2w =                 0.00                  nlx =        1.2517999E-07                   w0 =       -7.1353000E-09 
++                 k3b =            0.5576769                ngate =               4.0E20                 vsat =          s1v_vsat_ne 
++                  ua =       -6.1879500E-10                   ub =        1.8806652E-18                   uc =        1.3823546E-10 
++                rdsw =          s1v_rdsw_ne                 prwb =                 0.00                 prwg =                 0.00 
++                  wr =            1.0000000                   u0 =            s1v_u0_ne                   a0 =            2.3750000 
++                keta =       -3.1429991E-02                   a1 =                 0.00                   a2 =            0.9900000 
++                 ags =            0.8900000                   b0 =                 0.00                   b1 =                 0.00 
++                voff =       -9.6776000E-02              nfactor =            1.0200000                  cit =       -8.6656060E-04 
++                cdsc =        4.4460000E-02                cdscb =        1.0565110E-02                cdscd =                 0.00 
++                eta0 =        7.6580000E-02                 etab =       -3.4998000E-02                 dsub =            0.2200000 
++                pclm =            1.5488822              pdiblc1 =                 0.00              pdiblc2 =        2.4648249E-02 
++             pdiblcb =                 0.00                drout =                 0.00               pscbe1 =         9.2648200E08 
++              pscbe2 =        1.0000000E-20                 pvag =                 0.00                delta =        7.5000000E-03 
++              alpha0 =                 0.00               alpha1 =               0.0177                beta0 =               6.3203 
++                 kt1 =                -0.13                  kt2 =               -0.042                   at =         9.0000000E04 
++                 ute =           -1.7303560                  ua1 =        1.8035814E-09                  ub1 =       -2.1874742E-18 
++                 uc1 =           s1v_uc1_ne                 kt1l =                 0.00                  prt =           s1v_prt_ne 
++                  cj =            s1v_cj_ne                   mj =                0.222                   pb =            s1v_pb_ne 
++                cjsw =          s1v_cjsw_ne                 mjsw =                 0.01                 pbsw =                  0.1 
++               cjswg =         s1v_cjswg_ne                mjswg =               0.5028                pbswg =               0.6859 
++                 tpb =             1.30E-03                tpbsw =               0.0000               tpbswg =             2.81E-03 
++                 tcj =             7.61E-04                tcjsw =             1.04E-03               tcjswg =             1.63E-03 
++                  js =            s1v_js_ne                  jsw =           s1v_jsw_ne                    n =                    1 
++                 xti =                    3                 cgdo =          s1v_cgdo_ne                 cgso =          s1v_cgdo_ne 
++                cgbo =          s1v_cgbo_ne               capmod =                    2               nqsmod =                    0 
++                 elm =                    5                xpart =                    1                 cgsl =          s1v_cgsl_ne 
++                cgdl =          s1v_cgsl_ne               ckappa =        s1v_ckappa_ne                   cf =            s1v_cf_ne 
++                 clc =        1.0000000E-07                  cle =            0.6000000                  dlc =             1.89E-08 
++                 dwc =             1.62E-08                  llc =             1.53E-16                  lwc =             -9.0E-16 
++                 wlc =                    0                  wwc =              -0.0989                 lwlc =                    0 
++                wwlc =                    0                 acde =                  0.5                 moin =                 10.5 
++                noff =                 1.85               voffcv =               -0.048              lvoffcv =              2.0E-09 
++             calcacm =                    1             sfvtflag =                    0                 tlev =                    1 
++               tlevc =                    1                 ijth =                 1 
+
+*Copyright (C) 1993-2001 Cadence Design Systems, Inc.
+* All rights reserved.
+* .model  gpdk090_nmos1v  nmos  level = 54
+*               Bert Isub-Igate model parameters
+**+ai      = 6.3875e+005  bi      = 1.7e+006     ecrit0  = 29155        ecritg  = 0.00020407
+**+lc0     = 1.3154       lc1     = -0.10945
+*               Bert Life Time model parameters
+**+h0      = 1.16e7       m0      = 3.4        nn0     = 0.43      hgd     = 0
+**+mgd     = 0            nngd    = 0            hg0     = 0            mg0     = 1.5
+*               Bert AgeMos model parameters
+**+hd1_vth0  = 0          hd2_vth0  = 0          hn1_vth0  = 0.3        hn2_vth0  = 0.4
+**+hs_vth0   = 3          hd1_u0    = 2.606      hd2_u0    = 0          hn1_u0    = 0.3707
+**+hn2_u0    = 0.5        hs_u0     = 3          hd1_ua    = 0          hd2_ua    = 0
+**+hn1_ua    = 0.3        hn2_ua    = 0.4        hs_ua     = 3          hd1_ub    = 0
+**+hd2_ub    = 0          hn1_ub    = 0.3        hn2_ub    = 1          hs_ub     = 3
+**+hd1_voff  = 0          hd2_voff  = 0          hn1_voff  = 0.3        hn2_voff  = 1
+**+hs_voff   = 3          hd1_vsat  = 0          hd2_vsat  = 0          hn1_vsat  = 0
+**+hn2_vsat  = 1          hs_vsat   = 3          hd1_pclm  = 0          hd2_pclm  = 0
+**+hn1_pclm  = 0.42745    hn2_pclm  = 1          hs_pclm   = 3          hd1_a0    = 0.40162
+**+hd2_a0    = 0          hn1_a0    = 0.08392    hn2_a0    = 1          hs_a0     = 3
+**+hd1_nfactor  = 0       hd2_nfactor  = 0       hn1_nfactor  = 1       hn2_nfactor  = 1
+**+hs_nfactor   = 3       hsign_ua = 1           hsign_ub = -1          hsign_vsat = 1
+**+hsign_pclm = 1         hsign_a0 = -1
+
+**+ age=1e-12
+
+*  model gpdk090_pmos1v bsim3v3 type = p 
+.model gpdk090_pmos1v bsim3v3 type = p
+*.MODEL gpdk090_pmos1v PMOS
++ LEVEL = 54
+
++                lmin =                  0.0                 lmax =                  1.0                 wmin =                  0.0 
++                wmax =                  1.0                 tnom =                 25.0              version =                  3.2 
++                 tox =           s1v_tox_pe                 toxm =           s1v_tox_pe                   xj =            s1v_xj_pe 
++                 nch =         1.7200001E17                  lln =            1.0000000                  lwn =            1.0000000 
++                 wln =            1.0000000                  wwn =           -1.0000000                 lint =          s1v_lint_pe 
++                  ll =                 0.00                   lw =                 0.00                  lwl =                 0.00 
++                wint =          s1v_wint_pe                   wl =                 0.00                   ww =                 0.00 
++                 wwl =                 0.00               mobmod =                    1              binunit =                    2 
++                  xl =                    0                   xw =                    0                  dwg =                 0.00 
++                 dwb =                 0.00                  acm =                   12                 ldif =          s1v_ldif_pe 
++                hdif =          s1v_hdif_pe                  rsh =           s1v_rsh_pe                   rd =            s1v_rd_pe 
++                  rs =            s1v_rs_pe                  rsc =           s1v_rsc_pe                  rdc =           s1v_rdc_pe 
++                vth0 =          s1v_vth0_pe                pvth0 =                    0                   k1 =            s1v_k1_pe 
++                  k2 =            s1v_k2_pe                   k3 =           -0.5000000                 dvt0 =                  8.0 
++                dvt1 =                 2.07                 dvt2 =            0.1000000                dvt0w =                 0.00 
++               dvt1w =                 0.00                dvt2w =                 0.00                  nlx =        2.2400000E-07 
++                  w0 =                 0.00                  k3b =        7.0000000E-02                ngate =         9.3200000E19 
++                vsat =          s1v_vsat_pe                   ua =       -2.7643932E-10                   ub =        2.2546092E-18 
++                  uc =        1.6265005E-10                 rdsw =          s1v_rdsw_pe                 prwb =                 0.00 
++                prwg =                 0.00                   wr =            1.0000000                   u0 =            s1v_u0_pe 
++                  a0 =            2.9669099                 keta =       -8.2015020E-02                   a1 =                 0.00 
++                  a2 =            1.0000000                  ags =            1.2279299                   b0 =                 0.00 
++                  b1 =                 0.00                 voff =           -0.1170768              nfactor =            1.0000000 
++                 cit =       -2.5695576E-03                 cdsc =                 0.00                cdscb =                 0.00 
++               cdscd =                 0.00                 eta0 =        5.0000000E-02                leta0 =                    0 
++                etab =                    0                 dsub =            0.3000000                 pclm =            1.0000000 
++             pdiblc1 =        6.0000000E-03              pdiblc2 =        5.0000000E-03              pdiblcb =           -0.5267781 
++               drout =                 0.00               pscbe1 =         5.1300000E08               pscbe2 =        4.8900000E-07 
++                pvag =                 0.00                delta =        9.9999990E-03               alpha0 =                 0.00 
++              alpha1 =                0.001                beta0 =                  7.6                  kt1 =                -0.11 
++                 kt2 =        4.4329650E-02                   at =         1.0000000E04                  ute =           -1.4468272 
++                 ua1 =        1.2158887E-09                  ub1 =       -4.0489830E-18                  uc1 =       -5.6549980E-10 
++                kt1l =                 0.00                  prt =                    0                   cj =            s1v_cj_pe 
++                  mj =                0.331                   pb =            s1v_pb_pe                 cjsw =          s1v_cjsw_pe 
++                mjsw =                 0.01                 pbsw =                 0.10                cjswg =         s1v_cjswg_pe 
++               mjswg =               0.7833                pbswg =               0.8137                  tpb =              0.00173 
++               tpbsw =                  0.0               tpbswg =               0.0044                  tcj =             0.000949 
++               tcjsw =            0.0000758               tcjswg =              0.00388                   js =            s1v_js_pe 
++                 jsw =           s1v_jsw_pe                    n =                    1                  xti =                    3 
++                cgdo =          s1v_cgdo_pe                 cgso =          s1v_cgdo_pe                 cgbo =          s1v_cgbo_pe 
++              capmod =                    2               nqsmod =                    0                  elm =                    5 
++               xpart =                    1                 cgsl =          s1v_cgsl_pe                 cgdl =          s1v_cgsl_pe 
++              ckappa =        s1v_ckappa_pe                   cf =            s1v_cf_pe                  clc =        1.0000000E-07 
++                 cle =            0.6000000                  dlc =            2.252E-08                  dwc =           1.2404E-08 
++                 llc =             -1.2E-16                  lwc =             -6.2E-16                  wlc =                    0 
++                 wwc =                -0.15                 lwlc =                    0                 wwlc =                    0 
++                acde =                  0.5                 moin =                 15.6                 noff =                 2.16 
++              voffcv =              -0.0385              lvoffcv =            -3.80E-09                lnoff =             7.50E-08 
++             calcacm =                    1             sfvtflag =                    0                 tlev =                    1 
++               tlevc =                    1                 ijth =                 1 
+*Copyright (C) 1993-2001 Cadence Design Systems, Inc.
+* All rights reserved.
+* .MODEL gpdk090_pmos1v PMOS
+********************************************************************************
+**************************************************************
+*               Isub-Igate model parameters
+**************************************************************
+**+ai      = 1.7226e+005  lai     = 0            bi      = 3.7e+006     ecrit0  = 5.2147e+005
+**+lecrit0 = 0            ecritg  = -51980       lecritg = 0            ecritb  = 600
+**+lc0     = 0.63538      llc0    = 0            lc1     = -0.091586    llc1    = 0
+**+ea      = -0.0687
+**************************************************************
+*               Life Time model parameters
+**************************************************************
+**+nbn     = 0.2696       nba     = 1            nbea    = 0.14306      nbgamma = 1.2555
+**+nbgammad= 1.825        nbalpha = 1            nbeta0  = 0.0079033    nbeta1  = -320.68
+**+nbeta2  = -1           h0      = 1.045e+006   m0      = 2.6155       lm0     = -0.1269
+**+nn0     = 0.24744      hgd     = 0            mgd     = 0.98034      nngd    = 0
+**+nbemod  = 2
+*+ageflag = 2             parasavingflag= 1      freshdataselection= 2
+*+deg_mode= 2             addnbtiinhci= 2
+**************************************************************
+*               AgeMos model parameters
+**************************************************************
+**+hd1_vth0= 2.55         hn1_vth0= 0.28         hs_vth0 = 1            nd1_vth0= 1.588
+**+nn1_vth0= 0.28         ns_vth0 = 1            hd1_ub  = 0.95         hn1_ub  = 0.29
+**+hs_ub   = 1            nd1_ub  = 3.38         nn1_ub  = 0.33         ns_ub   = 1
+**+hsign_ub= 1            hsign_vth0= 1          nsign_ua= 1            nsign_ub= 1
+**+nsign_vsat= -1         nsign_vth0= 1
+**************************************************************
+* stressing time 0min
+**+ wg=0
+**+ age=1.323779e-15
+
+simulator lang = spectre
+endsection s1v_mos
+
+section lp_mos
+model gpdk090_nmos1v_hvt bsim3v3 type = n 
++                lmin =                   0.0                lmax =                  1.0                 wmin =                  0.0 
++                wmax =                  1.0                 tnom =                 25.0              version =                  3.2 
++                 tox =            lp_tox_ne                 toxm =            lp_tox_ne                   xj =             lp_xj_ne 
++                 nch =            lp_nch_ne                  lln =            1.0000000                  lwn =            1.0000000 
++                 wln =            1.0000000                  wwn =           -1.0000000                 lint =           lp_lint_ne 
++                  ll =                 0.00                   lw =                 0.00                  lwl =                 0.00 
++                wint =           lp_wint_ne                   wl =                 0.00                   ww =                 0.00 
++                 wwl =                 0.00               mobmod =                    1              binunit =                    2 
++                  xl =                    0                   xw =                    0                  dwg =                 0.00 
++                 dwb =                 0.00                  acm =                   12                 ldif =           lp_ldif_ne 
++                hdif =           lp_hdif_ne                  rsh =            lp_rsh_ne                   rd =             lp_rd_ne 
++                  rs =             lp_rs_ne                  rsc =            lp_rsc_ne                  rdc =            lp_rdc_ne 
++                vth0 =           lp_vth0_ne                   k1 =             lp_k1_ne                   k2 =             lp_k2_ne 
++                  k3 =           -2.3000000                 dvt0 =              3.86366                 dvt1 =                  1.2 
++                dvt2 =        5.0299990E-02                dvt0w =                 0.00                dvt1w =                 0.00 
++               dvt2w =                 0.00                  nlx =        1.2517999E-07                   w0 =       -7.1353000E-09 
++                 k3b =            0.5576769                ngate =               4.0E20                 vsat =           lp_vsat_ne 
++                  ua =       -6.1879500E-10                   ub =        1.8806652E-18                   uc =        1.3823546E-10 
++                rdsw =           lp_rdsw_ne                 prwb =                 0.00                 prwg =                 0.00 
++                  wr =            1.0000000                   u0 =             lp_u0_ne                   a0 =            2.3750000 
++                keta =       -3.1429991E-02                   a1 =                 0.00                   a2 =            0.9900000 
++                 ags =            0.8900000                   b0 =                 0.00                   b1 =                 0.00 
++                voff =       -9.6776000E-02              nfactor =            1.0200000                  cit =       -8.6656060E-04 
++                cdsc =        4.4460000E-02                cdscb =        1.0565110E-02                cdscd =                 0.00 
++                eta0 =        7.6580000E-02                 etab =       -3.4998000E-02                 dsub =            0.2200000 
++                pclm =            1.5488822              pdiblc1 =                 0.00              pdiblc2 =        2.4648249E-02 
++             pdiblcb =                 0.00                drout =                 0.00               pscbe1 =         9.2648200E08 
++              pscbe2 =        1.0000000E-20                 pvag =                 0.00                delta =        7.5000000E-03 
++              alpha0 =                 0.00               alpha1 =               0.0177                beta0 =               6.3203 
++                 kt1 =                -0.13                  kt2 =               -0.042                   at =         9.0000000E04 
++                 ute =           -1.7303560                  ua1 =        1.8035814E-09                  ub1 =       -2.1874742E-18 
++                 uc1 =            lp_uc1_ne                 kt1l =                 0.00                  prt =            lp_prt_ne 
++                  cj =             lp_cj_ne                   mj =                0.222                   pb =             lp_pb_ne 
++                cjsw =           lp_cjsw_ne                 mjsw =                 0.01                 pbsw =                  0.1 
++               cjswg =          lp_cjswg_ne                mjswg =               0.5028                pbswg =               0.6859 
++                 tpb =             1.30E-03                tpbsw =               0.0000               tpbswg =             2.81E-03 
++                 tcj =             7.61E-04                tcjsw =             1.04E-03               tcjswg =             1.63E-03 
++                  js =             lp_js_ne                  jsw =            lp_jsw_ne                    n =                    1 
++                 xti =                    3                 cgdo =           lp_cgdo_ne                 cgso =           lp_cgdo_ne 
++                cgbo =           lp_cgbo_ne               capmod =                    2               nqsmod =                    0 
++                 elm =                    5                xpart =                    1                 cgsl =           lp_cgsl_ne 
++                cgdl =           lp_cgsl_ne               ckappa =         lp_ckappa_ne                   cf =             lp_cf_ne 
++                 clc =        1.0000000E-07                  cle =            0.6000000                  dlc =             1.89E-08 
++                 dwc =             1.62E-08                  llc =             1.53E-16                  lwc =             -9.0E-16 
++                 wlc =                    0                  wwc =              -0.0989                 lwlc =                    0 
++                wwlc =                    0                 acde =                  0.5                 moin =                 10.5 
++                noff =                 1.85               voffcv =               -0.048              lvoffcv =              2.0E-09 
++             calcacm =                    1             sfvtflag =                    0                 tlev =                    1 
++               tlevc =                    1                 ijth =                 1 
+model gpdk090_pmos1v_hvt bsim3v3 type = p 
++                lmin =                  0.0                 lmax =                  1.0                 wmin =                  0.0 
++                wmax =                  1.0                 tnom =                 25.0              version =                  3.2 
++                 tox =            lp_tox_pe                 toxm =            lp_tox_pe                   xj =             lp_xj_pe 
++                 nch =         1.7200001E17                  lln =            1.0000000                  lwn =            1.0000000 
++                 wln =            1.0000000                  wwn =           -1.0000000                 lint =           lp_lint_pe 
++                  ll =                 0.00                   lw =                 0.00                  lwl =                 0.00 
++                wint =           lp_wint_pe                   wl =                 0.00                   ww =                 0.00 
++                 wwl =                 0.00               mobmod =                    1              binunit =                    2 
++                  xl =                    0                   xw =                    0                  dwg =                 0.00 
++                 dwb =                 0.00                  acm =                   12                 ldif =           lp_ldif_pe 
++                hdif =           lp_hdif_pe                  rsh =            lp_rsh_pe                   rd =             lp_rd_pe 
++                  rs =             lp_rs_pe                  rsc =            lp_rsc_pe                  rdc =            lp_rdc_pe 
++                vth0 =           lp_vth0_pe                pvth0 =                    0                   k1 =             lp_k1_pe 
++                  k2 =             lp_k2_pe                   k3 =           -0.5000000                 dvt0 =                  8.0 
++                dvt1 =                 2.07                 dvt2 =            0.1000000                dvt0w =                 0.00 
++               dvt1w =                 0.00                dvt2w =                 0.00                  nlx =        2.2400000E-07 
++                  w0 =                 0.00                  k3b =        7.0000000E-02                ngate =         9.3200000E19 
++                vsat =           lp_vsat_pe                   ua =       -2.7643932E-10                   ub =        2.2546092E-18 
++                  uc =        1.6265005E-10                 rdsw =           lp_rdsw_pe                 prwb =                 0.00 
++                prwg =                 0.00                   wr =            1.0000000                   u0 =             lp_u0_pe 
++                  a0 =            2.9669099                 keta =       -8.2015020E-02                   a1 =                 0.00 
++                  a2 =            1.0000000                  ags =            1.2279299                   b0 =                 0.00 
++                  b1 =                 0.00                 voff =           -0.1170768              nfactor =            1.0000000 
++                 cit =       -2.5695576E-03                 cdsc =                 0.00                cdscb =                 0.00 
++               cdscd =                 0.00                 eta0 =        5.0000000E-02                leta0 =                    0 
++                etab =                    0                 dsub =            0.3000000                 pclm =            1.0000000 
++             pdiblc1 =        6.0000000E-03              pdiblc2 =        5.0000000E-03              pdiblcb =           -0.5267781 
++               drout =                 0.00               pscbe1 =         5.1300000E08               pscbe2 =        4.8900000E-07 
++                pvag =                 0.00                delta =        9.9999990E-03               alpha0 =                 0.00 
++              alpha1 =                0.001                beta0 =                  7.6                  kt1 =                -0.11 
++                 kt2 =        4.4329650E-02                   at =         1.0000000E04                  ute =           -1.4468272 
++                 ua1 =        1.2158887E-09                  ub1 =       -4.0489830E-18                  uc1 =       -5.6549980E-10 
++                kt1l =                 0.00                  prt =                    0                   cj =             lp_cj_pe 
++                  mj =                0.331                   pb =             lp_pb_pe                 cjsw =           lp_cjsw_pe 
++                mjsw =                 0.01                 pbsw =                 0.10                cjswg =          lp_cjswg_pe 
++               mjswg =               0.7833                pbswg =               0.8137                  tpb =              0.00173 
++               tpbsw =                  0.0               tpbswg =               0.0044                  tcj =             0.000949 
++               tcjsw =            0.0000758               tcjswg =              0.00388                   js =             lp_js_pe 
++                 jsw =            lp_jsw_pe                    n =                    1                  xti =                    3 
++                cgdo =           lp_cgdo_pe                 cgso =           lp_cgdo_pe                 cgbo =           lp_cgbo_pe 
++              capmod =                    2               nqsmod =                    0                  elm =                    5 
++               xpart =                    1                 cgsl =           lp_cgsl_pe                 cgdl =           lp_cgsl_pe 
++              ckappa =         lp_ckappa_pe                   cf =             lp_cf_pe                  clc =        1.0000000E-07 
++                 cle =            0.6000000                  dlc =            2.252E-08                  dwc =           1.2404E-08 
++                 llc =             -1.2E-16                  lwc =             -6.2E-16                  wlc =                    0 
++                 wwc =                -0.15                 lwlc =                    0                 wwlc =                    0 
++                acde =                  0.5                 moin =                 15.6                 noff =                 2.16 
++              voffcv =              -0.0385              lvoffcv =            -3.80E-09                lnoff =             7.50E-08 
++             calcacm =                    1             sfvtflag =                    0                 tlev =                    1 
++               tlevc =                    1                 ijth =                 1 
+endsection lp_mos
+
+section hv_mos
+simulator lang = spice
+
+* model gpdk090_nmos2v bsim3v3 type = n 
+.model  gpdk090_nmos2v  nmos  level = 54
++                lmin =                   0.0                lmax =                  1.0                 wmin =                  0.0 
++                wmax =                  1.0                 tnom =                 25.0              version =                  3.2 
++                 tox =            hv_tox_ne                 toxm =            hv_tox_ne                   xj =             hv_xj_ne 
++                 nch =            hv_nch_ne                  lln =            1.0000000                  lwn =            1.0000000 
++                 wln =            1.0000000                  wwn =           -1.0000000                 lint =           hv_lint_ne 
++                  ll =                 0.00                   lw =                 0.00                  lwl =                 0.00 
++                wint =           hv_wint_ne                   wl =                 0.00                   ww =                 0.00 
++                 wwl =                 0.00               mobmod =                    1              binunit =                    2 
++                  xl =                    0                   xw =                    0                  dwg =                 0.00 
++                 dwb =                 0.00                  acm =                   12                 ldif =           hv_ldif_ne 
++                hdif =           hv_hdif_ne                  rsh =            hv_rsh_ne                   rd =             hv_rd_ne 
++                  rs =             hv_rs_ne                  rsc =            hv_rsc_ne                  rdc =            hv_rdc_ne 
++                vth0 =           hv_vth0_ne                   k1 =             hv_k1_ne                   k2 =             hv_k2_ne 
++                  k3 =           -2.3000000                 dvt0 =              3.86366                 dvt1 =                  1.2 
++                dvt2 =        5.0299990E-02                dvt0w =                 0.00                dvt1w =                 0.00 
++               dvt2w =                 0.00                  nlx =        1.2517999E-07                   w0 =       -7.1353000E-09 
++                 k3b =            0.5576769                ngate =               4.0E20                 vsat =           hv_vsat_ne 
++                  ua =       -6.1879500E-10                   ub =        1.8806652E-18                   uc =        1.3823546E-10 
++                rdsw =           hv_rdsw_ne                 prwb =                 0.00                 prwg =                 0.00 
++                  wr =            1.0000000                   u0 =             hv_u0_ne                   a0 =            2.3750000 
++                keta =       -3.1429991E-02                   a1 =                 0.00                   a2 =            0.9900000 
++                 ags =            0.8900000                   b0 =                 0.00                   b1 =                 0.00 
++                voff =       -9.6776000E-02              nfactor =            1.0200000                  cit =       -8.6656060E-04 
++                cdsc =        4.4460000E-02                cdscb =        1.0565110E-02                cdscd =                 0.00 
++                eta0 =        7.6580000E-02                 etab =       -3.4998000E-02                 dsub =            0.2200000 
++                pclm =            1.5488822              pdiblc1 =                 0.00              pdiblc2 =        2.4648249E-02 
++             pdiblcb =                 0.00                drout =                 0.00               pscbe1 =         9.2648200E08 
++              pscbe2 =        1.0000000E-20                 pvag =                 0.00                delta =        7.5000000E-03 
++              alpha0 =                 0.00               alpha1 =               0.0177                beta0 =               6.3203 
++                 kt1 =                -0.13                  kt2 =               -0.042                   at =         9.0000000E04 
++                 ute =           -1.7303560                  ua1 =        1.8035814E-09                  ub1 =       -2.1874742E-18 
++                 uc1 =            hv_uc1_ne                 kt1l =                 0.00                  prt =            hv_prt_ne 
++                  cj =             hv_cj_ne                   mj =                0.222                   pb =             hv_pb_ne 
++                cjsw =           hv_cjsw_ne                 mjsw =                 0.01                 pbsw =                  0.1 
++               cjswg =          hv_cjswg_ne                mjswg =               0.5028                pbswg =               0.6859 
++                 tpb =             1.30E-03                tpbsw =               0.0000               tpbswg =             2.81E-03 
++                 tcj =             7.61E-04                tcjsw =             1.04E-03               tcjswg =             1.63E-03 
++                  js =             hv_js_ne                  jsw =            hv_jsw_ne                    n =                    1 
++                 xti =                    3                 cgdo =           hv_cgdo_ne                 cgso =           hv_cgdo_ne 
++                cgbo =           hv_cgbo_ne               capmod =                    2               nqsmod =                    0 
++                 elm =                    5                xpart =                    1                 cgsl =           hv_cgsl_ne 
++                cgdl =           hv_cgsl_ne               ckappa =         hv_ckappa_ne                   cf =             hv_cf_ne 
++                 clc =        1.0000000E-07                  cle =            0.6000000                  dlc =             1.89E-08 
++                 dwc =             1.62E-08                  llc =             1.53E-16                  lwc =             -9.0E-16 
++                 wlc =                    0                  wwc =              -0.0989                 lwlc =                    0 
++                wwlc =                    0                 acde =                  0.5                 moin =                 10.5 
++                noff =                 1.85               voffcv =               -0.048              lvoffcv =              2.0E-09 
++             calcacm =                    1             sfvtflag =                    0                 tlev =                    1 
++               tlevc =                    1                 ijth =                 1 
+
+*Copyright (C) 1993-2001 Cadence Design Systems, Inc.
+* All rights reserved.
+* .model  gpdk090_nmos2v  nmos  level = 54
+*               Bert Isub-Igate model parameters
+**+ai      = 6.3875e+005  bi      = 1.7e+006     ecrit0  = 29155        ecritg  = 0.00020407
+**+lc0     = 1.3154       lc1     = -0.10945
+*               Bert Life Time model parameters
+**+h0      = 1.16e7       m0      = 3.4        nn0     = 0.43      hgd     = 0
+**+mgd     = 0            nngd    = 0            hg0     = 0            mg0     = 1.5
+*               Bert AgeMos model parameters
+**+hd1_vth0  = 0          hd2_vth0  = 0          hn1_vth0  = 0.3        hn2_vth0  = 0.4
+**+hs_vth0   = 3          hd1_u0    = 2.606      hd2_u0    = 0          hn1_u0    = 0.3707
+**+hn2_u0    = 0.5        hs_u0     = 3          hd1_ua    = 0          hd2_ua    = 0
+**+hn1_ua    = 0.3        hn2_ua    = 0.4        hs_ua     = 3          hd1_ub    = 0
+**+hd2_ub    = 0          hn1_ub    = 0.3        hn2_ub    = 1          hs_ub     = 3
+**+hd1_voff  = 0          hd2_voff  = 0          hn1_voff  = 0.3        hn2_voff  = 1
+**+hs_voff   = 3          hd1_vsat  = 0          hd2_vsat  = 0          hn1_vsat  = 0
+**+hn2_vsat  = 1          hs_vsat   = 3          hd1_pclm  = 0          hd2_pclm  = 0
+**+hn1_pclm  = 0.42745    hn2_pclm  = 1          hs_pclm   = 3          hd1_a0    = 0.40162
+**+hd2_a0    = 0          hn1_a0    = 0.08392    hn2_a0    = 1          hs_a0     = 3
+**+hd1_nfactor  = 0       hd2_nfactor  = 0       hn1_nfactor  = 1       hn2_nfactor  = 1
+**+hs_nfactor   = 3       hsign_ua = 1           hsign_ub = -1          hsign_vsat = 1
+**+hsign_pclm = 1         hsign_a0 = -1
+
+**+ age=1e-12
+
+* model gpdk090_pmos2v bsim3v3 type = p 
+.model gpdk090_pmos2v bsim3v3 type = p
+*.MODEL gpdk090_pmos2v PMOS
++ LEVEL = 54
+
++                lmin =                  0.0                 lmax =                  1.0                 wmin =                  0.0 
++                wmax =                  1.0                 tnom =                 25.0              version =                  3.2 
++                 tox =            hv_tox_pe                 toxm =            hv_tox_pe                   xj =             hv_xj_pe 
++                 nch =         1.7200001E17                  lln =            1.0000000                  lwn =            1.0000000 
++                 wln =            1.0000000                  wwn =           -1.0000000                 lint =           hv_lint_pe 
++                  ll =                 0.00                   lw =                 0.00                  lwl =                 0.00 
++                wint =           hv_wint_pe                   wl =                 0.00                   ww =                 0.00 
++                 wwl =                 0.00               mobmod =                    1              binunit =                    2 
++                  xl =                    0                   xw =                    0                  dwg =                 0.00 
++                 dwb =                 0.00                  acm =                   12                 ldif =           hv_ldif_pe 
++                hdif =           hv_hdif_pe                  rsh =            hv_rsh_pe                   rd =             hv_rd_pe 
++                  rs =             hv_rs_pe                  rsc =            hv_rsc_pe                  rdc =            hv_rdc_pe 
++                vth0 =           hv_vth0_pe                pvth0 =                    0                   k1 =             hv_k1_pe 
++                  k2 =             hv_k2_pe                   k3 =           -0.5000000                 dvt0 =                  8.0 
++                dvt1 =                 2.07                 dvt2 =            0.1000000                dvt0w =                 0.00 
++               dvt1w =                 0.00                dvt2w =                 0.00                  nlx =        2.2400000E-07 
++                  w0 =                 0.00                  k3b =        7.0000000E-02                ngate =         9.3200000E19 
++                vsat =           hv_vsat_pe                   ua =       -2.7643932E-10                   ub =        2.2546092E-18 
++                  uc =        1.6265005E-10                 rdsw =           hv_rdsw_pe                 prwb =                 0.00 
++                prwg =                 0.00                   wr =            1.0000000                   u0 =             hv_u0_pe 
++                  a0 =            2.9669099                 keta =       -8.2015020E-02                   a1 =                 0.00 
++                  a2 =            1.0000000                  ags =            1.2279299                   b0 =                 0.00 
++                  b1 =                 0.00                 voff =           -0.1170768              nfactor =            1.0000000 
++                 cit =       -2.5695576E-03                 cdsc =                 0.00                cdscb =                 0.00 
++               cdscd =                 0.00                 eta0 =        5.0000000E-02                leta0 =                    0 
++                etab =                    0                 dsub =            0.3000000                 pclm =            1.0000000 
++             pdiblc1 =        6.0000000E-03              pdiblc2 =        5.0000000E-03              pdiblcb =           -0.5267781 
++               drout =                 0.00               pscbe1 =         5.1300000E08               pscbe2 =        4.8900000E-07 
++                pvag =                 0.00                delta =        9.9999990E-03               alpha0 =                 0.00 
++              alpha1 =                0.001                beta0 =                  7.6                  kt1 =                -0.11 
++                 kt2 =        4.4329650E-02                   at =         1.0000000E04                  ute =           -1.4468272 
++                 ua1 =        1.2158887E-09                  ub1 =       -4.0489830E-18                  uc1 =       -5.6549980E-10 
++                kt1l =                 0.00                  prt =                    0                   cj =             hv_cj_pe 
++                  mj =                0.331                   pb =             hv_pb_pe                 cjsw =           hv_cjsw_pe 
++                mjsw =                 0.01                 pbsw =                 0.10                cjswg =          hv_cjswg_pe 
++               mjswg =               0.7833                pbswg =               0.8137                  tpb =              0.00173 
++               tpbsw =                  0.0               tpbswg =               0.0044                  tcj =             0.000949 
++               tcjsw =            0.0000758               tcjswg =              0.00388                   js =             hv_js_pe 
++                 jsw =            hv_jsw_pe                    n =                    1                  xti =                    3 
++                cgdo =           hv_cgdo_pe                 cgso =           hv_cgdo_pe                 cgbo =           hv_cgbo_pe 
++              capmod =                    2               nqsmod =                    0                  elm =                    5 
++               xpart =                    1                 cgsl =           hv_cgsl_pe                 cgdl =           hv_cgsl_pe 
++              ckappa =         hv_ckappa_pe                   cf =             hv_cf_pe                  clc =        1.0000000E-07 
++                 cle =            0.6000000                  dlc =            2.252E-08                  dwc =           1.2404E-08 
++                 llc =             -1.2E-16                  lwc =             -6.2E-16                  wlc =                    0 
++                 wwc =                -0.15                 lwlc =                    0                 wwlc =                    0 
++                acde =                  0.5                 moin =                 15.6                 noff =                 2.16 
++              voffcv =              -0.0385              lvoffcv =            -3.80E-09                lnoff =             7.50E-08 
++             calcacm =                    1             sfvtflag =                    0                 tlev =                    1 
++               tlevc =                    1                 ijth =                 1 
+
+
+*Copyright (C) 1993-2001 Cadence Design Systems, Inc.
+* All rights reserved.
+* .MODEL gpdk090_pmos2v PMOS
+********************************************************************************
+**************************************************************
+*               Isub-Igate model parameters
+**************************************************************
+**+ai      = 1.7226e+005  lai     = 0            bi      = 3.7e+006     ecrit0  = 5.2147e+005
+**+lecrit0 = 0            ecritg  = -51980       lecritg = 0            ecritb  = 600
+**+lc0     = 0.63538      llc0    = 0            lc1     = -0.091586    llc1    = 0
+**+ea      = -0.0687
+**************************************************************
+*               Life Time model parameters
+**************************************************************
+**+nbn     = 0.2696       nba     = 0.70         nbea    = 0.14306      nbgamma = 1.2555
+**+nbgammad= 1.825        nbalpha = 1            nbeta0  = 0.0079033    nbeta1  = -320.68
+**+nbeta2  = -1           h0      = 1.045e+006   m0      = 2.6155       lm0     = -0.1269
+**+nn0     = 0.24744      hgd     = 0            mgd     = 0.98034      nngd    = 0
+**+nbemod  = 2
+*+ageflag = 2             parasavingflag= 1      freshdataselection= 2
+*+deg_mode= 2             addnbtiinhci= 2
+**************************************************************
+*               AgeMos model parameters
+**************************************************************
+**+hd1_vth0= 2.55         hn1_vth0= 0.28         hs_vth0 = 1            nd1_vth0= 1.588
+**+nn1_vth0= 0.28         ns_vth0 = 1            hd1_ub  = 0.95         hn1_ub  = 0.29
+**+hs_ub   = 1            nd1_ub  = 3.38         nn1_ub  = 0.33         ns_ub   = 1
+**+hsign_ub= 1            hsign_vth0= 1          nsign_ua= 1            nsign_ub= 1
+**+nsign_vsat= -1         nsign_vth0= 1
+**************************************************************
+* stressing time 0min
+**+ wg=0
+**+ age=1.323779e-15
+
+simulator lang = spectre
+
+endsection hv_mos
+
+section s1v_mac
+subckt s1v_ckt_nch (n11 n2 n33 n4)
+parameters l=0.1u w=10u multi=1 factor=1 nrd=s1v_hdif_ne/factor/w nrs=s1v_hdif_ne/factor/w
++ Tox_ratio = 3.0e-9 / (s1v_tox_ne*s1v_tox_ne*s1v_tox_ne)
+MAIN (n1 n2 n3 n4) gpdk090_nmos1v  w=w l=l nrd=nrd nrs=nrs multi=multi
+GDF1 (n2 n1) bsource i = w*0.6*s1v_xj_ne*4.97232*Tox_ratio*v(n2,n1)*v(n2,n3)*exp(-4.85669e11*s1v_tox_ne*(0.43-0.054*v(n2,n3))*(1.0+0.075*v(n2,n3)))
+GDF2 (n2 n3) bsource i = w*0.6*s1v_xj_ne*4.97232*Tox_ratio*v(n2,n3)*sqrt( (v(n2,n3) - 0.026*log(4.0e20 / s1v_nldd_surf))*(v(n2,n3) - 0.026*log(4.0e20 / s1v_nldd_surf)) + 1.0e-4 )*exp(-4.85669e11*s1v_tox_ne*(0.43-0.054*sqrt( (v(n2,n3) - 0.026*log(4.0e20 / s1v_nldd_surf))*(v(n2,n3) - 0.026*log(4.0e20 / s1v_nldd_surf)) + 1.0e-4 ))*(1.0+0.075*sqrt( (v(n2,n3) - 0.026*log(4.0e20 / s1v_nldd_surf))*(v(n2,n3) - 0.026*log(4.0e20 / s1v_nldd_surf)) + 1.0e-4 )))
+rdn (n1 n11) resistor r= 6.8 *nrd/multi
+rsn (n3 n33) resistor r= 6.8 *nrs/multi
+ends s1v_ckt_nch
+subckt s1v_ckt_pch (p11 p2 p33 p4)
+parameters l=0.1u w=10u multi=1 factor=1 nrd=s1v_hdif_pe/factor/w nrs=s1v_hdif_pe/factor/w
++ Tox_ratio = 3.0e-9/(s1v_tox_pe*s1v_tox_pe*s1v_tox_pe)
+MAIN (p1 p2 p3 p4) gpdk090_pmos1v  w=w l=l nrd=nrd nrs=nrs multi=multi
+GDF1 (p2 p1) bsource i = w*0.6*s1v_xj_pe*3.42537*Tox_ratio*v(p2, p1)*sqrt( (v(p2, p1)-0.026*log(9.32E19/s1v_pldd_surf))*(v(p2, p1)-0.026*log(9.32E19/s1v_pldd_surf)) + 1.0e-4 )*exp(-7.0645e11*s1v_tox_pe*(0.31-0.024*sqrt( (v(p2, p1)-0.026*log(9.32E19/s1v_pldd_surf))*(v(p2, p1)-0.026*log(9.32E19/s1v_pldd_surf)) + 1.0e-4 ))*(1.0+0.03*sqrt( (v(p2, p1)-0.026*log(9.32E19/s1v_pldd_surf))*(v(p2, p1)-0.026*log(9.32E19/s1v_pldd_surf)) + 1.0e-4 )))
+GDF2 (p2 p3) bsource i = w*0.6*s1v_xj_pe*3.42537*Tox_ratio*v(p2, p3)*sqrt( (v(p2, p3)-0.026*log(9.32E19/s1v_pldd_surf))*(v(p2, p3)-0.026*log(9.32E19/s1v_pldd_surf)) + 1.0e-4 )*exp(-7.0645e11*s1v_tox_pe*(0.31-0.024*sqrt( (v(p2, p3)-0.026*log(9.32E19/s1v_pldd_surf))*(v(p2, p3)-0.026*log(9.32E19/s1v_pldd_surf)) + 1.0e-4 ))*(1.0+0.03*sqrt( (v(p2, p3)-0.026*log(9.32E19/s1v_pldd_surf))*(v(p2, p3)-0.026*log(9.32E19/s1v_pldd_surf)) + 1.0e-4 )))
+rdp (p1 p11) resistor r = 7.1 * nrd / multi
+rsp (p3 p33) resistor r = 7.1 * nrs / multi
+ends s1v_ckt_pch
+endsection s1v_mac
+
+section lp_mac
+subckt lp_ckt_nch (n11 n2 n33 n4)
+parameters l=0.1u w=10u multi=1 factor=1 nrd=lp_hdif_ne/factor/w nrs=lp_hdif_ne/factor/w
++ Tox_ratio = 3.0e-9 / (lp_tox_ne*lp_tox_ne*lp_tox_ne)
+MAIN (n1 n2 n3 n4) gpdk090_nmos1v_hvt  w=w l=l nrd=nrd nrs=nrs multi=multi
+GDF1 (n2 n1) bsource i = w*0.6*lp_xj_ne*4.97232*Tox_ratio*v(n2,n1)*v(n2,n3)*exp(-4.85669e11*lp_tox_ne*(0.43-0.054*v(n2,n3))*(1.0+0.075*v(n2,n3)))
+GDF2 (n2 n3) bsource i = w*0.6*lp_xj_ne*4.97232*Tox_ratio*v(n2,n3)*sqrt( (v(n2,n3) - 0.026*log(4.0e20 / lp_nldd_surf))*(v(n2,n3) - 0.026*log(4.0e20 / lp_nldd_surf)) + 1.0e-4 )*exp(-4.85669e11*lp_tox_ne*(0.43-0.054*sqrt( (v(n2,n3) - 0.026*log(4.0e20 / lp_nldd_surf))*(v(n2,n3) - 0.026*log(4.0e20 / lp_nldd_surf)) + 1.0e-4 ))*(1.0+0.075*sqrt( (v(n2,n3) - 0.026*log(4.0e20 / lp_nldd_surf))*(v(n2,n3) - 0.026*log(4.0e20 / lp_nldd_surf)) + 1.0e-4 )))
+rdn (n1 n11) resistor r= 6.8 *nrd/multi
+rsn (n3 n33) resistor r= 6.8 *nrs/multi
+ends lp_ckt_nch
+subckt lp_ckt_pch (p11 p2 p33 p4)
+parameters l=0.1u w=10u multi=1 factor=1 nrd=lp_hdif_pe/factor/w nrs=lp_hdif_pe/factor/w
++ Tox_ratio = 3.0e-9/(lp_tox_pe*lp_tox_pe*lp_tox_pe)
+MAIN (p1 p2 p3 p4) gpdk090_pmos1v_hvt  w=w l=l nrd=nrd nrs=nrs multi=multi
+GDF1 (p2 p1) bsource i = w*0.6*lp_xj_pe*3.42537*Tox_ratio*v(p2, p1)*sqrt( (v(p2, p1)-0.026*log(9.32E19/lp_pldd_surf))*(v(p2, p1)-0.026*log(9.32E19/lp_pldd_surf)) + 1.0e-4 )*exp(-7.0645e11*lp_tox_pe*(0.31-0.024*sqrt( (v(p2, p1)-0.026*log(9.32E19/lp_pldd_surf))*(v(p2, p1)-0.026*log(9.32E19/lp_pldd_surf)) + 1.0e-4 ))*(1.0+0.03*sqrt( (v(p2, p1)-0.026*log(9.32E19/lp_pldd_surf))*(v(p2, p1)-0.026*log(9.32E19/lp_pldd_surf)) + 1.0e-4 )))
+GDF2 (p2 p3) bsource i = w*0.6*lp_xj_pe*3.42537*Tox_ratio*v(p2, p3)*sqrt( (v(p2, p3)-0.026*log(9.32E19/lp_pldd_surf))*(v(p2, p3)-0.026*log(9.32E19/lp_pldd_surf)) + 1.0e-4 )*exp(-7.0645e11*lp_tox_pe*(0.31-0.024*sqrt( (v(p2, p3)-0.026*log(9.32E19/lp_pldd_surf))*(v(p2, p3)-0.026*log(9.32E19/lp_pldd_surf)) + 1.0e-4 ))*(1.0+0.03*sqrt( (v(p2, p3)-0.026*log(9.32E19/lp_pldd_surf))*(v(p2, p3)-0.026*log(9.32E19/lp_pldd_surf)) + 1.0e-4 )))
+rdp (p1 p11) resistor r = 7.1 * nrd / multi
+rsp (p3 p33) resistor r = 7.1 * nrs / multi
+ends lp_ckt_pch
+endsection lp_mac
+
+section hv_mac
+subckt hv_ckt_nch (n11 n2 n33 n4)
+parameters l=0.1u w=10u multi=1 factor=1 nrd=hv_hdif_ne/factor/w nrs=hv_hdif_ne/factor/w
++ Tox_ratio = 3.0e-9 / (hv_tox_ne*hv_tox_ne*hv_tox_ne)
+MAIN (n1 n2 n3 n4) gpdk090_nmos2v  w=w l=l nrd=nrd nrs=nrs multi=multi
+GDF1 (n2 n1) bsource i = w*0.6*hv_xj_ne*4.97232*Tox_ratio*v(n2,n1)*v(n2,n3)*exp(-4.85669e11*hv_tox_ne*(0.43-0.054*v(n2,n3))*(1.0+0.075*v(n2,n3)))
+GDF2 (n2 n3) bsource i = w*0.6*hv_xj_ne*4.97232*Tox_ratio*v(n2,n3)*sqrt( (v(n2,n3) - 0.026*log(4.0e20 / hv_nldd_surf))*(v(n2,n3) - 0.026*log(4.0e20 / hv_nldd_surf)) + 1.0e-4 )*exp(-4.85669e11*hv_tox_ne*(0.43-0.054*sqrt( (v(n2,n3) - 0.026*log(4.0e20 / hv_nldd_surf))*(v(n2,n3) - 0.026*log(4.0e20 / hv_nldd_surf)) + 1.0e-4 ))*(1.0+0.075*sqrt( (v(n2,n3) - 0.026*log(4.0e20 / hv_nldd_surf))*(v(n2,n3) - 0.026*log(4.0e20 / hv_nldd_surf)) + 1.0e-4 )))
+rdn (n1 n11) resistor r= 6.8 *nrd/multi
+rsn (n3 n33) resistor r= 6.8 *nrs/multi
+ends hv_ckt_nch
+subckt hv_ckt_pch (p11 p2 p33 p4)
+parameters l=0.1u w=10u multi=1 factor=1 nrd=hv_hdif_pe/factor/w nrs=hv_hdif_pe/factor/w
++ Tox_ratio = 3.0e-9/(hv_tox_pe*hv_tox_pe*hv_tox_pe)
+MAIN (p1 p2 p3 p4) gpdk090_pmos2v  w=w l=l nrd=nrd nrs=nrs multi=multi
+GDF1 (p2 p1) bsource i = w*0.6*hv_xj_pe*3.42537*Tox_ratio*v(p2, p1)*sqrt( (v(p2, p1)-0.026*log(9.32E19/hv_pldd_surf))*(v(p2, p1)-0.026*log(9.32E19/hv_pldd_surf)) + 1.0e-4 )*exp(-7.0645e11*hv_tox_pe*(0.31-0.024*sqrt( (v(p2, p1)-0.026*log(9.32E19/hv_pldd_surf))*(v(p2, p1)-0.026*log(9.32E19/hv_pldd_surf)) + 1.0e-4 ))*(1.0+0.03*sqrt( (v(p2, p1)-0.026*log(9.32E19/hv_pldd_surf))*(v(p2, p1)-0.026*log(9.32E19/hv_pldd_surf)) + 1.0e-4 )))
+GDF2 (p2 p3) bsource i = w*0.6*hv_xj_pe*3.42537*Tox_ratio*v(p2, p3)*sqrt( (v(p2, p3)-0.026*log(9.32E19/hv_pldd_surf))*(v(p2, p3)-0.026*log(9.32E19/hv_pldd_surf)) + 1.0e-4 )*exp(-7.0645e11*hv_tox_pe*(0.31-0.024*sqrt( (v(p2, p3)-0.026*log(9.32E19/hv_pldd_surf))*(v(p2, p3)-0.026*log(9.32E19/hv_pldd_surf)) + 1.0e-4 ))*(1.0+0.03*sqrt( (v(p2, p3)-0.026*log(9.32E19/hv_pldd_surf))*(v(p2, p3)-0.026*log(9.32E19/hv_pldd_surf)) + 1.0e-4 )))
+rdp (p1 p11) resistor r = 7.1 * nrd / multi
+rsp (p3 p33) resistor r = 7.1 * nrs / multi
+ends hv_ckt_pch
+endsection hv_mac
+
+endlibrary

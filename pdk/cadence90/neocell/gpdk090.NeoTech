@@ -1,0 +1,942 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;
+;   Licensed software
+;   Copyright (c) 2005 Cadence Design Systems, Inc., San Jose, CA
+;   All Rights Reserved
+;
+;   Confidential and Proprietary Information 
+;
+;   The information and descriptions contained herein embody confidential
+;   and proprietary information which is the property of Cadence Design Systems, Inc.
+;   or its licensors.  Such information and descriptions may not be copied,
+;   reproduced, disclosed to others, published or used, in whole or in
+;   part, for any purpose other than those permitted in the license agreement
+;   without the express prior written permission of Cadence Design Systems, Inc.
+;                                     | 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;	gpdk090.NeoTech
+;	Generic 90 nm technology file for NeoCell
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;
+
+(EdgeGrid 5nm)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;  LAYER DEFINITIONS  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(LayerDefinitions 
+ 	(layer	Oxide		1	0	Drawing	Translate	nil)
+ 	(layer	Oxide_thk	24	0	Drawing	Translate	nil)
+	(layer	Nwell		2	0	Drawing	Translate	nil)
+ 	(layer	Poly		3	0	Drawing	Translate	nil)
+	(layer	Nhvt		18	0	Drawing	Translate	nil)
+	(layer	Nimp		4	0	Drawing	Translate	nil)
+	(layer	Phvt		23	0	Drawing	Translate	nil)
+	(layer	Pimp		5	0	Drawing	Translate	nil)
+	(layer	Nzvt		52	0	Drawing	Translate	nil)
+	(layer	SiProt		72	0	Drawing	Translate	nil)
+	(layer	Nburied		19	0	Drawing	Translate	nil)
+	(layer	Cont		6	0	Drawing	Translate	nil)
+	(layer	Metal1		7	0	Drawing	Translate	nil)
+	(layer	Via1		8	0	Drawing	Translate	nil)
+	(layer	Metal2		9	0	Drawing	Translate	nil)
+	(layer	Via2		10	0	Drawing	Translate	nil)
+	(layer	Metal3		11	0	Drawing	Translate	nil)
+	(layer	Via3		30	0	Drawing	Translate	nil)
+	(layer	Metal4		31	0	Drawing	Translate	nil)
+	(layer	Via4		32	0	Drawing	Translate	nil)
+	(layer	Metal5		33	0	Drawing	Translate	nil)
+	(layer	Via5		34	0	Drawing	Translate	nil)
+	(layer	Metal6		35	0	Drawing	Translate	nil)
+	(layer	Via6		37	0	Drawing	Translate	nil)
+	(layer	Metal7		38	0	Drawing	Translate	nil)
+	(layer	Via7		39	0	Drawing	Translate	nil)
+	(layer	Metal8		40	0	Drawing	Translate	nil)
+	(layer  CapMetal	14	0	Drawing Translate	nil)
+	(layer	Psub		25	0	Drawing	Translate	nil)
+	(layer	Resdum		13	0	Drawing	Translate	nil)
+	(layer	Capdum		12	0	Drawing	Translate	nil)
+	(layer	Cap3dum		84	0	Drawing	Translate	nil)
+	(layer	ResWdum		71	0	Drawing	Translate	nil)
+ 	(layer	PolyPin		3	1	Pin		NoTranslate	Poly)
+ 	(layer	PolyBlock	207	0	Blockage	NoTranslate	Poly)
+ 	(layer	Metal1Pin	7	1	Pin		NoTranslate	Metal1)
+ 	(layer	Metal1Block	208	0	Blockage	NoTranslate	Metal1)
+ 	(layer	Metal2Pin	9	1	Pin		NoTranslate	Metal2)
+ 	(layer	Metal2Block	209	0	Blockage	NoTranslate	Metal2)
+ 	(layer	Metal3Pin	11	1	Pin		NoTranslate	Metal3)
+ 	(layer	Metal3Block	210	0	Blockage	NoTranslate	Metal3)
+ 	(layer	Metal4Pin	31	1	Pin		NoTranslate	Metal4)
+ 	(layer	Metal4Block	211	0	Blockage	NoTranslate	Metal4)
+ 	(layer	Metal5Pin	33	1	Pin		NoTranslate	Metal5)
+ 	(layer	Metal5Block	212	0	Blockage	NoTranslate	Metal5)
+ 	(layer	Metal6Pin	35	1	Pin		NoTranslate	Metal6)
+ 	(layer	Metal6Block	213	0	Blockage	NoTranslate	Metal6)
+ 	(layer	Metal7Pin	38	1	Pin		NoTranslate	Metal7)
+ 	(layer	Metal7Block	214	0	Blockage	NoTranslate	Metal7)
+ 	(layer	Metal8Pin	40	1	Pin		NoTranslate	Metal8)
+ 	(layer	Metal8Block	215	0	Blockage	NoTranslate	Metal8)
+
+	(layer	Pwell		216	0	Drawing	Translate	nil)
+ 	(layer	PwellVariable	216	3	Variable	NoTranslate	Pwell)
+ 	(layer	NwellVariable	2	3	Variable	NoTranslate	Nwell)
+ 	(layer	allGeoShare	100	0	GeoShare	NoTranslate	nil)
+ 	(layer	infoLayer	254	0	Drawing		Translate	nil)
+	(layer	text		230	0	Drawing		Translate	nil)
+	(layer	prBoundary	235	0	Drawing		Translate	nil)
+	(layer	drctest		231	0	DRC		Translate	nil)
+	
+	;(DerivedLayer polygate (+ Poly) (- Oxide))
+
+	;(WidthDerivedLayer ...)
+	
+	(BackgroundLayer Pwell)
+
+	(DerivedLayer	ODPimp		(+ Oxide Pimp))
+	(DerivedLayer	ODNimp		(+ Oxide Nimp))
+	(DerivedLayer	ODNimpNW	(+ Oxide Nimp Nwell))
+	(DerivedLayer	ODPimpNW	(+ Oxide Pimp Nwell))	
+	(DerivedLayer	ODNimpPW	(+ Oxide Nimp) (- Nwell))
+	(DerivedLayer	ODPimpPW	(+ Oxide Pimp) (- Nwell))
+	(DerivedLayer	PGATE		(+ Oxide Pimp Poly))
+	(DerivedLayer	NGATE		(+ Oxide Nimp Poly))
+	(DerivedLayer	PolyOD		(+ Oxide Poly))
+	(DerivedLayer	ODTHKPimp	(+ Oxide_thk Pimp))
+	(DerivedLayer	ODTHKNimp	(+ Oxide_thk Nimp))
+	(DerivedLayer	ODTHKNimpNW	(+ Oxide_thk Nimp Nwell))
+	(DerivedLayer	ODTHKPimpNW	(+ Oxide_thk Pimp Nwell))	
+	(DerivedLayer	ODTHKNimpPW	(+ Oxide_thk Nimp) (- Nwell))
+	(DerivedLayer	ODTHKPimpPW	(+ Oxide_thk Pimp) (- Nwell))
+	(DerivedLayer	PGATE_THK	(+ Oxide_thk Pimp Poly))
+	(DerivedLayer	NGATE_THK	(+ Oxide_thk Nimp Poly))
+	(DerivedLayer	PolyODTHK	(+ Oxide_thk Poly))
+	(DerivedLayer	PolyCont	(+ Poly Cont))
+	(DerivedLayer	NwellRing	(+ Nwell Nburied))
+	(DerivedLayer	ActiveResistor	(+ Oxide Resdum))
+	(DerivedLayer	PolyResistor	(+ Poly Resdum))
+	
+	;(DerivedWidthLayer	DLayerName	BaseLayerName	MinWidth	Extension
+	(DerivedWidthLayer	wide1Metal1	Metal1		180		0)
+	(DerivedWidthLayer	wide2Metal1	Metal1		1500		0)
+	(DerivedWidthLayer	wide3Metal1	Metal1		3000		0)
+	(DerivedWidthLayer	wide4Metal1	Metal1		4500		0)
+	(DerivedWidthLayer	wide5Metal1	Metal1		7500		0)
+
+	(DerivedWidthLayer	wide1Metal2	Metal2		200		0)
+	(DerivedWidthLayer	wide2Metal2	Metal2		1500		0)
+	(DerivedWidthLayer	wide3Metal2	Metal2		3000		0)
+	(DerivedWidthLayer	wide4Metal2	Metal2		4500		0)
+	(DerivedWidthLayer	wide5Metal2	Metal2		7500		0)
+
+	(DerivedWidthLayer	wide1Metal3	Metal3		200		0)
+	(DerivedWidthLayer	wide2Metal3	Metal3		1500		0)
+	(DerivedWidthLayer	wide3Metal3	Metal3		3000		0)
+	(DerivedWidthLayer	wide4Metal3	Metal3		4500		0)
+	(DerivedWidthLayer	wide5Metal3	Metal3		7500		0)
+
+	(DerivedWidthLayer	wide1Metal4	Metal4		200		0)
+	(DerivedWidthLayer	wide2Metal4	Metal4		1500		0)
+	(DerivedWidthLayer	wide3Metal4	Metal4		3000		0)
+	(DerivedWidthLayer	wide4Metal4	Metal4		4500		0)
+	(DerivedWidthLayer	wide5Metal4	Metal4		7500		0)
+
+	(DerivedWidthLayer	wide1Metal5	Metal5		200		0)
+	(DerivedWidthLayer	wide2Metal5	Metal5		1500		0)
+	(DerivedWidthLayer	wide3Metal5	Metal5		3000		0)
+	(DerivedWidthLayer	wide4Metal5	Metal5		4500		0)
+	(DerivedWidthLayer	wide5Metal5	Metal5		7500		0)
+
+	(DerivedWidthLayer	wide1Metal6	Metal6		200		0)
+	(DerivedWidthLayer	wide2Metal6	Metal6		1500		0)
+	(DerivedWidthLayer	wide3Metal6	Metal6		3000		0)
+	(DerivedWidthLayer	wide4Metal6	Metal6		4500		0)
+	(DerivedWidthLayer	wide5Metal6	Metal6		7500		0)
+
+	(DerivedWidthLayer	wide1Metal7	Metal7		200		0)
+	(DerivedWidthLayer	wide2Metal7	Metal7		1500		0)
+	(DerivedWidthLayer	wide3Metal7	Metal7		3000		0)
+	(DerivedWidthLayer	wide4Metal7	Metal7		4500		0)
+	(DerivedWidthLayer	wide5Metal7	Metal7		7500		0)
+
+
+); End LayerDefinitions
+
+(CDSLayerMaps
+  (Nwell	((Nwell drawing)))
+  (Oxide	((Oxide drawing)))
+  (Oxide_thk	((Oxide_thk drawing)))
+  (Nhvt		((Nhvt drawing)))
+  (Phvt		((Phvt drawing)))
+  (Nzvt		((Nzvt drawing)))
+  (SiProt	((SiProt drawing)))
+  (Nburied	((Nburied drawing)))
+  (Psub		((Psub drawing)))
+  (Resdum	((Resdum drawing)))
+  (Capdum	((Capdum drawing)))
+  (Cap3dum	((Cap3dum drawing)))
+  (Pimp		((Pimp drawing)))
+  (Nimp		((Nimp drawing)))
+  (Poly		((Poly drawing)	(Poly pin) (Poly net)))
+  (Cont		((Cont drawing)))
+  (Metal1	((Metal1 drawing) (Metal1 pin) (Metal1 net)))
+  (Via1		((Via1 drawing)))
+  (Metal2	((Metal2 drawing) (Metal2 pin) (Metal2 net)))
+  (Via2		((Via2 drawing)))
+  (Metal3	((Metal3 drawing) (Metal3 pin) (Metal3 net)))
+  (Via3		((Via3 drawing)))
+  (Metal4	((Metal4 drawing) (Metal4 pin) (Metal4 net)))
+  (Via4		((Via4 drawing)))
+  (Metal5	((Metal5 drawing) (Metal5 pin) (Metal5 net)))
+  (Via5		((Via5 drawing)))
+  (Metal6	((Metal6 drawing) (Metal6 pin) (Metal6 net)))
+  (Via6		((Via6 drawing)))
+  (Metal7	((Metal7 drawing) (Metal7 pin) (Metal7 net)))
+  (Via7		((Via7 drawing)))
+  (Metal8	((Metal8 drawing) (Metal8 pin) (Metal8 net)))
+  (CapMetal     ((CapMetal drawing)))
+  (ResWdum	((ResWdum drawing)))
+
+  (text		((text drawing)))
+  (allGeoShare 	((allGeoShare drawing)	(allGeoShare GeoShare)))
+  (prBoundary  	((prBoundary drawing)	(prBoundary boundary)))
+); End CDSLayerMaps
+
+(CDSViaMaps
+;  (M1_PO	M1_POLYc)
+;  (M2_M1	M2_M1c)
+;  (M3_M2	M3_M2c)
+;  (M4_M3	M4_M3c)
+;  (M5_M4	M5_M4c)
+;  (M6_M5	M6_M5c)
+;  (M7_M6	M7_M6c)
+;  (M8_M7	M8_M7c)
+;  (M1_PIMP	M1_PIMP)
+;  (M1_NIMP	M1_NIMP)
+;  (M1_PSUB	M1_PSUB)
+;  (M1_NWELL	M1_NWELL)
+); End CDSViaMaps
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;  GEOMETRIC LAYER RULES  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(LayerGeometricRules
+	; NBuried rules
+	(Spacing	Nburied		Nwell	4400	nil		"NBL.SE.1 - Nburied to Nwell spacing = 4.4um")
+	(Spacing	Nburied		Oxide	2200	nil		"NBL.SE.2 - Nburied to Oxide spacing = 2.2um")
+	(Spacing	NwellRing	ODPimp	500	nil		"NBL.SE.3 - Nwell Ring on Nburied to P+ = 0.5um")
+	(Spacing	NwellRing	ODNimp	400	nil		"NBL.SE.4 - Nwell Ring on Nburied to N+ = 0.4um")
+	
+	; NW rules
+	(Width		Nwell			 600	nil		"NW.W.2 - Hot Nwell Width = 2.1um")
+	(Spacing	Nwell		Nwell	1200	DiffNet		"NW.S.1 - Nwell Spacing at diff potential = 1.2um")
+	(Spacing	Nwell		Nwell	 600	SameNet		"NW.S.2 - Nwell Spacing at same potential = 0.6um")
+	(Spacing	ODNimp		Nwell	 300	nil		"NW.SE.1 - Nwell to N+ Oxide = 0.3um")
+	(Spacing	ODPimp		Nwell	 300	nil		"NW.SE.2 - Nwell to P+ Oxide = 0.3um")
+	(Spacing	ODTHKNimp	Nwell	 500	nil		"NW.SE.3 - Nwell to 2.5V N+ Oxide = 0.5um")
+	(Spacing	ODTHKPimp	Nwell	 500	nil		"NW.SE.4 - Nwell to 2.5V P+ Oxide = 0.5um")
+	
+	; OD rules
+	(Spacing	ODPimp		ODPimp	 150	nil		"OXIDE.SP.2 - P+ to P+ Spacing = 0.28um")
+	(Spacing	ODNimp		ODNimp	 150	nil		"OXIDE.SP.1 - N+ to N+ Spacing = 0.28um")
+	(Spacing	ODNimp		ODPimp	 180	nil		"OXIDE.SP.3 - N+ to P+ Spacing = 0.28um")
+	(Spacing	Oxide		Oxide_thk	1800 	nil	"OXIDE.SE.1 - Oxide to Oxide_thk Spacing = 1.8um")
+	(Spacing	ActiveResistor	Pimp	300	nil		"OXIDER.SE.2 - Active resistor to Pimp Spacing = 0.3um")
+	(Spacing	ActiveResistor	Nimp	300	nil		"OXIDER.SE.2 - Active resistor to Nimp Spacing = 0.3um")	
+	; Thick Oxide
+	(Spacing	Oxide_thk	Oxide_thk	350	nil	"OXIDETHK.SP.1 - Thick Oxide spacing = 0.35um")	
+	(Spacing	ODTHKPimp	ODTHKPimp	200	nil	"OXIDETHK.SP.2 - 2.5V P+ to 2.5V P+ Spacing = 0.2um")
+	(Spacing	ODTHKNimp	ODTHKNimp	200	nil	"OXIDETHK.SP.1 - 2.5V N+ to 2.5V N+ Spacing = 0.2um")
+	(Spacing	ODTHKNimp	ODTHKPimp	250	nil	"OXIDETHK.SP.3 - 2.5V N+ to 2.5V P+ Spacing = 0.25um")
+
+	; Nzvt Rules
+	(Spacing	Nzvt		Nzvt		600	nil	"NZVT.W.1 - Nzvt spacing = 0.6um")
+	(Spacing	Nzvt		Oxide		400	nil	"NZVT.SE.1 - Nzvt to Oxide spacing = 0.4um")
+	(Spacing	Nzvt		Nwell		1200	nil	"NZVT.SE.2 - Nzvt to Nwell spacing = 1.2um")
+	
+	
+	; Poly rules
+	(Width		Poly			100	nil		"POLY.W.5 - Interconnect width = 0.1um")
+	(Spacing	Poly		Poly	120	nil		"POLY.SP.3 - Minimum Poly spacing = 0.12um")
+	(Spacing	Poly		Oxide	100	nil		"POLY.SE.1,52 - Poly to Oxide spacing = 0.1um")
+	(Spacing	PolyResistor	Nimp	300	nil		"POLYR.SE.2 - Poly to Nimp spacing = 0.3um")
+	(Spacing	PolyResistor	Pimp	300	nil		"POLYR.SE.2 - Poly to Pimp spacing = 0.3um")
+	(Spacing	PolyResistor	Nzvt	300	nil		"POLYR.SE.2 - Poly to Nzvt spacing = 0.3um")
+
+	; Siprot Rules
+	(Spacing	SiProt		SiProt	440	nil		"SIPROT.SP.1 - SiProt spacing = 0.44um")
+	(Spacing	SiProt		Cont	240	nil		"SIPROT.SE.1 - SiProt to Cont spacing = 0.24um")
+	
+	; NP Rules
+	(Width		Nimp			240	nil		"NIMPP.W.1 - Minimum NP Width = 0.24um")
+	(Spacing	Nimp		Nimp	240	mergeIfLess	"NIMP.SP.1 - Minimum NP spacing = 0.24um")
+	(Spacing	ODPimpNW	Nimp	160	nil		"NIMP.SE.1 - Minimim space between NP to P+ = 0.160um")
+	(Spacing	ODPimpPW	ODNimpPW	200	nil	"NIMP.SE.2 - Minimum P+ Pwell to N+ Pwell spacing = 0.2um")
+
+	; PP Rules
+	(Width		Pimp			240	nil		"PIMP.W.1 - Minimum PP Width = 0.24um")
+	(Spacing	Pimp		Pimp	240	mergeIfLess	"PIMP.SP.1 - Minimum PP spacing = 0.24um")
+	(Spacing	ODNimpPW	Pimp	160	nil		"PIMP.SE.1 - Minimim space between PP to N+ = 0.160um")
+	(Spacing	ODPimpNW	ODNimpNW	200	nil	"PIMP.SE.2 - Minimum P+ Nwell to N+ Nwell spacing = 0.2um")
+
+	; Metal1 Rules
+	(Width		Metal1				120	nil		"M1.W.1 - Minimum Metal1 Width = 0.12um")
+	(Spacing	Metal1		Metal1		120	nil		"M1.SP.1 - Minimum Metal1 Spacing = 0.12um")
+	(Spacing	wide1Metal1	Metal1		180	nil		"M1.S.2	- Minimum space between wide1Metal1 and Metal1 = 0.18um")
+	(Spacing	wide1Metal1	wide1Metal1	180	nil		"M1.S.2	- Minimum space between wide1Metal1 and Metal1 = 0.18um")
+	(Spacing	wide2Metal1	Metal1		500	nil		"M1.S.2	- Minimum space between wide2Metal1 and Metal1 = 0.5um")
+	(Spacing	wide2Metal1	wide1Metal1	500	nil		"M1.S.2	- Minimum space between wide2Metal1 and wide1Metal1 = 0.5um")
+	(Spacing	wide2Metal1	wide2Metal1	500	nil		"M1.S.2	- Minimum space between wide2Metal1 and wide2Metal1 = 0.5um")
+	(Spacing	wide3Metal1	Metal1		900	nil		"M1.S.2	- Minimum space between wide3Metal1 and Metal1 = 0.9um")
+	(Spacing	wide3Metal1	wide1Metal1	900	nil		"M1.S.2	- Minimum space between wide3Metal1 and wide1Metal1 = 0.9um")
+	(Spacing	wide3Metal1	wide2Metal1	900	nil		"M1.S.2	- Minimum space between wide3Metal1 and wide2Metal1 = 0.9um")
+	(Spacing	wide3Metal1	wide3Metal1	900	nil		"M1.S.2	- Minimum space between wide3Metal1 and wide3Metal1 = 0.9um")
+	(Spacing	wide4Metal1	Metal1		1500	nil		"M1.S.2	- Minimum space between wide4Metal1 and Metal1 = 1.5um")
+	(Spacing	wide4Metal1	wide1Metal1	1500	nil		"M1.S.2	- Minimum space between wide4Metal1 and wide1Metal1 = 1.5um")
+	(Spacing	wide4Metal1	wide2Metal1	1500	nil		"M1.S.2	- Minimum space between wide4Metal1 and wide2Metal1 = 1.5um")
+	(Spacing	wide4Metal1	wide3Metal1	1500	nil		"M1.S.2	- Minimum space between wide4Metal1 and wide3Metal1 = 1.5um")
+	(Spacing	wide4Metal1	wide4Metal1	1500	nil		"M1.S.2	- Minimum space between wide4Metal1 and wide4Metal1 = 1.5um")
+	(Spacing	wide5Metal1	Metal1		2500	nil		"M1.S.2	- Minimum space between wide5Metal1 and Metal1 = 2.5um")
+	(Spacing	wide5Metal1	wide1Metal1	2500	nil		"M1.S.2	- Minimum space between wide5Metal1 and wide1Metal1 = 2.5um")
+	(Spacing	wide5Metal1	wide2Metal1	2500	nil		"M1.S.2	- Minimum space between wide5Metal1 and wide2Metal1 = 2.5um")
+	(Spacing	wide5Metal1	wide3Metal1	2500	nil		"M1.S.2	- Minimum space between wide5Metal1 and wide3Metal1 = 2.5um")
+	(Spacing	wide5Metal1	wide4Metal1	2500	nil		"M1.S.2	- Minimum space between wide5Metal1 and wide4Metal1 = 2.5um")
+	(Spacing	wide5Metal1	wide5Metal1	2500	nil		"M1.S.2	- Minimum space between wide5Metal1 and wide5Metal1 = 2.5um")
+
+	; Metal2 Rules
+	(Width		Metal2				140	nil		"M2.W.1 - Minimum Metal2 Width = 0.14um")
+	(Spacing	Metal2		Metal2		140	nil		"M2.S.1 - Minimum Metal2 Spacing = 0.14um")
+	(Spacing	wide1Metal2	Metal2		200	nil		"M2.S.2	- Minimum space between wide1Metal2 and Metal2 = 0.2um")
+	(Spacing	wide1Metal2	wide1Metal2	200	nil		"M2.S.2	- Minimum space between wide1Metal2 and Metal2 = 0.2um")
+	(Spacing	wide2Metal2	Metal2		500	nil		"M2.S.2	- Minimum space between wide2Metal2 and Metal2 = 0.5um")
+	(Spacing	wide2Metal2	wide1Metal2	500	nil		"M2.S.2	- Minimum space between wide2Metal2 and wide1Metal2 = 0.5um")
+	(Spacing	wide2Metal2	wide2Metal2	500	nil		"M2.S.2	- Minimum space between wide2Metal2 and wide2Metal2 = 0.5um")
+	(Spacing	wide3Metal2	Metal2		900	nil		"M2.S.2	- Minimum space between wide3Metal2 and Metal2 = 0.9um")
+	(Spacing	wide3Metal2	wide1Metal2	900	nil		"M2.S.2	- Minimum space between wide3Metal2 and wide1Metal2 = 0.9um")
+	(Spacing	wide3Metal2	wide2Metal2	900	nil		"M2.S.2	- Minimum space between wide3Metal2 and wide2Metal2 = 0.9um")
+	(Spacing	wide3Metal2	wide3Metal2	900	nil		"M2.S.2	- Minimum space between wide3Metal2 and wide3Metal2 = 0.9um")
+	(Spacing	wide4Metal2	Metal2		1500	nil		"M2.S.2	- Minimum space between wide4Metal2 and Metal2 = 1.5um")
+	(Spacing	wide4Metal2	wide1Metal2	1500	nil		"M2.S.2	- Minimum space between wide4Metal2 and wide1Metal2 = 1.5um")
+	(Spacing	wide4Metal2	wide2Metal2	1500	nil		"M2.S.2	- Minimum space between wide4Metal2 and wide2Metal2 = 1.5um")
+	(Spacing	wide4Metal2	wide3Metal2	1500	nil		"M2.S.2	- Minimum space between wide4Metal2 and wide3Metal2 = 1.5um")
+	(Spacing	wide4Metal2	wide4Metal2	1500	nil		"M2.S.2	- Minimum space between wide4Metal2 and wide4Metal2 = 1.5um")
+	(Spacing	wide5Metal2	Metal2		2500	nil		"M2.S.2	- Minimum space between wide5Metal2 and Metal2 = 2.5um")
+	(Spacing	wide5Metal2	wide1Metal2	2500	nil		"M2.S.2	- Minimum space between wide5Metal2 and wide1Metal2 = 2.5um")
+	(Spacing	wide5Metal2	wide2Metal2	2500	nil		"M2.S.2	- Minimum space between wide5Metal2 and wide2Metal2 = 2.5um")
+	(Spacing	wide5Metal2	wide3Metal2	2500	nil		"M2.S.2	- Minimum space between wide5Metal2 and wide3Metal2 = 2.5um")
+	(Spacing	wide5Metal2	wide4Metal2	2500	nil		"M2.S.2	- Minimum space between wide5Metal2 and wide4Metal2 = 2.5um")
+	(Spacing	wide5Metal2	wide5Metal2	2500	nil		"M2.S.2	- Minimum space between wide5Metal2 and wide5Metal2 = 2.5um")
+
+
+	; Metal3 Rules
+	(Width		Metal3				140	nil		"M3.W.1 - Minimum Metal3 Width = 0.14um")
+	(Spacing	Metal3		Metal3		140	nil		"M3.S.1 - Minimum Metal3 Spacing = 0.14um")
+	(Spacing	wide1Metal3	Metal3		200	nil		"M3.S.2	- Minimum space between wide1Metal3 and Metal3 = 0.2um")
+	(Spacing	wide1Metal3	wide1Metal3	200	nil		"M3.S.2	- Minimum space between wide1Metal3 and Metal3 = 0.2um")
+	(Spacing	wide2Metal3	Metal3		500	nil		"M3.S.2	- Minimum space between wide2Metal3 and Metal3 = 0.5um")
+	(Spacing	wide2Metal3	wide1Metal3	500	nil		"M3.S.2	- Minimum space between wide2Metal3 and wide1Metal3 = 0.5um")
+	(Spacing	wide2Metal3	wide2Metal3	500	nil		"M3.S.2	- Minimum space between wide2Metal3 and wide2Metal3 = 0.5um")
+	(Spacing	wide3Metal3	Metal3		900	nil		"M3.S.2	- Minimum space between wide3Metal3 and Metal3 = 0.9um")
+	(Spacing	wide3Metal3	wide1Metal3	900	nil		"M3.S.2	- Minimum space between wide3Metal3 and wide1Metal3 = 0.9um")
+	(Spacing	wide3Metal3	wide2Metal3	900	nil		"M3.S.2	- Minimum space between wide3Metal3 and wide2Metal3 = 0.9um")
+	(Spacing	wide3Metal3	wide3Metal3	900	nil		"M3.S.2	- Minimum space between wide3Metal3 and wide3Metal3 = 0.9um")
+	(Spacing	wide4Metal3	Metal3		1500	nil		"M3.S.2	- Minimum space between wide4Metal3 and Metal3 = 1.5um")
+	(Spacing	wide4Metal3	wide1Metal3	1500	nil		"M3.S.2	- Minimum space between wide4Metal3 and wide1Metal3 = 1.5um")
+	(Spacing	wide4Metal3	wide2Metal3	1500	nil		"M3.S.2	- Minimum space between wide4Metal3 and wide2Metal3 = 1.5um")
+	(Spacing	wide4Metal3	wide3Metal3	1500	nil		"M3.S.2	- Minimum space between wide4Metal3 and wide3Metal3 = 1.5um")
+	(Spacing	wide4Metal3	wide4Metal3	1500	nil		"M3.S.2	- Minimum space between wide4Metal3 and wide4Metal3 = 1.5um")
+	(Spacing	wide5Metal3	Metal3		2500	nil		"M3.S.2	- Minimum space between wide5Metal3 and Metal3 = 2.5um")
+	(Spacing	wide5Metal3	wide1Metal3	2500	nil		"M3.S.2	- Minimum space between wide5Metal3 and wide1Metal3 = 2.5um")
+	(Spacing	wide5Metal3	wide2Metal3	2500	nil		"M3.S.2	- Minimum space between wide5Metal3 and wide2Metal3 = 2.5um")
+	(Spacing	wide5Metal3	wide3Metal3	2500	nil		"M3.S.2	- Minimum space between wide5Metal3 and wide3Metal3 = 2.5um")
+	(Spacing	wide5Metal3	wide4Metal3	2500	nil		"M3.S.2	- Minimum space between wide5Metal3 and wide4Metal3 = 2.5um")
+	(Spacing	wide5Metal3	wide5Metal3	2500	nil		"M3.S.2	- Minimum space between wide5Metal3 and wide5Metal3 = 2.5um")
+
+	; Metal4 Rules
+	(Width		Metal4				140	nil		"M4.W.1 - Minimum Metal4 Width = 0.14um")
+	(Spacing	Metal4		Metal4		140	nil		"M4.S.1 - Minimum Metal4 Spacing = 0.14um")
+	(Spacing	wide1Metal4	Metal4		200	nil		"M4.S.2	- Minimum space between wide1Metal4 and Metal4 = 0.2um")
+	(Spacing	wide1Metal4	wide1Metal4	200	nil		"M4.S.2	- Minimum space between wide1Metal4 and Metal4 = 0.2um")
+	(Spacing	wide2Metal4	Metal4		500	nil		"M4.S.2	- Minimum space between wide2Metal4 and Metal4 = 0.5um")
+	(Spacing	wide2Metal4	wide1Metal4	500	nil		"M4.S.2	- Minimum space between wide2Metal4 and wide1Metal4 = 0.5um")
+	(Spacing	wide2Metal4	wide2Metal4	500	nil		"M4.S.2	- Minimum space between wide2Metal4 and wide2Metal4 = 0.5um")
+	(Spacing	wide3Metal4	Metal4		900	nil		"M4.S.2	- Minimum space between wide3Metal4 and Metal4 = 0.9um")
+	(Spacing	wide3Metal4	wide1Metal4	900	nil		"M4.S.2	- Minimum space between wide3Metal4 and wide1Metal4 = 0.9um")
+	(Spacing	wide3Metal4	wide2Metal4	900	nil		"M4.S.2	- Minimum space between wide3Metal4 and wide2Metal4 = 0.9um")
+	(Spacing	wide3Metal4	wide3Metal4	900	nil		"M4.S.2	- Minimum space between wide3Metal4 and wide3Metal4 = 0.9um")
+	(Spacing	wide4Metal4	Metal4		1500	nil		"M4.S.2	- Minimum space between wide4Metal4 and Metal4 = 1.5um")
+	(Spacing	wide4Metal4	wide1Metal4	1500	nil		"M4.S.2	- Minimum space between wide4Metal4 and wide1Metal4 = 1.5um")
+	(Spacing	wide4Metal4	wide2Metal4	1500	nil		"M4.S.2	- Minimum space between wide4Metal4 and wide2Metal4 = 1.5um")
+	(Spacing	wide4Metal4	wide3Metal4	1500	nil		"M4.S.2	- Minimum space between wide4Metal4 and wide3Metal4 = 1.5um")
+	(Spacing	wide4Metal4	wide4Metal4	1500	nil		"M4.S.2	- Minimum space between wide4Metal4 and wide4Metal4 = 1.5um")
+	(Spacing	wide5Metal4	Metal4		2500	nil		"M4.S.2	- Minimum space between wide5Metal4 and Metal4 = 2.5um")
+	(Spacing	wide5Metal4	wide1Metal4	2500	nil		"M4.S.2	- Minimum space between wide5Metal4 and wide1Metal4 = 2.5um")
+	(Spacing	wide5Metal4	wide2Metal4	2500	nil		"M4.S.2	- Minimum space between wide5Metal4 and wide2Metal4 = 2.5um")
+	(Spacing	wide5Metal4	wide3Metal4	2500	nil		"M4.S.2	- Minimum space between wide5Metal4 and wide3Metal4 = 2.5um")
+	(Spacing	wide5Metal4	wide4Metal4	2500	nil		"M4.S.2	- Minimum space between wide5Metal4 and wide4Metal4 = 2.5um")
+	(Spacing	wide5Metal4	wide5Metal4	2500	nil		"M4.S.2	- Minimum space between wide5Metal4 and wide5Metal4 = 2.5um")
+
+
+	; Metal5 Rules
+	(Width		Metal5				140	nil		"M5.W.1 - Minimum Metal5 Width = 0.14um")
+	(Spacing	Metal5		Metal5		140	nil		"M5.S.1 - Minimum Metal5 Spacing = 0.14um")
+	(Spacing	wide1Metal5	Metal5		200	nil		"M5.S.2	- Minimum space between wide1Metal5 and Metal5 = 0.2um")
+	(Spacing	wide1Metal5	wide1Metal5	200	nil		"M5.S.2	- Minimum space between wide1Metal5 and Metal5 = 0.2um")
+	(Spacing	wide2Metal5	Metal5		500	nil		"M5.S.2	- Minimum space between wide2Metal5 and Metal5 = 0.5um")
+	(Spacing	wide2Metal5	wide1Metal5	500	nil		"M5.S.2	- Minimum space between wide2Metal5 and wide1Metal5 = 0.5um")
+	(Spacing	wide2Metal5	wide2Metal5	500	nil		"M5.S.2	- Minimum space between wide2Metal5 and wide2Metal5 = 0.5um")
+	(Spacing	wide3Metal5	Metal5		900	nil		"M5.S.2	- Minimum space between wide3Metal5 and Metal5 = 0.9um")
+	(Spacing	wide3Metal5	wide1Metal5	900	nil		"M5.S.2	- Minimum space between wide3Metal5 and wide1Metal5 = 0.9um")
+	(Spacing	wide3Metal5	wide2Metal5	900	nil		"M5.S.2	- Minimum space between wide3Metal5 and wide2Metal5 = 0.9um")
+	(Spacing	wide3Metal5	wide3Metal5	900	nil		"M5.S.2	- Minimum space between wide3Metal5 and wide3Metal5 = 0.9um")
+	(Spacing	wide4Metal5	Metal5		1500	nil		"M5.S.2	- Minimum space between wide4Metal5 and Metal5 = 1.5um")
+	(Spacing	wide4Metal5	wide1Metal5	1500	nil		"M5.S.2	- Minimum space between wide4Metal5 and wide1Metal5 = 1.5um")
+	(Spacing	wide4Metal5	wide2Metal5	1500	nil		"M5.S.2	- Minimum space between wide4Metal5 and wide2Metal5 = 1.5um")
+	(Spacing	wide4Metal5	wide3Metal5	1500	nil		"M5.S.2	- Minimum space between wide4Metal5 and wide3Metal5 = 1.5um")
+	(Spacing	wide4Metal5	wide4Metal5	1500	nil		"M5.S.2	- Minimum space between wide4Metal5 and wide4Metal5 = 1.5um")
+	(Spacing	wide5Metal5	Metal5		2500	nil		"M5.S.2	- Minimum space between wide5Metal5 and Metal5 = 2.5um")
+	(Spacing	wide5Metal5	wide1Metal5	2500	nil		"M5.S.2	- Minimum space between wide5Metal5 and wide1Metal5 = 2.5um")
+	(Spacing	wide5Metal5	wide2Metal5	2500	nil		"M5.S.2	- Minimum space between wide5Metal5 and wide2Metal5 = 2.5um")
+	(Spacing	wide5Metal5	wide3Metal5	2500	nil		"M5.S.2	- Minimum space between wide5Metal5 and wide3Metal5 = 2.5um")
+	(Spacing	wide5Metal5	wide4Metal5	2500	nil		"M5.S.2	- Minimum space between wide5Metal5 and wide4Metal5 = 2.5um")
+	(Spacing	wide5Metal5	wide5Metal5	2500	nil		"M5.S.2	- Minimum space between wide5Metal5 and wide5Metal5 = 2.5um")
+
+	; Metal6 Rules
+	(Width		Metal6				140	nil		"M6.W.1 - Minimum Metal6 Width = 0.14um")
+	(Spacing	Metal6		Metal6		140	nil		"M6.S.1 - Minimum Metal6 Spacing = 0.14um")
+	(Spacing	wide1Metal6	Metal6		200	nil		"M6.S.2	- Minimum space between wide1Metal6 and Metal6 = 0.2um")
+	(Spacing	wide1Metal6	wide1Metal6	200	nil		"M6.S.2	- Minimum space between wide1Metal6 and Metal6 = 0.2um")
+	(Spacing	wide2Metal6	Metal6		500	nil		"M6.S.2	- Minimum space between wide2Metal6 and Metal6 = 0.5um")
+	(Spacing	wide2Metal6	wide1Metal6	500	nil		"M6.S.2	- Minimum space between wide2Metal6 and wide1Metal6 = 0.5um")
+	(Spacing	wide2Metal6	wide2Metal6	500	nil		"M6.S.2	- Minimum space between wide2Metal6 and wide2Metal6 = 0.5um")
+	(Spacing	wide3Metal6	Metal6		900	nil		"M6.S.2	- Minimum space between wide3Metal6 and Metal6 = 0.9um")
+	(Spacing	wide3Metal6	wide1Metal6	900	nil		"M6.S.2	- Minimum space between wide3Metal6 and wide1Metal6 = 0.9um")
+	(Spacing	wide3Metal6	wide2Metal6	900	nil		"M6.S.2	- Minimum space between wide3Metal6 and wide2Metal6 = 0.9um")
+	(Spacing	wide3Metal6	wide3Metal6	900	nil		"M6.S.2	- Minimum space between wide3Metal6 and wide3Metal6 = 0.9um")
+	(Spacing	wide4Metal6	Metal6		1500	nil		"M6.S.2	- Minimum space between wide4Metal6 and Metal6 = 1.5um")
+	(Spacing	wide4Metal6	wide1Metal6	1500	nil		"M6.S.2	- Minimum space between wide4Metal6 and wide1Metal6 = 1.5um")
+	(Spacing	wide4Metal6	wide2Metal6	1500	nil		"M6.S.2	- Minimum space between wide4Metal6 and wide2Metal6 = 1.5um")
+	(Spacing	wide4Metal6	wide3Metal6	1500	nil		"M6.S.2	- Minimum space between wide4Metal6 and wide3Metal6 = 1.5um")
+	(Spacing	wide4Metal6	wide4Metal6	1500	nil		"M6.S.2	- Minimum space between wide4Metal6 and wide4Metal6 = 1.5um")
+	(Spacing	wide5Metal6	Metal6		2500	nil		"M6.S.2	- Minimum space between wide5Metal6 and Metal6 = 2.5um")
+	(Spacing	wide5Metal6	wide1Metal6	2500	nil		"M6.S.2	- Minimum space between wide5Metal6 and wide1Metal6 = 2.5um")
+	(Spacing	wide5Metal6	wide2Metal6	2500	nil		"M6.S.2	- Minimum space between wide5Metal6 and wide2Metal6 = 2.5um")
+	(Spacing	wide5Metal6	wide3Metal6	2500	nil		"M6.S.2	- Minimum space between wide5Metal6 and wide3Metal6 = 2.5um")
+	(Spacing	wide5Metal6	wide4Metal6	2500	nil		"M6.S.2	- Minimum space between wide5Metal6 and wide4Metal6 = 2.5um")
+	(Spacing	wide5Metal6	wide5Metal6	2500	nil		"M6.S.2	- Minimum space between wide5Metal6 and wide5Metal6 = 2.5um")
+
+	; Metal7 Rules
+	(Width		Metal7				140	nil		"M7.W.1 - Minimum Metal7 Width = 0.14um")
+	(Spacing	Metal7		Metal7		140	nil		"M7.S.1 - Minimum Metal7 Spacing = 0.14um")
+	(Spacing	wide1Metal7	Metal7		200	nil		"M7.S.2	- Minimum space between wide1Metal7 and Metal7 = 0.2um")
+	(Spacing	wide1Metal7	wide1Metal7	200	nil		"M7.S.2	- Minimum space between wide1Metal7 and Metal7 = 0.2um")
+	(Spacing	wide2Metal7	Metal7		500	nil		"M7.S.2	- Minimum space between wide2Metal7 and Metal7 = 0.5um")
+	(Spacing	wide2Metal7	wide1Metal7	500	nil		"M7.S.2	- Minimum space between wide2Metal7 and wide1Metal7 = 0.5um")
+	(Spacing	wide2Metal7	wide2Metal7	500	nil		"M7.S.2	- Minimum space between wide2Metal7 and wide2Metal7 = 0.5um")
+	(Spacing	wide3Metal7	Metal7		900	nil		"M7.S.2	- Minimum space between wide3Metal7 and Metal7 = 0.9um")
+	(Spacing	wide3Metal7	wide1Metal7	900	nil		"M7.S.2	- Minimum space between wide3Metal7 and wide1Metal7 = 0.9um")
+	(Spacing	wide3Metal7	wide2Metal7	900	nil		"M7.S.2	- Minimum space between wide3Metal7 and wide2Metal7 = 0.9um")
+	(Spacing	wide3Metal7	wide3Metal7	900	nil		"M7.S.2	- Minimum space between wide3Metal7 and wide3Metal7 = 0.9um")
+	(Spacing	wide4Metal7	Metal7		1500	nil		"M7.S.2	- Minimum space between wide4Metal7 and Metal7 = 1.5um")
+	(Spacing	wide4Metal7	wide1Metal7	1500	nil		"M7.S.2	- Minimum space between wide4Metal7 and wide1Metal7 = 1.5um")
+	(Spacing	wide4Metal7	wide2Metal7	1500	nil		"M7.S.2	- Minimum space between wide4Metal7 and wide2Metal7 = 1.5um")
+	(Spacing	wide4Metal7	wide3Metal7	1500	nil		"M7.S.2	- Minimum space between wide4Metal7 and wide3Metal7 = 1.5um")
+	(Spacing	wide4Metal7	wide4Metal7	1500	nil		"M7.S.2	- Minimum space between wide4Metal7 and wide4Metal7 = 1.5um")
+	(Spacing	wide5Metal7	Metal7		2500	nil		"M7.S.2	- Minimum space between wide5Metal7 and Metal7 = 2.5um")
+	(Spacing	wide5Metal7	wide1Metal7	2500	nil		"M7.S.2	- Minimum space between wide5Metal7 and wide1Metal7 = 2.5um")
+	(Spacing	wide5Metal7	wide2Metal7	2500	nil		"M7.S.2	- Minimum space between wide5Metal7 and wide2Metal7 = 2.5um")
+	(Spacing	wide5Metal7	wide3Metal7	2500	nil		"M7.S.2	- Minimum space between wide5Metal7 and wide3Metal7 = 2.5um")
+	(Spacing	wide5Metal7	wide4Metal7	2500	nil		"M7.S.2	- Minimum space between wide5Metal7 and wide4Metal7 = 2.5um")
+	(Spacing	wide5Metal7	wide5Metal7	2500	nil		"M7.S.2	- Minimum space between wide5Metal7 and wide5Metal7 = 2.5um")
+
+	; Metal8 Rules
+	(Width		Metal8				440	nil		"M8.W.1 - Minimum Metal8 Width = 0.44um")
+	(Spacing	Metal8		Metal8		440	nil		"M8.S.1 - Minimum Metal8 Spacing = 0.44um")
+
+); End LayerGeometricRules
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Temporary section. Remove for use with NeoCell4.0
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;  ELECTRICAL LAYER RULES  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(LayerElectricalRules
+
+;;SheetResistance Layer Ohms/Square RuleID
+   (SheetResistance  Poly 10 "Poly R = 10")
+   (SheetResistance  Metal1 0.085000 "Metal1 R = 0.085000")
+
+;; MaxCurrent Layer Amps/Micron RuleId
+   (MaxCurrent  Poly 1.000000 "Poly Max Current = 1.000000")
+   (MaxCurrent  Metal1 1.000000 "Metal1 Max Current = 1.000000")
+
+;;LateralCap layer1 model clat(fF/um) RuleID
+   (LateralCap  Poly Basic (0.000037) "Poly LateralCap 0.000037")
+   (LateralCap  Metal1 Basic (0.000044) "Metal1 LateralCap 0.000044")
+
+;;OverlapCap layer1 layer2 model Cov(fF/um) ruleID
+   (OverlapCap  Poly Metal1 Basic (1.000000) "PolyMetal1Cov")
+
+;;FringeCap layer1 layer2 model Cfr(fF/um) ruleID
+   (FringeCap  Poly Metal1 Basic (1.000000) "PolyMetal1Cfr")
+) ; LayerElectricalRules
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;  VIA/CONTACT DEFINITIONS  ;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(ViaContactDefinitions	
+	(RoutingVia	M1_PO "Metal1PolyRoutingVia"
+	  (Cut		Cont	120	140	nil	nil )
+	  (Top		Metal1	5 60 )
+	  (Bottom	Poly	40 60 ))
+
+	(Contact	M1_NIMP	"Metal1OxideContact"
+	  (Cut		Cont	120	140	nil	nil )
+	  (Top		Metal1	5 60)
+	  (Bottom	Oxide	60)
+	  (Implant	Nimp	200))
+
+	(Contact	M1_NWELL "Metal1OxideContact"
+	  (Cut		Cont	120	140	nil	nil )
+	  (Top		Metal1	5 60 )
+	  (Bottom	Oxide	60 )
+	  (Implant	Nimp	80 ))
+
+	(Contact	M1_PIMP	"Metal1OxideContact"
+	  (Cut		Cont	120	140	nil	nil)
+	  (Top		Metal1	5 60 )
+	  (Bottom	Oxide	60 )
+	  (Implant	Pimp	200))
+
+	(Contact	M1_PSUB	"Metal1OxideContact"
+	  (Cut		Cont	120	140	nil	nil )
+	  (Top		Metal1	5 60 )
+	  (Bottom	Oxide	60 )
+	  (Implant	Pimp	80 ))
+
+	(RoutingVia	M2_M1	"Metal2Metal1RoutingVia"
+	  (Cut		Via1	140	150	nil	nil )
+	  (Top		Metal2	5 60 )
+	  (Bottom	Metal1	5 60 ))
+
+	(RoutingVia	M3_M2	"Metal3Metal2RoutingVia"
+	  (Cut		Via2	140	150	nil	nil )
+	  (Top		Metal3	5 60)
+	  (Bottom	Metal2	5 60))
+
+	(RoutingVia	M4_M3	"Metal4Metal3RoutingVia"
+	  (Cut		Via3	140	150	nil	nil )
+	  (Top		Metal4	5 60)
+	  (Bottom	Metal3	5 60))
+
+	(RoutingVia	M5_M4	"Metal5Metal4RoutingVia"
+	  (Cut		Via4	140	150	nil	nil )
+	  (Top		Metal5	5 60)
+	  (Bottom	Metal4	5 60))
+
+	(RoutingVia	M6_M5	"Metal6Metal5RoutingVia"
+	  (Cut		Via5	140	150	nil	nil )
+	  (Top		Metal6	5 60)
+	  (Bottom	Metal5	5 60))
+
+	(RoutingVia	M7_M6	"Metal7Metal6RoutingVia"
+	  (Cut		Via6	140	150	nil	nil )
+	  (Top		Metal7	5 60)
+	  (Bottom	Metal6	5 60))
+
+	(RoutingVia	M8_M7	"Metal8Metal7RoutingVia"
+	  (Cut		Via7	360	360	nil	nil )
+	  (Top		Metal8	100)
+	  (Bottom	Metal7	0 60))
+
+);End ViaContactDefinitions
+
+(RoutingDefinitions
+	(RoutingLayer	Poly	local	0  (LegalViaContacts  M1_PO))
+	(RoutingLayer	Metal1	global	1  (LegalViaContacts  M1_PO M1_NIMP M1_NWELL M1_PIMP M1_PSUB M2_M1) (MinAreaRule 0.07))
+	(RoutingLayer	Metal2	global	2  (LegalViaContacts  M2_M1 M3_M2) (MinAreaRule 0.09))
+	(RoutingLayer	Metal3	global	3  (LegalViaContacts  M3_M2 M4_M3) (MinAreaRule 0.09))
+	(RoutingLayer	Metal4	global	4  (LegalViaContacts  M4_M3 M5_M4) (MinAreaRule 0.09))
+	(RoutingLayer	Metal5	global	5  (LegalViaContacts  M5_M4 M6_M5) (MinAreaRule 0.09))
+	(RoutingLayer	Metal6	global	6  (LegalViaContacts  M6_M5 M7_M6) (MinAreaRule 0.09))
+	(RoutingLayer	Metal7	global	7  (LegalViaContacts  M7_M6 M8_M7) (MinAreaRule 0.2))
+	(RoutingLayer	Metal8	global	8  (LegalViaContacts  M8_M7) (MinAreaRule 0.2))
+
+); End RoutingDefinitions
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;  WELL DEFINITIONS  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(WellDefinitions
+   (ExplicitWell	NwellDef	"Definition for Nwell"
+		(PhysicalWellLayer		Nwell         )
+		(VariableWellLayer		NwellVariable )
+		(ActiveLayerAndWellHalo		Oxide    120  )
+		(ActiveLayerAndWellHalo		Oxide_thk	700)
+		(ContactNameAndWellHalo		M1_NWELL 700  )
+		(MergeMinDistance			   0  )
+		(AutoMergeLatchupRules		 0 0 25000  )
+   )
+
+   
+   (ImplicitWell	PwellDef	"Definition for Pwell"
+		(PhysicalWelllayer		Pwell         )
+		(VariableWellLayer		PwellVariable )
+		(ActiveLayer			Oxide         )
+		(ContactName			M1_PSUB       )
+		(AutoMergeLatchupRules		 0 200 25000  )
+   )
+); End WellDefinitions
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;  GUARDRING DEFINITIONS  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(GuardRingDefinitions
+	(GuardRing	NwellSingle "Single guardring for Nwell"
+		(Ring	M1_NWELL 1 0 0 vdd B "Nwell 180")
+		(RingGroupLayer	Nwell 0)
+	)
+	(GuardRing	PwellSingle "Single guardring for Pwell"
+		(Ring	M1_PSUB 1 0 0 gnd B "Pwell 180")
+		(RingGroupLayer	Pwell 0)
+	)
+); End GuardRingDefinitions
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;  MODULE GENERATOR DEFINITIONS  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(GeneratorDefinitions
+
+    ;********************* Routing Styles  *******************************
+    ; This is new for NeoCell 3.4 
+    ;*********************************************************************
+
+(routingControlStyle "Style1"
+	(termGroup Source 
+		(rowRouteLoc NoRoute))
+	(termGroup Drain
+		(rowRouteLoc Below)
+		(rowHLayer Metal2) 
+		(rowHWidth "$width")
+		(rowVLayer Metal2)
+		(rowVWidth 140)
+		(coverTermContacts True))
+	(termGroup Gate
+		(rowRouteLoc Below)
+		(rowHLayer Metal1)
+		(rowHWidth 240)
+		(rowVLayer Metal1)
+		(rowVWidth 120)
+		(coverTermContacts False))
+	(termGroup Bulk
+		(rowRouteLoc NoRoute))
+	(termGroup Dummy 
+		(rowRouteLoc IntraDevOnlyBelow))
+); "Style 1"
+
+(routingControlStyle "Style2"
+	(termGroup Source 
+		(rowRouteLoc Above)
+		(rowHLayer Metal2)
+		(rowHWidth "$width")
+		(rowVLayer Metal2)
+		(rowVWidth 140)
+		(coverTermContacts True))
+	(termGroup Drain
+		(rowRouteLoc Below)
+		(rowHLayer Metal2) 
+		(rowHWidth "$width")
+		(rowVLayer Metal2)
+		(rowVWidth 140)
+		(coverTermContacts True))
+	(termGroup Gate
+		(rowRouteLoc Below)
+		(rowHLayer Metal1)
+		(rowHWidth 240)
+		(rowVLayer Metal1)
+		(rowVWidth 240)
+		(coverTermContacts False))
+	(termGroup Bulk
+		(rowRouteLoc NoRoute))
+	(termGroup Dummy 
+		(rowRouteLoc NoRoute))
+); "Style 2"
+
+    ;********************* PIMA ****************************************** 
+
+(Modgen PIMA (
+
+   ;PIMA Transistor Parameters
+	(W_totalWidth		nil 	1)
+	(stackedVia		nil 	1)
+	(useMaxRowSpacing	nil 	0)
+	(connectDummyDevice	nil 	1)
+	(disallowPolyRouting	nil 	0)
+	(minimumWidth		nil  	100)
+	(minimumLength		nil 	100)
+	(sdContactName 		N 	M1_NIMP)
+	(sdContactName		P 	M1_PIMP)
+	(polyViaName		nil 	M1_PO)
+	(metalViaName		nil 	M2_M1) 
+	(gateExtension		nil 	180)
+	(sourceLength		nil 	120)
+	(drainLength		nil 	120) 
+	(sourceGapIn		nil 	100)
+	(drainGapIn		nil 	100)
+	(deviceEnclosedbyImplant nil 	"160 140")
+	(deviceEnclosure1	 N 	"NIMP {$left+100} {$bottom-180} {$right-100} {$top+180}")
+	(deviceEnclosure1	 P 	"PIMP {$left+100} {$bottom-180} {$right-100} {$top+180}")
+
+   ;PIMA Body Contact Parameters
+	(bodyContactName	P M1_NIMP)
+	(bodyContactName	N M1_PIMP)
+	(bodyContactWidth		nil 120)
+	(bodyContactEnclosedbyImplant 	nil "80 80")
+
+   ;PIMA Guard Ring Parameters
+	(guardRingContactName	N M1_PIMP)
+	(guardRingContactName	P M1_NIMP)
+	(guardRingWidth		nil 240)
+	(guardRingSpacingActive nil 180)
+	(guardRingSpacingM1	nil 120)
+	(guardRingSpacingPoly	nil 100)
+	(guardRingEnclosedbyImplant nil "20 20")
+ 
+   ;PIMA Well Parameters
+	(wellName P NwellDef)
+	(wellName N PwellDef)
+	(activeEnclosedbyWell 	nil "120 120 120 120")
+
+   ;Optional PIMA Override Parameters
+	(spaceM1M1		nil "Metal1 Metal1 180")
+	(spaceM2M2		nil "Metal2 Metal2 200")
+	(spaceNImpPImp		nil "Nimp   Pimp   20")
+	(spaceNImpNImp		nil "Nimp   Pimp   240")
+	(spacePImpPImp		nil "Pimp   Pimp   240")
+	(spacePImpActive	nil "Pimp   Oxide  20")
+	(spaceNImpActive	nil "Nimp   Oxide  20")
+	(minAreaRuleM1		nil 0.07)
+	(latchUpRule		nil 25000)
+
+));End PIMA Setup
+
+
+(Modgen nmos1v(	
+	; Nothing here -- follows default definitions
+)); nmos1v
+
+(Modgen pmos1v(
+	; Nothing here -- follows default definitions
+)); pmos1v
+
+(Modgen nmos2v(
+	(deviceEnclosure2	 N 	"Oxide_thk {$left+300} {$bottom-300} {$right-300} {$top+300}")
+	(spaceDeviceBody	nil	2100)
+)); nmos2v
+
+(Modgen pmos2v(
+	(deviceEnclosure2	 P 	"Oxide_thk {$left+300} {$bottom-300} {$right-300} {$top+300}")
+	(spaceDeviceBody	nil	2100)
+)); pmos2v
+
+(Modgen nmos1v_hvt (
+	(deviceEnclosure2	 N 	"Nhvt {$left} {$bottom} {$right} {$top}")
+)); nmos1v_hvt
+
+(Modgen pmos1v_hvt (
+	(deviceEnclosure2	 P 	"Phvt {$left} {$bottom} {$right} {$top}")
+)); pmos1v_hvt
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;  PMRA INFORMATION  ;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(ModGen resnsndiff (
+	(stripeSpacing			nil	"($stripeWidth < 240) ? 150 + 240 - $stripeWidth : 150")
+	(maxStripesPerGroup		nil	3)
+	(fullLengthStripesOnly		nil	1)
+	(routeOverDevice		nil	0)
+	(staggerStripes			nil	0)
+	(staggerDistance		nil	"not used")
+	(sblockEnclosure1		nil	"SiProt {$left - 250} {$bottom} {$right + 250} {$top}")
+	(sblockEnclosure2		nil	"Resdum {$left} {$bottom} {$right} {$top}")
+
+	(stripeEnclosure1		nil	"Oxide {$left} {$bottom - 240} {$right} {$top + 240}")
+
+	(bodyEnclosure1			nil	"Nimp	{$left - 140} {$bottom} {$right + 140} {$top}")	; since we already have Nimp from contact structure
+	
+	(dummyStripeEnclosure1		nil	"Oxide {$left} {$bottom} {$right} {$top}")
+	
+	(guardRingWidth			nil	240)
+	(guardRingSpacing		nil	"490 40 490 40")
+	(guardRingEnclosure1		nil	"Metal1+pin {$left + 60} {$bottom} {$right - 60} {$top}")
+	(guardRingEnclosure2		nil	"Pimp {$left - 20} {$bottom} {$right + 20} {$top}")
+	(guardRingEnclosure3		nil	"Cont {$left} {$bottom+60} {$right} {$top-60} \
+						-stipple 1 -width 120 -spacing 140 -style fill")
+	(guardRingEnclosure4		nil	"Oxide {$left} {$bottom} {$right} {$top}")
+
+	(interconnect			nil	"Metal1 stripe 240 120 0")
+	(internalViaStack1		nil	"M1_NIMP {$stripe + 240}")
+	(externalViaStack1		nil	"M1_NIMP {$stripe + 240}")
+
+	(centerPinViaStack1		nil	"M1_NIMP {$stripe + 240}")
+	(centerPinViaStack2		nil	"M2_M1  {$stripe + 240}")
+	(centerPinLayer			nil	"Metal2Pin")
+
+	(sidePinViaStack1		nil	"M2_M1  {$stripe + 240}")
+	(sidePinLayer			nil	"Metal2Pin")
+
+	(centerRouting			nil	"Metal1	Metal2	0	200	140	M2_M1	1") 
+	(sideRouting			nil	"Metal1	Metal2	0	200	140	M2_M1	1")
+
+	(stripeResistance		nil	"{((100 * $length/$width) + (2 * 10) / int(($width - (2 * 60) - 120) / (120 + 140)))} {0.01 * $length/$width}")
+	(interconnectResistance		nil	"{0} {0}")
+	(currentCapacity		nil	"2.0e-3") ; A/um
+)); resnsndiff
+
+(ModGen resnspdiff (
+	(stripeSpacing			nil	"($stripeWidth < 240) ? 150 + 240 - $stripeWidth : 150")
+	(maxStripesPerGroup		nil	3)
+	(fullLengthStripesOnly		nil	1)
+	(routeOverDevice		nil	0)
+	(staggerStripes			nil	0)
+	(staggerDistance		nil	"not used")
+	(sblockEnclosure1		nil	"SiProt {$left - 250} {$bottom} {$right + 250} {$top}")
+	(sblockEnclosure2		nil	"Resdum {$left} {$bottom} {$right} {$top}")
+
+	(stripeEnclosure1		nil	"Oxide {$left} {$bottom - 240} {$right} {$top + 240}")
+
+	(bodyEnclosure1			nil	"Pimp	{$left - 140} {$bottom} {$right + 140} {$top}")
+	(bodyEnclosure2			nil	"Nwell  {$left - 120} {$bottom} {$right + 120} {$top}") ; from pCell
+	
+	(dummyStripeEnclosure1		nil	"Oxide {$left} {$bottom} {$right} {$top}")
+	
+	(guardRingWidth			nil	240)
+	(guardRingSpacing		nil	"490 40 490 40")
+	(guardRingEnclosure1		nil	"Metal1+pin {$left + 60} {$bottom} {$right - 60} {$top}")
+	(guardRingEnclosure2		nil	"Nimp {$left - 20} {$bottom} {$right + 20} {$top}")
+	(guardRingEnclosure3		nil	"Cont {$left} {$bottom+60} {$right} {$top-60} \
+						-stipple 1 -width 120 -spacing 140 -style fill")
+	(guardRingEnclosure4		nil	"Oxide {$left} {$bottom} {$right} {$top}")
+
+	(interconnect			nil	"Metal1 stripe 240 120 0")
+	(internalViaStack1		nil	"M1_PIMP {$stripe + 240}")
+	(externalViaStack1		nil	"M1_PIMP {$stripe + 240}")
+
+	(centerPinViaStack1		nil	"M1_PIMP {$stripe + 240}")
+	(centerPinViaStack2		nil	"M2_M1  {$stripe + 240}")
+	(centerPinLayer			nil	"Metal2Pin")
+
+	(sidePinViaStack1		nil	"M2_M1  {$stripe + 240}")
+	(sidePinLayer			nil	"Metal2Pin")
+
+	(centerRouting			nil	"Metal1	Metal2	0	200	140	M2_M1	1") 
+	(sideRouting			nil	"Metal1	Metal2	0	200	140	M2_M1	1")
+
+	(stripeResistance		nil	"{((150 * $length/$width) + (2 * 10) / int(($width - (2 * 60) - 120) / (120 + 140)))} {0.01 * $length/$width}")
+	(interconnectResistance		nil	"{0} {0}")
+	(currentCapacity		nil	"2.0e-3") ; A/um
+)); resnspdiff
+
+(ModGen resnsnpoly (
+	(stripeSpacing			nil	"($stripeWidth < 240) ? 600 + 240 - $stripeWidth : 600")
+	(maxStripesPerGroup		nil	3)
+	(fullLengthStripesOnly		nil	1)
+	(routeOverDevice		nil	0)
+	(staggerStripes			nil	0)
+	(staggerDistance		nil	"not used")
+	(sblockEnclosure1		nil	"SiProt {$left - 280} {$bottom} {$right + 280} {$top}")
+	(sblockEnclosure2		nil	"Resdum {$left} {$bottom} {$right} {$top}")
+
+	(stripeEnclosure1		nil	"Poly {$left} {$bottom - 210} {$right} {$top + 210}")
+
+	(bodyEnclosure1			nil	"Nimp	{$left - 150} {$bottom - 150} {$right + 150} {$top + 150}")
+	
+	(dummyStripeEnclosure1		nil	"Poly {$left} {$bottom} {$right} {$top}")
+	
+	(guardRingWidth			nil	240)
+	(guardRingSpacing		nil	"520 20 520 20")
+	(guardRingEnclosure1		nil	"Metal1+pin {$left + 60} {$bottom} {$right - 60} {$top}")
+	(guardRingEnclosure2		nil	"Pimp {$left - 20} {$bottom} {$right + 20} {$top}")
+	(guardRingEnclosure3		nil	"Cont {$left} {$bottom+60} {$right} {$top-60} \
+						-stipple 1 -width 120 -spacing 140 -style fill")
+	(guardRingEnclosure4		nil	"Oxide {$left} {$bottom} {$right} {$top}")
+
+	(interconnect			nil	"Metal1 stripe 250 120 0")
+	(internalViaStack1		nil	"M1_PO {$stripe + 250}")
+	(externalViaStack1		nil	"M1_PO {$stripe + 250}")
+
+	(centerPinViaStack1		nil	"M1_PO {$stripe + 250}")
+	(centerPinViaStack2		nil	"M2_M1 {$stripe + 250}")
+	(centerPinLayer			nil	"Metal2Pin")
+
+	(sidePinViaStack1		nil	"M2_M1  {$stripe + 250}")
+	(sidePinLayer			nil	"Metal2Pin")
+
+	(centerRouting			nil	"Metal1	Metal2	0	200	140	M2_M1	1") 
+	(sideRouting			nil	"Metal1	Metal2	0	200	140	M2_M1	1")
+
+	(stripeResistance		nil	"{((100 * $length/$width) + (2 * 10) / int(($width - (2 * 60) - 120) / (120 + 140)))} {0.01 * $length/$width}")
+	(interconnectResistance		nil	"{0} {0}")
+	(currentCapacity		nil	"2.0e-3") ; A/um
+)); resnsnpoly
+
+(ModGen resnsppoly (
+	(stripeSpacing			nil	"($stripeWidth < 240) ? 600 + 240 - $stripeWidth : 600")
+	(maxStripesPerGroup		nil	3)
+	(fullLengthStripesOnly		nil	1)
+	(routeOverDevice		nil	0)
+	(staggerStripes			nil	0)
+	(staggerDistance		nil	"not used")
+	(sblockEnclosure1		nil	"SiProt {$left - 280} {$bottom} {$right + 280} {$top}")
+	(sblockEnclosure2		nil	"Resdum {$left} {$bottom} {$right} {$top}")
+
+	(stripeEnclosure1		nil	"Poly {$left} {$bottom - 210} {$right} {$top + 210}")
+
+	(bodyEnclosure1			nil	"Pimp	{$left - 150} {$bottom - 150} {$right + 150} {$top + 150}")
+	
+	(dummyStripeEnclosure1		nil	"Poly {$left} {$bottom} {$right} {$top}")
+	
+	(guardRingWidth			nil	240)
+	(guardRingSpacing		nil	"520 20 520 20")
+	(guardRingEnclosure1		nil	"Metal1+pin {$left + 60} {$bottom} {$right - 60} {$top}")
+	(guardRingEnclosure2		nil	"Nimp {$left - 20} {$bottom} {$right + 20} {$top}")
+	(guardRingEnclosure3		nil	"Cont {$left} {$bottom+60} {$right} {$top-60} \
+						-stipple 1 -width 120 -spacing 140 -style fill")
+	(guardRingEnclosure4		nil	"Oxide {$left} {$bottom} {$right} {$top}")
+
+	(interconnect			nil	"Metal1 stripe 250 120 -60")
+	(internalViaStack1		nil	"M1_PO {$stripe + 250}")
+	(externalViaStack1		nil	"M1_PO {$stripe + 250}")
+
+	(centerPinViaStack1		nil	"M1_PO {$stripe + 250}")
+	(centerPinViaStack2		nil	"M2_M1 {$stripe + 250}")
+	(centerPinLayer			nil	"Metal2Pin")
+
+	(sidePinViaStack1		nil	"M2_M1  {$stripe + 250}")
+	(sidePinLayer			nil	"Metal2Pin")
+
+	(centerRouting			nil	"Metal1	Metal2	0	200	140	M2_M1	1") 
+	(sideRouting			nil	"Metal1	Metal2	0	200	140	M2_M1	1")
+
+	(stripeResistance		nil	"{((400 * $length/$width) + (2 * 10) / int(($width - (2 * 60) - 120) / (120 + 140)))} {0.01 * $length/$width}")
+	(interconnectResistance		nil	"{0} {0}")
+	(currentCapacity		nil	"2.0e-3") ; A/um
+)); resnsppoly
+
+(ModGen gensymcross (
+       	 (viaName			nil     M2_M1)
+)); gensymcross
+	
+);GeneratorDefinitions
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;    END END END END END END END of TECHFILE END END END END END END END    ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

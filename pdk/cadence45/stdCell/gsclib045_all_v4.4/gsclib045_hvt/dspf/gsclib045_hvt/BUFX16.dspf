@@ -1,0 +1,74 @@
+*
+*|DSPF 1.5
+*
+*|DATE "Wed May  8 11:10:45 2013"
+*|VENDOR "Cadence Design Systems"
+*|PROGRAM "Cadence Extraction QRC"
+*|VERSION "12.1 Linux 64 bit - (Fri Mar 15 17:53:47 PDT 2013)"
+*|DESIGN "BUFX16"
+*|DIVIDER /
+*|DELIMITER :
+*|DeviceFingerDelim "@"
+*|BUSBIT []
+** caps2d version: 10
+*
+.GLOBAL  VDD VSS
+*
+.SUBCKT  BUFX16 Y A
+*
+*Net Section
+*
+*|GROUND_NET VSS
+*
+*|NET Y 1.62902e-15
+*|P (Y X 0 0.2750 0.8000)
+*|I (Mmn1@1:s Mmn1@1 s X 0 0.3050 0.5125)
+*|I (Mmp1@1:d Mmp1@1 d X 0 0.3050 1.1225)
+C1 Mmp1@1:d VSS 8.63969e-16
+C2 Mmn1@1:s VSS 7.48387e-16
+C3 Y VSS 1.66686e-17
+Rk1 Mmn1@1:s Y 0.091105 $W=0.1
+Rk2 Mmp1@1:d Y 0.082380 $W=0.1
+*
+*|NET A 4.0506e-16
+*|P (A X 0 3.7800 0.7950)
+*|I (Mmn0@1:g Mmn0@1 g X 0 3.0725 0.5300)
+*|S (A:13 3.5250 0.7850)
+C4 Mmn0@1:g VSS 3.69024e-16
+C5 A VSS 3.60361e-17
+Rk3 A:13 A 0.162076 $W=0.0875
+Rk4 A:13 Mmn0@1:g 22.534458 $W=0.175
+*
+*|NET n0 1.68622e-15
+*|I (Mmn1@1:g Mmn1@1 g X 0 0.2025 0.5125)
+*|I (Mmn0@1:s Mmn0@1 s X 0 3.1750 0.5300)
+*|I (Mmp0@1:d Mmp0@1 d X 0 3.1750 1.1500)
+*|S (n0:45 3.1475 0.7750)
+C6 Mmp0@1:d VSS 2.27678e-16
+C7 Mmn0@1:s VSS 1.71659e-16
+C8 Mmn1@1:g VSS 1.25994e-15
+C9 n0:45 VSS 2.69398e-17
+Rk5 n0:45 Mmn1@1:g 0.203048 $W=0.08
+Rk6 Mmn0@1:s n0:45 0.104234 $W=0.1
+Rk7 n0:45 Mmp0@1:d 0.099510 $W=0.0975
+*
+*Instance Section
+*
+Mmn1@1	VSS	Mmn1@1:g	Mmn1@1:s	VSS	g45n1hvt
++ L=0.045U	W=0.295U
++ AD=0.06251P	AS=0.0472P	PD=1.43643U	PS=0.91U	M=14
++ fw=2.95e-07 sa=1.4e-07 sb=2e-06 sca=16.4223 scb=0.0158966 scc=0.0014413
+Mmn0@1	VSS	Mmn0@1:g	Mmn0@1:s	VSS	g45n1hvt
++ L=0.045U	W=0.26U
++ AD=0.05558P	AS=0.0416P	PD=1.3275U	PS=0.84U	M=4
++ fw=2.6e-07 sa=2e-06 sb=7.55e-07 sca=17.5885 scb=0.0172826 scc=0.00162584
+Mmp1@1	Mmp1@1:d	Mmn1@1:g	VDD	VDD	g45p1hvt
++ L=0.045U	W=0.445U
++ AD=0.0712P	AS=0.07033P	PD=1.21U	PS=1.20714U	M=14
++ fw=4.45e-07 sa=1.4e-07 sb=2e-06 sca=41.6034 scb=0.0375368 scc=0.00435732
+Mmp0@1	Mmp0@1:d	Mmn0@1:g	VDD	VDD	g45p1hvt
++ L=0.045U	W=0.39U
++ AD=0.0624P	AS=0.06182P	PD=1.1U	PS=1.1175U	M=4
++ fw=3.9e-07 sa=2e-06 sb=7.55e-07 sca=18.4487 scb=0.016003 scc=0.00159615
+.ENDS
+.END

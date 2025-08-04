@@ -1,0 +1,13 @@
+VALE Framework Component Module:
+   Set PCell Defaults 
+
+Description:
+   Uses SKILL syntax in the Include/PCellDefaults_V01.il file, to provide a one-button PCell defaults capability. 
+
+Input Requirements:
+   An open cellview.  The component module SKILL code will loop through all instances with reference to library _IMFdat->techLib in the config file.
+
+Development Notes:
+   All aspects of this Component Module were developed by Cadence.
+   Please contact Jonathan Fales for more information: jfales@cadence.com
+

@@ -1,0 +1,235 @@
+layout_path "dev1.gds" ;
+layout_format gdsii ;
+layout_primary "dev1" ;
+df2key enableColoring yes ;
+exception_severity precision_rule_file 1 ;
+exception_severity missing_rulecheck 0;
+exception_severity polygon_nonorientable 4;
+abort_on_layout_error no ;
+magnify_in auto ;
+input_scale 4000 ;
+input_db_scale 40000;
+grid 1;
+results_db -drc result.ascii -ascii;
+report_summary result.sum;
+max_results -drc -all;
+incr_conn yes;
+
+//---------------------------------------------
+// LAYER MAPPING & DEFINITIONS FOR EACH LAYER
+//---------------------------------------------
+layer_def __UNUSED__ 65535 ;
+layer_map -ge 0 -datatype -ge 0 65535 ;
+
+layer_def M1GRAY             630 ;
+layer_map   30 -datatype   0 630 ;
+layer_def M1MASK1            631 ;
+layer_map   30 -datatype   1 631 ;
+layer_def M1MASK2            632 ;
+layer_map   30 -datatype   3 632 ;
+layer_def M1TRIM             633 ;
+layer_map   31 -datatype   0 633 ;
+layer_def M1TRIM1            634 ;
+layer_map   31 -datatype   1 634 ;
+layer_def M1TRIM2            635 ;
+layer_map   31 -datatype   3 635 ;
+layer_def M1TRIM1LPP         636 ;
+layer_map   31 -datatype  10 636 ;
+layer_def M1TRIM2LPP         637 ;
+layer_map   31 -datatype  20 637 ;
+layer_def M1SEA1             643 ;
+layer_map   30 -datatype 101 643 ;
+layer_def M1SEA2             644 ;
+layer_map   30 -datatype 102 644 ;
+
+layer_def V1                 655 ;
+layer_map   32 -datatype   0 655 ;
+
+layer_def M2GRAY             730 ;
+layer_map   34 -datatype   0 730 ;
+layer_def M2MASK1            731 ;
+layer_map   34 -datatype   1 731 ;
+layer_def M2MASK2            732 ;
+layer_map   34 -datatype   3 732 ;
+layer_def M2TRIM             733 ;
+layer_map   35 -datatype   0 733 ;
+layer_def M2TRIM1            734 ;
+layer_map   35 -datatype   1 734 ;
+layer_def M2TRIM2            735 ;
+layer_map   35 -datatype   3 735 ;
+layer_def M2TRIM1LPP         736 ;
+layer_map   35 -datatype  10 736 ;
+layer_def M2TRIM2LPP         737 ;
+layer_map   35 -datatype  20 737 ;
+layer_def M2SEA1             743 ;
+layer_map   34 -datatype 101 743 ;
+layer_def M2SEA2             744 ;
+layer_map   34 -datatype 102 744 ;
+
+layer_def V2                 755 ;
+layer_map   36 -datatype   0 755 ;
+
+layer_def M3GRAY             830 ;
+layer_map   38 -datatype   0 830 ;
+layer_def M3MASK1            831 ;
+layer_map   38 -datatype   1 831 ;
+layer_def M3MASK2            832 ;
+layer_map   38 -datatype   3 832 ;
+layer_def M3TRIM             833 ;
+layer_map   39 -datatype   0 833 ;
+layer_def M3TRIM1            834 ;
+layer_map   39 -datatype   1 834 ;
+layer_def M3TRIM2            835 ;
+layer_map   39 -datatype   3 835 ;
+layer_def M3TRIM1LPP         836 ;
+layer_map   39 -datatype  10 836 ;
+layer_def M3TRIM2LPP         837 ;
+layer_map   39 -datatype  20 837 ;
+layer_def M3SEA1             843 ;
+layer_map   38 -datatype 101 843 ;
+layer_def M3SEA2             844 ;
+layer_map   38 -datatype 102 844 ;
+
+layer_def V3                 855 ;
+layer_map   40 -datatype   0 855 ;
+
+layer_def M4                 930 ;
+layer_map   42 -datatype   0 930 ;
+layer_def M4SEA1             943 ;
+layer_map   42 -datatype 101 943 ;
+layer_def M4SEA2             944 ;
+layer_map   42 -datatype 102 944 ;
+
+layer_def V4                 955 ;
+layer_map   44 -datatype   0 955 ;
+
+layer_def M5                 1030 ;
+layer_map   46 -datatype   0 1030 ;
+layer_def M5SEA1             1043 ;
+layer_map   46 -datatype 101 1043 ;
+layer_def M5SEA2             1044 ;
+layer_map   46 -datatype 102 1044 ;
+
+layer_def V5                 1055 ;
+layer_map   48 -datatype   0 1055 ;
+
+//hidestart
+
+or V1 V2 viasOfM2 ;
+or V2 V3 viasOfM3 ;
+or V3 V4 viasOfM4 ;
+or V4 V5 viasOfM5 ;
+// Lump gray trim with cutmask1
+cat M1TRIM M1TRIM1 M1TRIM1LPP M1cutmask1 ;
+or M1TRIM2 M1TRIM2LPP M1cutmask2 ;
+cat M2TRIM M2TRIM1 M2TRIM1LPP M2cutmask1 ;
+or M2TRIM2 M2TRIM2LPP M2cutmask2 ;
+cat M3TRIM M3TRIM1 M3TRIM1LPP M3cutmask1 ;
+or M3TRIM2 M3TRIM2LPP M3cutmask2 ;
+
+cat M2MASK1 M2MASK2 M2 ;
+cat M3MASK1 M3MASK2 M3 ;
+
+PVS_READ_TCL_BLOCK
+
+proc vcadShowRule {rulename} {
+    puts "rule show_${rulename} {"
+    puts "   copy ${rulename} ;"
+    puts "}"
+}
+
+proc vcadWSPAdvFill {lyr} {
+   puts "
+   //rule mrk-${lyr}-TFILL--uncolored {
+   //   caption \"Uncolored ${lyr} will be ignored.\" ;
+   //   copy ${lyr}GRAY ;
+   //}
+   
+   cat ${lyr}SEA1 ${lyr}SEA2 ${lyr}seaOfWires ;
+   size ${lyr}seaOfWires -by 0.016 -overunder ${lyr}wspArea ;
+   cat ${lyr}cutmask1 ${lyr}cutmask2 ${lyr}trimAll ; 
+   rule mrk-${lyr}-TFILL--trim_outside_WSP_area {
+      caption \"The ${lyr} trim shape is outside the WSP area.  It will be ignored by WSP Fill.\" ;
+      select -outside ${lyr}trimAll ${lyr}wspArea ;
+   }
+
+   // Check for misaligned WSP areas, or non-rectangular mandrels/nonmandrels
+   exte ${lyr}SEA1 ${lyr}SEA1 -lt 0.032 -abut -eq 90 -intersecting only -output region ${lyr}sea1Corner;
+   exte ${lyr}SEA2 ${lyr}SEA2 -lt 0.032 -abut -eq 90 -intersecting only -output region ${lyr}sea2Corner;
+   or ${lyr}sea1Corner ${lyr}sea2Corner ${lyr}seaCorner ;
+   bbox ${lyr}seaCorner -inside_of ${lyr}wspArea ${lyr}wspAreaJog ;
+   
+   // TO DO: Do not skip Separator Regions
+   rule mrk-${lyr}-TFILL--jog {
+      caption \"The WSP regions contains an illegal jog.  This data will be ignored.\" ;
+      copy ${lyr}wspAreaJog ;
+   }
+   
+   select -interact ${lyr}MASK1 ${lyr}SEA2 ${lyr}conflictA_1over2 ;
+   select -interact ${lyr}MASK2 ${lyr}SEA1 ${lyr}conflictA_2over1 ;
+   cat ${lyr}conflictA_1over2 ${lyr}conflictA_2over1 ${lyr}colorConflict ;
+   
+   rule mrk-${lyr}-TFILL--color_conflict {
+      caption \"A WSP or Shape of one color is touching a WSP or Shape of another color\" ;
+      copy ${lyr}colorConflict ;
+   }
+   
+   cat ${lyr}wspAreaJog ${lyr}colorConflict ${lyr}excludeShapes ;
+   // Filter input data by excludes  
+   not ${lyr}MASK1 ${lyr}excludeShapes ${lyr}inActive1 ;
+   not ${lyr}MASK2 ${lyr}excludeShapes ${lyr}inActive2 ;
+   
+   // Continue derivation flow
+   not ${lyr}SEA1 ${lyr}trimAll ${lyr}notBridge1 ;
+   not ${lyr}SEA2 ${lyr}trimAll ${lyr}notBridge2 ;
+   select -not -interact ${lyr}notBridge1 ${lyr}inActive1 ${lyr}outPassiv1 ;
+   select -not -interact ${lyr}notBridge2 ${lyr}inActive2 ${lyr}outPassiv2 ;
+   not ${lyr}notBridge1 ${lyr}outPassiv1 ${lyr}derActive1 ;
+   not ${lyr}notBridge2 ${lyr}outPassiv2 ${lyr}derActive2 ;
+   not ${lyr}derActive1 ${lyr}inActive1 ${lyr}outActive1 ;
+   not ${lyr}derActive2 ${lyr}inActive2 ${lyr}outActive2 ;
+   
+   rule gen-${lyr}-TFILL-1-drawing {
+       copy ${lyr}outActive1 ;
+   } 
+   rule gen-${lyr}-TFILL-2-drawing {
+       copy ${lyr}outActive2 ;
+   } 
+   rule gen-${lyr}-TFILL-1-fill {
+       copy ${lyr}outPassiv1 ;
+   } 
+   rule gen-${lyr}-TFILL-2-fill {
+       copy ${lyr}outPassiv2 ;
+   } 
+   "
+}
+
+proc vcadWSPFill {lyr} {
+   puts "
+   cat ${lyr}SEA1 ${lyr}SEA2 ${lyr}seaOfWires ;
+   not ${lyr}seaOfWires ${lyr} ${lyr}remainder ;
+   edge_select ${lyr} ${lyr}remainder ${lyr}toExpand ;
+   // Use a 2x min space value for basic track fill
+   edge_expand ${lyr}toExpand -outside_by 0.064 ${lyr}exp ;
+   not ${lyr}remainder ${lyr}exp ${lyr}_fill ;
+   rule gen-${lyr}-TFILL--fill {
+      copy ${lyr}_fill ;
+   } 
+   "
+}   
+
+## For demo purposes, assume M1 is not a SADP layer
+#vcadWSPAdvFill M1
+vcadWSPAdvFill M2
+vcadWSPAdvFill M3
+
+## For demo purposes, other non-patterned layers could use WSPs
+#vcadWSPFill M4
+#vcadWSPFill M5
+
+PVS_END_TCL_BLOCK
+
+//hideend
+
+ 
+

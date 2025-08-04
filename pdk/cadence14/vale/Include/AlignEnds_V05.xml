@@ -1,0 +1,47 @@
+<deck version_str="1.0">
+ <properties lpa_xml_version="2.0"/>
+
+ <target_sels_map map_name="E2">
+  <remap from_sel="M2MASK1" to_sel="M2MASK2"/>
+ </target_sels_map>
+
+ <rule>
+  <rulename>M2alignEnds</rulename>
+  <report custom_orients="R0 R180 MYR0 MYR180" />
+  <target_sels_map_name>E2</target_sels_map_name>
+  <pattern_def type="squish" dc_mode="2"
+    signature="L2
+               0 0 0 0 0 0 /
+               0 1 1 1 X X /
+               0 0 0 0 0 0 /
+               2 0 0 0 0 0 /
+               0 0 0 0 0 0 /
+               0 0 1 1 1 1 /
+               0 0 0 0 0 0 /
+               0 0 2 2 0 0 /
+               0 0 0 0 0 0 /
+               0 0 0 1 1 0 /
+               0 0 0 0 0 0 "
+    x_deltas="10 40 57 137 57 60" 
+    y_deltas="10 32 32 32 32 32 32 32 32 32 10" >
+   <pattern sel="M2MASK1" />
+   <pattern sel="M2MASK2" />
+   <overlay_scanline_range range_str="x1-10 y1-10 x5+10 y10+10" output_layer="MARKER" />
+   <properties primary_layer="M2MASK1" hotspot_type="WIDTH" hotspot_level="1" >
+    <repair>
+     <hint>
+      <group>
+       <overlay_scanline_range range_str="x3 x4 y1 y2" output_layer="PATTERNREF_M2" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x3 x4 y1 y2" output_layer="PROPERTY_LOCKCOLOR" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x3 x4 y1 y2" output_layer="NOPATTERNREF_M2/drawing" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x3 x4 y1 y2" output_layer="PROPERTY_imfGenerated:string:AlignEnds" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x2 x3 y1 y2" output_layer="M2/drawing-addpath" action="ADDPATH"/>
+       <overlay_scanline_range range_str="x1-80 x1 y9 y10" output_layer="M2/drawing-addpath" action="ADDPATH"/>
+      </group>
+     </hint>
+    </repair>
+   </properties>
+  </pattern_def>
+ </rule>
+
+</deck>

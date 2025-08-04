@@ -1,0 +1,67 @@
+test_dsm_psd.sp3
+* PSD profile test for dsm_arch_test.cir
+* Requires cmload xtendedlib.cm
+
+.control
+
+delcirc all
+destroy all
+delete all
+
+source dsm_arch_test.cir
+save v(vout)
+set reltol=1e-6
+set abstol=1e-15
+set vntol=1e-9
+ic v(vdac:xi1)=-2.0
+ic v(vint1out:xi1)=0.0
+ic v(vint2out:xi1)=0.0
+
+echo "Starting transient simulation!"
+echo "Please wait..."
+tran 1e-9 4.1e-3
+echo "Simulation completed!"
+
+shell "tran2psd -f 4.096e6 -w Blackman -z tran.raw > psd.raw"
+set filetype=ascii
+load "psd.raw"
+
+let vfs=@@mi8:xi1[out_high]
+let a=@vi2[sin]
+let ain=a[1]/vfs
+let p=(mag(v(vpsd))*vfs*2)^2
+
+let kbw=0
+cursor kbw right frequency 8e3
+let kleft=0
+cursor kleft right frequency 2e3
+let kright=kleft
+while ((p[kleft-1] lt p[kleft])&(kleft gt 0)) 
+ kleft=kleft-1
+ end
+while ((p[kright+1] lt p[kright])&(kright lt kbw)) 
+ kright=kright+1
+ end
+
+let S=sum(p[kleft,kright])
+let SQND=sum(p[3,kbw])
+let SQNDRdB=10*log(S/(SQND-S))
+let SQNDRb=((SQNDRdB-1.76)/6.02)
+let PdB=10*log(p)
+let AINdB=20*log(ain)
+
+set color2 = r000g000b000
+set color3 = r255g000b000
+set color4 = r000g255b000
+plot create plot1 xlog PdB vs frequency PdB[3,kbw] vs frequency[3,kbw] PdB[kleft,kright] vs frequency[kleft,kright]
+plot append plot1 xlog xlabel "Frequency [Hz]" ylabel "PSD [dBFS/bin]"
+plot append plot1 xlog title "SQNDR={round(SQNDRdB*100)/100}dB ({round(SQNDRb*100)/100}bit) for {round(AINdB*10)/10}dBFS@2kHz input"
+
+echo " "
+echo "SQNDR={round(SQNDRdB*100)/100}dB ({round(SQNDRb*100)/100}bit) for {round(AINdB*10)/10}dBFS@2kHz input"
+echo " "
+
+.endc
+
+.end
+

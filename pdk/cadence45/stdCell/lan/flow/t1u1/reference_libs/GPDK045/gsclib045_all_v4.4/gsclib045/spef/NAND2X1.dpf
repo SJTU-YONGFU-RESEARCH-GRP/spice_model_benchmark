@@ -1,0 +1,30 @@
+*
+*|DSPF 1.5
+*
+*|DATE "Mon Sep 27 10:07:55 2010"
+*|VENDOR "Cadence Design Systems"
+*|PROGRAM "Assura RCX"
+*|VERSION "3.2 Red Hat Linux release 7.2 (Enigma) - (09/09/2009-10:39)"
+*|DESIGN "NAND2X1"
+*|DIVIDER /
+*|DELIMITER :
+*|DeviceFingerDelim "@"
+*|BUSBIT []
+** MATCHED
+** caps2d version: 10
+*
+.GLOBAL 
+*
+.SUBCKT  NAND2X1 VDD VSS A B Y
+*
+*Instance Section
+*
+mn0	mn0:d	mn0:g	mn0:s	VSS:1	nmos1v	L=0.045U	W=0.26U
++ AD=0.0273P	AS=0.0273P	PD=0.73U	PS=0.73U
+mn1	mn1:d	mn1:g	mn1:s	VSS:1	nmos1v	L=0.045U	W=0.26U
++ AD=0.03315P	AS=0.03315P	PD=0.775U	PS=0.775U
+mp0	mp0:d	mp0:g	mp0:s	VDD:2	pmos1v	L=0.045U	W=0.39U
++ AD=0.0585P	AS=0.0585P	PD=1.08U	PS=1.08U
+mp1	mp0:d	mp1:g	mp1:s	VDD:2	pmos1v	L=0.045U	W=0.39U
++ AD=0.06775P	AS=0.06775P	PD=1.4U	PS=1.4U
+.ENDS

@@ -1,0 +1,240 @@
+connect M1term M1term_device
+connect M1term M1pterm
+connect M2term M2pterm
+connect M3term M3pterm
+connect M4term M4pterm
+connect M5term M5pterm
+connect M6term M6pterm
+text Metal6_label attach M6term
+text Metal5_label attach M5term
+text Metal4_label attach M4term
+text Metal3_label attach M3term
+text Metal2_label attach M2term
+text Metal1_label attach M1term
+text Metal6_text attach M6term
+text Metal6_pintext attach M6term
+text Metal5_text attach M5term
+text Metal5_pintext attach M5term
+text Metal4_text attach M4term
+text Metal4_pintext attach M4term
+text Metal3_text attach M3term
+text Metal3_pintext attach M3term
+text Metal2_text attach M2term
+text Metal2_pintext attach M2term
+text Metal1_text attach M1term M1term_device
+text Metal1_pintext attach M1term M1term_device
+connect M6term M5term by Via5
+connect M5term M4term by Via4
+connect M4term M3term by Via3
+connect M3term M2term by Via2NoCapInd
+connect M3term CapMetal by Via2Cap
+connect M2term M1term by Via1
+connect M2term INDterm1 by INDterm1Cont
+connect M2term INDterm2 by INDterm2Cont
+connect M1term POLYterm by POLYcont
+connect M1term POLYterm by POLYcont_res
+connect M1term PSDterm by PSDcont
+connect M1term M1term_device by PSDcont
+connect PSDterm M1term_device by PSDcont
+connect M1term PSDterm by PSDcont_res
+connect M1term M1term_device by PSDcont_res
+connect PSDterm M1term_device by PSDcont_res
+connect M1term NSDterm by NSDcont
+connect M1term M1term_device by NSDcont
+connect NSDterm M1term_device by NSDcont
+connect M1term NSDterm by NSDcont_res
+connect M1term M1term_device by NSDcont_res
+connect NSDterm M1term_device by NSDcont_res
+connect M1pterm pterm1 by pterm1
+connect M2pterm pterm1 by pterm1
+connect M3pterm pterm1 by pterm1
+connect M4pterm pterm1 by pterm1
+connect M5pterm pterm1 by pterm1
+connect M6pterm pterm1 by pterm1
+connect M1pterm pterm2 by pterm2
+connect M2pterm pterm2 by pterm2
+connect M3pterm pterm2 by pterm2
+connect M4pterm pterm2 by pterm2
+connect M5pterm pterm2 by pterm2
+connect M6pterm pterm2 by pterm2
+connect M1pterm pterm3 by pterm3
+connect M2pterm pterm3 by pterm3
+connect M3pterm pterm3 by pterm3
+connect M4pterm pterm3 by pterm3
+connect M5pterm pterm3 by pterm3
+connect M6pterm pterm3 by pterm3
+connect M1pterm pterm4 by pterm4
+connect M2pterm pterm4 by pterm4
+connect M3pterm pterm4 by pterm4
+connect M4pterm pterm4 by pterm4
+connect M5pterm pterm4 by pterm4
+connect M6pterm pterm4 by pterm4
+connect M1pterm pterm5 by pterm5
+connect M2pterm pterm5 by pterm5
+connect M3pterm pterm5 by pterm5
+connect M4pterm pterm5 by pterm5
+connect M5pterm pterm5 by pterm5
+connect M6pterm pterm5 by pterm5
+connect M1pterm pterm6 by pterm6
+connect M2pterm pterm6 by pterm6
+connect M3pterm pterm6 by pterm6
+connect M4pterm pterm6 by pterm6
+connect M5pterm pterm6 by pterm6
+connect M6pterm pterm6 by pterm6
+connect M1pterm tterm1 by tterm1
+connect M2pterm tterm1 by tterm1
+connect M3pterm tterm1 by tterm1
+connect M4pterm tterm1 by tterm1
+connect M5pterm tterm1 by tterm1
+connect M6pterm tterm1 by tterm1
+connect M1pterm tterm2 by tterm2
+connect M2pterm tterm2 by tterm2
+connect M3pterm tterm2 by tterm2
+connect M4pterm tterm2 by tterm2
+connect M5pterm tterm2 by tterm2
+connect M6pterm tterm2 by tterm2
+stamp patch_M6pterm_M6term by M6term
+stamp patch_M5pterm_M5term by M5term
+stamp patch_M4pterm_M4term by M4term
+stamp patch_M3pterm_M3term by M3term
+stamp patch_M2pterm_M2term by M2term
+stamp patch_M1pterm_M1term by M1term
+stamp patch_M1term_device_M1term by M1term
+stamp NWVIA by NSDterm
+stamp L63256 by NWVIA
+stamp JVARterm by PSDterm
+stamp JVARanode by JVARterm
+stamp PWVIA by PSDterm
+stamp Pwell by PWVIA
+stamp PWNBVIA by PSDterm
+stamp ISOPWELL by PWNBVIA
+stamp SUBVIA by PSDterm
+stamp PSUB by SUBVIA
+stamp NBVIA by L63256
+stamp Nburied by NBVIA
+model=res[polyres],polyres
+dfiimodel=res[polyres],polyres#20ivpcell#20gpdk180
+element res[polyres] L1343_RES_600 POLYterm 
+model=res[polyhres],polyhres
+dfiimodel=res[polyhres],polyhres#20ivpcell#20gpdk180
+element res[polyhres] POLYHRES_RES_621 POLYterm 
+model=res[nplusres],nplusres
+dfiimodel=res[nplusres],nplusres#20ivpcell#20gpdk180
+element res[nplusres] L65572_RES_644 NSDterm PSUB 
+model=res[nplusres_av2],nplusres
+dfiimodel=res[nplusres_av2],nplusres#20ivpcell#20gpdk180
+element res[nplusres_av2] ISONSDRES_RES_667 NSDterm ISOPWELL 
+model=res[pplusres],pplusres
+dfiimodel=res[pplusres],pplusres#20ivpcell#20gpdk180
+element res[pplusres] PSDRES_RES_690 PSDterm L63256 
+model=res[nwellres],nwellres
+dfiimodel=res[nwellres],nwellres#20ivpcell#20gpdk180
+element res[nwellres] NWELLRES_RES_711 L63256 
+model=res[m1res],m1res
+dfiimodel=res[m1res],m1res#20ivpcell#20gpdk180
+element res[m1res] M1res_RES_731 M1term 
+model=res[m2res],m2res
+dfiimodel=res[m2res],m2res#20ivpcell#20gpdk180
+element res[m2res] M2res_RES_752 M2term 
+model=res[m3res],m3res
+dfiimodel=res[m3res],m3res#20ivpcell#20gpdk180
+element res[m3res] M3res_RES_773 M3term 
+model=res[m4res],m4res
+dfiimodel=res[m4res],m4res#20ivpcell#20gpdk180
+element res[m4res] M4res_RES_794 M4term 
+model=cap[mimcap],mimcap
+dfiimodel=cap[mimcap],mimcap#20ivpcell#20gpdk180
+element cap[mimcap] MIMCAP_CAP_817 CapMetal M2term 
+model=mos[pmoscap],pmoscap
+dfiimodel=mos[pmoscap],pmoscap#20ivpcell#20gpdk180
+element mos[pmoscap] PMOSCAP_MOS_831 POLYterm PSDterm L63256 
+model=mos[nmoscap],nmoscap
+dfiimodel=mos[nmoscap],nmoscap#20ivpcell#20gpdk180
+element mos[nmoscap] L64962_MOS_855 POLYterm NSDterm PSUB 
+model=mos[nmoscap_av2],nmoscap
+dfiimodel=mos[nmoscap_av2],nmoscap#20ivpcell#20gpdk180
+element mos[nmoscap_av2] ISONMOSCAP_MOS_879 POLYterm NSDterm ISOPWELL 
+model=generic[SmplInd],SmplInd
+dfiimodel=generic[SmplInd],SmplInd#20ivpcell#20vpcmLib
+element generic[SmplInd] pcm_smpl_ind_rec_Device_903 pterm1[P1] pterm2[P2] PSUB[B] 
+model=generic[DiffInd],DiffInd
+dfiimodel=generic[DiffInd],DiffInd#20ivpcell#20vpcmLib
+element generic[DiffInd] pcm_diff_ind_rec_Device_913 pterm1[P1] pterm2[P2] tterm1[T1] PSUB[B] 
+model=generic[DiffIndNoTap],DiffIndNoTap
+dfiimodel=generic[DiffIndNoTap],DiffIndNoTap#20ivpcell#20vpcmLib
+element generic[DiffIndNoTap] pcm_diffnotap_ind_rec_Device_921 pterm1[P1] pterm2[P2] PSUB[B] 
+model=generic[pcm6],pcm6
+dfiimodel=generic[pcm6],pcm6#20ivpcell#20vpcmLib
+element generic[pcm6] pcm_rec_Device_937 pterm1[P1] pterm2[P2] pterm3[P3] pterm4[P4] pterm5[P5] pterm6[P6] PSUB[B] 
+model=generic[pcm5],pcm5
+dfiimodel=generic[pcm5],pcm5#20ivpcell#20vpcmLib
+element generic[pcm5] pcm_rec_Device_950 pterm1[P1] pterm2[P2] pterm3[P3] pterm4[P4] pterm5[P5] PSUB[B] 
+model=generic[pcm4],pcm4
+dfiimodel=generic[pcm4],pcm4#20ivpcell#20vpcmLib
+element generic[pcm4] pcm_rec_Device_961 pterm1[P1] pterm2[P2] pterm3[P3] pterm4[P4] PSUB[B] 
+model=generic[pcm3],pcm3
+dfiimodel=generic[pcm3],pcm3#20ivpcell#20vpcmLib
+element generic[pcm3] pcm_rec_Device_970 pterm1[P1] pterm2[P2] pterm3[P3] PSUB[B] 
+model=generic[pcm2],pcm2
+dfiimodel=generic[pcm2],pcm2#20ivpcell#20vpcmLib
+element generic[pcm2] pcm_rec_Device_977 pterm1[P1] pterm2[P2] PSUB[B] 
+model=generic[pcm_simopen],pcm_simopen
+dfiimodel=generic[pcm_simopen],pcm_simopen#20ivpcell#20vpcmLib
+element generic[pcm_simopen] M1pcmcut_Device_980 M1term[P1] M1term[P2] 
+model=generic[pcm_simopen_av2],pcm_simopen
+dfiimodel=generic[pcm_simopen_av2],pcm_simopen#20ivpcell#20vpcmLib
+element generic[pcm_simopen_av2] M2pcmcut_Device_983 M2term[P1] M2term[P2] 
+model=generic[pcm_simopen_av3],pcm_simopen
+dfiimodel=generic[pcm_simopen_av3],pcm_simopen#20ivpcell#20vpcmLib
+element generic[pcm_simopen_av3] M3pcmcut_Device_986 M3term[P1] M3term[P2] 
+model=generic[pcm_simopen_av4],pcm_simopen
+dfiimodel=generic[pcm_simopen_av4],pcm_simopen#20ivpcell#20vpcmLib
+element generic[pcm_simopen_av4] M4pcmcut_Device_989 M4term[P1] M4term[P2] 
+model=generic[pcm_simopen_av5],pcm_simopen
+dfiimodel=generic[pcm_simopen_av5],pcm_simopen#20ivpcell#20vpcmLib
+element generic[pcm_simopen_av5] M5pcmcut_Device_992 M5term[P1] M5term[P2] 
+model=generic[pcm_simopen_av6],pcm_simopen
+dfiimodel=generic[pcm_simopen_av6],pcm_simopen#20ivpcell#20vpcmLib
+element generic[pcm_simopen_av6] M6pcmcut_Device_995 M6term[P1] M6term[P2] 
+model=generic[ind],ind
+dfiimodel=generic[ind],ind#20ivpcell#20gpdk180
+element generic[ind] INDUCTOR_Device_1000 INDterm1[PLUS] INDterm2[MINUS] 
+model=bjt[vpnp],vpnp
+dfiimodel=bjt[vpnp],vpnp#20ivpcell#20gpdk180
+element bjt[vpnp] VPNP_BJT_1007 PSUB L63256 PSDterm 
+model=bjt[pnp],pnp
+dfiimodel=bjt[pnp],pnp#20ivpcell#20gpdk180
+element bjt[pnp] PNP_BJT_1015 Pwell L63256 PSDterm 
+model=bjt[npn],npn
+dfiimodel=bjt[npn],npn#20ivpcell#20gpdk180
+element bjt[npn] NPN_BJT_1023 Nburied Pwell NSDterm 
+model=mos[nmos],nmos
+dfiimodel=mos[nmos],nmos#20ivpcell#20gpdk180
+element mos[nmos] L47102_MOS_1031 POLYterm NSDterm PSUB 
+model=mos[nmos_av2],nmos
+dfiimodel=mos[nmos_av2],nmos#20ivpcell#20gpdk180
+element mos[nmos_av2] ISONMOS_MOS_1055 POLYterm NSDterm ISOPWELL 
+model=mos[nmoshv],nmoshv
+dfiimodel=mos[nmoshv],nmoshv#20ivpcell#20gpdk180
+element mos[nmoshv] L45699_MOS_1079 POLYterm NSDterm PSUB 
+model=mos[nmoshv_av2],nmoshv
+dfiimodel=mos[nmoshv_av2],nmoshv#20ivpcell#20gpdk180
+element mos[nmoshv_av2] ISONMOSHV_MOS_1103 POLYterm NSDterm ISOPWELL 
+model=mos[pmos],pmos
+dfiimodel=mos[pmos],pmos#20ivpcell#20gpdk180
+element mos[pmos] PMOS_MOS_1127 POLYterm PSDterm L63256 
+model=mos[pmoshv],pmoshv
+dfiimodel=mos[pmoshv],pmoshv#20ivpcell#20gpdk180
+element mos[pmoshv] PMOSHV_MOS_1151 POLYterm PSDterm L63256 
+model=diode[ndio],ndio
+dfiimodel=diode[ndio],ndio#20ivpcell#20gpdk180
+element diode[ndio] NDIODE_DIODE_1173 PSUB NSDterm 
+model=diode[pdio],pdio
+dfiimodel=diode[pdio],pdio#20ivpcell#20gpdk180
+element diode[pdio] PDIODE_DIODE_1180 PSDterm L63256 
+model=diode[xjvar_w40],xjvar_w40
+dfiimodel=diode[xjvar_w40],xjvar_w40#20ivpcell#20gpdk180
+element diode[xjvar_w40] JVARNF_DIODE_1189 JVARanode L63256 PSUB 
+model=diode[xjvar_nf36],xjvar_nf36
+dfiimodel=diode[xjvar_nf36],xjvar_nf36#20ivpcell#20gpdk180
+element diode[xjvar_nf36] JVARW40_DIODE_1198 JVARanode L63256 PSUB 

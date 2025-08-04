@@ -1,0 +1,13 @@
+VALE Framework Component Module:
+   Load Hotspots File 
+
+Description:
+   Loads a Hotspots Interchange Format (HIF) file.  The HIF file may direct actions for Virtuoso to take.
+
+Input Requirements:
+   An open cellview.
+
+Development Notes:
+   All aspects of this Component Module were developed by Cadence.
+   Please contact Jonathan Fales for more information: jfales@cadence.com
+

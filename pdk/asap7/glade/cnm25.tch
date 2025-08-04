@@ -1,0 +1,238 @@
+// Technology file for CNM25
+//
+//	Name	Purpose		gds_num	gds_dtyp	RGBA		sel?	vis?	fillstyle	linestyle
+LAYER	NTUB	drawing		1	0	(255,230,191,255)	t		t		cross		plain ;
+LAYER	GASAD	drawing		2	0	(0,204,102,255)		t		t		dots1		plain ;
+LAYER	POLY0	drawing		3	0	(255,230,191,255)	t		t		zagr		plain ;
+LAYER	POLY1	drawing		4	0	(255,0,0,255)		t		t		right_bars	plain ;
+LAYER	NPLUS	drawing		5	0	(255,230,191,255)	t		t		points_1	plain ;
+LAYER	WINDOW	drawing		6	0	(0,255,255,255)		t		t		full		plain ;
+LAYER	METAL	drawing		7	0	(0,128,255,255)		t		t		zagr		plain ;
+LAYER	VIA		drawing		10	0	(255,255,0,255)		t		t		solid		plain ;
+LAYER	METAL2	drawing		9	0	(204,230,255,255)	t		t		zagl		plain ;
+LAYER	CAPS	drawing		8	0	(255,170,255,255)	t		t		crosses		plain ;
+LAYER	POLY1	pin			20	0	(255,0,0,255)		t		t		squares_1	plain ;
+LAYER	METAL	pin			21	0	(0,128,255,255)		t		t		squares_2	plain ;
+LAYER	METAL2	pin			22	0	(204,230,255,255)	t		t		squares_2	plain ;
+LAYER	POLY1	net			23	0	(255,0,0,255)		t		t		dots1		plain ;
+LAYER	METAL	net			24	0	(0,128,255,255)		t		t		dots1		plain ;
+LAYER	METAL2	net			25	0	(204,230,255,255)	t		t		dots1		plain ;
+LAYER	PWELL	drawing		26	0	(73,214,186,255)	t		t		cross		plain ;
+//
+// Layer function
+//
+FUNCTION POLY0 drawing ROUTING ;
+FUNCTION POLY1 drawing ROUTING ;
+FUNCTION WINDOW drawing CUT ;
+FUNCTION METAL drawing ROUTING ;
+FUNCTION VIA drawing CUT ;
+FUNCTION METAL2 drawing ROUTING ;
+FUNCTION POLY1 pin PIN ;
+FUNCTION METAL pin PIN ;
+FUNCTION METAL2 pin PIN ;
+FUNCTION POLY1 net PIN ;
+FUNCTION METAL net PIN ;
+FUNCTION METAL2 net PIN ;
+//
+// Layer Connections
+//
+CONNECT POLY0 drawing BY WINDOW drawing TO METAL drawing ;
+CONNECT POLY1 drawing BY WINDOW drawing TO METAL drawing ;
+CONNECT METAL drawing BY VIA drawing TO METAL2 drawing ;
+//
+// Layer rules
+//
+MINWIDTH NTUB drawing 8.000 ;
+MINSPACE NTUB drawing 8.000 ;
+MINWIDTH GASAD drawing 2.000 ;
+MINSPACE GASAD drawing 4.000 ;
+MINENC NTUB drawing GASAD drawing 5.000 ;
+MINSPACE NTUB drawing GASAD drawing 5.000 ;
+MINWIDTH POLY0 drawing 2.500 ;
+MINSPACE POLY0 drawing 6.000 ;
+MINSPACE POLY0 drawing GASAD drawing 6.000 ;
+MINWIDTH POLY1 drawing 2.500 ;
+MINSPACE POLY1 drawing 3.000 ;
+MINEXT POLY1 drawing GASAD drawing 2.500 ;
+MINEXT GASAD drawing POLY1 drawing 3.000 ;
+MINSPACE POLY1 drawing GASAD drawing 1.250 ;
+MINENC POLY0 drawing POLY1 drawing 3.000 ;
+MINENC NPLUS drawing GASAD drawing 2.500 ;
+MINWIDTH NPLUS drawing 2.500 ;
+MINSPACE NPLUS drawing 2.500 ;
+MINWIDTH WINDOW drawing 2.500 ;
+MINSPACE WINDOW drawing 3.000 ;
+MINENC GASAD drawing WINDOW drawing 1.000 ;
+MINENC POLY1 drawing WINDOW drawing 1.250 ;
+MINENC POLY0 drawing WINDOW drawing 4.000 ;
+MINSPACE WINDOW drawing POLY1 drawing 4.000 ;
+MINSPACE WINDOW drawing POLY0 drawing 4.000 ;
+MINWIDTH METAL drawing 2.500 ;
+MINSPACE METAL drawing 3.000 ;
+MINENC METAL drawing WINDOW drawing 1.250 ;
+MINWIDTH VIA drawing 3.000 ;
+MINSPACE VIA drawing 3.500 ;
+MINENC METAL drawing VIA drawing 1.250 ;
+MINSPACE VIA drawing WINDOW drawing 2.500 ;
+MINSPACE VIA drawing POLY1 drawing 2.500 ;
+MINWIDTH METAL2 drawing 3.500 ;
+MINSPACE METAL2 drawing 3.500 ;
+MINENC METAL2 drawing VIA drawing 1.250 ;
+//
+// Via rules
+//
+VIA dff_m1
+	GASAD drawing -2.250 -2.250 2.250 2.250
+	WINDOW drawing -1.250 -1.250 1.250 1.250
+	METAL drawing -2.500 -2.500 2.500 2.500
+;
+VIA p0_m1
+	POLY0 drawing -5.250 -5.250 5.250 5.250
+	WINDOW drawing -1.250 -1.250 1.250 1.250
+	METAL drawing -2.500 -2.500 2.500 2.500
+;
+VIA p1_m1
+	POLY1 drawing -2.500 -2.500 2.500 2.500
+	WINDOW drawing -1.250 -1.250 1.250 1.250
+	METAL drawing -2.500 -2.500 2.500 2.500
+;
+VIA m1_m2
+	METAL drawing -2.750 -2.750 2.750 2.750
+	VIA drawing -1.500 -1.500 1.500 1.500
+	METAL2 drawing -2.750 -2.750 2.750 2.750
+;
+//
+// MultiPartPath rules
+//
+MPP nguard LAYER NTUB  drawing WIDTH 14.5 BEGEXT 7.25 ENDEXT 7.25 ;
+MPP nguard LAYER GASAD drawing WIDTH 4.5 BEGEXT 2.25 ENDEXT 2.25 ;
+MPP nguard LAYER NPLUS drawing WIDTH 9.5 BEGEXT 4.75 ENDEXT 4.75 ;
+MPP nguard LAYER WINDOW drawing WIDTH 2.5 BEGEXT -1.25 ENDEXT 1.25 SPACE 3 LENGTH 2.5 ;
+MPP nguard LAYER METAL drawing WIDTH 5.0 BEGEXT 2.5 ENDEXT 2.5 ;
+
+MPP pguard LAYER GASAD drawing WIDTH 4.5 BEGEXT 2.25 ENDEXT 2.25 ;
+MPP pguard LAYER WINDOW drawing WIDTH 2.5 BEGEXT -1.25 ENDEXT 1.25 SPACE 3 LENGTH 2.5 ;
+MPP pguard LAYER METAL drawing WIDTH 5.0 BEGEXT 2.5 ENDEXT 2.5 ;
+
+MPP p0m1 LAYER POLY0 drawing WIDTH 10.5 BEGEXT 5.25 ENDEXT 5.25 ;
+MPP p0m1 LAYER WINDOW drawing WIDTH 2.5 BEGEXT -1.25 ENDEXT 1.25 SPACE 3 LENGTH 2.5 ;
+MPP p0m1 LAYER METAL drawing WIDTH 5.0 BEGEXT 2.5 ENDEXT 2.5 ;
+
+MPP p1m1 LAYER POLY1 drawing WIDTH 5 BEGEXT 2.50 ENDEXT 2.50 ;
+MPP p1m1 LAYER WINDOW drawing WIDTH 2.5 BEGEXT -1.25 ENDEXT 1.25 SPACE 3 LENGTH 2.5 ;
+MPP p1m1 LAYER METAL drawing WIDTH 5.0 BEGEXT 2.5 ENDEXT 2.5 ;
+
+MPP m1m2 LAYER METAL drawing WIDTH 5.5 BEGEXT 2.75 ENDEXT 2.75 ;
+MPP m1m2 LAYER VIA drawing WIDTH 3 BEGEXT -1.5 ENDEXT 1.5 SPACE 3.5 LENGTH 3 ;
+MPP m1m2 LAYER METAL2 drawing WIDTH 5.5 BEGEXT 2.75 ENDEXT 2.75 ;
+//
+// Fastcap conductor data in um
+//
+METLYR METAL  drawing HEIGHT 1.000 THICKNESS 1.000 ;
+VIALYR VIA    drawing HEIGHT 2.000 THICKNESS 0.800 ;
+METLYR METAL2 drawing HEIGHT 2.800 THICKNESS 1.100 ; 
+//
+// Layout generation tool
+//
+MAP cnm25modn TO cnm25modn_m layout ;
+MAP cnm25modp TO cnm25modp_m layout ;
+MAP cnm25cpoly TO cnm25cpoly_m layout ;
+//
+// Line Styles
+//
+//   Name  Width  Style
+//
+// Stipple Patterns
+//
+//  Name  Type  Fill pattern
+STIPPLE	crosses	STIPPLE
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+			0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 
+			0 0 0 1 0 0 0 0 0 0 0 0 0 1 0 0 
+			0 0 1 1 1 0 0 0 0 0 0 0 0 1 0 0 
+			0 0 0 1 0 0 0 0 0 0 0 0 1 1 1 0 
+			0 0 0 1 0 0 0 0 0 0 0 0 0 1 0 0 
+			0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+			0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 
+			0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 
+			0 0 0 0 0 0 1 1 1 0 0 0 0 0 0 0 
+			0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 
+			0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+			 ;
+STIPPLE	full	SOLID ;
+STIPPLE	squares_2	STIPPLE
+			1 1 1 1 0 0 0 0 1 1 1 1 0 0 0 0 
+			1 1 1 1 0 0 0 0 1 1 1 1 0 0 0 0 
+			1 1 1 1 0 0 0 0 1 1 1 1 0 0 0 0 
+			1 1 1 1 0 0 0 0 1 1 1 1 0 0 0 0 
+			0 0 0 0 1 1 1 1 0 0 0 0 1 1 1 1 
+			0 0 0 0 1 1 1 1 0 0 0 0 1 1 1 1 
+			0 0 0 0 1 1 1 1 0 0 0 0 1 1 1 1 
+			0 0 0 0 1 1 1 1 0 0 0 0 1 1 1 1 
+			1 1 1 1 0 0 0 0 1 1 1 1 0 0 0 0 
+			1 1 1 1 0 0 0 0 1 1 1 1 0 0 0 0 
+			1 1 1 1 0 0 0 0 1 1 1 1 0 0 0 0 
+			1 1 1 1 0 0 0 0 1 1 1 1 0 0 0 0 
+			0 0 0 0 1 1 1 1 0 0 0 0 1 1 1 1 
+			0 0 0 0 1 1 1 1 0 0 0 0 1 1 1 1 
+			0 0 0 0 1 1 1 1 0 0 0 0 1 1 1 1 
+			0 0 0 0 1 1 1 1 0 0 0 0 1 1 1 1 
+			 ;
+STIPPLE	squares_1	STIPPLE
+			0 0 0 0 1 1 1 1 0 0 0 0 1 1 1 1 
+			0 0 0 0 1 1 1 1 0 0 0 0 1 1 1 1 
+			0 0 0 0 1 1 1 1 0 0 0 0 1 1 1 1 
+			0 0 0 0 1 1 1 1 0 0 0 0 1 1 1 1 
+			1 1 1 1 0 0 0 0 1 1 1 1 0 0 0 0 
+			1 1 1 1 0 0 0 0 1 1 1 1 0 0 0 0 
+			1 1 1 1 0 0 0 0 1 1 1 1 0 0 0 0 
+			1 1 1 1 0 0 0 0 1 1 1 1 0 0 0 0 
+			0 0 0 0 1 1 1 1 0 0 0 0 1 1 1 1 
+			0 0 0 0 1 1 1 1 0 0 0 0 1 1 1 1 
+			0 0 0 0 1 1 1 1 0 0 0 0 1 1 1 1 
+			0 0 0 0 1 1 1 1 0 0 0 0 1 1 1 1 
+			1 1 1 1 0 0 0 0 1 1 1 1 0 0 0 0 
+			1 1 1 1 0 0 0 0 1 1 1 1 0 0 0 0 
+			1 1 1 1 0 0 0 0 1 1 1 1 0 0 0 0 
+			1 1 1 1 0 0 0 0 1 1 1 1 0 0 0 0 
+			 ;
+STIPPLE	points_1	STIPPLE
+			0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+			0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+			0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+			1 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+			0 0 1 0 0 0 0 0 0 1 0 0 0 0 0 0 
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+			0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 
+			 ;
+STIPPLE	right_bars	STIPPLE
+			1 1 0 0 1 1 0 0 1 1 0 0 1 1 0 0 
+			1 0 0 1 1 0 0 1 1 0 0 1 1 0 0 1 
+			0 0 1 1 0 0 1 1 0 0 1 1 0 0 1 1 
+			0 1 1 0 0 1 1 0 0 1 1 0 0 1 1 0 
+			1 1 0 0 1 1 0 0 1 1 0 0 1 1 0 0 
+			1 0 0 1 1 0 0 1 1 0 0 1 1 0 0 1 
+			0 0 1 1 0 0 1 1 0 0 1 1 0 0 1 1 
+			0 1 1 0 0 1 1 0 0 1 1 0 0 1 1 0 
+			1 1 0 0 1 1 0 0 1 1 0 0 1 1 0 0 
+			1 0 0 1 1 0 0 1 1 0 0 1 1 0 0 1 
+			0 0 1 1 0 0 1 1 0 0 1 1 0 0 1 1 
+			0 1 1 0 0 1 1 0 0 1 1 0 0 1 1 0 
+			1 1 0 0 1 1 0 0 1 1 0 0 1 1 0 0 
+			1 0 0 1 1 0 0 1 1 0 0 1 1 0 0 1 
+			0 0 1 1 0 0 1 1 0 0 1 1 0 0 1 1 
+			0 1 1 0 0 1 1 0 0 1 1 0 0 1 1 0 
+			 ;

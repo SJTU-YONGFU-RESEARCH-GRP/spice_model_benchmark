@@ -1,0 +1,55 @@
+/* $Id: ifspec.tpl,v 1.1 91/03/18 19:01:11 bill Exp $ */
+/*.......1.........2.........3.........4.........5.........6.........7.........8
+================================================================================
+Copyright 1991
+Georgia Tech Research Corporation, Atlanta, Ga. 30332
+All Rights Reserved
+
+AUTHORS                      
+
+     2 Oct 1991     Jeffrey P. Murray
+
+
+SUMMARY
+
+    This file contains the interface specification file for the 
+    analog frequency-domain lossy transmission line model. 
+    Works only in AC analysis.  
+
+===============================================================================*/
+
+NAME_TABLE:
+
+
+C_Function_Name:       cm_fdtabltra
+Spice_Model_Name:      fdtabltra
+Description:           "AC lossy transmission line model with freq. dependent r and g"
+
+
+PORT_TABLE:
+
+
+Port_Name:             p1                 p2            i1                    i2
+Description:           "port 1"           "port 2"      "port 1 current"      "port 2 current"
+Direction:             inout              inout         inout                 inout
+Default_Type:          gd                 gd            g                     g 
+Allowed_Types:         [gd]               [gd]          [g]                   [g]
+Vector:                 no                 no            no                    no
+Vector_Bounds:          -                  -             -                    -
+Null_Allowed:          no                 no            no                    no
+
+
+
+PARAMETER_TABLE:
+
+
+Parameter_Name:     c          l            len        omegatab          r               g             
+Description:        "cap/len"  "ind/len"	"length"   "rad freq table"	 "res/len tab"   "cond/len tab"
+Data_Type:          real       real         real       real				 complex		 complex		
+Default_Value:      1e-12	   1e-6			10.0       0.0				 <1.0 0.0>		 <1.0 0.0>
+Limits:             -		   -			-          [0, -]			 -				 -				
+Vector:             no		   no			no         yes				 yes			 yes			
+Vector_Bounds:      -		   -			-          [2, -]			 [2, -]		     [2, -]		
+Null_Allowed:       yes		   yes			yes        no				 yes			 yes			
+
+

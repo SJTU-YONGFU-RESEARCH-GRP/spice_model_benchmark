@@ -1,0 +1,59 @@
+VALE Framework Component Module:
+   Wrap Cell with Boundary Cells
+
+Description:
+   The CellWrapper component module wraps a current cellview with predefined
+boundary or edge cells to provide boundary conditions around the current
+cellview.
+
+   The "wrapping" cells are placed around the boundary of the current
+cellview, using prBoundary, or a specified layer.  The definition for the
+wrapping cells is in a file, by default in the Include directory, but may be
+saved anywhere.  The syntax of the file is: 
+
+;useBoundaryLayerIfNoPRBoundary = nil 
+useBoundaryLayerIfNoPRBoundary = "outline drawing"
+
+wrapperData = list(
+   list(nil 'style "Test1"
+            'description "Example wrapper cells test"
+            'lib "sandbox_library"
+            'left "test1_left"
+            'right "test1_right"
+            'top "test1_top"
+            'bottom "test1_bot"
+            'bottomLeft "test1_botLeft"
+            'bottomRight "test1_botRight"
+            'topRight "test1_topRight"
+            'topLeft "test1_topLeft"
+   )
+   list(nil 'style "Array_R0MX"
+            'description "Wrapper Cells for ary_rec_instage"
+            'lib "sand1_lib"
+            'left "ary_rec_instage_left"
+            'right "ary_rec_instage_right"
+            'top "ary_rec_instage_top"
+            'bottom "ary_rec_instage_bot"
+            'bottomLeft "ary_rec_instage_botLeft"
+            'bottomRight "ary_rec_instage_botRight"
+            'topRight "ary_rec_instage_topRight"
+            'topLeft "ary_rec_instage_topLeft"
+   )
+)
+
+   If there is no prBoundary, then the component module looks for the
+variable: 
+
+   useBoundaryLayerIfNoPRBoundary = "outline drawing"
+
+   If this variable is nil, then the component module will exit.  
+
+Input Requirements:
+   1. A set of predefined "wrapper" cells for left, right, top, bottom and
+corners specified in Include/CellWrapper_V05.il (default name)
+   2. A current open cellview
+
+Development Notes:
+   All aspects of this Component Module were developed by Cadence.
+   Please contact Jonathan Fales for more information: jfales@cadence.com
+

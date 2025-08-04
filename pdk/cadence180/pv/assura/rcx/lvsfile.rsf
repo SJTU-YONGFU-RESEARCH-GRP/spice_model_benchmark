@@ -1,0 +1,22 @@
+/**********************************************************************
+ 
+  Assura RCX sample RSF for capgen lvsfile creation
+    
+  Use this file to create the capgen "lvsfile" from extract.rul
+ 
+***********************************************************************/
+
+avParameters(
+        ?rulesFile "extract.rul"
+        ?rcxFile "lvsfile"
+        ?inputLayout ("gds2" "test.gds" )
+        ?cellName "test"
+        ?runName "lvs_convert"
+        ?compileOnly t
+
+; ALL switches which effect device recognition and terminal layers
+; must be specified here EXACTLY the same as on LVS prior to RCX run. 
+
+; ?set ("MET3_TOP")           
+)
+

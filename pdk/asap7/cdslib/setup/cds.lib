@@ -1,0 +1,17 @@
+SOFTINCLUDE $CDS/share/cdssetup/cds.lib
+DEFINE sample  $CDS/tools/dfII/samples/cdslib/sample
+
+
+#-----------------------
+# ASAP7 TechLibrary:
+#-----------------------
+DEFINE asap7_TechLib $PDK_DIR/cdslib/asap7_TechLib
+
+#------------------------------
+# Sample Standard Cell Library: 
+#------------------------------
+DEFINE asap7ssc7p5t $PDK_DIR/asap7ssc7p5t_05
+
+#-----------------------
+# User Libraries: 
+#-----------------------

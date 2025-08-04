@@ -1,0 +1,486 @@
+;*********************************************************************** 
+; Licensed software 
+; 
+; Copyright (c) 2005 Cadence Design Systems, San Jose, CA
+; 
+; All Rights Reserved 
+;  
+; Confidential and Proprietary Information 
+; 
+; The information and descriptions contained herein embody confidential and 
+; proprietary information which is the property of Cadence Design Systems, Inc. or its 
+; licensors. Such information and descriptions may not be copied, reproduced, 
+; disclosed to others, published or used, in whole or in part, for any purpose
+; other than those permitted in the license agreement without the express prior 
+; written permission of Cadence Design Systems, Inc. 
+;                                     | 
+;*********************************************************************** 
+; 
+; Name:     gpdk090.NeoMap
+; 
+;************************************************************************* 
+##############################################################################
+#
+#   Generator Name:             VXL Cell - Generates a NeoCell device from Cadence
+#
+#   Tcl Check Script:           $NEOHOME/etc/modgen/VXLCellCheck.itcl
+#   Tcl Generator Script:       pcell (Keyword to run built in pcell generator)
+#
+##############################################################################
+
+(map "" "VXL Cell"
+        "$NEOHOME/etc/modgen/VXLCellCheck.itcl"
+        "pcell"
+    (
+        (addWellVariableLayer "Enable Well Merging and Latch-Up Protection" boolean false)
+        (wellTypeToAdd "What Well should I put on this device" choice "neoprop welldefinitions" "Auto" (showif addWellVariableLayer 1) )
+        (neoWellDef "Default well definition" cadprop neoWellDef (showif addWellVariableLayer 1))
+        (wellVariableTerminal "What terminal should the well connect to" string "B" (showif addWellVariableLayer 1
+))
+        (disablegeoshare "Disable Geometry Sharing" boolean false)
+        (generateVariants "Generate Variants" boolean false (showif neoParamStr 1) )
+        (paramNameToVary "Name of Param to Vary" choice "neoprop paramstring neoParamStr" (showif generateVariants
+ 1))
+        (paramValues "Values for Parameter" string "" (showif generateVariants 1))
+        (useLib "LibName for Cell to use" cadprop "neoGenLibName")
+        (useCell "CellName for Cell to use" cadprop "neoGenCellName")
+        (useView "ViewName for Cell to use" cadprop "neoGenViewName")
+        (neoParamStr "neoParamStr" cadprop "neoparamstring")
+    )
+)
+
+##############################################################################
+#
+#   Generator:  Precision Interdigitated Mosfet Array (PIMA)
+#   Generic FET-based device generator
+#
+##############################################################################
+
+(map "" "Precision Interdigitated Mosfet Array"
+	"$NEOHOME/etc/modgen/PIMACheck.itcl"
+	"$NEOHOME/etc/modgen/PIMAGen.itcl"
+
+	(
+	    (deviceStyle    "Device style" choice "PIMA_Default PIMA_Quad")
+
+            (gendefname   "Device Type" cadprop neoGenCellName)
+
+	    # Do we want a guard ring?
+	    (useGuardRing	"Guard ring" boolean false)
+	    (placerWells	"Placer controlled wells" boolean true (showif useGuardRing 0))
+            (numberRows		"Number of Rows" integer 1 )
+	    (interDG 		"Interdigitate by" choice "1 2 3 None" )
+
+	    # New for 3.4
+	    (routingStyle	"Routing Style" choice "Style1 Style2")
+	
+            (routeSamePinsOnly	"Route same pins only" boolean false (showif deviceStyle 0))
+
+            (routeOverDevice	"Allow internal routing over device" boolean false )
+            (removeContacts	"Remove unnecessary contacts for cascoded devices" boolean false (showif deviceStyle 0))
+            (mergeAllDevices	"Merge all devices" boolean false (showif deviceStyle 0))	
+
+	    (dummySize		"Dummy Size" choice "FetSize Dynamic" )
+	    (dummyWidth		"Custom Dummy Width (nm)" integer 1 (showif dummySize 2))
+	    (dummyLength	"Custom Dummy Length (nm)" integer 1 (showif dummySize 2))
+
+            (overrideNumFingers "Override Number of Fingers" boolean false)
+
+            (numFingers 	"Number of fingers" string "" (showif overrideNumFingers 1))
+
+	    (deviceLayout 	"Device layout" script	"$NEOHOME/etc/modgen/PIMALayout.itcl" "" "Edit" )
+
+	    ########################################
+            #
+	    #   Cadence Schematic Properties
+	    #
+	    ########################################
+
+	    (w		    "Device effective width" cadprop w)
+	    (l              "Device length" cadprop l)
+            (m              "Device finger" cadprop fingers)
+            (mostype        "MOSFET type" cadprop cellName)
+
+
+	        ########################################
+	        #
+	        #   Neolinear Schematic Properties
+	        #   note : case matters
+
+		(drainw_Metal1  "Width of drain connection (Metal1)" neoprop
+                        netwidth 0 Metal1 )
+	        (drainw_Metal2  "Width of drain connection (Metal2)" neoprop
+                        netwidth 0 Metal2 )
+	        (gatew_Poly   "Width of gate connection (Poly)" neoprop
+                        netwidth 1 Poly )
+	        (gatew_Metal1   "Width of gate connection (Metal1)" neoprop
+                        netwidth 1 Metal1 )
+	        (gatew_Metal2   "Width of gate connection (Metal2)" neoprop
+                        netwidth 1 Metal2 )
+	        (sourcew_Metal1 "Width of source connection (Metal1)" neoprop
+                        netwidth 2 Metal1 )
+	        (sourcew_Metal2 "Width of source connection (Metal2)" neoprop
+                        netwidth 2 Metal2 )
+	        (bodyw_Metal1 "Width of body connection (Metal1)" neoprop
+                        netwidth 3 Metal1 )
+        	(bodyw_Metal2 "Width of body connection (Metal2)" neoprop
+                        netwidth 3 Metal2 )        
+	)
+	(devices
+	    (displaylist "M" fetDevices "Devices")
+	)
+)
+
+
+##############################################################################
+#
+#   Generator:  Single Precision Interdigitated Mosfet Array (Single PIMA)
+#   Commnets :  This is the same as the PIMA generator.
+#               However, this type of map file entry allows the user to
+#               specify the same generator for a number of devices.
+#
+##############################################################################
+
+(map "" "Single Precision Interdigitated Mosfet Array"
+	"$NEOHOME/etc/modgen/PIMACheck.itcl"
+	"$NEOHOME/etc/modgen/PIMAGen.itcl"
+
+	(
+            (gendefname   "Device Type" cadprop neoGenCellName)
+
+	    # Do we want a guard ring?
+	    (useGuardRing   "Guard ring" boolean true)
+
+	    (placerWells    "Placer controlled wells" boolean true
+			(showif useGuardRing 0))
+            (numberRows
+		"Number of Rows" integer 1 )
+	    (interDG
+		"Interdigitate by" choice "1 2 3 None" )
+
+            (routeOverDevice    "Allow internal routing over device" boolean false )
+
+            (mergeAllDevices "Merge all devices" boolean false (showif deviceStyle 0))	
+
+	    (dummySize
+		"Dummy Size" choice "FetSize" )
+
+	    (dummyWidth
+		"Custom Dummy Width (nm)" integer 1 (showif dummySize 2))
+
+	    (dummyLength
+		"Custom Dummy Length (nm)" integer 1 (showif dummySize 2))
+
+            (overrideNumFingers "Override Number of Fingers" boolean false)
+
+            (numFingers "Number of fingers" string "" (showif overrideNumFingers 1))
+
+	    (deviceLayout "Device layout" script
+                      "$NEOHOME/etc/modgen/PIMALayout.itcl" ""
+	              "Edit" )
+
+	    ########################################
+            #
+	    #   Cadence Schematic Properties
+	    #
+	    ########################################
+
+	    (w		    "Device width" cadprop w)
+	    (l              "Device length" cadprop l)
+            (m              "Device multiplier" cadprop fingers)
+            (mostype        "MOSFET type" cadprop cellName)
+
+	        ########################################
+	        #
+	        #   Neolinear Schematic Properties
+	        #   note : case matters
+
+		(drainw_Metal1  "Width of drain connection (Metal1)" neoprop
+                        netwidth 0 Metal1 )
+	        (drainw_Metal2  "Width of drain connection (Metal2)" neoprop
+                        netwidth 0 Metal2 )
+	        (gatew_Poly   "Width of gate connection (Poly)" neoprop
+                        netwidth 1 Poly )
+	        (gatew_Metal1   "Width of gate connection (Metal1)" neoprop
+                        netwidth 1 Metal1 )
+	        (gatew_Metal2   "Width of gate connection (Metal2)" neoprop
+                        netwidth 1 Metal2 )
+	        (sourcew_Metal1 "Width of source connection (Metal1)" neoprop
+                        netwidth 2 Metal1 )
+	        (sourcew_Metal2 "Width of source connection (Metal2)" neoprop
+                        netwidth 2 Metal2 )
+	        (bodyw_Metal1 "Width of body connection (Metal1)" neoprop
+                        netwidth 3 Metal1 )
+        	(bodyw_Metal2 "Width of body connection (Metal2)" neoprop
+                        netwidth 3 Metal2 )        
+	)
+)
+
+
+	
+
+##############################################################################
+#
+#   Generator:  Precision Matched Resistor Array (PMRA)
+#
+#   Device prefix:	R
+#   Check script:	$NEOHOME/etc/modgen/PrecMatchedResArrayCheck.itcl
+#   Generator script:	$NEOHOME/etc/modgen/PrecMatchedResArrayGen.itcl
+#
+##############################################################################
+
+(map "" "Precision Matched Resistor Array"
+    "$NEOHOME/etc/modgen/PMRACheck.itcl"
+    "$NEOHOME/etc/modgen/PMRAGen.itcl"
+    (
+	(gendefname         "Device style" cadprop neoGenCellName)
+
+        # Guard ring for latchup protection and substrate noise reduction.
+	(useGuardRing	    "Guard ring" boolean false)
+	
+	# The net to use for the guard ring
+	(grnet              "Guard ring net" string ""
+			    (showif useGuardRing 1))
+
+	# Do we allow the router to bridge the guard ring?  (This is NOT
+	# recommended since guard rings are NOT sized to the net width!)
+	(guardRingBridgeable "Guard ring bridgeable" boolean false
+			     (showif useGuardRing 1))
+
+	# The order of the device layouts.
+	(templates	    "Stripe geometry\n(width length; width length; ...)" string "")
+
+	(approximateLength  "Approximate Length" boolean true)
+
+	(routeOverDevice    "Allow internal routing over device" choice
+			    "Default Yes No" "Default")
+
+	(parallel	    "Parallel resistor" boolean false)
+
+	(asymmetric	    "Asymmetric layout" boolean true)
+
+	(deviceLayout	    "Device layout" script
+			    "$NEOHOME/etc/modgen/ResStripeLayout.itcl" "")
+
+	# Cadence schematic properties
+	(r		    "Resistance value" cadprop r)
+	(l		    "Total length" cadprop effL)
+	(w		    "Width" cadprop effW)
+
+    )
+
+    (devices
+	(displaylist "R" resDevices "Devices")
+    )
+)
+
+
+##############################################################################
+#
+#   Generator Name:     	ParasiticResistor
+#
+#   Device Prefix: 		r	
+#   TCL Check Script:     	none
+#   TCL Generator Script: 	$NEOHOME/etc/modgen/parasiticGen.tcl	
+#
+#
+#   Interaction with user:
+#       none 
+#   Interaction with cad tool:
+#       none
+#
+#   Variables set in Check Script:
+#    modgen = ParasiticResistor
+#    devs = the device being generated
+#    execscript = $NEOHOME/etc/modgen/parasiticGen.tcl
+#    layoutref = the device being generated
+#    type = SHORT
+#
+#   Spice Line Generated:
+#   If the spice line is: R1 a b 
+#   * neocell devgen devs=R1 modgen=ParasiticResistor layoutref=R1 execscript=$NEOHOME/etc/modgen/parasiticGen.tcl comment="none given"
+#   *+neocell  type=SHORT
+#
+
+(map "r" "ParasiticResistor" "" 
+		"$NEOHOME/etc/modgen/parasiticGen.tcl"
+    (
+	(type "Type of parasitic" static "SHORT")
+    )
+)
+
+##############################################################################
+#
+#   Generator Name: 		ParasiticCapacitor
+#
+#   Device Prefix: 		c	
+#   TCL Check Script:     	none
+#   TCL Generator Script: 	$NEOHOME/etc/modgen/parasiticGen.tcl	
+#
+#
+#   Interaction with user:
+#       none
+#   Interaction with cad tool:
+#       none
+#
+#   Variables set in Check Script:
+#   modgen = ParasiticCapacitor
+#   devs = the device being generated
+#   execscript = 
+#   layoutref = the device being generated
+#   type = OPEN
+#
+#   Spice Line Generated:
+#   If the spice line is: C1 a b 
+#   * neocell devgen devs=C1 modgen=ParasiticCapacitor layoutref=C1 execscript=$NEOHOME/etc/modgen/parasiticGen.tcl comment="none given"
+#   *+neocell  type=OPEN
+#
+#
+
+(map "c" "ParasiticCapacitor" "" 
+		"$NEOHOME/etc/modgen/parasiticGen.tcl"
+     (
+	(type "Type of parasitic" static "OPEN")
+      )
+)
+
+
+##############################################################################
+#
+# Generator Name:   		PinGenerator
+#
+# Device Prefix: 		"pin"
+# TCL Check Script:     	"$NEOHOME/etc/modgen/pinCheck.tcl"
+# TCL Generator Script:   	"$NEOHOME/etc/modgen/pinGen.tcl"
+#
+# Note: This pin generator addresses the Note above.
+#
+#
+# Interaction with user:
+# 
+# Interaction with cad tool:
+#
+# Varibles set in Check Script:
+#  modgen = 
+#  devs = the device being generated
+#  width = the width
+#  height = height
+#  layer = which layer
+#  mode = (0 or 1)
+#  round = (0 or 1)
+#  pinproperties = the pin properties
+#
+# Spice Line Generated:
+#
+
+
+(map "pin" "PinGen" "$NEOHOME/etc/modgen/pinCheck.tcl"
+		  "$NEOHOME/etc/modgen/pinGen.tcl"
+	(
+		(layer "Layer for this pin" choice "Metal1 Metal2 Metal3 Metal4")
+		(width "Width"	string "2x")
+		(height "Height" string "2x")
+		(round "Round to Manufacturing Grid ?" boolean FALSE)
+		(mode "Draw Pin Purpose ?" boolean FALSE)
+		(p "Add Special Properties ?" boolean FALSE
+	 				(showif mode 1))
+		(pinproperties "Properties" string
+					(showif p 1))
+	)
+)
+	
+
+##############################################################################
+#
+#   Net Topology Generators
+#
+#   The following generators all have device prefix "net" which means they are
+#   displayed only in the net topology
+#
+#
+
+(map "net" "StarRailStyle" "$NEOHOME/etc/modgen/StarRailNetCheck.itcl"
+		  "$NEOHOME/etc/modgen/StarRailNetGen.itcl"
+	(
+		(terminals1 "Select terminals 1" neoprop terminal)
+		(width1     "Width for terminals1" choice "neoprop routingwidths" "baseWidth")
+		(vias1      "Vias" choice "1 2 3 4 5 6 7 8 9 10" "2")
+		(terminals2 "Select terminals2" neoprop terminal)
+		(width2     "Width for terminals2" choice "neoprop routingwidths" "2x")
+		(vias2      "Vias" choice "1 2 3 4 5 6 7 8 9 10" "2")
+		(terminals3 "Select terminals3" neoprop terminal)
+		(width3     "Width for terminals3" choice "neoprop routingwidths" "3x")
+		(vias3      "Vias" choice "1 2 3 4 5 6 7 8 9 10" "3")
+		(terminals4 "Select terminals4" neoprop terminal)
+		(width4     "Width for terminals4" choice "neoprop routingwidths" "4x")
+		(vias4      "Vias" choice "1 2 3 4 5 6 7 8 9 10" "3")
+		(terminals5 "Select terminals5" neoprop terminal)
+		(width5     "Width for terminals5" choice "neoprop routingwidths" "5x")
+		(vias5      "Vias" choice "1 2 3 4 5 6 7 8 9 10" "4")
+		(terminals6 "Select terminals6" neoprop terminal)
+		(width6     "Width for terminals6" choice "neoprop routingwidths" "6x")
+		(vias6      "Vias" choice "1 2 3 4 5 6 7 8 9 10" "4")
+		(terminals7 "Select terminals7" neoprop terminal)
+		(width7     "Width for terminals7" choice "neoprop routingwidths" "7x")
+		(vias7      "Vias" choice "1 2 3 4 5 6 7 8 9 10" "5")
+		(terminals8 "Select terminals8" neoprop terminal)
+		(width8     "Width for terminals8" choice "neoprop routingwidths" "8x")
+		(vias8      "Vias" choice "1 2 3 4 5 6 7 8 9 10" "5")
+		(terminals9 "Select terminals9" neoprop terminal)
+		(width9     "Width for terminals9" choice "neoprop routingwidths" "9x")
+		(vias9      "Vias" choice "1 2 3 4 5 6 7 8 9 10" "6")
+		(terminals10 "Select terminals10" neoprop terminal)
+		(width10     "Width for terminals10" choice "neoprop routingwidths" "10x")
+		(vias10      "Vias" choice "1 2 3 4 5 6 7 8 9 10" "6")
+		(layers	     "Which layers ?"  choicemulti "neoprop routinglayers" 
+						"Metal1 Metal2 Metal3 Metal4")
+		(vias        "Which vias ?"  choicemulti "neoprop vias" 
+						"M2_M1 M3_M2 M4_M3")
+	)
+)
+
+(map "net" "GeneralTopoStyle" "$NEOHOME/etc/modgen/GeneralTopoCheck.itcl"
+		  "$NEOHOME/etc/modgen/GeneralTopoGen.itcl"
+	(
+		(terminals1 "Select terminals1" neoprop terminal)
+		(width1     "Width for terminals1" choice "neoprop routingwidths" "baseWidth")
+		(vias1      "Vias" choice "1 2 3 4 5 6 7 8 9 10" "1")
+		(terminals2 "Select terminals2" neoprop terminal (showif terminals1 1))
+		(width2     "Width for terminals2" choice "neoprop routingwidths" "baseWidth" (showif terminals1 1))
+		(vias2      "Vias" choice "1 2 3 4 5 6 7 8 9 10" "1" (showif terminals1 1))
+		(terminals3 "Select terminals3" neoprop terminal (showif terminals2 1))
+		(width3     "Width for terminals3" choice "neoprop routingwidths" "baseWidth" (showif terminals2 1))
+		(vias3      "Vias" choice "1 2 3 4 5 6 7 8 9 10" "1" (showif terminals2 1))
+		(terminals4 "Select terminals4" neoprop terminal (showif terminals3 1))
+		(width4     "Width for terminals4" choice "neoprop routingwidths" "baseWidth" (showif terminals3 1))
+		(vias4      "Vias" choice "1 2 3 4 5 6 7 8 9 10" "1" (showif terminals3 1))
+		(terminals5 "Select terminals5" neoprop terminal (showif terminals4 1))
+		(width5     "Width for terminals5" choice "neoprop routingwidths" "baseWidth" (showif terminals4 1))
+		(vias5      "Vias" choice "1 2 3 4 5 6 7 8 9 10" "1" (showif terminals4 1))
+		(terminals6 "Select terminals6" neoprop terminal (showif terminals5 1))
+		(width6     "Width for terminals6" choice "neoprop routingwidths" "baseWidth" (showif terminals5 1))
+		(vias6      "Vias" choice "1 2 3 4 5 6 7 8 9 10" "1" (showif terminals5 1))
+		(terminals7 "Select terminals7" neoprop terminal (showif terminals6 1))
+		(width7     "Width for terminals7" choice "neoprop routingwidths" "baseWidth" (showif terminals6 1))
+		(vias7      "Vias" choice "1 2 3 4 5 6 7 8 9 10" "1" (showif terminals6 1))
+		(terminals8 "Select terminals8" neoprop terminal (showif terminals7 1))
+		(width8     "Width for terminals8" choice "neoprop routingwidths" "baseWidth" (showif terminals7 1))
+		(vias8      "Vias" choice "1 2 3 4 5 6 7 8 9 10" "1" (showif terminals7 1))
+		(terminals9 "Select terminals9" neoprop terminal (showif terminals8 1))
+		(width9     "Width for terminals9" choice "neoprop routingwidths" "baseWidth" (showif terminals8 1))
+		(vias9      "Vias" choice "1 2 3 4 5 6 7 8 9 10" "1" (showif terminals8 1))
+		(terminals10 "Select terminals10" neoprop terminal (showif terminals9 1))
+		(width10     "Width for terminals10" choice "neoprop routingwidths" "baseWidth" (showif terminals9 1))
+		(vias10      "Vias" choice "1 2 3 4 5 6 7 8 9 10" "1" (showif terminals9 1))
+		(layers	     "Which layers ?"  choicemulti "neoprop routinglayers" 
+						"Metal1 Metal2 Metal3 Metal4")
+		(vias        "Which vias ?"  choicemulti "neoprop vias" 
+						"M2_M1 M3_M2 M4_M3")
+	)
+)
+
+
+
+
+
+ 

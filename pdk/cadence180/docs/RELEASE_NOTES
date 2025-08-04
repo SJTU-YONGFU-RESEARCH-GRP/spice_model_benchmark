@@ -1,0 +1,390 @@
+RELEASE NOTES
+
+--------------------------------------------------------------------------------
+VERSION v3.3
+--------------------------------------------------------------------------------
+
+Changes:
+1. gpdk180 OA22 library built natively with IC6.1.3.1 release code
+2. gpdk090 CDB library built natively with IC5.10.41_USR5.90.69 release code
+3. Added missing 64bit context files (CCR 568109)
+4. Renamed LEFDefaultRouteSpec to LEFDefaultRouteSpec_gpdk180 (CCR 594263)
+5. Techfile updates made in preparation for IC6.1.3 release
+6. Removed CDF extraneous simulation MOS parameters (CCR 595042)
+7. Created new QRC database with 3d field solver information 
+8. Updated stream maps to include fill layer purpose
+9. Updated DRC and Extract decks to merge drawing and fill layer purposes
+
+
+--------------------------------------------------------------------------------
+VERSION v3.2
+--------------------------------------------------------------------------------
+
+Changes:
+1. gpdk180 OA22 library built natively with IC6.1.1 preFCS code
+2. Added parasitc AD/AS/PD/PS calculations to the Assura extract rules
+3. Added ignore of "simM" to the CPH lam file to solve back annotation problem
+4. Updated Circuit prospector libInit settings to match new format 
+5. Corrected names in the resistor model file for ADS
+6. Modified libInit to prevent overwrite of simulation model setup information
+7. Modified Assura RF LVS files for VPCM inductor extraction
+8. Modified Assura RF LVS files to save additional recognition layers
+9. Modified Assura RF LVS files to add dummy device filtering
+10. Modified Assura RF LVS files to avoid double counting of contact resistances
+11. Added switch to Assura RF LVS files control amount of saved extracted layers 
+12. Modified SCparameters.cds file for RF kit
+13. Updates made to the display.drf file for layout productivity
+14. Updates made to the techfile layer display sections for layout productivity
+
+
+--------------------------------------------------------------------------------
+VERSION v3.1
+--------------------------------------------------------------------------------
+
+Changes:
+1. Gpdk180 OA22 library built natively with IC6.1.0 FCS code
+2. Removed DBU settings in the library cdsenv file
+3. Updated the CPH Lam file with VXL ignore check parameters
+4. Added a PDK version print statement to the library libinit file
+5. Added Circuit Prospector default settings in PDK init files
+
+
+--------------------------------------------------------------------------------
+VERSION v3.0
+--------------------------------------------------------------------------------
+
+Changes:
+1. Native IC61 OA22 PDK included
+2. Updated VPCM data
+
+
+--------------------------------------------------------------------------------
+VERSION v2.6
+--------------------------------------------------------------------------------
+
+Changes:
+1. Updated pmos spectre model to update the binning
+2. AMS netlisting for resistors was updated to a calculate the correct effL
+3. Updated Assura RF compare rules.
+
+
+--------------------------------------------------------------------------------
+VERSION v2.5
+--------------------------------------------------------------------------------
+
+Changes:
+1. Updated Assura extract and compare rules for the RF flow.
+2. AMS netlisting for resistors to use effective length for series/parallel
+3. Model files updated to fix problems with several different parsers
+4. Model path setting updated to leave user settings in place
+5. Updated region default setting for Mos from triode to none
+6. Added spectre view to the substrate view in substrateLib
+
+
+--------------------------------------------------------------------------------
+VERSION v2.4
+--------------------------------------------------------------------------------
+
+Changes:
+1. Added new spectre models which support monte carlo and mismatch simulation.
+2. Recompiled Assura RCX data to exclude MOS gate resistance
+3. Corrected snap to grid issue with mimcap callback calculations
+4. Updated ADS simInfo netlisting information
+
+
+--------------------------------------------------------------------------------
+VERSION v2.3
+--------------------------------------------------------------------------------
+
+Changes:
+1. Added RF Flow specific files to PDK hierarchy
+2. Updated techfile and display file to add RF Flow layers
+3. Fixed problem with AMS netlisting for resistor schematic pcells
+4. Updated the spectre models for the RF flow platform
+
+
+--------------------------------------------------------------------------------
+VERSION v2.2
+--------------------------------------------------------------------------------
+
+Changes:
+1. Updated techfile minEnclosure rules to remove invalid entries
+2. Regenerate Assura RCX data using 5141USR2 ans Assura 314
+3. Added Alpha release of monte carlo models to spectre hierarchy (PCR 638904)
+4. Removed Socket simulator information from PDK (PCR 806306)
+5. Translated a new OA22 library using the 5.2.51 (262) build
+
+
+--------------------------------------------------------------------------------
+VERSION v2.1.9
+--------------------------------------------------------------------------------
+
+Changes:
+1. Added library name to device extraction for Diva and Assura (PCR 661962)
+2. Added missing "mfgGridResolution" section to compiled techfile (PCR 771781)
+3. Updated "lxIgnoredParamsforCAS" list for MOS devices.
+4. Updated "doneProc" function for MOS device abuttment (PCR 798001)
+5. Added missing Pin text information in Assura decks.
+6. Translated an OA22 version of the gpdk180 library using 5.2.51 (212) build
+
+
+--------------------------------------------------------------------------------
+VERSION v2.1.8
+--------------------------------------------------------------------------------
+
+Changes:
+1. Added ADS models, views, and cdfs to support RFDE.
+2. Updated models for support of the RF platform.
+3. Added Neockt device file to pdk.
+4. Added Neocell technology files to pdk.
+5. Added montecarlo sub directory to spectre models.
+6. Added SNA directory with data for the gpdk180.
+7. Added assura rcx directory to pdk.
+8. Added Pwell width and spacing to physicalRules of techfile.
+
+--------------------------------------------------------------------------------
+VERSION v2.1.7
+--------------------------------------------------------------------------------
+
+Changes:
+1. Added two new RF Mos devices (pmosrf, nmosrf)
+
+--------------------------------------------------------------------------------
+VERSION v2.1.6
+--------------------------------------------------------------------------------
+
+Changes:
+1. Added two new junction varactors to PDK
+2. Updated BondPad DRC rules to be non absolute overlaps
+
+--------------------------------------------------------------------------------
+VERSION v2.1.5
+--------------------------------------------------------------------------------
+
+Changes:
+1. Updated source file names for techfile build. Related to version PAS 2.8
+2. Updated layerRules/layerFunctions section with Cont "cut" for PCR 682187.
+3. Fixed MPP definitions for PCR 663694.
+4. Added library and view name to extract for RCX
+5. Added type for ndio and pdio
+
+--------------------------------------------------------------------------------
+VERSION v2.1.4
+--------------------------------------------------------------------------------
+
+Changes:
+1. Lost mfgGridResolution from techfile using PAS 2.8 - updated source file name for build.
+2. Fixed mimcap extraction of c, w, l, area and perimeters.
+3. Updated mimcap model - switched tc1 and tc2 to achive more linear temp effects.
+4. Updated resistor models to remove warning for sl parameter.
+
+--------------------------------------------------------------------------------
+VERSION v2.1.3
+--------------------------------------------------------------------------------
+
+Changes:
+1. Updated primRes for sch pcell resistors to correct netlisting of extracted view.
+
+--------------------------------------------------------------------------------
+VERSION v2.1.2
+--------------------------------------------------------------------------------
+
+Changes:
+0. VCR rules not in techfile - updated control.tf file for version PAS 2.8
+1. Fixed extraction of fw/simW paramter for MOS.
+2. Fixed extraction of r parameter for RES.
+3. Added temp coeff for all res missing tc's.
+4. Confirmed existance of mimcap temp coeff.
+
+--------------------------------------------------------------------------------
+VERSION v2.1.1
+--------------------------------------------------------------------------------
+
+Changes:
+1. Using 2.8 Release of PAS.
+
+--------------------------------------------------------------------------------
+VERSION v2.1.0
+--------------------------------------------------------------------------------
+
+Changes:
+1. Using Assura 3.12 for RCX.
+2. Update example *.rsf
+3. Three terminal MOSCAP enhancement
+
+--------------------------------------------------------------------------------
+VERSION v2.0.10
+--------------------------------------------------------------------------------
+
+Changes:
+1. Fixed mismatch between auCdl and spectre
+2. Models format correction
+
+--------------------------------------------------------------------------------
+VERSION v2.0.9
+--------------------------------------------------------------------------------
+
+Changes:
+1. HV implant value on HVMOS corrected (2.5 to .25)
+2. Add Metal resistors
+  a. Added recognition layers
+  b. Define metal term layers
+  c. Update connectivity
+  d. Define metal res recognition defintion
+  e. Add LVS recognition
+  f. Add CDFS
+  g. Add Pcells
+3. Updated RCX p2lvsfile and lvsfile
+
+--------------------------------------------------------------------------------
+VERSION v2.0.8
+--------------------------------------------------------------------------------
+
+Changes:
+1. Updated callbacks for res to allow length < width (before length >= width).
+
+--------------------------------------------------------------------------------
+VERSION v2.0.7
+--------------------------------------------------------------------------------
+
+Changes:
+1. Updated callbacks for diode, bjt, ind and moscap.
+2. Updated .cdsenv for PDK.
+3. Changed nmoscap/pmoscap auCdl name from N/P to NC/PC.
+
+--------------------------------------------------------------------------------
+VERSION v2.0.6
+--------------------------------------------------------------------------------
+
+Changes:
+1. Added models for HV MOS.
+
+Known Problems:
+1. Diode callback not functioning.
+
+--------------------------------------------------------------------------------
+VERSION v2.0.5
+--------------------------------------------------------------------------------
+
+Changes:
+1. Using version 2.7 release of PAS for PDK generation.
+2. Correct sca* layers in techfile.
+3. Added Thick Oxide layer and rules for HV MOS.
+4. Added HV nmos and pmos (3 and 4 terminal).
+5. Corrected connectivity (problem with via5)
+
+Known Problems:
+1. Diode callback not functioning. New template available.
+2. Models DO NOT exist for HV MOS.
+
+--------------------------------------------------------------------------------
+VERSION v2.0.4
+--------------------------------------------------------------------------------
+
+Changes:
+1. OA version available.
+2. Original shift for MOSCAPS symbols.
+3. Update in RCX.
+4. Update MOSCAP callbacks.
+
+--------------------------------------------------------------------------------
+VERSION v2.0.3
+--------------------------------------------------------------------------------
+
+Changes:
+1. Changed the userUnits in the '.drc_setup.tpl' from 1000uu/dbu to 2000uu/dbu.
+2. Moved assura_tech.lib to same level as cds.lib file. 
+3. Removed Dracula LVS file due to type limitations.
+4. Changed highlite drawing color. Original color the same as schematic wire.
+5. Corrected Nburied layer definition (PCR 656630).
+6. Updated ISOPWELL definition (PCR 656630).
+
+--------------------------------------------------------------------------------
+VERSION v2.0.2
+--------------------------------------------------------------------------------
+
+Changes:
+1. "Contributes to changedLayer" changed to t for input/drawing layers.
+   These are basically layers with stream numbers (datatype 0) and are
+   used in DRC/LVS.
+2. Corrected spelling of assura antenna.rul file.
+3. Include RSF, template and technology for assura.
+4. Added Assura RCX files.
+
+Known Problems:
+1. With the change from 1000 to 2000 DBUPerUU, data/designs created must
+   be mirgrated. Assura appears to have compatibility issues for LVS.
+
+--------------------------------------------------------------------------------
+VERSION v2.0.1
+--------------------------------------------------------------------------------
+
+Changes:
+1. "Contributes to changedLayer" changed to nil for all layers.
+2. vpnp device supports "5.0x5.0" size.
+3. Added metal labels for metal drawing layers.
+4. Added addition layers/devices/symbilics in techfile for Reference Flow.
+5. Updated sheet rhos for:
+     pplus from 100 to 158
+     polyh from 1000 to 352
+     nwell from 2000 to 415
+
+--------------------------------------------------------------------------------
+VERSION v2.0.0
+--------------------------------------------------------------------------------
+
+This is a PAS generated PDK based on the GPDK Specification Revision 1.0.5.
+
+The following requirements are satisfied:
+
+REQ 2.1.2: Based of fictitious 0.18um BiCMOS
+REQ 5.1.1: "symbol" views
+REQ 5.1.2: Skill callbacks
+REQ 5.1.3: Inherited connection support
+REQ 5.2.1: "spectre" views
+REQ 5.2.2: "spectre" CDF entry
+REQ 5.2.3: Models
+REQ 5.2.4: Corner models
+REQ 5.2.7: N/P Diffusion resistor models (phy_res)
+REQ 5.4.1: "Ultrasim" views
+REQ 5.4.3: "Ultrasim" CDF entry
+REQ 5.5.1: "spectre" views
+REQ 5.5.2: "ams" CDF entry
+REQ 6.1.1: Layer definitions in technology file
+REQ 6.1.2: Basic symbolics
+REQ 6.1.4: Display resource file
+REQ 6.2.1: "lxRules" in technology file
+REQ 6.2.3: ROD-based Pcells with auto-abutment and stretch handles (in context file)
+REQ 6.3.1: Multi-fingered gates
+REQ 6.3.2: Dog-bone structure
+REQ 6.3.3: Configurable S/D connections (for multi-fingered gates) 
+REQ 6.3.4: Configurable gate straps (for multi-fingered gates)
+REQ 6.3.5: Variable S/D contact coverage with stretch handles
+REQ 6.3.6: Optional tap placement
+REQ 6.3.7: Auto-abutment
+REQ 6.3.8: VXL ready connectivity
+REQ 6.3.9: Permute properties on pins
+REQ 6.4.1: Parallel/series configurations (metal straps)
+REQ 6.4.2: Dog-bone structure
+REQ 6.4.3: VXL ready connectivity
+REQ 6.4.4: Optional etch guard resistors
+REQ 6.4.5: Permute properties on pins
+REQ 6.5.1: Configurable w/l/c
+REQ 6.6.1: Configurable w/l/area
+REQ 6.7.1: Configurable w/l/area
+REQ 6.8.1: Configurable truns/radius/space/width
+REQ 6.9.1: GDSII stream layer mapping (in technology file)
+REQ 8.1.2: Assura drc.rul
+REQ 8.2.1: "auCdl" views
+REQ 8.2.2: "auCdl" CDF entry
+REQ 8.2.5: Assura extract.rul
+REQ 8.2.7: Assura compare.rul
+REQ 8.7.1: divaDRC.rul
+REQ 8.7.2: divaDRC.rul stored in PDK library
+REQ 8.8.1: divaEXT.rul
+REQ 8.8.2: divaEXT.rul stored in PDK library
+REQ 8.8.3: "ivpcell" views
+REQ 8.9.1: "auLvs" views
+REQ 8.9.2: "auLvs" CDF entry
+REQ 8.9.3: divaLVS.rul stored in PDK library
+

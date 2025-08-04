@@ -1,0 +1,27 @@
+$FILE_FORMAT_VERSION
+	Version 1.1;
+$END
+$VECTOR_PREFERENCE
+	descending;
+$END
+$GLOBAL_SIGNALS
+	VSS!:::VERILOGAMS=(netType=wire);
+	VDD!:::VERILOGAMS=(netType=wire);
+$END
+$INH_SIGNAL_CONN
+	VDD!:VDD;
+	VSS!:VSS;
+$END
+$INH_TERMINAL_CONN
+	VDD:VDD=VDD!;
+	VSS:VSS=VSS!;
+$END
+$TIMESTAMP
+	-1=5-basic4-ipin;
+	1273039899=5-basic4-ipin6-symbol;
+	1402912705=7-gpdk0456-pmos1v;
+	1402912705=7-gpdk0456-pmos1v6-symbol;
+	1402912703=7-gpdk0456-nmos1v;
+	1402912703=7-gpdk0456-nmos1v6-symbol;
+	1411655622=verilog.vams;
+$END

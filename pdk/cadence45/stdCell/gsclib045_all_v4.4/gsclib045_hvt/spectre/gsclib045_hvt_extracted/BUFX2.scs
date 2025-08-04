@@ -1,0 +1,55 @@
+// Generated for: spectre (May  1 09:13:20 2013 )
+// Library name: gsclib045_hvt
+// Cell name: BUFX2
+// View name: extracted
+
+simulator lang=spectre
+
+subckt BUFX2 A VDD VSS Y
+mp1 (\1\:Y n0 VDD VDD) g45p1hvt w=(3.9e-07) l=4.5e-08 nf=1 as=5.325e-14 \
+        ad=6.24e-14 ps=1.08e-06 pd=1.1e-06 nrd=1.16667 nrs=1.16667 \
+        sa=1.4e-07 sb=4.40064e-07 sd=160n sca=36.3413 scb=0.0370255 \
+        scc=0.00367875 m=(2)
+C1 (VDD VSS) capacitor c=1.60063e-16
+C2 (A VSS) capacitor c=2.06836e-17
+C3 (Y VSS) capacitor c=1.4482e-17
+C4 (n0 VSS) capacitor c=1.681e-16
+C5 (\1\:A VSS) capacitor c=4.49998e-17
+C6 (\3\:A VSS) capacitor c=4.16705e-17
+C7 (\2\:A VSS) capacitor c=4.68219e-17
+C8 (\7\:n0 VSS) capacitor c=6.00385e-17
+C9 (\1\:Y VSS) capacitor c=8.11096e-17
+C10 (\10\:n0 VSS) capacitor c=4.58216e-17
+C11 (\4\:Y VSS) capacitor c=6.31466e-17
+C12 (\3\:Y VSS) capacitor c=3.64325e-17
+C13 (\9\:n0 VSS) capacitor c=1.13401e-16
+C14 (\4\:A VSS) capacitor c=6.32956e-17
+Rk6 (A \4\:A) resistor r=0.03418 c=0
+Rk2 (\3\:Y Y) resistor r=0.02506 c=0
+Rk1 (\2\:Y \3\:Y) resistor r=0.2469 c=0
+Rk3 (\3\:Y \5\:Y) resistor r=0.2478 c=0
+Rk4 (\8\:n0 \9\:n0) resistor r=0.5054 c=0
+Rk5 (\9\:n0 \11\:n0) resistor r=0.3851 c=0
+Rl6 (\1\:A \2\:A) resistor r=96.8456 c=0
+Rl7 (\2\:A \3\:A) resistor r=100.692 c=0
+Rz1 (\5\:Y \4\:Y) resistor r=37.5 c=0
+Rz2 (\11\:n0 \10\:n0) resistor r=75 c=0
+Ry1 (\2\:Y \1\:Y) resistor r=20.6667 c=0
+Ry2 (\8\:n0 \7\:n0) resistor r=62 c=0
+Rx2 (\2\:A \4\:A) resistor r=45 c=0
+Rx1 (\9\:n0 n0) resistor r=45 c=0
+mn1 (VSS n0 \4\:Y VSS) g45n1hvt w=(2.6e-07) l=4.5e-08 nf=1 as=4.16e-14 \
+        ad=3.555e-14 ps=8.4e-07 pd=8.2e-07 nrd=1.16667 nrs=1.16667 \
+        sa=1.4e-07 sb=4.41635e-07 sd=160n sca=15.3338 scb=0.0153436 \
+        scc=0.00119435 m=(2)
+mn0 (VSS \3\:A \10\:n0 VSS) g45n1hvt w=(1.45e-07) l=4.5e-08 nf=1 \
+        as=2.03e-14 ad=3.47e-14 ps=5.7e-07 pd=8.4e-07 nrd=1.16667 \
+        nrs=1.16667 sa=5.5e-07 sb=1.4e-07 sd=160n sca=10.4914 \
+        scb=0.00978575 scc=0.000300434 m=(1)
+mp0 (\7\:n0 \1\:A VDD VDD) g45p1hvt w=(2.15e-07) l=4.5e-08 nf=1 \
+        as=5.19e-14 ad=3.01e-14 ps=1.1e-06 pd=7.1e-07 nrd=1.16667 \
+        nrs=1.16667 sa=5.5e-07 sb=1.4e-07 sd=160n sca=16.9419 \
+        scb=0.0158681 scc=0.000320204 m=(1)
+ends BUFX2
+// End of subcircuit definition.
+

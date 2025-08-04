@@ -1,0 +1,8 @@
+TDMCHECKPOINT="1.0"
+cds_ff_mpt/bipolar.Cat type="category"
+cds_ff_mpt/capacitor.Cat type="category"
+cds_ff_mpt/diodes.Cat type="category"
+cds_ff_mpt/finfets.Cat type="category"
+cds_ff_mpt/primitives.Cat type="category"
+cds_ff_mpt/resistors.Cat type="category"
+cds_ff_mpt/stackedFinfets.Cat type="category"

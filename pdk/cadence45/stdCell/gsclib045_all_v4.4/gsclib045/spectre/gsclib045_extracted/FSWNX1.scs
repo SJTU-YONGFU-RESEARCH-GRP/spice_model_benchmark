@@ -1,0 +1,134 @@
+// Generated for: spectre (May  1 08:11:25 2013 )
+// Library name: gsclib045
+// Cell name: FSWNX1
+// View name: extracted
+
+simulator lang=spectre
+
+subckt FSWNX1 ExtVSS PSOn PSOn_out VDD VSS
+mp0_1__rcx (\106\:n0 pso \1\:VDD VDD) g45p1svt w=(4.5e-07) l=4.5e-08 \
+        nf=1 as=7.2e-14 ad=7.275e-14 ps=1.22e-06 pd=1.23e-06 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=5.48667e-07 sd=160n sca=18.9162 \
+        scb=0.0187423 scc=0.000867404 m=(2)
+NM1_7__rcx (ExtVSS \2\:n0 VSS ExtVSS) g45n1hvt w=(3e-07) l=4.5e-08 nf=1 \
+        as=4.768e-14 ad=4.8e-14 ps=9.1789e-07 pd=9.2e-07 nrd=1.16667 \
+        nrs=1.16667 sa=3.45e-07 sb=2e-06 sd=160n sca=3.55731 \
+        scb=0.000119604 scc=4.49056e-09 m=(38)
+NM1_5__rcx (ExtVSS \2\:n0 VSS ExtVSS) g45n1hvt w=(3e-07) l=4.5e-08 nf=1 \
+        as=4.768e-14 ad=4.8e-14 ps=9.1789e-07 pd=9.2e-07 nrd=1.16667 \
+        nrs=1.16667 sa=3.45e-07 sb=2e-06 sd=160n sca=7.82774 \
+        scb=0.00401892 scc=2.05211e-05 m=(38)
+NM1_1__rcx (ExtVSS \2\:n0 VSS ExtVSS) g45n1hvt w=(3e-07) l=4.5e-08 nf=1 \
+        as=4.2e-14 ad=4.8e-14 ps=8.8e-07 pd=9.2e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=2e-06 sd=160n sca=11.9124 scb=0.0109939 \
+        scc=0.000240529 m=(2)
+NM1_3__rcx (ExtVSS \2\:n0 VSS ExtVSS) g45n1hvt w=(3e-07) l=4.5e-08 nf=1 \
+        as=4.2e-14 ad=4.8e-14 ps=8.8e-07 pd=9.2e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=2e-06 sd=160n sca=3.55731 \
+        scb=0.000119604 scc=4.49056e-09 m=(2)
+C1 (VDD ExtVSS) capacitor c=1.11258e-16
+C2 (VSS ExtVSS) capacitor c=2.88462e-16
+C3 (PSOn ExtVSS) capacitor c=5.52165e-17
+C4 (PSOn_out ExtVSS) capacitor c=4.0555e-17
+C5 (n0 ExtVSS) capacitor c=8.36683e-17
+C6 (pso ExtVSS) capacitor c=9.74666e-17
+C7 (\3\:PSOn ExtVSS) capacitor c=4.88646e-17
+C8 (\9\:pso ExtVSS) capacitor c=4.7495e-17
+C9 (\4\:PSOn ExtVSS) capacitor c=4.52477e-17
+C10 (\8\:pso ExtVSS) capacitor c=3.50183e-17
+C11 (\6\:pso ExtVSS) capacitor c=1.17123e-16
+C12 (\1\:PSOn ExtVSS) capacitor c=2.2194e-17
+C13 (\5\:pso ExtVSS) capacitor c=2.17789e-17
+C14 (\16\:pso ExtVSS) capacitor c=4.39722e-17
+C15 (\1\:VDD ExtVSS) capacitor c=1.73358e-16
+C16 (\106\:n0 ExtVSS) capacitor c=8.9159e-17
+C17 (\4\:PSOn_out ExtVSS) capacitor c=4.98741e-17
+C18 (\15\:VDD ExtVSS) capacitor c=7.53486e-17
+C19 (\10\:VDD ExtVSS) capacitor c=2.85459e-16
+C20 (\3\:VDD ExtVSS) capacitor c=3.00682e-16
+C21 (\12\:pso ExtVSS) capacitor c=3.7209e-17
+C22 (\102\:n0 ExtVSS) capacitor c=6.88358e-17
+C23 (\2\:PSOn_out ExtVSS) capacitor c=3.86873e-17
+C24 (VSS ExtVSS) capacitor c=3.62968e-15
+C25 (ExtVSS ExtVSS) capacitor c=1.95347e-15
+C26 (ExtVSS ExtVSS) capacitor c=1.96873e-15
+C27 (\2\:n0 ExtVSS) capacitor c=2.01944e-15
+C28 (\11\:pso ExtVSS) capacitor c=7.19428e-18
+C29 (\2\:PSOn ExtVSS) capacitor c=3.64068e-17
+C30 (\104\:n0 ExtVSS) capacitor c=5.34591e-17
+C31 (\105\:n0 ExtVSS) capacitor c=8.32544e-17
+C32 (\1\:PSOn_out ExtVSS) capacitor c=2.49736e-17
+C33 (\14\:pso ExtVSS) capacitor c=4.70943e-17
+C34 (\15\:pso ExtVSS) capacitor c=3.41666e-17
+C35 (\12\:VDD ExtVSS) capacitor c=7.25435e-18
+Rk79 (\1\:VDD \6\:VDD) resistor r=0.807 c=0
+Rk80 (\6\:VDD VDD) resistor r=0.2512 c=0
+Rk82 (\7\:VDD VDD) resistor r=0.3216 c=0
+Rk81 (VDD \7\:VDD) resistor r=0.9558 c=0
+Rk84 (\11\:VDD \12\:VDD) resistor r=0.1482 c=0
+Rk86 (\13\:VDD VDD) resistor r=0.2512 c=0
+Rk85 (\12\:VDD \13\:VDD) resistor r=0.807 c=0
+Rk88 (\14\:VDD VDD) resistor r=0.3216 c=0
+Rk87 (VDD \14\:VDD) resistor r=0.9558 c=0
+Rk89 (\12\:VDD \16\:VDD) resistor r=0.3503 c=0
+Rk37 (\54\:ExtVSS ExtVSS) resistor r=1.1412 c=0
+Rk1 (\2\:ExtVSS ExtVSS) resistor r=0.6052 c=0
+Rk70 (PSOn_out \1\:PSOn_out) resistor r=0.0575 c=0
+Rk71 (\1\:PSOn_out \3\:PSOn_out) resistor r=0.2484 c=0
+Rk72 (\1\:PSOn_out \5\:PSOn_out) resistor r=0.289 c=0
+Rk33 (\103\:n0 \104\:n0) resistor r=0.2733 c=0
+Rk34 (\104\:n0 \105\:n0) resistor r=0.4418 c=0
+Rk35 (\104\:n0 \107\:n0) resistor r=0.33 c=0
+Rk73 (\13\:pso \14\:pso) resistor r=0.2605 c=0
+Rk74 (\14\:pso \15\:pso) resistor r=0.1719 c=0
+Rk75 (\14\:pso \17\:pso) resistor r=0.2894 c=0
+Rl113 (\2\:PSOn \3\:PSOn) resistor r=69.8745 c=0
+Rl114 (\2\:PSOn \4\:PSOn) resistor r=78.3972 c=0
+Rl112 (\1\:PSOn \2\:PSOn) resistor r=78.6409 c=0
+Rl1 (\2\:n0 n0) resistor r=127.7 c=0
+Rl108 (\8\:pso \9\:pso) resistor r=142.156 c=0
+Rl105 (pso \6\:pso) resistor r=71.1857 c=0
+Rl107 (\6\:pso \8\:pso) resistor r=117.602 c=0
+Rl104 (pso \5\:pso) resistor r=6.5368 c=0
+Rl111 (pso \11\:pso) resistor r=21.3783 c=0
+Rl110 (\11\:pso \6\:pso) resistor r=44.6457 c=0
+Rz47 (\1\:VDD \3\:VDD) resistor r=10.7143 c=0
+Rz48 (\6\:VDD \3\:VDD) resistor r=6.25 c=0
+Rz49 (\7\:VDD \3\:VDD) resistor r=6.25 c=0
+Rz50 (\11\:VDD \10\:VDD) resistor r=10.7143 c=0
+Rz51 (\13\:VDD \10\:VDD) resistor r=6.25 c=0
+Rz52 (\14\:VDD \10\:VDD) resistor r=6.25 c=0
+Rz1 (\2\:ExtVSS \1\:ExtVSS) resistor r=37.5 c=0
+Rz45 (\2\:PSOn_out \3\:PSOn_out) resistor r=37.5 c=0
+Rz22 (\103\:n0 \102\:n0) resistor r=37.5 c=0
+Rz46 (\13\:pso \12\:pso) resistor r=37.5 c=0
+Ry10 (\16\:VDD \15\:VDD) resistor r=20.6667 c=0
+Ry6 (\4\:PSOn_out \5\:PSOn_out) resistor r=20.6667 c=0
+Ry3 (\107\:n0 \106\:n0) resistor r=20.6667 c=0
+Ry7 (\17\:pso \16\:pso) resistor r=20.6667 c=0
+Rx3 (\1\:PSOn PSOn) resistor r=45 c=0
+Rx1 (\105\:n0 n0) resistor r=11.25 c=0
+Rx2 (\15\:pso \5\:pso) resistor r=45 c=0
+mn0_1__rcx (\54\:ExtVSS \6\:pso \102\:n0 ExtVSS) g45n1svt w=(3e-07) \
+        l=4.5e-08 nf=1 as=4.85e-14 ad=4.8e-14 ps=9.3e-07 pd=9.2e-07 \
+        nrd=1.16667 nrs=1.16667 sa=1.4e-07 sb=5.48667e-07 sd=160n \
+        sca=11.7145 scb=0.0111322 scc=0.000596114 m=(2)
+NM0 (\1\:ExtVSS \8\:pso \2\:PSOn_out ExtVSS) g45n1svt w=(2.6e-07) \
+        l=4.5e-08 nf=1 as=3.64e-14 ad=3.64e-14 ps=8e-07 pd=8e-07 \
+        nrd=1.16667 nrs=1.16667 sa=1.4e-07 sb=1.4e-07 sd=160n sca=12.4994 \
+        scb=0.0122912 scc=0.000683921 m=(1)
+NM2 (\54\:ExtVSS \4\:PSOn \12\:pso ExtVSS) g45n1svt w=(2.6e-07) \
+        l=4.5e-08 nf=1 as=3.64e-14 ad=5.5e-14 ps=8e-07 pd=9.8e-07 \
+        nrd=1.16667 nrs=1.16667 sa=5.8e-07 sb=1.4e-07 sd=160n sca=11.0409 \
+        scb=0.0104003 scc=0.000454168 m=(1)
+PM2 (\16\:pso \3\:PSOn \1\:VDD VDD) g45p1svt w=(3.9e-07) l=4.5e-08 nf=1 \
+        as=5.46e-14 ad=8.25e-14 ps=1.06e-06 pd=1.28e-06 nrd=1.16667 \
+        nrs=1.16667 sa=5.8e-07 sb=1.4e-07 sd=160n sca=17.2987 \
+        scb=0.0157992 scc=0.000772171 m=(1)
+PM1 (\4\:PSOn_out \9\:pso \15\:VDD VDD) g45p1svt w=(3.9e-07) l=4.5e-08 \
+        nf=1 as=5.46e-14 ad=5.46e-14 ps=1.06e-06 pd=1.06e-06 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=1.4e-07 sd=160n sca=19.4801 \
+        scb=0.0194426 scc=0.000970731 m=(1)
+ends FSWNX1
+// End of subcircuit definition.
+

@@ -1,0 +1,29 @@
+VALE Framework Component Module:
+   Grid Tool
+
+Description:
+
+   The Grid Tool has two sections and provides two main functions: setting a grid, and adjusting shapes or regions to the grid. 
+
+   The configuration file entry for this Component Module has two fields to set
+default grids that may be selected through the + button on the form, xGridSizes
+and yGridSizes.
+
+   To use the Grid Tool, first choose or set the X and Y grid in the top left
+of the form.  Then select the "Set Grid" button.  If desired, select the 
+"Display Grid" check box.  The grid display will be saved with the cellview
+until the user selects "Reset Grid".
+
+   Then select the boundary in the second half of the form.  And use the 
+control buttons to move the boundary as needed.
+      
+Dependencies:
+   None
+
+Input Requirements:
+   An open cellview.
+
+Development Notes:
+   All aspects of this Component Module were developed by Cadence.
+   Please contact Jonathan Fales for more information: jfales@cadence.com
+

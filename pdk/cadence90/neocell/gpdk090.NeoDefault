@@ -1,0 +1,160 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;
+;   Licensed software
+;   Copyright (c) 2005 Cadence Design Systems, Inc., San Jose, CA
+;   All Rights Reserved
+;
+;   Confidential and Proprietary Information 
+;
+;   The information and descriptions contained herein embody confidential
+;   and proprietary information which is the property of Cadence Design Systems, Inc.
+;   or its licensors.  Such information and descriptions may not be copied,
+;   reproduced, disclosed to others, published or used, in whole or in
+;   part, for any purpose other than those permitted in the license agreement
+;   without the express prior written permission of Cadence Design Systems, Inc.
+;                                     | 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;	gpdk090.NeoDefault
+;	Generic 90 nm default file for NeoCell
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+(routingLayerConfig Poly
+;	(layerUsage minimize)
+	(layerUsage pinEscape)
+	(layerDirection  HV)
+      	(layerWidths     (baseWidth 100) (2x 200) (3x 300) (4x 400) (5x 500) (6x 600) (7x 700) (8x 800) (9x 900) (10x 1000) (2um 2000) (3um 3000) (4um 4000) (5um 5000) (10um 10000))
+;     	(layerWidths     (baseWidth 200) (2x 200) (3x 300) (4x 400) (5x 500) (6x 600) (7x 700) (8x 800) (9x 900) (10x 1000) (2um 2000) (3um 3000) (4um 4000) (5um 5000) (10um 10000))
+)
+(RoutingLayerConfig      Metal1
+      (LayerUsage        anywhere)
+      (LayerDirection    HMostly)
+      	(layerWidths     (baseWidth 120) (2x 240) (3x 360) (4x 480) (5x 600) (6x 720) (7x 840) (8x 960) (9x 1080) (10x 1200) (2um 2000) (3um 3000) (4um 4000) (5um 5000) (10um 10000))
+ )     
+(RoutingLayerConfig      Metal2
+      (LayerUsage        anywhere)
+      (LayerDirection    VMostly)
+      	(layerWidths     (baseWidth 140) (2x 280) (3x 420) (4x 560) (5x 700) (6x 840) (7x 980) (8x 1120) (9x 1260) (10x 1440) (5um 5000) (other 10000) (19um 19000))
+)
+(RoutingLayerConfig      Metal3
+      (LayerUsage        anywhere)
+      (LayerDirection    HMostly)
+      	(layerWidths     (baseWidth 140) (2x 280) (3x 420) (4x 560) (5x 700) (6x 840) (7x 980) (8x 1120) (9x 1260) (10x 1440) (5um 5000) (other 10000) (19um 19000))
+)
+(RoutingLayerConfig      Metal4
+      (LayerUsage        anywhere)
+      (LayerDirection    VMostly)
+      	(layerWidths     (baseWidth 140) (2x 280) (3x 420) (4x 560) (5x 700) (6x 840) (7x 980) (8x 1120) (9x 1260) (10x 1440) (5um 5000) (other 10000) (19um 19000))
+)
+(RoutingLayerConfig      Metal5
+      (LayerUsage        minimize)
+      (LayerDirection    HMostly)
+      	(layerWidths     (baseWidth 140) (2x 280) (3x 420) (4x 560) (5x 700) (6x 840) (7x 980) (8x 1120) (9x 1260) (10x 1440) (5um 5000) (other 10000) (19um 19000))
+)
+
+(RoutingLayerConfig      Metal6
+      (LayerUsage        minimize)
+      (LayerDirection    VMostly)
+      	(layerWidths     (baseWidth 140) (2x 280) (3x 420) (4x 560) (5x 700) (6x 840) (7x 980) (8x 1120) (9x 1260) (10x 1440) (5um 5000) (other 10000) (19um 19000))
+)
+
+(RoutingLayerConfig      Metal7
+      (LayerUsage        minimize)
+      (LayerDirection    HMostly)
+      	(layerWidths     (baseWidth 140) (2x 280) (3x 420) (4x 560) (5x 700) (6x 840) (7x 980) (8x 1120) (9x 1260) (10x 1440) (5um 5000) (other 10000) (19um 19000))
+)
+
+(RoutingLayerConfig      Metal8
+      (LayerUsage        minimize)
+      (LayerDirection    VMostly)
+      	(layerWidths     (baseWidth 440))
+)
+
+(viaContactStyle M1_PSUB	(minnumcuts	2))
+(viaContactStyle M1_NWELL	(minnumcuts	2))
+(viaContactStyle M1_PIMP	(minnumcuts	2))
+(viaContactStyle M1_NIMP	(minnumcuts	2))
+(viaContactStyle M1_PO		(minnumcuts	2))
+(viaContactStyle M2_M1		(minnumcuts	2))
+(viaContactStyle M3_M2		(minnumcuts	2))
+(viaContactStyle M4_M3		(minnumcuts	2))
+(viaContactStyle M5_M4		(minnumcuts	2))
+(viaContactStyle M6_M5		(minnumcuts	2))
+(viaContactStyle M7_M6		(minnumcuts	2))
+(viaContactStyle M8_M7		(minnumcuts	2))
+
+
+(placerDefaults
+        (WireSpaceScaleFactor 1.0)
+	(TerminalGeometryShareDefault MERGEABUT)
+	(IPAllowDRCIllegal TRUE)
+	(AllowMergingOverSymmetryLine TRUE)
+	(AllowDeviceRailMerging	TRUE)
+)
+
+(railSynonym vdd (avd! vdd! vdda!))
+(railSynonym vdd1 (avd! vdd vdda!))
+(railSynonym vdd2 (avd! vdd vdda!))
+
+(railSynonym vss (avs! vss! vssa!))
+(railSynonym vss1 (avs! vss vssa!))
+(railSynonym vss2 (avs! vss vssa!))
+
+(gdsiiOutputHierarchy devsOnly)
+
+(RerunGeneratorsOnApply FALSE)
+
+(RectilinearizationGrid 5)
+
+; Valid values are NONE, TEXT, and DRAWING.  Indicates what layer
+; cell-level pin labels should go on:
+(outputPinLabelLocation drawing)
+
+; Default Constraints
+(constraintDefaults
+	(defaultDevGen nil mos nil "Precision Interdigitated Mosfet Array")
+	(defaultDevGen nil res nil "Precision Matched Resistor Array")
+	(defaultDevGen nil cap nil "VXL Cell")
+	(defaultOrient nil mos nil (r0 r0mx r0my r0mxmy))
+)
+
+(layerBound
+(Poly (toprel none) (bottomrel none) (leftrel none) (rightrel none) )
+(Metal1 (toprel none) (bottomrel none) (leftrel none) (rightrel none) )
+(Metal2 (toprel none) (bottomrel none) (leftrel none) (rightrel none) )
+(Metal3 (toprel none) (bottomrel none) (leftrel none) (rightrel none) )
+(Metal4 (toprel none) (bottomrel none) (leftrel none) (rightrel none) )
+(Metal5 (toprel none) (bottomrel none) (leftrel none) (rightrel none) )
+(Metal6 (toprel none) (bottomrel none) (leftrel none) (rightrel none) )
+(Metal7 (toprel none) (bottomrel none) (leftrel none) (rightrel none) )
+(Metal8 (toprel none) (bottomrel none) (leftrel none) (rightrel none) )
+(Oxide (toprel none) (bottomrel none) (leftrel none) (rightrel none) )
+(Oxide_thk (toprel none) (bottomrel none) (leftrel none) (rightrel none) )
+(Nwell (toprel none) (bottomrel none) (leftrel none) (rightrel none) )
+(Nhvt (toprel none) (bottomrel none) (leftrel none) (rightrel none) )
+(Nimp (toprel none) (bottomrel none) (leftrel none) (rightrel none) )
+(Phvt (toprel none) (bottomrel none) (leftrel none) (rightrel none) )
+(Pimp (toprel none) (bottomrel none) (leftrel none) (rightrel none) )
+(Nzvt (toprel none) (bottomrel none) (leftrel none) (rightrel none) )
+(SiProt (toprel none) (bottomrel none) (leftrel none) (rightrel none) )
+(Nburied (toprel none) (bottomrel none) (leftrel none) (rightrel none) )
+(Cont (toprel none) (bottomrel none) (leftrel none) (rightrel none) )
+(Via1 (toprel none) (bottomrel none) (leftrel none) (rightrel none) )
+(Via2 (toprel none) (bottomrel none) (leftrel none) (rightrel none) )
+(Via3 (toprel none) (bottomrel none) (leftrel none) (rightrel none) )
+(Via4 (toprel none) (bottomrel none) (leftrel none) (rightrel none) )
+(Via5 (toprel none) (bottomrel none) (leftrel none) (rightrel none) )
+(Via6 (toprel none) (bottomrel none) (leftrel none) (rightrel none) )
+(Via7 (toprel none) (bottomrel none) (leftrel none) (rightrel none) )
+(CapMetal (toprel none) (bottomrel none) (leftrel none) (rightrel none) )
+(Psub (toprel none) (bottomrel none) (leftrel none) (rightrel none) )
+(Resdum (toprel none) (bottomrel none) (leftrel none) (rightrel none) )
+(Capdum (toprel none) (bottomrel none) (leftrel none) (rightrel none) )
+(ResWdum (toprel none) (bottomrel none) (leftrel none) (rightrel none) )
+(Pwell (toprel none) (bottomrel none) (leftrel none) (rightrel none) )
+(infoLayer (toprel none) (bottomrel none) (leftrel none) (rightrel none) )
+(text (toprel none) (bottomrel none) (leftrel none) (rightrel none) )
+(prBoundary (toprel none) (bottomrel none) (leftrel none) (rightrel none) )
+)
+
+(pinGrid (xgrid 2) (ygrid 2))

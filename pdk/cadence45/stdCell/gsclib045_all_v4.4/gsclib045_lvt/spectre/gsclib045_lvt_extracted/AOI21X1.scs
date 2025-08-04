@@ -1,0 +1,91 @@
+// Generated for: spectre (May  1 09:11:48 2013 )
+// Library name: gsclib045_lvt
+// Cell name: AOI21X1
+// View name: extracted
+
+simulator lang=spectre
+
+subckt AOI21X1 A0 A1 B0 VDD VSS Y
+mp0 (\3\:net62 \1\:A0 \4\:VDD VDD) g45p1lvt w=(3.9e-07) l=4.5e-08 nf=1 \
+        as=6.24e-14 ad=5.46e-14 ps=1.1e-06 pd=1.06e-06 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=5.65e-07 sd=160n sca=26.2807 \
+        scb=0.0297759 scc=0.00178997 m=(1)
+mp1 (net62 \1\:A1 \4\:VDD VDD) g45p1lvt w=(3.9e-07) l=4.5e-08 nf=1 \
+        as=6.24e-14 ad=6.24e-14 ps=1.1e-06 pd=1.1e-06 nrd=1.16667 \
+        nrs=1.16667 sa=3.45e-07 sb=3.6e-07 sd=160n sca=17.2376 \
+        scb=0.0159027 scc=0.000426763 m=(1)
+mp2 (\1\:Y \1\:B0 net62 VDD) g45p1lvt w=(3.9e-07) l=4.5e-08 nf=1 \
+        as=6.24e-14 ad=6.045e-14 ps=1.1e-06 pd=1.09e-06 nrd=1.16667 \
+        nrs=1.16667 sa=5.5e-07 sb=1.55e-07 sd=160n sca=17.5198 \
+        scb=0.0164926 scc=0.000444164 m=(1)
+C1 (Y VSS) capacitor c=7.99689e-17
+C2 (B0 VSS) capacitor c=4.65527e-17
+C3 (VDD VSS) capacitor c=7.53873e-17
+C4 (net62 VSS) capacitor c=9.20627e-17
+C5 (\1\:B0 VSS) capacitor c=5.61491e-17
+C6 (\1\:A1 VSS) capacitor c=5.80643e-17
+C7 (\1\:A0 VSS) capacitor c=5.87649e-17
+C8 (\3\:B0 VSS) capacitor c=2.83551e-17
+C9 (\3\:A1 VSS) capacitor c=7.76253e-17
+C10 (\4\:A0 VSS) capacitor c=5.03821e-17
+C11 (\2\:B0 VSS) capacitor c=4.04947e-17
+C12 (\2\:A1 VSS) capacitor c=6.28628e-17
+C13 (\3\:A0 VSS) capacitor c=1.08414e-17
+C14 (\1\:Y VSS) capacitor c=3.01094e-17
+C15 (\4\:VDD VSS) capacitor c=6.35667e-17
+C16 (\3\:net62 VSS) capacitor c=5.57294e-17
+C17 (\4\:Y VSS) capacitor c=1.10179e-16
+C18 (\2\:A0 VSS) capacitor c=4.88563e-17
+C19 (\5\:A0 VSS) capacitor c=3.15513e-17
+C20 (\6\:A0 VSS) capacitor c=3.76508e-17
+C21 (\4\:A1 VSS) capacitor c=5.28886e-17
+C22 (\5\:A1 VSS) capacitor c=3.04925e-17
+C23 (\4\:B0 VSS) capacitor c=6.69914e-17
+C24 (\3\:VDD VSS) capacitor c=2.89113e-17
+Rk4 (A1 \4\:A1) resistor r=0.004153 c=0
+Rk6 (\4\:A1 \5\:A1) resistor r=0.05764 c=0
+Rk5 (\5\:A1 \6\:A1) resistor r=0.004275 c=0
+Rk1 (A0 \5\:A0) resistor r=0.003828 c=0
+Rk3 (\5\:A0 \6\:A0) resistor r=0.07017 c=0
+Rk2 (\6\:A0 \7\:A0) resistor r=0.00396 c=0
+Rk9 (\2\:Y Y) resistor r=0.1567 c=0
+Rk10 (Y \5\:Y) resistor r=0.7222 c=0
+Rk13 (\4\:VSS VSS) resistor r=0.2005 c=0
+Rk12 (\2\:VSS \4\:VSS) resistor r=0.2367 c=0
+Rk14 (VSS \6\:VSS) resistor r=0.1819 c=0
+Rk8 (B0 \4\:B0) resistor r=0.1453 c=0
+Rk16 (\3\:VDD VDD) resistor r=0.1023 c=0
+Rk17 (\3\:VDD \5\:VDD) resistor r=0.2595 c=0
+Rk7 (\2\:net62 \4\:net62) resistor r=0.5608 c=0
+Rl4 (\1\:A1 \2\:A1) resistor r=94.208 c=0
+Rl5 (\2\:A1 \3\:A1) resistor r=94.0258 c=0
+Rl1 (\1\:A0 \2\:A0) resistor r=160.418 c=0
+Rl3 (\2\:A0 \4\:A0) resistor r=45.0334 c=0
+Rl2 (\2\:A0 \3\:A0) resistor r=3.1183 c=0
+Rl6 (\1\:B0 \2\:B0) resistor r=159.593 c=0
+Rl7 (\2\:B0 \3\:B0) resistor r=28.6412 c=0
+Rz1 (\4\:Y \5\:Y) resistor r=37.5 c=0
+Rz2 (\1\:VSS \2\:VSS) resistor r=75 c=0
+Rz3 (\5\:VSS \6\:VSS) resistor r=75 c=0
+Ry3 (\1\:Y \2\:Y) resistor r=20.6667 c=0
+Ry5 (\4\:VDD \5\:VDD) resistor r=31 c=0
+Ry1 (net62 \2\:net62) resistor r=31 c=0
+Ry2 (\3\:net62 \4\:net62) resistor r=31 c=0
+Rx2 (\2\:A1 \6\:A1) resistor r=45 c=0
+Rx1 (\3\:A0 \7\:A0) resistor r=45 c=0
+Rx3 (\2\:B0 \4\:B0) resistor r=45 c=0
+mn0 (net78 \4\:A0 \5\:VSS VSS) g45n1lvt w=(2.6e-07) l=4.5e-08 nf=1 \
+        as=4.89e-14 ad=1.56e-14 ps=1.1e-06 pd=6.4e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=4.5e-07 sd=160n sca=7.84363 \
+        scb=0.00546499 scc=9.84911e-05 m=(1)
+mn1 (\4\:Y \3\:A1 net78 VSS) g45n1lvt w=(2.6e-07) l=4.5e-08 nf=1 \
+        as=1.56e-14 ad=4.16e-14 ps=6.4e-07 pd=8.4e-07 nrd=1.16667 \
+        nrs=1.16667 sa=2.45e-07 sb=3.45e-07 sd=160n sca=7.84363 \
+        scb=0.00546499 scc=9.84911e-05 m=(1)
+mn2 (\4\:Y \3\:B0 \1\:VSS VSS) g45n1lvt w=(2.6e-07) l=4.5e-08 nf=1 \
+        as=4.99e-14 ad=4.16e-14 ps=1.1e-06 pd=8.4e-07 nrd=1.16667 \
+        nrs=1.16667 sa=4.5e-07 sb=1.4e-07 sd=160n sca=7.84363 \
+        scb=0.00546499 scc=9.84911e-05 m=(1)
+ends AOI21X1
+// End of subcircuit definition.
+

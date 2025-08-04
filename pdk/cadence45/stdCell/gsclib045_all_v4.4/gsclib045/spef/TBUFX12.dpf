@@ -1,0 +1,96 @@
+*
+*|DSPF 1.5
+*
+*|DATE "Mon Sep 27 11:20:04 2010"
+*|VENDOR "Cadence Design Systems"
+*|PROGRAM "Assura RCX"
+*|VERSION "3.2 Red Hat Linux release 7.2 (Enigma) - (09/09/2009-10:39)"
+*|DESIGN "TBUFX12"
+*|DIVIDER /
+*|DELIMITER :
+*|DeviceFingerDelim "@"
+*|BUSBIT []
+** MATCHED
+** caps2d version: 10
+*
+.GLOBAL 
+*
+.SUBCKT  TBUFX12 VDD VSS A OE Y
+*
+*Instance Section
+*
+mn4	mn4:d	mn4:g	mn4:s	VSS:4	nmos1v	L=0.045U	W=0.19U
++ AD=0.03658P	AS=0.03658P	PD=0.765U	PS=0.765U
+mn3	mn3:d	mn3:g	mn5@6:s	VSS:4	nmos1v	L=0.045U	W=0.19U
++ AD=0.03018P	AS=0.03018P	PD=0.7U	PS=0.7U
+mn0	mn0:d	mn0:g	mn0:s	VSS:4	nmos1v	L=0.045U	W=0.26U
++ AD=0.0468P	AS=0.0468P	PD=0.91U	PS=0.91U
+mn3@1	mn3@1:d	mn3@1:g	mn0:s	VSS:4	nmos1v	L=0.045U
++ W=0.195U
++ AD=0.0403P	AS=0.0403P	PD=0.835U	PS=0.835U
+mn4@1	mn4@1:d	mn4@1:g	mn4@1:s	VSS:4	nmos1v
++ L=0.045U	W=0.195U
++ AD=0.04924P	AS=0.04924P	PD=0.895U	PS=0.895U
+mn4@2	mn4@1:d	mn4@2:g	mn4@2:s	VSS:4	nmos1v
++ L=0.045U	W=0.195U
++ AD=0.04631P	AS=0.04631P	PD=0.865U	PS=0.865U
+mn3@2	mn3@2:d	mn3@2:g	mn3@2:s	VSS:4	nmos1v
++ L=0.045U	W=0.195U
++ AD=0.02813P	AS=0.02813P	PD=0.68U	PS=0.68U
+mn3@3	mn3@3:d	mn3@3:g	mn3@2:s	VSS:4	nmos1v
++ L=0.045U	W=0.19U
++ AD=0.02115P	AS=0.02115P	PD=0.605U	PS=0.605U
+mn4@3	mn4:d	mn4@3:g	mn4@3:s	VSS:4	nmos1v	L=0.045U
++ W=0.19U
++ AD=0.02755P	AS=0.02755P	PD=0.67U	PS=0.67U
+mn2	mn2@1:d	mn2@1:g	mn5@6:s	VSS:4	nmos1v
++ L=0.045U	W=0.19U
++ AD=0.0304P	AS=0.0304P	PD=0.7U	PS=0.7U	M=2
+mn2@2	mn2@1:d	mn2@1:g	mn5@6:s	VSS:4	nmos1v
++ L=0.045U	W=0.195U
++ AD=0.0319P	AS=0.0319P	PD=0.745U	PS=0.745U	M=2
+mn1	mn2@1:d	A	mn5@6:s	VSS:4	nmos1v	L=0.045U
++ W=0.19U
++ AD=0.03227P	AS=0.03227P	PD=0.7375U	PS=0.7375U	M=2
+mn1@1	mn2@1:d	A	mn5@6:s	VSS:4	nmos1v	L=0.045U
++ W=0.195U
++ AD=0.03175P	AS=0.03175P	PD=0.745U	PS=0.745U	M=2
+mn5	Y	mn5@6:g	mn5@6:s	VSS:4	nmos1v	L=0.045U
++ W=0.26U
++ AD=0.04121P	AS=0.04121P	PD=0.83833U	PS=0.83833U	M=12
+mp2	mp2:d	mp2:g	mp2:s	VDD:4	pmos1v	L=0.045U	W=0.29U
++ AD=0.0407P	AS=0.0407P	PD=1.06U	PS=1.06U
+mp2@1	mp2:d	mp2@1:g	mp2@1:s	VDD:4	pmos1v	L=0.045U
++ W=0.29U
++ AD=0.0407P	AS=0.0407P	PD=1.06U	PS=1.06U
+mp1@1	mp1@1:d	mp1@1:g	mp5@7:s	VDD:4	pmos1v
++ L=0.045U	W=0.29U
++ AD=0.05357P	AS=0.05357P	PD=1.015U	PS=1.015U
+mp1@2	mp1@2:d	mp1@2:g	mp3:s	VDD:4	pmos1v	L=0.045U
++ W=0.295U
++ AD=0.06127P	AS=0.06127P	PD=1.38U	PS=1.38U
+mp2@2	mp2@2:d	mp2@2:g	mp2@2:s	VDD:4	pmos1v
++ L=0.045U	W=0.295U
++ AD=0.04867P	AS=0.04867P	PD=0.92U	PS=0.92U
+mp2@3	mp2@2:d	mp2@3:g	mp2@3:s	VDD:4	pmos1v
++ L=0.045U	W=0.295U
++ AD=0.03245P	AS=0.03245P	PD=0.81U	PS=0.81U
+mp1@3	mp1@3:d	mp1@3:g	mp1@3:s	VDD:4	pmos1v
++ L=0.045U	W=0.295U
++ AD=0.04952P	AS=0.04952P	PD=1.015U	PS=1.015U
+mp1	mp1:d	mp1:g	mp1@3:s	VDD:4	pmos1v	L=0.045U	W=0.29U
++ AD=0.04937P	AS=0.04937P	PD=1.01U	PS=1.01U
+mp0	mp0:d	mp0:g	mp3:s	VDD:4	pmos1v	L=0.045U	W=0.39U
++ AD=0.07788P	AS=0.07788P	PD=1.24U	PS=1.24U
+mp5	Y	mp5@7:g	mp5@7:s	VDD:4	pmos1v	L=0.045U
++ W=0.39U
++ AD=0.06321P	AS=0.06321P	PD=1.10792U	PS=1.10792U	M=12
+mp4	mp4:d	mp4:g	mp3:s	VDD:4	pmos1v	L=0.045U	W=0.29U
++ AD=0.08339P	AS=0.08339P	PD=1.3925U	PS=1.3925U	M=2
+mp4@1	mp4:d	mp4:g	mp3:s	VDD:4	pmos1v	L=0.045U	W=0.295U
++ AD=0.08584P	AS=0.08584P	PD=1.55U	PS=1.55U	M=2
+mp3	mp4:d	A	mp3:s	VDD:4	pmos1v	L=0.045U	W=0.29U
++ AD=0.06339P	AS=0.06339P	PD=1.3925U	PS=1.3925U	M=2
+mp3@1	mp4:d	A	mp3:s	VDD:4	pmos1v	L=0.045U	W=0.295U
++ AD=0.06416P	AS=0.06416P	PD=1.2575U	PS=1.2575U	M=2
+.ENDS

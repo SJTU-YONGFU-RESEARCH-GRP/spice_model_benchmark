@@ -1,0 +1,52 @@
+/* $Id: ifspec.tpl,v 1.1 91/03/18 19:01:11 bill Exp $ */
+/*.......1.........2.........3.........4.........5.........6.........7.........8
+================================================================================
+Copyright 1991
+Georgia Tech Research Corporation, Atlanta, Ga. 30332
+All Rights Reserved
+
+AUTHORS                      
+
+     2 Oct 1991     Jeffrey P. Murray
+
+
+SUMMARY
+
+    This file contains the interface specification file for the 
+    analog frequency-domain gain code model. Works only in DC and AC analsyis. 
+
+===============================================================================*/
+
+NAME_TABLE:
+
+
+C_Function_Name:       cm_fdtabgain
+Spice_Model_Name:      fdtabgain
+Description:           "A simple frequency-domain gain block"
+
+
+PORT_TABLE:
+
+
+Port_Name:             in                 out
+Description:           "input"            "output"
+Direction:             in                 out
+Default_Type:          v                  v
+Allowed_Types:         [v,vd,i,id,vnam]   [v,vd,i,id]
+Vector:                 no                 no
+Vector_Bounds:          -                  -
+Null_Allowed:          no                 no
+
+
+
+PARAMETER_TABLE:
+
+
+Parameter_Name:     logscale			omegatab          cxmagtab			magtab					dbtab				degtab
+Description:        "log omega scale"	"rad freq table"  "cx gain table"	"gain magnitude table"	"gain table in db"	"phase table in degrees"
+Data_Type:			boolean				real			   complex			real					real				real
+Default_Value:      True				0.0				  <1.0 0.0>			1						0					0
+Limits:             -					[0, -]			   -				[0, -]					-					-
+Vector:             no					yes				   yes				yes						yes					yes
+Vector_Bounds:      -					[2, -]			   [2, -]			[2, -]					[2, -]				[2, -]
+Null_Allowed:       yes					no				   yes				yes						yes					yes

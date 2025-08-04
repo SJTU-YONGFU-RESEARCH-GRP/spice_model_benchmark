@@ -1,0 +1,209 @@
+// Generated for: spectre (May  1 08:11:59 2013 )
+// Library name: gsclib045
+// Cell name: LSLH_ISONH_X1_FROM_OFF
+// View name: extracted
+
+simulator lang=spectre
+
+subckt LSLH_ISONH_X1_FROM_OFF A ExtVDD ISOn VDD VSS Y
+PM2 (\9\:Ab \9\:A \3\:VDD VDD) g45p1svt w=(2.15e-07) l=4.5e-08 nf=1 \
+        as=3.01e-14 ad=3.01e-14 ps=7.1e-07 pd=7.1e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=1.4e-07 sd=160n sca=24.0639 \
+        scb=0.0290523 scc=0.00100369 m=(1)
+PM0 (\12\:Ybint \4\:Yint \12\:ExtVDD ExtVDD) g45p1svt w=(2.15e-07) \
+        l=4.5e-08 nf=1 as=3.01e-14 ad=3.01e-14 ps=7.1e-07 pd=7.1e-07 \
+        nrd=1.16667 nrs=1.16667 sa=1.4e-07 sb=1.4e-07 sd=160n sca=22.4693 \
+        scb=0.0242319 scc=0.00195457 m=(1)
+PM1 (\11\:Yint Ybint \10\:ExtVDD ExtVDD) g45p1svt w=(2.15e-07) l=4.5e-08 \
+        nf=1 as=3.01e-14 ad=3.01e-14 ps=7.1e-07 pd=7.1e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=1.4e-07 sd=160n sca=6.50531 \
+        scb=0.00284023 scc=1.84334e-05 m=(1)
+C1 (VDD VSS) capacitor c=1.02615e-16
+C2 (ISOn VSS) capacitor c=1.94743e-17
+C3 (ExtVDD VSS) capacitor c=2.58783e-16
+C4 (A VSS) capacitor c=3.31244e-17
+C5 (Y VSS) capacitor c=4.68348e-17
+C6 (Yint VSS) capacitor c=3.52582e-17
+C7 (Ab VSS) capacitor c=1.68232e-16
+C8 (Ybint VSS) capacitor c=3.15698e-17
+C9 (GatedVSS VSS) capacitor c=3.67797e-17
+C10 (\6\:Ybint VSS) capacitor c=4.08784e-17
+C11 (\7\:ISOn VSS) capacitor c=3.36268e-17
+C12 (\4\:Yint VSS) capacitor c=2.83065e-17
+C13 (\9\:A VSS) capacitor c=3.93394e-17
+C14 (\3\:Ybint VSS) capacitor c=2.95897e-17
+C15 (\1\:A VSS) capacitor c=2.34663e-16
+C16 (\10\:A VSS) capacitor c=2.91628e-17
+C17 (\1\:ISOn VSS) capacitor c=1.92805e-17
+C18 (\5\:Ybint VSS) capacitor c=1.12866e-17
+C19 (\1\:Y VSS) capacitor c=4.27034e-17
+C20 (\2\:Y VSS) capacitor c=4.39893e-17
+C21 (\1\:ExtVDD VSS) capacitor c=2.43515e-17
+C22 (\2\:ExtVDD VSS) capacitor c=3.20972e-17
+C23 (\2\:Ybint VSS) capacitor c=2.26972e-17
+C24 (\3\:Yint VSS) capacitor c=2.39152e-17
+C25 (\2\:GatedVSS VSS) capacitor c=3.18087e-17
+C26 (\4\:Ab VSS) capacitor c=7.78091e-17
+C27 (\6\:A VSS) capacitor c=1.67355e-17
+C28 (\6\:Y VSS) capacitor c=6.97739e-17
+C29 (\6\:ExtVDD VSS) capacitor c=6.96371e-17
+C30 (\4\:Y VSS) capacitor c=5.57868e-17
+C31 (\4\:ExtVDD VSS) capacitor c=5.31727e-17
+C32 (\10\:ExtVDD VSS) capacitor c=1.21946e-16
+C33 (\11\:Yint VSS) capacitor c=6.27278e-17
+C34 (\12\:Ybint VSS) capacitor c=9.07811e-17
+C35 (\12\:ExtVDD VSS) capacitor c=1.31221e-16
+C36 (\9\:Ab VSS) capacitor c=6.07165e-17
+C37 (\3\:VDD VSS) capacitor c=3.70596e-17
+C38 (\9\:Y VSS) capacitor c=7.14632e-17
+C39 (\9\:GatedVSS VSS) capacitor c=9.93335e-17
+C40 (\3\:GatedVSS VSS) capacitor c=2.61082e-16
+C41 (\7\:Ybint VSS) capacitor c=2.16595e-16
+C42 (\5\:Yint VSS) capacitor c=1.97559e-16
+C43 (\11\:Ab VSS) capacitor c=3.98136e-17
+C44 (\15\:GatedVSS VSS) capacitor c=9.88135e-17
+C45 (VDD VSS) capacitor c=3.76025e-16
+C46 (\2\:Yint VSS) capacitor c=1.96162e-17
+C47 (\4\:A VSS) capacitor c=1.2973e-16
+C48 (\5\:A VSS) capacitor c=2.17739e-17
+C49 (ExtVDD VSS) capacitor c=7.36738e-17
+C50 (\4\:Ybint VSS) capacitor c=1.70572e-17
+C51 (\2\:ISOn VSS) capacitor c=1.97439e-17
+C52 (\3\:ISOn VSS) capacitor c=1.23303e-16
+C53 (\12\:A VSS) capacitor c=2.46744e-17
+C54 (\7\:Ab VSS) capacitor c=1.00173e-17
+C55 (\8\:Ab VSS) capacitor c=6.13246e-17
+C56 (\8\:Yint VSS) capacitor c=3.962e-17
+C57 (\13\:Yint VSS) capacitor c=5.47465e-17
+C58 (\3\:ExtVDD VSS) capacitor c=3.73293e-17
+C59 (\6\:GatedVSS VSS) capacitor c=9.64418e-17
+C60 (\3\:Y VSS) capacitor c=3.34348e-17
+C61 (\11\:GatedVSS VSS) capacitor c=4.35004e-16
+C62 (\14\:GatedVSS VSS) capacitor c=1.65257e-16
+C63 (\23\:GatedVSS VSS) capacitor c=7.79292e-17
+C64 (\8\:ExtVDD VSS) capacitor c=1.79507e-17
+C65 (\9\:ExtVDD VSS) capacitor c=9.26517e-18
+C66 (\11\:Ybint VSS) capacitor c=9.8792e-17
+C67 (\14\:Ybint VSS) capacitor c=5.27278e-17
+C68 (\11\:ISOn VSS) capacitor c=1.18787e-17
+C69 (\8\:Y VSS) capacitor c=8.23029e-17
+C70 (\2\:VDD VSS) capacitor c=1.47885e-17
+Rk54 (VDD VDD) resistor r=0.6001 c=0
+Rk55 (VDD \2\:VDD) resistor r=0.2044 c=0
+Rk56 (\2\:VDD \4\:VDD) resistor r=0.3304 c=0
+Rk40 (ISOn \11\:ISOn) resistor r=0.03448 c=0
+Rk33 (ExtVDD ExtVDD) resistor r=0.00571 c=0
+Rk13 (\3\:ExtVDD \5\:ExtVDD) resistor r=0.2983 c=0
+Rk31 (\8\:ExtVDD ExtVDD) resistor r=0.1916 c=0
+Rk27 (\7\:ExtVDD \8\:ExtVDD) resistor r=0.2771 c=0
+Rk28 (\8\:ExtVDD \9\:ExtVDD) resistor r=0.1171 c=0
+Rk29 (\8\:ExtVDD \11\:ExtVDD) resistor r=0.2598 c=0
+Rk30 (\11\:ExtVDD \13\:ExtVDD) resistor r=0.9888 c=0
+Rk48 (VSS VSS) resistor r=0.1476 c=0
+Rk47 (\3\:VSS VSS) resistor r=0.08072 c=0
+Rk44 (\2\:VSS \3\:VSS) resistor r=0.1056 c=0
+Rk50 (\6\:VSS VSS) resistor r=0.1158 c=0
+Rk57 (\14\:VSS VSS) resistor r=0.59 c=0
+Rk59 (\15\:VSS VSS) resistor r=0.1793 c=0
+Rk58 (VSS \15\:VSS) resistor r=0.3937 c=0
+Rk1 (A \11\:A) resistor r=0.01009 c=0
+Rk3 (\12\:A A) resistor r=0.006056 c=0
+Rk2 (\11\:A \12\:A) resistor r=0.003802 c=0
+Rk17 (\3\:Y \5\:Y) resistor r=0.2947 c=0
+Rk41 (Y \7\:Y) resistor r=0.04964 c=0
+Rk42 (\7\:Y \8\:Y) resistor r=0.4706 c=0
+Rk43 (Y \10\:Y) resistor r=0.4465 c=0
+Rk10 (\5\:Yint \8\:Yint) resistor r=0.2143 c=0
+Rk12 (\12\:Yint \13\:Yint) resistor r=0.2958 c=0
+Rk6 (\7\:Ab \8\:Ab) resistor r=0.04264 c=0
+Rk7 (\8\:Ab \10\:Ab) resistor r=0.4587 c=0
+Rk8 (\8\:Ab \12\:Ab) resistor r=0.1593 c=0
+Rk36 (\7\:Ybint \11\:Ybint) resistor r=0.1762 c=0
+Rk37 (\11\:Ybint \13\:Ybint) resistor r=0.632 c=0
+Rk38 (\7\:Ybint \14\:Ybint) resistor r=0.2887 c=0
+Rk15 (\3\:GatedVSS \6\:GatedVSS) resistor r=1.4211 c=0
+Rk18 (\10\:GatedVSS \11\:GatedVSS) resistor r=0.5664 c=0
+Rk21 (\11\:GatedVSS \14\:GatedVSS) resistor r=0.4727 c=0
+Rk22 (\14\:GatedVSS \16\:GatedVSS) resistor r=0.6273 c=0
+Rk26 (\14\:GatedVSS \23\:GatedVSS) resistor r=0.7575 c=0
+Rl30 (\2\:ISOn \7\:ISOn) resistor r=45.8958 c=0
+Rl25 (\2\:ISOn \1\:ISOn) resistor r=100.588 c=0
+Rl26 (\3\:ISOn \2\:ISOn) resistor r=49.6935 c=0
+Rl20 (\1\:ExtVDD \2\:ExtVDD) resistor r=160.124 c=0
+Rl18 (\4\:A \9\:A) resistor r=132.549 c=0
+Rl13 (\4\:A \1\:A) resistor r=624.028 c=0
+Rl19 (\5\:A \10\:A) resistor r=86.3858 c=0
+Rl15 (\5\:A \6\:A) resistor r=5.1123 c=0
+Rl14 (\5\:A \4\:A) resistor r=27.3472 c=0
+Rl21 (\1\:Y \2\:Y) resistor r=107.339 c=0
+Rl9 (\2\:Yint \4\:Yint) resistor r=41.7694 c=0
+Rl7 (\2\:Yint Yint) resistor r=105.33 c=0
+Rl8 (\2\:Yint \3\:Yint) resistor r=34.5546 c=0
+Rl4 (Ab \4\:Ab) resistor r=297.11 c=0
+Rl10 (\2\:Ybint Ybint) resistor r=72.3229 c=0
+Rl24 (\4\:Ybint \6\:Ybint) resistor r=110.249 c=0
+Rl22 (\4\:Ybint \3\:Ybint) resistor r=67.6128 c=0
+Rl23 (\4\:Ybint \5\:Ybint) resistor r=3.5166 c=0
+Rl1 (\2\:GatedVSS GatedVSS) resistor r=169.462 c=0
+Rz14 (\9\:Y \10\:Y) resistor r=37.5 c=0
+Rz1 (\12\:Ab \11\:Ab) resistor r=75 c=0
+Rz6 (\10\:GatedVSS \9\:GatedVSS) resistor r=37.5 c=0
+Rz7 (\16\:GatedVSS \15\:GatedVSS) resistor r=75 c=0
+Ry12 (\3\:VDD \4\:VDD) resistor r=62 c=0
+Ry3 (\4\:ExtVDD \5\:ExtVDD) resistor r=20.6667 c=0
+Ry5 (\6\:ExtVDD \7\:ExtVDD) resistor r=20.6667 c=0
+Ry6 (\10\:ExtVDD \11\:ExtVDD) resistor r=62 c=0
+Ry7 (\12\:ExtVDD \13\:ExtVDD) resistor r=62 c=0
+Ry10 (\2\:VSS \1\:VSS) resistor r=7.75 c=0
+Ry11 (\6\:VSS \1\:VSS) resistor r=5.1667 c=0
+Ry13 (\14\:VSS \13\:VSS) resistor r=7.75 c=0
+Ry14 (\15\:VSS \13\:VSS) resistor r=5.1667 c=0
+Ry4 (\4\:Y \5\:Y) resistor r=20.6667 c=0
+Ry9 (\6\:Y \7\:Y) resistor r=20.6667 c=0
+Ry2 (\12\:Yint \11\:Yint) resistor r=62 c=0
+Ry1 (\10\:Ab \9\:Ab) resistor r=62 c=0
+Ry8 (\13\:Ybint \12\:Ybint) resistor r=62 c=0
+Rx12 (\11\:ISOn \1\:ISOn) resistor r=45 c=0
+Rx5 (\2\:ExtVDD \3\:ExtVDD) resistor r=45 c=0
+Rx9 (\1\:ExtVDD \9\:ExtVDD) resistor r=45 c=0
+Rx1 (\11\:A \6\:A) resistor r=45 c=0
+Rx7 (\2\:Y \3\:Y) resistor r=45 c=0
+Rx13 (\1\:Y \8\:Y) resistor r=45 c=0
+Rx3 (\8\:Yint \3\:Yint) resistor r=45 c=0
+Rx4 (\13\:Yint Yint) resistor r=45 c=0
+Rx2 (\7\:Ab \4\:Ab) resistor r=45 c=0
+Rx10 (\11\:Ybint \2\:Ybint) resistor r=45 c=0
+Rx11 (\14\:Ybint \5\:Ybint) resistor r=45 c=0
+Rx6 (\6\:GatedVSS \2\:GatedVSS) resistor r=45 c=0
+Rx8 (\23\:GatedVSS GatedVSS) resistor r=45 c=0
+NM2 (\15\:GatedVSS \10\:A \11\:Ab VSS) g45n1svt w=(1.45e-07) l=4.5e-08 \
+        nf=1 as=2.03e-14 ad=2.03e-14 ps=5.7e-07 pd=5.7e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=1.4e-07 sd=160n sca=7.79977 \
+        scb=0.00524357 scc=6.87485e-05 m=(1)
+mn0 (\9\:Y \3\:Ybint \9\:GatedVSS VSS) g45n1svt w=(2.6e-07) l=4.5e-08 \
+        nf=1 as=3.64e-14 ad=3.64e-14 ps=8e-07 pd=8e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=1.4e-07 sd=160n sca=11.8713 \
+        scb=0.0115056 scc=0.000581193 m=(1)
+NM0 (\7\:Ybint \1\:A \11\:GatedVSS VSS) g45n1svt w=(2.6e-07) l=4.5e-08 \
+        nf=1 as=3.987e-14 ad=4.16e-14 ps=8.2667e-07 pd=8.4e-07 nrd=1.16667 \
+        nrs=1.16667 sa=7.55e-07 sb=5.5e-07 sd=160n sca=16.3874 \
+        scb=0.0162972 scc=0.00139495 m=(3)
+NM3 (\3\:GatedVSS \3\:ISOn \3\:VSS VSS) g45n1svt w=(2.6e-07) l=4.5e-08 \
+        nf=1 as=4.16e-14 ad=3.9e-14 ps=8.4e-07 pd=8.2e-07 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=7.55e-07 sd=160n sca=8.36684 \
+        scb=0.00633377 scc=0.000139167 m=(4)
+NM1_1__rcx (\5\:Yint Ab \11\:GatedVSS VSS) g45n1svt w=(2.6e-07) l=4.5e-08 \
+        nf=1 as=4.16e-14 ad=3.987e-14 ps=8.4e-07 pd=8.2667e-07 nrd=1.16667 \
+        nrs=1.16667 sa=5.5e-07 sb=7.55e-07 sd=160n sca=16.3874 \
+        scb=0.0162972 scc=0.00139495 m=(3)
+PM4 (\4\:Y \7\:ISOn \4\:ExtVDD ExtVDD) g45p1svt w=(3.9e-07) l=4.5e-08 \
+        nf=1 as=5.46e-14 ad=5.46e-14 ps=1.06e-06 pd=1.06e-06 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=1.4e-07 sd=160n sca=29.1575 scb=0.020454 \
+        scc=0.0031601 m=(1)
+mp0 (\6\:Y \6\:Ybint \6\:ExtVDD ExtVDD) g45p1svt w=(3.9e-07) l=4.5e-08 \
+        nf=1 as=5.46e-14 ad=5.46e-14 ps=1.06e-06 pd=1.06e-06 nrd=1.16667 \
+        nrs=1.16667 sa=1.4e-07 sb=1.4e-07 sd=160n sca=27.1555 \
+        scb=0.0293944 scc=0.00277871 m=(1)
+ends LSLH_ISONH_X1_FROM_OFF
+// End of subcircuit definition.
+

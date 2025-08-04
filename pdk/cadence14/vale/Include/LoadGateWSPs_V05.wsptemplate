@@ -1,0 +1,190 @@
+/************************************************************************
+* DISCLAIMER: The following code is provided for Cadence customers      *
+* to use at their own risk. The code may require modification to        *
+* satisfy the requirements of any user. The code and any modifications  *
+* to the code may not be compatible with current or future versions of  *
+* Cadence products. THE CODE IS PROVIDED "AS IS" AND WITH NO WARRANTIES,*
+* INCLUDING WITHOUT LIMITATION ANY EXPRESS WARRANTIES OR IMPLIED        *
+* WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR USE.        *
+*************************************************************************/
+
+;; Example SKILL to Create Custom Poly Width Spacing Patterns for WSP-based
+;; assisted (EAD) instance snapping.
+
+let((cv )
+   cv = geGetWindowCellView()
+   unless(cv
+      printf("VALE ERROR: Unable to find an active layout window to load WSPs ")
+      printf("into. Please locate or open a layout window and try again.\n")
+   )
+
+   when(cv
+
+      ;; Width Spacing Patterns
+
+      ;;**************************
+      ;;Poly Pitch: 86n
+      ;;Allowed Widths: 18n
+      ;;**************************
+
+      wspCreateWSP(cv "Poly_w18_s68"
+          ?offset 0.043 
+          ?repeatOffset t
+          0.018 0.043
+      )
+
+      ;;**************************
+      ;;Poly Pitch: 90n
+      ;;Allowed Widths: 18n, 20n
+      ;;**************************
+
+      wspCreateWSP(cv "Poly_w18_s72"
+          ?offset 0.045 
+          ?repeatOffset t
+          0.018 0.045
+      )
+
+      wspCreateWSP(cv "Poly_w20_s70"
+          ?offset 0.045 
+          ?repeatOffset t
+          0.020 0.045
+      )
+
+      ;;*****************************
+      ;;Poly Pitch: 94n
+      ;;Allowed Widths: 18n, 20n, 24n
+      ;;*****************************
+
+      wspCreateWSP(cv "Poly_w18_s76"
+          ?offset 0.047
+          ?repeatOffset t
+          0.018 0.047
+      )
+
+      wspCreateWSP(cv "Poly_w20_s74"
+          ?offset 0.047
+          ?repeatOffset t
+          0.020 0.047
+      )
+
+      wspCreateWSP(cv "Poly_w24_s70"
+          ?offset 0.047
+          ?repeatOffset t
+          0.024 0.047
+      )
+
+      ;;**********************************
+      ;;Poly Pitch: 102n
+      ;;Allowed Widths: 18n, 20n, 24n, 28n
+      ;;**********************************
+
+      wspCreateWSP(cv "Poly_w18_s84"
+          ?offset 0.051 
+          ?repeatOffset t
+          0.018 0.051
+      )
+
+      wspCreateWSP(cv "Poly_w20_s82"
+          ?offset 0.051 
+          ?repeatOffset t
+          0.020 0.051
+      )
+
+      wspCreateWSP(cv "Poly_w24_s78"
+          ?offset 0.051 
+          ?repeatOffset t
+          0.024 0.051
+      )
+
+      wspCreateWSP(cv "Poly_w28_s74"
+          ?offset 0.051 
+          ?repeatOffset t
+          0.028 0.051
+      )
+
+      ;;***************************************
+      ;;Poly Pitch: 104n
+      ;;Allowed Widths: 18n, 20n, 24n, 28n, 30n
+      ;;***************************************
+
+      wspCreateWSP(cv "Poly_w18_s86"
+          ?offset 0.052 
+          ?repeatOffset t
+          0.018 0.052
+      )
+
+      wspCreateWSP(cv "Poly_w20_s84"
+          ?offset 0.052 
+          ?repeatOffset t
+          0.020 0.052
+      )
+
+      wspCreateWSP(cv "Poly_w24_s80"
+          ?offset 0.052 
+          ?repeatOffset t
+          0.024 0.052
+      )
+
+      wspCreateWSP(cv "Poly_w28_s76"
+          ?offset 0.052 
+          ?repeatOffset t
+          0.028 0.052
+      )
+
+      wspCreateWSP(cv "Poly_w30_s74"
+          ?offset 0.052 
+          ?repeatOffset t
+          0.030 0.052
+      )
+
+
+
+      ;; Width Spacing Snap Pattern Defs
+      wspCreateWSSPDef(cv "Poly_p86_w18_s68_rgn" 
+         "Poly" "horizontal" 0.086 ?defaultActive "Poly_w18_s68")
+
+      wspCreateWSSPDef(cv "Poly_p90_w18_s72_rgn" 
+         "Poly" "horizontal" 0.090 ?defaultActive "Poly_w18_s72")
+
+      wspCreateWSSPDef(cv "Poly_p90_w20_s70_rgn" 
+         "Poly" "horizontal" 0.090 ?defaultActive "Poly_w20_s70")
+
+      wspCreateWSSPDef(cv "Poly_p94_w18_s76_rgn" 
+         "Poly" "horizontal" 0.094 ?defaultActive "Poly_w18_s76")
+
+      wspCreateWSSPDef(cv "Poly_p94_w20_s74_rgn" 
+         "Poly" "horizontal" 0.094 ?defaultActive "Poly_w20_s74")
+
+      wspCreateWSSPDef(cv "Poly_p94_w24_s70_rgn" 
+         "Poly" "horizontal" 0.094 ?defaultActive "Poly_w24_s70")
+
+      wspCreateWSSPDef(cv "Poly_p102_w18_s84_rgn" 
+         "Poly" "horizontal" 0.102 ?defaultActive "Poly_w18_s84")
+
+      wspCreateWSSPDef(cv "Poly_p102_w20_s82_rgn" 
+         "Poly" "horizontal" 0.102 ?defaultActive "Poly_w20_s82")
+
+      wspCreateWSSPDef(cv "Poly_p102_w24_s78_rgn" 
+         "Poly" "horizontal" 0.102 ?defaultActive "Poly_w24_s78")
+
+      wspCreateWSSPDef(cv "Poly_p102_w28_s74_rgn" 
+         "Poly" "horizontal" 0.102 ?defaultActive "Poly_w28_s74")
+
+      wspCreateWSSPDef(cv "Poly_p104_w18_s86_rgn" 
+         "Poly" "horizontal" 0.104 ?defaultActive "Poly_w18_s86")
+
+      wspCreateWSSPDef(cv "Poly_p104_w20_s84_rgn" 
+         "Poly" "horizontal" 0.104 ?defaultActive "Poly_w20_s84")
+
+      wspCreateWSSPDef(cv "Poly_p104_w24_s80_rgn" 
+         "Poly" "horizontal" 0.104 ?defaultActive "Poly_w24_s80")
+
+      wspCreateWSSPDef(cv "Poly_p104_w28_s76_rgn" 
+         "Poly" "horizontal" 0.104 ?defaultActive "Poly_w28_s76")
+
+      wspCreateWSSPDef(cv "Poly_p104_w30_s74_rgn" 
+         "Poly" "horizontal" 0.104 ?defaultActive "Poly_w30_s74")
+
+   )
+)
+

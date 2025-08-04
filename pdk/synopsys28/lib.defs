@@ -1,0 +1,6 @@
+
+INCLUDE ./sym_libs/lib.defs
+DEFINE SAED_PDK_32_28 ./SAED_PDK_32_28
+ASSIGN SAED_PDK_32_28 libMode shared
+ASSIGN SAED_PDK_32_28 PDKLib true
+DEFINE reference ./reference

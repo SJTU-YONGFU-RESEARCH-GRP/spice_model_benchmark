@@ -1,0 +1,1615 @@
+//-----------------------------------------------------------------------------
+// Standard Fill Runset for the Advanced Node GPDK
+//-----------------------------------------------------------------------------
+layout_primary "midcell_1" ;
+df2key enableColoring yes ;
+exception_severity precision_rule_file 1 ;
+exception_severity missing_rulecheck 0;
+exception_severity polygon_nonorientable 4;
+abort_on_layout_error no ;
+//magnify_in auto ;
+input_scale 2000 ;
+grid 1;
+report_summary -drc result.sum;
+max_results -drc -all;
+incr_conn yes;
+
+//-----------------------------------------------------------------------------
+// Environment Options
+//-----------------------------------------------------------------------------
+
+// Set design type
+#ifndef GPDK_FILL_CONFIG
+ #IFDEF $DESIGN_TYPE CHIP
+  #DEFINE FULL_CHIP
+ #ELSE
+  #IFDEF $DESIGN_TYPE CELL
+   #UNDEFINE FULL_CHIP 
+  #ELSE
+   #UNDEFINE FULL_CHIP
+   pvl_message "DESIGN_TYPE set to default value CELL";
+  #ENDIF
+ #ENDIF
+#endif
+
+#IFDEF FULL_CHIP
+// CHIP_FILL defined in group_rules command below
+select_check CHIP_FILL ;
+#ELSE
+// CELL_FILL defined in group_rules command below
+select_check CELL_FILL ;
+#ENDIF
+
+// Input data format
+#ifndef GPDK_FILL_CONFIG
+ #IFDEF $LAYOUT_SYSTEM OASIS
+  #define LAYOUT_SYSTEM_OASIS
+ #ELSE
+  #IFDEF $LAYOUT_SYSTEM GDS
+   #UNDEFINE LAYOUT_SYSTEM_OASIS
+  #ELSE
+   #IFDEF $LAYOUT_SYSTEM GDSII
+    #UNDEFINE LAYOUT_SYSTEM_OASIS
+   #ELSE
+    #UNDEFINE LAYOUT_SYSTEM_OASIS
+    pvl_message "LAYOUT_SYSTEM set to default value GDSII";
+   #ENDIF
+  #ENDIF
+ #ENDIF
+#endif
+
+#ifdef LAYOUT_SYSTEM_OASIS
+  layout_path "midcell_1.oas";
+  layout_format oasis ;
+  results_db -drc "output.oas" -oasis -pseudo;
+#else
+  layout_path "midcell_1.gds";
+  layout_format gdsii ;
+  results_db -drc "output.gds" -gdsii -pseudo;
+#endif
+
+// Output data format
+#ifndef GPDK_FILL_CONFIG
+ #IFDEF $OUTPUT_LAYOUT OASIS
+  #define OUTPUT_LAYOUT_OASIS
+ #ELSE
+  #IFDEF $OUTPUT_LAYOUT GDS
+   #UNDEFINE OUTPUT_LAYOUT_OASIS
+  #ELSE
+   #IFDEF $OUTPUT_LAYOUT GDSII
+    #UNDEFINE OUTPUT_LAYOUT_OASIS
+   #ELSE
+    #UNDEFINE OUTPUT_LAYOUT_OASIS
+    pvl_message "OUTPUT_LAYOUT set to default value GDSII";
+   #ENDIF
+  #ENDIF
+ #ENDIF
+#endif
+
+#ifndef GPDK_FILL_CONFIG
+ #IFDEF $SELECT_PRBOUNDARY TRUE
+  #DEFINE UseprBoundary
+ #ELSE
+  #IFDEF $SELECT_PRBOUNDARY YES
+   #DEFINE UseprBoundary
+  #ELSE
+   #IFDEF $SELECT_PRBOUNDARY FALSE
+    #UNDEFINE UseprBoundary
+   #ELSE
+    #IFDEF $SELECT_PRBOUNDARY NO
+     #UNDEFINE UseprBoundary
+    #ELSE
+     #IFDEF $SELECT_PRBOUNDARY DEFAULT
+      #DEFINE UseprBoundary
+     #ELSE
+      #IFDEF $SELECT_PRBOUNDARY
+       pvl_error "Environment variable SELECT_PRBOUNDARY is defined, but has no value.  Please use TRUE, FALSE, YES, NO, or DEFAULT.";
+      #ELSE
+       #DEFINE UseprBoundary
+       pvl_message "SELECT_PRBOUNDARY set to default value YES";
+      #ENDIF
+     #ENDIF
+    #ENDIF
+   #ENDIF
+  #ENDIF
+ #ENDIF
+#endif
+
+#ifndef GPDK_FILL_CONFIG
+ #IFDEF $SELECT_INST_FILL TRUE
+  #DEFINE UseInstFill
+ #ELSE
+  #IFDEF $SELECT_INST_FILL YES
+   #DEFINE UseInstFill
+  #ELSE
+   #IFDEF $SELECT_INST_FILL FALSE
+    #UNDEFINE UseInstFill
+   #ELSE
+    #IFDEF $SELECT_INST_FILL NO
+     #UNDEFINE UseInstFill
+    #ELSE
+     #IFDEF $SELECT_INST_FILL DEFAULT
+      #UNDEFINE UseInstFill
+     #ELSE
+      #IFDEF $SELECT_INST_FILL
+       pvl_error "Environment variable SELECT_INST_FILL is defined, but has no value.  Please use TRUE, FALSE, YES, NO, or DEFAULT.";
+      #ELSE
+       #UNDEFINE UseInstFill
+       pvl_message "SELECT_INST_FILL set to default value NO";
+      #ENDIF
+     #ENDIF
+    #ENDIF
+   #ENDIF
+  #ENDIF
+ #ENDIF
+#endif
+
+// Not needed until internal instance fill is enabled
+//#ifndef GPDK_FILL_CONFIG
+// #IFDEF $SELECT_EXTERNAL_INST_FILL TRUE
+//  #DEFINE UseExternalInstFill
+// #ELSE
+//  #IFDEF $SELECT_EXTERNAL_INST_FILL YES
+//   #DEFINE UseExternalInstFill
+//  #ELSE
+//   #IFDEF $SELECT_EXTERNAL_INST_FILL FALSE
+//    #UNDEFINE UseExternalInstFill
+//   #ELSE
+//    #IFDEF $SELECT_EXTERNAL_INST_FILL NO
+//     #UNDEFINE UseExternalInstFill
+//    #ELSE
+//     #IFDEF $SELECT_EXTERNAL_INST_FILL DEFAULT
+//      #UNDEFINE UseExternalInstFill
+//     #ELSE
+//      #IFDEF $SELECT_EXTERNAL_INST_FILL
+//       pvl_error "Environment variable SELECT_EXTERNAL_INST_FILL is defined, but has no value.  Please use TRUE, FALSE, YES, NO, or DEFAULT.";
+//      #ELSE
+//       #UNDEFINE UseExternalInstFill
+//       pvl_message "SELECT_EXTERNAL_INST_FILL set to default value NO";
+//      #ENDIF
+//     #ENDIF
+//    #ENDIF
+//   #ENDIF
+//  #ENDIF
+// #ENDIF
+//#endif
+
+#ifdef UseInstFill
+PVS_READ_TCL_BLOCK
+set ::env(SELECT_INST_FILL) 1
+## Only External Instance Fill is enabled currently
+#if {![info exists ::env(SELECT_EXTERNAL_INST_FILL)]} {
+#   puts "
+#   // Place holder for future enhancement
+#   // Create instance fill using dfm_fill_wrap
+#   "
+#} else {
+#   if {$::env(SELECT_EXTERNAL_INST_FILL) == "TRUE" ||
+#       $::env(SELECT_EXTERNAL_INST_FILL) == "YES" ||
+#       $::env(SELECT_EXTERNAL_INST_FILL) == "1"} {
+#      set ::env(SELECT_EXTERNAL_INST_FILL) 1
+#   } else {
+#      set ::env(SELECT_EXTERNAL_INST_FILL) 0
+#   }
+#}
+PVS_END_TCL_BLOCK
+#else
+PVS_READ_TCL_BLOCK
+set ::env(SELECT_INST_FILL) 0
+PVS_END_TCL_BLOCK
+#endif
+
+#ifndef GPDK_FILL_CONFIG
+ #IFDEF $SELECT_CRITICAL_NET_FEATURE TRUE
+  #DEFINE UseCriticalNetFeature
+ #ELSE
+  #IFDEF $SELECT_CRITICAL_NET_FEATURE YES
+   #DEFINE UseCriticalNetFeature
+  #ELSE
+   #IFDEF $SELECT_CRITICAL_NET_FEATURE FALSE
+    #UNDEFINE UseCriticalNetFeature
+   #ELSE
+    #IFDEF $SELECT_CRITICAL_NET_FEATURE NO
+     #UNDEFINE UseCriticalNetFeature
+    #ELSE
+     #IFDEF $SELECT_CRITICAL_NET_FEATURE DEFAULT
+      #UNDEFINE UseCriticalNetFeature
+     #ELSE
+      #IFDEF $SELECT_CRITICAL_NET_FEATURE
+       pvl_error "Environment variable SELECT_CRITICAL_NET_FEATURE is defined, but has no value.  Please use TRUE, FALSE, YES, NO, or DEFAULT.";
+      #ELSE
+       #UNDEFINE UseCriticalNetFeature
+       pvl_message "SELECT_CRITICAL_NET_FEATURE set to default value NO";
+      #ENDIF
+     #ENDIF
+    #ENDIF
+   #ENDIF
+  #ENDIF
+ #ENDIF
+#endif
+
+#ifdef UseCriticalNetFeature
+PVS_READ_TCL_BLOCK
+set ::env(SELECT_CRITICAL_NET_FEATURE) 1
+
+if {![info exists ::env(CRITICAL_NET_FILE)]} {
+   puts "
+   // default 2x min space
+   variable M1_CRITNET_DIST 0.124
+   variable M2_CRITNET_DIST 0.124
+   variable M3_CRITNET_DIST 0.124
+   variable M4_CRITNET_DIST 0.124
+   variable M5_CRITNET_DIST 0.148
+   variable M6_CRITNET_DIST 0.148
+   variable M7_CRITNET_DIST 0.196
+   variable MT_CRITNET_DIST 0.384
+   "
+} else {
+   puts "
+   include \$CRITICAL_NET_FILE ;
+   "
+}
+PVS_END_TCL_BLOCK
+#else
+PVS_READ_TCL_BLOCK
+set ::env(SELECT_CRITICAL_NET_FEATURE) 0
+PVS_END_TCL_BLOCK
+#endif
+
+#ifndef GPDK_FILL_CONFIG
+ #IFDEF $SELECT_IN_DESIGN_FLOW TRUE
+  #DEFINE UseInDesignFlow
+ #ELSE
+  #IFDEF $SELECT_IN_DESIGN_FLOW YES
+   #DEFINE UseInDesignFlow
+  #ELSE
+   #IFDEF $SELECT_IN_DESIGN_FLOW FALSE
+    #UNDEFINE UseInDesignFlow
+   #ELSE
+    #IFDEF $SELECT_IN_DESIGN_FLOW NO
+     #UNDEFINE UseInDesignFlow
+    #ELSE
+     #IFDEF $SELECT_IN_DESIGN_FLOW DEFAULT
+      #UNDEFINE UseInDesignFlow
+     #ELSE
+      #IFDEF $SELECT_IN_DESIGN_FLOW
+       pvl_error "Environment variable SELECT_IN_DESIGN_FLOW is defined, but has no value.  Please use TRUE, FALSE, YES, NO, or DEFAULT.";
+      #ELSE
+       #UNDEFINE UseInDesignFlow
+       pvl_message "SELECT_IN_DESIGN_FLOW set to default value NO";
+      #ENDIF
+     #ENDIF
+    #ENDIF
+   #ENDIF
+  #ENDIF
+ #ENDIF
+#endif
+
+PVS_READ_TCL_BLOCK
+
+if { ! [info exists ::env(BEOL_STACK)] } {
+   puts "pvl_message \"WARNING: Environment variable BEOL_STACK is not set.\"" 
+   puts "pvl_message \"WARNING: Using default value 8M_7Mx_MT.\"" 
+   set ::env(BEOL_STACK) stack1
+}
+
+switch $::env(BEOL_STACK) {
+   stack1 -
+   8M_7Mx_MT {
+      set ::env(BEOL_STACK) stack1
+   }
+   stack2 -
+   10M_9Mx_MT {
+      set ::env(BEOL_STACK) stack2
+   }
+   default {
+      puts "pvl_error \"Environment variable BEOL_STACK must be set.\"" 
+   }
+}
+
+PVS_END_TCL_BLOCK
+
+#ifdef $BEOL_STACK stack1
+variable BEOL_STACK stack1
+#endif
+
+#ifdef $BEOL_STACK stack2
+variable BEOL_STACK stack2
+#endif
+
+#ifdef $FILL_EDGE_HALO
+variable FILL_EDGE_HALO environment ;
+#else
+variable FILL_EDGE_HALO 0.0 ;
+#endif
+
+
+//-----------------------------------------------------------------------------
+// LAYER MAPPING & DEFINITIONS FOR EACH LAYER
+//-----------------------------------------------------------------------------
+
+layer_def __UNUSED__ 65535 ;
+ layer_map -ge 0 -datatype -ge 0 65535 ;
+
+//#IFDEF LAYOUT_SYSTEM_OASIS
+   // Default is GDSII
+   // Add custom OASIS mappings here
+//#ELSE
+layer_def BuriedNWell 1100 
+ layer_map 3 -datatype 0 1100
+
+layer_def NWell 1001 
+ layer_map 5 -datatype 0 1001
+
+layer_def NWell_PIN 1002 
+ layer_map 5 -datatype 45 1002
+
+layer_def NWell_LABEL 1003 
+ layer_map 5 -datatype 46 1003
+
+layer_def Active 1004 
+ layer_map 10 -datatype 0 1004
+
+layer_def Active_FIN 1005 
+ layer_map 10 -datatype 5 1005
+
+layer_def Active_DUMMY 1006 
+ layer_map 10 -datatype 10 1006
+
+layer_def CutActive 1007 
+ layer_map 10 -datatype 20 1007
+
+layer_def Active_PIN 1008 
+ layer_map 10 -datatype 45 1008
+
+layer_def Active_LABEL 1009 
+ layer_map 10 -datatype 46 1009
+
+layer_def FinArea 1010 
+ layer_map 300 -datatype 0 1010
+
+layer_def FinArea_type2 1011 
+ layer_map 350 -datatype 0 1011
+
+layer_def FinArea_type3 1012 
+ layer_map 400 -datatype 0 1012
+
+layer_def TrimFin 1013 
+ layer_map 120 -datatype 0 1013
+
+layer_def Psvt 1014 
+ layer_map 15 -datatype 0 1014
+
+layer_def Plvt 1015 
+ layer_map 15 -datatype 1 1015
+
+layer_def Phvt 1016 
+ layer_map 15 -datatype 2 1016
+
+layer_def Nsvt 1017 
+ layer_map 16 -datatype 0 1017
+
+layer_def Nlvt 1018 
+ layer_map 16 -datatype 1 1018
+
+layer_def Nhvt 1019 
+ layer_map 16 -datatype 2 1019
+
+layer_def Poly_DRAWING 1020 
+ layer_map 20 -datatype 0 1020
+
+layer_def Poly_DUMMY 1021 
+ layer_map 20 -datatype 10 1021
+
+layer_def Poly_EDGE 1022 
+ layer_map 20 -datatype 30 1022
+
+layer_def Poly_PIN 1023 
+ layer_map 20 -datatype 45 1023
+
+layer_def Poly_LABEL 1024 
+ layer_map 20 -datatype 46 1024
+
+layer_def CutPoly 1025 
+ layer_map 21 -datatype 0 1025
+
+layer_def LiAct 1026 
+ layer_map 22 -datatype 0 1026
+
+layer_def LiPo 1027 
+ layer_map 24 -datatype 0 1027
+
+layer_def PPitch_POLY86 1028 
+ layer_map 130 -datatype 1 1028
+
+layer_def PPitch_POLY90 1029 
+ layer_map 130 -datatype 2 1029
+
+layer_def PPitch_POLY94 1030 
+ layer_map 130 -datatype 3 1030
+
+layer_def PPitch_POLY102 1031 
+ layer_map 130 -datatype 4 1031
+
+layer_def PPitch_POLY104 1032 
+ layer_map 130 -datatype 5 1032
+
+layer_def SaB 1033 
+ layer_map 6 -datatype 0 1033
+
+layer_def V0 1034 
+ layer_map 25 -datatype 0 1034
+
+layer_def M1 1040 
+ layer_map 30 -datatype 0 1040
+
+layer_def M1_FILL 1041 
+ layer_map 30 -datatype 10 1041
+
+layer_def M1_FILL_MASK1_UNLOCK 1301 
+ layer_map 30 -datatype 11 1301
+
+layer_def M1_FILL_MASK1_LOCK 1302 
+ layer_map 30 -datatype 12 1302
+
+layer_def M1_FILL_MASK2_UNLOCK 1303 
+ layer_map 30 -datatype 13 1303
+
+layer_def M1_FILL_MASK2_LOCK 1304 
+ layer_map 30 -datatype 14 1304
+
+layer_def M1_EXCLUDE 1305;
+ layer_map 30 -datatype eq 15 1305;
+
+layer_def M1_CRITEXCL 1306;
+ layer_map 30 -datatype eq 16 1306;
+
+layer_def M1_VDD1P8 1307;
+ layer_map 30 -datatype eq 17 1307;
+
+layer_def M1_MASK1_UNLOCK 1042 
+ layer_map 30 -datatype 1 1042
+
+layer_def M1_MASK1_LOCK 1043 
+ layer_map 30 -datatype 2 1043
+
+layer_def M1_MASK2_UNLOCK 1044 
+ layer_map 30 -datatype 3 1044
+
+layer_def M1_MASK2_LOCK 1045 
+ layer_map 30 -datatype 4 1045
+
+layer_def M1_PIN 1046 
+ layer_map 30 -datatype 45 1046
+
+layer_def M1_LABEL 1047 
+ layer_map 30 -datatype 46 1047
+
+layer_def V1 1055 
+ layer_map 32 -datatype 0 1055
+
+layer_def V1_MASK1_UNLOCK 1453 
+ layer_map 32 -datatype 1 1453
+
+layer_def V1_MASK1_LOCK 1454 
+ layer_map 32 -datatype 2 1454
+
+layer_def V1_MASK2_UNLOCK 1455 
+ layer_map 32 -datatype 3 1455
+
+layer_def V1_MASK2_LOCK 1456 
+ layer_map 32 -datatype 4 1456
+
+layer_def V1_MASK3_UNLOCK 1555 
+ layer_map 32 -datatype 5 1555
+
+layer_def V1_MASK3_LOCK 1556 
+ layer_map 32 -datatype 6 1556
+
+layer_def M2 1060 
+ layer_map 34 -datatype 0 1060
+
+layer_def M2_FILL 1161 
+ layer_map 34 -datatype 10 1161
+
+layer_def M2_FILL_MASK1_UNLOCK 1311 
+ layer_map 34 -datatype 11 1311
+
+layer_def M2_FILL_MASK1_LOCK 1312 
+ layer_map 34 -datatype 12 1312
+
+layer_def M2_FILL_MASK2_UNLOCK 1313 
+ layer_map 34 -datatype 13 1313
+
+layer_def M2_FILL_MASK2_LOCK 1314 
+ layer_map 34 -datatype 14 1314
+
+layer_def M2_EXCLUDE 1315;
+ layer_map 34 -datatype eq 15 1315;
+
+layer_def M2_CRITEXCL 1316;
+ layer_map 34 -datatype eq 16 1316;
+
+layer_def M2_VDD1P8 1317;
+ layer_map 34 -datatype eq 17 1317;
+
+layer_def M2_MASK1_UNLOCK 1062 
+ layer_map 34 -datatype 1 1062
+
+layer_def M2_MASK1_LOCK 1063 
+ layer_map 34 -datatype 2 1063
+
+layer_def M2_MASK2_UNLOCK 1064 
+ layer_map 34 -datatype 3 1064
+
+layer_def M2_MASK2_LOCK 1065 
+ layer_map 34 -datatype 4 1065
+
+layer_def M2_PIN 1066 
+ layer_map 34 -datatype 45 1066
+
+layer_def M2_LABEL 1067 
+ layer_map 34 -datatype 46 1067
+
+layer_def V2 1075 
+ layer_map 36 -datatype 0 1075
+
+layer_def V2_MASK1_UNLOCK 1473 
+ layer_map 36 -datatype 1 1473
+
+layer_def V2_MASK1_LOCK 1474 
+ layer_map 36 -datatype 2 1474
+
+layer_def V2_MASK2_UNLOCK 1475 
+ layer_map 36 -datatype 3 1475
+
+layer_def V2_MASK2_LOCK 1476 
+ layer_map 36 -datatype 4 1476
+
+layer_def V2_MASK3_UNLOCK 1575 
+ layer_map 36 -datatype 5 1575
+
+layer_def V2_MASK3_LOCK 1576 
+ layer_map 36 -datatype 6 1576
+
+layer_def M3 1080 
+ layer_map 38 -datatype 0 1080
+
+layer_def M3_FILL 1081 
+ layer_map 38 -datatype 10 1081
+
+layer_def M3_FILL_MASK1_UNLOCK 1321 
+ layer_map 38 -datatype 11 1321
+
+layer_def M3_FILL_MASK1_LOCK 1322 
+ layer_map 38 -datatype 12 1322
+
+layer_def M3_FILL_MASK2_UNLOCK 1323 
+ layer_map 38 -datatype 13 1323
+
+layer_def M3_FILL_MASK2_LOCK 1324 
+ layer_map 38 -datatype 14 1324
+
+layer_def M3_EXCLUDE 1325;
+ layer_map 38 -datatype eq 15 1325;
+
+layer_def M3_CRITEXCL 1326;
+ layer_map 38 -datatype eq 16 1326;
+
+layer_def M3_VDD1P8 1327;
+ layer_map 38 -datatype eq 17 1327;
+
+layer_def M3_MASK1_UNLOCK 1082 
+ layer_map 38 -datatype 1 1082
+
+layer_def M3_MASK1_LOCK 1083 
+ layer_map 38 -datatype 2 1083
+
+layer_def M3_MASK2_UNLOCK 1084 
+ layer_map 38 -datatype 3 1084
+
+layer_def M3_MASK2_LOCK 1085 
+ layer_map 38 -datatype 4 1085
+
+layer_def M3_PIN 1086 
+ layer_map 38 -datatype 45 1086
+
+layer_def M3_LABEL 1087 
+ layer_map 38 -datatype 46 1087
+
+layer_def V3 1095 
+ layer_map 40 -datatype 0 1095
+
+layer_def V3_MASK1_UNLOCK 1493 
+ layer_map 40 -datatype 1 1493
+
+layer_def V3_MASK1_LOCK 1494 
+ layer_map 40 -datatype 2 1494
+
+layer_def V3_MASK2_UNLOCK 1495 
+ layer_map 40 -datatype 3 1495
+
+layer_def V3_MASK2_LOCK 1496 
+ layer_map 40 -datatype 4 1496
+
+layer_def V3_MASK3_UNLOCK 1595 
+ layer_map 40 -datatype 5 1595
+
+layer_def V3_MASK3_LOCK 1596 
+ layer_map 40 -datatype 6 1596
+
+layer_def M4 1103 
+ layer_map 42 -datatype 0 1103
+
+layer_def M4_FILL 1126 
+ layer_map 42 -datatype 11 1126
+
+layer_def M4_EXCLUDE 1335;
+ layer_map 42 -datatype eq 15 1335;
+
+layer_def M4_CRITEXCL 1336;
+ layer_map 42 -datatype eq 16 1336;
+
+layer_def M4_VDD1P8 1337;
+ layer_map 42 -datatype eq 17 1337;
+
+layer_def M4_PIN 1106 
+ layer_map 42 -datatype 45 1106
+
+layer_def M4_LABEL 1107 
+ layer_map 42 -datatype 46 1107
+
+layer_def V4 1115 
+ layer_map 44 -datatype 0 1115
+
+layer_def M5 1123 
+ layer_map 46 -datatype 0 1123
+
+layer_def M5_FILL 1127 
+ layer_map 46 -datatype 11 1127
+
+layer_def M5_EXCLUDE 1345;
+ layer_map 46 -datatype eq 15 1345;
+
+layer_def M5_CRITEXCL 1346;
+ layer_map 46 -datatype eq 16 1346;
+
+layer_def M5_VDD1P8 1347;
+ layer_map 46 -datatype eq 17 1347;
+
+layer_def M5_PIN 1130 
+ layer_map 46 -datatype 45 1130
+
+layer_def M5_LABEL 1131 
+ layer_map 46 -datatype 46 1131
+
+layer_def V5 1139 
+ layer_map 48 -datatype 0 1139
+
+layer_def M6 1147 
+ layer_map 50 -datatype 0 1147
+
+layer_def M6_FILL 1148 
+ layer_map 50 -datatype 11 1148
+
+layer_def M6_EXCLUDE 1355;
+ layer_map 50 -datatype eq 15 1355;
+
+layer_def M6_CRITEXCL 1356;
+ layer_map 50 -datatype eq 16 1356;
+
+layer_def M6_VDD1P8 1357;
+ layer_map 50 -datatype eq 17 1357;
+
+layer_def M6_PIN 1151 
+ layer_map 50 -datatype 45 1151
+
+layer_def M6_LABEL 1152 
+ layer_map 50 -datatype 46 1152
+
+layer_def V6 1160 
+ layer_map 52 -datatype 0 1160
+
+layer_def M7 1168 
+ layer_map 54 -datatype 0 1168
+
+layer_def M7_FILL 1169 
+ layer_map 54 -datatype 11 1169
+
+layer_def M7_EXCLUDE 1365;
+ layer_map 54 -datatype eq 15 1365;
+
+layer_def M7_CRITEXCL 1366;
+ layer_map 54 -datatype eq 16 1366;
+
+layer_def M7_VDD1P8 1367;
+ layer_map 54 -datatype eq 17 1367;
+
+layer_def M7_PIN 1172 
+ layer_map 54 -datatype 45 1172
+
+layer_def M7_LABEL 1173 
+ layer_map 54 -datatype 46 1173
+
+layer_def CMT 1181 
+ layer_map 60 -datatype 0 1181
+
+layer_def VT 1182
+ layer_map 62 -datatype 0 1182
+
+layer_def MT 1190 
+ layer_map 64 -datatype 0 1190
+
+layer_def MT_FILL 1191 
+ layer_map 64 -datatype 11 1191
+
+layer_def MT_EXCLUDE 1375;
+ layer_map 64 -datatype eq 15 1375;
+
+layer_def MT_CRITEXCL 1376;
+ layer_map 64 -datatype eq 16 1376;
+
+layer_def MT_VDD1P8 1377;
+ layer_map 64 -datatype eq 17 1377;
+
+layer_def MT_PIN 1194 
+ layer_map 64 -datatype 45 1194
+
+layer_def MT_LABEL 1195 
+ layer_map 64 -datatype 46 1195
+
+layer_def m1res 1203 
+ layer_map 30 -datatype 12 1203
+
+layer_def m2res 1204 
+ layer_map 34 -datatype 12 1204
+
+layer_def m3res 1205 
+ layer_map 38 -datatype 12 1205
+
+layer_def m4res 1206 
+ layer_map 42 -datatype 12 1206
+
+layer_def m5res 1207 
+ layer_map 46 -datatype 12 1207
+
+layer_def m6res 1208 
+ layer_map 50 -datatype 12 1208
+
+layer_def m7res 1209 
+ layer_map 54 -datatype 12 1209
+
+layer_def mtres 1210 
+ layer_map 64 -datatype 12 1210
+
+layer_def nwstires 1211 
+ layer_map 5 -datatype 12 1211
+
+layer_def nwodres 1212 
+ layer_map 5 -datatype 13 1212
+
+layer_def diffres 1213 
+ layer_map 10 -datatype 12 1213
+
+layer_def pcres 1214 
+ layer_map 20 -datatype 12 1214
+
+layer_def diodmy 1215 
+ layer_map 153 -datatype 0 1215
+
+layer_def NPNdmy 1216 
+ layer_map 154 -datatype 0 1216
+
+layer_def ThickOx 1217 
+ layer_map 11 -datatype 0 1217
+
+layer_def CutM1  1231;
+ layer_map 31 -datatype eq 0  1231;
+
+layer_def CutM1Mask1  1232;
+ layer_map 31 -datatype eq 10  1232;
+
+layer_def CutM1Mask2  1233;
+ layer_map 31 -datatype eq 20  1233;
+
+layer_def CutM2  1241;
+ layer_map 35 -datatype eq 0  1241;
+
+layer_def CutM2Mask1  1242;
+ layer_map 35 -datatype eq 10  1242;
+
+layer_def CutM2Mask2  1243;
+ layer_map 35 -datatype eq 20  1243;
+
+layer_def CutM3  1251; 
+ layer_map 39 -datatype eq 0  1251;
+
+layer_def CutM3Mask1  1252;
+ layer_map 39 -datatype eq 10  1252;
+
+layer_def CutM3Mask2  1253;
+ layer_map 39 -datatype eq 20  1253;
+
+//layer_def Ndummy  1400;
+// layer_map 154 -datatype eq 120  1400;
+//
+//layer_def Pdummy  1401;
+// layer_map 154 -datatype eq 121  1401;
+
+//#ENDIF
+
+
+//-----------------------------------------------------------------------------
+// Object Definitions
+//-----------------------------------------------------------------------------
+
+layer_def prBoundary  1300;
+ layer_map 1000 -datatype eq  0 1300;
+
+//-----------------------------------------------------------------------------
+// LAYER DERIVATIONS
+//-----------------------------------------------------------------------------
+
+PVS_READ_TCL_BLOCK
+proc GPDKprocessDPLayer {lyr out1 out2 outAll} {
+   puts "
+   or (or ${lyr}_MASK1_UNLOCK ${lyr}_MASK1_LOCK) \
+      (or ${lyr}_FILL_MASK1_UNLOCK ${lyr}_FILL_MASK1_LOCK) ${lyr}color1pre ;
+   or (or ${lyr}_MASK2_UNLOCK ${lyr}_MASK2_LOCK) \
+      (or ${lyr}_FILL_MASK2_UNLOCK ${lyr}_FILL_MASK2_LOCK) ${lyr}color2pre ;
+   or ${lyr}color1pre ${lyr}color2pre ${lyr}colored ;
+   not ${lyr} ${lyr}colored ${lyr}gray ;
+   select -interact ${lyr}gray ${lyr}color1pre ${lyr}grayXcolor1 ;
+   select -not -interact ${lyr}gray ${lyr}color1pre ${lyr}grayYcolor1 ;
+   select -interact ${lyr}gray ${lyr}color2pre ${lyr}grayXcolor2 ;
+   select -not -interact ${lyr}gray ${lyr}color2pre ${lyr}grayYcolor2 ;
+   and ${lyr}grayXcolor1 ${lyr}grayYcolor2 ${lyr}gray2color1 ;
+   and ${lyr}grayXcolor2 ${lyr}grayYcolor1 ${lyr}gray2color2 ;
+   not ${lyr}gray (or ${lyr}gray2color1 ${lyr}gray2color2) ${lyr}grayIso ;
+   rule mrk-${lyr}-FILL--NoColor {
+      caption WARNING: Layer ${lyr} shape has no color.  Added to the color2 set for processing.;
+      copy ${lyr}grayIso ;
+   }
+   or ${lyr}color1pre ${lyr}gray2color1 $out1 ;
+   cat ${lyr}color2pre ${lyr}gray2color2 ${lyr}grayIso $out2 ;
+   or ${lyr}color1 ${lyr}color2 $outAll ;
+   "
+}
+
+GPDKprocessDPLayer M1 M1color1 M1color2 M1all
+GPDKprocessDPLayer M2 M2color1 M2color2 M2all
+GPDKprocessDPLayer M3 M3color1 M3color2 M3all
+
+PVS_END_TCL_BLOCK
+
+or V1_MASK1_UNLOCK V1_MASK1_LOCK V1color1 ;
+or V1_MASK2_UNLOCK V1_MASK2_LOCK V1color2 ;
+or V1_MASK3_UNLOCK V1_MASK3_LOCK V1color3 ;
+or (or V1color1 V1color2) V1color3 V1colored ;
+or V1 V1colored V1all ;
+
+or V2_MASK1_UNLOCK V2_MASK1_LOCK V2color1 ;
+or V2_MASK2_UNLOCK V2_MASK2_LOCK V2color2 ;
+or V2_MASK3_UNLOCK V2_MASK3_LOCK V2color3 ;
+or (or V2color1 V2color2) V2color3 V2colored ;
+or V2 V2colored V2all ;
+
+or V3_MASK1_UNLOCK V3_MASK1_LOCK V3color1 ;
+or V3_MASK2_UNLOCK V3_MASK2_LOCK V3color2 ;
+or V3_MASK3_UNLOCK V3_MASK3_LOCK V3color3 ;
+or (or V3color1 V3color2) V3color3 V3colored ;
+or V3 V3colored V3all ;
+
+cat  M4 M4_FILL M4all ;
+copy V4 V4all ;
+cat  M5 M5_FILL M5all ;
+copy V5 V5all ;
+cat  M6 M6_FILL M6all ;
+copy V6 V6all ;
+cat  M7 M7_FILL M7all ;
+copy VT VTall ;
+cat  MT MT_FILL MTall ;
+
+//-----------------------------------------------------------------------------
+// INPUT PROCESSING
+//-----------------------------------------------------------------------------
+
+#ifdef UseprBoundary
+
+size prBoundary -by -FILL_EDGE_HALO fillBoundary ;
+
+#else
+
+extent_drawn -original -outputlayer fillBoundaryPre ;
+size fillBoundaryPre -by -FILL_EDGE_HALO fillBoundary ;
+
+#endif
+
+#ifdef UseCriticalNetFeature
+
+// Add connectivity definitions
+connect M2all M1all -by V1all ;
+connect M3all M2all -by V2all ;
+connect M4all M3all -by V3all ;
+connect M5all M4all -by V4all ;
+connect M6all M5all -by V5all ;
+connect M7all M6all -by V6all ;
+connect MTall M7all -by VTall ;
+connect M1_CRITEXCL M1all ;
+connect M2_CRITEXCL M2all ;
+connect M3_CRITEXCL M3all ;
+connect M4_CRITEXCL M4all ;
+connect M5_CRITEXCL M5all ;
+connect M6_CRITEXCL M6all ;
+connect M7_CRITEXCL M7all ;
+connect MT_CRITEXCL MTall ;
+// M1_CRITEXCL selections
+antenna M1all M1_CRITEXCL -gt 0 -outputlayer M1selByM1ce ;
+antenna M2all M1_CRITEXCL -gt 0 -outputlayer M2selByM1ce ;
+antenna M3all M1_CRITEXCL -gt 0 -outputlayer M3selByM1ce ;
+antenna M4all M1_CRITEXCL -gt 0 -outputlayer M4selByM1ce ;
+antenna M5all M1_CRITEXCL -gt 0 -outputlayer M5selByM1ce ;
+antenna M6all M1_CRITEXCL -gt 0 -outputlayer M6selByM1ce ;
+antenna M7all M1_CRITEXCL -gt 0 -outputlayer M7selByM1ce ;
+antenna MTall M1_CRITEXCL -gt 0 -outputlayer MTselByM1ce ;
+// M2_CRITEXCL selections
+antenna M1all M2_CRITEXCL -gt 0 -outputlayer M1selByM2ce ;
+antenna M2all M2_CRITEXCL -gt 0 -outputlayer M2selByM2ce ;
+antenna M3all M2_CRITEXCL -gt 0 -outputlayer M3selByM2ce ;
+antenna M4all M2_CRITEXCL -gt 0 -outputlayer M4selByM2ce ;
+antenna M5all M2_CRITEXCL -gt 0 -outputlayer M5selByM2ce ;
+antenna M6all M2_CRITEXCL -gt 0 -outputlayer M6selByM2ce ;
+antenna M7all M2_CRITEXCL -gt 0 -outputlayer M7selByM2ce ;
+antenna MTall M2_CRITEXCL -gt 0 -outputlayer MTselByM2ce ;
+// M3_CRITEXCL selections
+antenna M1all M3_CRITEXCL -gt 0 -outputlayer M1selByM3ce ;
+antenna M2all M3_CRITEXCL -gt 0 -outputlayer M2selByM3ce ;
+antenna M3all M3_CRITEXCL -gt 0 -outputlayer M3selByM3ce ;
+antenna M4all M3_CRITEXCL -gt 0 -outputlayer M4selByM3ce ;
+antenna M5all M3_CRITEXCL -gt 0 -outputlayer M5selByM3ce ;
+antenna M6all M3_CRITEXCL -gt 0 -outputlayer M6selByM3ce ;
+antenna M7all M3_CRITEXCL -gt 0 -outputlayer M7selByM3ce ;
+antenna MTall M3_CRITEXCL -gt 0 -outputlayer MTselByM3ce ;
+// M4_CRITEXCL selections
+antenna M1all M4_CRITEXCL -gt 0 -outputlayer M1selByM4ce ;
+antenna M2all M4_CRITEXCL -gt 0 -outputlayer M2selByM4ce ;
+antenna M3all M4_CRITEXCL -gt 0 -outputlayer M3selByM4ce ;
+antenna M4all M4_CRITEXCL -gt 0 -outputlayer M4selByM4ce ;
+antenna M5all M4_CRITEXCL -gt 0 -outputlayer M5selByM4ce ;
+antenna M6all M4_CRITEXCL -gt 0 -outputlayer M6selByM4ce ;
+antenna M7all M4_CRITEXCL -gt 0 -outputlayer M7selByM4ce ;
+antenna MTall M4_CRITEXCL -gt 0 -outputlayer MTselByM4ce ;
+// M5_CRITEXCL selections
+antenna M1all M5_CRITEXCL -gt 0 -outputlayer M1selByM5ce ;
+antenna M2all M5_CRITEXCL -gt 0 -outputlayer M2selByM5ce ;
+antenna M3all M5_CRITEXCL -gt 0 -outputlayer M3selByM5ce ;
+antenna M4all M5_CRITEXCL -gt 0 -outputlayer M4selByM5ce ;
+antenna M5all M5_CRITEXCL -gt 0 -outputlayer M5selByM5ce ;
+antenna M6all M5_CRITEXCL -gt 0 -outputlayer M6selByM5ce ;
+antenna M7all M5_CRITEXCL -gt 0 -outputlayer M7selByM5ce ;
+antenna MTall M5_CRITEXCL -gt 0 -outputlayer MTselByM5ce ;
+// M6_CRITEXCL selections
+antenna M1all M6_CRITEXCL -gt 0 -outputlayer M1selByM6ce ;
+antenna M2all M6_CRITEXCL -gt 0 -outputlayer M2selByM6ce ;
+antenna M3all M6_CRITEXCL -gt 0 -outputlayer M3selByM6ce ;
+antenna M4all M6_CRITEXCL -gt 0 -outputlayer M4selByM6ce ;
+antenna M5all M6_CRITEXCL -gt 0 -outputlayer M5selByM6ce ;
+antenna M6all M6_CRITEXCL -gt 0 -outputlayer M6selByM6ce ;
+antenna M7all M6_CRITEXCL -gt 0 -outputlayer M7selByM6ce ;
+antenna MTall M6_CRITEXCL -gt 0 -outputlayer MTselByM6ce ;
+// M7_CRITEXCL selections
+antenna M1all M7_CRITEXCL -gt 0 -outputlayer M1selByM7ce ;
+antenna M2all M7_CRITEXCL -gt 0 -outputlayer M2selByM7ce ;
+antenna M3all M7_CRITEXCL -gt 0 -outputlayer M3selByM7ce ;
+antenna M4all M7_CRITEXCL -gt 0 -outputlayer M4selByM7ce ;
+antenna M5all M7_CRITEXCL -gt 0 -outputlayer M5selByM7ce ;
+antenna M6all M7_CRITEXCL -gt 0 -outputlayer M6selByM7ce ;
+antenna M7all M7_CRITEXCL -gt 0 -outputlayer M7selByM7ce ;
+antenna MTall M7_CRITEXCL -gt 0 -outputlayer MTselByM7ce ;
+// MT_CRITEXCL selections
+antenna M1all MT_CRITEXCL -gt 0 -outputlayer M1selByMTce ;
+antenna M2all MT_CRITEXCL -gt 0 -outputlayer M2selByMTce ;
+antenna M3all MT_CRITEXCL -gt 0 -outputlayer M3selByMTce ;
+antenna M4all MT_CRITEXCL -gt 0 -outputlayer M4selByMTce ;
+antenna M5all MT_CRITEXCL -gt 0 -outputlayer M5selByMTce ;
+antenna M6all MT_CRITEXCL -gt 0 -outputlayer M6selByMTce ;
+antenna M7all MT_CRITEXCL -gt 0 -outputlayer M7selByMTce ;
+antenna MTall MT_CRITEXCL -gt 0 -outputlayer MTselByMTce ;
+
+cat M1selByM1ce M1selByM2ce M1selByM3ce M1selByM4ce M1selByM5ce M1selByM6ce \
+    M1selByM7ce M1selByMTce M1ceSel ;
+cat M2selByM1ce M2selByM2ce M2selByM3ce M2selByM4ce M2selByM5ce M2selByM6ce \
+    M2selByM7ce M2selByMTce M2ceSel ;
+cat M3selByM1ce M3selByM2ce M3selByM3ce M3selByM4ce M3selByM5ce M3selByM6ce \
+    M3selByM7ce M3selByMTce M3ceSel ;
+cat M4selByM1ce M4selByM2ce M4selByM3ce M4selByM4ce M4selByM5ce M4selByM6ce \
+    M4selByM7ce M4selByMTce M4ceSel ;
+cat M5selByM1ce M5selByM2ce M5selByM3ce M5selByM4ce M5selByM5ce M5selByM6ce \
+    M5selByM7ce M5selByMTce M5ceSel ;
+cat M6selByM1ce M6selByM2ce M6selByM3ce M6selByM4ce M6selByM5ce M6selByM6ce \
+    M6selByM7ce M6selByMTce M6ceSel ;
+cat M7selByM1ce M7selByM2ce M7selByM3ce M7selByM4ce M7selByM5ce M7selByM6ce \
+    M7selByM7ce M7selByMTce M7ceSel ;
+cat MTselByM1ce MTselByM2ce MTselByM3ce MTselByM4ce MTselByM5ce MTselByM6ce \
+    MTselByM7ce MTselByMTce MTceSel ;
+
+// DEBUG M2 CRITEXCL
+//rule mrk-M1-FILL--ceSel {
+//   copy M1selByM2ce ;
+//}
+//rule mrk-M2-FILL--ceSel {
+//   copy M2selByM2ce ;
+//}
+//rule mrk-M3-FILL--ceSel {
+//   copy M3selByM2ce ;
+//}
+
+#endif
+
+//-----------------------------------------------------------------------------
+// FILL GENERATION
+//-----------------------------------------------------------------------------
+
+PVS_READ_TCL_BLOCK
+
+proc GPDKgetFillVariables {layer} {
+    if {$layer == "M1" || $layer == "M2" || $layer == "M3"} {
+       puts "
+       // The fill shape small rectangle length
+       variable FSS_X1 0.256 ;
+       // The fill shape small rectangle width
+       variable FSS_Y1 0.032 ;
+       // The x step for the fill shape small, 2x the length and 2x 0.064 space
+       variable FSS_XSTEP 0.640 ;
+       // The y step for the fill shape small, 2x the width and 2x 0.032 space
+       variable FSS_YSTEP 0.128 ;
+       // Amount to offset each row of the fill shape small
+       variable FSS_XOFFSET 0.0 ;
+       // Amount to offset each col of the fill shape small
+       variable FSS_YOFFSET 0.012 ;
+       // fill shape small spacing to Mx drawing of same color
+       variable FSS_SP 0.072 ;
+       // fill shape small spacing to current fill shape small shapes
+       variable FSS_SPSELF 0.072 ;
+       // fill shape small spacing to Mx exclude
+       variable FSS_SPEX 0.072 ;
+       // fill shape small spacing to Mx drawing of opposite color
+       variable FSS_SPDC 0.048 ;
+       // The fill shape medium rectangle length
+       variable FSM_X1 0.128 ;
+       // The fill shape medium rectangle width
+       variable FSM_Y1 0.064 ;
+       // The x step for the fill shape medium, 2x the length and 2x 0.064 space
+       variable FSM_XSTEP 0.384 ;
+       // The y step for the fill shape medium, 2x the width and 2x 0.032 space
+       variable FSM_YSTEP 0.192 ;
+       // Amount to offset each row of the fill shape medium 
+       variable FSM_XOFFSET 0.0 ;
+       // Amount to offset each col of the fill shape medium 
+       variable FSM_YOFFSET 0.0 ;
+       // fill shape medium spacing to Mx drawing of same color
+       variable FSM_SP 0.072 ;
+       // fill shape medium spacing to current fill shape medium shapes
+       variable FSM_SPSELF 0.072 ;
+       // fill shape medium spacing to Mx exclude
+       variable FSM_SPEX 0.072 ;
+       // fill shape medium spacing to Mx drawing of opposite color
+       variable FSM_SPDC 0.048 ;
+       "
+    }
+    if {$layer == "M4"} {
+       puts "
+       // The fill shape small rectangle length
+       variable FSS_X1 0.256 ;
+       // The fill shape small rectangle width
+       variable FSS_Y1 0.032 ;
+       // The x step for the fill shape small, 2x the length and 2x 0.064 space
+       variable FSS_XSTEP 0.320 ;
+       // The y step for the fill shape small, 2x the width and 2x 0.032 space
+       variable FSS_YSTEP 0.064 ;
+       // Amount to offset each row of the fill shape small
+       variable FSS_XOFFSET 0.0 ;
+       // Amount to offset each col of the fill shape small
+       variable FSS_YOFFSET 0.012 ;
+       // fill shape small spacing to Mx drawing of same color
+       variable FSS_SP 0.072 ;
+       // fill shape small spacing to current fill shape small shapes
+       variable FSS_SPSELF 0.072 ;
+       // fill shape small spacing to Mx exclude
+       variable FSS_SPEX 0.072 ;
+       // fill shape small spacing to Mx drawing of opposite color
+       variable FSS_SPDC 0.048 ;
+       // The fill shape medium rectangle length
+       variable FSM_X1 0.128 ;
+       // The fill shape medium rectangle width
+       variable FSM_Y1 0.064 ;
+       // The x step for the fill shape medium, 2x the length and 2x 0.064 space
+       variable FSM_XSTEP 0.192 ;
+       // The y step for the fill shape medium, 2x the width and 2x 0.032 space
+       variable FSM_YSTEP 0.096 ;
+       // Amount to offset each row of the fill shape medium 
+       variable FSM_XOFFSET 0.0 ;
+       // Amount to offset each col of the fill shape medium 
+       variable FSM_YOFFSET 0.0 ;
+       // fill shape medium spacing to Mx drawing of same color
+       variable FSM_SP 0.072 ;
+       // fill shape medium spacing to current fill shape medium shapes
+       variable FSM_SPSELF 0.072 ;
+       // fill shape medium spacing to Mx exclude
+       variable FSM_SPEX 0.072 ;
+       // fill shape medium spacing to Mx drawing of opposite color
+       variable FSM_SPDC 0.048 ;
+       "
+    }
+    if {$layer == "M5" || $layer == "M6"} {
+       puts "
+       // The fill shape small rectangle length
+       variable FSS_X1 0.512 ;
+       // The fill shape small rectangle width
+       variable FSS_Y1 0.058 ;
+       // The x step for the fill shape small
+       variable FSS_XSTEP 0.640 ;
+       // The y step for the fill shape small
+       variable FSS_YSTEP 0.128 ;
+       // Amount to offset each row of the fill shape small
+       variable FSS_XOFFSET 0.0 ;
+       // Amount to offset each col of the fill shape small
+       variable FSS_YOFFSET 0.012 ;
+       // fill shape small spacing to Mx drawing of same color
+       variable FSS_SP 0.100 ;
+       // fill shape small spacing to current fill shape small shapes
+       variable FSS_SPSELF 0.100 ;
+       // fill shape small spacing to Mx exclude
+       variable FSS_SPEX 0.100 ;
+       // fill shape small spacing to Mx drawing of opposite color
+       variable FSS_SPDC 0.080 ;
+       // The fill shape medium rectangle length
+       variable FSM_X1 0.256 ;
+       // The fill shape medium rectangle width
+       variable FSM_Y1 0.100 ;
+       // The x step for the fill shape medium
+       variable FSM_XSTEP 0.384 ;
+       // The y step for the fill shape medium
+       variable FSM_YSTEP 0.192 ;
+       // Amount to offset each row of the fill shape medium 
+       variable FSM_XOFFSET 0.0 ;
+       // Amount to offset each col of the fill shape medium 
+       variable FSM_YOFFSET 0.0 ;
+       // fill shape medium spacing to Mx drawing of same color
+       variable FSM_SP 0.100 ;
+       // fill shape medium spacing to current fill shape medium shapes
+       variable FSM_SPSELF 0.100 ;
+       // fill shape medium spacing to Mx exclude
+       variable FSM_SPEX 0.100 ;
+       // fill shape medium spacing to Mx drawing of opposite color
+       variable FSM_SPDC 0.080 ;
+       "
+    }
+    if {$layer == "M7"} {
+       puts "
+       // The fill shape small rectangle length
+       variable FSS_X1 0.512 ;
+       // The fill shape small rectangle width
+       variable FSS_Y1 0.069 ;
+       // The x step for the fill shape small
+       variable FSS_XSTEP 0.640 ;
+       // The y step for the fill shape small
+       variable FSS_YSTEP 0.151 ;
+       // Amount to offset each row of the fill shape small
+       variable FSS_XOFFSET 0.0 ;
+       // Amount to offset each col of the fill shape small
+       variable FSS_YOFFSET 0.012 ;
+       // fill shape small spacing to Mx drawing of same color
+       variable FSS_SP 0.120 ;
+       // fill shape small spacing to current fill shape small shapes
+       variable FSS_SPSELF 0.120 ;
+       // fill shape small spacing to Mx exclude
+       variable FSS_SPEX 0.120 ;
+       // fill shape small spacing to Mx drawing of opposite color
+       variable FSS_SPDC 0.100 ;
+       // The fill shape medium rectangle length
+       variable FSM_X1 0.256 ;
+       // The fill shape medium rectangle width
+       variable FSM_Y1 0.100 ;
+       // The x step for the fill shape medium
+       variable FSM_XSTEP 0.384 ;
+       // The y step for the fill shape medium
+       variable FSM_YSTEP 0.256 ;
+       // Amount to offset each row of the fill shape medium 
+       variable FSM_XOFFSET 0.0 ;
+       // Amount to offset each col of the fill shape medium 
+       variable FSM_YOFFSET 0.0 ;
+       // fill shape medium spacing to Mx drawing of same color
+       variable FSM_SP 0.120 ;
+       // fill shape medium spacing to current fill shape medium shapes
+       variable FSM_SPSELF 0.120 ;
+       // fill shape medium spacing to Mx exclude
+       variable FSM_SPEX 0.120 ;
+       // fill shape medium spacing to Mx drawing of opposite color
+       variable FSM_SPDC 0.100 ;
+       "
+    }
+    if {$layer == "MT"} {
+       puts "
+       // The fill shape small rectangle length
+       variable FSS_X1 0.800 ;
+       // The fill shape small rectangle width
+       variable FSS_Y1 0.22 ;
+       // The x step for the fill shape small
+       variable FSS_XSTEP 0.640 ;
+       // The y step for the fill shape small
+       variable FSS_YSTEP 0.550 ;
+       // Amount to offset each row of the fill shape small
+       variable FSS_XOFFSET 0.0 ;
+       // Amount to offset each col of the fill shape small
+       variable FSS_YOFFSET 0.012 ;
+       // fill shape small spacing to Mx drawing of same color
+       variable FSS_SP 0.350 ;
+       // fill shape small spacing to current fill shape small shapes
+       variable FSS_SPSELF 0.350 ;
+       // fill shape small spacing to Mx exclude
+       variable FSS_SPEX 0.350 ;
+       // fill shape small spacing to Mx drawing of opposite color
+       variable FSS_SPDC 0.200 ;
+       "
+    }
+    if {$layer == "Poly"} {
+       puts "
+       // The size of the instance fill box
+       variable FIT_X1 0.515 ;
+       variable FIT_Y1 0.256 ;
+       // 1/2 the FIT_Y1 dimension 
+       variable FIT_RESIZE 0.128 ;
+       // The fill shape small rectangle width 
+       variable FSS_X1 0.160 ;
+       // The fill shape small rectangle length
+       variable FSS_Y1 0.018 ;
+       // The x step for the fill shape small, 1x the width and 1x 0.068 space
+       variable FSS_XSTEP 0.280 ;
+       // The y step for the fill shape small, 1x the width and 1x 0.120 space
+       variable FSS_YSTEP 0.086 ;
+       // Amount to offset each row of the fill shape small
+       variable FSS_XOFFSET 0.0 ;
+       // Amount to offset each col of the fill shape small
+       variable FSS_YOFFSET 0.0 ;
+       // fill shape spacing to other Poly
+       variable FSS_SP 0.080 ;
+       // fill shape spacing to current fill shapes
+       variable FSS_SPSELF 0.120 ;
+       // fill shape spacing to exclude  
+       variable FSS_SPEX 0.080 ;
+       // fill shape spacing 
+       variable FSS_SPDC 0.120 ;
+       "
+    }
+}
+
+proc GPDKrunFill {baseLyr lyr isDP fillRgn doCritNet doFillInst} {
+   ## Set Variables for Current Layer
+   GPDKgetFillVariables $baseLyr 
+
+   puts "and $lyr $fillRgn ${lyr}i ;"
+
+   ###############################
+   ## Use Critical Net Feature
+   ###############################
+   if {$doCritNet} {
+      ## The Critical Net Feature is necessary to protect nets that are
+      ## sensitive to the electrical impacts of a nearby net.  For a double
+      ## patterned layer, the critical net exclude distance is applied
+      ## as if there was no color on the net.
+      puts "size ${baseLyr}ceSel -by ${baseLyr}_CRITNET_DIST ${lyr}_cnExcl ;"
+      ## Subtract from the fill region to create the fill area 1 region
+      puts "not $fillRgn ${lyr}_cnExcl ${lyr}fillArea1 ;"
+   } else {
+      puts "copy $fillRgn ${lyr}fillArea1 ;" 
+   }
+
+   ###############################
+   ##  Use Fill Instance Feature
+   ###############################
+   if {$doFillInst} {
+      puts "
+      size ${lyr}i -by FIT_RESIZE -overunder ${lyr}sized ;
+      //rule mrk-Poly-FILL--initialSizing {
+      //   copy ${lyr}sized ;
+      //}
+      not ${lyr}fillArea1 ${lyr}sized ${lyr}initialFillRegion ;
+      dfm_fill_pattern \"${lyr}inst___Rect\" -rect 0 0  FIT_X1 FIT_Y1 ;
+
+      dfm_fill_spec \"${lyr}fillInstSpec\" \
+         -inside_of_layer ${lyr}initialFillRegion \
+         -pattern \"${lyr}inst___Rect\" -tag \"${lyr}inst___Rect\" \
+            -step 0.0 0.256 \
+            -repeat 1 \
+            -offset 0.0 0.0 \
+            -space FSS_SP $lyr \
+            -fill_space 0.086 0.064 ;
+      
+      dfm_fill \"${lyr}fillInstSpec\" -select \"${lyr}inst___Rect\" \
+         ${lyr}fiMarker ;
+      not ${lyr}fillArea1 ${lyr}fiMarker ${lyr}fillArea2 ;
+      "
+
+      if {$lyr == "PolyALL"} {
+         puts "
+         // Use the fill instance marker as the exclude layer for Poly
+         copy ${lyr}fiMarker ${lyr}_EXCLUDE ;
+         // Custom region post-processing
+         grow NWell -left 0.356 -right 0.356 NWellWide ;
+         select -interact ${lyr}fiMarker NWellWide ${lyr}fiMarkerPtype ;
+         not ${lyr}fiMarker ${lyr}fiMarkerPtype ${lyr}fiMarkerNtype ;
+         rect_gen -width FIT_X1 -length FIT_Y1 -spacing 0.001 -inside_of_layer \
+            ${lyr}fiMarkerPtype ${lyr}fiBoxPtype ;
+         rect_gen -width FIT_X1 -length FIT_Y1 -spacing 0.001 -inside_of_layer \
+            ${lyr}fiMarkerNtype ${lyr}fiBoxNtype ;
+         rule mrk-Poly-FILL--fillcell_p1 {
+            copy ${lyr}fiBoxPtype ;
+         }
+         rule mrk-Poly-FILL--fillcell_n1 {
+            copy ${lyr}fiBoxNtype ;
+         }
+         "
+      }
+
+   } else {
+      puts "copy ${lyr}fillArea1 ${lyr}fillArea2 ;"
+      if {$lyr == "PolyALL"} {
+         puts "empty_layer PolyALL_EXCLUDE ;"
+      }
+   }
+
+   ## debug
+   puts "
+   //rule mrk-${lyr}-FILL--fillArea1 {
+   //    copy ${lyr}fillArea1 ;
+   //}
+   //rule mrk-${lyr}-FILL--fillArea2 {
+   //    copy ${lyr}fillArea2 ;
+   //}
+   "
+
+   ###############################
+   ##  Main Fill Shape Flow
+   ###############################
+   ## Swap horizontal and vertical parameters as needed
+   if {$baseLyr == "M2" || $baseLyr == "M4" || 
+       $baseLyr == "M6" || $baseLyr == "MT"} {
+      puts "dfm_fill_pattern \"${lyr}small__Rect\" -rect 0 0  FSS_X1 FSS_Y1 ;"
+      puts "dfm_fill_pattern \"${lyr}medium_Rect\" -rect 0 0  FSM_X1 FSM_Y1 ;"
+   } else {
+      puts "dfm_fill_pattern \"${lyr}small__Rect\" -rect 0 0  FSS_Y1 FSS_X1 ;"
+      if {$lyr != "PolyALL" && $lyr != "MTall"} {
+         puts "dfm_fill_pattern \"${lyr}medium_Rect\" -rect 0 0  FSM_Y1 FSM_X1 ;"
+      }
+   }
+
+   puts "
+   dfm_fill_spec \"${lyr}fillSpec\" -inside_of_layer ${lyr}fillArea2 \
+      -pattern \"${lyr}small__Rect\" -tag \"${lyr}small__Rect\" \
+   "
+   ## Swap horizontal and vertical parameters as needed
+   if {$baseLyr == "M2" || $baseLyr == "M4" || 
+       $baseLyr == "M6" || $baseLyr == "MT"} {
+      puts "
+         -step FSS_XSTEP FSS_YSTEP \
+         -offset FSS_XOFFSET FSS_YOFFSET \
+      "
+   } else {
+      puts "
+         -step FSS_YSTEP FSS_XSTEP \
+         -offset FSS_YOFFSET FSS_XOFFSET \
+      "
+   }
+   puts "
+         -repeat 1 \
+         -fill_space FSS_SPSELF \
+         -space FSS_SPEX ${lyr}_EXCLUDE \
+         -space FSS_SPDC ${lyr}_DC \
+         -space FSS_SP ${lyr} \
+   "
+   ## Necessary for instance fill with gray color M1
+   if {$baseLyr == "M1"} {
+      puts "            -space 0.001 PolyALLfiMarker \\"
+   }
+
+   if {$lyr == "PolyALL" || $lyr == "MTall"} {
+      puts "
+         ;
+      dfm_fill \"${lyr}fillSpec\" -select \"${lyr}small__Rect\" \
+         ${lyr}fillAllTypes ;
+      "
+   } else {
+      puts "
+      -pattern \"${lyr}medium_Rect\" -tag \"${lyr}medium_Rect\" \
+      "
+      ## Swap horizontal and vertical parameters as needed
+      if {$baseLyr == "M2" || $baseLyr == "M4" || 
+          $baseLyr == "M6" || $baseLyr == "MT"} {
+         puts "
+         -step FSS_XSTEP FSS_YSTEP \
+      "
+      } else {
+         puts "
+         -step FSS_YSTEP FSS_XSTEP \
+         "
+      }
+      puts "
+         -repeat 1 \
+         -fill_space FSM_SPSELF \
+         -space FSM_SPEX ${lyr}_EXCLUDE \
+         -space FSM_SPDC ${lyr}_DC \
+      "
+      ## Necessary for instance fill with gray color M1
+      if {$baseLyr == "M1"} {
+         puts "            -space 0.001 PolyALLfiMarker \\"
+      }
+      
+      puts "
+         -space FSM_SP ${lyr} \
+         ;
+   
+      dfm_fill \"${lyr}fillSpec\" -select \"${lyr}small__Rect\" ${lyr}fillType1 ;
+      dfm_fill \"${lyr}fillSpec\" -select \"${lyr}medium_Rect\" ${lyr}fillType2 ;
+      cat ${lyr}fillType1 ${lyr}fillType2 ${lyr}fillAllTypes ;
+      "
+   }
+
+   ## Output Rules
+   if {[regexp color1 $lyr]} {
+      puts "
+      rule gen-${baseLyr}-FILL-1-fill {
+         copy ${lyr}fillAllTypes ; 
+      } 
+      "
+   } elseif {[regexp color2 $lyr]} {
+      puts "
+      rule gen-${baseLyr}-FILL-2-fill {
+         copy ${lyr}fillAllTypes ; 
+      } 
+      "
+   } elseif {$baseLyr == "Poly" || $baseLyr == "Active"} {
+      puts "
+      rule gen-${baseLyr}-FILL--dummy {
+         copy ${lyr}fillAllTypes ; 
+      } 
+      "
+   } else {
+      puts "
+      rule gen-${baseLyr}-FILL--fill {
+         copy ${lyr}fillAllTypes ; 
+      } 
+      "
+   }
+}
+
+## Main Flow
+set useCritNet $::env(SELECT_CRITICAL_NET_FEATURE)
+## Only External Instance Fill Enabled currently, no switch needed currently
+#set useExtFillInst $::env(SELECT_EXTERNAL_INST_FILL)
+set useInstFill $::env(SELECT_INST_FILL)
+
+
+## Poly
+## Since useInstFill is set, Active fill is also accomplished
+puts "cat Poly_DRAWING Poly_DUMMY Poly_EDGE PolyALL ;"
+## Use the fill instance marker as the exclude layer
+#puts "empty_layer PolyALL_EXCLUDE ;"
+puts "empty_layer PolyALL_DC ;"
+GPDKrunFill Poly PolyALL N fillBoundary 0 $useInstFill
+
+## M1 color 1
+puts "copy M1_EXCLUDE M1color1_EXCLUDE ;"
+puts "copy M1color2 M1color1_DC ;"
+GPDKrunFill M1 M1color1 Y fillBoundary $useCritNet 0 
+
+## M1 color 2
+puts "copy M1_EXCLUDE M1color2_EXCLUDE ;"
+puts "or M1color1 M1color1fillAllTypes M1color2_DC ;"
+GPDKrunFill M1 M1color2 Y fillBoundary $useCritNet 0
+
+## M2 color 1
+puts "copy M2_EXCLUDE M2color1_EXCLUDE ;"
+puts "copy M2color2 M2color1_DC ;"
+GPDKrunFill M2 M2color1 Y fillBoundary $useCritNet 0 
+
+## M2 color 2
+puts "copy M2_EXCLUDE M2color2_EXCLUDE ;"
+puts "or M2color1 M2color1fillAllTypes M2color2_DC ;"
+GPDKrunFill M2 M2color2 Y fillBoundary $useCritNet 0
+
+## M3 color 1
+puts "copy M3_EXCLUDE M3color1_EXCLUDE ;"
+puts "copy M3color2 M3color1_DC ;"
+GPDKrunFill M3 M3color1 Y fillBoundary $useCritNet 0 
+
+## M3 color 2
+puts "copy M3_EXCLUDE M3color2_EXCLUDE ;"
+puts "or M3color1 M3color1fillAllTypes M3color2_DC ;"
+GPDKrunFill M3 M3color2 Y fillBoundary $useCritNet 0
+
+## M4
+puts "empty_layer M4all_EXCLUDE ;"
+puts "empty_layer M4all_DC ;"
+GPDKrunFill M4 M4all N fillBoundary $useCritNet 0
+
+## M5
+puts "empty_layer M5all_EXCLUDE ;"
+puts "empty_layer M5all_DC ;"
+GPDKrunFill M5 M5all N fillBoundary $useCritNet 0
+
+## M6
+puts "empty_layer M6all_EXCLUDE ;"
+puts "empty_layer M6all_DC ;"
+GPDKrunFill M6 M6all N fillBoundary $useCritNet 0
+
+## M7
+puts "empty_layer M7all_EXCLUDE ;"
+puts "empty_layer M7all_DC ;"
+GPDKrunFill M7 M7all N fillBoundary $useCritNet 0
+
+## MT
+puts "empty_layer MTall_EXCLUDE ;"
+puts "empty_layer MTall_DC ;"
+GPDKrunFill MT MTall N fillBoundary $useCritNet 0
+
+PVS_END_TCL_BLOCK
+
+//-----------------------------------------------------------------------------
+// OUTPUT HANDLING
+//-----------------------------------------------------------------------------
+
+group_rules CELL_FILL
+   gen-Poly-FILL--dummy
+   mrk-Poly-FILL--fillcell_n1
+   mrk-Poly-FILL--fillcell_p1
+   gen-M1-FILL-1-fill
+   gen-M1-FILL-2-fill
+   gen-M2-FILL-1-fill
+   gen-M2-FILL-2-fill
+   gen-M3-FILL-1-fill
+   gen-M3-FILL-2-fill
+   gen-M4-FILL--fill
+   gen-M5-FILL--fill
+   gen-M6-FILL--fill
+   gen-M7-FILL--fill
+   gen-MT-FILL--fill
+   ;
+
+#ifndef UseInDesignFlow
+ #ifdef OUTPUT_LAYOUT_OASIS
+ output -drc gen-Poly-FILL--dummy   -oasis 20 10  output.oas -maximum all ;
+ output -drc mrk-Poly-FILL--fillcell_n1 -oasis 154 120 output.oas -aref fillcell_n1 0.515 0.256 1 -maximum all ;
+ output -drc mrk-Poly-FILL--fillcell_p1 -oasis 154 121 output.oas -aref fillcell_p1 0.515 0.256 1 -maximum all ;
+ output -drc gen-M1-FILL-1-fill     -oasis 30 12  output.oas -maximum all ;
+ output -drc gen-M1-FILL-2-fill     -oasis 30 14  output.oas -maximum all ;
+ output -drc gen-M2-FILL-1-fill     -oasis 34 12  output.oas -maximum all ;
+ output -drc gen-M2-FILL-2-fill     -oasis 34 14  output.oas -maximum all ;
+ output -drc gen-M3-FILL-1-fill     -oasis 38 12  output.oas -maximum all ;
+ output -drc gen-M3-FILL-2-fill     -oasis 38 14  output.oas -maximum all ;
+ output -drc gen-M4-FILL--fill      -oasis 42 11  output.oas -maximum all ;
+ output -drc gen-M5-FILL--fill      -oasis 46 11  output.oas -maximum all ;
+ output -drc gen-M6-FILL--fill      -oasis 50 11  output.oas -maximum all ;
+ output -drc gen-M7-FILL--fill      -oasis 54 11  output.oas -maximum all ;
+ output -drc gen-MT-FILL--fill      -oasis 64 11  output.oas -maximum all ;
+
+ #else
+ output -drc gen-Poly-FILL--dummy   -gdsii 20 10  output.gds -maximum all ;
+ output -drc mrk-Poly-FILL--fillcell_n1 -gdsii 154 120 output.gds -aref fillcell_n1 0.515 0.256 1 -maximum all ; 
+ output -drc mrk-Poly-FILL--fillcell_p1 -gdsii 154 121 output.gds -aref fillcell_p1 0.515 0.256 1 -maximum all ;
+ output -drc gen-M1-FILL-1-fill     -gdsii 30 12  output.gds -maximum all ;
+ output -drc gen-M1-FILL-2-fill     -gdsii 30 14  output.gds -maximum all ;
+ output -drc gen-M2-FILL-1-fill     -gdsii 34 12  output.gds -maximum all ;
+ output -drc gen-M2-FILL-2-fill     -gdsii 34 14  output.gds -maximum all ;
+ output -drc gen-M3-FILL-1-fill     -gdsii 38 12  output.gds -maximum all ;
+ output -drc gen-M3-FILL-2-fill     -gdsii 38 14  output.gds -maximum all ;
+ output -drc gen-M4-FILL--fill      -gdsii 42 11  output.gds -maximum all ;
+ output -drc gen-M5-FILL--fill      -gdsii 46 11  output.gds -maximum all ;
+ output -drc gen-M6-FILL--fill      -gdsii 50 11  output.gds -maximum all ;
+ output -drc gen-M7-FILL--fill      -gdsii 54 11  output.gds -maximum all ;
+ output -drc gen-MT-FILL--fill      -gdsii 64 11  output.gds -maximum all ;
+ #endif
+#else
+// Map rule names for VALE framework
+#endif
+

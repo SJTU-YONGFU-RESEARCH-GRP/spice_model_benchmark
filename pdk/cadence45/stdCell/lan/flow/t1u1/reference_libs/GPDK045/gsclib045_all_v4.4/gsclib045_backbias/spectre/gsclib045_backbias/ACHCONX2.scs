@@ -1,0 +1,77 @@
+// Generated for: spectre (Apr 26 15:39:31 2013 )
+// Library name: gsclib045_backbias
+// Cell name: ACHCONX2
+// View name: schematic
+
+simulator lang=spectre
+
+subckt ACHCONX2 A B CI CON NW VSS VDD
+mn6 (n15 A VSS VSS) g45n1svt w=(390n) l=45n nf=1 as=54.6f ad=54.6f \
+        ps=1.06u pd=1.06u nrd=358.974m nrs=358.974m sa=140n sb=140n \
+        sd=160n sca=114.89040 scb=0.09003 scc=0.01377 m=(1)
+mn10 (net0370 CI VSS VSS) g45n1svt w=(390n) l=45n nf=1 as=54.6f ad=54.6f \
+        ps=1.06u pd=1.06u nrd=358.974m nrs=358.974m sa=140n sb=140n \
+        sd=160n sca=114.89040 scb=0.09003 scc=0.01377 m=(1)
+mn11 (n13 B VSS VSS) g45n1svt w=(390n) l=45n nf=1 as=54.6f ad=54.6f \
+        ps=1.06u pd=1.06u nrd=358.974m nrs=358.974m sa=140n sb=140n \
+        sd=160n sca=114.89040 scb=0.09003 scc=0.01377 m=(1)
+mn7 (n12 B VSS VSS) g45n1svt w=(390n) l=45n nf=1 as=54.6f ad=54.6f \
+        ps=1.06u pd=1.06u nrd=358.974m nrs=358.974m sa=140n sb=140n \
+        sd=160n sca=114.89040 scb=0.09003 scc=0.01377 m=(1)
+mn8 (net0370 n10 CON VSS) g45n1svt w=(390n) l=45n nf=1 as=54.6f ad=54.6f \
+        ps=1.06u pd=1.06u nrd=358.974m nrs=358.974m sa=140n sb=140n \
+        sd=160n sca=114.89040 scb=0.09003 scc=0.01377 m=(1)
+mn3 (n9 n13 n15 VSS) g45n1svt w=(390n) l=45n nf=1 as=54.6f ad=54.6f \
+        ps=1.06u pd=1.06u nrd=358.974m nrs=358.974m sa=140n sb=140n \
+        sd=160n sca=114.89040 scb=0.09003 scc=0.01377 m=(1)
+mn1 (n10 n13 n11 VSS) g45n1svt w=(310n) l=45n nf=1 as=43.4f ad=43.4f \
+        ps=900n pd=900n nrd=451.613m nrs=451.613m sa=140n sb=140n sd=160n \
+        sca=130.90642 scb=0.09728 scc=0.01590 m=(1)
+mn4 (n11 B n9 VSS) g45n1svt w=(310n) l=45n nf=1 as=43.4f ad=43.4f ps=900n \
+        pd=900n nrd=451.613m nrs=451.613m sa=140n sb=140n sd=160n \
+        sca=130.90642 scb=0.09728 scc=0.01590 m=(1)
+mn5 (n11 n15 VSS VSS) g45n1svt w=(310n) l=45n nf=1 as=43.4f ad=43.4f \
+        ps=900n pd=900n nrd=451.613m nrs=451.613m sa=140n sb=140n sd=160n \
+        sca=130.90642 scb=0.09728 scc=0.01590 m=(1)
+mn2 (n15 B n10 VSS) g45n1svt w=(390n) l=45n nf=1 as=54.6f ad=54.6f \
+        ps=1.06u pd=1.06u nrd=358.974m nrs=358.974m sa=140n sb=140n \
+        sd=160n sca=114.89040 scb=0.09003 scc=0.01377 m=(1)
+mn9 (n12 n9 CON VSS) g45n1svt w=(390n) l=45n nf=1 as=54.6f ad=54.6f \
+        ps=1.06u pd=1.06u nrd=358.974m nrs=358.974m sa=140n sb=140n \
+        sd=160n sca=114.89040 scb=0.09003 scc=0.01377 m=(1)
+mp6 (n15 A VDD NW) g45p1svt w=(770n) l=45n nf=1 as=107.8f ad=107.8f \
+        ps=1.82u pd=1.82u nrd=181.818m nrs=181.818m sa=140n sb=140n \
+        sd=160n sca=80.97697 scb=0.07088 scc=0.00960 m=(1)
+mp10 (net0370 CI VDD NW) g45p1svt w=(770n) l=45n nf=1 as=107.8f \
+        ad=107.8f ps=1.82u pd=1.82u nrd=181.818m nrs=181.818m sa=140n \
+        sb=140n sd=160n sca=80.97697 scb=0.07088 scc=0.00960 m=(1)
+mp8 (net0370 n9 CON NW) g45p1svt w=(770n) l=45n nf=1 as=107.8f ad=107.8f \
+        ps=1.82u pd=1.82u nrd=181.818m nrs=181.818m sa=140n sb=140n \
+        sd=160n sca=80.97697 scb=0.07088 scc=0.00960 m=(1)
+mp7 (n12 B VDD NW) g45p1svt w=(770n) l=45n nf=1 as=107.8f ad=107.8f \
+        ps=1.82u pd=1.82u nrd=181.818m nrs=181.818m sa=140n sb=140n \
+        sd=160n sca=80.97697 scb=0.07088 scc=0.00960 m=(1)
+mp5 (n11 n15 VDD NW) g45p1svt w=(520n) l=45n nf=1 as=72.8f ad=72.8f \
+        ps=1.32u pd=1.32u nrd=269.231m nrs=269.231m sa=140n sb=140n \
+        sd=160n sca=98.28759 scb=0.08111 scc=0.01166 m=(1)
+mp1 (n10 B n11 NW) g45p1svt w=(520n) l=45n nf=1 as=72.8f ad=72.8f \
+        ps=1.32u pd=1.32u nrd=269.231m nrs=269.231m sa=140n sb=140n \
+        sd=160n sca=98.28759 scb=0.08111 scc=0.01166 m=(1)
+mp2 (n15 n13 n10 NW) g45p1svt w=(770n) l=45n nf=1 as=107.8f ad=107.8f \
+        ps=1.82u pd=1.82u nrd=181.818m nrs=181.818m sa=140n sb=140n \
+        sd=160n sca=80.97697 scb=0.07088 scc=0.00960 m=(1)
+mp11 (n13 B VDD NW) g45p1svt w=(770n) l=45n nf=1 as=107.8f ad=107.8f \
+        ps=1.82u pd=1.82u nrd=181.818m nrs=181.818m sa=140n sb=140n \
+        sd=160n sca=80.97697 scb=0.07088 scc=0.00960 m=(1)
+mp4 (n11 n13 n9 NW) g45p1svt w=(520n) l=45n nf=1 as=72.8f ad=72.8f \
+        ps=1.32u pd=1.32u nrd=269.231m nrs=269.231m sa=140n sb=140n \
+        sd=160n sca=98.28759 scb=0.08111 scc=0.01166 m=(1)
+mp3 (n9 B n15 NW) g45p1svt w=(770n) l=45n nf=1 as=107.8f ad=107.8f \
+        ps=1.82u pd=1.82u nrd=181.818m nrs=181.818m sa=140n sb=140n \
+        sd=160n sca=80.97697 scb=0.07088 scc=0.00960 m=(1)
+mp9 (n12 n10 CON NW) g45p1svt w=(770n) l=45n nf=1 as=107.8f ad=107.8f \
+        ps=1.82u pd=1.82u nrd=181.818m nrs=181.818m sa=140n sb=140n \
+        sd=160n sca=80.97697 scb=0.07088 scc=0.00960 m=(1)
+ends ACHCONX2
+// End of subcircuit definition.
+

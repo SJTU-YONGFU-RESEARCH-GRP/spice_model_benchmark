@@ -1,0 +1,35 @@
+///////////////////////////////////////////////////////////
+//	OpenAccess layer mapping file
+///////////////////////////////////////////////////////////
+
+
+//conductors
+m1		M1	  drawing	M1	 text	nil	nil
+m2		M2	  drawing	M2	 text 	nil	nil
+m3		M3	  drawing	M3	 text 	nil	nil
+m4		M4	  drawing	M4	 text 	nil	nil
+m5		M5	  drawing	M5	 text  nil	nil
+							    
+// gates
+poly      PO	drawing	PO	pin	nil	nil 
+ngatepl     PO	drawing	PO	pin	nil	nil
+pgatepl     PO	drawing	PO	pin	nil	nil
+
+// diff
+nsd   DIFF	drawing	nil	nil	nil	nil
+psd   DIFF	drawing	nil	nil	nil	nil
+ntap  DIFF	drawing	nil	nil	nil	nil
+ptap  DIFF	drawing	nil	nil	nil	nil
+psdr  DIFF	drawing	nil	nil	nil	nil
+nsdr  DIFF	drawing	nil	nil	nil	nil
+
+// wells
+nwell    NWELL	  drawing	nil	nil	nil	nil
+
+//VIA
+cont    CO	  drawing 	CO	  drawing nil	nil
+via1    VIA1	  drawing	VIA1	  drawing	nil	nil
+via2    VIA2	  drawing	VIA2	  drawing	nil	nil
+via3    VIA3	  drawing	VIA3	  drawing	nil	nil
+via4    VIA4	  drawing	VIA4	  drawing	nil	nil
+
