@@ -7,11 +7,11 @@ from datetime import datetime
 import numpy as np
 from scipy import integrate
 
-from logger import Logger
-from simulation_runner import SimulationRunner
-from data_reader import DataReader
-from plot_generator import PlotGenerator
-from verification_manager import VerificationManager
+from .logger import Logger
+from .simulation_runner import SimulationRunner
+from .data_reader import DataReader
+from .plot_generator import PlotGenerator
+from .verification_manager import VerificationManager
 
 class MOSFETSimulation:
     """Main class for MOSFET simulation and verification.
