@@ -3,6 +3,12 @@
 # Run CV simulation and generate plots
 # This script runs the MOSFET CV simulation and then plots the results
 
+# Resolve script directory so the script can be run from any working directory
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Always run from the script directory so relative paths in the netlist work
+cd "${SCRIPT_DIR}" || exit 1
+
 # Create directories
 mkdir -p plots
 mkdir -p results
@@ -16,8 +22,7 @@ ngspice -b cv_mos_realistic.cir -o sim_log.txt
 
 # Check if simulation was successful
 if [ $? -eq 0 ]; then
-    echo "Simulation completed successfully."
-    
+    echo "Simulation completed successfully."    
     # Check if result files exist
     if [ ! -f results/cv_full_data.txt ]; then
         echo "Error: Simulation data file not found. Check sim_log.txt for details."

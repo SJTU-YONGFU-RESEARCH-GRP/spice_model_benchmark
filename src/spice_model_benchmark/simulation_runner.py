@@ -26,7 +26,7 @@ class SimulationRunner:
     OUTPUT_FILE_PATTERNS: Set[str] = {
         'iv_data_', 'cv_data.txt', 'charge_conservation', 'sparams_data',
         'nqs_effects', 'bias_point_data.txt', 'tran_', 'thermal_noise_',
-        'flicker_noise', 'shot_noise', 'noise_temp'
+        'flicker_noise', 'shot_noise', 'noise_temp', 'ls_caps_dc'
     }
     
     def __init__(self, 

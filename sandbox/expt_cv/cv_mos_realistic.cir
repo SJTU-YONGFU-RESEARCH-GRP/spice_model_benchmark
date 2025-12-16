@@ -17,7 +17,7 @@
 .option method=gear
 
 * Include FreePDK45 model with appropriate parameters
-.inc ../models/ngspice-cmos/FreePDK45/nom.inc
+.inc ../../models/FreePDK45/nom.inc
 
 * Enhanced test circuit for capacitance measurements
 * Use small signal AC analysis to extract capacitance components

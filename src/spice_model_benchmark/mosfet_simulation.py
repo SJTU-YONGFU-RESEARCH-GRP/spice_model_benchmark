@@ -65,6 +65,7 @@ class MOSFETSimulation:
             'delay_effect': None,
             'power_dissipation': None,
             'quasi_static': None,
+            'large_signal_caps': None,
             # Add noise analysis results
             'noise_analysis': None
         }
@@ -384,6 +385,132 @@ class MOSFETSimulation:
                     plot_generator.plot_trans_quasi_static(self.output_dir, time_qs, vgate_qs, vdrain_qs, idrain_qs)
                     qs_results = self.verification_manager.verify_trans_quasi_static(time_qs, vgate_qs, vdrain_qs, idrain_qs)
                     self.results['quasi_static'] = qs_results
+
+                # 6. Large-signal capacitance extraction from transient charge test (gate step)
+                time_cap, vg_cap, ig_cap, id_cap, is_cap, ib_cap = self.data_reader.read_trans_charge_conservation_data(self.output_dir)
+                if all(x is not None for x in [time_cap, vg_cap, ig_cap, id_cap, is_cap, ib_cap]):
+                    # Integrate terminal currents to obtain terminal charges
+                    qg = np.zeros_like(ig_cap)
+                    qd = np.zeros_like(id_cap)
+                    qs = np.zeros_like(is_cap)
+                    qb = np.zeros_like(ib_cap)
+                    for i_idx in range(1, len(time_cap)):
+                        dt = time_cap[i_idx] - time_cap[i_idx - 1]
+                        qg[i_idx] = qg[i_idx - 1] + 0.5 * (ig_cap[i_idx] + ig_cap[i_idx - 1]) * dt
+                        qd[i_idx] = qd[i_idx - 1] + 0.5 * (id_cap[i_idx] + id_cap[i_idx - 1]) * dt
+                        qs[i_idx] = qs[i_idx - 1] + 0.5 * (is_cap[i_idx] + is_cap[i_idx - 1]) * dt
+                        qb[i_idx] = qb[i_idx - 1] + 0.5 * (ib_cap[i_idx] + ib_cap[i_idx - 1]) * dt
+
+                    # Estimate VDD from gate voltage waveform
+                    vdd_est = float(np.max(vg_cap)) if vg_cap is not None else 0.0
+                    if vdd_est > 0.0:
+                        v_low_thr = 0.1 * vdd_est
+                        v_high_thr = 0.9 * vdd_est
+
+                        # Rising edge: 0 -> VDD
+                        low_indices = np.where(vg_cap <= v_low_thr)[0]
+                        high_indices = np.where(vg_cap >= v_high_thr)[0]
+                        if low_indices.size > 0 and high_indices.size > 0:
+                            i_start = low_indices[0]
+                            i_end = high_indices[0]
+                            dv = vg_cap[i_end] - vg_cap[i_start]
+                            if abs(dv) > 0.0:
+                                cgs_rise = -(qs[i_end] - qs[i_start]) / dv
+                                cgd_rise = -(qd[i_end] - qd[i_start]) / dv
+                                cgb_rise = -(qb[i_end] - qb[i_start]) / dv
+                            else:
+                                cgs_rise = cgd_rise = cgb_rise = None
+                        else:
+                            cgs_rise = cgd_rise = cgb_rise = None
+
+                        # Falling edge: VDD -> 0
+                        low_indices_end = np.where(vg_cap <= v_low_thr)[0]
+                        high_indices_end = np.where(vg_cap >= v_high_thr)[0]
+                        if low_indices_end.size > 0 and high_indices_end.size > 0:
+                            i_start_fall = high_indices_end[-1]
+                            i_end_fall = low_indices_end[-1]
+                            if i_end_fall > i_start_fall:
+                                dv_fall = vg_cap[i_end_fall] - vg_cap[i_start_fall]
+                                if abs(dv_fall) > 0.0:
+                                    cgs_fall = -(qs[i_end_fall] - qs[i_start_fall]) / dv_fall
+                                    cgd_fall = -(qd[i_end_fall] - qd[i_start_fall]) / dv_fall
+                                    cgb_fall = -(qb[i_end_fall] - qb[i_start_fall]) / dv_fall
+                                else:
+                                    cgs_fall = cgd_fall = cgb_fall = None
+                            else:
+                                cgs_fall = cgd_fall = cgb_fall = None
+                        else:
+                            cgs_fall = cgd_fall = cgb_fall = None
+
+                        # Try to also obtain large-signal capacitances using DC endpoint charge method (5.1)
+                        vg_dc, vd_dc, qg_dc, qd_dc, qs_dc, qb_dc = self.data_reader.read_dc_large_signal_charge_data(self.output_dir)
+                        cgs_dc = cgd_dc = cgb_dc = None
+                        vg_dc_start = vg_dc_end = vd_dc_val = None
+                        if all(x is not None for x in [vg_dc, vd_dc, qg_dc, qd_dc, qs_dc, qb_dc]) and len(vg_dc) >= 2:
+                            i_start_dc = 0
+                            i_end_dc = len(vg_dc) - 1
+                            dv_dc = vg_dc[i_end_dc] - vg_dc[i_start_dc]
+                            if abs(dv_dc) > 0.0:
+                                cgs_dc = -(qs_dc[i_end_dc] - qs_dc[i_start_dc]) / dv_dc
+                                cgd_dc = -(qd_dc[i_end_dc] - qd_dc[i_start_dc]) / dv_dc
+                                cgb_dc = -(qb_dc[i_end_dc] - qb_dc[i_start_dc]) / dv_dc
+                                vg_dc_start = float(vg_dc[i_start_dc])
+                                vg_dc_end = float(vg_dc[i_end_dc])
+                                vd_dc_val = float(vd_dc[i_start_dc])
+
+                        # Store both methods' large-signal capacitance results
+                        self.results['large_signal_caps'] = {
+                            'definition_tran': 'large-signal ΔQ/ΔV from gate step transient (0→VDD and VDD→0)',
+                            'definition_dc': 'large-signal ΔQ/ΔV from DC endpoint charges (method 5.1)',
+                            'vdd_est_tran': vdd_est,
+                            'vg_dc_start': vg_dc_start,
+                            'vg_dc_end': vg_dc_end,
+                            'vd_dc': vd_dc_val,
+                            'cgs_rise': cgs_rise,
+                            'cgd_rise': cgd_rise,
+                            'cgb_rise': cgb_rise,
+                            'cgs_fall': cgs_fall,
+                            'cgd_fall': cgd_fall,
+                            'cgb_fall': cgb_fall,
+                            'cgs_dc': cgs_dc,
+                            'cgd_dc': cgd_dc,
+                            'cgb_dc': cgb_dc,
+                        }
+
+                        caps = self.results['large_signal_caps']
+                        caps_file = self.output_dir / 'large_signal_caps.txt'
+                        try:
+                            with open(caps_file, 'w') as f:
+                                # Transient current-integration method (5.2)
+                                f.write("[Transient gate-step method (current integration, 5.2)]\n")
+                                definition_tran = caps.get('definition_tran', '')
+                                vdd_tran = caps.get('vdd_est_tran', None)
+                                f.write(f"definition_tran: {definition_tran}\n")
+                                f.write(f"vdd_est_tran: {vdd_tran}\n")
+                                for key in ['cgs_rise', 'cgd_rise', 'cgb_rise', 'cgs_fall', 'cgd_fall', 'cgb_fall']:
+                                    val = caps.get(key, None)
+                                    if val is None:
+                                        f.write(f"{key}: None\n")
+                                    else:
+                                        f.write(f"{key}: {val:.6e} F ({val*1e15:.3f} fF)\n")
+
+                                f.write("\n[DC endpoint-charge method (5.1, section 5.1)]\n")
+                                definition_dc = caps.get('definition_dc', '')
+                                vg_start = caps.get('vg_dc_start', None)
+                                vg_end = caps.get('vg_dc_end', None)
+                                vd_dc = caps.get('vd_dc', None)
+                                f.write(f"definition_dc: {definition_dc}\n")
+                                f.write(f"vg_dc_start: {vg_start}\n")
+                                f.write(f"vg_dc_end: {vg_end}\n")
+                                f.write(f"vd_dc: {vd_dc}\n")
+                                for key in ['cgs_dc', 'cgd_dc', 'cgb_dc']:
+                                    val = caps.get(key, None)
+                                    if val is None:
+                                        f.write(f"{key}: None\n")
+                                    else:
+                                        f.write(f"{key}: {val:.6e} F ({val*1e15:.3f} fF)\n")
+                        except Exception as e:
+                            self.logger.error(f"Failed to write large_signal_caps file: {e}")
             
             if 'noise' in modes:
                 # Read and verify noise analysis data

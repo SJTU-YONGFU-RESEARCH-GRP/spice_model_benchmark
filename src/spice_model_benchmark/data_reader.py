@@ -499,6 +499,100 @@ class DataReader:
             self.logger.error(f"Error reading bias point data: {e}")
             return None, None, None, None, None, None
 
+    def read_dc_large_signal_charge_data(self, output_dir):
+        """Read large-signal capacitance DC charge data for method 5.1.
+        
+        This data is produced by the DC bias analysis netlist (e.g. freepdk45_dc_circuit.cir)
+        into a file named ls_caps_dc.txt with columns:
+        Vg, Vd, Qg, Qd, Qs, Qb.
+        
+        Returns:
+            tuple: (vg, vd, qg, qd, qs, qb) arrays if available, otherwise all None.
+        """
+        try:
+            self.logger.info("Reading large-signal DC charge data for method 5.1")
+
+            filename = 'ls_caps_dc.txt'
+            file_path = self._find_file(filename, output_dir)
+            if not file_path:
+                self.logger.warning(f"Large-signal DC charge data file not found: {filename}")
+                return None, None, None, None, None, None
+
+            data, col_map = self._parse_data_file(file_path, skiprows=1, col_names=True)
+            if data is None or col_map is None:
+                self.logger.warning("Failed to parse large-signal DC charge data file")
+                return None, None, None, None, None, None
+
+            required_cols = ['Vg', 'Vd', 'Qg', 'Qd', 'Qs', 'Qb']
+            if any(name not in col_map for name in required_cols):
+                self.logger.warning(f"Large-signal DC charge data file missing required columns: {required_cols}")
+                return None, None, None, None, None, None
+
+            if data.shape[0] < 2:
+                self.logger.warning("Large-signal DC charge data file has fewer than two bias points")
+                return None, None, None, None, None, None
+
+            vg = data[:, col_map['Vg']]
+            vd = data[:, col_map['Vd']]
+            qg = data[:, col_map['Qg']]
+            qd = data[:, col_map['Qd']]
+            qs = data[:, col_map['Qs']]
+            qb = data[:, col_map['Qb']]
+
+            return vg, vd, qg, qd, qs, qb
+
+        except Exception as e:
+            self.logger.error(f"Error reading large-signal DC charge data: {e}")
+            return None, None, None, None, None, None
+
+    def read_dc_large_signal_charge_data_pmos(self, output_dir):
+        """Read large-signal capacitance DC charge data for method 5.1 (PMOS).
+
+        This data is produced by the DC bias analysis netlist into a file
+        named ls_caps_dc_pmos.txt with columns:
+        Vg, Vd, Qg, Qd, Qs, Qb.
+
+        Returns:
+            tuple: (vg, vd, qg, qd, qs, qb) arrays if available, otherwise all None.
+        """
+        try:
+            self.logger.info("Reading large-signal DC charge data for method 5.1 (PMOS)")
+
+            filename = 'ls_caps_dc_pmos.txt'
+            file_path = self._find_file(filename, output_dir)
+            if not file_path:
+                self.logger.warning(f"Large-signal DC charge data file not found: {filename}")
+                return None, None, None, None, None, None
+
+            data, col_map = self._parse_data_file(file_path, skiprows=1, col_names=True)
+            if data is None or col_map is None:
+                self.logger.warning("Failed to parse PMOS large-signal DC charge data file")
+                return None, None, None, None, None, None
+
+            required_cols = ['Vg', 'Vd', 'Qg', 'Qd', 'Qs', 'Qb']
+            if any(name not in col_map for name in required_cols):
+                self.logger.warning(
+                    f"PMOS large-signal DC charge data file missing required columns: {required_cols}"
+                )
+                return None, None, None, None, None, None
+
+            if data.shape[0] < 2:
+                self.logger.warning("PMOS large-signal DC charge data file has fewer than two bias points")
+                return None, None, None, None, None, None
+
+            vg = data[:, col_map['Vg']]
+            vd = data[:, col_map['Vd']]
+            qg = data[:, col_map['Qg']]
+            qd = data[:, col_map['Qd']]
+            qs = data[:, col_map['Qs']]
+            qb = data[:, col_map['Qb']]
+
+            return vg, vd, qg, qd, qs, qb
+
+        except Exception as e:
+            self.logger.error(f"Error reading PMOS large-signal DC charge data: {e}")
+            return None, None, None, None, None, None
+
     # Transient analysis data reading methods
     def read_trans_large_signal_transient_data(self, output_dir):
         """Read large signal transient analysis data from file.

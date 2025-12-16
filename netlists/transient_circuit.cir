@@ -10,7 +10,7 @@
 .option TEMPSCALE=1.0
 
 * Include FreePDK45 model
-.inc ../models/ngspice-cmos/FreePDK45/nom.inc
+.inc ../models/FreePDK45/nom.inc
 
 * ----------------------------------------------------------
 * MOSFET device under test - standard 45nm transistor

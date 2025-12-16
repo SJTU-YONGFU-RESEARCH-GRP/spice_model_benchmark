@@ -77,3 +77,12 @@ sim_log.txt
 
 # Local virtual environments
 .venv/
+
+# Generated SPICE netlists (corner / L-W / VDD sweeps)
+netlists/freepdk45/
+netlists/sky130/
+netlists/freepdk45_*_t*/
+netlists/sky130_*_t*/
+netlists/freepdk45_dc_circuit_*T*.cir
+netlists/sky130_dc_circuit_*T*.cir
+netlists/test_cap_single*.cir

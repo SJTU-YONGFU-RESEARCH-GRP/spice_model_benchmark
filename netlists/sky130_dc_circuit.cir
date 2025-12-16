@@ -9,25 +9,42 @@
 .option TNOM=27
 .option TEMPSCALE=1.0
 
-* Include SkyWater sky130 device models
+* Include SkyWater sky130 device models and global parameters
+.include "../models/skywater-pdk-libs-sky130_fd_pr/models/parameters/lod.spice"
+.include "../models/skywater-pdk-libs-sky130_fd_pr/models/parameters/invariant.spice"
+.include "../models/skywater-pdk-libs-sky130_fd_pr/cells/nfet_01v8/sky130_fd_pr__nfet_01v8__mismatch.corner.spice"
+.include "../models/skywater-pdk-libs-sky130_fd_pr/cells/pfet_01v8/sky130_fd_pr__pfet_01v8__mismatch.corner.spice"
 .include "../models/skywater-pdk-libs-sky130_fd_pr/cells/nfet_01v8/sky130_fd_pr__nfet_01v8__tt.corner.spice"
+.include "../models/skywater-pdk-libs-sky130_fd_pr/cells/pfet_01v8/sky130_fd_pr__pfet_01v8__tt.corner.spice"
 
 * MOSFET device under test (Sky130 NMOS 1.8V)
-X1 drain_iv gate_iv source_iv bulk_iv sky130_fd_pr__nfet_01v8 l=1 w=1
+X1 drain_iv gate_iv source_iv bulk_iv sky130_fd_pr__nfet_01v8 l=0.1500 w=2.0000
 
-* MOSFET device under test for bias point analysis
+* MOSFET device under test for bias point analysis (NMOS)
 X2 drain_bias gate_bias source_bias bulk_bias sky130_fd_pr__nfet_01v8 l=1 w=1
 
-* IV Characteristics Circuit
-* Source and bulk connected to ground
+* MOSFET device under test for bias point analysis (PMOS)
+X3 drain_pbias gate_pbias source_pbias bulk_pbias sky130_fd_pr__pfet_01v8 l=1 w=1
+
+* IV Characteristics Circuit (match FreePDK45 structure)
+Vds_iv drain_iv 0 DC 0
+Vgs_iv gate_iv 0 DC 0
 Vs_iv source_iv 0 DC 0
 Vb_iv bulk_iv 0 DC 0
-* Gate voltage source
-Vg_iv gate_iv source_iv DC 0
-* Drain voltage source
-Vd_iv drain_iv source_iv DC 0
 
-* Control block
+* Bias Point Analysis Circuit (NMOS)
+Vds_bias drain_bias 0 DC 0
+Vgs_bias gate_bias 0 DC 0
+Vs_bias  source_bias 0 DC 0
+Vb_bias  bulk_bias 0 DC 0
+
+* Bias Point Analysis Circuit (PMOS)
+Vdp_pbias drain_pbias 0 DC 0
+Vgp_pbias gate_pbias 0 DC 0
+Vsp_pbias source_pbias 0 DC 1.2
+Vbp_pbias bulk_pbias 0 DC 1.2
+
+* Control block (mirrored from FreePDK45, adapted for Sky130 devices)
 .control
 set filetype=ascii
 set wr_vecnames
@@ -41,17 +58,207 @@ echo "Starting temperature sweep"
 * Temperature -40°C
 option temp=-40
 echo "Running simulation at temperature: -40 °C"
-dc Vg_iv 0 1.2 0.2 Vd_iv 0 1.2 0.01
-let id = i(Vd_iv)
+dc Vds_iv 0 1.2 0.01 Vgs_iv 0 1.2 0.2
+let id = i(Vds_iv)
 let is = i(Vs_iv)
-let ig = i(Vg_iv)
+let ig = i(Vgs_iv)
 let ib = i(Vb_iv)
 let kcl = abs(id + is + ig + ib)
 * Write data in the order expected by data_reader: v(d) v(g) i(vds) i(vs) i(vb) i(vgs) kcl
 wrdata ./iv_data_-40.txt v(drain_iv) v(gate_iv) id is ib ig kcl
 
+* Temperature 0°C
+option temp=0
+echo "Running simulation at temperature: 0 °C"
+dc Vds_iv 0 1.2 0.01 Vgs_iv 0 1.2 0.2
+let id = i(Vds_iv)
+let is = i(Vs_iv)
+let ig = i(Vgs_iv)
+let ib = i(Vb_iv)
+let kcl = abs(id + is + ig + ib)
+wrdata ./iv_data_0.txt v(drain_iv) v(gate_iv) id is ib ig kcl
+
+* Temperature 25°C
+option temp=25
+echo "Running simulation at temperature: 25 °C"
+dc Vds_iv 0 1.2 0.01 Vgs_iv 0 1.2 0.2
+let id = i(Vds_iv)
+let is = i(Vs_iv)
+let ig = i(Vgs_iv)
+let ib = i(Vb_iv)
+let kcl = abs(id + is + ig + ib)
+wrdata ./iv_data_25.txt v(drain_iv) v(gate_iv) id is ib ig kcl
+
+* Temperature 50°C
+option temp=50
+echo "Running simulation at temperature: 50 °C"
+dc Vds_iv 0 1.2 0.01 Vgs_iv 0 1.2 0.2
+let id = i(Vds_iv)
+let is = i(Vs_iv)
+let ig = i(Vgs_iv)
+let ib = i(Vb_iv)
+let kcl = abs(id + is + ig + ib)
+wrdata ./iv_data_50.txt v(drain_iv) v(gate_iv) id is ib ig kcl
+
+* Temperature 100°C
+option temp=100
+echo "Running simulation at temperature: 100 °C"
+dc Vds_iv 0 1.2 0.01 Vgs_iv 0 1.2 0.2
+let id = i(Vds_iv)
+let is = i(Vs_iv)
+let ig = i(Vgs_iv)
+let ib = i(Vb_iv)
+let kcl = abs(id + is + ig + ib)
+wrdata ./iv_data_100.txt v(drain_iv) v(gate_iv) id is ib ig kcl
+
+* Temperature 150°C
+option temp=150
+echo "Running simulation at temperature: 150 °C"
+dc Vds_iv 0 1.2 0.01 Vgs_iv 0 1.2 0.2
+let id = i(Vds_iv)
+let is = i(Vs_iv)
+let ig = i(Vgs_iv)
+let ib = i(Vb_iv)
+let kcl = abs(id + is + ig + ib)
+wrdata ./iv_data_150.txt v(drain_iv) v(gate_iv) id is ib ig kcl
+
+* Bias Point Analysis Section (method 5.1 style)
+echo "Starting bias point analysis"
+
+* Run bias point analysis at room temperature
+option temp=27
+echo "Running bias point analysis at 27°C"
+
+* Initialize bias_point_data.txt with headers
+echo "v(drain_bias) v(gate_bias) id_bias ig_bias is_bias ib_bias" > ./bias_point_data.txt
+
+* Initialize NMOS large-signal capacitance DC charge file (for method 5.1, NMOS)
+echo "Vg Vd Qg Qd Qs Qb" > ./ls_caps_dc.txt
+
+* First bias point (0.0, 0.0)
+alter Vds_bias = 0.0
+alter Vgs_bias = 0.0
+op
+let id_bias = i(Vds_bias)
+let is_bias = i(Vs_bias)
+let ig_bias = i(Vgs_bias)
+let ib_bias = i(Vb_bias)
+echo "$&v(drain_bias) $&v(gate_bias) $&id_bias $&ig_bias $&is_bias $&ib_bias" >> ./bias_point_data.txt
+
+* Second bias point (0.0, 0.6)
+alter Vds_bias = 0.0
+alter Vgs_bias = 0.6
+op
+let id_bias = i(Vds_bias)
+let is_bias = i(Vs_bias)
+let ig_bias = i(Vgs_bias)
+let ib_bias = i(Vb_bias)
+echo "$&v(drain_bias) $&v(gate_bias) $&id_bias $&ig_bias $&is_bias $&ib_bias" >> ./bias_point_data.txt
+
+* Third bias point (0.0, 1.2)
+alter Vds_bias = 0.0
+alter Vgs_bias = 1.2
+op
+let id_bias = i(Vds_bias)
+let is_bias = i(Vs_bias)
+let ig_bias = i(Vgs_bias)
+let ib_bias = i(Vb_bias)
+echo "$&v(drain_bias) $&v(gate_bias) $&id_bias $&ig_bias $&is_bias $&ib_bias" >> ./bias_point_data.txt
+
+* Fourth bias point (0.6, 0.0)
+alter Vds_bias = 0.6
+alter Vgs_bias = 0.0
+op
+let id_bias = i(Vds_bias)
+let is_bias = i(Vs_bias)
+let ig_bias = i(Vgs_bias)
+let ib_bias = i(Vb_bias)
+echo "$&v(drain_bias) $&v(gate_bias) $&id_bias $&ig_bias $&is_bias $&ib_bias" >> ./bias_point_data.txt
+
+* Fifth bias point (0.6, 0.6)
+alter Vds_bias = 0.6
+alter Vgs_bias = 0.6
+op
+let id_bias = i(Vds_bias)
+let is_bias = i(Vs_bias)
+let ig_bias = i(Vgs_bias)
+let ib_bias = i(Vb_bias)
+echo "$&v(drain_bias) $&v(gate_bias) $&id_bias $&ig_bias $&is_bias $&ib_bias" >> ./bias_point_data.txt
+
+* Sixth bias point (0.6, 1.2)
+alter Vds_bias = 0.6
+alter Vgs_bias = 1.2
+op
+let id_bias = i(Vds_bias)
+let is_bias = i(Vs_bias)
+let ig_bias = i(Vgs_bias)
+let ib_bias = i(Vb_bias)
+echo "$&v(drain_bias) $&v(gate_bias) $&id_bias $&ig_bias $&is_bias $&ib_bias" >> ./bias_point_data.txt
+
+* Seventh bias point (1.2, 0.0)
+alter Vds_bias = 1.2
+alter Vgs_bias = 0.0
+op
+let id_bias = i(Vds_bias)
+let is_bias = i(Vs_bias)
+let ig_bias = i(Vgs_bias)
+let ib_bias = i(Vb_bias)
+let qg_bias = @m.x2.msky130_fd_pr__nfet_01v8[qg]
+let qd_bias = @m.x2.msky130_fd_pr__nfet_01v8[qd]
+let qs_bias = @m.x2.msky130_fd_pr__nfet_01v8[qs]
+let qb_bias = @m.x2.msky130_fd_pr__nfet_01v8[qb]
+echo "$&v(drain_bias) $&v(gate_bias) $&id_bias $&ig_bias $&is_bias $&ib_bias" >> ./bias_point_data.txt
+echo "$&v(gate_bias) $&v(drain_bias) $&qg_bias $&qd_bias $&qs_bias $&qb_bias" >> ./ls_caps_dc.txt
+
+* Eighth bias point (1.2, 0.6)
+alter Vds_bias = 1.2
+alter Vgs_bias = 0.6
+op
+let id_bias = i(Vds_bias)
+let is_bias = i(Vs_bias)
+let ig_bias = i(Vgs_bias)
+let ib_bias = i(Vb_bias)
+echo "$&v(drain_bias) $&v(gate_bias) $&id_bias $&ig_bias $&is_bias $&ib_bias" >> ./bias_point_data.txt
+
+* Ninth bias point (1.2, 1.2)
+alter Vds_bias = 1.2
+alter Vgs_bias = 1.2
+op
+let id_bias = i(Vds_bias)
+let is_bias = i(Vs_bias)
+let ig_bias = i(Vgs_bias)
+let ib_bias = i(Vb_bias)
+let qg_bias = @m.x2.msky130_fd_pr__nfet_01v8[qg]
+let qd_bias = @m.x2.msky130_fd_pr__nfet_01v8[qd]
+let qs_bias = @m.x2.msky130_fd_pr__nfet_01v8[qs]
+let qb_bias = @m.x2.msky130_fd_pr__nfet_01v8[qb]
+echo "$&v(drain_bias) $&v(gate_bias) $&id_bias $&ig_bias $&is_bias $&ib_bias" >> ./bias_point_data.txt
+echo "$&v(gate_bias) $&v(drain_bias) $&qg_bias $&qd_bias $&qs_bias $&qb_bias" >> ./ls_caps_dc.txt
+
+* PMOS large-signal capacitance DC charge file (for method 5.1)
+echo "Vg Vd Qg Qd Qs Qb" > ./ls_caps_dc_pmos.txt
+
+* PMOS first bias point: Vg=1.2, Vd=0.0, Vs=1.2, Vb=1.2
+alter Vdp_pbias = 0.0
+alter Vgp_pbias = 1.2
+op
+let qg_p = @m.x3.msky130_fd_pr__pfet_01v8[qg]
+let qd_p = @m.x3.msky130_fd_pr__pfet_01v8[qd]
+let qs_p = @m.x3.msky130_fd_pr__pfet_01v8[qs]
+let qb_p = @m.x3.msky130_fd_pr__pfet_01v8[qb]
+echo "$&v(gate_pbias) $&v(drain_pbias) $&qg_p $&qd_p $&qs_p $&qb_p" >> ./ls_caps_dc_pmos.txt
+
+* PMOS second bias point: Vg=0.0, Vd=0.0, Vs=1.2, Vb=1.2
+alter Vgp_pbias = 0.0
+op
+let qg_p = @m.x3.msky130_fd_pr__pfet_01v8[qg]
+let qd_p = @m.x3.msky130_fd_pr__pfet_01v8[qd]
+let qs_p = @m.x3.msky130_fd_pr__pfet_01v8[qs]
+let qb_p = @m.x3.msky130_fd_pr__pfet_01v8[qb]
+echo "$&v(gate_pbias) $&v(drain_pbias) $&qg_p $&qd_p $&qs_p $&qb_p" >> ./ls_caps_dc_pmos.txt
+
 echo "DC analysis completed"
 quit
 .endc
 
-.end 
+.end
