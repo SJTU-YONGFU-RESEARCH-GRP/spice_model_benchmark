@@ -60,3 +60,20 @@ wheels/
 
 # Logs
 *.log 
+
+# Simulation results and generated data
+results/
+plots/
+test_cap_param/results/
+sandbox/**/results/
+sandbox/**/tran_results/
+src/results/
+
+# Generated measurement data at repo root
+bias_point_data.txt
+iv_data_*.txt
+ls_caps_dc*.txt
+sim_log.txt
+
+# Local virtual environments
+.venv/
