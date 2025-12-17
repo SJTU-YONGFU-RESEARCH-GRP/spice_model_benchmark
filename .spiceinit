@@ -24,7 +24,7 @@ set numparam_continue=1
 * Add IHP model paths
 setcs sourcepath = ( $sourcepath ../models/IHP-Open-PDK/ihp-sg13g2/libs.tech/ngspice/models )
 
-* Load OSDI models  
-osdi '../models/IHP-Open-PDK/ihp-sg13g2/libs.tech/ngspice/osdi/psp103.osdi'
-osdi '../models/IHP-Open-PDK/ihp-sg13g2/libs.tech/ngspice/osdi/psp103_nqs.osdi'
-osdi '../models/IHP-Open-PDK/ihp-sg13g2/libs.tech/ngspice/osdi/r3_cmc.osdi'
+* Load OSDI models (disabled for now - only enable if the corresponding .osdi files exist) 
+* osdi '../models/IHP-Open-PDK/ihp-sg13g2/libs.tech/ngspice/osdi/psp103.osdi'
+* osdi '../models/IHP-Open-PDK/ihp-sg13g2/libs.tech/ngspice/osdi/psp103_nqs.osdi'
+* osdi '../models/IHP-Open-PDK/ihp-sg13g2/libs.tech/ngspice/osdi/r3_cmc.osdi'

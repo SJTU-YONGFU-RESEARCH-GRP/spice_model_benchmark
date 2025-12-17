@@ -65,6 +65,7 @@ class MOSFETSimulation:
             'delay_effect': None,
             'power_dissipation': None,
             'quasi_static': None,
+            'transient_charge_conservation': None,
             # Add noise analysis results
             'noise_analysis': None
         }
@@ -384,6 +385,62 @@ class MOSFETSimulation:
                     plot_generator.plot_trans_quasi_static(self.output_dir, time_qs, vgate_qs, vdrain_qs, idrain_qs)
                     qs_results = self.verification_manager.verify_trans_quasi_static(time_qs, vgate_qs, vdrain_qs, idrain_qs)
                     self.results['quasi_static'] = qs_results
+
+                # 6. Charge conservation analysis
+                time_cc, vg_cc, ig_cc, id_cc, is_cc, ib_cc, i_total_cc, q_gate, q_drain, q_source, q_bulk, q_total = (
+                    self.data_reader.read_trans_charge_conservation_full_data(self.output_dir)
+                )
+
+                if any(x is None for x in [time_cc, vg_cc, ig_cc, id_cc, is_cc, ib_cc]):
+                    time_cc, vg_cc, ig_cc, id_cc, is_cc, ib_cc = self.data_reader.read_trans_charge_conservation_data(self.output_dir)
+                    if all(x is not None for x in [time_cc, vg_cc, ig_cc, id_cc, is_cc, ib_cc]):
+                        i_total_cc = ig_cc + id_cc + is_cc + ib_cc
+
+                        q_gate = np.zeros_like(ig_cc)
+                        q_drain = np.zeros_like(id_cc)
+                        q_source = np.zeros_like(is_cc)
+                        q_bulk = np.zeros_like(ib_cc)
+                        for i in range(1, len(time_cc)):
+                            dt = time_cc[i] - time_cc[i - 1]
+                            q_gate[i] = q_gate[i - 1] + 0.5 * (ig_cc[i] + ig_cc[i - 1]) * dt
+                            q_drain[i] = q_drain[i - 1] + 0.5 * (id_cc[i] + id_cc[i - 1]) * dt
+                            q_source[i] = q_source[i - 1] + 0.5 * (is_cc[i] + is_cc[i - 1]) * dt
+                            q_bulk[i] = q_bulk[i - 1] + 0.5 * (ib_cc[i] + ib_cc[i - 1]) * dt
+                        q_total = q_gate + q_drain + q_source + q_bulk
+
+                if all(x is not None for x in [time_cc, vg_cc, ig_cc, id_cc, is_cc, ib_cc, i_total_cc, q_gate, q_drain, q_source, q_bulk, q_total]):
+
+                    plot_generator.plot_trans_charge_conservation(
+                        self.output_dir,
+                        time_cc,
+                        vg_cc,
+                        ig_cc,
+                        id_cc,
+                        is_cc,
+                        ib_cc,
+                        i_total_cc,
+                        q_gate,
+                        q_drain,
+                        q_source,
+                        q_bulk,
+                        q_total,
+                    )
+
+                    charge_results = self.verification_manager.verify_trans_charge_conservation(
+                        time_cc,
+                        vg_cc,
+                        ig_cc,
+                        id_cc,
+                        is_cc,
+                        ib_cc,
+                        i_total_cc,
+                        q_gate,
+                        q_drain,
+                        q_source,
+                        q_bulk,
+                        q_total,
+                    )
+                    self.results['transient_charge_conservation'] = charge_results
             
             if 'noise' in modes:
                 # Read and verify noise analysis data

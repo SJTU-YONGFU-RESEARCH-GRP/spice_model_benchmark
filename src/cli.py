@@ -103,6 +103,14 @@ Examples:
         help="Path to custom AC analysis circuit file"
     )
 
+    parser.add_argument(
+        "--backend",
+        type=str,
+        choices=["spice", "veriloga", "data"],
+        default="spice",
+        help="Model backend to use (default: spice)"
+    )
+
     # Parse arguments
     if args is None:
         args = sys.argv[1:]
@@ -134,6 +142,7 @@ Examples:
         transient_circuit=parsed_args.transient_circuit,
         noise_circuit=parsed_args.noise_circuit,
         ac_circuit=parsed_args.ac_circuit,
+        backend=parsed_args.backend,
     )
 
     if success:

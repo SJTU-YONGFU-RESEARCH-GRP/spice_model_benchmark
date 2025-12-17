@@ -14,6 +14,7 @@ from .simulation_runner import SimulationRunner
 from .data_reader import DataReader
 from .plot_generator import PlotGenerator
 from .verification_manager import VerificationManager
+from .model_backend import create_model_backend
 
 __version__ = "1.0.0"
 __all__ = [
@@ -38,6 +39,7 @@ def benchmark_spice_model(
     transient_circuit: Optional[Union[str, Path]] = None,
     noise_circuit: Optional[Union[str, Path]] = None,
     ac_circuit: Optional[Union[str, Path]] = None,
+    backend: str = "spice",
 ) -> bool:
     """
     Run comprehensive SPICE model benchmarking with a single model file.
@@ -117,12 +119,28 @@ def benchmark_spice_model(
         print("\nPlease ensure circuit files exist or provide custom circuit files.")
         return False
 
-    # Create simulation instance
+    # Construct a model backend and allow it to adapt the circuit paths
+    backend_obj = create_model_backend(backend, model_file)
+
+    dc_path = Path(dc_circuit) if isinstance(dc_circuit, (str, Path)) else None
+    tran_path = (
+        Path(transient_circuit)
+        if isinstance(transient_circuit, (str, Path))
+        else None
+    )
+    noise_path = Path(noise_circuit) if isinstance(noise_circuit, (str, Path)) else None
+    ac_path = Path(ac_circuit) if isinstance(ac_circuit, (str, Path)) else None
+
+    dc_path, tran_path, noise_path, ac_path = backend_obj.prepare_circuits(
+        dc_path, tran_path, noise_path, ac_path, output_dir
+    )
+
+    # Create simulation instance using (potentially) adapted circuits
     simulation = MOSFETSimulation(
-        dc_circuit_file=dc_circuit,
-        transient_circuit_file=transient_circuit,
-        noise_circuit_file=noise_circuit,
-        ac_circuit_file=ac_circuit,
+        dc_circuit_file=str(dc_path) if dc_path is not None else None,
+        transient_circuit_file=str(tran_path) if tran_path is not None else None,
+        noise_circuit_file=str(noise_path) if noise_path is not None else None,
+        ac_circuit_file=str(ac_path) if ac_path is not None else None,
         output_dir=str(output_dir),
         dpi=dpi,
         log_level=log_level

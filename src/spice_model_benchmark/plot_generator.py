@@ -744,6 +744,77 @@ class PlotGenerator:
             import traceback
             traceback.print_exc()
 
+    def plot_trans_charge_conservation(self, output_dir, time, vg, ig, id, is_, ib, i_total, q_gate, q_drain, q_source, q_bulk, q_total):
+        try:
+            plots_dir = Path(output_dir) / 'plots'
+            plots_dir.mkdir(exist_ok=True)
+
+            plt.figure(figsize=(self.figure_width, 4 * self.single_plot_height))
+
+            plt.subplot(4, 1, 1)
+            plt.plot(time, ig, 'b-', label='Gate')
+            plt.plot(time, id, 'r-', label='Drain')
+            plt.plot(time, is_, 'g-', label='Source')
+            plt.plot(time, ib, 'm-', label='Bulk')
+            plt.plot(time, i_total, 'k--', label='Sum (Ig+Id+Is+Ib)')
+            plt.xlabel('Time (s)')
+            plt.ylabel('Current (A)')
+            plt.title('Terminal Currents')
+            plt.grid(True)
+            plt.legend()
+
+            plt.subplot(4, 1, 2)
+            plt.plot(time, q_gate, 'b-', label='Gate')
+            plt.plot(time, q_drain, 'r-', label='Drain')
+            plt.plot(time, q_source, 'g-', label='Source')
+            plt.plot(time, q_bulk, 'm-', label='Bulk')
+            plt.plot(time, q_total, 'k--', label='Total')
+            plt.xlabel('Time (s)')
+            plt.ylabel('Charge (C)')
+            plt.title('Integrated Terminal Charges')
+            plt.grid(True)
+            plt.legend()
+
+            plt.subplot(4, 1, 3)
+            plt.plot(vg, q_gate, 'b-')
+            plt.xlabel('Gate Voltage (V)')
+            plt.ylabel('Gate Charge (C)')
+            plt.title('Gate Charge vs Gate Voltage')
+            plt.grid(True)
+
+            plt.subplot(4, 1, 4)
+            plt.plot(time, i_total, 'k-')
+            plt.xlabel('Time (s)')
+            plt.ylabel('Current Sum (A)')
+            plt.title('KCL Residual (Sum of Terminal Currents)')
+            plt.grid(True)
+
+            plt.tight_layout()
+            plt.savefig(plots_dir / 'trans_charge_conservation.png', dpi=self.dpi)
+            plt.close()
+
+            plt.figure(figsize=(self.figure_width, self.single_plot_height))
+            if len(q_total) > 0:
+                plt.plot(time, q_total - q_total[0], 'k-')
+            else:
+                plt.plot(time, q_total, 'k-')
+            plt.xlabel('Time (s)')
+            plt.ylabel('ΔQ_total (C)')
+            plt.title('Total Charge Variation')
+            plt.grid(True)
+            plt.tight_layout()
+            plt.savefig(plots_dir / 'trans_total_charge.png', dpi=self.dpi)
+            plt.close()
+
+            if self.logger:
+                self.logger.info("Transient charge conservation plots generated successfully")
+
+        except Exception as e:
+            if self.logger:
+                self.logger.error(f"Error generating transient charge conservation plots: {e}")
+            import traceback
+            traceback.print_exc()
+
     def _process_sparameter_files(self):
         """Generate S-parameter data file from raw simulation output."""
         import os

@@ -1,0 +1,187 @@
+// CCNT - Compact model for stretchable CNT-TFTs
+// Leilai Shao
+// UC Santa Barbara
+// OCT19.2017 Updates the Capacitance Model Meyer's Cap-Based Dynamic Model is used
+// v0.5
+
+`include "disciplines.vams"
+`include "constants.vams"
+module CCNT(d, g, s);
+inout d, g, s;
+electrical d, g, s, dx, sx, di, gi, si;
+
+parameter real L     = 25.0     from [1e-20 :inf];// channel length um
+parameter real W     = 125.0     from [0.0:inf];//  channel width um
+parameter real MU    = 25.5 from [0.0:inf];//  Mobility at extraction voltage VAA  cm2/VS
+parameter real COX   = 200e-9 from [0.0:inf];// gate capacitanceF/cm2
+parameter real COL   = 0.1e-21 from [0.0:1e-8];// fringe cap in gate F/um
+parameter real CGSD  = 200e-20 from [0.0:1e-8];// Gate S/D cap F/um^2
+parameter real COLGSD= 200e-21 from [0.0:1e-8];//
+parameter real CSD   = 0.1e-23 from [0.0:1e-12];// S/D cap F/um
+parameter real VTO   = 0.50      from [-inf:inf];// long channel threshold voltage
+parameter real TEMP  = 300.0  from [0:500];// circuit temperature
+parameter real LAMBDA= 0.005       from [0.0:inf];// channel length modulation
+parameter real VSS   = 0.28    from [-inf:inf];// SS parameter
+parameter real GAMMA = 0.35   from [-inf:inf];//  voltage exponent -2
+parameter real IOFF  = 1e-12 from [-inf:inf];//   off current
+parameter real MM    = 1.65   from [1e-5:inf];// transistion parameter
+parameter real AA    = 1.0      from [1e-5:inf];// transistion parameter
+parameter real SLOPE    = 10.0      from [1e-5:inf];// transistion parameter
+parameter real VAA   = 1.0      from [-inf:inf];// Extraction voltage for mobility MU
+parameter real RCS= 0.75e3       from [0.0:inf];// source contact resistance
+parameter real RCD= 0.75e3       from [0.0:inf];// drain contact resistance
+parameter integer FLG_FLD = 0   from [0:1];// Flag for VGS dependent VD-induced field
+parameter integer FLG_SPLT = 1 from [0:1];// Flag for split gate design or not
+parameter integer FINGER =1 from[1:100];// Matrix transistor finger num
+parameter real sdW = 25.0 from[5:25];//S/D width um
+parameter real gsdEnc = 10 from[2:10];//gate S/D enclosure um
+parameter real gcntEnc = 20 from[2:20];//gate cnt enclosure um
+// parameters for parasitics
+parameter real RFS= 1       from [0.0:inf];// source finger resistance
+parameter real RFD= 1       from [0.0:inf];// drain finger resistance
+parameter real RFG= 1       from [0.0:inf];// gate finger resistance
+
+// parameters for temperature dependence
+parameter integer typep=-1 from [-1:1] exclude 0;// `attr(info="channel type" unit=""); //-1=electron, +1=hole
+real VGeff, VDeff, VDfld, VDfld2, VSeff, VSfld, VSfld2, VDsub, VSsub, Isd, Ids2, VG, VS, VD, Vds, Vgs, sVsd, VDe, VSe, vt, b, c;
+real gmin;
+real Qd, Qs;
+real Itest;
+real area_gcnt;// 
+real perip_gcnt;//
+real area_gsd;//
+real perip_gsd;//
+real COXG;// unit F
+real CPGS;
+real CPGD;// parasitic gate-drain capacitance
+real CPDS;// parasitic drain-source capacitance
+real CPG;
+
+analog begin 
+if (FLG_SPLT==1) begin
+area_gcnt = FINGER*W*(L+2*gsdEnc);// 
+perip_gcnt = FINGER*2*(W+L+2*gsdEnc);//
+area_gsd = FINGER*4*gsdEnc*gcntEnc;//
+perip_gsd = FINGER*4*(gsdEnc+2*gcntEnc);//
+COXG = COX/1e8;// unit F
+CPG=area_gcnt*COXG;
+CPGS = area_gcnt*COXG/2+area_gsd*CGSD/2+perip_gcnt*COL/2+perip_gsd*COLGSD/2 ;// "parasitic gate-source capacitance" unit="F");
+CPGD = CPGS;// `attr(info="parasitic gate-drain capacitance" unit="F");
+CPDS = FINGER*W*CSD;// `attr(info="parasitic drain-source capacitance" unit="F");
+end else begin
+area_gcnt = W*(FINGER*(L+sdW)-sdW+2*gsdEnc);// 
+perip_gcnt = 2*(W+FINGER*(L+sdW)-sdW+2*gsdEnc);//
+area_gsd = 4*gsdEnc*gcntEnc+2*(FINGER-1)*gcntEnc*sdW;//
+perip_gsd = 4*(gsdEnc+2*gcntEnc)+(FINGER-1)*2*(sdW+2*gcntEnc);//
+COXG = COX/1e8;// unit F/um^2
+CPG=area_gcnt*COXG/2;
+CPGS = area_gcnt*COXG/2+area_gsd*CGSD/2+perip_gcnt*COL/2+perip_gsd*COLGSD/2 ;// "parasitic gate-source capacitance" unit="F");
+CPGD = CPGS;// `attr(info="parasitic gate-drain capacitance" unit="F");
+CPDS = FINGER*W*CSD;// `attr(info="parasitic drain-source capacitance" unit="F");
+
+end
+
+
+VG    = V(gi);
+VD    = V(di); 
+VS    = V(si); 
+if (VS-VD>=0) begin
+    sVsd = 1.0;
+    VSe = VS;//Vde is the  highest node
+    VDe = VD;	
+end else begin
+    sVsd = -1.0;
+    VSe = VD;
+    VDe = VS;
+end
+
+
+////////////////////////////////////////////////////////////////
+/////   Current model    ///////////////////////////////////////
+////////////////////////////////////////////////////////////////
+VDfld = VDe;
+VSfld = VSe;
+
+if (typep*(VG-VTO-VDfld)/VSS<-10.0)
+    VDsub = VSS*exp(typep*(VG-VTO-VDfld)/VSS);
+else if (typep*(VG-VTO-VDfld)/VSS>100.0) begin
+    VDsub = typep*(VG-VTO-VDfld);
+end else
+    VDsub = VSS*ln(1+exp(typep*(VG-VTO-VDfld)/VSS));
+
+if (typep*(VG-VTO-VSfld)/VSS<-10.0)
+    VSsub = VSS*exp(typep*(VG-VTO-VSfld)/VSS);
+else if (typep*(VG-VTO-VSfld)/VSS>100.0) begin
+    VSsub = typep*(VG-VTO-VSfld);
+end else
+    VSsub = VSS*ln(1+exp(typep*(VG-VTO-VSfld)/VSS));
+////////////////////////////////////////////////////////////
+///////////////Interpolation Cap Model//////////////////////
+//if (sVsd>0) begin
+//    CPGS = CPGS-0.5*CPG*(1-1/(1+pow(SLOPE,VDe-VSe+VG-VTO)));
+//    CPGD = CPGD+1/6*CPG*(1-1/(1+pow(SLOPE,VDe-VSe+VG-VTO)));
+//end
+
+//if (sVsd<0) begin
+//    CPGD = CPGD-0.5*CPG*(1-1/(1+pow(SLOPE,VSe-VDe+VG-VTO)));
+//    CPGS = CPGS+1/6*CPG*(1-1/(1+pow(SLOPE,VSe-VDe+VG-VTO)));
+//end
+/////////////////////////////////////////////////////////////
+////////////Dynamic Meyer's Cap Model///////////////////////
+if (sVsd>0) begin //if sVsd=1, VSe/VDe  not switched
+	if(typep*((VDe-VSe)-VG+VTO)<0)	begin // linear region
+    		CPGD = CPGD+CPG*(-1/2+2/3*(1-pow(typep*(VG-VTO-(VDe-VSe)),2)/pow(typep*(2*(VG-VTO)-(VDe-VSe)),2)));
+    		CPGS = CPGS+CPG*(-1/2+2/3*(1-pow(typep*(VG-VTO),2)/pow((typep*(2*(VG-VTO)-(VDe-VSe))),2))); 
+	end
+	else begin
+		CPGD = CPGD+CPG*(-1/2+2/3);
+    		CPGS = CPGS+CPG*(-1/2);
+	end
+end
+
+if (sVsd<0) begin //if sVsd=1, VSe/VDe  not switched
+	if(typep*((VDe-VSe)-VG+VTO)<0)	begin // linear region
+    		CPGS = CPGS+CPG*(-1/2+2/3*(1-pow(typep*(VG-VTO-(VDe-VSe)),2)/pow(typep*(2*(VG-VTO)-(VDe-VSe)),2)));
+    		CPGD = CPGD+CPG*(-1/2+2/3*(1-pow(typep*(VG-VTO),2)/pow((typep*(2*(VG-VTO)-(VDe-VSe))),2))); 
+	end
+	else begin
+		CPGS = CPGS+CPG*(-1/2+2/3);
+    		CPGD = CPGD+CPG*(-1/2);
+	end
+end
+
+///////////////////////////////////////////////////////////
+//////////////P type CNT-TFT Current Model/////////////////
+Isd=IOFF + FINGER*W/L*MU/pow(VAA,GAMMA)*COX*(pow(VSsub,GAMMA+2.0)-pow(VDsub,GAMMA+2.0))/(GAMMA+2.0)*(1.0+LAMBDA*abs(VDe-VSe));
+
+if (abs(VD-VS)<1e-12)
+      Isd=0.0;	
+
+////////////////////////////////////////////////////////////////
+/////   Charge  model    ///////////////////////////////////////
+////////////////////////////////////////////////////////////////
+Qs = 0;
+Qd = 0;
+////////////////////////////////////////////////////////////////
+/////   Circuit elements   /////////////////////////////////////
+////////////////////////////////////////////////////////////////
+// Transfer current
+I(di,si) <+ typep*sVsd*Isd; 
+gmin = 1e-12; //needed to improve convergence
+I(di,si) <+ gmin*V(di,si);
+// Dynamic currents
+I(gi,di) <+ ddt(typep*Qd);
+I(gi,si) <+ ddt(typep*Qs);
+// contact resistances
+I(si,sx) <+ V(si,sx)/(RCS);
+I(di,dx) <+ V(di,dx)/(RCD);
+// finger resistances
+I(s,sx) <+ V(s,sx)/(RFS);
+I(d,dx) <+ V(d,dx)/(RFD);
+I(g,gi) <+ V(g,gi)/(RFG);
+// parasitic finger capacitance
+I(gi,dx) <+ CPGD*ddt(V(gi,dx));
+I(gi,sx) <+ CPGS*ddt(V(gi,sx));
+I(dx,sx) <+ CPDS*ddt(V(dx,sx));
+
+end endmodule

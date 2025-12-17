@@ -14,7 +14,7 @@
 .option method=gear
 
 * Include the device model file
-.inc ../models/ngspice-cmos/FreePDK45/nom.inc
+.inc ../models/FreePDK45/nom.inc
 
 * MOSFET device under test
 M1 drain_1 gate_1 source_1 bulk_1 NMOS_VTG L=0.045u W=10u

@@ -272,6 +272,9 @@ class VerificationManager:
             content.append("   - [Large-Signal Transient](#large-signal-transient)")
             content.append("   - [Switching Simulations](#switching-simulations)")
             content.append("   - [Delay Effect Simulations](#delay-effect-simulations)")
+            content.append("   - [Transient Simulations for Power Dissipation](#transient-simulations-for-power-dissipation)")
+            content.append("   - [Quasi-Static Analysis](#quasi-static-analysis)")
+            content.append("   - [Charge Conservation Tests](#charge-conservation-tests)")
             section_num += 1
         
         if 'noise' in modes:
@@ -720,7 +723,7 @@ class VerificationManager:
             delay_results = results.get('delay_effect', {}) or {}
             power_results = results.get('power_dissipation', {}) or {}
             qs_results = results.get('quasi_static', {}) or {}
-            charge_results = results.get('charge_conservation', {}) or {}
+            charge_results = results.get('transient_charge_conservation', {}) or {}
 
             # Check if any Transient data is available
             has_transient_data = any([
@@ -782,19 +785,36 @@ class VerificationManager:
                 content.append("| [Power Dissipation](#transient-simulations-for-power-dissipation) | <span style='color: red'>✗</span> | Data not available |")
 
             if qs_results.get('data_ready'):
-                status = "✓" if qs_results.get('quasi_static_analyzed', True) else "✗"
+                status = "✓" if qs_results.get('verification_passed', True) else "✗"
                 color = "green" if status == "✓" else "red"
-                findings = f"I-V characteristics analyzed: {qs_results.get('iv_relationship_analyzed')}" 
-                self.logger.info(f"qs_results.get('quasi_static_analyzed', True): {status}")
+                max_dvg = qs_results.get('max_norm_dvg', None)
+                max_dvd = qs_results.get('max_norm_dvd', None)
+                max_did = qs_results.get('max_norm_did', None)
+                thr = qs_results.get('threshold', None)
+                if (
+                    max_dvg is not None
+                    and max_dvd is not None
+                    and max_did is not None
+                    and thr is not None
+                ):
+                    findings = (
+                        f"Max norm deriv: dVg {max_dvg:.2e}, dVd {max_dvd:.2e}, "
+                        f"dId {max_did:.2e} (thr {thr:.2e})"
+                    )
+                else:
+                    findings = "Quasi-static metrics not available"
+                self.logger.info(f"qs_results.get('verification_passed', True): {status}")
                 content.append(f"| [Quasi-Static Analysis](#quasi-static-analysis) | <span style='color: {color}'>{status}</span> | {findings} |")
             else:
                 content.append("| [Quasi-Static Analysis](#quasi-static-analysis) | <span style='color: red'>✗</span> | Data not available |")
 
             if charge_results.get('data_ready'):
-                status = "✓" if charge_results.get('conservation_satisfied', True) else "✗"
+                status = "✓" if charge_results.get('verification_passed', True) else "✗"
                 color = "green" if status == "✓" else "red"
-                findings = f"Error: {charge_results.get('details', {}).get('q_conservation_error')}"
-                self.logger.info(f"charge_results.get('conservation_satisfied', True): {status}")
+                max_i_err = charge_results.get('max_current_error', None)
+                max_q_err = charge_results.get('max_charge_error', None)
+                findings = f"Max |Ierr|: {max_i_err:.2e} A, Max |Qerr|: {max_q_err:.2e} C" if max_i_err is not None and max_q_err is not None else "Charge conservation metrics not available"
+                self.logger.info(f"charge_results.get('verification_passed', True): {status}")
                 content.append(f"| [Charge Conservation](#charge-conservation-tests) | <span style='color: {color}'>{status}</span> | {findings} |")
             else:
                 content.append("| [Charge Conservation](#charge-conservation-tests) | <span style='color: red'>✗</span> | Data not available |")
@@ -821,7 +841,7 @@ class VerificationManager:
             delay_results = results.get('delay_effect', {}) or {}
             power_results = results.get('power_dissipation', {}) or {}
             qs_results = results.get('quasi_static', {}) or {}
-            charge_results = results.get('charge_conservation', {}) or {}
+            charge_results = results.get('transient_charge_conservation', {}) or {}
 
             # Check if any Transient data is available
             has_transient_data = any([
@@ -966,9 +986,22 @@ class VerificationManager:
             # Quasi-Static Analysis
             content.append("### Quasi-Static Analysis")
             if qs_results.get('data_ready'):
-                status = "✓" if qs_results.get('quasi_static_analyzed', True) else "✗"
+                status = "✓" if qs_results.get('verification_passed', True) else "✗"
                 color = "green" if status == "✓" else "red"
-                content.append(f"- [<span style='color: {color}'>{status}</span>] Charge conservation analyzed")
+                content.append(f"- [<span style='color: {color}'>{status}</span>] Quasi-static behavior analyzed")
+
+                max_dvg = qs_results.get('max_norm_dvg', None)
+                max_dvd = qs_results.get('max_norm_dvd', None)
+                max_did = qs_results.get('max_norm_did', None)
+                thr = qs_results.get('threshold', None)
+                if max_dvg is not None and max_dvd is not None and max_did is not None:
+                    content.append(
+                        f"  - Max normalized derivatives: dVg/dt={max_dvg:.2e}, dVd/dt={max_dvd:.2e}, dId/dt={max_did:.2e}"
+                    )
+                    content.append("")
+                if thr is not None:
+                    content.append(f"  - Threshold: {thr:.2e}")
+                    content.append("")
 
                 content.append("*Quasi-static time-domain behavior analysis*")
                 content.append("")
@@ -985,23 +1018,32 @@ class VerificationManager:
 
             # Charge Conservation Tests
             content.append("### Charge Conservation Tests")
-            charge_results['data_ready'] = False
             if charge_results.get('data_ready'):
-                status = "✓" if charge_results.get('charge_conservation', True) else "✗"
+                status = "✓" if charge_results.get('verification_passed', True) else "✗"
                 color = "green" if status == "✓" else "red"
                 content.append(f"- [<span style='color: {color}'>{status}</span>] Charge conservation analyzed")
                 content.append("")
 
-                findings = f"  - Total Charge Variation: {charge_results.get('details', {}).get('q_total_variation'):.6e}C" 
-                content.append(findings if status else "  - Total Charge Variation: *Not measured*")
+                max_i_err = charge_results.get('max_current_error', None)
+                if max_i_err is not None:
+                    content.append(f"  - Max current error: {max_i_err:.6e}A")
+                else:
+                    content.append("  - Max current error: *Not measured*")
                 content.append("")
 
-                findings = f"  - Mean Total Charge: {charge_results.get('details', {}).get('q_total_mean'):.6e}C"
-                content.append(findings if status else "  - Mean Total Charge: *Not measured*")
+                max_q_err = charge_results.get('max_charge_error', None)
+                if max_q_err is not None:
+                    content.append(f"  - Max charge error: {max_q_err:.6e}C")
+                else:
+                    content.append("  - Max charge error: *Not measured*")
                 content.append("")
 
-                findings = f"  - Charge Conservation Error: {charge_results.get('details', {}).get('q_conservation_error'):.6f}%"
-                content.append(findings if status else "  - Charge Conservation Error: *Not measured*")
+                i_thr = charge_results.get('current_threshold', None)
+                q_thr = charge_results.get('charge_threshold', None)
+                if i_thr is not None and q_thr is not None:
+                    content.append(f"  - Thresholds: I<{i_thr:.2e}A, Q<{q_thr:.2e}C")
+                else:
+                    content.append("  - Thresholds: *Not available*")
                 content.append("")
 
                 content.append("*Terminal currents and charges analysis*")
@@ -2604,24 +2646,47 @@ class VerificationManager:
                     'verification_passed': False,
                     'error': 'Missing data'
                 }
+            if len(time) < 2:
+                self.logger.warning("Insufficient data points for quasi-static verification")
+                return {
+                    'data_ready': False,
+                    'verification_passed': False,
+                    'error': 'Insufficient data points'
+                }
             # Calculate time derivatives
-            dt = np.diff(time)
-            dvg_dt = np.diff(gate_voltage) / dt
-            dvd_dt = np.diff(drain_voltage) / dt
-            did_dt = np.diff(drain_current) / dt
+            dt_full = np.diff(time)
+            dvg_full = np.diff(gate_voltage)
+            dvd_full = np.diff(drain_voltage)
+            did_full = np.diff(drain_current)
+
+            valid = dt_full > 0
+            if not np.any(valid):
+                self.logger.warning("Non-positive time steps detected in quasi-static verification")
+                return {
+                    'data_ready': False,
+                    'verification_passed': False,
+                    'error': 'Non-positive time steps'
+                }
+
+            dt = dt_full[valid]
+            dvg_dt = dvg_full[valid] / dt
+            dvd_dt = dvd_full[valid] / dt
+            did_dt = did_full[valid] / dt
 
             # Calculate normalized derivatives
-            norm_dvg = np.abs(dvg_dt / gate_voltage[:-1])
-            norm_dvd = np.abs(dvd_dt / drain_voltage[:-1])
-            norm_did = np.abs(did_dt / drain_current[:-1])
+            eps = 1e-15
+            vg_denom = np.maximum(np.abs(gate_voltage[:-1][valid]), eps)
+            vd_denom = np.maximum(np.abs(drain_voltage[:-1][valid]), eps)
+            id_denom = np.maximum(np.abs(drain_current[:-1][valid]), eps)
+
+            norm_dvg = np.abs(dvg_dt / vg_denom)
+            norm_dvd = np.abs(dvd_dt / vd_denom)
+            norm_did = np.abs(did_dt / id_denom)
 
             # Check if derivatives are small enough for quasi-static operation
-            print(f"norm_dvg: {norm_dvg}")
-            print(f"norm_dvd: {norm_dvd}")
-            print(f"norm_did: {norm_did}")
-            max_norm_dvg = np.max(norm_dvg)
-            max_norm_dvd = np.max(norm_dvd)
-            max_norm_did = np.max(norm_did)
+            max_norm_dvg = float(np.nanmax(norm_dvg))
+            max_norm_dvd = float(np.nanmax(norm_dvd))
+            max_norm_did = float(np.nanmax(norm_did))
 
             # Define thresholds for quasi-static operation
             threshold = 0.1  # 10% change per time step

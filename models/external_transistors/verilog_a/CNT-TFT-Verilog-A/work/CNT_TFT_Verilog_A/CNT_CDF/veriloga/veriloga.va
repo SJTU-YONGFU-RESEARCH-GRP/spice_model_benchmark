@@ -1,0 +1,167 @@
+// Compact model for CNT TFT
+// Leilai Shao lshao@ucsb.edu
+// v0.5
+
+
+`include "disciplines.vams"
+`include "constants.vams"
+`define Vmin 10e-6 //Vmin [V] should be about 2-4 times the absolute tolerance for voltage of the simulator
+
+module CNT_CDF(D, G, S);
+
+inout D, G, S;
+
+electrical D, G, S, dx, sx, di, gi, si;
+electrical virtualNode; // virtual node for summing 
+//`define attr(txt) (*txt*)
+
+parameter real L     = 10.0     from [1e-20 :inf];// channel length" unit="um"
+parameter real W     = 50.0     from [0.0:inf];//    channel width" unit="um"
+parameter real MU    = 5 from [0.0:inf];//   Mobility at extraction voltage VAA" unit="cm2/VS"
+parameter real COX   = 400e-9 from [0.0:inf];// gate capacitance" unit="F/cm2");
+parameter real COL   = 0 from [0.0:1e-6];// fringe cap in gate fF/um
+parameter real CGSD  = 0 from [0.0:1e-6];// Gate S/D cap fF/um^2
+parameter real COLGSD= 0 from [0.0:1e-6];//
+parameter real CSD   = 0 from [0.0:1e-6];// S/D cap
+parameter real VTO   = -0.30      from [-inf:inf];// long channel threshold voltage" unit="V"
+parameter integer FLG_SPLT = 1 from [0:1];// Flag for split gate design or not'
+parameter integer FINGER =1 from[1:1000];// Matrix transistor finger num
+parameter real sdW = 10.0 from[5:25];//S/D width um
+parameter real gsdEnc = 1 from[1:10];//gate S/D enclosure um
+parameter real gcntEnc = 3 from[2:20];//gate cnt enclosure um
+parameter real TEMP  = 300.0  from [0:500];// circuit temperature" unit="Kelvin"
+parameter real LAMBDA= 0.005       from [0.0:inf];// channel length modulation" unit="1/V
+parameter real VSS   = 0.28    from [-inf:inf];// STHS parameter" unit="V"
+parameter real GAMMA = 0.35   from [-inf:inf];//  voltage exponent -2" unit=""
+parameter real IOFF  = 0 from [-inf:inf];//   `attr(info="off current" unit="A");
+parameter real MM    = 1.65   from [1e-5:inf];// info="transistion parameter" unit=""   
+parameter real AA    = 1.0      from [1e-5:inf];// info="transistion parameter" unit=""
+
+parameter real SLOPE    = 10.0      from [1e-5:inf];// Capacitance Interpolation slope;   
+parameter real VAA   = 1.0      from [-inf:inf];// Extraction voltage for mobility MU" unit="V
+parameter real RCS= 1       from [0.0:inf];// default 1.05e3 source contact resistance" unit="Ohm
+parameter real RCD= 1  from [0.0:inf];// drain contact resistance" unit="Ohm"
+parameter integer FLG_FLD = 0   from [0:1];// Flag for VGS dependent VD-induced field" unit=""
+
+// parameters for parasitics
+
+parameter real RFS= 1       from [0.0:inf];// `attr(info="source finger resistance" unit="Ohm");
+parameter real RFD= 1       from [0.0:inf];// `attr(info="drain finger resistance" unit="Ohm");
+parameter real RFG= 1       from [0.0:inf];// `attr(info="gate finger resistance" unit="Ohm");
+
+
+// parameters for type
+parameter integer typep=-1 from [-1:1] exclude 0;// channel type" unit="" //1=electron, -1=hole
+
+
+real VGeff, VDeff, VDfld, VDfld2, VSeff, VSfld, VSfld2, VDsub, VSsub, Isd, Ids, Ids2, VG, VS, VD, Vds,VDSe, Vgs, sVsd, VDe, VSe, vt, b, c;
+real gmin;
+
+real Qd, Qs;
+real Itest;
+real area_gcnt;// 
+real perip_gcnt;//
+real area_gsd;//
+real perip_gsd;//
+real COXG;// unit F
+real CPGS;
+real CPGD;// parasitic gate-drain capacitance" unit="F"
+real CPDS;// "parasitic drain-source capacitance" unit="F"
+real CPG,CGD,CGS;// gate capacitance
+/////////////////////////////////////////
+////Params for Quasi-static Charge Model//
+real VGTS, VGTD;
+real VSSS, VSSD;
+real QG,QS,QD,QGS,QGD;
+real ksiS,ksiD,ksiG;
+real den, numS, numD;
+real gamma,CG0,np,temp;
+analog begin 
+gamma=GAMMA;
+np=typep;
+// Layout Based Gate Capacitanc
+// Layout Based Gate Capacitanc
+if (FLG_SPLT==1) begin
+area_gcnt = FINGER*W*(L+2*gsdEnc);// 
+perip_gcnt = FINGER*2*(W+L+2*gsdEnc);//
+area_gsd = FINGER*4*gsdEnc*gcntEnc;//
+perip_gsd = FINGER*4*(gsdEnc+2*gcntEnc);//
+COXG = COX/1e8;// unit F/um^2
+CPG=area_gcnt*COXG;
+CPGS = area_gsd*CGSD/2+perip_gcnt*COL/2+perip_gsd*COLGSD/2 ;// "parasitic gate-source capacitance" unit="F");
+CPGD = CPGS;// `attr(info="parasitic gate-drain capacitance" unit="F");
+CPDS = FINGER*W*CSD;// `attr(info="parasitic drain-source capacitance" unit="F");
+end else begin
+area_gcnt = W*(FINGER*(L+sdW)-sdW+2*gsdEnc);// 
+perip_gcnt = 2*(W+FINGER*(L+sdW)-sdW+2*gsdEnc);//
+area_gsd = 4*gsdEnc*gcntEnc+2*(FINGER-1)*gcntEnc*sdW;//
+perip_gsd = 4*(gsdEnc+2*gcntEnc)+(FINGER-1)*2*(sdW+2*gcntEnc);//
+COXG = COX/1e8;// unit F/um^2
+CPG=area_gcnt*COXG;
+CPGS = area_gsd*CGSD/2+perip_gcnt*COL/2+perip_gsd*COLGSD/2 ;// "parasitic gate-source capacitance" unit="F");
+CPGD = CPGS;// `attr(info="parasitic gate-drain capacitance" unit="F");
+CPDS = FINGER*W*CSD;// `attr(info="parasitic drain-source capacitance" unit="F");
+end
+VG    = V(gi);
+VD    = V(di); 
+VS    = V(si); 
+if (VS-VD>=0) begin
+    sVsd = 1.0;	
+end else begin
+    sVsd = -1.0;
+end
+////////////////////////////////////////////////////////////////
+/////   Current model    ///////////////////////////////////////
+////////////////////////////////////////////////////////////////
+// Drain overdrive voltage
+VSSD = sqrt(pow(VSS,2)+pow((typep*(VG - VTO - VD) + abs(VG - VTO - VD))/100,2)); // To ensure VGT_/VSS_ <32, so that not overflowing exp(VGT_/VSS_) at high bias and small VSS
+VGTD = VSSD*ln(1+exp(typep*(VG - VTO - VD)/VSSD)); // Drain overdrive voltage
+
+VSSS = sqrt(pow(VSS,2) + pow((typep*(VG - VTO - VS) + abs(VG - VTO - VS))/100,2));// To ensure VGT_/VSS_ <32, so that not overflowing exp(VGT_/VSS_) at high bias and small VSS
+VGTS = VSSS*ln(1+exp(typep*(VG - VTO - VS)/VSSS));// Source overdrive voltage
+Ids= sVsd*IOFF+FINGER*W/L*MU/pow(VAA,GAMMA)*COX*(pow(VGTS,gamma+2)-pow(VGTD,gamma+2))/(gamma+2)*(1.0+LAMBDA*abs(VDe-VSe));// Generic TFT charge drift DC model
+if (abs(VD-VS)<1e-12)begin
+      Isd=0.0;	
+	  Ids=0.0;end
+// Transfer current
+//I(di,si) <+ typep*sVsd*Isd; 
+I(di,si) <+ typep*Ids; 
+gmin = 1e-12; //needed to improve convergence
+I(di,si) <+ gmin*V(di,si);
+// parasitic finger capacitance
+    I(si,sx) <+ V(si,sx)/(RCS);
+    I(di,dx) <+ V(di,dx)/(RCD);
+    I(S,sx) <+ V(S,sx)/(RFS);
+    I(D,dx) <+ V(D,dx)/(RFD);
+    I(G,gi) <+ V(G,gi)/(RFG);
+////////////////////////////////////////////////////////////////
+/////   Charge  model    ///////////////////////////////////////
+////////////////////////////////////////////////////////////////
+///* ============ Quasi-static charge model ============ */
+//Generic quasi-static charge model of the TFT for computer simulators. QG, QS and QD are the quasi-static charges of gate, source and drain terminals
+// normalized overdrive voltages: ksiS = VGTS/(VGTS+VGTD); ksiD = VGTD/(VGTS+VGTD);
+      ksiS = sqrt(pow(VGTS,2)+pow(`Vmin,2)) / (sqrt(pow(VGTS,2)+pow(`Vmin,2))+sqrt(pow(VGTD,2)+pow(`Vmin,2)));// normalized overdrive voltages for source
+	  ksiD = sqrt(pow(VGTD,2)+pow(`Vmin,2)) / (sqrt(pow(VGTS,2)+pow(`Vmin,2))+sqrt(pow(VGTD,2)+pow(`Vmin,2))); // normalized overdrive voltages for drain
+      ksiG = ksiS + ksiD; // this quantity should be always equal to unity. Not used, therefore
+	  //ksiD = 1- ksiS;
+// den, numS, numD; // denominator and numerators of the normalized functions of QS and QD
+	  den = pow((pow(ksiS,(2+gamma))/(2+gamma)-pow(ksiD,(2+gamma))/(2+gamma)),2); // denominator of the normalized functions of QS and QD
+      numS = (pow(ksiS,5+2*gamma)/(5+2*gamma))/(2+gamma)-(pow(ksiS,3+gamma)/(3+gamma))*(pow(ksiD,2+gamma)/(2+gamma))+(pow(ksiD,5+2*gamma)/(5+2*gamma))/(3+gamma); // numerator of the normalized function of QS
+      numD = (pow(ksiS,5+2*gamma)/(5+2*gamma))/(3+gamma)-(pow(ksiS,2+gamma)/(2+gamma))*(pow(ksiD,3+gamma)/(3+gamma))+(pow(ksiD,5+2*gamma)/(5+2*gamma))/(2+gamma); // numerator of the normalized function of QD
+      // real QG,QS,QD; // quasi-static charges of gate, source and drain terminals
+      QS = np*(-CPG)*(VGTS+VGTD)*sqrt((pow(numS,2)+pow(((1+ksiS)*`Vmin/6),2))/(pow(den,2)+pow(`Vmin,2))); // quasi-static charge of source terminal
+      QD = np*(-CPG)*(VGTS+VGTD)*sqrt((pow(numD,2)+pow(((1+ksiD)*`Vmin/6),2))/(pow(den,2)+pow(`Vmin,2))); // quasi-static charge of drain  terminal
+      QG = -(QS+QD); // The quasi-static charge of gate terminal is inverted sum of the quasi-static charges of source and drain terminals (charge conservation)
+      // (capacitive) currents due to variation of quasi-static charges. 
+      // Currents are summed to virtual node "virtualNode".
+      // The sum of currents is zero, but numerical rounding can cause non-zero net flow of currents into the virtualNode. Therefore, the virtualNode is grounded.//
+	  I(gi,virtualNode) <+ ddt(QG); // (capacitive) current in gate terminal due to variation of the gate quasi-static charge
+      I(si,virtualNode) <+ ddt(QS); // (capacitive) current in source terminal due to variation of the source quasi-static charge
+      I(di,virtualNode) <+ ddt(QD); // (capacitive) current in drain terminal due to variation of the drain quasi-static charge
+	  V(virtualNode) <+ 0; // ground the virtual node
+	 I(gi,di) <+ (CPGD)*ddt(V(gi,di));
+	 I(gi,si) <+ (CPGS)*ddt(V(gi,si));
+	 I(dx,sx) <+ CPDS*ddt(V(dx,sx));
+
+
+end endmodule

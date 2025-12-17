@@ -880,6 +880,43 @@ class DataReader:
             traceback.print_exc()
             return None, None, None, None, None, None
 
+    def read_trans_charge_conservation_full_data(self, output_dir):
+        try:
+            file_path = os.path.join(output_dir, 'data', 'tran_charge.txt')
+            if not os.path.exists(file_path):
+                return (None, None, None, None, None, None, None, None, None, None, None, None)
+
+            data = None
+            for skiprows in (2, 1):
+                try:
+                    candidate = np.loadtxt(file_path, skiprows=skiprows)
+                    if len(candidate) > 0 and candidate.shape[1] >= 13:
+                        data = candidate
+                        break
+                except Exception:
+                    continue
+
+            if data is None:
+                return (None, None, None, None, None, None, None, None, None, None, None, None)
+
+            time = data[:, 0]
+            vg = data[:, 2]
+            ig = data[:, 3]
+            id_ = data[:, 4]
+            is_ = data[:, 5]
+            ib = data[:, 6]
+            i_total = data[:, 7]
+            q_gate = data[:, 8]
+            q_drain = data[:, 9]
+            q_source = data[:, 10]
+            q_bulk = data[:, 11]
+            q_total = data[:, 12]
+
+            return time, vg, ig, id_, is_, ib, i_total, q_gate, q_drain, q_source, q_bulk, q_total
+        except Exception as e:
+            self.logger.logger.error(f"Error reading full transient charge conservation data: {e}")
+            return (None, None, None, None, None, None, None, None, None, None, None, None)
+
     # Noise analysis data reading methods
     def read_thermal_noise_data(self, output_dir, vgs=0.3, vds=0.3):
         """Read thermal noise data from file.
