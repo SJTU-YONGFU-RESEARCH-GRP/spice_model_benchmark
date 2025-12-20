@@ -644,6 +644,43 @@ class VerificationManager:
                 content.append("- [<span style='color: red'>✗</span>] CV characteristics verification failed")
                 content.append("  - Data not available or failed to read")
             content.append("")
+
+            # AC-integral large-signal capacitance from C(V)
+            ac_ls = results.get('ac_integrated_large_signal_caps', {}) or {}
+            content.append("### AC-Integral Large-Signal Capacitance")
+            if ac_ls.get('data_ready'):
+                ls_caps = ac_ls.get('ls_caps_f', {}) or {}
+                content.append("- [<span style='color: green'>✓</span>] Large-signal capacitances computed from AC C(V) integral")
+                content.append(
+                    f"  - Path: Vg {ac_ls.get('vg_start', 'N/A')} → {ac_ls.get('vg_stop', 'N/A')} V (ΔV={ac_ls.get('dv', 'N/A')})"
+                )
+                freq_tag = ac_ls.get('freq_tag', 'N/A')
+                content.append(f"  - Cgg source: Cgg_{freq_tag} from cv_data.txt")
+
+                def _fmt_fF(v):
+                    try:
+                        return f"{float(v)*1e15:.6f} fF"
+                    except Exception:
+                        return "N/A"
+
+                if 'Cgg' in ls_caps:
+                    content.append(f"  - Cgg_ls: {_fmt_fF(ls_caps['Cgg'])}")
+                if 'Cgs' in ls_caps:
+                    content.append(f"  - Cgs_ls: {_fmt_fF(ls_caps['Cgs'])}")
+                if 'Cgd' in ls_caps:
+                    content.append(f"  - Cgd_ls: {_fmt_fF(ls_caps['Cgd'])}")
+                if 'Cgb' in ls_caps:
+                    content.append(f"  - Cgb_ls: {_fmt_fF(ls_caps['Cgb'])}")
+
+                outputs = ac_ls.get('outputs', {}) or {}
+                if outputs.get('summary_csv'):
+                    content.append(f"  - Output: {outputs.get('summary_csv')}")
+                if outputs.get('qg_csv'):
+                    content.append(f"  - Output: {outputs.get('qg_csv')}")
+            else:
+                content.append("- [<span style='color: red'>✗</span>] AC-integral LS capacitance not available")
+                content.append("  - cv_data.txt may be missing required columns")
+            content.append("")
             
             # High-Frequency Analysis
             content.append("### S-Parameter Analysis")

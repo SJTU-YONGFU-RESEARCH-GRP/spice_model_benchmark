@@ -12,6 +12,8 @@ The system is designed to run various types of SPICE simulations on a semiconduc
 - Noise analysis (thermal, flicker, and shot noise)
 - Geometry and layout analysis
 
+Note: The AC pipeline also derives *large-signal* effective capacitances by integrating the AC C(V) curves (e.g., Cgg from `cv_data.txt`) and writes the results under `results/data/`.
+
 ## Quick Start Guide
 
 ### Option 1: Install as a Python Package (Recommended)
@@ -210,6 +212,10 @@ Key metrics to check in the report:
 - Detailed measurements and operating point information
 - Temperature coefficients and scaling behavior
 
+Additional AC outputs (if `--mode ac` ran successfully):
+- `results/data/ac_ls_caps_from_cv_integral.csv`: Large-signal capacitances computed from AC C(V) integral along the Vg sweep path.
+- `results/data/ac_qg_from_cv_integral.csv`: Integrated Qg(Vg) curve derived from Cgg(Vg).
+
 ### Customizing Verification Criteria
 
 1. Edit `src/verification_parameters.py` to modify thresholds for verification tests
@@ -268,6 +274,7 @@ spice_model_benchmark/
 - **Temperature Analysis**: Validates behavior across -40°C to 150°C range, temperature coefficients
 - **Transient Analysis**: Tests transient response, switching behavior, delay effects, power dissipation
 - **AC Analysis**: Examines CV characteristics, S-parameters, and non-quasi-static effects
+- **AC-Integral LS Caps**: Computes large-signal effective capacitances from AC C(V) by voltage integration (e.g., Cgg_ls from Cgg(Vg))
 - **Noise Analysis**: Characterizes thermal, flicker (1/f), and shot noise across frequencies and bias points
 
 ### Visualization

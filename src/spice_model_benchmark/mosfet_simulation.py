@@ -214,9 +214,75 @@ class MOSFETSimulation:
             if 'ac' in modes:
                 # Read AC data files
                 vg, cv_ig, cv_is, cv_ib, cgg = self.data_reader.read_cv_data(self.output_dir)
+                cm_vg, c_matrix = self.data_reader.read_capacitance_matrix_data(self.output_dir)
                 freq, s11_mag, s11_phase, s12_mag, s12_phase, s21_mag, s21_phase, s22_mag, s22_phase = self.data_reader.read_sparameter_data(self.output_dir)
                 nqs_freq, vg_phase, id_phase, phase_diff = self.data_reader.read_nqs_effects_data(self.output_dir)
                 time, vg, ig, id, is_, ib = self.data_reader.read_charge_conservation_data(self.output_dir)
+
+                # AC-integral large-signal capacitance extraction (from cv_data.txt columnar table)
+                try:
+                    vg_cv, caps_cv = self.data_reader.read_cv_table_data(self.output_dir, freq_tag="1MHz")
+                    if vg_cv is not None and caps_cv is not None:
+                        vg_cv = np.asarray(vg_cv, dtype=float)
+                        order = np.argsort(vg_cv)
+                        vg_sorted = vg_cv[order]
+                        dv = float(vg_sorted[-1] - vg_sorted[0]) if vg_sorted.size >= 2 else 0.0
+
+                        def _ls_cap_from_cv(cap_arr: np.ndarray) -> float:
+                            cap_sorted = np.asarray(cap_arr, dtype=float)[order]
+                            if vg_sorted.size < 2 or dv == 0.0:
+                                return float('nan')
+                            q = float(np.trapezoid(cap_sorted, vg_sorted))
+                            return q / dv
+
+                        ls_caps_f = {name: _ls_cap_from_cv(arr) for name, arr in caps_cv.items()}
+
+                        # Also compute cumulative Qg(Vg) if Cgg available
+                        qg_c = None
+                        if "Cgg" in caps_cv:
+                            cgg_sorted = np.asarray(caps_cv["Cgg"], dtype=float)[order]
+                            qg = np.zeros_like(vg_sorted, dtype=float)
+                            for i in range(1, vg_sorted.size):
+                                dv_i = vg_sorted[i] - vg_sorted[i - 1]
+                                qg[i] = qg[i - 1] + 0.5 * (cgg_sorted[i] + cgg_sorted[i - 1]) * dv_i
+                            qg_c = qg
+
+                        # Persist to <out>/data/
+                        data_dir = Path(self.output_dir) / "data"
+                        data_dir.mkdir(parents=True, exist_ok=True)
+
+                        summary_path = data_dir / "ac_ls_caps_from_cv_integral.csv"
+                        with open(summary_path, "w", encoding="utf-8") as f:
+                            f.write("cap,ac_int_F,ac_int_fF\n")
+                            for cap_name in ["Cgg", "Cgs", "Cgd", "Cgb"]:
+                                if cap_name in ls_caps_f:
+                                    v = float(ls_caps_f[cap_name])
+                                    f.write(f"{cap_name},{v:.16g},{v*1e15:.12g}\n")
+                            f.write(f"Vg_start,{vg_sorted[0]:.16g},\n")
+                            f.write(f"Vg_stop,{vg_sorted[-1]:.16g},\n")
+                            f.write(f"dVg,{dv:.16g},\n")
+
+                        if qg_c is not None:
+                            q_path = data_dir / "ac_qg_from_cv_integral.csv"
+                            with open(q_path, "w", encoding="utf-8") as f:
+                                f.write("Vg,Qg_C\n")
+                                for v, q in zip(vg_sorted.tolist(), qg_c.tolist()):
+                                    f.write(f"{v:.16g},{q:.16g}\n")
+
+                        self.results['ac_integrated_large_signal_caps'] = {
+                            'data_ready': True,
+                            'freq_tag': '1MHz',
+                            'vg_start': float(vg_sorted[0]),
+                            'vg_stop': float(vg_sorted[-1]),
+                            'dv': dv,
+                            'ls_caps_f': {k: float(v) for k, v in ls_caps_f.items()},
+                            'outputs': {
+                                'summary_csv': str(summary_path.relative_to(self.output_dir)),
+                                'qg_csv': str((data_dir / 'ac_qg_from_cv_integral.csv').relative_to(self.output_dir)) if qg_c is not None else None,
+                            },
+                        }
+                except Exception as e:
+                    self.logger.warning(f"AC-integral LS cap extraction skipped: {e}")
                 
                 # Generate CV plots
                 if vg is not None and cgg is not None:
@@ -234,6 +300,16 @@ class MOSFETSimulation:
                             'vg_phase': vg_phase.tolist() if vg_phase is not None else None,
                             'id_phase': id_phase.tolist() if id_phase is not None else None
                         }
+                    }
+
+                # Store full 4x4 small-signal capacitance matrix (if available)
+                if cm_vg is not None and c_matrix is not None:
+                    self.results['capacitance_matrix'] = {
+                        'data_ready': True,
+                        'terminal_order': ['g', 'd', 's', 'b'],
+                        'definition': 'I = j*omega*C*V, so C_ij = -Im(Y_ij)/omega',
+                        'vg': cm_vg.tolist(),
+                        'c_matrix': c_matrix.tolist(),
                     }
                 
                 # Generate S-parameter plots
@@ -442,39 +518,16 @@ class MOSFETSimulation:
                         else:
                             cgs_fall = cgd_fall = cgb_fall = None
 
-                        # Try to also obtain large-signal capacitances using DC endpoint charge method (5.1)
-                        vg_dc, vd_dc, qg_dc, qd_dc, qs_dc, qb_dc = self.data_reader.read_dc_large_signal_charge_data(self.output_dir)
-                        cgs_dc = cgd_dc = cgb_dc = None
-                        vg_dc_start = vg_dc_end = vd_dc_val = None
-                        if all(x is not None for x in [vg_dc, vd_dc, qg_dc, qd_dc, qs_dc, qb_dc]) and len(vg_dc) >= 2:
-                            i_start_dc = 0
-                            i_end_dc = len(vg_dc) - 1
-                            dv_dc = vg_dc[i_end_dc] - vg_dc[i_start_dc]
-                            if abs(dv_dc) > 0.0:
-                                cgs_dc = -(qs_dc[i_end_dc] - qs_dc[i_start_dc]) / dv_dc
-                                cgd_dc = -(qd_dc[i_end_dc] - qd_dc[i_start_dc]) / dv_dc
-                                cgb_dc = -(qb_dc[i_end_dc] - qb_dc[i_start_dc]) / dv_dc
-                                vg_dc_start = float(vg_dc[i_start_dc])
-                                vg_dc_end = float(vg_dc[i_end_dc])
-                                vd_dc_val = float(vd_dc[i_start_dc])
-
-                        # Store both methods' large-signal capacitance results
+                        # Store large-signal capacitance results (transient current-integration method)
                         self.results['large_signal_caps'] = {
                             'definition_tran': 'large-signal ΔQ/ΔV from gate step transient (0→VDD and VDD→0)',
-                            'definition_dc': 'large-signal ΔQ/ΔV from DC endpoint charges (method 5.1)',
                             'vdd_est_tran': vdd_est,
-                            'vg_dc_start': vg_dc_start,
-                            'vg_dc_end': vg_dc_end,
-                            'vd_dc': vd_dc_val,
                             'cgs_rise': cgs_rise,
                             'cgd_rise': cgd_rise,
                             'cgb_rise': cgb_rise,
                             'cgs_fall': cgs_fall,
                             'cgd_fall': cgd_fall,
                             'cgb_fall': cgb_fall,
-                            'cgs_dc': cgs_dc,
-                            'cgd_dc': cgd_dc,
-                            'cgb_dc': cgb_dc,
                         }
 
                         caps = self.results['large_signal_caps']
@@ -488,22 +541,6 @@ class MOSFETSimulation:
                                 f.write(f"definition_tran: {definition_tran}\n")
                                 f.write(f"vdd_est_tran: {vdd_tran}\n")
                                 for key in ['cgs_rise', 'cgd_rise', 'cgb_rise', 'cgs_fall', 'cgd_fall', 'cgb_fall']:
-                                    val = caps.get(key, None)
-                                    if val is None:
-                                        f.write(f"{key}: None\n")
-                                    else:
-                                        f.write(f"{key}: {val:.6e} F ({val*1e15:.3f} fF)\n")
-
-                                f.write("\n[DC endpoint-charge method (5.1, section 5.1)]\n")
-                                definition_dc = caps.get('definition_dc', '')
-                                vg_start = caps.get('vg_dc_start', None)
-                                vg_end = caps.get('vg_dc_end', None)
-                                vd_dc = caps.get('vd_dc', None)
-                                f.write(f"definition_dc: {definition_dc}\n")
-                                f.write(f"vg_dc_start: {vg_start}\n")
-                                f.write(f"vg_dc_end: {vg_end}\n")
-                                f.write(f"vd_dc: {vd_dc}\n")
-                                for key in ['cgs_dc', 'cgd_dc', 'cgb_dc']:
                                     val = caps.get(key, None)
                                     if val is None:
                                         f.write(f"{key}: None\n")

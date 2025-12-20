@@ -3,7 +3,10 @@ from pathlib import Path
 import os
 import re
 import shutil
-import pandas as pd
+try:
+    import pandas as pd  # type: ignore
+except ModuleNotFoundError:  # pragma: no cover
+    pd = None
 
 class DataReader:
     """Handles reading and parsing simulation data files.
@@ -497,100 +500,6 @@ class DataReader:
                 
         except Exception as e:
             self.logger.error(f"Error reading bias point data: {e}")
-            return None, None, None, None, None, None
-
-    def read_dc_large_signal_charge_data(self, output_dir):
-        """Read large-signal capacitance DC charge data for method 5.1.
-        
-        This data is produced by the DC bias analysis netlist (e.g. freepdk45_dc_circuit.cir)
-        into a file named ls_caps_dc.txt with columns:
-        Vg, Vd, Qg, Qd, Qs, Qb.
-        
-        Returns:
-            tuple: (vg, vd, qg, qd, qs, qb) arrays if available, otherwise all None.
-        """
-        try:
-            self.logger.info("Reading large-signal DC charge data for method 5.1")
-
-            filename = 'ls_caps_dc.txt'
-            file_path = self._find_file(filename, output_dir)
-            if not file_path:
-                self.logger.warning(f"Large-signal DC charge data file not found: {filename}")
-                return None, None, None, None, None, None
-
-            data, col_map = self._parse_data_file(file_path, skiprows=1, col_names=True)
-            if data is None or col_map is None:
-                self.logger.warning("Failed to parse large-signal DC charge data file")
-                return None, None, None, None, None, None
-
-            required_cols = ['Vg', 'Vd', 'Qg', 'Qd', 'Qs', 'Qb']
-            if any(name not in col_map for name in required_cols):
-                self.logger.warning(f"Large-signal DC charge data file missing required columns: {required_cols}")
-                return None, None, None, None, None, None
-
-            if data.shape[0] < 2:
-                self.logger.warning("Large-signal DC charge data file has fewer than two bias points")
-                return None, None, None, None, None, None
-
-            vg = data[:, col_map['Vg']]
-            vd = data[:, col_map['Vd']]
-            qg = data[:, col_map['Qg']]
-            qd = data[:, col_map['Qd']]
-            qs = data[:, col_map['Qs']]
-            qb = data[:, col_map['Qb']]
-
-            return vg, vd, qg, qd, qs, qb
-
-        except Exception as e:
-            self.logger.error(f"Error reading large-signal DC charge data: {e}")
-            return None, None, None, None, None, None
-
-    def read_dc_large_signal_charge_data_pmos(self, output_dir):
-        """Read large-signal capacitance DC charge data for method 5.1 (PMOS).
-
-        This data is produced by the DC bias analysis netlist into a file
-        named ls_caps_dc_pmos.txt with columns:
-        Vg, Vd, Qg, Qd, Qs, Qb.
-
-        Returns:
-            tuple: (vg, vd, qg, qd, qs, qb) arrays if available, otherwise all None.
-        """
-        try:
-            self.logger.info("Reading large-signal DC charge data for method 5.1 (PMOS)")
-
-            filename = 'ls_caps_dc_pmos.txt'
-            file_path = self._find_file(filename, output_dir)
-            if not file_path:
-                self.logger.warning(f"Large-signal DC charge data file not found: {filename}")
-                return None, None, None, None, None, None
-
-            data, col_map = self._parse_data_file(file_path, skiprows=1, col_names=True)
-            if data is None or col_map is None:
-                self.logger.warning("Failed to parse PMOS large-signal DC charge data file")
-                return None, None, None, None, None, None
-
-            required_cols = ['Vg', 'Vd', 'Qg', 'Qd', 'Qs', 'Qb']
-            if any(name not in col_map for name in required_cols):
-                self.logger.warning(
-                    f"PMOS large-signal DC charge data file missing required columns: {required_cols}"
-                )
-                return None, None, None, None, None, None
-
-            if data.shape[0] < 2:
-                self.logger.warning("PMOS large-signal DC charge data file has fewer than two bias points")
-                return None, None, None, None, None, None
-
-            vg = data[:, col_map['Vg']]
-            vd = data[:, col_map['Vd']]
-            qg = data[:, col_map['Qg']]
-            qd = data[:, col_map['Qd']]
-            qs = data[:, col_map['Qs']]
-            qb = data[:, col_map['Qb']]
-
-            return vg, vd, qg, qd, qs, qb
-
-        except Exception as e:
-            self.logger.error(f"Error reading PMOS large-signal DC charge data: {e}")
             return None, None, None, None, None, None
 
     # Transient analysis data reading methods
@@ -1338,6 +1247,136 @@ class DataReader:
             self.logger.error(f"Error reading CV data: {e}")
             return None, None, None, None, None 
 
+    def read_cv_table_data(self, output_dir, freq_tag: str = "1MHz"):
+        """Read columnar CV table from cv_data.txt.
+
+        This is the structured ASCII output produced by netlists/ac_circuit.cir.
+
+        Args:
+            output_dir: Results directory containing data/cv_data.txt
+            freq_tag: Frequency suffix used in the column names for Cgg (default: "1MHz").
+                     Example: "1MHz" maps to column name "Cgg_1MHz".
+
+        Returns:
+            tuple: (vg, caps)
+                - vg: np.ndarray shape (N,)
+                - caps: dict[str, np.ndarray] with any of:
+                    "Cgg", "Cgs", "Cgd", "Cgb" (values in Farads)
+            or (None, None) if not available.
+        """
+        try:
+            file_path = self._find_file('cv_data.txt', output_dir)
+            if not file_path:
+                self.logger.warning("CV data file not found")
+                return None, None
+
+            cgg_col = f"Cgg_{freq_tag}"
+            want_cols = ["Vg", cgg_col, "Cgs_1MHz", "Cgd_1MHz", "Cgb_1MHz"]
+
+            if pd is not None:
+                data = pd.read_csv(file_path, delim_whitespace=True)
+                if data.empty or "Vg" not in data.columns:
+                    self.logger.warning(f"CV data file has invalid format: {file_path}")
+                    return None, None
+                vg = data["Vg"].to_numpy(dtype=float)
+                caps: dict[str, np.ndarray] = {}
+                if cgg_col in data.columns:
+                    caps["Cgg"] = data[cgg_col].to_numpy(dtype=float)
+                if "Cgs_1MHz" in data.columns:
+                    caps["Cgs"] = data["Cgs_1MHz"].to_numpy(dtype=float)
+                if "Cgd_1MHz" in data.columns:
+                    caps["Cgd"] = data["Cgd_1MHz"].to_numpy(dtype=float)
+                if "Cgb_1MHz" in data.columns:
+                    caps["Cgb"] = data["Cgb_1MHz"].to_numpy(dtype=float)
+            else:
+                arr = np.genfromtxt(file_path, names=True, dtype=float, encoding=None)
+                if arr.size == 0 or "Vg" not in arr.dtype.names:
+                    self.logger.warning(f"CV data file has invalid format: {file_path}")
+                    return None, None
+                vg = np.atleast_1d(arr["Vg"]).astype(float)
+                caps = {}
+                if cgg_col in arr.dtype.names:
+                    caps["Cgg"] = np.atleast_1d(arr[cgg_col]).astype(float)
+                if "Cgs_1MHz" in arr.dtype.names:
+                    caps["Cgs"] = np.atleast_1d(arr["Cgs_1MHz"]).astype(float)
+                if "Cgd_1MHz" in arr.dtype.names:
+                    caps["Cgd"] = np.atleast_1d(arr["Cgd_1MHz"]).astype(float)
+                if "Cgb_1MHz" in arr.dtype.names:
+                    caps["Cgb"] = np.atleast_1d(arr["Cgb_1MHz"]).astype(float)
+
+            if not caps:
+                self.logger.warning(
+                    f"CV table parsed but no requested columns found (wanted: {want_cols}) in {file_path}"
+                )
+                return None, None
+
+            return vg, caps
+        except Exception as e:
+            self.logger.error(f"Error reading CV table data: {e}")
+            return None, None
+
+    def read_capacitance_matrix_data(self, output_dir):
+        """Read full 4x4 small-signal capacitance matrix (G/D/S/B) from AC simulation output.
+
+        Expects an ASCII whitespace-delimited file named `cmatrix_data.txt` with columns:
+        Vg and 16 capacitance entries in row-major order where rows correspond to measured
+        terminal currents (g,d,s,b) and columns correspond to the excited terminal voltage
+        (g,d,s,b).
+
+        Returns:
+            tuple: (vg, c_matrix) where
+                - vg is shape (N,)
+                - c_matrix is shape (N, 4, 4)
+            or (None, None) if not available.
+        """
+        try:
+            file_path = self._find_file('cmatrix_data.txt', output_dir)
+            if not file_path:
+                self.logger.warning("Capacitance matrix data file not found")
+                return None, None
+
+            ordered_cols = [
+                'Cgg', 'Cdg', 'Csg', 'Cbg',
+                'Cgd', 'Cdd', 'Csd', 'Cbd',
+                'Cgs', 'Cds', 'Css', 'Cbs',
+                'Cgb', 'Cdb', 'Csb', 'Cbb',
+            ]
+
+            if pd is not None:
+                data = pd.read_csv(file_path, delim_whitespace=True)
+                if data.empty or 'Vg' not in data.columns:
+                    self.logger.warning(f"Capacitance matrix data file has invalid format: {file_path}")
+                    return None, None
+                vg = data['Vg'].to_numpy(dtype=float)
+                missing = [c for c in ordered_cols if c not in data.columns]
+                if missing:
+                    self.logger.warning(
+                        f"Capacitance matrix data missing columns {missing} in {file_path}"
+                    )
+                    return None, None
+                c_flat = data[ordered_cols].to_numpy(dtype=float)
+            else:
+                arr = np.genfromtxt(file_path, names=True, dtype=float, encoding=None)
+                if arr.size == 0 or 'Vg' not in arr.dtype.names:
+                    self.logger.warning(f"Capacitance matrix data file has invalid format: {file_path}")
+                    return None, None
+                vg = np.atleast_1d(arr['Vg']).astype(float)
+                missing = [c for c in ordered_cols if c not in arr.dtype.names]
+                if missing:
+                    self.logger.warning(
+                        f"Capacitance matrix data missing columns {missing} in {file_path}"
+                    )
+                    return None, None
+                cols = [np.atleast_1d(arr[c]).astype(float) for c in ordered_cols]
+                c_flat = np.column_stack(cols)
+
+            c_matrix = c_flat.reshape((-1, 4, 4))
+            return vg, c_matrix
+
+        except Exception as e:
+            self.logger.error(f"Error reading capacitance matrix data: {e}")
+            return None, None
+
     def read_cv_characteristics_data(self, file_path):
         """Read CV characteristics data from the simulation output."""
         try:
@@ -1350,19 +1389,30 @@ class DataReader:
             
             # Try to read the data
             try:
-                # Try reading with pandas, which will handle column headers
-                data = pd.read_csv(file_path, delim_whitespace=True)
-                columns = list(data.columns)
-                # If the expected columnar format is present, use it
-                if 'Vg' in columns and 'Cgg_1MHz' in columns:
-                    vg = data['Vg'].values
-                    cgg = data['Cgg_1MHz'].values
-                    # For compatibility, fill freq, vg_phase, id_phase with dummy arrays
-                    freq = np.full_like(vg, 1e6, dtype=float)  # 1 MHz
-                    vg_phase = np.zeros_like(vg, dtype=float)
-                    id_phase = np.zeros_like(vg, dtype=float)
-                    self.logger.info("Successfully read CV characteristics data (columnar format)")
-                    return vg, cgg, freq, vg_phase, id_phase
+                if pd is not None:
+                    # Try reading with pandas, which will handle column headers
+                    data = pd.read_csv(file_path, delim_whitespace=True)
+                    columns = list(data.columns)
+                    # If the expected columnar format is present, use it
+                    if 'Vg' in columns and 'Cgg_1MHz' in columns:
+                        vg = data['Vg'].values
+                        cgg = data['Cgg_1MHz'].values
+                        # For compatibility, fill freq, vg_phase, id_phase with dummy arrays
+                        freq = np.full_like(vg, 1e6, dtype=float)  # 1 MHz
+                        vg_phase = np.zeros_like(vg, dtype=float)
+                        id_phase = np.zeros_like(vg, dtype=float)
+                        self.logger.info("Successfully read CV characteristics data (columnar format)")
+                        return vg, cgg, freq, vg_phase, id_phase
+                else:
+                    arr = np.genfromtxt(file_path, names=True, dtype=float, encoding=None)
+                    if arr.size > 0 and 'Vg' in arr.dtype.names and 'Cgg_1MHz' in arr.dtype.names:
+                        vg = np.atleast_1d(arr['Vg']).astype(float)
+                        cgg = np.atleast_1d(arr['Cgg_1MHz']).astype(float)
+                        freq = np.full_like(vg, 1e6, dtype=float)  # 1 MHz
+                        vg_phase = np.zeros_like(vg, dtype=float)
+                        id_phase = np.zeros_like(vg, dtype=float)
+                        self.logger.info("Successfully read CV characteristics data (columnar format)")
+                        return vg, cgg, freq, vg_phase, id_phase
                 # Otherwise, fall through to the next logic
             except Exception as e:
                 self.logger.warning(f"Standard parsing failed, attempting to parse ngspice raw file format: {e}")
@@ -1391,21 +1441,34 @@ class DataReader:
                             continue
                 if not data_lines:
                     raise ValueError("No valid data found in ngspice raw file")
-                data = pd.DataFrame(data_lines, columns=['vg', 'cgg', 'freq', 'vg_phase', 'id_phase'])
+                if pd is not None:
+                    data = pd.DataFrame(data_lines, columns=['vg', 'cgg', 'freq', 'vg_phase', 'id_phase'])
+                else:
+                    data = np.array(data_lines, dtype=float)
             except Exception as e:
                 self.logger.error(f"Failed to parse ngspice raw format: {e}")
                 return None, None, None, None, None
             # Verify we have the required columns
-            required_columns = ['vg', 'cgg', 'freq', 'vg_phase', 'id_phase']
-            if not all(col in data.columns for col in required_columns):
-                self.logger.error(f"Missing required columns in CV data. Found columns: {data.columns}")
-                return None, None, None, None, None
-            # Extract the data
-            vg = data['vg'].values
-            cgg = data['cgg'].values
-            freq = data['freq'].values
-            vg_phase = data['vg_phase'].values
-            id_phase = data['id_phase'].values
+            if pd is not None:
+                required_columns = ['vg', 'cgg', 'freq', 'vg_phase', 'id_phase']
+                if not all(col in data.columns for col in required_columns):
+                    self.logger.error(f"Missing required columns in CV data. Found columns: {data.columns}")
+                    return None, None, None, None, None
+                # Extract the data
+                vg = data['vg'].values
+                cgg = data['cgg'].values
+                freq = data['freq'].values
+                vg_phase = data['vg_phase'].values
+                id_phase = data['id_phase'].values
+            else:
+                if data.ndim != 2 or data.shape[1] < 5:
+                    self.logger.error("Missing required columns in CV data (raw format)")
+                    return None, None, None, None, None
+                vg = data[:, 0]
+                cgg = data[:, 1]
+                freq = data[:, 2]
+                vg_phase = data[:, 3]
+                id_phase = data[:, 4]
             self.logger.info("Successfully read CV characteristics data (ngspice raw format)")
             return vg, cgg, freq, vg_phase, id_phase
         except Exception as e:
