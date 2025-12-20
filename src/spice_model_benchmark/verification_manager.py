@@ -1005,7 +1005,7 @@ class VerificationManager:
 
                 content.append("*Quasi-static time-domain behavior analysis*")
                 content.append("")
-                content.append("<img src='plots/trans_quasi_static.png' alt='Quasi-Static Analysis' width='400'/>")
+                content.append("<img src='plots/trans_quasi_static_time.png' alt='Quasi-Static Analysis' width='400'/>")
                 content.append("")
                 content.append("*Quasi-static I-V characteristic showing relationship between gate voltage and drain current*")
                 content.append("")

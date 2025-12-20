@@ -1,0 +1,40 @@
+* RC extraction prototype netlist (template)
+
+.option gmin=1e-15
+.option reltol=1e-8
+.option abstol=1e-12
+.option chgtol=1e-15
+.option method=gear
+.option TEMP=27
+.option TNOM=27
+.option TEMPSCALE=1.0
+
+* Gate step driver
+Vstep_rc step_rc 0 PULSE(0 __VGS__ __TD__ __TR__ __TF__ __PW__ __PER__)
+Rdrive_rc step_rc gate_rc __RDRIVE__
+
+* Bias sources
+Vds_rc drain_rc 0 DC __VDS__
+Vs_rc source_rc 0 DC 0
+Vb_rc bulk_rc 0 DC 0
+
+* MOSFET device under test
+M1 drain_rc gate_rc source_rc bulk_rc NMOS_VTG __LPARAM__=__L__ __WPARAM__=__W__
+
+.control
+set filetype=ascii
+set wr_vecnames
+set wr_singlescale
+set wr_formatted
+
+option temp=__TEMP__
+
+tran __TSTEP__ __TSTOP__
+
+let id = abs(i(Vds_rc))
+wrdata ./rc_step___TAG__.txt time v(gate_rc) id
+
+quit
+.endc
+
+.end
