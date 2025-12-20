@@ -14,7 +14,7 @@
 .option method=gear
 
 * Include the device model file
-.inc ../models/ngspice-cmos/FreePDK45/nom.inc
+.inc ../models/FreePDK45/nom.inc
 
 * MOSFET device under test
 M1 drain_1 gate_1 source_1 bulk_1 NMOS_VTG L=0.045u W=10u
@@ -24,11 +24,11 @@ M1 drain_1 gate_1 source_1 bulk_1 NMOS_VTG L=0.045u W=10u
 VG gate_1 0 DC 0 AC 1
 
 * Drain bias at VDD (typical operation voltage)
-VD drain_1 0 DC 1.0
+VD drain_1 0 DC 1.0 AC 0
 
 * Source and bulk connections tied to ground
-VS source_1 0 DC 0 
-VB bulk_1 0 DC 0
+VS source_1 0 DC 0 AC 0
+VB bulk_1 0 DC 0 AC 0
 
 * ------------------------------------------------------
 * Small signal S-parameter test circuit on separate nodes
@@ -88,6 +88,10 @@ let num_points = floor((vg_stop - vg_start)/vg_step) + 1
 
 * Create output file with header
 echo "Vg Cgg_1kHz Cgg_10kHz Cgg_100kHz Cgg_1MHz Cgb_1MHz Cgs_1MHz Cgd_1MHz" > cv_data.txt
+
+* Create output file for full 4x4 small-signal capacitance matrix (rows: current @ {g,d,s,b}; cols: excited voltage @ {g,d,s,b})
+* C_ij is defined from: I_i = j*omega*sum_j(C_ij*V_j), so C_ij = -Im(Y_ij)/omega.
+echo "Vg Cgg Cdg Csg Cbg Cgd Cdd Csd Cbd Cgs Cds Css Cbs Cgb Cdb Csb Cbb" > cmatrix_data.txt
 
 * Initialize vectors for capacitance values
 let cgg_1k_vec = vector(num_points)
@@ -151,6 +155,80 @@ while idx < num_points
     
     * Print results to file
     echo "$&vg_bias $&cgg_val_1k $&cgg_val_10k $&cgg_val_100k $&cgg_val_1m $&cgb_val_1m $&cgs_val_1m $&cgd_val_1m" >> cv_data.txt
+
+    * ----------------------------------------------------------
+    * Full 4x4 small-signal capacitance matrix at 1MHz
+    * Excite one terminal with AC=1V, hold others AC=0V.
+    * Measure all terminal currents to form one column of Y, then convert to C.
+    * ----------------------------------------------------------
+    * Column: excite gate
+    alter @VG[acmag] = 1
+    alter @VD[acmag] = 0
+    alter @VS[acmag] = 0
+    alter @VB[acmag] = 0
+    ac lin 1 1meg 1meg
+    let cgg_m = -imag(i(VG))/(2*3.14159*1e6)
+    let cdg_m = -imag(i(VD))/(2*3.14159*1e6)
+    let csg_m = -imag(i(VS))/(2*3.14159*1e6)
+    let cbg_m = -imag(i(VB))/(2*3.14159*1e6)
+    set cgg_s = $&cgg_m
+    set cdg_s = $&cdg_m
+    set csg_s = $&csg_m
+    set cbg_s = $&cbg_m
+
+    * Column: excite drain
+    alter @VG[acmag] = 0
+    alter @VD[acmag] = 1
+    alter @VS[acmag] = 0
+    alter @VB[acmag] = 0
+    ac lin 1 1meg 1meg
+    let cgd_m = -imag(i(VG))/(2*3.14159*1e6)
+    let cdd_m = -imag(i(VD))/(2*3.14159*1e6)
+    let csd_m = -imag(i(VS))/(2*3.14159*1e6)
+    let cbd_m = -imag(i(VB))/(2*3.14159*1e6)
+    set cgd_s = $&cgd_m
+    set cdd_s = $&cdd_m
+    set csd_s = $&csd_m
+    set cbd_s = $&cbd_m
+
+    * Column: excite source
+    alter @VG[acmag] = 0
+    alter @VD[acmag] = 0
+    alter @VS[acmag] = 1
+    alter @VB[acmag] = 0
+    ac lin 1 1meg 1meg
+    let cgs_m = -imag(i(VG))/(2*3.14159*1e6)
+    let cds_m = -imag(i(VD))/(2*3.14159*1e6)
+    let css_m = -imag(i(VS))/(2*3.14159*1e6)
+    let cbs_m = -imag(i(VB))/(2*3.14159*1e6)
+    set cgs_s = $&cgs_m
+    set cds_s = $&cds_m
+    set css_s = $&css_m
+    set cbs_s = $&cbs_m
+
+    * Column: excite bulk
+    alter @VG[acmag] = 0
+    alter @VD[acmag] = 0
+    alter @VS[acmag] = 0
+    alter @VB[acmag] = 1
+    ac lin 1 1meg 1meg
+    let cgb_m = -imag(i(VG))/(2*3.14159*1e6)
+    let cdb_m = -imag(i(VD))/(2*3.14159*1e6)
+    let csb_m = -imag(i(VS))/(2*3.14159*1e6)
+    let cbb_m = -imag(i(VB))/(2*3.14159*1e6)
+    set cgb_s = $&cgb_m
+    set cdb_s = $&cdb_m
+    set csb_s = $&csb_m
+    set cbb_s = $&cbb_m
+
+    * Restore: excite gate for any subsequent CV calculations
+    alter @VG[acmag] = 1
+    alter @VD[acmag] = 0
+    alter @VS[acmag] = 0
+    alter @VB[acmag] = 0
+
+    * Write one row for this Vg bias
+    echo "$&vg_bias $cgg_s $cdg_s $csg_s $cbg_s $cgd_s $cdd_s $csd_s $cbd_s $cgs_s $cds_s $css_s $cbs_s $cgb_s $cdb_s $csb_s $cbb_s" >> cmatrix_data.txt
     
     * Increment index
     let idx = idx + 1

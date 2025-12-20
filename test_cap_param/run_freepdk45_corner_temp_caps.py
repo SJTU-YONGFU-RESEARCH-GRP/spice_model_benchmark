@@ -8,7 +8,7 @@ import numpy as np
 
 
 def make_corner_temp_template(base_template: Path, corner: str, temp_c: float, out_path: Path) -> None:
-    """Generate a FreePDK45 DC template for a given corner and temperature.
+    """Generate a FreePDK45 TRAN template for a given corner and temperature.
 
     This patches:
       - model include (nom.inc -> {corner}.inc)
@@ -29,7 +29,7 @@ def make_corner_temp_template(base_template: Path, corner: str, temp_c: float, o
     text = re.sub(r"tnom=\s*[-0-9.]+", f"tnom={temp_c}", text, flags=re.IGNORECASE)
     text = re.sub(r"TNOM=\s*[-0-9.]+", f"TNOM={temp_c}", text, flags=re.IGNORECASE)
 
-    # Patch bias / DC analysis 'option temp=' inside control block
+    # Patch temperature inside control block (if present)
     text = re.sub(r"\boption\s+temp=\s*[-0-9.]+", f"option temp={temp_c}", text)
 
     out_path.write_text(text)
@@ -73,8 +73,8 @@ def fit_unit_area_caps(results_dir: Path):
                 )
             )
 
-    _fit_one(results_dir / "cap_vs_LW.csv", ["Cgs", "Cgd", "Cgb"], "NMOS")
-    _fit_one(results_dir / "cap_vs_LW_pmos.csv", ["Cgs_p", "Cgd_p", "Cgb_p"], "PMOS")
+    _fit_one(results_dir / "cap_vs_LW.csv", ["Cgg"], "NMOS")
+    _fit_one(results_dir / "cap_vs_LW_pmos.csv", ["Cgg"], "PMOS")
 
     return rows
 
@@ -127,10 +127,11 @@ def main():
 
     repo_root = Path(__file__).resolve().parents[1]
     base_netlists_dir = repo_root / "netlists"
-    base_template = base_netlists_dir / "freepdk45_dc_circuit.cir"
+    base_template = base_netlists_dir / "freepdk45_tran_cap_template.cir"
+    base_template_pmos = base_netlists_dir / "freepdk45_tran_cap_template_pmos.cir"
 
     if not base_template.exists():
-        raise FileNotFoundError(f"Base FreePDK45 DC template not found: {base_template}")
+        raise FileNotFoundError(f"Base FreePDK45 TRAN template not found: {base_template}")
 
     test_dir = repo_root / "test_cap_param"
     results_root = test_dir / "results"
@@ -150,9 +151,12 @@ def main():
 
             print(f"\n[INFO] Running FreePDK45 sweep for corner={corner}, temp={temp_c} °C")
 
-            # Create corner+temp-specific DC template
-            corner_temp_netlist = base_netlists_dir / f"freepdk45_dc_circuit_{corner}_T{int(temp_c)}.cir"
+            # Create corner+temp-specific TRAN templates (NMOS + PMOS)
+            corner_temp_netlist = base_netlists_dir / f"freepdk45_tran_cap_template_{corner}_T{int(temp_c)}.cir"
+            corner_temp_netlist_p = base_netlists_dir / f"freepdk45_tran_cap_template_pmos_{corner}_T{int(temp_c)}.cir"
             make_corner_temp_template(base_template, corner, temp_c, corner_temp_netlist)
+            if base_template_pmos.exists():
+                make_corner_temp_template(base_template_pmos, corner, temp_c, corner_temp_netlist_p)
 
             # Build command for run_cap_param_sweep.py
             cmd = [
@@ -160,9 +164,11 @@ def main():
                 "test_cap_param/run_cap_param_sweep.py",
                 "--pdk",
                 label,
-                "--dc-netlist",
+                "--tran-netlist",
                 str(corner_temp_netlist.relative_to(repo_root)),
             ]
+            if base_template_pmos.exists():
+                cmd += ["--tran-netlist-pmos", str(corner_temp_netlist_p.relative_to(repo_root))]
             if args.max_L_count is not None:
                 cmd += ["--max-L-count", str(args.max_L_count)]
             if args.max_W_count is not None:

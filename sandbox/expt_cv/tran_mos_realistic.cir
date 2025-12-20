@@ -1,0 +1,24 @@
+* Transient Charge Extraction
+.option temp=27 tnom=27
+.inc ../../models/FreePDK45/nom.inc
+
+* Parameters
+.param L_dut=0.045u
+.param W_dut=10u
+.param VDD=1.2
+
+M1 drain gate 0 0 NMOS_VTG L={L_dut} W={W_dut}
+Vds drain 0 DC {VDD}
+* Ramp gate from 0 to VDD in 1ns
+Vgs gate 0 PULSE(0 {VDD} 0 1n)
+
+.control
+* Run transient
+tran 10p 1n
+* Integrate Ig to get Q
+meas tran q_total INTEG i(Vgs) from=0 to=1n
+* Calculate C_ls = -q_total / VDD
+let c_ls = -q_total / VDD
+print c_ls
+echo "C_ls_tran = $&c_ls" > results/tran_cap.txt
+.endc

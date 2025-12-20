@@ -132,9 +132,6 @@ echo "Running bias point analysis at 27°C"
 * Initialize bias_point_data.txt with headers
 echo "v(drain_bias) v(gate_bias) id_bias ig_bias is_bias ib_bias" > ./bias_point_data.txt
 
-* Initialize NMOS large-signal capacitance DC charge file (for method 5.1, NMOS)
-echo "Vg Vd Qg Qd Qs Qb" > ./ls_caps_dc.txt
-
 * First bias point (0.0, 0.0)
 alter Vds_bias = 0.0
 alter Vgs_bias = 0.0
@@ -203,12 +200,7 @@ let id_bias = i(Vds_bias)
 let is_bias = i(Vs_bias)
 let ig_bias = i(Vgs_bias)
 let ib_bias = i(Vb_bias)
-let qg_bias = @m.x2.msky130_fd_pr__nfet_01v8[qg]
-let qd_bias = @m.x2.msky130_fd_pr__nfet_01v8[qd]
-let qs_bias = @m.x2.msky130_fd_pr__nfet_01v8[qs]
-let qb_bias = @m.x2.msky130_fd_pr__nfet_01v8[qb]
 echo "$&v(drain_bias) $&v(gate_bias) $&id_bias $&ig_bias $&is_bias $&ib_bias" >> ./bias_point_data.txt
-echo "$&v(gate_bias) $&v(drain_bias) $&qg_bias $&qd_bias $&qs_bias $&qb_bias" >> ./ls_caps_dc.txt
 
 * Eighth bias point (1.2, 0.6)
 alter Vds_bias = 1.2
@@ -228,34 +220,7 @@ let id_bias = i(Vds_bias)
 let is_bias = i(Vs_bias)
 let ig_bias = i(Vgs_bias)
 let ib_bias = i(Vb_bias)
-let qg_bias = @m.x2.msky130_fd_pr__nfet_01v8[qg]
-let qd_bias = @m.x2.msky130_fd_pr__nfet_01v8[qd]
-let qs_bias = @m.x2.msky130_fd_pr__nfet_01v8[qs]
-let qb_bias = @m.x2.msky130_fd_pr__nfet_01v8[qb]
 echo "$&v(drain_bias) $&v(gate_bias) $&id_bias $&ig_bias $&is_bias $&ib_bias" >> ./bias_point_data.txt
-echo "$&v(gate_bias) $&v(drain_bias) $&qg_bias $&qd_bias $&qs_bias $&qb_bias" >> ./ls_caps_dc.txt
-
-* PMOS large-signal capacitance DC charge file (for method 5.1)
-echo "Vg Vd Qg Qd Qs Qb" > ./ls_caps_dc_pmos.txt
-
-* PMOS first bias point: Vg=1.2, Vd=0.0, Vs=1.2, Vb=1.2
-alter Vdp_pbias = 0.0
-alter Vgp_pbias = 1.2
-op
-let qg_p = @m.x3.msky130_fd_pr__pfet_01v8[qg]
-let qd_p = @m.x3.msky130_fd_pr__pfet_01v8[qd]
-let qs_p = @m.x3.msky130_fd_pr__pfet_01v8[qs]
-let qb_p = @m.x3.msky130_fd_pr__pfet_01v8[qb]
-echo "$&v(gate_pbias) $&v(drain_pbias) $&qg_p $&qd_p $&qs_p $&qb_p" >> ./ls_caps_dc_pmos.txt
-
-* PMOS second bias point: Vg=0.0, Vd=0.0, Vs=1.2, Vb=1.2
-alter Vgp_pbias = 0.0
-op
-let qg_p = @m.x3.msky130_fd_pr__pfet_01v8[qg]
-let qd_p = @m.x3.msky130_fd_pr__pfet_01v8[qd]
-let qs_p = @m.x3.msky130_fd_pr__pfet_01v8[qs]
-let qb_p = @m.x3.msky130_fd_pr__pfet_01v8[qb]
-echo "$&v(gate_pbias) $&v(drain_pbias) $&qg_p $&qd_p $&qs_p $&qb_p" >> ./ls_caps_dc_pmos.txt
 
 echo "DC analysis completed"
 quit

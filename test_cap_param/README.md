@@ -1,11 +1,11 @@
 # MOS 大信号电容仿真与线性度分析
 
-本目录包含用于提取 MOS 大信号电容（Cgs, Cgd, Cgb）并分析其随 L/W 变化线性度的脚本。
+本目录包含用于提取 MOS 大信号电容并分析其随 L/W 变化线性度的脚本。
 
 核心流程：
 
-1. 使用 DC 网表模板（按 PDK 区分）对单个 NMOS/PMOS 做偏置点分析，写出端电荷。
-2. `run_cap_param_sweep.py` 扫描一系列 (L, W)，为每个点生成网表并调用 ngspice 运行，读出电荷并计算 Cgs/Cgd/Cgb。
+1. 使用 transient（TRAN）网表模板（按 PDK 区分）对单个 NMOS/PMOS 做 gate 电压阶跃。
+2. `run_cap_param_sweep.py` 扫描一系列 (L, W)，为每个点生成 transient 网表并调用 ngspice 运行，通过积分 gate 电流得到总电荷并计算 Cgg。
 3. `analyze_cap_linearity.py` 基于生成的 CSV，对 C–L、C–W 关系做线性拟合，评估线性度（R²），并画图。
 
 ---
@@ -13,28 +13,26 @@
 ## 目录结构概览
 
 - `netlists/`
-  - 顶层目录，放共用的 DC 模板网表与 `.spiceinit`。
+  - 顶层目录，放共用的 transient 模板网表与 `.spiceinit`。
   - 关键文件：
-    - `freepdk45_dc_circuit.cir`：FreePDK45 DC 偏置 & 大信号电容提取模板。
-    - `sky130_dc_circuit.cir`：Sky130 DC 偏置 & 大信号电容提取模板（结构尽量仿照 FreePDK45，仅器件更换）。
-    - `test_cap_single.cir` / `test_cap_single_sky130.cir`：用于调试的单点/单器件最小网表。
-  - 每次 ngspice 运行时，会在此目录生成/覆盖：
-    - `ls_caps_dc.txt`：NMOS 大信号电容端点电荷文件。
-    - `ls_caps_dc_pmos.txt`：PMOS 大信号电容端点电荷文件。
+    - `freepdk45_tran_cap_template.cir`：FreePDK45 NMOS transient 电荷积分模板。
+    - `freepdk45_tran_cap_template_pmos.cir`：FreePDK45 PMOS transient 电荷积分模板。
+    - `sky130_tran_cap_template.cir`：Sky130 NMOS transient 电荷积分模板。
+    - `sky130_tran_cap_template_pmos.cir`：Sky130 PMOS transient 电荷积分模板。
 
 - `netlists/<pdk_lower>/`
   - 按 PDK 划分的**自动生成网表**目录（例如 `netlists/freepdk45/`、`netlists/sky130/`）。
-  - `run_cap_param_sweep.py` 会在这里为每个 (L,W) 生成一个 DC 网表：
-    - 命名示例：`freepdk45_dc_circuit_L0.045u_W0.1u.cir`。
+  - `run_cap_param_sweep.py` 会在这里为每个 (L,W) 生成一个 transient 网表：
+    - 命名示例：`freepdk45_tran_cap_template_L0.045u_W0.1u.cir`。
 
 - `test_cap_param/`
   - 本目录：脚本和结果。
   - 脚本：
-    - `run_cap_param_sweep.py`：扫描 L/W，调用 ngspice，计算 Cgs/Cgd/Cgb。
+    - `run_cap_param_sweep.py`：扫描 L/W，调用 ngspice（TRAN），计算大信号等效 `Cgg`。
     - `analyze_cap_linearity.py`：读取 CSV，对电容随 L/W 的线性度做拟合与绘图。
   - 结果：
-    - `results/<pdk_lower>/cap_vs_LW.csv`：NMOS Cgs/Cgd/Cgb vs L/W。
-    - `results/<pdk_lower>/cap_vs_LW_pmos.csv`：PMOS Cgs/Cgd/Cgb vs L/W。
+    - `results/<pdk_lower>/cap_vs_LW.csv`：NMOS Cgg vs L/W（列：`L_um,W_um,Cgg_fF`）。
+    - `results/<pdk_lower>/cap_vs_LW_pmos.csv`：PMOS Cgg vs L/W（列：`L_um,W_um,Cgg_fF`，可选）。
     - `results/<pdk_lower>/plots/*.png`：线性度分析图。
 
 ---
@@ -52,18 +50,19 @@
 
 ---
 
-## DC 模板网表与大信号电容提取方法
+## Transient 模板网表与大信号电容提取方法
 
-大信号电容提取采用文档 `docs/mos_large_signal_caps.md` 中的 **方法 5.1（端点电荷差分法）**：
+当前大信号电容提取使用 transient（TRAN）方式：对 gate 施加 0→VDD（或 VDD→0）的电压阶跃，并对 gate 电流积分得到总电荷：
 
-1. 在两个 gate 电压端点（例如 Vg=0, Vg=VDD）下分别求解 DC 工作点。
-2. 在每个工作点，读取通道四端电荷向量：`Qg, Qd, Qs, Qb`。
-3. 大信号电容定义为：
-   - `Cgs = -(Qs(Vg2) - Qs(Vg1)) / (Vg2 - Vg1)`
-   - `Cgd = -(Qd(Vg2) - Qd(Vg1)) / (Vg2 - Vg1)`
-   - `Cgb = -(Qb(Vg2) - Qb(Vg1)) / (Vg2 - Vg1)`
+- $Q_{total} = \int I_g(t)\,dt$
+- $C_{gg,LS} = |Q_{total}|/VDD$
 
-### FreePDK45 模板：`netlists/freepdk45_dc_circuit.cir`
+该方法与 AC/TRAN 定义一致，避免使用 ngspice `op` 报告器件电荷时可能出现的缺失/不一致问题。
+
+### FreePDK45 模板
+
+- NMOS：`netlists/freepdk45_tran_cap_template.cir`
+- PMOS：`netlists/freepdk45_tran_cap_template_pmos.cir`
 
 - 引入模型：
   ```spice
@@ -72,23 +71,17 @@
   其中 `NMOS_VTG` / `PMOS_VTG` 为 BSIM4 level 54 模型，`capmod=2`，使用电荷模型计算电容。
 
 - 器件实例：
-  - `M1`：IV 扫描用 NMOS。
-  - `M2`：NMOS 偏置与电荷提取用。
-  - `M3`：PMOS 偏置与电荷提取用。
+  - NMOS：单管瞬态仿真，gate 做阶跃，测 `i(Vgs)`。
+  - PMOS：source/bulk 置 VDD，gate 做 VDD→0 阶跃。
 
 - 大信号电容提取（节选）：
-  - 通过多组 `alter + op` 定义一系列 (Vds, Vgs) 偏置点。
-  - 在关键的两个点（例如 Vds=1.2, Vg=0 / 1.2）下：
-    ```spice
-    let qg_bias = @M2[qg]
-    let qd_bias = @M2[qd]
-    let qs_bias = @M2[qs]
-    let qb_bias = @M2[qb]
-    echo "... $&qg_bias $&qd_bias $&qs_bias $&qb_bias" >> ./ls_caps_dc.txt
-    ```
-  - PMOS 部分类似，写入 `ls_caps_dc_pmos.txt`。
+  - transient 运行后在控制台输出 `q_total = ...`（由 `meas tran q_total INTEG i(Vgs)` 得到）；
+  - Python 侧用 `Cgg = |q_total| / VDD` 计算大信号电容。
 
-### Sky130 模板：`netlists/sky130_dc_circuit.cir`
+### Sky130 模板
+
+- NMOS：`netlists/sky130_tran_cap_template.cir`
+- PMOS：`netlists/sky130_tran_cap_template_pmos.cir`
 
 - 引入 Sky130 1.8V 器件模型：
   - `sky130_fd_pr__nfet_01v8`
@@ -96,15 +89,12 @@
   - 以及必要的 corner / mismatch / invariant 等参数文件。
 
 - 器件实例：
-  - `X1`：IV 扫描 NMOS 子电路。
-  - `X2`：NMOS 偏置与电荷提取用子电路。
-  - `X3`：PMOS 偏置与电荷提取用子电路。
+  - 使用 `sky130_fd_pr__nfet_01v8` / `sky130_fd_pr__pfet_01v8` 子电路；
+  - 通过 gate 阶跃 + `INTEG i(Vgs)` 提取 `q_total`。
 
 - 内部 MOS 为 BSIM4 level 54（`sky130_fd_pr__nfet_01v8__model.3`），同样使用 `capmod=2` 的电荷模型。
 
-- 大信号电容提取结构与 FreePDK45 尽量一致，只是层次不同：
-  - 利用 `@m.x2.msky130_fd_pr__nfet_01v8[qg]` / `[...] [qd] [qs] [qb]` 访问内部 MOS 四端电荷；
-  - 通过一系列 `alter + op` 设定多个 (Vds, Vgs) 偏置点，在两个 gate 端点电压下写出 `ls_caps_dc.txt` 和 `ls_caps_dc_pmos.txt`。
+- corner 切换通过替换 include 文件名实现（`__tt.corner.spice` → `__{corner}.corner.spice`），由 corner/temp sweep 脚本自动生成。
 
 ---
 
@@ -124,7 +114,7 @@ python test_cap_param/run_cap_param_sweep.py \
 ```bash
 python test_cap_param/run_cap_param_sweep.py \
     --pdk Sky130 \
-    --dc-netlist netlists/sky130_dc_circuit.cir
+  --tran-netlist netlists/sky130_tran_cap_template.cir
 ```
 
 主要命令行参数：
@@ -133,9 +123,12 @@ python test_cap_param/run_cap_param_sweep.py \
   - 用于生成网表文件名、结果目录和图标题。
   - 示例：`FreePDK45`（默认）、`Sky130`。
 
-- `--dc-netlist PATH`
-  - 指定 DC 偏置/电荷提取模板网表路径。
-  - 未指定时，默认使用 `netlists/freepdk45_dc_circuit.cir`。
+- `--tran-netlist PATH`
+  - 指定 NMOS transient 电荷积分模板网表路径。
+  - 未指定时，默认使用 `netlists/freepdk45_tran_cap_template.cir`（Sky130 则默认 `netlists/sky130_tran_cap_template.cir`）。
+
+- `--tran-netlist-pmos PATH`
+  - （可选）指定 PMOS transient 模板网表路径。
 
 - `--L-scale` / `--W-scale` / `--W-step-scale`
   - 针对 FreePDK45 默认 L/W 扫描范围的缩放因子，用于做工艺节点缩放或减小点数。
@@ -174,25 +167,22 @@ python test_cap_param/run_cap_param_sweep.py \
 
 对每个 (L_um, W_um)：
 
-1. 在 `netlists/<pdk_lower>/` 下生成一个 DC 网表：
-   - FreePDK45：修改模板中 `M2`/`M3` 的 `L=` 和 `W=`；
-   - Sky130：修改模板中 `X2`/`X3` 子电路实例的 `l=` / `w=`。
+1. 在 `netlists/<pdk_lower>/` 下生成一个 transient 网表：
+  - FreePDK45：替换模板中的 `L_dut` / `W_dut` 参数；
+  - Sky130：替换模板中的 `L_dut` / `W_dut` 参数（配合 `scale=1e-6`）。
 2. 从 **顶层 `netlists/` 目录** 调用 ngspice：
-   - 确保模板里的 `.include` 相对路径和 `wrdata` 输出路径保持一致。
-   - 每次运行会覆盖 `netlists/ls_caps_dc.txt` / `ls_caps_dc_pmos.txt`。
-3. 读取 `ls_caps_dc*.txt`：
-   - 头一行是列名：`Vg Vd Qg Qd Qs Qb`；
-   - 后面至少两行，对应两个 gate 端点偏置。
-4. 使用端点电荷差分法计算：
-   - `Cgs, Cgd, Cgb`（NMOS 和 PMOS 各一组）。
+  - 确保模板里的 `.include` 相对路径保持一致。
+3. 从 ngspice stdout 解析 `q_total = ...`（模板中 `meas tran q_total INTEG i(Vgs)` 输出）。
+4. 计算大信号电容：
+  - `Cgg = |q_total| / VDD`（NMOS；PMOS 可选）。
 5. 累积所有点，输出 CSV 与绘图。
 
 输出 CSV：
 
 - NMOS：`test_cap_param/results/<pdk_lower>/cap_vs_LW.csv`
-  - 列：`L_um, W_um, Cgs_fF, Cgd_fF, Cgb_fF`。
+  - 列：`L_um, W_um, Cgg_fF`。
 - PMOS：`test_cap_param/results/<pdk_lower>/cap_vs_LW_pmos.csv`
-  - 列：`L_um, W_um, Cgs_p_fF, Cgd_p_fF, Cgb_p_fF`。
+  - 列：`L_um, W_um, Cgg_fF`。
 
 ---
 
@@ -250,31 +240,29 @@ python test_cap_param/analyze_cap_linearity.py --pdk Sky130
 
 ## 调试与最小网表示例
 
-### FreePDK45：`netlists/test_cap_single.cir`
+建议直接运行 transient 模板并检查 stdout 是否包含 `q_total = ...`：
 
-最小例子用于验证单个 FreePDK45 NMOS 的大信号电容提取：
+### FreePDK45：`netlists/freepdk45_tran_cap_template.cir`
 
 ```bash
 cd netlists
-ngspice test_cap_single.cir
+ngspice freepdk45_tran_cap_template.cir
 ```
 
-- 完成后检查 `ls_caps_dc.txt` 中两行数据：
-  - 确认 Vg 两个端点下的 `Qg, Qd, Qs, Qb` 有明显差异；
-  - 用脚本手算 `Cgs, Cgd, Cgb` 可与 `run_cap_param_sweep.py` 的结果核对。
+- 完成后检查控制台输出：
+  - 存在 `q_total = ...`；
+  - `c_ls_vec`/`q_total` 的数量级随 W 增大而增大。
 
-### Sky130：`netlists/test_cap_single_sky130.cir`
-
-同理，用于验证 Sky130 1.8V 器件的电荷访问和偏置设置是否正确：
+### Sky130：`netlists/sky130_tran_cap_template.cir`
 
 ```bash
 cd netlists
-ngspice test_cap_single_sky130.cir
+ngspice sky130_tran_cap_template.cir
 ```
 
 - 确认：
   - 没有 `could not find valid modelname` 或 binning 范围错误；
-  - `ls_caps_dc.txt` 中的 Q 在不同 Vg 下有合理变化。
+  - 控制台输出中存在 `q_total = ...`。
 
 如遇仿真报错或电容为 0 的异常，可以：
 
@@ -286,12 +274,12 @@ ngspice test_cap_single_sky130.cir
 
 ## 小结
 
-- DC 模板网表（FreePDK45 / Sky130）负责：偏置、调用 PDK 模型、写出端点电荷文件 `ls_caps_dc*.txt`。
+- transient 模板网表（FreePDK45 / Sky130）负责：包含模型、定义 gate 阶跃、`meas tran q_total INTEG i(Vgs)`。
 - `run_cap_param_sweep.py` 负责：
   - 扫描 (L,W)；
-  - 自动生成 per-PDK 网表；
-  - 调用 ngspice 并从 `ls_caps_dc*.txt` 计算 Cgs/Cgd/Cgb；
-  - 输出 `cap_vs_LW*.csv` 与 C–L/W 关系图。
+  - 自动生成 per-PDK transient 网表；
+  - 调用 ngspice 并从 stdout 解析 `q_total` 计算 Cgg；
+  - 输出 `cap_vs_LW*.csv` 与 Cgg–L/W 关系图。
 - `analyze_cap_linearity.py` 负责：
   - 从 `cap_vs_LW*.csv` 读入电容数据；
   - 对 C–L、C–W 做线性拟合与 R² 分析；

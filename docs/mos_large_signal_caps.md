@@ -102,7 +102,7 @@ $$
 同时可定义：
 
 $$
-C_{gg}^{\text{LS}} = \frac{Q_g^{(2)} - Q_g^{(1)}}{\Delta V_g}
+C_{gg}^{\text{LS}} = -\frac{Q_g^{(2)} - Q_g^{(1)}}{\Delta V_g}
 $$
 
 由于电荷守恒，应满足近似关系：
@@ -110,6 +110,8 @@ $$
 $$
 C_{gg}^{\text{LS}} \approx C_{gs}^{\text{LS}} + C_{gd}^{\text{LS}} + C_{gb}^{\text{LS}}
 $$
+
+注：本仓库的 ngspice/AC 提取采用约定 $C=-\mathrm{Im}(i(V))/\omega$，与上面的统一符号约定一致；主链路 AC 模式也支持对 `Cgg(Vg)` 做电压积分生成 `Qg(Vg)` 与 `Cgg^{LS}`（见 docs/AC_SIMULATION_FILE_FLOW.md）。
 
 这提供了一个可用于数值自检的关系。
 

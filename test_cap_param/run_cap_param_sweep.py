@@ -1,243 +1,83 @@
-import subprocess
-import textwrap
-from pathlib import Path
-import shutil
-import re
 import argparse
+import re
+import shutil
+import subprocess
+from pathlib import Path
+from typing import Optional
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
 
-# This script sweeps MOSFET length/width and extracts large-signal
-# gate-related capacitances (Cgs, Cgd, Cgb) using the 5.1 endpoint
-# charge method defined in docs/mos_large_signal_caps.md.
+# This script sweeps MOSFET length/width and extracts **large-signal gate
+# capacitance** using **transient charge integration**:
 #
-# It generates, for each (L, W):
-#   - a small DC netlist that biases a single NMOS_VTG device
-#   - runs ngspice in batch mode
-#   - reads ls_caps_dc.txt (Vg, Vd, Qg, Qd, Qs, Qb)
-#   - computes Cgs/Cgd/Cgb by finite difference -ΔQ/ΔVg
+#   Q_total = ∫ Ig(t) dt
+#   Cgg_LS  = |Q_total| / VDD
+#
+# This replaces the previous DC endpoint charge method (5.1), which is known
+# to be inconsistent with AC/TRAN in ngspice for some BSIM models.
 #
 # Results are saved in:
-#   test_cap_param/results/cap_vs_LW.csv
-#   test_cap_param/results/plots/*.png
+#   test_cap_param/results/<pdk>/cap_vs_LW.csv        (NMOS)
+#   test_cap_param/results/<pdk>/cap_vs_LW_pmos.csv   (PMOS, optional)
+# with columns:
+#   L_um, W_um, Cgg_fF
 
 
-def generate_netlist_from_template(
+def generate_tran_netlist_from_template(
     template_path: Path,
     netlist_path: Path,
     L_um: float,
     W_um: float,
-    vdd: float = 1.2,
+    vdd: float,
 ) -> None:
-    """Generate a DC netlist by patching freepdk45_dc_circuit.cir for given L, W.
-
-    This reuses the already-working bias analysis and ls_caps_dc.txt writing
-    logic based on @M2[qg]/@M2[qd]/..., and only changes the geometry of M2/M3
-    and, optionally, rescales DC bias voltages for a different VDD.
-    """
+    """Patch .param lines in a transient template and write to netlist_path."""
     text = template_path.read_text()
-    lines = text.splitlines()
 
-    L_str = f"L={L_um:.4f}u"
-    W_str = f"W={W_um:.4f}u"
+    def _replace_param(text_in: str, name: str, value: float, default_suffix: str) -> str:
+        pattern = rf"^\.param\s+{re.escape(name)}\s*=\s*([-+0-9.eE]+)([a-zA-Z]*)\b"
+        m = re.search(pattern, text_in, flags=re.MULTILINE)
+        suffix = m.group(2) if m is not None else default_suffix
+        replacement = f".param {name}={value:.6g}{suffix}"
+        return re.sub(pattern, replacement, text_in, flags=re.MULTILINE)
 
-    new_lines = []
-    for line in lines:
-        # Look for the NMOS bias device line (M2) and replace its L/W
-        stripped = line.strip()
-        if stripped.startswith("M2 ") and "drain_bias" in stripped and "NMOS_VTG" in stripped:
-            indent = line[: len(line) - len(line.lstrip())]
-            new_line = (
-                f"{indent}M2 drain_bias gate_bias source_bias bulk_bias "
-                f"NMOS_VTG {L_str} {W_str}"
-            )
-            new_lines.append(new_line)
-        # Look for the PMOS bias device line (M3) and replace its L/W
-        elif stripped.startswith("M3 ") and "drain_pbias" in stripped and "PMOS_VTG" in stripped:
-            indent = line[: len(line) - len(line.lstrip())]
-            new_line = (
-                f"{indent}M3 drain_pbias gate_pbias source_pbias bulk_pbias "
-                f"PMOS_VTG {L_str} {W_str}"
-            )
-            new_lines.append(new_line)
-        # Look for the Sky130 NMOS bias device line (X2) and replace its L/W
-        elif stripped.startswith("X2 ") and "drain_bias" in stripped and "sky130_fd_pr__nfet_01v8" in stripped:
-            indent = line[: len(line) - len(line.lstrip())]
-            new_line = (
-                f"{indent}X2 drain_bias gate_bias source_bias bulk_bias "
-                f"sky130_fd_pr__nfet_01v8 l={L_um:.4f} w={W_um:.4f}"
-            )
-            new_lines.append(new_line)
-        # Look for the Sky130 PMOS bias device line (X3) and replace its L/W
-        elif stripped.startswith("X3 ") and "drain_pbias" in stripped and "sky130_fd_pr__pfet_01v8" in stripped:
-            indent = line[: len(line) - len(line.lstrip())]
-            new_line = (
-                f"{indent}X3 drain_pbias gate_pbias source_pbias bulk_pbias "
-                f"sky130_fd_pr__pfet_01v8 l={L_um:.4f} w={W_um:.4f}"
-            )
-            new_lines.append(new_line)
-        else:
-            new_lines.append(line)
-
-    # Optionally rescale DC bias voltages to emulate a different nominal VDD
-    # while preserving the relative bias points (e.g. 0, 0.5*VDD, 1.0*VDD).
-    if vdd is not None:
-        base_vdd = 1.2
-        if base_vdd > 0 and abs(vdd - base_vdd) > 1e-9:
-            scale = vdd / base_vdd
-            bias_keywords = [
-                "Vds_iv",
-                "Vgs_iv",
-                "Vs_iv",
-                "Vb_iv",
-                "Vds_bias",
-                "Vgs_bias",
-                "Vs_bias",
-                "Vb_bias",
-                "Vdp_pbias",
-                "Vgp_pbias",
-                "Vsp_pbias",
-                "Vbp_pbias",
-                "alter Vds_bias",
-                "alter Vgs_bias",
-                "alter Vdp_pbias",
-                "alter Vgp_pbias",
-                "alter Vsp_pbias",
-                "alter Vbp_pbias",
-                "dc Vds_iv",
-            ]
-
-            scaled_lines = []
-            for line in new_lines:
-                stripped = line.strip()
-                if not stripped or stripped.startswith(
-                    ("*", ".option", ".include", ".inc", ".end", ".control", ".endc")
-                ):
-                    scaled_lines.append(line)
-                    continue
-
-                if not any(key in stripped for key in bias_keywords):
-                    scaled_lines.append(line)
-                    continue
-
-                def _scale_number(m):
-                    try:
-                        val = float(m.group(0))
-                    except ValueError:
-                        return m.group(0)
-                    return f"{val * scale:.6g}"
-
-                scaled_line = re.sub(r"([-+]?\d*\.?\d+)", _scale_number, line)
-                scaled_lines.append(scaled_line)
-
-            new_lines = scaled_lines
-
-    netlist_path.write_text("\n".join(new_lines) + "\n")
+    text = _replace_param(text, "L_dut", L_um, default_suffix="u")
+    text = _replace_param(text, "W_dut", W_um, default_suffix="u")
+    text = _replace_param(text, "VDD", vdd, default_suffix="")
+    netlist_path.write_text(text)
 
 
-def run_ngspice(netlist_path: Path, cwd: Path = None) -> None:
-    """Run ngspice -b on the given netlist, raising on failure.
-
-    The 'netlist_path' may be absolute or relative to 'cwd'. If 'cwd' is not
-    provided, the netlist's parent directory is used as the working directory,
-    matching the original behavior.
-    """
+def run_ngspice(netlist_path: Path, cwd: Optional[Path] = None) -> str:
+    """Run ngspice -b and return stdout, raising on failure."""
     if cwd is None:
         cwd = netlist_path.parent
     cmd = ["ngspice", "-b", str(netlist_path)]
-    result = subprocess.run(
-        cmd,
-        cwd=str(cwd),
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        text=True,
-    )
+    result = subprocess.run(cmd, cwd=str(cwd), stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     if result.returncode != 0:
         raise RuntimeError(
             f"ngspice failed for {netlist_path} with code {result.returncode}\n"
             f"STDOUT:\n{result.stdout}\nSTDERR:\n{result.stderr}"
         )
+    return result.stdout
 
 
-def read_ls_caps_dc(ls_caps_path: Path):
-    """Read ls_caps_dc.txt and return (Vg, Vd, Qg, Qd, Qs, Qb) arrays.
-
-    The file is expected to have a one-line header followed by two or more
-    data rows, with whitespace-separated columns:
-        Vg Vd Qg Qd Qs Qb
-    """
-    if not ls_caps_path.exists():
-        raise FileNotFoundError(f"ls_caps_dc.txt not found at {ls_caps_path}")
-
-    # Read header to map columns (robust if order changes slightly)
-    with ls_caps_path.open("r") as f:
-        header = f.readline().strip().split()
-    col_map = {name: i for i, name in enumerate(header)}
-
-    required = ["Vg", "Vd", "Qg", "Qd", "Qs", "Qb"]
-    missing = [name for name in required if name not in col_map]
-
-    data = np.loadtxt(ls_caps_path, skiprows=1)
-    if data.ndim == 1:
-        # If only one row, force 2D
-        data = data[None, :]
-
-    if data.shape[0] < 2:
-        raise ValueError("ls_caps_dc.txt has fewer than two bias points")
-    if not missing:
-        # All required names are present, use header-based mapping
-        vg = data[:, col_map["Vg"]]
-        vd = data[:, col_map["Vd"]]
-        qg = data[:, col_map["Qg"]]
-        qd = data[:, col_map["Qd"]]
-        qs = data[:, col_map["Qs"]]
-        qb = data[:, col_map["Qb"]]
-    else:
-        # Fallback: header does not contain the canonical names, but if we
-        # have at least 6 numeric columns, interpret the first six as
-        # (Vg, Vd, Qg, Qd, Qs, Qb). This is mainly for PDK templates that
-        # use wrdata directly on vectors like v(gate_bias) and @M[...] where
-        # the column names are implementation-dependent.
-        if data.shape[1] < 6:
-            raise ValueError(
-                f"ls_caps_dc.txt has only {data.shape[1]} columns and is missing "
-                f"required names {missing}. Header: {header}"
-            )
-        vg = data[:, 0]
-        vd = data[:, 1]
-        qg = data[:, 2]
-        qd = data[:, 3]
-        qs = data[:, 4]
-        qb = data[:, 5]
-
-    return vg, vd, qg, qd, qs, qb
-
-
-def compute_caps_from_endpoint(vg, qd, qs, qb):
-    """Compute (Cgs, Cgd, Cgb) from endpoint charges using -ΔQ/ΔVg.
-
-    Uses the first and last points in vg as (Vg1, Vg2).
-    """
-    i_start = 0
-    i_end = len(vg) - 1
-    dv = vg[i_end] - vg[i_start]
-    if abs(dv) <= 0.0:
-        raise ValueError("ΔVg is zero; cannot compute large-signal capacitances")
-
-    cgs = -(qs[i_end] - qs[i_start]) / dv
-    cgd = -(qd[i_end] - qd[i_start]) / dv
-    cgb = -(qb[i_end] - qb[i_start]) / dv
-    return cgs, cgd, cgb
+def parse_q_total(stdout: str) -> Optional[float]:
+    m = re.search(r"\bq_total\s*=\s*([-+0-9.eE]+)", stdout)
+    if not m:
+        return None
+    try:
+        return float(m.group(1))
+    except Exception:
+        return None
 
 
 def parse_args():
     """Parse command-line arguments for multi-PDK capacitance sweep."""
     parser = argparse.ArgumentParser(
         description=(
-            "Sweep MOS L/W and extract large-signal gate-related capacitances "
-            "(Cgs, Cgd, Cgb) using DC endpoint charge method (5.1) for a given PDK."
+            "Sweep MOS L/W and extract large-signal gate capacitance (Cgg) "
+            "using transient charge integration (TRAN)."
         )
     )
     parser.add_argument(
@@ -246,14 +86,28 @@ def parse_args():
         help="PDK name used in plot titles and generated netlist names (default: FreePDK45)",
     )
     parser.add_argument(
+        "--tran-netlist",
+        dest="tran_netlist",
+        default=None,
+        help=(
+            "Path to transient template netlist for NMOS. If not provided, uses "
+            "netlists/freepdk45_tran_cap_template.cir or netlists/sky130_tran_cap_template.cir."
+        ),
+    )
+    parser.add_argument(
+        "--tran-netlist-pmos",
+        dest="tran_netlist_pmos",
+        default=None,
+        help=(
+            "Optional path to transient template netlist for PMOS. If not provided, uses "
+            "netlists/freepdk45_tran_cap_template_pmos.cir or netlists/sky130_tran_cap_template_pmos.cir."
+        ),
+    )
+    parser.add_argument(
         "--dc-netlist",
         dest="dc_netlist",
         default=None,
-        help=(
-            "Path to the base DC bias/charge-extraction netlist template. "
-            "If not provided, defaults to netlists/freepdk45_dc_circuit.cir. "
-            "The template must write ls_caps_dc.txt and ls_caps_dc_pmos.txt."
-        ),
+        help=argparse.SUPPRESS,
     )
     parser.add_argument(
         "--L-scale",
@@ -305,10 +159,7 @@ def parse_args():
         type=float,
         default=1.2,
         help=(
-            "Nominal supply voltage in volts used for the DC bias points. "
-            "The default 1.2 V matches the reference netlists. When changed, "
-            "DC source levels in the generated netlists are scaled so that "
-            "their ratios to VDD are preserved."
+            "Gate step amplitude (VDD) in volts used for charge integration."
         ),
     )
     parser.add_argument(
@@ -400,87 +251,64 @@ def main():
 
     vdd = args.vdd
 
-    # NMOS and PMOS records: each entry is (L_um, W_um, Cgs, Cgd, Cgb)
-    records_nmos = []
-    records_pmos = []
+    # Records: each entry is (L_um, W_um, Cgg_F)
+    records_nmos: list[tuple[float, float, float]] = []
+    records_pmos: list[tuple[float, float, float]] = []
     # Keep track of points that failed (either ngspice or post-processing)
     failed_points = []  # (L_um, W_um, stage, message)
-    # Points for which we already have valid NMOS+PMOS results from previous runs
-    existing_points = set()  # keys are (round(L_um, 3), round(W_um, 1))
+    existing_points: set[tuple[float, float]] = set()  # keys are (round(L,3), round(W,1))
 
-    # Determine template netlist for the selected PDK. Templates live in the
-    # top-level netlists directory (or at an explicit path), not in the
-    # per-PDK generated netlist directory.
     if args.dc_netlist is not None:
-        template_path = Path(args.dc_netlist).resolve()
+        print("[WARN] --dc-netlist is deprecated/ignored (now using TRAN method).")
+
+    # Determine template netlists.
+    if args.tran_netlist is not None:
+        template_nmos = Path(args.tran_netlist).resolve()
     else:
-        template_path = base_netlists_dir / "freepdk45_dc_circuit.cir"
+        template_nmos = (
+            base_netlists_dir / "sky130_tran_cap_template.cir"
+            if pdk_lower.startswith("sky130")
+            else base_netlists_dir / "freepdk45_tran_cap_template.cir"
+        )
 
-    template_stem = template_path.stem
+    if args.tran_netlist_pmos is not None:
+        template_pmos = Path(args.tran_netlist_pmos).resolve()
+    else:
+        template_pmos = (
+            base_netlists_dir / "sky130_tran_cap_template_pmos.cir"
+            if pdk_lower.startswith("sky130")
+            else base_netlists_dir / "freepdk45_tran_cap_template_pmos.cir"
+        )
 
-    # Try to reuse existing results from previous runs (incremental mode).
-    # We only reuse points that exist in both NMOS and PMOS CSVs.
-    nmos_map = {}
-    pmos_map = {}
+    template_stem = template_nmos.stem
 
+    # Incremental reuse: reuse NMOS points already in cap_vs_LW.csv.
     if not args.fresh:
         csv_n_path = results_dir / "cap_vs_LW.csv"
         if csv_n_path.exists():
             try:
-                data_n_prev = np.loadtxt(csv_n_path, delimiter=",", skiprows=1)
-                if data_n_prev.ndim == 1:
-                    data_n_prev = data_n_prev[None, :]
-                for row in data_n_prev:
-                    L_prev, W_prev, Cgs_fF_prev, Cgd_fF_prev, Cgb_fF_prev = row
-                    key = (round(L_prev, 3), round(W_prev, 1))
-                    nmos_map[key] = (
-                        L_prev,
-                        W_prev,
-                        Cgs_fF_prev * 1e-15,
-                        Cgd_fF_prev * 1e-15,
-                        Cgb_fF_prev * 1e-15,
+                with csv_n_path.open("r") as f:
+                    header_line = f.readline().strip().lower()
+                if "cgg" not in header_line:
+                    print(
+                        f"[WARN] Existing {csv_n_path} does not look like TRAN output "
+                        f"(header: {header_line!r}); ignoring for incremental reuse."
                     )
-                print(
-                    f"[INFO] Found existing NMOS CSV {csv_n_path} with "
-                    f"{len(nmos_map)} points"
-                )
+                    raise ValueError("incompatible existing CSV header")
+                data_prev = np.loadtxt(csv_n_path, delimiter=",", skiprows=1)
+                if data_prev.ndim == 1:
+                    data_prev = data_prev[None, :]
+                for row in data_prev:
+                    if len(row) < 3:
+                        continue
+                    L_prev, W_prev, Cgg_prev_fF = row[0], row[1], row[2]
+                    key = (round(float(L_prev), 3), round(float(W_prev), 1))
+                    existing_points.add(key)
+                    records_nmos.append((float(L_prev), float(W_prev), float(Cgg_prev_fF) * 1e-15))
+                if existing_points:
+                    print(f"[INFO] Reusing {len(existing_points)} existing NMOS points from {csv_n_path}")
             except Exception as e:
                 print(f"[WARN] Failed to load existing NMOS CSV {csv_n_path}: {e}")
-
-        csv_p_path = results_dir / "cap_vs_LW_pmos.csv"
-        if csv_p_path.exists():
-            try:
-                data_p_prev = np.loadtxt(csv_p_path, delimiter=",", skiprows=1)
-                if data_p_prev.ndim == 1:
-                    data_p_prev = data_p_prev[None, :]
-                for row in data_p_prev:
-                    L_prev, W_prev, Cgs_p_fF_prev, Cgd_p_fF_prev, Cgb_p_fF_prev = row
-                    key = (round(L_prev, 3), round(W_prev, 1))
-                    pmos_map[key] = (
-                        L_prev,
-                        W_prev,
-                        Cgs_p_fF_prev * 1e-15,
-                        Cgd_p_fF_prev * 1e-15,
-                        Cgb_p_fF_prev * 1e-15,
-                    )
-                print(
-                    f"[INFO] Found existing PMOS CSV {csv_p_path} with "
-                    f"{len(pmos_map)} points"
-                )
-            except Exception as e:
-                print(f"[WARN] Failed to load existing PMOS CSV {csv_p_path}: {e}")
-
-        # Reuse only points that are present in both NMOS and PMOS maps.
-        if nmos_map and pmos_map:
-            existing_points = set(nmos_map.keys()) & set(pmos_map.keys())
-            for key in sorted(existing_points):
-                records_nmos.append(nmos_map[key])
-                records_pmos.append(pmos_map[key])
-            if existing_points:
-                print(
-                    f"[INFO] Reusing {len(existing_points)} existing (L,W) points "
-                    f"from previous CSVs."
-                )
 
     for L_um in L_list_um:
         for W_um in W_list_um:
@@ -494,31 +322,17 @@ def main():
             netlist_name = f"{template_stem}_L{L_um:.3f}u_W{W_um:.1f}u.cir"
             netlist_path = netlist_dir / netlist_name
 
-            if netlist_path.exists():
-                print(
-                    f"[INFO] Netlist {netlist_name} already exists; "
-                    f"skipping generation and reusing it."
-                )
-            else:
-                print(
-                    f"[INFO] Generating netlist for L={L_um}um, W={W_um}um -> {netlist_name}"
-                )
-                generate_netlist_from_template(
-                    template_path,
-                    netlist_path,
-                    L_um,
-                    W_um,
-                    vdd=vdd,
-                )
+            print(f"[INFO] Generating TRAN netlist for L={L_um}um, W={W_um}um -> {netlist_name}")
+            generate_tran_netlist_from_template(template_nmos, netlist_path, L_um, W_um, vdd=vdd)
 
-            print(f"[INFO] Running ngspice for {netlist_name}")
+            print(f"[INFO] Running ngspice (TRAN) for {netlist_name}")
             # Run ngspice from the top-level netlists directory so that
             # relative .include "../models/..." and wrdata paths match the
             # original layout, even though the generated netlists live in a
             # per-PDK subdirectory.
             try:
                 netlist_rel = netlist_path.relative_to(base_netlists_dir)
-                run_ngspice(netlist_rel, cwd=base_netlists_dir)
+                stdout = run_ngspice(netlist_rel, cwd=base_netlists_dir)
             except Exception as e:  # ngspice failure
                 msg = str(e)
                 print(
@@ -528,34 +342,27 @@ def main():
                 failed_points.append((L_um, W_um, "ngspice", msg))
                 continue
 
-            # Post-processing: read NMOS/PMOS charges and compute caps.
-            try:
-                # NMOS charges (wrdata writes relative to the ngspice working
-                # directory, which is the top-level netlists directory).
-                ls_caps_path = base_netlists_dir / "ls_caps_dc.txt"
-                print(f"[INFO] Reading NMOS charges from {ls_caps_path}")
-                vg, vd, qg, qd, qs, qb = read_ls_caps_dc(ls_caps_path)
-
-                cgs, cgd, cgb = compute_caps_from_endpoint(vg, qd, qs, qb)
-                records_nmos.append((L_um, W_um, cgs, cgd, cgb))
-
-                # PMOS charges
-                ls_caps_p_path = base_netlists_dir / "ls_caps_dc_pmos.txt"
-                print(f"[INFO] Reading PMOS charges from {ls_caps_p_path}")
-                vg_p, vd_p, qg_p, qd_p, qs_p, qb_p = read_ls_caps_dc(ls_caps_p_path)
-
-                cgs_p, cgd_p, cgb_p = compute_caps_from_endpoint(
-                    vg_p, qd_p, qs_p, qb_p
-                )
-                records_pmos.append((L_um, W_um, cgs_p, cgd_p, cgb_p))
-            except Exception as e:  # data reading or capacitance computation failure
-                msg = str(e)
-                print(
-                    f"[WARN] Post-processing failed for L={L_um}um, W={W_um}um: {msg}\n"
-                    f"       Skipping this point and continuing."
-                )
-                failed_points.append((L_um, W_um, "post", msg))
+            q_total = parse_q_total(stdout)
+            if q_total is None:
+                failed_points.append((L_um, W_um, "parse", "q_total not found"))
                 continue
+            cgg = abs(q_total) / vdd
+            records_nmos.append((float(L_um), float(W_um), float(cgg)))
+
+            # Optional PMOS (best-effort)
+            if template_pmos.exists():
+                netlist_name_p = f"{template_pmos.stem}_L{L_um:.3f}u_W{W_um:.1f}u.cir"
+                netlist_path_p = netlist_dir / netlist_name_p
+                generate_tran_netlist_from_template(template_pmos, netlist_path_p, L_um, W_um, vdd=vdd)
+                try:
+                    netlist_rel_p = netlist_path_p.relative_to(base_netlists_dir)
+                    stdout_p = run_ngspice(netlist_rel_p, cwd=base_netlists_dir)
+                    q_total_p = parse_q_total(stdout_p)
+                    if q_total_p is not None:
+                        cgg_p = abs(q_total_p) / vdd
+                        records_pmos.append((float(L_um), float(W_um), float(cgg_p)))
+                except Exception:
+                    pass
 
     # If any points failed, write a small log for inspection.
     if failed_points:
@@ -571,159 +378,73 @@ def main():
             f"Details written to {failed_log}"
         )
 
-    # Convert to numpy arrays for easier processing (NMOS)
-    if records_nmos:
-        data_n = np.array(records_nmos)
-        L_vals = data_n[:, 0]
-        W_vals = data_n[:, 1]
-        Cgs_vals = data_n[:, 2]
-        Cgd_vals = data_n[:, 3]
-        Cgb_vals = data_n[:, 4]
-    else:
-        print("[WARN] No successful NMOS points collected; skipping NMOS outputs.")
+    if not records_nmos:
+        print("[WARN] No successful NMOS points collected; skipping outputs.")
         return
 
-    # Convert to numpy arrays for easier processing (PMOS)
-    if records_pmos:
-        data_p = np.array(records_pmos)
-        L_vals_p = data_p[:, 0]
-        W_vals_p = data_p[:, 1]
-        Cgs_p_vals = data_p[:, 2]
-        Cgd_p_vals = data_p[:, 3]
-        Cgb_p_vals = data_p[:, 4]
-    else:
-        print("[WARN] No successful PMOS points collected; skipping PMOS outputs.")
-        return
+    data_n = np.array(records_nmos, dtype=float)
+    L_vals = data_n[:, 0]
+    W_vals = data_n[:, 1]
+    Cgg_vals = data_n[:, 2]
 
     # Save NMOS CSV in fF for convenience
     csv_path = results_dir / "cap_vs_LW.csv"
-    header = "L_um,W_um,Cgs_fF,Cgd_fF,Cgb_fF"
-    arr_to_save = np.column_stack([
-        L_vals,
-        W_vals,
-        Cgs_vals * 1e15,
-        Cgd_vals * 1e15,
-        Cgb_vals * 1e15,
-    ])
+    header = "L_um,W_um,Cgg_fF"
+    arr_to_save = np.column_stack([L_vals, W_vals, Cgg_vals * 1e15])
     np.savetxt(csv_path, arr_to_save, delimiter=",", header=header, comments="")
     print(f"[INFO] Saved NMOS sweep data to {csv_path}")
 
-    # Save PMOS CSV in fF for convenience
-    csv_p_path = results_dir / "cap_vs_LW_pmos.csv"
-    header_p = "L_um,W_um,Cgs_p_fF,Cgd_p_fF,Cgb_p_fF"
-    arr_to_save_p = np.column_stack([
-        L_vals_p,
-        W_vals_p,
-        Cgs_p_vals * 1e15,
-        Cgd_p_vals * 1e15,
-        Cgb_p_vals * 1e15,
-    ])
-    np.savetxt(csv_p_path, arr_to_save_p, delimiter=",", header=header_p, comments="")
-    print(f"[INFO] Saved PMOS sweep data to {csv_p_path}")
+    if records_pmos:
+        data_p = np.array(records_pmos, dtype=float)
+        csv_p_path = results_dir / "cap_vs_LW_pmos.csv"
+        header_p = "L_um,W_um,Cgg_fF"
+        arr_to_save_p = np.column_stack([data_p[:, 0], data_p[:, 1], data_p[:, 2] * 1e15])
+        np.savetxt(csv_p_path, arr_to_save_p, delimiter=",", header=header_p, comments="")
+        print(f"[INFO] Saved PMOS sweep data to {csv_p_path}")
 
-    # Plot NMOS C vs W for several L
-    for cap_name, cap_vals in [("Cgs", Cgs_vals), ("Cgd", Cgd_vals), ("Cgb", Cgb_vals)]:
-        plt.figure(figsize=(6, 4))
-        for L_um in L_list_um:
-            mask = np.isclose(L_vals, L_um)
-            if not np.any(mask):
-                continue
-            W_sub = W_vals[mask]
-            C_sub = cap_vals[mask] * 1e15  # fF
-            order = np.argsort(W_sub)
-            W_sub = W_sub[order]
-            C_sub = C_sub[order]
-            plt.plot(W_sub, C_sub, marker="o", label=f"L={L_um:.3f}um")
+    # Plot NMOS Cgg vs W for several L
+    plt.figure(figsize=(6, 4))
+    for L_um in L_list_um:
+        mask = np.isclose(L_vals, L_um)
+        if not np.any(mask):
+            continue
+        W_sub = W_vals[mask]
+        C_sub = Cgg_vals[mask] * 1e15
+        order = np.argsort(W_sub)
+        plt.plot(W_sub[order], C_sub[order], marker="o", label=f"L={L_um:.3f}um")
+    plt.xlabel("W (um)")
+    plt.ylabel("Cgg (fF)")
+    plt.title(f"Cgg (TRAN) vs W at different L ({pdk_name} NMOS)")
+    plt.grid(True, linestyle="--", alpha=0.4)
+    plt.legend()
+    out_path = plots_dir / "Cgg_vs_W.png"
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    plt.tight_layout()
+    plt.savefig(out_path, dpi=300)
+    plt.close()
+    print(f"[INFO] Saved plot {out_path}")
 
-        plt.xlabel("W (um)")
-        plt.ylabel(f"{cap_name} (fF)")
-        plt.title(f"{cap_name} vs W at different L ({pdk_name} NMOS)")
-        plt.grid(True, linestyle="--", alpha=0.4)
-        plt.legend()
-        out_path = plots_dir / f"{cap_name}_vs_W.png"
-        out_path.parent.mkdir(parents=True, exist_ok=True)
-        plt.tight_layout()
-        plt.savefig(out_path, dpi=300)
-        plt.close()
-        print(f"[INFO] Saved plot {out_path}")
-
-    # Plot PMOS C vs W for several L
-    for cap_name, cap_vals in [("Cgs_p", Cgs_p_vals), ("Cgd_p", Cgd_p_vals), ("Cgb_p", Cgb_p_vals)]:
-        plt.figure(figsize=(6, 4))
-        for L_um in L_list_um:
-            mask = np.isclose(L_vals_p, L_um)
-            if not np.any(mask):
-                continue
-            W_sub = W_vals_p[mask]
-            C_sub = cap_vals[mask] * 1e15  # fF
-            order = np.argsort(W_sub)
-            W_sub = W_sub[order]
-            C_sub = C_sub[order]
-            plt.plot(W_sub, C_sub, marker="o", label=f"L={L_um:.3f}um")
-
-        plt.xlabel("W (um)")
-        plt.ylabel(f"{cap_name} (fF)")
-        plt.title(f"{cap_name} vs W at different L ({pdk_name} PMOS)")
-        plt.grid(True, linestyle="--", alpha=0.4)
-        plt.legend()
-        out_path = plots_dir / f"{cap_name}_vs_W_pmos.png"
-        out_path.parent.mkdir(parents=True, exist_ok=True)
-        plt.tight_layout()
-        plt.savefig(out_path, dpi=300)
-        plt.close()
-        print(f"[INFO] Saved plot {out_path}")
-
-    # Plot PMOS C vs L for several W
-    for cap_name, cap_vals in [("Cgs_p", Cgs_p_vals), ("Cgd_p", Cgd_p_vals), ("Cgb_p", Cgb_p_vals)]:
-        plt.figure(figsize=(6, 4))
-        for W_um in W_list_um:
-            mask = np.isclose(W_vals_p, W_um)
-            if not np.any(mask):
-                continue
-            L_sub = L_vals_p[mask]
-            C_sub = cap_vals[mask] * 1e15  # fF
-            order = np.argsort(L_sub)
-            L_sub = L_sub[order]
-            C_sub = C_sub[order]
-            plt.plot(L_sub, C_sub, marker="o", label=f"W={W_um:.1f}um")
-
-        plt.xlabel("L (um)")
-        plt.ylabel(f"{cap_name} (fF)")
-        plt.title(f"{cap_name} vs L at different W ({pdk_name} PMOS)")
-        plt.grid(True, linestyle="--", alpha=0.4)
-        plt.legend()
-        out_path = plots_dir / f"{cap_name}_vs_L_pmos.png"
-        out_path.parent.mkdir(parents=True, exist_ok=True)
-        plt.tight_layout()
-        plt.savefig(out_path, dpi=300)
-        plt.close()
-        print(f"[INFO] Saved plot {out_path}")
-
-    # Plot NMOS C vs L for several W
-    for cap_name, cap_vals in [("Cgs", Cgs_vals), ("Cgd", Cgd_vals), ("Cgb", Cgb_vals)]:
-        plt.figure(figsize=(6, 4))
-        for W_um in W_list_um:
-            mask = np.isclose(W_vals, W_um)
-            if not np.any(mask):
-                continue
-            L_sub = L_vals[mask]
-            C_sub = cap_vals[mask] * 1e15  # fF
-            order = np.argsort(L_sub)
-            L_sub = L_sub[order]
-            C_sub = C_sub[order]
-            plt.plot(L_sub, C_sub, marker="o", label=f"W={W_um:.1f}um")
-
-        plt.xlabel("L (um)")
-        plt.ylabel(f"{cap_name} (fF)")
-        plt.title(f"{cap_name} vs L at different W ({pdk_name} NMOS)")
-        plt.grid(True, linestyle="--", alpha=0.4)
-        plt.legend()
-        out_path = plots_dir / f"{cap_name}_vs_L.png"
-        out_path.parent.mkdir(parents=True, exist_ok=True)
-        plt.tight_layout()
-        plt.savefig(out_path, dpi=300)
-        plt.close()
-        print(f"[INFO] Saved plot {out_path}")
+    # Plot NMOS Cgg vs L for several W
+    plt.figure(figsize=(6, 4))
+    for W_um in W_list_um:
+        mask = np.isclose(W_vals, W_um)
+        if not np.any(mask):
+            continue
+        L_sub = L_vals[mask]
+        C_sub = Cgg_vals[mask] * 1e15
+        order = np.argsort(L_sub)
+        plt.plot(L_sub[order], C_sub[order], marker="o", label=f"W={W_um:.1f}um")
+    plt.xlabel("L (um)")
+    plt.ylabel("Cgg (fF)")
+    plt.title(f"Cgg (TRAN) vs L at different W ({pdk_name} NMOS)")
+    plt.grid(True, linestyle="--", alpha=0.4)
+    plt.legend()
+    out_path = plots_dir / "Cgg_vs_L.png"
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    plt.tight_layout()
+    plt.savefig(out_path, dpi=300)
+    plt.close()
+    print(f"[INFO] Saved plot {out_path}")
 
 
 if __name__ == "__main__":

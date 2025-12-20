@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 
 def fit_unit_area_caps(results_dir: Path):
-    """Given a results directory containing cap_vs_LW*.csv, fit C vs (L*W).
+    """Given a results directory containing cap_vs_LW*.csv, fit Cgg vs (L*W).
 
     Returns a list of rows:
       (device, cap_name, slope_fF_per_um2, intercept_fF, R2, C_per_area_F_per_m2)
@@ -43,8 +43,8 @@ def fit_unit_area_caps(results_dir: Path):
                 )
             )
 
-    _fit_one(results_dir / "cap_vs_LW.csv", ["Cgs", "Cgd", "Cgb"], "NMOS")
-    _fit_one(results_dir / "cap_vs_LW_pmos.csv", ["Cgs_p", "Cgd_p", "Cgb_p"], "PMOS")
+    _fit_one(results_dir / "cap_vs_LW.csv", ["Cgg"], "NMOS")
+    _fit_one(results_dir / "cap_vs_LW_pmos.csv", ["Cgg"], "PMOS")
 
     return rows
 
