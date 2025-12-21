@@ -127,10 +127,10 @@ AC 相关图通常输出到：
 
 ### 1.6 报告：src/verification_manager.py
 
-关键类：src/verification_manager.py 的 VerificationManager。
+关键类：src/spice_model_benchmark/verification_manager.py 的 VerificationManager。
 
 流程：
-- src/mosfet_simulation.py 在完成仿真、读取数据、绘图后，调用 update_verification_checklist
+- src/spice_model_benchmark/mosfet_simulation.py 在完成仿真、读取数据、绘图后，调用 update_verification_checklist
 - 该函数生成 <output-dir>/REPORT.md
 - 报告会引用 <output-dir>/plots/ 下的图片并给出关键数值摘要
 
@@ -141,8 +141,8 @@ AC 相关图通常输出到：
 主链路 `--mode ac` 现在会在读取 `cv_data.txt` 后，**对小信号 C(V) 做电压积分**，得到沿 Vg 扫描路径的等效“大信号电容”（Large-Signal / line-segment average）。
 
 实现位置：
-- `src/mosfet_simulation.py` 的 AC 分支（读取完 CV 后执行积分并写文件）
-- `src/data_reader.py` 新增 `read_cv_table_data()` 用于解析 `cv_data.txt` 的列格式
+- `src/spice_model_benchmark/mosfet_simulation.py` 的 AC 分支（读取完 CV 后执行积分并写文件）
+- `src/spice_model_benchmark/data_reader.py` 新增 `read_cv_table_data()` 用于解析 `cv_data.txt` 的列格式
 
 输出文件（<OUT>/data/）：
 - `ac_ls_caps_from_cv_integral.csv`：由 AC C(V) 积分得到的 `Cgg/Cgs/Cgd/Cgb` 等效大信号电容（单位同时给出 F 与 fF）
@@ -152,78 +152,11 @@ AC 相关图通常输出到：
 
 ---
 
-## 2. 旁路 1：4×4 电容矩阵分量 C–V 绘图（每个 Cij 一张图）
-
-用途：把主链路生成的 cmatrix_data.txt（17 列）画成 16 条 C(Vg) 曲线图，每个分量单独一张 PNG。
-
-相关文件：
-- test_cap_param/plot_cmatrix_caps.py
-
-输入：
-- <input-dir>/data/cmatrix_data.txt
-  - input-dir 通常是一次 AC 仿真的输出目录，例如 results_ac_cmatrix
-
-输出（默认）：
-- <input-dir>/plots/cmatrix_caps/
-  - cgg.png、cgd.png、…、cbb.png（共 16 张）
-
-常用命令：
-```bash
-# 默认从 results_ac_cmatrix 读，并写到 results_ac_cmatrix/plots/cmatrix_caps/
-python test_cap_param/plot_cmatrix_caps.py
-
-# 只画部分分量
-python test_cap_param/plot_cmatrix_caps.py --cap cgg cgs cgd
-
-# 指定输入目录
-python test_cap_param/plot_cmatrix_caps.py --input-dir results_ac_cmatrix --cap cgg cgs
-```
-
----
-
-## 3. 旁路 2：TRAN 大信号电容提取 vs AC 小信号积分验证（Cgs/Cgd/Cgb/Csb/Cdb）
-
-用途：验证“TRAN 通过电流积分得到的等效大信号电容”与“AC 小信号 C(V) 沿电压路径积分得到的等效电容”一致。
-
-相关文件：
-- test_cap_param/verify_ls_caps_vs_ac_integral.py
-
-### 3.1 它用到的网表/临时文件
-
-该脚本会在 netlists/temp_ls_caps_vs_ac/ 下生成并运行 4 个临时网表：
-- ac_sweep_vg.cir：扫 VG，输出 Cgs/Cgd/Cgb 随 Vg
-- ac_sweep_vb.cir：扫 VB，输出 Csb/Cdb 随 Vb
-- tran_step_vg.cir：VG 做阶跃（0→0.8 之类），通过积分 i(VS)/i(VD)/i(VB) 得到等效大信号电容
-- tran_step_vb.cir：VB 做阶跃（0→-0.8 之类），通过积分 i(VS)/i(VD) 得到等效大信号电容
-
-补充：该旁路脚本也会输出 `Cgg`（通过 `i(VG)`）并在对比表中给出 `cgg` 行。
-
-注意：脚本里已经避免在 ngspice 网表中使用字符串 if（ngspice 不支持），而是在 Python 侧生成不同的 .control 片段。
-
-### 3.2 输出文件
-
-默认输出目录：test_cap_param/results/ls_caps_vs_ac/
-
-主要产物：
-- ac_sweep_vg.txt / ac_sweep_vb.txt：AC sweep 表格
-- tran_step_vg.cir.log.txt / tran_step_vb.cir.log.txt：ngspice 输出日志（包含 meas 值）
-- cap_compare.csv：汇总 TRAN 与 AC 积分对比（tran_fF / ac_int_fF / rel_err）
-
-### 3.3 可调参数（速度/精度相关）
-
-- --ac-step：AC 扫描的电压步长（V）
-  - 步长越大 → 点数越少 → 越快，但 AC 积分误差可能变大
-  - 例如：--ac-step 0.2 很快，--ac-step 0.01 更精细但更慢
-
-- --ac-freq：AC 单点频率（Hz），默认 1e6
-
----
-
 ## 4. “AC 仿真结果文件”速查表
 
 当你运行：
 ```bash
-python src/mosfet_simulation.py --mode ac --output-dir <OUT>
+PYTHONPATH=src python -m spice_model_benchmark.mosfet_simulation --mode ac --output-dir <OUT>
 ```
 
 通常会得到：
