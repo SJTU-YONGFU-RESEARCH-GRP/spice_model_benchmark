@@ -768,16 +768,32 @@ class MOSFETSimulation:
 
 def parse_args():
     parser = argparse.ArgumentParser(description='MOSFET Simulation and Analysis')
+
+    def _default_netlist(rel_name: str) -> str:
+        """Pick a reasonable default netlist path.
+
+        Supports running from repo root or from within `src/`.
+        """
+        candidates = [
+            Path.cwd() / "netlists" / rel_name,
+            Path(__file__).resolve().parents[2] / "netlists" / rel_name,
+        ]
+        for p in candidates:
+            if p.exists():
+                return str(p)
+        # Fallback: keep legacy relative path
+        return str(Path("netlists") / rel_name)
+
     parser.add_argument('--mode', type=str, nargs='+', default=['all'],
                         choices=['all', 'dc', 'transient', 'ac', 'noise'],
                         help='Simulation modes to run (default: all). Can specify multiple modes.')
-    parser.add_argument('--dc-circuit', type=str, default='netlists/dc_circuit.cir',
+    parser.add_argument('--dc-circuit', type=str, default=_default_netlist('dc_circuit.cir'),
                         help='Path to DC circuit file (default: netlists/dc_circuit.cir)')
-    parser.add_argument('--transient-circuit', type=str, default='netlists/transient_circuit.cir',
+    parser.add_argument('--transient-circuit', type=str, default=_default_netlist('transient_circuit.cir'),
                         help='Path to transient circuit file (default: netlists/transient_circuit.cir)')
-    parser.add_argument('--noise-circuit', type=str, default='netlists/noise_circuit.cir',
+    parser.add_argument('--noise-circuit', type=str, default=_default_netlist('noise_circuit.cir'),
                         help='Path to noise circuit file (default: netlists/noise_circuit.cir)')
-    parser.add_argument('--ac-circuit', type=str, default='netlists/ac_circuit.cir',
+    parser.add_argument('--ac-circuit', type=str, default=_default_netlist('ac_circuit.cir'),
                         help='Path to AC circuit file (default: netlists/ac_circuit.cir)')
     parser.add_argument('--output-dir', type=str, default='results',
                         help='Output directory (default: results)')
