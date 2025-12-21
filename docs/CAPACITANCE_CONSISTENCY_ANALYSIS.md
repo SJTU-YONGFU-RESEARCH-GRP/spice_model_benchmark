@@ -33,21 +33,20 @@
 ### 2.1 方法描述
 
 #### 方法 A: AC 小信号积分 (AC Integration)
-- 网表: `sandbox/expt_cv/cv_mos_realistic.cir`（历史实验）
-- 主链路等价实现：`netlists/ac_circuit.cir` 生成 `cv_data.txt`，由 Python 对 C(V) 积分得到大信号电容
+- 主链路网表：`netlists/ac_circuit.cir` 生成 `cv_data.txt`，由 Python 对 C(V) 积分得到大信号电容
 - 原理: 
   $$ Q_{total} = \int_{0}^{1.2} C_{gg}(V) \, dV $$
   $$ C_{LS} = \frac{Q_{total}}{\Delta V} $$
 - 仿真: AC 频率 1MHz，积分区间 0V ~ 1.2V。
 
 #### 方法 B: Transient 大信号 (Transient Charge)
-- 网表: `sandbox/expt_cv/tran_mos_realistic.cir`
+- 主链路网表：`netlists/transient_circuit.cir`
 - 原理: 施加 Vg 脉冲 (0 -> 1.2V)，积分栅极电流：
   $$ Q_{total} = \int I_g(t) \, dt $$
   $$ C_{LS} = \frac{Q_{total}}{\Delta V} $$
 
 #### 方法 C: DC 工作点差分 (Method 5.1)
-- 网表: `test_cap_param/run_single_point.py` 生成的 `freepdk45_dc_circuit_*.cir`
+- 说明：本仓库主链路不包含历史实验脚本；若要做 DC `op` 差分，可基于 `netlists/*_dc_circuit.cir` 自行扩展工作点扫描。
 - 原理: 在 Vg=0 和 Vg=1.2 分别运行 `op`，读取 `@M[qg]`：
   $$ C_{LS} = \frac{Q_g(1.2V) - Q_g(0V)}{1.2V} $$
 
@@ -82,20 +81,18 @@
 1. **弃用 DC Method 5.1**: 目前基于 ngspice `op` `@M[qg]` 的提取方法不可靠，无法用于验证 AC 模型的一致性。
 2. **采用 Transient 法**: 作为大信号电容的“真值”。该方法直接反映了电路在时域的大信号行为，且与 AC 小信号积分结果高度吻合。
 3. **更新工具链**:
-   - 修改 `run_cap_param_sweep.py`，增加或替换为 Transient 仿真模式。
-   - 在后续的 PDK 移植和测试中，优先使用 Transient 方法进行大信号电容提取。
+  - 在后续的 PDK 移植和测试中，优先使用 Transient 方法或 AC 积分法进行大信号电容提取。
 
 ## 5. 附录：复现脚本
 
 运行以下命令可复现本报告结果：
 
 ```bash
-python sandbox/expt_cv/run_comparison_study.py
+# AC analysis (includes AC-integral large-signal capacitance outputs)
+PYTHONPATH=src python -m spice_model_benchmark.mosfet_simulation --mode ac --output-dir results_ac_cmatrix
 
-也可以使用主链路一键生成 AC 积分的大信号结果（输出目录可自定）：
-
-```bash
-python src/mosfet_simulation.py --mode ac --output-dir results_ac_cmatrix
+# Transient analysis (time-domain large-signal behavior)
+PYTHONPATH=src python -m spice_model_benchmark.mosfet_simulation --mode transient --output-dir results_tran_smoke
 ```
 
 主链路新增输出（`results_ac_cmatrix/data/`）：
