@@ -60,3 +60,36 @@ wheels/
 
 # Logs
 *.log 
+
+# Simulation results and generated data
+results/
+plots/
+test_cap_param/results/
+sandbox/**/results/
+sandbox/**/tran_results/
+src/results/
+
+# Generated measurement data at repo root
+bias_point_data.txt
+iv_data_*.txt
+ls_caps_dc*.txt
+sim_log.txt
+cv_data.txt
+sparams_data.txt
+nqs_effects.txt
+charge_conservation.txt
+
+# Local one-off run directories
+tmp_*/
+
+# Local virtual environments
+.venv/
+
+# Generated SPICE netlists (corner / L-W / VDD sweeps)
+netlists/freepdk45/
+netlists/sky130/
+netlists/freepdk45_*_t*/
+netlists/sky130_*_t*/
+netlists/freepdk45_dc_circuit_*T*.cir
+netlists/sky130_dc_circuit_*T*.cir
+netlists/test_cap_single*.cir

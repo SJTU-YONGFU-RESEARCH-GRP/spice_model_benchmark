@@ -644,6 +644,81 @@ class VerificationManager:
                 content.append("- [<span style='color: red'>✗</span>] CV characteristics verification failed")
                 content.append("  - Data not available or failed to read")
             content.append("")
+
+            # AC-integral large-signal capacitance from C(V)
+            ac_ls = results.get('ac_integrated_large_signal_caps', {}) or {}
+            content.append("### AC-Integral Large-Signal Capacitance")
+            if ac_ls.get('data_ready'):
+                ls_caps = ac_ls.get('ls_caps_f', {}) or {}
+                content.append("- [<span style='color: green'>✓</span>] Large-signal capacitances computed from AC C(V) integral")
+                content.append(
+                    f"  - Path: Vg {ac_ls.get('vg_start', 'N/A')} → {ac_ls.get('vg_stop', 'N/A')} V (ΔV={ac_ls.get('dv', 'N/A')})"
+                )
+                freq_tag = ac_ls.get('freq_tag', 'N/A')
+                content.append(f"  - Cgg source: Cgg_{freq_tag} from cv_data.txt")
+
+                def _fmt_fF(v):
+                    try:
+                        return f"{float(v)*1e15:.6f} fF"
+                    except Exception:
+                        return "N/A"
+
+                if 'Cgg' in ls_caps:
+                    content.append(f"  - Cgg_ls: {_fmt_fF(ls_caps['Cgg'])}")
+                if 'Cgs' in ls_caps:
+                    content.append(f"  - Cgs_ls: {_fmt_fF(ls_caps['Cgs'])}")
+                if 'Cgd' in ls_caps:
+                    content.append(f"  - Cgd_ls: {_fmt_fF(ls_caps['Cgd'])}")
+                if 'Cgb' in ls_caps:
+                    content.append(f"  - Cgb_ls: {_fmt_fF(ls_caps['Cgb'])}")
+
+                outputs = ac_ls.get('outputs', {}) or {}
+                if outputs.get('summary_csv'):
+                    content.append(f"  - Output: {outputs.get('summary_csv')}")
+                if outputs.get('qg_csv'):
+                    content.append(f"  - Output: {outputs.get('qg_csv')}")
+
+                # Per-gate-area normalization (W*L)
+                ac_ls_area = results.get('ac_integrated_large_signal_caps_per_gate_area', {}) or {}
+                if ac_ls_area.get('data_ready'):
+                    content.append("  - Per-gate-area (W*L) normalization available")
+                    try:
+                        w_m = float(ac_ls_area.get('w_m'))
+                        l_m = float(ac_ls_area.get('l_m'))
+                        area_um2 = float(ac_ls_area.get('area_um2'))
+                        content.append(
+                            f"    - Geometry: W={w_m/1e-6:.6g} µm, L={l_m/1e-6:.6g} µm, Area={area_um2:.6g} µm²"
+                        )
+                    except Exception:
+                        pass
+
+                    per_m2 = ac_ls_area.get('ls_caps_f_per_m2', {}) or {}
+
+                    def _fmt_fF_per_um2_from_per_m2(v_per_m2):
+                        try:
+                            # 1 m^2 = 1e12 um^2
+                            return f"{float(v_per_m2) * 1e15 / 1e12:.6f} fF/µm²"
+                        except Exception:
+                            return "N/A"
+
+                    if 'Cgg' in per_m2:
+                        content.append(f"    - Cgg_ls/Area: {_fmt_fF_per_um2_from_per_m2(per_m2['Cgg'])}")
+                    if 'Cgs' in per_m2:
+                        content.append(f"    - Cgs_ls/Area: {_fmt_fF_per_um2_from_per_m2(per_m2['Cgs'])}")
+                    if 'Cgd' in per_m2:
+                        content.append(f"    - Cgd_ls/Area: {_fmt_fF_per_um2_from_per_m2(per_m2['Cgd'])}")
+                    if 'Cgb' in per_m2:
+                        content.append(f"    - Cgb_ls/Area: {_fmt_fF_per_um2_from_per_m2(per_m2['Cgb'])}")
+
+                    area_outputs = ac_ls_area.get('outputs', {}) or {}
+                    if area_outputs.get('summary_csv'):
+                        content.append(f"    - Output: {area_outputs.get('summary_csv')}")
+                    if area_outputs.get('cv_table_csv'):
+                        content.append(f"    - Output: {area_outputs.get('cv_table_csv')}")
+            else:
+                content.append("- [<span style='color: red'>✗</span>] AC-integral LS capacitance not available")
+                content.append("  - cv_data.txt may be missing required columns")
+            content.append("")
             
             # High-Frequency Analysis
             content.append("### S-Parameter Analysis")

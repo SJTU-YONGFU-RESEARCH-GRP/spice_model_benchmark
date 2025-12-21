@@ -14,7 +14,7 @@
 .option method=gear
 
 * Include the device model file
-.inc ../models/ngspice-cmos/FreePDK45/nom.inc
+.inc ../models/FreePDK45/nom.inc
 
 * MOSFET device under test
 M1 drain_1 gate_1 source_1 bulk_1 NMOS_VTG L=0.045u W=10u
@@ -24,34 +24,27 @@ M1 drain_1 gate_1 source_1 bulk_1 NMOS_VTG L=0.045u W=10u
 VG gate_1 0 DC 0 AC 1
 
 * Drain bias at VDD (typical operation voltage)
-VD drain_1 0 DC 1.0
+VD drain_1 0 DC 1.0 AC 0
 
 * Source and bulk connections tied to ground
-VS source_1 0 DC 0 
-VB bulk_1 0 DC 0
+VS source_1 0 DC 0 AC 0
+VB bulk_1 0 DC 0 AC 0
 
 * ------------------------------------------------------
 * Small signal S-parameter test circuit on separate nodes
 * for high-frequency characterization
 * ------------------------------------------------------
 * S-parameter test transistor
-M2 drain_2 gate_2 source_2 bulk_2 NMOS_VTG L=0.045u W=10u
+M2 drain_2 gate_2 0 0 NMOS_VTG L=0.045u W=10u
 
-* 50 ohm terminations for S-parameter analysis
-RS source_2 source_in2 50
-RG gate_2 gate_in2 50  
-RD drain_2 drain_out2 50
-RB bulk_2 0 50
+* 2-port definition: Port1=Gate, Port2=Drain (Z0=50 ohm)
+* Use 50-ohm series resistors between the port voltage sources and the device terminals.
+RG gate_2 gate_in2 50
+RD drain_2 drain_in2 50
 
-* Port sources for S-parameters
+* Port sources for S-parameters (DC bias + small-signal AC excitation set in .control)
 VGS gate_in2 0 DC 0.8 AC 0
 VDS drain_in2 0 DC 1.0 AC 0
-
-* AC current source for S11/S21 measurement
-IG 0 gate_2 AC 1
-
-* AC current source for S22/S12 measurement
-ID_current 0 drain_2 AC 1
 
 * ------------------------------------------------------
 * Charge conservation test circuit
@@ -88,6 +81,10 @@ let num_points = floor((vg_stop - vg_start)/vg_step) + 1
 
 * Create output file with header
 echo "Vg Cgg_1kHz Cgg_10kHz Cgg_100kHz Cgg_1MHz Cgb_1MHz Cgs_1MHz Cgd_1MHz" > cv_data.txt
+
+* Create output file for full 4x4 small-signal capacitance matrix (rows: current @ {g,d,s,b}; cols: excited voltage @ {g,d,s,b})
+* C_ij is defined from: I_i = j*omega*sum_j(C_ij*V_j), so C_ij = -Im(Y_ij)/omega.
+echo "Vg Cgg Cdg Csg Cbg Cgd Cdd Csd Cbd Cgs Cds Css Cbs Cgb Cdb Csb Cbb" > cmatrix_data.txt
 
 * Initialize vectors for capacitance values
 let cgg_1k_vec = vector(num_points)
@@ -151,6 +148,80 @@ while idx < num_points
     
     * Print results to file
     echo "$&vg_bias $&cgg_val_1k $&cgg_val_10k $&cgg_val_100k $&cgg_val_1m $&cgb_val_1m $&cgs_val_1m $&cgd_val_1m" >> cv_data.txt
+
+    * ----------------------------------------------------------
+    * Full 4x4 small-signal capacitance matrix at 1MHz
+    * Excite one terminal with AC=1V, hold others AC=0V.
+    * Measure all terminal currents to form one column of Y, then convert to C.
+    * ----------------------------------------------------------
+    * Column: excite gate
+    alter @VG[acmag] = 1
+    alter @VD[acmag] = 0
+    alter @VS[acmag] = 0
+    alter @VB[acmag] = 0
+    ac lin 1 1meg 1meg
+    let cgg_m = -imag(i(VG))/(2*3.14159*1e6)
+    let cdg_m = -imag(i(VD))/(2*3.14159*1e6)
+    let csg_m = -imag(i(VS))/(2*3.14159*1e6)
+    let cbg_m = -imag(i(VB))/(2*3.14159*1e6)
+    set cgg_s = $&cgg_m
+    set cdg_s = $&cdg_m
+    set csg_s = $&csg_m
+    set cbg_s = $&cbg_m
+
+    * Column: excite drain
+    alter @VG[acmag] = 0
+    alter @VD[acmag] = 1
+    alter @VS[acmag] = 0
+    alter @VB[acmag] = 0
+    ac lin 1 1meg 1meg
+    let cgd_m = -imag(i(VG))/(2*3.14159*1e6)
+    let cdd_m = -imag(i(VD))/(2*3.14159*1e6)
+    let csd_m = -imag(i(VS))/(2*3.14159*1e6)
+    let cbd_m = -imag(i(VB))/(2*3.14159*1e6)
+    set cgd_s = $&cgd_m
+    set cdd_s = $&cdd_m
+    set csd_s = $&csd_m
+    set cbd_s = $&cbd_m
+
+    * Column: excite source
+    alter @VG[acmag] = 0
+    alter @VD[acmag] = 0
+    alter @VS[acmag] = 1
+    alter @VB[acmag] = 0
+    ac lin 1 1meg 1meg
+    let cgs_m = -imag(i(VG))/(2*3.14159*1e6)
+    let cds_m = -imag(i(VD))/(2*3.14159*1e6)
+    let css_m = -imag(i(VS))/(2*3.14159*1e6)
+    let cbs_m = -imag(i(VB))/(2*3.14159*1e6)
+    set cgs_s = $&cgs_m
+    set cds_s = $&cds_m
+    set css_s = $&css_m
+    set cbs_s = $&cbs_m
+
+    * Column: excite bulk
+    alter @VG[acmag] = 0
+    alter @VD[acmag] = 0
+    alter @VS[acmag] = 0
+    alter @VB[acmag] = 1
+    ac lin 1 1meg 1meg
+    let cgb_m = -imag(i(VG))/(2*3.14159*1e6)
+    let cdb_m = -imag(i(VD))/(2*3.14159*1e6)
+    let csb_m = -imag(i(VS))/(2*3.14159*1e6)
+    let cbb_m = -imag(i(VB))/(2*3.14159*1e6)
+    set cgb_s = $&cgb_m
+    set cdb_s = $&cdb_m
+    set csb_s = $&csb_m
+    set cbb_s = $&cbb_m
+
+    * Restore: excite gate for any subsequent CV calculations
+    alter @VG[acmag] = 1
+    alter @VD[acmag] = 0
+    alter @VS[acmag] = 0
+    alter @VB[acmag] = 0
+
+    * Write one row for this Vg bias
+    echo "$&vg_bias $cgg_s $cdg_s $csg_s $cbg_s $cgd_s $cdd_s $csd_s $cbd_s $cgs_s $cds_s $css_s $cbs_s $cgb_s $cdb_s $csb_s $cbb_s" >> cmatrix_data.txt
     
     * Increment index
     let idx = idx + 1
@@ -169,109 +240,56 @@ alter VDS = 1.0
 echo "# S-parameter analysis" > sparams_data.txt
 echo "# freq s11_mag s11_phase s12_mag s12_phase s21_mag s21_phase s22_mag s22_phase" >> sparams_data.txt
 
-* Perform S-parameter analysis at each frequency directly
-* Frequency 1: 1MHz
-alter IG = 1
-alter @ID_current[acmag] = 0
-ac lin 1 1e6 1e6
-* Calculate S-parameters using fixed reference impedance value
-let vin_g = v(gate_2)
-let vout_d = v(drain_2)
-let s11_m = abs(vin_g - 50)/abs(vin_g + 50)
-let s11_p = 180/3.14159*ph(v(gate_2))
-let s21_m = 2*abs(vout_d)/abs(vin_g + 50)
-let s21_p = 180/3.14159*ph(v(drain_2))
+* Compute true 2-port S-parameters by extracting Y-parameters via two AC excitations.
+* Convert Y -> S using reference impedance Z0=50 ohm.
 
-* S22 and S12 measurements
-alter IG = 0
-alter @ID_current[acmag] = 1
-ac lin 1 1e6 1e6
-let vin_d = v(drain_2)
-let vout_g = v(gate_2)
-let s22_m = abs(vin_d - 50)/abs(vin_d + 50)
-let s22_p = 180/3.14159*ph(v(drain_2))
-let s12_m = 2*abs(vout_g)/abs(vin_d + 50)
-let s12_p = 180/3.14159*ph(v(gate_2))
+* Frequencies to evaluate (Hz)
+foreach freq 1e6 1e7 1e8 1e9
+    * Reset plots so the two AC runs are always ac1 (port1) and ac2 (port2)
+    destroy all
+    * Excite Port1 (Gate): V1=1V, V2=0V
+    alter @VGS[acmag]=1
+    alter @VDS[acmag]=0
+    ac lin 1 $freq $freq
+    * Port currents entering the DUT are -i(Vsource)
+    let y11 = (-i(VGS)) / v(gate_in2)
+    let y21 = (-i(VDS)) / v(gate_in2)
 
-* Save S-parameter results for this frequency using print instead of echo
-print s11_m s11_p s12_m s12_p s21_m s21_p s22_m s22_p
-* Write the values directly using a placeholder for now (actual values will be written by hand later)
-echo "1.0e+06 0.9 0.2 0.01 0.01 0.05 0.4 0.7 0.3" >> sparams_data.txt
+    * Excite Port2 (Drain): V1=0V, V2=1V
+    alter @VGS[acmag]=0
+    alter @VDS[acmag]=1
+    ac lin 1 $freq $freq
+    let y12 = (-i(VGS)) / v(drain_in2)
+    let y22 = (-i(VDS)) / v(drain_in2)
 
-* Frequency 2: 10MHz
-alter IG = 1
-alter @ID_current[acmag] = 0
-ac lin 1 10e6 10e6
-let vin_g = v(gate_2)
-let vout_d = v(drain_2)
-let s11_m = abs(vin_g - 50)/abs(vin_g + 50)
-let s11_p = 180/3.14159*ph(v(gate_2))
-let s21_m = 2*abs(vout_d)/abs(vin_g + 50)
-let s21_p = 180/3.14159*ph(v(drain_2))
+    * Convert Y -> S: S = (I - Z0*Y) * inv(I + Z0*Y)
+    * Note: y11/y21 are defined in plot ac1; y12/y22 are in the current plot (ac2)
+    let a11 = 1 + 50*ac1.y11
+    let a12 = 50*y12
+    let a21 = 50*ac1.y21
+    let a22 = 1 + 50*y22
+    let b11 = 1 - 50*ac1.y11
+    let b12 = -50*y12
+    let b21 = -50*ac1.y21
+    let b22 = 1 - 50*y22
+    let detA = a11*a22 - a12*a21
 
-alter IG = 0
-alter @ID_current[acmag] = 1
-ac lin 1 10e6 10e6
-let vin_d = v(drain_2)
-let vout_g = v(gate_2)
-let s22_m = abs(vin_d - 50)/abs(vin_d + 50)
-let s22_p = 180/3.14159*ph(v(drain_2))
-let s12_m = 2*abs(vout_g)/abs(vin_d + 50)
-let s12_p = 180/3.14159*ph(v(gate_2))
+    let s11 = (b11*a22 - b12*a21) / detA
+    let s12 = (-b11*a12 + b12*a11) / detA
+    let s21 = (b21*a22 - b22*a21) / detA
+    let s22 = (-b21*a12 + b22*a11) / detA
 
-* Print values and use placeholder in data file
-print s11_m s11_p s12_m s12_p s21_m s21_p s22_m s22_p
-echo "1.0e+07 0.85 0.25 0.015 0.02 0.06 0.45 0.65 0.35" >> sparams_data.txt
+    let s11_m = abs(s11)
+    let s11_p = 180/3.141592653589793*ph(s11)
+    let s12_m = abs(s12)
+    let s12_p = 180/3.141592653589793*ph(s12)
+    let s21_m = abs(s21)
+    let s21_p = 180/3.141592653589793*ph(s21)
+    let s22_m = abs(s22)
+    let s22_p = 180/3.141592653589793*ph(s22)
 
-* Frequency 3: 100MHz
-alter IG = 1
-alter @ID_current[acmag] = 0
-ac lin 1 100e6 100e6
-let vin_g = v(gate_2)
-let vout_d = v(drain_2)
-let s11_m = abs(vin_g - 50)/abs(vin_g + 50)
-let s11_p = 180/3.14159*ph(v(gate_2))
-let s21_m = 2*abs(vout_d)/abs(vin_g + 50)
-let s21_p = 180/3.14159*ph(v(drain_2))
-
-alter IG = 0
-alter @ID_current[acmag] = 1
-ac lin 1 100e6 100e6
-let vin_d = v(drain_2)
-let vout_g = v(gate_2)
-let s22_m = abs(vin_d - 50)/abs(vin_d + 50)
-let s22_p = 180/3.14159*ph(v(drain_2))
-let s12_m = 2*abs(vout_g)/abs(vin_d + 50)
-let s12_p = 180/3.14159*ph(v(gate_2))
-
-* Print values and use placeholder in data file
-print s11_m s11_p s12_m s12_p s21_m s21_p s22_m s22_p
-echo "1.0e+08 0.8 0.3 0.02 0.03 0.07 0.5 0.6 0.4" >> sparams_data.txt
-
-* Frequency 4: 1GHz (highest frequency point)
-alter IG = 1
-alter @ID_current[acmag] = 0
-ac lin 1 1e9 1e9
-let vin_g = v(gate_2)
-let vout_d = v(drain_2)
-let s11_m = abs(vin_g - 50)/abs(vin_g + 50)
-let s11_p = 180/3.14159*ph(v(gate_2))
-let s21_m = 2*abs(vout_d)/abs(vin_g + 50)
-let s21_p = 180/3.14159*ph(v(drain_2))
-
-alter IG = 0
-alter @ID_current[acmag] = 1
-ac lin 1 1e9 1e9
-let vin_d = v(drain_2)
-let vout_g = v(gate_2)
-let s22_m = abs(vin_d - 50)/abs(vin_d + 50)
-let s22_p = 180/3.14159*ph(v(drain_2))
-let s12_m = 2*abs(vout_g)/abs(vin_d + 50)
-let s12_p = 180/3.14159*ph(v(gate_2))
-
-* Print values and use placeholder in data file  
-print s11_m s11_p s12_m s12_p s21_m s21_p s22_m s22_p
-echo "1.0e+09 0.75 0.35 0.025 0.04 0.08 0.55 0.55 0.45" >> sparams_data.txt
+    echo "$freq $&s11_m $&s11_p $&s12_m $&s12_p $&s21_m $&s21_p $&s22_m $&s22_p" >> sparams_data.txt
+end
 
 echo "S-parameter analysis completed."
 

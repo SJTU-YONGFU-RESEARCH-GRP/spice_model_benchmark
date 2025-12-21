@@ -13,6 +13,101 @@ from .data_reader import DataReader
 from .plot_generator import PlotGenerator
 from .verification_manager import VerificationManager
 
+
+def _parse_spice_number(value: str) -> float:
+    """Parse a SPICE numeric literal into a float (SI units).
+
+    Supports suffixes: f, p, n, u, m, k, meg, g, t.
+    """
+    s = (value or "").strip()
+    if not s:
+        raise ValueError("empty SPICE number")
+
+    # Handle scientific notation directly
+    try:
+        return float(s)
+    except Exception:
+        pass
+
+    s_lower = s.lower()
+    multipliers = {
+        "f": 1e-15,
+        "p": 1e-12,
+        "n": 1e-9,
+        "u": 1e-6,
+        "m": 1e-3,
+        "k": 1e3,
+        "meg": 1e6,
+        "g": 1e9,
+        "t": 1e12,
+    }
+
+    # Prefer the longest suffix match
+    for suffix in ("meg", "t", "g", "k", "m", "u", "n", "p", "f"):
+        if s_lower.endswith(suffix):
+            base = s_lower[: -len(suffix)].strip()
+            if not base:
+                raise ValueError(f"invalid SPICE number: {value}")
+            return float(base) * multipliers[suffix]
+
+    raise ValueError(f"unrecognized SPICE number: {value}")
+
+
+def _extract_gate_geometry_from_ac_netlist(ac_netlist_path: str) -> dict:
+    """Extract gate geometry (W, L) for the primary AC CV device.
+
+    Convention: use instance `M1` from `netlists/ac_circuit.cir`.
+    Returns dict with keys: w_m, l_m, area_m2, area_um2.
+    """
+    import re
+
+    path = Path(ac_netlist_path)
+    if not path.exists():
+        raise FileNotFoundError(f"AC netlist not found: {ac_netlist_path}")
+
+    m1_line = None
+    with open(path, "r", encoding="utf-8", errors="ignore") as f:
+        for raw in f:
+            line = raw.strip()
+            if not line or line.startswith("*"):
+                continue
+            # Prefer M1; fallback handled below.
+            if re.match(r"^m1\b", line, flags=re.IGNORECASE):
+                m1_line = line
+                break
+
+    if m1_line is None:
+        # Fallback: first MOS-like instance line containing both W and L.
+        with open(path, "r", encoding="utf-8", errors="ignore") as f:
+            for raw in f:
+                line = raw.strip()
+                if not line or line.startswith("*"):
+                    continue
+                if not re.match(r"^m\w+\b", line, flags=re.IGNORECASE):
+                    continue
+                if re.search(r"\bw\s*=", line, flags=re.IGNORECASE) and re.search(
+                    r"\bl\s*=", line, flags=re.IGNORECASE
+                ):
+                    m1_line = line
+                    break
+
+    if m1_line is None:
+        raise ValueError("cannot find MOS instance with W/L in AC netlist")
+
+    w_match = re.search(r"\bw\s*=\s*([^\s]+)", m1_line, flags=re.IGNORECASE)
+    l_match = re.search(r"\bl\s*=\s*([^\s]+)", m1_line, flags=re.IGNORECASE)
+    if not w_match or not l_match:
+        raise ValueError(f"cannot parse W/L from line: {m1_line}")
+
+    w_m = _parse_spice_number(w_match.group(1))
+    l_m = _parse_spice_number(l_match.group(1))
+    if w_m <= 0 or l_m <= 0:
+        raise ValueError(f"invalid W/L parsed: W={w_m}, L={l_m}")
+
+    area_m2 = w_m * l_m
+    area_um2 = (w_m / 1e-6) * (l_m / 1e-6)
+    return {"w_m": w_m, "l_m": l_m, "area_m2": area_m2, "area_um2": area_um2}
+
 class MOSFETSimulation:
     """Main class for MOSFET simulation and verification.
     
@@ -65,6 +160,7 @@ class MOSFETSimulation:
             'delay_effect': None,
             'power_dissipation': None,
             'quasi_static': None,
+            'large_signal_caps': None,
             # Add noise analysis results
             'noise_analysis': None
         }
@@ -213,9 +309,139 @@ class MOSFETSimulation:
             if 'ac' in modes:
                 # Read AC data files
                 vg, cv_ig, cv_is, cv_ib, cgg = self.data_reader.read_cv_data(self.output_dir)
+                cm_vg, c_matrix = self.data_reader.read_capacitance_matrix_data(self.output_dir)
                 freq, s11_mag, s11_phase, s12_mag, s12_phase, s21_mag, s21_phase, s22_mag, s22_phase = self.data_reader.read_sparameter_data(self.output_dir)
                 nqs_freq, vg_phase, id_phase, phase_diff = self.data_reader.read_nqs_effects_data(self.output_dir)
                 time, vg, ig, id, is_, ib = self.data_reader.read_charge_conservation_data(self.output_dir)
+
+                # AC-integral large-signal capacitance extraction (from cv_data.txt columnar table)
+                try:
+                    vg_cv, caps_cv = self.data_reader.read_cv_table_data(self.output_dir, freq_tag="1MHz")
+                    if vg_cv is not None and caps_cv is not None:
+                        vg_cv = np.asarray(vg_cv, dtype=float)
+                        order = np.argsort(vg_cv)
+                        vg_sorted = vg_cv[order]
+                        dv = float(vg_sorted[-1] - vg_sorted[0]) if vg_sorted.size >= 2 else 0.0
+
+                        def _ls_cap_from_cv(cap_arr: np.ndarray) -> float:
+                            cap_sorted = np.asarray(cap_arr, dtype=float)[order]
+                            if vg_sorted.size < 2 or dv == 0.0:
+                                return float('nan')
+                            q = float(np.trapezoid(cap_sorted, vg_sorted))
+                            return q / dv
+
+                        ls_caps_f = {name: _ls_cap_from_cv(arr) for name, arr in caps_cv.items()}
+
+                        # Also compute cumulative Qg(Vg) if Cgg available
+                        qg_c = None
+                        if "Cgg" in caps_cv:
+                            cgg_sorted = np.asarray(caps_cv["Cgg"], dtype=float)[order]
+                            qg = np.zeros_like(vg_sorted, dtype=float)
+                            for i in range(1, vg_sorted.size):
+                                dv_i = vg_sorted[i] - vg_sorted[i - 1]
+                                qg[i] = qg[i - 1] + 0.5 * (cgg_sorted[i] + cgg_sorted[i - 1]) * dv_i
+                            qg_c = qg
+
+                        # Persist to <out>/data/
+                        data_dir = Path(self.output_dir) / "data"
+                        data_dir.mkdir(parents=True, exist_ok=True)
+
+                        summary_path = data_dir / "ac_ls_caps_from_cv_integral.csv"
+                        with open(summary_path, "w", encoding="utf-8") as f:
+                            f.write("cap,ac_int_F,ac_int_fF\n")
+                            for cap_name in ["Cgg", "Cgs", "Cgd", "Cgb"]:
+                                if cap_name in ls_caps_f:
+                                    v = float(ls_caps_f[cap_name])
+                                    f.write(f"{cap_name},{v:.16g},{v*1e15:.12g}\n")
+                            f.write(f"Vg_start,{vg_sorted[0]:.16g},\n")
+                            f.write(f"Vg_stop,{vg_sorted[-1]:.16g},\n")
+                            f.write(f"dVg,{dv:.16g},\n")
+
+                        if qg_c is not None:
+                            q_path = data_dir / "ac_qg_from_cv_integral.csv"
+                            with open(q_path, "w", encoding="utf-8") as f:
+                                f.write("Vg,Qg_C\n")
+                                for v, q in zip(vg_sorted.tolist(), qg_c.tolist()):
+                                    f.write(f"{v:.16g},{q:.16g}\n")
+
+                        # Per-gate-area large-signal capacitances (normalize by geometric gate area W*L)
+                        try:
+                            geom = _extract_gate_geometry_from_ac_netlist(self.ac_circuit_file)
+                            area_m2 = float(geom["area_m2"])
+                            area_um2 = float(geom["area_um2"])
+                            if area_m2 > 0 and area_um2 > 0:
+                                per_area_path = data_dir / "ac_ls_caps_from_cv_integral_per_gate_area.csv"
+                                with open(per_area_path, "w", encoding="utf-8") as f:
+                                    f.write("cap,ac_int_F_per_m2,ac_int_fF_per_um2\n")
+                                    for cap_name in ["Cgg", "Cgs", "Cgd", "Cgb"]:
+                                        if cap_name in ls_caps_f:
+                                            v = float(ls_caps_f[cap_name])
+                                            f.write(
+                                                f"{cap_name},{(v/area_m2):.16g},{(v*1e15/area_um2):.12g}\n"
+                                            )
+                                    f.write(f"W_m,{geom['w_m']:.16g},\n")
+                                    f.write(f"L_m,{geom['l_m']:.16g},\n")
+                                    f.write(f"Area_m2,{area_m2:.16g},\n")
+                                    f.write(f"Area_um2,{area_um2:.16g},\n")
+
+                                # Also persist per-Vg unit-area C(Vg) table at 1MHz (from cv_data.txt columns)
+                                cv_area_table_path = data_dir / "ac_cv_caps_1MHz_per_gate_area.csv"
+                                cap_names = ["Cgg", "Cgs", "Cgd", "Cgb"]
+                                cap_sorted_by_name = {
+                                    name: (np.asarray(caps_cv[name], dtype=float)[order] if name in caps_cv else None)
+                                    for name in cap_names
+                                }
+                                with open(cv_area_table_path, "w", encoding="utf-8") as f:
+                                    f.write(
+                                        "Vg,Cgg_fF_per_um2,Cgs_fF_per_um2,Cgd_fF_per_um2,Cgb_fF_per_um2,"
+                                        "W_um,L_um,Area_um2\n"
+                                    )
+                                    w_um = float(geom["w_m"]) / 1e-6
+                                    l_um = float(geom["l_m"]) / 1e-6
+                                    for i, vg_i in enumerate(vg_sorted.tolist()):
+                                        row = [f"{vg_i:.16g}"]
+                                        for name in cap_names:
+                                            arr = cap_sorted_by_name.get(name)
+                                            if arr is None:
+                                                row.append("")
+                                            else:
+                                                row.append(f"{(float(arr[i]) * 1e15 / area_um2):.12g}")
+                                        row.extend([f"{w_um:.16g}", f"{l_um:.16g}", f"{area_um2:.16g}"])
+                                        f.write(",".join(row) + "\n")
+
+                                self.results['ac_integrated_large_signal_caps_per_gate_area'] = {
+                                    'data_ready': True,
+                                    'w_m': float(geom['w_m']),
+                                    'l_m': float(geom['l_m']),
+                                    'area_m2': area_m2,
+                                    'area_um2': area_um2,
+                                    'ls_caps_f_per_m2': {
+                                        k: float(v) / area_m2
+                                        for k, v in ls_caps_f.items()
+                                        if k in {"Cgg", "Cgs", "Cgd", "Cgb"}
+                                    },
+                                    'outputs': {
+                                        'summary_csv': str(per_area_path.relative_to(self.output_dir)),
+                                        'cv_table_csv': str(cv_area_table_path.relative_to(self.output_dir)),
+                                    },
+                                }
+                        except Exception as e:
+                            self.logger.warning(f"Per-gate-area LS cap extraction skipped: {e}")
+
+                        self.results['ac_integrated_large_signal_caps'] = {
+                            'data_ready': True,
+                            'freq_tag': '1MHz',
+                            'vg_start': float(vg_sorted[0]),
+                            'vg_stop': float(vg_sorted[-1]),
+                            'dv': dv,
+                            'ls_caps_f': {k: float(v) for k, v in ls_caps_f.items()},
+                            'outputs': {
+                                'summary_csv': str(summary_path.relative_to(self.output_dir)),
+                                'qg_csv': str((data_dir / 'ac_qg_from_cv_integral.csv').relative_to(self.output_dir)) if qg_c is not None else None,
+                            },
+                        }
+                except Exception as e:
+                    self.logger.warning(f"AC-integral LS cap extraction skipped: {e}")
                 
                 # Generate CV plots
                 if vg is not None and cgg is not None:
@@ -233,6 +459,16 @@ class MOSFETSimulation:
                             'vg_phase': vg_phase.tolist() if vg_phase is not None else None,
                             'id_phase': id_phase.tolist() if id_phase is not None else None
                         }
+                    }
+
+                # Store full 4x4 small-signal capacitance matrix (if available)
+                if cm_vg is not None and c_matrix is not None:
+                    self.results['capacitance_matrix'] = {
+                        'data_ready': True,
+                        'terminal_order': ['g', 'd', 's', 'b'],
+                        'definition': 'I = j*omega*C*V, so C_ij = -Im(Y_ij)/omega',
+                        'vg': cm_vg.tolist(),
+                        'c_matrix': c_matrix.tolist(),
                     }
                 
                 # Generate S-parameter plots
@@ -384,6 +620,93 @@ class MOSFETSimulation:
                     plot_generator.plot_trans_quasi_static(self.output_dir, time_qs, vgate_qs, vdrain_qs, idrain_qs)
                     qs_results = self.verification_manager.verify_trans_quasi_static(time_qs, vgate_qs, vdrain_qs, idrain_qs)
                     self.results['quasi_static'] = qs_results
+
+                # 6. Large-signal capacitance extraction from transient charge test (gate step)
+                time_cap, vg_cap, ig_cap, id_cap, is_cap, ib_cap = self.data_reader.read_trans_charge_conservation_data(self.output_dir)
+                if all(x is not None for x in [time_cap, vg_cap, ig_cap, id_cap, is_cap, ib_cap]):
+                    # Integrate terminal currents to obtain terminal charges
+                    qg = np.zeros_like(ig_cap)
+                    qd = np.zeros_like(id_cap)
+                    qs = np.zeros_like(is_cap)
+                    qb = np.zeros_like(ib_cap)
+                    for i_idx in range(1, len(time_cap)):
+                        dt = time_cap[i_idx] - time_cap[i_idx - 1]
+                        qg[i_idx] = qg[i_idx - 1] + 0.5 * (ig_cap[i_idx] + ig_cap[i_idx - 1]) * dt
+                        qd[i_idx] = qd[i_idx - 1] + 0.5 * (id_cap[i_idx] + id_cap[i_idx - 1]) * dt
+                        qs[i_idx] = qs[i_idx - 1] + 0.5 * (is_cap[i_idx] + is_cap[i_idx - 1]) * dt
+                        qb[i_idx] = qb[i_idx - 1] + 0.5 * (ib_cap[i_idx] + ib_cap[i_idx - 1]) * dt
+
+                    # Estimate VDD from gate voltage waveform
+                    vdd_est = float(np.max(vg_cap)) if vg_cap is not None else 0.0
+                    if vdd_est > 0.0:
+                        v_low_thr = 0.1 * vdd_est
+                        v_high_thr = 0.9 * vdd_est
+
+                        # Rising edge: 0 -> VDD
+                        low_indices = np.where(vg_cap <= v_low_thr)[0]
+                        high_indices = np.where(vg_cap >= v_high_thr)[0]
+                        if low_indices.size > 0 and high_indices.size > 0:
+                            i_start = low_indices[0]
+                            i_end = high_indices[0]
+                            dv = vg_cap[i_end] - vg_cap[i_start]
+                            if abs(dv) > 0.0:
+                                cgs_rise = -(qs[i_end] - qs[i_start]) / dv
+                                cgd_rise = -(qd[i_end] - qd[i_start]) / dv
+                                cgb_rise = -(qb[i_end] - qb[i_start]) / dv
+                            else:
+                                cgs_rise = cgd_rise = cgb_rise = None
+                        else:
+                            cgs_rise = cgd_rise = cgb_rise = None
+
+                        # Falling edge: VDD -> 0
+                        low_indices_end = np.where(vg_cap <= v_low_thr)[0]
+                        high_indices_end = np.where(vg_cap >= v_high_thr)[0]
+                        if low_indices_end.size > 0 and high_indices_end.size > 0:
+                            i_start_fall = high_indices_end[-1]
+                            i_end_fall = low_indices_end[-1]
+                            if i_end_fall > i_start_fall:
+                                dv_fall = vg_cap[i_end_fall] - vg_cap[i_start_fall]
+                                if abs(dv_fall) > 0.0:
+                                    cgs_fall = -(qs[i_end_fall] - qs[i_start_fall]) / dv_fall
+                                    cgd_fall = -(qd[i_end_fall] - qd[i_start_fall]) / dv_fall
+                                    cgb_fall = -(qb[i_end_fall] - qb[i_start_fall]) / dv_fall
+                                else:
+                                    cgs_fall = cgd_fall = cgb_fall = None
+                            else:
+                                cgs_fall = cgd_fall = cgb_fall = None
+                        else:
+                            cgs_fall = cgd_fall = cgb_fall = None
+
+                        # Store large-signal capacitance results (transient current-integration method)
+                        self.results['large_signal_caps'] = {
+                            'definition_tran': 'large-signal ΔQ/ΔV from gate step transient (0→VDD and VDD→0)',
+                            'vdd_est_tran': vdd_est,
+                            'cgs_rise': cgs_rise,
+                            'cgd_rise': cgd_rise,
+                            'cgb_rise': cgb_rise,
+                            'cgs_fall': cgs_fall,
+                            'cgd_fall': cgd_fall,
+                            'cgb_fall': cgb_fall,
+                        }
+
+                        caps = self.results['large_signal_caps']
+                        caps_file = self.output_dir / 'large_signal_caps.txt'
+                        try:
+                            with open(caps_file, 'w') as f:
+                                # Transient current-integration method (5.2)
+                                f.write("[Transient gate-step method (current integration, 5.2)]\n")
+                                definition_tran = caps.get('definition_tran', '')
+                                vdd_tran = caps.get('vdd_est_tran', None)
+                                f.write(f"definition_tran: {definition_tran}\n")
+                                f.write(f"vdd_est_tran: {vdd_tran}\n")
+                                for key in ['cgs_rise', 'cgd_rise', 'cgb_rise', 'cgs_fall', 'cgd_fall', 'cgb_fall']:
+                                    val = caps.get(key, None)
+                                    if val is None:
+                                        f.write(f"{key}: None\n")
+                                    else:
+                                        f.write(f"{key}: {val:.6e} F ({val*1e15:.3f} fF)\n")
+                        except Exception as e:
+                            self.logger.error(f"Failed to write large_signal_caps file: {e}")
             
             if 'noise' in modes:
                 # Read and verify noise analysis data
