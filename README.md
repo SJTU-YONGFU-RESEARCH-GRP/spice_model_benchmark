@@ -213,8 +213,8 @@ Key metrics to check in the report:
 - Temperature coefficients and scaling behavior
 
 Additional AC outputs (if `--mode ac` ran successfully):
-- `results/data/ac_ls_caps_from_cv_integral.csv`: Large-signal capacitances computed from AC C(V) integral along the Vg sweep path.
-- `results/data/ac_qg_from_cv_integral.csv`: Integrated Qg(Vg) curve derived from Cgg(Vg).
+- `<output-dir>/data/ac_ls_caps_from_cv_integral.csv`: Large-signal capacitances computed from AC C(V) integral along the Vg sweep path.
+- `<output-dir>/data/ac_qg_from_cv_integral.csv`: Integrated Qg(Vg) curve derived from Cgg(Vg).
 
 ### Customizing Verification Criteria
 
