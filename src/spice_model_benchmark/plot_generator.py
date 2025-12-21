@@ -472,6 +472,89 @@ class PlotGenerator:
             if self.logger:
                 self.logger.info(f"CV plot saved to {std_file}")
             results.append(std_file)
+
+            # ---------- Plot 3: Per-gate-area (W*L) normalized CV at 1MHz ----------
+            # This plot is generated if MOSFETSimulation produced the per-area table.
+            per_area_file = os.path.join(output_dir, 'data', 'ac_cv_caps_1MHz_per_gate_area.csv')
+            if os.path.exists(per_area_file):
+                try:
+                    arr = np.genfromtxt(per_area_file, delimiter=',', names=True, dtype=float, encoding=None)
+                    if arr.size > 0 and 'Vg' in arr.dtype.names:
+                        vg_a = np.atleast_1d(arr['Vg']).astype(float)
+                        order_a = np.argsort(vg_a)
+                        vg_a = vg_a[order_a]
+
+                        def _col(name: str):
+                            if name in arr.dtype.names:
+                                return np.atleast_1d(arr[name]).astype(float)[order_a]
+                            return None
+
+                        cgg_a = _col('Cgg_fF_per_um2')
+                        cgs_a = _col('Cgs_fF_per_um2')
+                        cgd_a = _col('Cgd_fF_per_um2')
+                        cgb_a = _col('Cgb_fF_per_um2')
+
+                        # Plot Cgg per area
+                        if cgg_a is not None:
+                            plt.figure(figsize=(12, 8))
+                            plt.plot(
+                                vg_a,
+                                cgg_a,
+                                '-',
+                                linewidth=2.5,
+                                color=self.color_map['primary'],
+                                label='Cgg / Area (1MHz)'
+                            )
+                            plt.xlabel('Gate Voltage (V)', fontsize=12)
+                            plt.ylabel('Capacitance Density (fF/µm²)', fontsize=12)
+                            plt.title('CV Characteristics per Gate Area (1MHz)', fontsize=14)
+                            plt.grid(True, alpha=0.3)
+                            plt.axvline(x=vth, color='gray', linestyle='--', linewidth=1.5, label=f'Vth ≈ {vth}V')
+                            plt.legend()
+
+                            plt.tight_layout()
+                            std_area_file = Path(self.plots_dir) / 'ac_cv_characteristics_per_gate_area.png'
+                            plt.savefig(std_area_file, dpi=self.dpi, bbox_inches='tight')
+                            plt.close()
+                            if self.logger:
+                                self.logger.info(f"CV per-area plot saved to {std_area_file}")
+                            results.append(std_area_file)
+
+                        # Plot components per area
+                        if all(x is not None for x in [cgg_a, cgb_a, cgs_a, cgd_a]):
+                            plt.figure(figsize=(12, 8))
+                            plt.plot(vg_a, cgg_a, '-', linewidth=2.5, color=self.color_map['total'], label='Cgg / Area')
+                            plt.plot(vg_a, cgb_a, '--', linewidth=2, color=self.color_map['primary'], label='Cgb / Area')
+                            plt.plot(vg_a, cgs_a, '--', linewidth=2, color=self.color_map['secondary'], label='Cgs / Area')
+                            plt.plot(vg_a, cgd_a, '--', linewidth=2, color=self.color_map['tertiary'], label='Cgd / Area')
+                            plt.axvline(x=vth, color='gray', linestyle='--', linewidth=1.5, label=f'Vth ≈ {vth}V')
+
+                            plt.xlabel('Gate Voltage (V)', fontsize=12)
+                            plt.ylabel('Capacitance Density (fF/µm²)', fontsize=12)
+                            plt.title('MOSFET Capacitance Components per Gate Area (1MHz)', fontsize=14)
+                            plt.grid(True, alpha=0.3)
+                            plt.legend(loc='best')
+
+                            # Make sure negative components are visible
+                            all_vals = np.concatenate((cgg_a, cgb_a, cgs_a, cgd_a))
+                            y_min = float(np.min(all_vals))
+                            y_max = float(np.max(all_vals))
+                            pad = 0.1 * (y_max - y_min) if y_max > y_min else (abs(y_max) * 0.1 + 1.0)
+                            plt.ylim(y_min - pad, y_max + pad)
+
+                            plt.axhline(y=0, color='k', linestyle='-', alpha=0.2)
+                            plt.axvline(x=0, color='k', linestyle='-', alpha=0.2)
+
+                            plt.tight_layout()
+                            comp_area_file = Path(self.plots_dir) / 'ac_cv_components_per_gate_area.png'
+                            plt.savefig(comp_area_file, dpi=self.dpi)
+                            plt.close()
+                            if self.logger:
+                                self.logger.info(f"CV components per-area plot saved to {comp_area_file}")
+                            results.append(comp_area_file)
+                except Exception as e:
+                    if self.logger:
+                        self.logger.warning(f"Per-area CV plot skipped: {e}")
             
             return results
             

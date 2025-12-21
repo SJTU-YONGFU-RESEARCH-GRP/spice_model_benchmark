@@ -13,6 +13,101 @@ from .data_reader import DataReader
 from .plot_generator import PlotGenerator
 from .verification_manager import VerificationManager
 
+
+def _parse_spice_number(value: str) -> float:
+    """Parse a SPICE numeric literal into a float (SI units).
+
+    Supports suffixes: f, p, n, u, m, k, meg, g, t.
+    """
+    s = (value or "").strip()
+    if not s:
+        raise ValueError("empty SPICE number")
+
+    # Handle scientific notation directly
+    try:
+        return float(s)
+    except Exception:
+        pass
+
+    s_lower = s.lower()
+    multipliers = {
+        "f": 1e-15,
+        "p": 1e-12,
+        "n": 1e-9,
+        "u": 1e-6,
+        "m": 1e-3,
+        "k": 1e3,
+        "meg": 1e6,
+        "g": 1e9,
+        "t": 1e12,
+    }
+
+    # Prefer the longest suffix match
+    for suffix in ("meg", "t", "g", "k", "m", "u", "n", "p", "f"):
+        if s_lower.endswith(suffix):
+            base = s_lower[: -len(suffix)].strip()
+            if not base:
+                raise ValueError(f"invalid SPICE number: {value}")
+            return float(base) * multipliers[suffix]
+
+    raise ValueError(f"unrecognized SPICE number: {value}")
+
+
+def _extract_gate_geometry_from_ac_netlist(ac_netlist_path: str) -> dict:
+    """Extract gate geometry (W, L) for the primary AC CV device.
+
+    Convention: use instance `M1` from `netlists/ac_circuit.cir`.
+    Returns dict with keys: w_m, l_m, area_m2, area_um2.
+    """
+    import re
+
+    path = Path(ac_netlist_path)
+    if not path.exists():
+        raise FileNotFoundError(f"AC netlist not found: {ac_netlist_path}")
+
+    m1_line = None
+    with open(path, "r", encoding="utf-8", errors="ignore") as f:
+        for raw in f:
+            line = raw.strip()
+            if not line or line.startswith("*"):
+                continue
+            # Prefer M1; fallback handled below.
+            if re.match(r"^m1\b", line, flags=re.IGNORECASE):
+                m1_line = line
+                break
+
+    if m1_line is None:
+        # Fallback: first MOS-like instance line containing both W and L.
+        with open(path, "r", encoding="utf-8", errors="ignore") as f:
+            for raw in f:
+                line = raw.strip()
+                if not line or line.startswith("*"):
+                    continue
+                if not re.match(r"^m\w+\b", line, flags=re.IGNORECASE):
+                    continue
+                if re.search(r"\bw\s*=", line, flags=re.IGNORECASE) and re.search(
+                    r"\bl\s*=", line, flags=re.IGNORECASE
+                ):
+                    m1_line = line
+                    break
+
+    if m1_line is None:
+        raise ValueError("cannot find MOS instance with W/L in AC netlist")
+
+    w_match = re.search(r"\bw\s*=\s*([^\s]+)", m1_line, flags=re.IGNORECASE)
+    l_match = re.search(r"\bl\s*=\s*([^\s]+)", m1_line, flags=re.IGNORECASE)
+    if not w_match or not l_match:
+        raise ValueError(f"cannot parse W/L from line: {m1_line}")
+
+    w_m = _parse_spice_number(w_match.group(1))
+    l_m = _parse_spice_number(l_match.group(1))
+    if w_m <= 0 or l_m <= 0:
+        raise ValueError(f"invalid W/L parsed: W={w_m}, L={l_m}")
+
+    area_m2 = w_m * l_m
+    area_um2 = (w_m / 1e-6) * (l_m / 1e-6)
+    return {"w_m": w_m, "l_m": l_m, "area_m2": area_m2, "area_um2": area_um2}
+
 class MOSFETSimulation:
     """Main class for MOSFET simulation and verification.
     
@@ -268,6 +363,70 @@ class MOSFETSimulation:
                                 f.write("Vg,Qg_C\n")
                                 for v, q in zip(vg_sorted.tolist(), qg_c.tolist()):
                                     f.write(f"{v:.16g},{q:.16g}\n")
+
+                        # Per-gate-area large-signal capacitances (normalize by geometric gate area W*L)
+                        try:
+                            geom = _extract_gate_geometry_from_ac_netlist(self.ac_circuit_file)
+                            area_m2 = float(geom["area_m2"])
+                            area_um2 = float(geom["area_um2"])
+                            if area_m2 > 0 and area_um2 > 0:
+                                per_area_path = data_dir / "ac_ls_caps_from_cv_integral_per_gate_area.csv"
+                                with open(per_area_path, "w", encoding="utf-8") as f:
+                                    f.write("cap,ac_int_F_per_m2,ac_int_fF_per_um2\n")
+                                    for cap_name in ["Cgg", "Cgs", "Cgd", "Cgb"]:
+                                        if cap_name in ls_caps_f:
+                                            v = float(ls_caps_f[cap_name])
+                                            f.write(
+                                                f"{cap_name},{(v/area_m2):.16g},{(v*1e15/area_um2):.12g}\n"
+                                            )
+                                    f.write(f"W_m,{geom['w_m']:.16g},\n")
+                                    f.write(f"L_m,{geom['l_m']:.16g},\n")
+                                    f.write(f"Area_m2,{area_m2:.16g},\n")
+                                    f.write(f"Area_um2,{area_um2:.16g},\n")
+
+                                # Also persist per-Vg unit-area C(Vg) table at 1MHz (from cv_data.txt columns)
+                                cv_area_table_path = data_dir / "ac_cv_caps_1MHz_per_gate_area.csv"
+                                cap_names = ["Cgg", "Cgs", "Cgd", "Cgb"]
+                                cap_sorted_by_name = {
+                                    name: (np.asarray(caps_cv[name], dtype=float)[order] if name in caps_cv else None)
+                                    for name in cap_names
+                                }
+                                with open(cv_area_table_path, "w", encoding="utf-8") as f:
+                                    f.write(
+                                        "Vg,Cgg_fF_per_um2,Cgs_fF_per_um2,Cgd_fF_per_um2,Cgb_fF_per_um2,"
+                                        "W_um,L_um,Area_um2\n"
+                                    )
+                                    w_um = float(geom["w_m"]) / 1e-6
+                                    l_um = float(geom["l_m"]) / 1e-6
+                                    for i, vg_i in enumerate(vg_sorted.tolist()):
+                                        row = [f"{vg_i:.16g}"]
+                                        for name in cap_names:
+                                            arr = cap_sorted_by_name.get(name)
+                                            if arr is None:
+                                                row.append("")
+                                            else:
+                                                row.append(f"{(float(arr[i]) * 1e15 / area_um2):.12g}")
+                                        row.extend([f"{w_um:.16g}", f"{l_um:.16g}", f"{area_um2:.16g}"])
+                                        f.write(",".join(row) + "\n")
+
+                                self.results['ac_integrated_large_signal_caps_per_gate_area'] = {
+                                    'data_ready': True,
+                                    'w_m': float(geom['w_m']),
+                                    'l_m': float(geom['l_m']),
+                                    'area_m2': area_m2,
+                                    'area_um2': area_um2,
+                                    'ls_caps_f_per_m2': {
+                                        k: float(v) / area_m2
+                                        for k, v in ls_caps_f.items()
+                                        if k in {"Cgg", "Cgs", "Cgd", "Cgb"}
+                                    },
+                                    'outputs': {
+                                        'summary_csv': str(per_area_path.relative_to(self.output_dir)),
+                                        'cv_table_csv': str(cv_area_table_path.relative_to(self.output_dir)),
+                                    },
+                                }
+                        except Exception as e:
+                            self.logger.warning(f"Per-gate-area LS cap extraction skipped: {e}")
 
                         self.results['ac_integrated_large_signal_caps'] = {
                             'data_ready': True,
