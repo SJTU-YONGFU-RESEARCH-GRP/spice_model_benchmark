@@ -74,6 +74,13 @@ bias_point_data.txt
 iv_data_*.txt
 ls_caps_dc*.txt
 sim_log.txt
+cv_data.txt
+sparams_data.txt
+nqs_effects.txt
+charge_conservation.txt
+
+# Local one-off run directories
+tmp_*/
 
 # Local virtual environments
 .venv/
