@@ -1,6 +1,0 @@
-DEFINE     analogLib       $(compute:THIS_TOOL_INST_ROOT)/tools/dfII/etc/cdslib/artist/analogLib
-DEFINE     basic           $(compute:THIS_TOOL_INST_ROOT)/tools/dfII/etc/cdslib/basic
-DEFINE     sheets          $(compute:THIS_TOOL_INST_ROOT)/tools/dfII/etc/cdslib/sheets
-DEFINE     cds_ff_mpt      ./cds_ff_mpt
-DEFINE     wsp_cds_ff_mpt  ./wsp_cds_ff_mpt
-DEFINE     cds_ff_mpt_scl  ./cds_ff_mpt_scl

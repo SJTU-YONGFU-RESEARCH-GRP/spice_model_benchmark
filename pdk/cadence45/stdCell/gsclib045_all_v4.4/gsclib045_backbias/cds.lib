@@ -1,7 +1,0 @@
-### *************************************************************************
-### Virtuoso Library Definition: gsclib045_backbias
-### *************************************************************************
-#
-UNDEFINE gsclib045_backbias
-DEFINE   gsclib045_backbias ./oa22/gsclib045_backbias
-#

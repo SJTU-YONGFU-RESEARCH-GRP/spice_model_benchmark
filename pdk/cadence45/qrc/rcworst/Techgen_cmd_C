@@ -1,3 +1,0 @@
-#!/bin/csh
-source ../setup.csh
-Techgen -compilation -p poly_conn,allGate,Oxide -canonical_res_caps -length_units meters -exclude_gate_res -cap_ground_layer psubstrate -lvs ../lvsfile -layer_setup ../layer_setup .
