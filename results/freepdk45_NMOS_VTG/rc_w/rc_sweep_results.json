@@ -1,0 +1,51 @@
+{
+  "bias": {
+    "temp": "27",
+    "vds": "0.6",
+    "vgs": "1.2"
+  },
+  "device_name": "NMOS_VTG",
+  "device_style": "model",
+  "l_param": "L",
+  "model_file": "/data1/duhaochen/spice_model_benchmark/models/FreePDK45/tran_models/models_nom/NMOS_VTG.inc",
+  "paths": {
+    "runs_dir": "/data1/duhaochen/spice_model_benchmark/results/freepdk45_NMOS_VTG/rc_w/runs"
+  },
+  "points": [
+    {
+      "ceff": 1.674627457689584e-15,
+      "ids_final": 0.00130266226,
+      "l": "0.045u",
+      "r_equiv": 460.59521214654666,
+      "tau": 1.674627457689584e-12,
+      "w": "1u"
+    },
+    {
+      "ceff": 2.784793491057116e-15,
+      "ids_final": 0.00261375877,
+      "l": "0.045u",
+      "r_equiv": 229.5544664973042,
+      "tau": 2.784793491057116e-12,
+      "w": "2u"
+    },
+    {
+      "ceff": 6.153790703589498e-15,
+      "ids_final": 0.00654665288,
+      "l": "0.045u",
+      "r_equiv": 91.64988750709507,
+      "tau": 6.153790703589498e-12,
+      "w": "5u"
+    },
+    {
+      "ceff": 1.1723033865588959e-14,
+      "ids_final": 0.0131002077,
+      "l": "0.045u",
+      "r_equiv": 45.80080054761269,
+      "tau": 1.172303386558896e-11,
+      "w": "10u"
+    }
+  ],
+  "rdrive": "1k",
+  "sweep_mode": "w",
+  "w_param": "W"
+}

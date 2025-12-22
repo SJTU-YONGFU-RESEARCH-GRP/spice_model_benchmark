@@ -1,0 +1,37 @@
+
+Note: No compatibility mode selected!
+
+
+Circuit: * rc extraction prototype netlist (template)
+
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+Initial Transient Solution
+--------------------------
+
+Node                                   Voltage
+----                                   -------
+step_rc                                      0
+gate_rc                            8.64986e-07
+drain_rc                                   0.6
+source_rc                                    0
+bulk_rc                                      0
+vb_rc#branch                       1.06014e-14
+vs_rc#branch                       1.68653e-09
+vds_rc#branch                     -2.55152e-09
+vstep_rc#branch                    8.64986e-10
+
+ Reference value :  1.49169e-09
+ Reference value :  3.44069e-09
+ Reference value :  5.41869e-09
+ Reference value :  7.38469e-09
+ Reference value :  9.31069e-09
+ Reference value :  1.07937e-08
+ Reference value :  1.27137e-08
+ Reference value :  1.46127e-08
+ Reference value :  1.64727e-08
+ Reference value :  1.83487e-08
+No. of Data Rows : 20503
+ngspice-45+ done

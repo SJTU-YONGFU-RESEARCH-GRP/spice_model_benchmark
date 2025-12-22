@@ -1,0 +1,195 @@
+{
+  "bias": {
+    "temp": "27",
+    "vds": "0.6",
+    "vgs": "1.2"
+  },
+  "checks": {
+    "ids_monotonic_decreasing_with_l": true,
+    "ids_monotonic_increasing_with_w": true,
+    "ids_near_linear_with_w": true,
+    "ids_over_w_ratio_max": 1310.3100000000002,
+    "ids_over_w_ratio_min": 1302.69,
+    "monotonic_rel_tol": 0.001,
+    "w_linearity_ratio_tol": 1.5
+  },
+  "device_name": "NMOS_VTG",
+  "device_style": "model",
+  "l_param": "L",
+  "l_sweep": [
+    {
+      "ids": 0.0131031,
+      "l": "0.045u",
+      "w": "10u"
+    },
+    {
+      "ids": 0.00998091,
+      "l": "0.06u",
+      "w": "10u"
+    },
+    {
+      "ids": 0.00715201,
+      "l": "0.09u",
+      "w": "10u"
+    },
+    {
+      "ids": 0.00390883,
+      "l": "0.18u",
+      "w": "10u"
+    }
+  ],
+  "model_file": "/data1/duhaochen/spice_model_benchmark/models/FreePDK45/tran_models/models_nom/NMOS_VTG.inc",
+  "monte_carlo": null,
+  "paths": {
+    "runs_dir": "/data1/duhaochen/spice_model_benchmark/results/freepdk45_NMOS_VTG/geometry/runs"
+  },
+  "small_signal": {
+    "checks": {
+      "gds_dvds": 0.01,
+      "gds_non_negative": true,
+      "gm_dvgs": 0.01,
+      "gm_linearity_ratio_tol": 1.5,
+      "gm_near_linear_with_w": true,
+      "gm_over_w_ratio_max": 1365.5000000000005,
+      "gm_over_w_ratio_min": 1358.9999999999957,
+      "gm_positive": true
+    },
+    "l_sweep": [
+      {
+        "gds": 0.005074999999999958,
+        "gm": 0.013655000000000004,
+        "l": "0.045u",
+        "w": "10u"
+      },
+      {
+        "gds": 0.002668000000000028,
+        "gm": 0.01193549999999998,
+        "l": "0.06u",
+        "w": "10u"
+      },
+      {
+        "gds": 0.0017910000000000321,
+        "gm": 0.009215999999999998,
+        "l": "0.09u",
+        "w": "10u"
+      },
+      {
+        "gds": 0.0011040000000000138,
+        "gm": 0.005329000000000011,
+        "l": "0.18u",
+        "w": "10u"
+      }
+    ],
+    "w_sweep": [
+      {
+        "gds": 0.0005030000000000052,
+        "gm": 0.0013589999999999956,
+        "l": "0.045u",
+        "w": "1u"
+      },
+      {
+        "gds": 0.0010110000000000023,
+        "gm": 0.00272549999999999,
+        "l": "0.045u",
+        "w": "2u"
+      },
+      {
+        "gds": 0.0025350000000000372,
+        "gm": 0.006825000000000017,
+        "l": "0.045u",
+        "w": "5u"
+      },
+      {
+        "gds": 0.005074999999999958,
+        "gm": 0.013655000000000004,
+        "l": "0.045u",
+        "w": "10u"
+      }
+    ]
+  },
+  "vth_dibl_ss": {
+    "checks": {
+      "dibl_monotonic_decreasing_with_l": true,
+      "dibl_non_negative": true,
+      "ss_monotonic_decreasing_with_l": false,
+      "vth_low_monotonic_increasing_with_l": true
+    },
+    "per_l": [
+      {
+        "dibl": 0.14936360787120892,
+        "l": "0.045u",
+        "ss_id_high": 1.4511199999999998e-07,
+        "ss_id_low": 1.45112e-08,
+        "ss_mV_per_dec": 83.7806528297062,
+        "vds_high": "0.6",
+        "vds_low": "0.05",
+        "vth_high": 0.19807207819908748,
+        "vth_low": 0.2802220625282524,
+        "vth_target_ids": 2.222222222222222e-05,
+        "w": "10u"
+      },
+      {
+        "dibl": 0.050483834002657504,
+        "l": "0.06u",
+        "ss_id_high": 1e-07,
+        "ss_id_low": 6.7793e-09,
+        "ss_mV_per_dec": 83.6908166693032,
+        "vds_high": "0.6",
+        "vds_low": "0.05",
+        "vth_high": 0.27014001515176506,
+        "vth_low": 0.2979061238532267,
+        "vth_target_ids": 1.6666666666666664e-05,
+        "w": "10u"
+      },
+      {
+        "dibl": 0.025596186015192396,
+        "l": "0.09u",
+        "ss_id_high": 1e-07,
+        "ss_id_low": 3.47659e-09,
+        "ss_mV_per_dec": 84.145720180157,
+        "vds_high": "0.6",
+        "vds_low": "0.05",
+        "vth_high": 0.29560465578234424,
+        "vth_low": 0.30968255809070006,
+        "vth_target_ids": 1.111111111111111e-05,
+        "w": "10u"
+      },
+      {
+        "dibl": 0.017010478938705293,
+        "l": "0.18u",
+        "ss_id_high": 1e-07,
+        "ss_id_low": 1.41863e-09,
+        "ss_mV_per_dec": 84.59222090877671,
+        "vds_high": "0.6",
+        "vds_low": "0.05",
+        "vth_high": 0.3097189766264766,
+        "vth_low": 0.31907474004276454,
+        "vth_target_ids": 5.555555555555555e-06,
+        "w": "10u"
+      }
+    ]
+  },
+  "w_param": "W",
+  "w_sweep": [
+    {
+      "ids": 0.00130269,
+      "l": "0.045u",
+      "w": "1u"
+    },
+    {
+      "ids": 0.00261387,
+      "l": "0.045u",
+      "w": "2u"
+    },
+    {
+      "ids": 0.00654737,
+      "l": "0.045u",
+      "w": "5u"
+    },
+    {
+      "ids": 0.0131031,
+      "l": "0.045u",
+      "w": "10u"
+    }
+  ]
+}
