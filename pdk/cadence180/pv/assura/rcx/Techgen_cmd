@@ -1,4 +1,0 @@
-1. Techgen -trans -S -Ssw3d procfile .
-
-2. Techgen -trans -C -blocking JVARNF:1,sub,diff,mt1 -blocking JVARW40:1,sub,diff,mt1 -p poly,allGate,diff -canonical_res_caps -length_units meters -exclude_gate_res -cap_ground_layer PSUB -lvs lvsfile -p2lvs p2lvsfile .
-

@@ -1,6 +1,0 @@
-cUiSetViewStatus {TAP_L1R1} {layout} {1}
-cUiSetViewStatus {TAP_L1R1} {schematic} {1}
-cUiSetViewStatus {TAP_L1R1} {abstract.pin} {35}
-cUiSetViewStatus {TAP_L1R1} {abstract.ext} {33}
-cUiSetViewStatus {TAP_L1R1} {abstract2A} {0}
-cUiSetViewStatus {TAP_L1R1} {abstract.ver} {0}

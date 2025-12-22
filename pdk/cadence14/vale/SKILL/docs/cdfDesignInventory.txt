@@ -1,9 +1,0 @@
-VALE Framework Component Module:
-   Design Inventory: CDF Dump
-
-Description:
-   This Component Module gathers all the PCells in the current cellview, and its hierarchy, and outputs all the cdf parameters through the Virtuoso "dump" feature into a single file in the <pwd>/VALE_RUNDIR/diUsingCdf_<techLibName>.cdf. 
-
-Development Notes:
-   All aspects of this Component Module were developed by Cadence.
-   Please contact Jonathan Fales for more information: jfales@cadence.com

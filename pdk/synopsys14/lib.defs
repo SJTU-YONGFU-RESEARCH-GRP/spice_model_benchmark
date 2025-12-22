@@ -1,5 +1,0 @@
-INCLUDE ./sym_libs/lib.defs
-DEFINE SAED_PDK_14 ./SAED_PDK_14
-ASSIGN SAED_PDK_14 libMode shared
-ASSIGN SAED_PDK_14 PDKLib true
-DEFINE reference ./reference

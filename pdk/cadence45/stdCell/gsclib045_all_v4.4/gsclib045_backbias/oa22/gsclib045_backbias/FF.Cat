@@ -1,8 +1,0 @@
-TDMCHECKPOINT="1.0"
-gsclib045_backbias/DFF.Cat type="category"
-gsclib045_backbias/EDFF.Cat type="category"
-gsclib045_backbias/MDFF.Cat type="category"
-gsclib045_backbias/SDFF.Cat type="category"
-gsclib045_backbias/SEDFF.Cat type="category"
-gsclib045_backbias/SMDFF.Cat type="category"
-keepEmptyCategory type="unknown"

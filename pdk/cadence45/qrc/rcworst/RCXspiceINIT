@@ -1,3 +1,0 @@
-LVSFILE="${RCXBIN}/lvsfile"
-CAPS2DVERSION="* caps2d version: 10"
-CAPGENOPTS="-C -Csw3d -p poly_conn,allGate,Oxide -canonical_res_caps -length_units meters -exclude_gate_res -cap_ground_layer psubstrate -lvs ../lvsfile -p2lvs ./p2lvsfile ."

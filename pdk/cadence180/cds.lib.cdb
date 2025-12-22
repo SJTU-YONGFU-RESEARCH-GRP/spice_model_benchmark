@@ -1,5 +1,0 @@
-DEFINE cdsDefTechLib $CDSHOME/tools/dfII/etc/cdsDefTechLib
-DEFINE basic $CDSHOME/tools/dfII/etc/cdslib/basic
-DEFINE analogLib $CDSHOME/tools/dfII/etc/cdslib/artist/analogLib
-DEFINE gpdk180 ./libs.cdb/gpdk180
-DEFINE substrateLib ./libs.cdb/substrateLib

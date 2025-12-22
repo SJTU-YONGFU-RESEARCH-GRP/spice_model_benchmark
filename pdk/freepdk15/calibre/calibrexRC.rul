@@ -1,3 +1,0 @@
-include $PDK_DIR/calibreLVS.rul
-include $PDK_DIR/mipt/rules.C
-include $PDK_DIR/mipt/rules.R
