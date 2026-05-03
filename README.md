@@ -11,6 +11,7 @@ The system is designed to run various types of SPICE simulations on a semiconduc
 - AC analysis (small-signal parameters, S-parameters, non-quasi-static effects)
 - Noise analysis (thermal, flicker, and shot noise)
 - Geometry and layout analysis
+- **Multi-format support**: Automatic conversion from HSPICE and Spectre formats to ngspice via the [SPICE Translator](https://github.com/SJTU-YONGFU-RESEARCH-GRP/new-spice-translator) project
 
 Note: The AC pipeline also derives *large-signal* effective capacitances by integrating the AC C(V) curves (e.g., Cgg from `cv_data.txt`) and writes the results under `results/data/`.
 
@@ -31,11 +32,17 @@ Note: The AC pipeline also derives *large-signal* effective capacitances by inte
 
 3. **Run a benchmark with a single command**:
    ```bash
-   # Using the command-line interface
+   # Using the command-line interface (ngspice model)
    spice-benchmark path/to/your/model.inc
 
+   # HSPICE model — automatically detected and converted
+   spice-benchmark path/to/your/model.lib
+
+   # Spectre model — automatically detected and converted
+   spice-benchmark path/to/your/model.scs
+
    # Or using Python API
-   python -c "from spice_model_benchmark import benchmark_spice_model; benchmark_spice_model('path/to/your/model.inc')"
+   python -c "from spice_model_benchmark import benchmark_spice_model; benchmark_spice_model('path/to/your/model.scs')"
    ```
 
 4. **View the results**:
@@ -90,6 +97,50 @@ if success:
 ```
 
 ### Advanced Usage with Custom Circuits
+
+### Multi-Format Support (HSPICE / Spectre)
+
+The benchmark system can accept HSPICE (`.lib`, `.sp`, `.spice`) and Spectre (`.scs`) model files directly. Format detection and conversion to ngspice happen automatically.
+
+**Prerequisite**: The [SPICE Translator](https://github.com/SJTU-YONGFU-RESEARCH-GRP/new-spice-translator) project must be accessible. The system searches for it in the following order:
+
+1. `--translator-path` command-line argument
+2. `SPICE_TRANSLATOR_PATH` environment variable
+3. `pip install spice-translator-ir` (pip-installed package)
+4. Sibling directory `../new-spice-translator`
+
+```bash
+# Set translator location via environment variable
+export SPICE_TRANSLATOR_PATH=/path/to/new-spice-translator
+spice-benchmark model.scs
+
+# Or via command-line argument
+spice-benchmark model.lib --translator-path /path/to/new-spice-translator
+
+# Explicitly specify source format (skip auto-detection)
+spice-benchmark model.lib --source-format hspice
+spice-benchmark model.scs --source-format spectre
+```
+
+The Python API also supports these options:
+
+```python
+from spice_model_benchmark import benchmark_spice_model
+
+# HSPICE model with explicit format
+benchmark_spice_model("model.lib", source_format="hspice")
+
+# Spectre model with translator path
+benchmark_spice_model("model.scs", translator_path="/path/to/new-spice-translator")
+```
+
+During conversion, the system:
+1. Detects the source format from file extension and content keywords
+2. Translates the model to ngspice format using the SPICE Translator
+3. Adapts circuit netlists to reference the converted model
+4. Runs the standard benchmark pipeline on the converted model
+
+Converted models are saved in `<output-dir>/_converted/`.
 
 ```python
 from spice_model_benchmark import benchmark_spice_model
@@ -164,6 +215,10 @@ spice-benchmark path/to/your/model.inc --modes dc transient
 
 # Run with high-resolution plots
 spice-benchmark path/to/your/model.inc --dpi 600
+
+# Run with HSPICE or Spectre model
+spice-benchmark model.lib --source-format hspice
+spice-benchmark model.scs --source-format spectre
 
 # Get help
 spice-benchmark --help
@@ -250,6 +305,7 @@ spice_model_benchmark/
 ├── src/                   # Source code (Python package)
 │   ├── __init__.py        # Package initialization
 │   ├── cli.py             # Command-line interface
+│   ├── format_converter.py    # HSPICE/Spectre to ngspice format conversion
 │   ├── mosfet_simulation.py   # Main simulation controller
 │   ├── data_reader.py     # Read and parse simulation results
 │   ├── plot_generator.py  # Generate plots from simulation data
