@@ -3,6 +3,7 @@ Command-line interface for SPICE Model Benchmark System.
 """
 
 import argparse
+import shlex
 import sys
 from pathlib import Path
 from typing import List, Optional
@@ -117,6 +118,14 @@ Examples:
         help="Path to new-spice-translator project root (auto-detected if omitted)"
     )
 
+    parser.add_argument(
+        "--bridge",
+        action="append",
+        default=[],
+        metavar='"TOOL [ARGS...]"',
+        help="Chain to downstream tool after benchmark (e.g. --bridge \"translate --targets hspice\")"
+    )
+
     # Parse arguments
     if args is None:
         args = sys.argv[1:]
@@ -152,6 +161,14 @@ Examples:
         translator_path=parsed_args.translator_path,
     )
 
+    # --- Bridge chaining ---
+    if parsed_args.bridge:
+        context = {
+            "model_file": parsed_args.model_file,
+            "output_dir": parsed_args.output_dir,
+        }
+        _run_bridges(context, parsed_args.bridge)
+
     if success:
         print("\n✓ SPICE model benchmark completed successfully!")
         print(f"Results saved to: {parsed_args.output_dir}")
@@ -159,6 +176,25 @@ Examples:
     else:
         print("\n✗ SPICE model benchmark failed!")
         return 1
+
+
+def _run_bridges(context: dict, bridge_directives: list[str]) -> None:
+    """Execute bridge directives after benchmarking completes."""
+    project_root = Path(__file__).resolve().parents[2]  # src/spice_model_benchmark/cli.py -> project root
+    sys.path.insert(0, str(project_root))
+    for directive in bridge_directives:
+        parts = shlex.split(directive)
+        if not parts:
+            continue
+        name = parts[0]
+        bridge_args = parts[1:]
+        try:
+            mod = __import__(f"bridge.{name}", fromlist=["run"])
+            mod.run(context, bridge_args)
+        except ImportError:
+            print(f"[bridge] Unknown bridge target: {name} (bridge/{name}.py not found)")
+        except Exception as e:
+            print(f"[bridge] {name} failed: {e}")
 
 
 if __name__ == "__main__":
