@@ -38,8 +38,6 @@ def benchmark_spice_model(
     transient_circuit: Optional[Union[str, Path]] = None,
     noise_circuit: Optional[Union[str, Path]] = None,
     ac_circuit: Optional[Union[str, Path]] = None,
-    source_format: Optional[str] = None,
-    translator_path: Optional[str] = None,
 ) -> bool:
     """
     Run comprehensive SPICE model benchmarking with a single model file.
@@ -58,9 +56,6 @@ def benchmark_spice_model(
         transient_circuit: Path to custom transient analysis circuit file (optional)
         noise_circuit: Path to custom noise analysis circuit file (optional)
         ac_circuit: Path to custom AC analysis circuit file (optional)
-        source_format: Source format override ('auto', 'ngspice', 'hspice', 'spectre').
-                       'auto' or None (default) detects from file extension/content.
-        translator_path: Path to new-spice-translator project root (auto-detected if None)
 
     Returns:
         bool: True if benchmarking completed successfully, False otherwise
@@ -90,53 +85,6 @@ def benchmark_spice_model(
         Path(__file__).resolve().parent.parent / "netlists",
     ]
     default_circuit_dir = next((p for p in candidate_netlists_dirs if p.exists()), None)
-
-    # ---- Format conversion (hspice/spectre -> ngspice) ----
-    converted_model_path = None
-    adapted_circuits = None
-    from .format_converter import FormatConverter
-    converter = FormatConverter(translator_path=translator_path)
-
-    if source_format is None or source_format.lower() == 'auto':
-        source_format = converter.detect_format(model_file)
-
-    if source_format.lower() != 'ngspice':
-        print(f"Source format detected/specified: {source_format}")
-        print(f"Converting {model_file.name} to ngspice format...")
-        try:
-            convert_dir = output_dir / '_converted'
-            converted_model_path = converter.convert_to_ngspice(
-                model_file, source_format=source_format, output_dir=convert_dir,
-            )
-            print(f"  Converted model: {converted_model_path}")
-
-            # Extract model names and adapt circuit files
-            model_names = converter.extract_model_names(converted_model_path)
-            print(f"  Model names found: {model_names[:5]}{'...' if len(model_names) > 5 else ''}")
-
-            if default_circuit_dir is not None:
-                adapted_circuits = converter.generate_adapted_circuits(
-                    original_circuit_dir=default_circuit_dir,
-                    converted_model_path=converted_model_path,
-                    model_names=model_names,
-                    output_dir=convert_dir / 'circuits',
-                    source_format=source_format,
-                )
-                print(f"  Adapted circuits: {list(adapted_circuits.keys())}")
-        except Exception as e:
-            print(f"Error: Format conversion failed: {e}")
-            return False
-
-    # Use adapted circuits if conversion happened
-    if adapted_circuits:
-        if 'dc' in adapted_circuits and dc_circuit is None:
-            dc_circuit = adapted_circuits['dc']
-        if 'transient' in adapted_circuits and transient_circuit is None:
-            transient_circuit = adapted_circuits['transient']
-        if 'noise' in adapted_circuits and noise_circuit is None:
-            noise_circuit = adapted_circuits['noise']
-        if 'ac' in adapted_circuits and ac_circuit is None:
-            ac_circuit = adapted_circuits['ac']
 
     if dc_circuit is None and default_circuit_dir is not None:
         default_dc = default_circuit_dir / "dc_circuit.cir"
@@ -186,8 +134,6 @@ def benchmark_spice_model(
         output_dir=str(output_dir),
         dpi=dpi,
         log_level=log_level,
-        source_format=source_format,
-        converted_model_path=str(converted_model_path) if converted_model_path else None,
     )
 
     # Run the benchmark

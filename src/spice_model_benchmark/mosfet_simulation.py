@@ -118,16 +118,14 @@ class MOSFETSimulation:
     """
     def __init__(self, dc_circuit_file, transient_circuit_file, noise_circuit_file,
                  ac_circuit_file, output_dir='results', dpi=300, log_level='INFO',
-                 source_format=None, converted_model_path=None):
+                 ):
 
         # Store the circuit file paths directly
         self.dc_circuit_file = dc_circuit_file
         self.transient_circuit_file = transient_circuit_file
         self.noise_circuit_file = noise_circuit_file
         self.ac_circuit_file = ac_circuit_file
-        self.source_format = source_format
-        self.converted_model_path = converted_model_path
-                
+
         # Convert output_dir to absolute path if it's not already
         self.output_dir = Path(output_dir).resolve()
         self.dpi = dpi

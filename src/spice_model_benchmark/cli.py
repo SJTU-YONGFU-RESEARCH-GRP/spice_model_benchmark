@@ -105,20 +105,6 @@ Examples:
     )
 
     parser.add_argument(
-        "--source-format",
-        type=str,
-        choices=["auto", "ngspice", "hspice", "spectre"],
-        default="auto",
-        help="Source SPICE format (default: auto-detect from file extension/content)"
-    )
-
-    parser.add_argument(
-        "--translator-path",
-        type=str,
-        help="Path to new-spice-translator project root (auto-detected if omitted)"
-    )
-
-    parser.add_argument(
         "--bridge",
         action="append",
         default=[],
@@ -157,8 +143,6 @@ Examples:
         transient_circuit=parsed_args.transient_circuit,
         noise_circuit=parsed_args.noise_circuit,
         ac_circuit=parsed_args.ac_circuit,
-        source_format=parsed_args.source_format if parsed_args.source_format != "auto" else None,
-        translator_path=parsed_args.translator_path,
     )
 
     # --- Bridge chaining ---
