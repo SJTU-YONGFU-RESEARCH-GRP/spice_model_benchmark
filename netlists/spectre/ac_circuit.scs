@@ -1,112 +1,215 @@
-// MOSFET AC Analysis - Spectre version
-// Replicates ngspice ac_circuit.cir
-simulator lang=spectre
-
-simulatorOptions options gmin=1e-15 reltol=1e-8 vabstol=1e-12 temp=27 tnom=27
-
 simulator lang=spice
+.option temp=27 tnom=27 gmin=1e-15
 .inc ../../models/FreePDK45/nom.inc
-simulator lang=spectre
-
-// ============================================================
-// CV Measurement Circuit (M1): gate AC=1, D/S/B AC=0
-// ============================================================
-M_cv (drain_1 gate_1 source_1 bulk_1) NMOS_VTG l=0.045u w=10u
-
-VG (gate_1 0) vsource dc=0 ac=1
-VD (drain_1 0) vsource dc=1.0 ac=0
-VS (source_1 0) vsource dc=0 ac=0
-VB (bulk_1 0) vsource dc=0 ac=0
-
-// ============================================================
-// S-parameter Test Circuit (M2): 50-ohm 2-port
-// ============================================================
-M_sp (drain_2 gate_2 0 0) NMOS_VTG l=0.045u w=10u
-RG_sp (gate_2 gate_in2) resistor r=50
-RD_sp (drain_2 drain_in2) resistor r=50
-VGS_port (gate_in2 0) vsource dc=0.8 ac=1
-VDS_port (drain_in2 0) vsource dc=1.0 ac=0
-
-// ============================================================
-// Charge Conservation Test Circuit (M3)
-// ============================================================
-M_cc (drain_3 gate_3 source_3 bulk_3) NMOS_VTG l=0.045u w=10u
-
-VGQ (gate_3 0) vsource dc=0 type=pwl wave=[0 0 1n 0 1.01n 1.0 5n 1.0]
-VDQ (drain_3 0) vsource dc=1.0
-VSQ (source_3 0) vsource dc=0
-VBQ (bulk_3 0) vsource dc=0
-
-// ============================================================
-// CV Analysis: sweep Vg DC bias, run AC at 4 frequencies
-// ============================================================
-sw_cv_1k sweep param=dc dev=VG start=-0.8 stop=1.2 step=0.05 {
-    ac_cv_1k ac start=1k stop=1k lin=1
-}
-sw_cv_10k sweep param=dc dev=VG start=-0.8 stop=1.2 step=0.05 {
-    ac_cv_10k ac start=10k stop=10k lin=1
-}
-sw_cv_100k sweep param=dc dev=VG start=-0.8 stop=1.2 step=0.05 {
-    ac_cv_100k ac start=100k stop=100k lin=1
-}
-sw_cv_1m sweep param=dc dev=VG start=-0.8 stop=1.2 step=0.05 {
-    ac_cv_1m ac start=1MEG stop=1MEG lin=1
-}
-
-// ============================================================
-// Full 4x4 Capacitance Matrix at 1MHz
-// Gate excitation (default: VG.ac=1, others=0) - already set
-// ============================================================
-sw_cmat_g sweep param=dc dev=VG start=-0.8 stop=1.2 step=0.05 {
-    ac_cmat_g ac start=1MEG stop=1MEG lin=1
-}
-
-// Drain excitation: VG.ac=0, VD.ac=1
-// Use alternate circuit with swapped AC sources
-// We create copies with different AC excitation
-M_cv_d (drain_1d gate_1d source_1d bulk_1d) NMOS_VTG l=0.045u w=10u
-VG_d (gate_1d 0) vsource dc=0 ac=0
-VD_d (drain_1d 0) vsource dc=1.0 ac=1
-VS_d (source_1d 0) vsource dc=0 ac=0
-VB_d (bulk_1d 0) vsource dc=0 ac=0
-sw_cmat_d sweep param=dc dev=VG_d start=-0.8 stop=1.2 step=0.05 {
-    ac_cmat_d ac start=1MEG stop=1MEG lin=1
-}
-
-// Source excitation
-M_cv_s (drain_1s gate_1s source_1s bulk_1s) NMOS_VTG l=0.045u w=10u
-VG_s (gate_1s 0) vsource dc=0 ac=0
-VD_s (drain_1s 0) vsource dc=1.0 ac=0
-VS_s (source_1s 0) vsource dc=0 ac=1
-VB_s (bulk_1s 0) vsource dc=0 ac=0
-sw_cmat_s sweep param=dc dev=VG_s start=-0.8 stop=1.2 step=0.05 {
-    ac_cmat_s ac start=1MEG stop=1MEG lin=1
-}
-
-// Bulk excitation
-M_cv_b (drain_1b gate_1b source_1b bulk_1b) NMOS_VTG l=0.045u w=10u
-VG_b (gate_1b 0) vsource dc=0 ac=0
-VD_b (drain_1b 0) vsource dc=1.0 ac=0
-VS_b (source_1b 0) vsource dc=0 ac=0
-VB_b (bulk_1b 0) vsource dc=0 ac=1
-sw_cmat_b sweep param=dc dev=VG_b start=-0.8 stop=1.2 step=0.05 {
-    ac_cmat_b ac start=1MEG stop=1MEG lin=1
-}
-
-// ============================================================
-// S-Parameter Analysis (M2 circuit): direct SP analysis
-// ============================================================
-ac_sp ac start=1MEG stop=1G dec=10
-
-// ============================================================
-// Non-Quasi-Static Effects: AC at high frequencies (use M1)
-// ============================================================
-// Set M1 to saturation: VG=0.8V, VD=1.0V via sweep
-sw_nqs sweep param=dc dev=VG values=[0.8] {
-    ac_nqs ac start=10MEG stop=10G dec=10
-}
-
-// ============================================================
-// Charge Conservation Test (Transient on M3)
-// ============================================================
-tran_cc tran start=0 stop=5n step=0.01n
+M0 d0 g0 s0 b0 NMOS_VTG L=0.045u W=10u
+VG0 g0 0 DC -0.8 AC 1
+VD0 d0 0 DC 1.0 AC 0
+VS0 s0 0 DC 0 AC 0
+VB0 b0 0 DC 0 AC 0
+M1 d1 g1 s1 b1 NMOS_VTG L=0.045u W=10u
+VG1 g1 0 DC -0.75 AC 1
+VD1 d1 0 DC 1.0 AC 0
+VS1 s1 0 DC 0 AC 0
+VB1 b1 0 DC 0 AC 0
+M2 d2 g2 s2 b2 NMOS_VTG L=0.045u W=10u
+VG2 g2 0 DC -0.7 AC 1
+VD2 d2 0 DC 1.0 AC 0
+VS2 s2 0 DC 0 AC 0
+VB2 b2 0 DC 0 AC 0
+M3 d3 g3 s3 b3 NMOS_VTG L=0.045u W=10u
+VG3 g3 0 DC -0.65 AC 1
+VD3 d3 0 DC 1.0 AC 0
+VS3 s3 0 DC 0 AC 0
+VB3 b3 0 DC 0 AC 0
+M4 d4 g4 s4 b4 NMOS_VTG L=0.045u W=10u
+VG4 g4 0 DC -0.6 AC 1
+VD4 d4 0 DC 1.0 AC 0
+VS4 s4 0 DC 0 AC 0
+VB4 b4 0 DC 0 AC 0
+M5 d5 g5 s5 b5 NMOS_VTG L=0.045u W=10u
+VG5 g5 0 DC -0.55 AC 1
+VD5 d5 0 DC 1.0 AC 0
+VS5 s5 0 DC 0 AC 0
+VB5 b5 0 DC 0 AC 0
+M6 d6 g6 s6 b6 NMOS_VTG L=0.045u W=10u
+VG6 g6 0 DC -0.5 AC 1
+VD6 d6 0 DC 1.0 AC 0
+VS6 s6 0 DC 0 AC 0
+VB6 b6 0 DC 0 AC 0
+M7 d7 g7 s7 b7 NMOS_VTG L=0.045u W=10u
+VG7 g7 0 DC -0.45 AC 1
+VD7 d7 0 DC 1.0 AC 0
+VS7 s7 0 DC 0 AC 0
+VB7 b7 0 DC 0 AC 0
+M8 d8 g8 s8 b8 NMOS_VTG L=0.045u W=10u
+VG8 g8 0 DC -0.4 AC 1
+VD8 d8 0 DC 1.0 AC 0
+VS8 s8 0 DC 0 AC 0
+VB8 b8 0 DC 0 AC 0
+M9 d9 g9 s9 b9 NMOS_VTG L=0.045u W=10u
+VG9 g9 0 DC -0.35 AC 1
+VD9 d9 0 DC 1.0 AC 0
+VS9 s9 0 DC 0 AC 0
+VB9 b9 0 DC 0 AC 0
+M10 d10 g10 s10 b10 NMOS_VTG L=0.045u W=10u
+VG10 g10 0 DC -0.3 AC 1
+VD10 d10 0 DC 1.0 AC 0
+VS10 s10 0 DC 0 AC 0
+VB10 b10 0 DC 0 AC 0
+M11 d11 g11 s11 b11 NMOS_VTG L=0.045u W=10u
+VG11 g11 0 DC -0.25 AC 1
+VD11 d11 0 DC 1.0 AC 0
+VS11 s11 0 DC 0 AC 0
+VB11 b11 0 DC 0 AC 0
+M12 d12 g12 s12 b12 NMOS_VTG L=0.045u W=10u
+VG12 g12 0 DC -0.2 AC 1
+VD12 d12 0 DC 1.0 AC 0
+VS12 s12 0 DC 0 AC 0
+VB12 b12 0 DC 0 AC 0
+M13 d13 g13 s13 b13 NMOS_VTG L=0.045u W=10u
+VG13 g13 0 DC -0.15 AC 1
+VD13 d13 0 DC 1.0 AC 0
+VS13 s13 0 DC 0 AC 0
+VB13 b13 0 DC 0 AC 0
+M14 d14 g14 s14 b14 NMOS_VTG L=0.045u W=10u
+VG14 g14 0 DC -0.1 AC 1
+VD14 d14 0 DC 1.0 AC 0
+VS14 s14 0 DC 0 AC 0
+VB14 b14 0 DC 0 AC 0
+M15 d15 g15 s15 b15 NMOS_VTG L=0.045u W=10u
+VG15 g15 0 DC -0.05 AC 1
+VD15 d15 0 DC 1.0 AC 0
+VS15 s15 0 DC 0 AC 0
+VB15 b15 0 DC 0 AC 0
+M16 d16 g16 s16 b16 NMOS_VTG L=0.045u W=10u
+VG16 g16 0 DC 0 AC 1
+VD16 d16 0 DC 1.0 AC 0
+VS16 s16 0 DC 0 AC 0
+VB16 b16 0 DC 0 AC 0
+M17 d17 g17 s17 b17 NMOS_VTG L=0.045u W=10u
+VG17 g17 0 DC 0.05 AC 1
+VD17 d17 0 DC 1.0 AC 0
+VS17 s17 0 DC 0 AC 0
+VB17 b17 0 DC 0 AC 0
+M18 d18 g18 s18 b18 NMOS_VTG L=0.045u W=10u
+VG18 g18 0 DC 0.1 AC 1
+VD18 d18 0 DC 1.0 AC 0
+VS18 s18 0 DC 0 AC 0
+VB18 b18 0 DC 0 AC 0
+M19 d19 g19 s19 b19 NMOS_VTG L=0.045u W=10u
+VG19 g19 0 DC 0.15 AC 1
+VD19 d19 0 DC 1.0 AC 0
+VS19 s19 0 DC 0 AC 0
+VB19 b19 0 DC 0 AC 0
+M20 d20 g20 s20 b20 NMOS_VTG L=0.045u W=10u
+VG20 g20 0 DC 0.2 AC 1
+VD20 d20 0 DC 1.0 AC 0
+VS20 s20 0 DC 0 AC 0
+VB20 b20 0 DC 0 AC 0
+M21 d21 g21 s21 b21 NMOS_VTG L=0.045u W=10u
+VG21 g21 0 DC 0.25 AC 1
+VD21 d21 0 DC 1.0 AC 0
+VS21 s21 0 DC 0 AC 0
+VB21 b21 0 DC 0 AC 0
+M22 d22 g22 s22 b22 NMOS_VTG L=0.045u W=10u
+VG22 g22 0 DC 0.3 AC 1
+VD22 d22 0 DC 1.0 AC 0
+VS22 s22 0 DC 0 AC 0
+VB22 b22 0 DC 0 AC 0
+M23 d23 g23 s23 b23 NMOS_VTG L=0.045u W=10u
+VG23 g23 0 DC 0.35 AC 1
+VD23 d23 0 DC 1.0 AC 0
+VS23 s23 0 DC 0 AC 0
+VB23 b23 0 DC 0 AC 0
+M24 d24 g24 s24 b24 NMOS_VTG L=0.045u W=10u
+VG24 g24 0 DC 0.4 AC 1
+VD24 d24 0 DC 1.0 AC 0
+VS24 s24 0 DC 0 AC 0
+VB24 b24 0 DC 0 AC 0
+M25 d25 g25 s25 b25 NMOS_VTG L=0.045u W=10u
+VG25 g25 0 DC 0.45 AC 1
+VD25 d25 0 DC 1.0 AC 0
+VS25 s25 0 DC 0 AC 0
+VB25 b25 0 DC 0 AC 0
+M26 d26 g26 s26 b26 NMOS_VTG L=0.045u W=10u
+VG26 g26 0 DC 0.5 AC 1
+VD26 d26 0 DC 1.0 AC 0
+VS26 s26 0 DC 0 AC 0
+VB26 b26 0 DC 0 AC 0
+M27 d27 g27 s27 b27 NMOS_VTG L=0.045u W=10u
+VG27 g27 0 DC 0.55 AC 1
+VD27 d27 0 DC 1.0 AC 0
+VS27 s27 0 DC 0 AC 0
+VB27 b27 0 DC 0 AC 0
+M28 d28 g28 s28 b28 NMOS_VTG L=0.045u W=10u
+VG28 g28 0 DC 0.6 AC 1
+VD28 d28 0 DC 1.0 AC 0
+VS28 s28 0 DC 0 AC 0
+VB28 b28 0 DC 0 AC 0
+M29 d29 g29 s29 b29 NMOS_VTG L=0.045u W=10u
+VG29 g29 0 DC 0.65 AC 1
+VD29 d29 0 DC 1.0 AC 0
+VS29 s29 0 DC 0 AC 0
+VB29 b29 0 DC 0 AC 0
+M30 d30 g30 s30 b30 NMOS_VTG L=0.045u W=10u
+VG30 g30 0 DC 0.7 AC 1
+VD30 d30 0 DC 1.0 AC 0
+VS30 s30 0 DC 0 AC 0
+VB30 b30 0 DC 0 AC 0
+M31 d31 g31 s31 b31 NMOS_VTG L=0.045u W=10u
+VG31 g31 0 DC 0.75 AC 1
+VD31 d31 0 DC 1.0 AC 0
+VS31 s31 0 DC 0 AC 0
+VB31 b31 0 DC 0 AC 0
+M32 d32 g32 s32 b32 NMOS_VTG L=0.045u W=10u
+VG32 g32 0 DC 0.8 AC 1
+VD32 d32 0 DC 1.0 AC 0
+VS32 s32 0 DC 0 AC 0
+VB32 b32 0 DC 0 AC 0
+M33 d33 g33 s33 b33 NMOS_VTG L=0.045u W=10u
+VG33 g33 0 DC 0.85 AC 1
+VD33 d33 0 DC 1.0 AC 0
+VS33 s33 0 DC 0 AC 0
+VB33 b33 0 DC 0 AC 0
+M34 d34 g34 s34 b34 NMOS_VTG L=0.045u W=10u
+VG34 g34 0 DC 0.9 AC 1
+VD34 d34 0 DC 1.0 AC 0
+VS34 s34 0 DC 0 AC 0
+VB34 b34 0 DC 0 AC 0
+M35 d35 g35 s35 b35 NMOS_VTG L=0.045u W=10u
+VG35 g35 0 DC 0.95 AC 1
+VD35 d35 0 DC 1.0 AC 0
+VS35 s35 0 DC 0 AC 0
+VB35 b35 0 DC 0 AC 0
+M36 d36 g36 s36 b36 NMOS_VTG L=0.045u W=10u
+VG36 g36 0 DC 1 AC 1
+VD36 d36 0 DC 1.0 AC 0
+VS36 s36 0 DC 0 AC 0
+VB36 b36 0 DC 0 AC 0
+M37 d37 g37 s37 b37 NMOS_VTG L=0.045u W=10u
+VG37 g37 0 DC 1.05 AC 1
+VD37 d37 0 DC 1.0 AC 0
+VS37 s37 0 DC 0 AC 0
+VB37 b37 0 DC 0 AC 0
+M38 d38 g38 s38 b38 NMOS_VTG L=0.045u W=10u
+VG38 g38 0 DC 1.1 AC 1
+VD38 d38 0 DC 1.0 AC 0
+VS38 s38 0 DC 0 AC 0
+VB38 b38 0 DC 0 AC 0
+M39 d39 g39 s39 b39 NMOS_VTG L=0.045u W=10u
+VG39 g39 0 DC 1.15 AC 1
+VD39 d39 0 DC 1.0 AC 0
+VS39 s39 0 DC 0 AC 0
+VB39 b39 0 DC 0 AC 0
+M40 d40 g40 s40 b40 NMOS_VTG L=0.045u W=10u
+VG40 g40 0 DC 1.2 AC 1
+VD40 d40 0 DC 1.0 AC 0
+VS40 s40 0 DC 0 AC 0
+VB40 b40 0 DC 0 AC 0
+.ac dec 1 0.9meg 1.1meg
+M_cc dcc gcc scc bcc NMOS_VTG L=0.045u W=10u
+VGQ gcc 0 DC 0 PWL(0 0 1n 0 1.01n 1.0 5n 1.0)
+VDQ dcc 0 DC 1.0
+VSQ scc 0 DC 0
+VBQ bcc 0 DC 0
+.tran 0.01n 5n
