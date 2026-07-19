@@ -8,9 +8,6 @@ import sys
 from pathlib import Path
 from typing import List, Optional
 
-from . import benchmark_spice_model
-
-
 def main(args: Optional[List[str]] = None) -> int:
     """
     Main entry point for the command-line interface.
@@ -26,8 +23,11 @@ def main(args: Optional[List[str]] = None) -> int:
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  # Run benchmark with default settings
+  # Run benchmark with default settings (ngspice)
   spice-benchmark model.inc
+
+  # Run with Spectre simulator
+  spice-benchmark model.inc --simulator spectre --modes dc
 
   # Run only DC analysis with custom output directory
   spice-benchmark model.inc --modes dc --output-dir my_results
@@ -47,6 +47,14 @@ Examples:
         "model_file",
         type=str,
         help="Path to the SPICE model file (.inc, .lib, or .model file)"
+    )
+
+    parser.add_argument(
+        "--simulator",
+        type=str,
+        choices=["ngspice", "spectre"],
+        default="ngspice",
+        help="Simulator to use (default: ngspice)"
     )
 
     parser.add_argument(
@@ -129,21 +137,37 @@ Examples:
 
     # Run the benchmark
     print(f"Starting SPICE model benchmark for: {parsed_args.model_file}")
+    print(f"Simulator: {parsed_args.simulator}")
     print(f"Output directory: {parsed_args.output_dir}")
     print(f"Modes: {', '.join(parsed_args.modes)}")
     print("-" * 60)
 
-    success = benchmark_spice_model(
-        model_file=parsed_args.model_file,
-        output_dir=parsed_args.output_dir,
-        modes=parsed_args.modes,
-        dpi=parsed_args.dpi,
-        log_level=parsed_args.log_level,
-        dc_circuit=parsed_args.dc_circuit,
-        transient_circuit=parsed_args.transient_circuit,
-        noise_circuit=parsed_args.noise_circuit,
-        ac_circuit=parsed_args.ac_circuit,
-    )
+    if parsed_args.simulator == 'spectre':
+        from .spectre_mosfet_simulation import benchmark_spice_model_spectre
+        success = benchmark_spice_model_spectre(
+            model_file=parsed_args.model_file,
+            output_dir=parsed_args.output_dir,
+            modes=parsed_args.modes,
+            dpi=parsed_args.dpi,
+            log_level=parsed_args.log_level,
+            dc_circuit=parsed_args.dc_circuit,
+            transient_circuit=parsed_args.transient_circuit,
+            noise_circuit=parsed_args.noise_circuit,
+            ac_circuit=parsed_args.ac_circuit,
+        )
+    else:
+        from . import benchmark_spice_model
+        success = benchmark_spice_model(
+            model_file=parsed_args.model_file,
+            output_dir=parsed_args.output_dir,
+            modes=parsed_args.modes,
+            dpi=parsed_args.dpi,
+            log_level=parsed_args.log_level,
+            dc_circuit=parsed_args.dc_circuit,
+            transient_circuit=parsed_args.transient_circuit,
+            noise_circuit=parsed_args.noise_circuit,
+            ac_circuit=parsed_args.ac_circuit,
+        )
 
     # --- Bridge chaining ---
     if parsed_args.bridge:

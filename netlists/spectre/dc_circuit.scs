@@ -1,0 +1,52 @@
+// MOSFET DC Characteristics Simulation with Temperature Analysis
+// Spectre version - replicates ngspice dc_circuit.cir
+simulator lang=spectre
+
+simulatorOptions options gmin=1e-15 reltol=1e-8 vabstol=1e-12 temp=27 tnom=27
+
+// Include FreePDK45 model
+simulator lang=spice
+.inc ../../models/FreePDK45/nom.inc
+simulator lang=spectre
+
+// ============================================================
+// IV Characteristics DUT
+// ============================================================
+M_iv (drain_iv gate_iv source_iv bulk_iv) NMOS_VTG l=0.045u w=10u
+
+Vds_iv (drain_iv 0) vsource dc=0
+Vgs_iv (gate_iv 0) vsource dc=0
+Vs_iv (source_iv 0) vsource dc=0
+Vb_iv (bulk_iv 0) vsource dc=0
+
+// ============================================================
+// Bias Point DUT (identical to IV DUT)
+// ============================================================
+M_bias (drain_bias gate_bias source_bias bulk_bias) NMOS_VTG l=0.045u w=10u
+
+Vds_bias (drain_bias 0) vsource dc=0
+Vgs_bias (gate_bias 0) vsource dc=0
+Vs_bias (source_bias 0) vsource dc=0
+Vb_bias (bulk_bias 0) vsource dc=0
+
+// ============================================================
+// DC IV - Temperature Sweep: -40C to 150C
+// Nested sweep: Vgs outer (0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.2)
+//               Vds inner (0, 0.01, 0.02, ..., 1.2)
+// ============================================================
+sw_temp sweep param=temp values=[-40 0 25 50 100 150] {
+    sw_vgs sweep param=dc dev=Vgs_iv values=[0 0.2 0.4 0.6 0.8 1.0 1.2] {
+        dc_iv dc dev=Vds_iv start=0 stop=1.2 step=0.01 oppoint=raw
+    }
+}
+
+// ============================================================
+// Bias Point Analysis at 27C - 3x3 grid of (Vds, Vgs)
+// ============================================================
+sw_bias sweep param=temp values=[27] {
+    sw_vds_bias sweep param=dc dev=Vds_bias values=[0.0 0.6 1.2] {
+        sw_vgs_bias sweep param=dc dev=Vgs_bias values=[0.0 0.6 1.2] {
+            dc_bias dc dev=Vds_bias start=0 stop=0.001 step=0.001 oppoint=raw
+        }
+    }
+}

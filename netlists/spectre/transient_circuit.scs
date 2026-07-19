@@ -1,0 +1,117 @@
+// MOSFET Transient Analysis - Spectre version
+// Replicates ngspice transient_circuit.cir
+simulator lang=spectre
+
+simulatorOptions options gmin=1e-15 reltol=1e-8 vabstol=1e-12 temp=27 tnom=27
+
+simulator lang=spice
+.inc ../../models/FreePDK45/nom.inc
+simulator lang=spectre
+
+// ============================================================
+// Large-Signal Transient DUT
+// ============================================================
+M_tran (drain_tran gate_tran source_tran bulk_tran) NMOS_VTG l=0.045u w=10u
+
+Vgs_tran (gate_tran 0) vsource dc=0 type=pulse \
+    val0=0 val1=1.2 delay=0 rise=0.1n fall=0.1n width=10n period=20n
+Vds_tran (drain_tran 0) vsource dc=1.2
+Vs_tran (source_tran 0) vsource dc=0
+Vb_tran (bulk_tran 0) vsource dc=0
+
+// ============================================================
+// Inverter Switching Circuit
+// ============================================================
+M_inv_n (out_inv in_inv 0 0) NMOS_VTG l=0.045u w=10u
+M_inv_p (out_inv in_inv vdd_inv vdd_inv) PMOS_VTG l=0.045u w=20u
+
+Vdd_inv (vdd_inv 0) vsource dc=1.2
+Vin_inv (in_inv 0) vsource dc=0 type=pulse \
+    val0=0 val1=1.2 delay=0 rise=0.1n fall=0.1n width=10n period=20n
+
+// ============================================================
+// Delay Chain (3 inverters)
+// ============================================================
+Vdd_delay (vdd_delay 0) vsource dc=1.2
+Vin_delay (in_delay 0) vsource dc=0 type=pulse \
+    val0=0 val1=1.2 delay=0 rise=0.1n fall=0.1n width=10n period=20n
+
+// Stage 1
+M_d1_n (mid1_delay in_delay 0 0) NMOS_VTG l=0.045u w=10u
+M_d1_p (mid1_delay in_delay vdd_delay vdd_delay) PMOS_VTG l=0.045u w=20u
+// Stage 2
+M_d2_n (mid2_delay mid1_delay 0 0) NMOS_VTG l=0.045u w=10u
+M_d2_p (mid2_delay mid1_delay vdd_delay vdd_delay) PMOS_VTG l=0.045u w=20u
+// Stage 3
+M_d3_n (out_delay mid2_delay 0 0) NMOS_VTG l=0.045u w=10u
+M_d3_p (out_delay mid2_delay vdd_delay vdd_delay) PMOS_VTG l=0.045u w=20u
+
+// ============================================================
+// Power Dissipation Circuit
+// ============================================================
+M_power_n (out_power in_power 0 0) NMOS_VTG l=0.045u w=10u
+M_power_p (out_power in_power vdd_power vdd_power) PMOS_VTG l=0.045u w=20u
+
+Vdd_power (vdd_power 0) vsource dc=1.2
+Vin_power (in_power 0) vsource dc=0 type=pulse \
+    val0=0 val1=1.2 delay=0 rise=0.1n fall=0.1n width=10n period=20n
+
+// ============================================================
+// Quasi-Static Analysis DUT
+// ============================================================
+M_qs (drain_qs gate_qs source_qs bulk_qs) NMOS_VTG l=0.045u w=10u
+
+Vgs_qs (gate_qs 0) vsource dc=0 type=pulse \
+    val0=0 val1=1.2 delay=0 rise=20n fall=20n width=100n period=200n
+Vds_qs (drain_qs 0) vsource dc=1.2
+Vs_qs (source_qs 0) vsource dc=0
+Vb_qs (bulk_qs 0) vsource dc=0
+
+// ============================================================
+// Charge Conservation DUT
+// ============================================================
+M_charge (drain_charge gate_charge source_charge bulk_charge) NMOS_VTG l=0.045u w=10u
+
+Vg_charge (gate_charge 0) vsource dc=0 type=pulse \
+    val0=0 val1=1.2 delay=0 rise=1n fall=1n width=10n period=20n
+Vd_charge (drain_charge 0) vsource dc=1.2
+Vs_charge (source_charge 0) vsource dc=0
+Vb_charge (bulk_charge 0) vsource dc=0
+
+// ============================================================
+// Transient Analyses
+// ============================================================
+
+// Large-Signal Transient
+tran_ls tran start=0 stop=100n step=0.01n
+
+// Inverter Switching
+tran_sw tran start=0 stop=100n step=0.01n
+
+// Delay Chain
+tran_delay tran start=0 stop=100n step=0.01n
+
+// Power Dissipation at 27C
+sw_pwr_27 sweep param=temp values=[27] {
+    tran_pwr_27 tran start=0 stop=100n step=0.01n
+}
+
+// Power Dissipation at 100C
+sw_pwr_100 sweep param=temp values=[100] {
+    tran_pwr_100 tran start=0 stop=100n step=0.01n
+}
+
+// Quasi-Static
+tran_qs tran start=0 stop=500n step=0.1n
+
+// Charge Conservation
+tran_charge tran start=0 stop=100n step=0.01n
+
+// Save signals
+save M_tran:d M_tran:g M_tran:s M_tran:b
+save M_inv_n:d M_inv_n:g M_inv_n:s M_inv_n:b
+save M_inv_p:d M_inv_p:g M_inv_p:s M_inv_p:b
+save M_power_n:d M_power_n:g M_power_n:s M_power_n:b
+save M_power_p:d M_power_p:g M_power_p:s M_power_p:b
+save M_qs:d M_qs:g M_qs:s M_qs:b
+save M_charge:d M_charge:g M_charge:s M_charge:b

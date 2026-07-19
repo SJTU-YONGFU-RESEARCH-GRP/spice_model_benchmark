@@ -1,0 +1,114 @@
+// MOSFET Noise Analysis - Spectre version
+// Replicates ngspice noise_circuit.cir
+simulator lang=spectre
+
+simulatorOptions options gmin=1e-15 reltol=1e-8 vabstol=1e-12 temp=27 tnom=27
+
+simulator lang=spice
+.inc ../../models/FreePDK45/nom.inc
+simulator lang=spectre
+
+// ============================================================
+// Thermal Noise DUT - Common-source amplifier
+// ============================================================
+Vdd_noise (vdd_noise 0) vsource dc=1.2
+Vin_noise (in_noise 0) vsource dc=0.6 ac=1
+Rb_noise (in_noise gate_noise) resistor r=1k
+Rs_noise (source_noise 0) resistor r=100
+Rd_noise (vdd_noise drain_noise) resistor r=10k
+
+M_noise (drain_noise gate_noise source_noise bulk_noise) NMOS_VTG l=0.045u w=10u
+
+Vgs_noise (gate_noise source_noise) vsource dc=0
+Vds_noise (drain_noise source_noise) vsource dc=0
+Vbulk_noise (bulk_noise 0) vsource dc=0
+
+// ============================================================
+// Flicker Noise DUT
+// ============================================================
+Vdd_flicker (flicker_vdd 0) vsource dc=1.2
+Vin_f (flicker_in 0) vsource dc=0 ac=1
+Rin_f (flicker_in flicker_gate) resistor r=1k
+Rout_f (flicker_drain flicker_vdd) resistor r=10k
+
+M_flicker (flicker_drain flicker_gate flicker_source flicker_bulk) NMOS_VTG l=0.045u w=10u
+
+Vgs_flicker (flicker_gate 0) vsource dc=0.6
+Vbulk_f (flicker_bulk 0) vsource dc=0
+Vsrc_f (flicker_source 0) vsource dc=0
+
+// ============================================================
+// Shot Noise DUT
+// ============================================================
+Vdd_shot (shot_vdd 0) vsource dc=1.2 ac=1
+Vgs_shot (shot_gate 0) vsource dc=0.9
+Rload_shot (shot_vdd shot_drain) resistor r=10k
+
+M_shot (shot_drain shot_gate shot_source shot_bulk) NMOS_VTG l=0.045u w=10u
+
+Vbulk_shot (shot_bulk 0) vsource dc=0
+Vsrc_shot (shot_source 0) vsource dc=0
+
+// ============================================================
+// Noise Analyses
+// ============================================================
+
+// Thermal Noise - 6 bias points (Vgs x Vds)
+// Bias (0.3, 0.3)
+alt_th1 altergroup {
+    Vgs_noise set dc=0.3
+    Vds_noise set dc=0.3
+}
+noise_th1 noise v(drain_noise) Vin_noise dec=20 start=1 stop=1G
+
+// Bias (0.3, 0.6)
+alt_th2 altergroup {
+    Vgs_noise set dc=0.3
+    Vds_noise set dc=0.6
+}
+noise_th2 noise v(drain_noise) Vin_noise dec=20 start=1 stop=1G
+
+// Bias (0.3, 0.9)
+alt_th3 altergroup {
+    Vgs_noise set dc=0.3
+    Vds_noise set dc=0.9
+}
+noise_th3 noise v(drain_noise) Vin_noise dec=20 start=1 stop=1G
+
+// Bias (0.3, 1.2)
+alt_th4 altergroup {
+    Vgs_noise set dc=0.3
+    Vds_noise set dc=1.2
+}
+noise_th4 noise v(drain_noise) Vin_noise dec=20 start=1 stop=1G
+
+// Bias (0.6, 0.3)
+alt_th5 altergroup {
+    Vgs_noise set dc=0.6
+    Vds_noise set dc=0.3
+}
+noise_th5 noise v(drain_noise) Vin_noise dec=20 start=1 stop=1G
+
+// Bias (0.6, 0.6)
+alt_th6 altergroup {
+    Vgs_noise set dc=0.6
+    Vds_noise set dc=0.6
+}
+noise_th6 noise v(drain_noise) Vin_noise dec=20 start=1 stop=1G
+
+// Flicker Noise
+noise_fl noise v(flicker_drain) Vin_f dec=20 start=0.1 stop=1MEG
+
+// Shot Noise
+noise_sh noise v(shot_drain) Vdd_shot dec=20 start=1 stop=1G
+
+// Temperature-Dependent Noise at (Vgs=0.6, Vds=0.6)
+alt_temp set Vgs_noise dc=0.6 Vds_noise dc=0.6
+
+sw_temp_noise sweep param=temp values=[-40 0 27 50 100 150] {
+    noise_temp noise v(drain_noise) Vin_noise dec=20 start=1 stop=1G
+}
+
+save M_noise:d M_noise:g M_noise:s M_noise:b
+save M_flicker:d M_flicker:g M_flicker:s M_flicker:b
+save M_shot:d M_shot:g M_shot:s M_shot:b
