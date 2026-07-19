@@ -1,60 +1,49 @@
 """
 Command-line interface for SPICE Model Benchmark System.
-"""
 
+Supports running multiple simulators simultaneously and comparing results.
+"""
 import argparse
 import shlex
 import sys
+import time
 from pathlib import Path
-from typing import List, Optional
+from typing import List, Optional, Dict
+
 
 def main(args: Optional[List[str]] = None) -> int:
-    """
-    Main entry point for the command-line interface.
-
-    Args:
-        args: Command line arguments (defaults to sys.argv[1:])
-
-    Returns:
-        Exit code (0 for success, 1 for failure)
-    """
     parser = argparse.ArgumentParser(
         description="SPICE Model Benchmark System - Comprehensive MOSFET verification",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  # Run benchmark with default settings (ngspice)
+  # Run with ngspice (default)
   spice-benchmark model.inc
 
-  # Run with Spectre simulator
-  spice-benchmark model.inc --simulator spectre --modes dc
+  # Run with Spectre
+  spice-benchmark model.inc --simulator spectre
 
-  # Run only DC analysis with custom output directory
-  spice-benchmark model.inc --modes dc --output-dir my_results
+  # Run both simulators and compare
+  spice-benchmark model.inc --simulator ngspice spectre
 
-  # Run with custom circuit files
-  spice-benchmark model.inc \\
-    --dc-circuit custom_dc.cir \\
-    --transient-circuit custom_transient.cir \\
-    --output-dir benchmark_output
-
-  # Run with high-resolution plots and debug logging
-  spice-benchmark model.inc --dpi 600 --log-level DEBUG
+  # Compare only DC mode
+  spice-benchmark model.inc --simulator ngspice spectre --modes dc
         """
     )
 
     parser.add_argument(
         "model_file",
         type=str,
-        help="Path to the SPICE model file (.inc, .lib, or .model file)"
+        help="Path to the SPICE model file"
     )
 
     parser.add_argument(
         "--simulator",
         type=str,
+        nargs="+",
         choices=["ngspice", "spectre"],
-        default="ngspice",
-        help="Simulator to use (default: ngspice)"
+        default=["ngspice"],
+        help="Simulators to run - supports multiple for comparison (default: ngspice)"
     )
 
     parser.add_argument(
@@ -117,10 +106,9 @@ Examples:
         action="append",
         default=[],
         metavar='"TOOL [ARGS...]"',
-        help="Chain to downstream tool after benchmark (e.g. --bridge \"translate --targets hspice\")"
+        help="Chain to downstream tool after benchmark"
     )
 
-    # Parse arguments
     if args is None:
         args = sys.argv[1:]
 
@@ -129,45 +117,77 @@ Examples:
     except SystemExit as e:
         return e.code
 
-    # Validate model file exists
     model_path = Path(parsed_args.model_file)
     if not model_path.exists():
         print(f"Error: Model file '{parsed_args.model_file}' does not exist.")
         return 1
 
-    # Run the benchmark
-    print(f"Starting SPICE model benchmark for: {parsed_args.model_file}")
-    print(f"Simulator: {parsed_args.simulator}")
-    print(f"Output directory: {parsed_args.output_dir}")
-    print(f"Modes: {', '.join(parsed_args.modes)}")
+    simulators = parsed_args.simulator
+    modes = parsed_args.modes
+    base_output = parsed_args.output_dir
+
+    print(f"SPICE Model Benchmark: {parsed_args.model_file}")
+    print(f"Simulators: {', '.join(simulators)}")
+    print(f"Modes: {', '.join(modes)}")
     print("-" * 60)
 
-    if parsed_args.simulator == 'spectre':
-        from .spectre_mosfet_simulation import benchmark_spice_model_spectre
-        success = benchmark_spice_model_spectre(
-            model_file=parsed_args.model_file,
-            output_dir=parsed_args.output_dir,
-            modes=parsed_args.modes,
-            dpi=parsed_args.dpi,
-            log_level=parsed_args.log_level,
-            dc_circuit=parsed_args.dc_circuit,
-            transient_circuit=parsed_args.transient_circuit,
-            noise_circuit=parsed_args.noise_circuit,
-            ac_circuit=parsed_args.ac_circuit,
-        )
-    else:
-        from . import benchmark_spice_model
-        success = benchmark_spice_model(
-            model_file=parsed_args.model_file,
-            output_dir=parsed_args.output_dir,
-            modes=parsed_args.modes,
-            dpi=parsed_args.dpi,
-            log_level=parsed_args.log_level,
-            dc_circuit=parsed_args.dc_circuit,
-            transient_circuit=parsed_args.transient_circuit,
-            noise_circuit=parsed_args.noise_circuit,
-            ac_circuit=parsed_args.ac_circuit,
-        )
+    # Run each simulator and collect results
+    runner_results: Dict[str, dict] = {}
+
+    for sim in simulators:
+        sim_output_dir = f"{base_output}/{sim}"
+        print(f"\n{'='*60}")
+        print(f"  Running: {sim.upper()}")
+        print(f"  Output:  {sim_output_dir}")
+        print(f"{'='*60}")
+
+        t_start = time.time()
+
+        try:
+            if sim == 'spectre':
+                from .spectre_mosfet_simulation import benchmark_spice_model_spectre
+                success = benchmark_spice_model_spectre(
+                    model_file=parsed_args.model_file,
+                    output_dir=sim_output_dir,
+                    modes=modes,
+                    dpi=parsed_args.dpi,
+                    log_level=parsed_args.log_level,
+                    dc_circuit=parsed_args.dc_circuit,
+                    transient_circuit=parsed_args.transient_circuit,
+                    noise_circuit=parsed_args.noise_circuit,
+                    ac_circuit=parsed_args.ac_circuit,
+                )
+            else:
+                from . import benchmark_spice_model
+                success = benchmark_spice_model(
+                    model_file=parsed_args.model_file,
+                    output_dir=sim_output_dir,
+                    modes=modes,
+                    dpi=parsed_args.dpi,
+                    log_level=parsed_args.log_level,
+                    dc_circuit=parsed_args.dc_circuit,
+                    transient_circuit=parsed_args.transient_circuit,
+                    noise_circuit=parsed_args.noise_circuit,
+                    ac_circuit=parsed_args.ac_circuit,
+                )
+        except Exception as e:
+            print(f"  ✗ {sim} crashed: {e}")
+            runner_results[sim] = {
+                'success': False,
+                'elapsed': time.time() - t_start,
+                'error': str(e),
+            }
+            continue
+
+        elapsed = time.time() - t_start
+        runner_results[sim] = {
+            'success': success,
+            'elapsed': elapsed,
+            'output_dir': sim_output_dir,
+        }
+
+        status = "✓ PASS" if success else "✗ FAIL"
+        print(f"\n  {sim}: {status}  ({elapsed:.1f}s)")
 
     # --- Bridge chaining ---
     if parsed_args.bridge:
@@ -177,18 +197,75 @@ Examples:
         }
         _run_bridges(context, parsed_args.bridge)
 
-    if success:
-        print("\n✓ SPICE model benchmark completed successfully!")
-        print(f"Results saved to: {parsed_args.output_dir}")
-        return 0
-    else:
-        print("\n✗ SPICE model benchmark failed!")
-        return 1
+    # --- Comparison summary ---
+    if len(runner_results) > 1:
+        _print_comparison(runner_results, simulators, modes)
+    elif len(runner_results) == 1:
+        sim = list(runner_results.keys())[0]
+        r = runner_results[sim]
+        if r['success']:
+            print(f"\n✓ Benchmark completed: {r['output_dir']}")
+        else:
+            print(f"\n✗ Benchmark failed: {r['output_dir']}")
+
+    all_ok = all(r['success'] for r in runner_results.values())
+    return 0 if all_ok else 1
+
+
+def _print_comparison(results: Dict[str, dict], simulators: List[str], modes: List[str]):
+    """Print a comparison table for multi-simulator runs."""
+    print(f"\n{'='*70}")
+    print("  SIMULATOR COMPARISON")
+    print(f"{'='*70}")
+
+    # Header
+    col_w = max(16, max(len(s) for s in simulators) + 2)
+    header = f"  {'Metric':<20}" + "".join(f"{s.upper():>{col_w}}" for s in simulators)
+    print(header)
+    print("  " + "-" * (20 + col_w * len(simulators)))
+
+    # Status
+    status_row = f"  {'Status':<20}"
+    for s in simulators:
+        r = results.get(s, {})
+        st = "✓ PASS" if r.get('success') else "✗ FAIL"
+        status_row += f"{st:>{col_w}}"
+    print(status_row)
+
+    # Elapsed time
+    time_row = f"  {'Elapsed':<20}"
+    for s in simulators:
+        r = results.get(s, {})
+        t = r.get('elapsed', 0)
+        time_row += f"{f'{t:.1f}s':>{col_w}}"
+    print(time_row)
+
+    # Fastest
+    valid = {s: r['elapsed'] for s, r in results.items() if r.get('success')}
+    if valid:
+        fastest = min(valid, key=valid.get)
+        slowest = max(valid, key=valid.get)
+        speedup = valid[slowest] / valid[fastest] if valid[fastest] > 0 else 1
+        print(f"  {'Speedup':<20}{f'{speedup:.1f}x ({fastest} faster)':>{col_w * len(simulators)}}")
+
+    # Modes tested
+    mode_row = f"  {'Modes':<20}"
+    mode_str = ",".join(modes)
+    mode_row += f"{mode_str:>{col_w * len(simulators)}}"
+    print(mode_row)
+
+    # Output dirs
+    for s in simulators:
+        r = results.get(s, {})
+        od = r.get('output_dir', 'N/A')
+        print(f"  {s} output: {od}")
+
+    print(f"{'='*70}")
 
 
 def _run_bridges(context: dict, bridge_directives: list[str]) -> None:
     """Execute bridge directives after benchmarking completes."""
-    project_root = Path(__file__).resolve().parents[2]  # src/spice_model_benchmark/cli.py -> project root
+    project_root = Path(__file__).resolve().parents[2]
     sys.path.insert(0, str(project_root))
     for directive in bridge_directives:
         parts = shlex.split(directive)
