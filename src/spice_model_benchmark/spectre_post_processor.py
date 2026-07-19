@@ -106,9 +106,7 @@ class SpectrePostProcessor:
             elif section == 'trace':
                 if stripped == ')':
                     continue
-                if 'PROP(' in stripped:
-                    continue
-                # Trace definition: "name" "type"
+                # Trace definition: "name" "type" [PROP(...)]
                 m = re.match(r'"([^"]*)"\s+"(\w+)"', stripped)
                 if m:
                     tname = m.group(1)
@@ -132,11 +130,11 @@ class SpectrePostProcessor:
                     except ValueError:
                         pass
 
-        # Determine number of steps from the sweep trace
+        # Determine number of steps - check time/dc/frequency then trace_names
         n_steps = 0
-        for tname in trace_names:
-            if tname.lower() in ('dc', 'sweep', 'frequency', 'time'):
-                n_steps = len(values_raw.get(tname, []))
+        for tname in ['time', 'dc', 'sweep', 'frequency']:
+            if tname in values_raw and len(values_raw[tname]) > 0:
+                n_steps = len(values_raw[tname])
                 break
         if n_steps == 0 and trace_names:
             n_steps = len(values_raw.get(trace_names[0], []))
@@ -149,13 +147,14 @@ class SpectrePostProcessor:
             'values': {},
             'n_steps': n_steps,
         }
-        for tname in trace_names:
-            vals = values_raw.get(tname, [])
+        # Copy all parsed values (including time/dc from SWEEP section)
+        for tname, vals_list in values_raw.items():
+            vals = vals_list
             if len(vals) > n_steps:
                 vals = vals[:n_steps]
-            elif len(vals) < n_steps:
-                vals.extend([0.0] * (n_steps - len(vals)))
-            result['values'][tname] = np.array(vals, dtype=float)
+            elif 0 < len(vals) < n_steps:
+                vals = vals + [0.0] * (n_steps - len(vals))
+            result['values'][tname] = np.array(vals, dtype=float) if vals else np.array([])
 
         return result
 
@@ -345,17 +344,130 @@ class SpectrePostProcessor:
     # ====================================================================
 
     def process_transient(self, raw_dir: Path) -> bool:
-        """Process transient simulation results."""
+        """Process transient simulation results.
+
+        Generates 8 text files matching ngspice transient_circuit.cir output.
+        """
         self.logger.logger.info("Post-processing Spectre transient output...")
-        self._ensure_file("tran_large_signal.txt", "")
-        self._ensure_file("tran_switching.txt", "")
-        self._ensure_file("tran_switching_power.txt", "")
-        self._ensure_file("tran_delay.txt", "")
-        self._ensure_file("tran_power_27C.txt", "")
-        self._ensure_file("tran_power_100C.txt", "")
-        self._ensure_file("tran_quasi_static.txt", "")
-        self._ensure_file("tran_charge.txt", "")
-        self.logger.logger.info("Transient post-processing complete (stub).")
+        raw_dir = Path(raw_dir)
+
+        # Helper: read PSF tran file, write text with double-time + data columns
+        def _write_tran_file(psf_name: str, out_name: str,
+                             voltage_cols: list, current_cols: list):
+            """Parse a transient PSF file and write ngspice-compatible text."""
+            psf_files = sorted(raw_dir.glob(psf_name))
+            if not psf_files:
+                self.logger.logger.warning(f"  No PSF for {out_name} ({psf_name})")
+                return False
+            data = self._parse_psf_dc_groups(psf_files[0])
+            vals = data['values']
+
+            # Build time array
+            time = vals.get('time', np.array([]))
+            n = len(time)
+            if n == 0:
+                return False
+
+            # Build header and data columns
+            col_names = ["time", "time"]
+            arrays = [time, time]
+
+            for vcol in voltage_cols:
+                key = vcol  # e.g., "gate_tran"
+                col_names.append(f"v({key})")
+                arr = vals.get(key, np.zeros(n))
+                if len(arr) < n:
+                    arr = np.pad(arr, (0, n - len(arr)), constant_values=0)
+                arrays.append(arr[:n])
+
+            for ccol in current_cols:
+                key = ccol  # e.g., "Vds_tran:p"
+                col_names.append(f"i({key.replace(':p', '')})")
+                arr = vals.get(key, np.zeros(n))
+                if len(arr) < n:
+                    arr = np.pad(arr, (0, n - len(arr)), constant_values=0)
+                arrays.append(arr[:n])
+
+            # Write file matching ngspice wrdata format
+            out_path = self.data_dir / out_name
+            with open(out_path, 'w') as f:
+                f.write(" " + " ".join(col_names) + "\n")
+                for j in range(n):
+                    row = " ".join(f"{a[j]:.10e}" for a in arrays)
+                    f.write(f" {row}\n")
+            self.logger.logger.info(f"  Written: {out_path} ({n} points)")
+            return True
+
+        # ---- 1. Large-Signal Transient ----
+        _write_tran_file("tran_ls.tran.tran", "tran_large_signal.txt",
+                         ["gate_tran", "drain_tran"],
+                         ["Vds_tran:p", "Vgs_tran:p", "Vs_tran:p", "Vb_tran:p"])
+
+        # ---- 2. Switching Response ----
+        _write_tran_file("tran_sw.tran.tran", "tran_switching.txt",
+                         ["in_inv", "out_inv"],
+                         ["Vdd_inv:p"])
+
+        # ---- 3. Switching Power (computed) ----
+        sw_files = sorted(raw_dir.glob("tran_sw.tran.tran"))
+        if sw_files:
+            data = self._parse_psf_dc_groups(sw_files[0])
+            vals = data['values']
+            time = vals.get('time', np.array([]))
+            vdd = vals.get('vdd_inv', np.zeros(len(time)) if len(time) > 0 else np.array([]))
+            ivdd = vals.get('Vdd_inv:p', np.zeros(len(time)) if len(time) > 0 else np.array([]))
+            n = min(len(time), len(vdd), len(ivdd))
+            if n > 0:
+                power = -np.array(vdd[:n]) * np.array(ivdd[:n])
+                out_path = self.data_dir / "tran_switching_power.txt"
+                with open(out_path, 'w') as f:
+                    f.write(" time time power_switching\n")
+                    for j in range(n):
+                        f.write(f" {time[j]:.10e} {time[j]:.10e} {power[j]:.10e}\n")
+                self.logger.logger.info(f"  Written: {out_path} ({n} points)")
+
+        # ---- 4. Delay Effect ----
+        _write_tran_file("tran_delay.tran.tran", "tran_delay.txt",
+                         ["in_delay", "mid1_delay", "mid2_delay", "out_delay"],
+                         [])
+
+        # ---- 5 & 6. Power Dissipation at 27C and 100C ----
+        for temp_tag, psf_pat in [("27C", "sw_pwr_27-000_tran_pwr_27.tran.tran"),
+                                   ("100C", "sw_pwr_100-000_tran_pwr_100.tran.tran")]:
+            psf_files = sorted(raw_dir.glob(psf_pat))
+            if psf_files:
+                data = self._parse_psf_dc_groups(psf_files[0])
+                vals = data['values']
+                time = vals.get('time', np.array([]))
+                vin = vals.get('in_power', np.array([]))
+                vout = vals.get('out_power', np.array([]))
+                idd = vals.get('Vdd_power:p', np.array([]))
+                n = min(len(time), len(vin), len(vout), len(idd))
+                if n > 0:
+                    vdd_power = 1.2  # VDD = 1.2V
+                    power_diss = -vdd_power * np.array(idd[:n])
+                    # Energy = cumulative integral
+                    energy = np.cumsum(power_diss) * (time[1] - time[0]) if n > 1 else np.zeros(n)
+                    out_path = self.data_dir / f"tran_power_{temp_tag}.txt"
+                    with open(out_path, 'w') as f:
+                        f.write(" time time v(in_power) v(out_power) power_diss energy\n")
+                        for j in range(n):
+                            f.write(f" {time[j]:.10e} {time[j]:.10e} "
+                                    f"{vin[j]:.10e} {vout[j]:.10e} "
+                                    f"{power_diss[j]:.10e} {energy[j]:.10e}\n")
+                    self.logger.logger.info(f"  Written: {out_path} ({n} points)")
+
+        # ---- 7. Quasi-Static ----
+        _write_tran_file("tran_qs.tran.tran", "tran_quasi_static.txt",
+                         ["gate_qs", "drain_qs"],
+                         ["Vds_qs:p"])
+
+        # ---- 8. Charge Conservation ----
+        _write_tran_file("tran_charge.tran.tran", "tran_charge.txt",
+                         ["gate_charge"],
+                         ["Vg_charge:p", "Vd_charge:p", "Vs_charge:p", "Vb_charge:p"])
+
+        self.logger.logger.info("Transient post-processing complete.")
         return True
 
     # ====================================================================
