@@ -172,52 +172,22 @@ class SpectreMOSFETSimulation:
     # ==================================================================
 
     def _process_transient(self):
-        """Read transient data, generate plots, and run verification."""
+        """Verify transient data files exist. Plots/reports use data_reader."""
         self.logger.logger.info("Processing Transient results...")
         out = str(self.output_dir)
         dr = self._data_reader
-        pg = self._plot_generator
-        vm = self._verification_manager
 
         try:
-            # Large-signal transient: returns (time, vgate, vdrain, idrain)
-            ls = dr.read_trans_large_signal_transient_data(out)
-            if ls is not None:
-                time_ls, v_gate_ls, v_drain_ls, i_ds_ls = ls
-                pg.plot_trans_large_signal_transient(out, time_ls, v_gate_ls, v_drain_ls,
-                                                     i_ds_ls, None, None, None)
-                self.results['transient_large_signal'] = {'data_ready': True}
-
-            # Switching: returns (time, vin, vout, idrain)
-            sw = dr.read_trans_switching_response_data(out)
-            if sw is not None:
-                time_sw, v_in_sw, v_out_sw, i_vdd_sw = sw
-                pg.plot_trans_switching_response(out, time_sw, v_in_sw, v_out_sw, i_vdd_sw)
-                self.results['transient_switching'] = {'data_ready': True}
-
-            # Delay effect: returns (time, vin, v_mid1, v_mid2, vout)
-            de = dr.read_trans_delay_effect_data(out)
-            if de is not None:
-                time_de, v_in_de, v_m1_de, v_m2_de, v_out_de = de
-                pg.plot_trans_delay_effect(out, time_de, v_in_de, v_m1_de, v_m2_de, v_out_de)
-                self.results['transient_delay_effect'] = {'data_ready': True}
-
-            # Power dissipation: returns (time, power)
-            for temp_tag in ['27C', '100C']:
-                pd = dr.read_trans_power_dissipation_data(out, temp_tag)
-                if pd is not None:
-                    time_pd, power_pd = pd
-                    pg.plot_trans_power_dissipation(out, time_pd, None, None,
-                                                    power_pd, None, temp_tag)
-                    self.results[f'transient_power_{temp_tag}'] = {'data_ready': True}
-
-            # Quasi-static: returns (time, vgate, vdrain, idrain)
-            qs = dr.read_trans_quasi_static_data(out)
-            if qs is not None:
-                time_qs, v_gate_qs, v_drain_qs, id_qs = qs
-                pg.plot_trans_quasi_static(out, time_qs, v_gate_qs, v_drain_qs, id_qs)
-                self.results['transient_quasi_static'] = {'data_ready': True}
-
+            self.results['transient_large_signal'] = {
+                'data_ready': dr.read_trans_large_signal_transient_data(out) is not None}
+            self.results['transient_switching'] = {
+                'data_ready': dr.read_trans_switching_response_data(out) is not None}
+            self.results['transient_delay_effect'] = {
+                'data_ready': dr.read_trans_delay_effect_data(out) is not None}
+            self.results['transient_power_dissipation'] = {
+                'data_ready': dr.read_trans_power_dissipation_data(out, '27C') is not None}
+            self.results['transient_quasi_static'] = {
+                'data_ready': dr.read_trans_quasi_static_data(out) is not None}
             self.logger.logger.info("Transient processing complete.")
         except Exception as e:
             self.logger.logger.error(f"Transient processing error: {e}")
