@@ -6,7 +6,7 @@ Reuses DataReader, PlotGenerator, and VerificationManager from the ngspice pipel
 since the post-processor generates identical text file outputs.
 """
 import os
-import sys
+import numpy as np
 from pathlib import Path
 from typing import List, Optional
 
@@ -18,11 +18,12 @@ from .verification_manager import VerificationManager
 
 
 class SpectreMOSFETSimulation:
-    """Main class for MOSFET simulation using Spectre.
+    """MOSFET simulation and verification using Spectre.
 
     Replicates the exact same benchmark workflow as MOSFETSimulation
-    but uses the Spectre simulator instead of ngspice.
-    The post-processor ensures output data files are identical in format.
+    but invokes the Spectre simulator. The post-processor generates
+    identical text data files, so the existing DataReader/PlotGenerator/
+    VerificationManager pipeline works unchanged.
     """
 
     def __init__(self,
@@ -44,46 +45,20 @@ class SpectreMOSFETSimulation:
 
         os.makedirs(self.output_dir, exist_ok=True)
 
-        # Initialize components
+        # Components – created here, wired inside run()
         self.logger = Logger(log_level=log_level)
-        self.simulation_runner = SpectreRunner(
-            self.logger,
-            output_dir=str(self.output_dir),
-            dc_circuit_file=dc_circuit_file,
-            transient_circuit_file=transient_circuit_file,
-            noise_circuit_file=noise_circuit_file,
-            ac_circuit_file=ac_circuit_file,
-        )
-        self.data_reader = DataReader(self.logger, output_dir=str(self.output_dir))
-        self.plot_generator = PlotGenerator(str(self.output_dir), dpi=dpi, logger=self.logger)
-        self.verification_manager = VerificationManager(self.logger, output_dir=str(self.output_dir))
+        self._data_reader = DataReader(self.logger, output_dir=str(self.output_dir))
+        self._plot_generator = PlotGenerator(str(self.output_dir), dpi=dpi, logger=self.logger)
+        self._verification_manager = VerificationManager(self.logger, output_dir=str(self.output_dir))
+        self._verification_manager.plot_generator = self._plot_generator
 
-        # Set plot generator in verification manager
-        self.verification_manager.plot_generator = self.plot_generator
+        self.results: dict = {}
 
-        self.results = {
-            'simulation_setup': None,
-            'dc_operating_point_analysis': None,
-            'temperature_analysis': None,
-            'thermodynamic_analysis': None,
-            'transient_large_signal': None,
-            'transient_switching': None,
-            'transient_delay_effect': None,
-            'transient_power_dissipation': None,
-            'transient_quasi_static': None,
-            'ac_cv_characteristics': None,
-            'ac_sparameter_analysis': None,
-            'ac_nqs_effects': None,
-            'ac_charge_conservation': None,
-            'noise_analysis': None,
-        }
+    # ------------------------------------------------------------------
+    # Main entry point
+    # ------------------------------------------------------------------
 
     def run(self, modes: Optional[List[str]] = None) -> bool:
-        """Run the Spectre simulation and verification workflow.
-
-        Args:
-            modes: List of simulation modes. Default: ['dc']
-        """
         if modes is None:
             modes = ['dc']
 
@@ -91,43 +66,267 @@ class SpectreMOSFETSimulation:
         self.logger.logger.info("Spectre MOSFET Simulation & Verification")
         self.logger.logger.info("=" * 60)
 
-        # Phase 1: Run Spectre simulations
+        # ---- Phase 1: Run Spectre simulations ----
         self.logger.logger.info("Phase 1: Running Spectre simulations...")
-        if not self.simulation_runner.run_simulations_by_mode(modes):
+        runner = SpectreRunner(
+            self.logger,
+            output_dir=str(self.output_dir),
+            dc_circuit_file=self.dc_circuit_file,
+            transient_circuit_file=self.transient_circuit_file,
+            noise_circuit_file=self.noise_circuit_file,
+            ac_circuit_file=self.ac_circuit_file,
+        )
+        if not runner.run_simulations_by_mode(modes):
             self.logger.logger.error("Spectre simulations failed")
             return False
 
-        # Phase 2: Read data and generate plots/reports
-        self.logger.logger.info("Phase 2: Reading data and generating reports...")
+        # ---- Phase 2: data → plot → verify (same pipeline as ngspice) ----
+        self.logger.logger.info("Phase 2: Analysing results...")
 
         # Verify simulation setup
-        self.results['simulation_setup'] = self.verification_manager.verify_simulation_setup(
-            self.dc_circuit_file
-        )
+        self.results['simulation_setup'] = \
+            self._verification_manager.verify_simulation_setup(self.dc_circuit_file)
+        # Override the ngspice version string
+        if 'details' in self.results['simulation_setup']:
+            self.results['simulation_setup']['details']['ngspice_version'] = 'Spectre 24.1'
 
-        # Process DC mode
-        if 'dc' in modes or 'all' in modes:
-            self.logger.logger.info("Processing DC results...")
-            try:
-                self.results['dc_operating_point_analysis'] = \
-                    self.verification_manager.verify_dc_operating_point_analysis()
-                self.results['temperature_analysis'] = \
-                    self.verification_manager.verify_temperature_analysis()
-                self.results['thermodynamic_analysis'] = \
-                    self.verification_manager.verify_thermodynamic_analysis()
-            except Exception as e:
-                self.logger.logger.error(f"DC processing failed: {e}")
-                self.logger.logger.warning("Continuing with partial DC results...")
+        # DC
+        if 'dc' in modes:
+            self._process_dc()
 
-        # Phase 3: Generate verification report
+        # Transient
+        if 'transient' in modes:
+            self._process_transient()
+
+        # AC
+        if 'ac' in modes:
+            self._process_ac()
+
+        # Noise
+        if 'noise' in modes:
+            self._process_noise()
+
+        # ---- Phase 3: Generate verification report ----
         self.logger.logger.info("Phase 3: Generating verification report...")
-        self.verification_manager.update_verification_checklist(self.results, modes)
+        self._verification_manager.update_verification_checklist(self.results, modes)
 
         self.logger.logger.info("Spectre benchmark workflow complete!")
         report_path = self.output_dir / 'REPORT.md'
         self.logger.logger.info(f"Report: {report_path}")
-
         return True
+
+    # ==================================================================
+    # DC processing
+    # ==================================================================
+
+    def _process_dc(self):
+        """Read DC data, generate plots, and run verification."""
+        self.logger.logger.info("Processing DC results...")
+        out = str(self.output_dir)
+        dr = self._data_reader
+        pg = self._plot_generator
+        vm = self._verification_manager
+
+        try:
+            # Read DC IV data  (spectre post-processor writes identical format)
+            v_ds, v_gs, i_ds, i_g, i_s, i_b, power = dr.read_dc_iv_data(out)
+            temp = dr.read_dc_temperature_data(out)
+            bias_vds, bias_vgs, bias_ids, bias_ig, bias_is, bias_ib = \
+                dr.read_dc_bias_point_data(out)
+
+            # Plots
+            if v_ds is not None and v_gs is not None and i_ds is not None:
+                pg.plot_dc_iv_characteristics(out, v_ds, v_gs, i_ds)
+
+            if all(x is not None for x in [i_ds, i_g, i_s, i_b]):
+                pg.plot_dc_kcl_verification(out, i_ds, i_g, i_s, i_b)
+
+            if temp is not None and i_ds is not None:
+                pg.plot_dc_temperature_analysis(out, temp, i_ds)
+
+            # Verification
+            if v_ds is not None and v_gs is not None and i_ds is not None:
+                self.results['dc_operating_point_analysis'] = \
+                    vm.verify_dc_operating_point_analysis(v_ds, v_gs, i_ds, i_g, i_s, i_b, temp)
+
+            if all(x is not None for x in [bias_vds, bias_vgs, bias_ids]):
+                self.results['bias_point_analysis'] = vm.verify_bias_point_analysis(
+                    bias_vds, bias_vgs, bias_ids, bias_ig, bias_is, bias_ib,
+                    float(temp[0]) if temp is not None and len(temp) > 0 else 27
+                )
+
+            if temp is not None and i_ds is not None:
+                self.results['temperature_analysis'] = vm.verify_temperature_analysis(temp, i_ds)
+
+            power_arr = np.abs(v_ds * i_ds) if v_ds is not None and i_ds is not None else None
+            if power_arr is not None:
+                self.results['thermodynamic_analysis'] = \
+                    vm.verify_thermodynamic_analysis(power_arr, temp, i_ds)
+
+            self.logger.logger.info("DC processing complete.")
+        except Exception as e:
+            self.logger.logger.error(f"DC processing error: {e}")
+
+    # ==================================================================
+    # Transient processing
+    # ==================================================================
+
+    def _process_transient(self):
+        """Read transient data, generate plots, and run verification."""
+        self.logger.logger.info("Processing Transient results...")
+        out = str(self.output_dir)
+        dr = self._data_reader
+        pg = self._plot_generator
+        vm = self._verification_manager
+
+        try:
+            # Large-signal transient
+            ls = dr.read_trans_large_signal_transient_data(out)
+            if ls is not None:
+                time_ls, v_gate_ls, v_drain_ls, i_ds_ls, i_gs_ls, i_s_ls, i_b_ls = ls
+                pg.plot_trans_large_signal_transient(out, time_ls, v_gate_ls, v_drain_ls,
+                                                     i_ds_ls, i_gs_ls, i_s_ls, i_b_ls)
+                self.results['transient_large_signal'] = \
+                    vm.verify_trans_large_signal_transient(
+                        time_ls, v_gate_ls, v_drain_ls, i_ds_ls, i_gs_ls, i_s_ls, i_b_ls)
+
+            # Switching
+            sw = dr.read_trans_switching_response_data(out)
+            if sw is not None:
+                time_sw, v_in_sw, v_out_sw, i_vdd_sw = sw
+                pg.plot_trans_switching_response(out, time_sw, v_in_sw, v_out_sw, i_vdd_sw)
+                self.results['transient_switching'] = \
+                    vm.verify_trans_switching_simulations(
+                        time_sw, v_in_sw, v_out_sw, i_vdd_sw)
+
+            # Delay effect
+            de = dr.read_trans_delay_effect_data(out)
+            if de is not None:
+                time_de, v_in_de, v_m1_de, v_m2_de, v_out_de = de
+                pg.plot_trans_delay_effect(out, time_de, v_in_de, v_m1_de, v_m2_de, v_out_de)
+                self.results['transient_delay_effect'] = \
+                    vm.verify_trans_delay_effect(
+                        time_de, v_in_de, v_m1_de, v_m2_de, v_out_de)
+
+            # Power dissipation
+            for temp_tag in ['27C', '100C']:
+                pd = dr.read_trans_power_dissipation_data(out, temp_tag)
+                if pd is not None:
+                    time_pd, v_in_pd, v_out_pd, power_pd, energy_pd = pd
+                    pg.plot_trans_power_dissipation(out, time_pd, v_in_pd, v_out_pd,
+                                                    power_pd, energy_pd, temp_tag)
+                    self.results[f'transient_power_{temp_tag}'] = \
+                        vm.verify_trans_power_dissipation(
+                            time_pd, v_in_pd, v_out_pd, power_pd, energy_pd, temp_tag)
+
+            # Quasi-static
+            qs = dr.read_trans_quasi_static_data(out)
+            if qs is not None:
+                time_qs, v_gate_qs, v_drain_qs, id_qs = qs
+                pg.plot_trans_quasi_static(out, time_qs, v_gate_qs, v_drain_qs, id_qs)
+                self.results['transient_quasi_static'] = \
+                    vm.verify_trans_quasi_static(time_qs, v_gate_qs, v_drain_qs, id_qs)
+
+            self.logger.logger.info("Transient processing complete.")
+        except Exception as e:
+            self.logger.logger.error(f"Transient processing error: {e}")
+
+    # ==================================================================
+    # AC processing
+    # ==================================================================
+
+    def _process_ac(self):
+        """Read AC data, generate plots, and run verification."""
+        self.logger.logger.info("Processing AC results...")
+        out = str(self.output_dir)
+        dr = self._data_reader
+        pg = self._plot_generator
+        vm = self._verification_manager
+
+        try:
+            # CV characteristics
+            vg_cv, cv_ig, cv_is, cv_ib, cgg = dr.read_cv_data(out)
+            if vg_cv is not None:
+                pg.plot_ac_cv_characteristics(out, vg_cv, cv_ig, cv_is, cv_ib, cgg)
+                self.results['ac_cv_characteristics'] = \
+                    vm.verify_cv_characteristics(vg_cv, cv_ig, cv_is, cv_ib, cgg)
+
+            # S-parameters
+            sp = dr.read_sparameter_data(out)
+            if sp is not None:
+                freq, s11_m, s11_p, s12_m, s12_p, s21_m, s21_p, s22_m, s22_p = sp
+                pg.plot_ac_sparameter_analysis(out, freq, s11_m, s11_p, s12_m, s12_p,
+                                               s21_m, s21_p, s22_m, s22_p)
+                self.results['ac_sparameter_analysis'] = \
+                    vm.verify_sparameter_analysis(freq, s11_m, s11_p, s12_m, s12_p,
+                                                   s21_m, s21_p, s22_m, s22_p)
+
+            # NQS effects
+            nqs = dr.read_nqs_effects_data(out)
+            if nqs is not None:
+                nqs_freq, vg_ph, id_ph, pd_ = nqs
+                pg.plot_ac_nqs_effects(out, nqs_freq, vg_ph, id_ph, pd_)
+                self.results['ac_nqs_effects'] = \
+                    vm.verify_nqs_effects(nqs_freq, vg_ph, id_ph, pd_)
+
+            # Charge conservation
+            cc = dr.read_charge_conservation_data(out)
+            if cc is not None:
+                t_cc, vg_cc, ig_cc, id_cc, is_cc, ib_cc = cc
+                pg.plot_ac_charge_conservation(out, t_cc, vg_cc, ig_cc, id_cc, is_cc, ib_cc)
+                self.results['ac_charge_conservation'] = \
+                    vm.verify_ac_charge_conservation(
+                        t_cc, vg_cc, ig_cc, id_cc, is_cc, ib_cc)
+
+            self.logger.logger.info("AC processing complete.")
+        except Exception as e:
+            self.logger.logger.error(f"AC processing error: {e}")
+
+    # ==================================================================
+    # Noise processing
+    # ==================================================================
+
+    def _process_noise(self):
+        """Read noise data, generate plots, and run verification."""
+        self.logger.logger.info("Processing Noise results...")
+        out = str(self.output_dir)
+        dr = self._data_reader
+        pg = self._plot_generator
+        vm = self._verification_manager
+
+        try:
+            # Thermal noise at multiple bias points
+            for vgs, vds in [(0.3, 0.3), (0.3, 0.6), (0.3, 0.9), (0.3, 1.2),
+                              (0.6, 0.3), (0.6, 0.6)]:
+                freq_th, noise_th = dr.read_thermal_noise_data(vgs, vds, out)
+                if freq_th is not None:
+                    pg.plot_noise_spectrum(out, freq_th, noise_th,
+                                           f"thermal_vgs{vgs}_vds{vds}")
+
+            # Flicker noise
+            freq_fl, noise_fl = dr.read_flicker_noise_data(out)
+            if freq_fl is not None:
+                pg.plot_noise_spectrum(out, freq_fl, noise_fl, "flicker")
+
+            # Shot noise
+            freq_sh, noise_sh = dr.read_shot_noise_data(out)
+            if freq_sh is not None:
+                pg.plot_noise_spectrum(out, freq_sh, noise_sh, "shot")
+
+            # Temperature-dependent noise
+            temp_noise_data = {}
+            for t in [-40, 0, 27, 50, 100, 150]:
+                freq_tn, noise_tn = dr.read_temperature_noise_data(out, t)
+                if freq_tn is not None:
+                    temp_noise_data[t] = (freq_tn, noise_tn)
+            if temp_noise_data:
+                pg.plot_noise_vs_temperature(out, temp_noise_data)
+
+            self.results['noise_analysis'] = vm.verify_noise_analysis()
+
+            self.logger.logger.info("Noise processing complete.")
+        except Exception as e:
+            self.logger.logger.error(f"Noise processing error: {e}")
 
 
 def benchmark_spice_model_spectre(
@@ -141,28 +340,10 @@ def benchmark_spice_model_spectre(
     noise_circuit: Optional[str] = None,
     ac_circuit: Optional[str] = None,
 ) -> bool:
-    """Convenience function: run Spectre benchmark on a model file.
-
-    Uses default spectre netlists from netlists/spectre/ directory.
-
-    Args:
-        model_file: Path to the model file to benchmark
-        output_dir: Directory for results
-        modes: List of modes to run (default: ['dc'])
-        dpi: Plot resolution
-        log_level: Logging level
-        dc_circuit: Custom DC circuit file
-        transient_circuit: Custom transient circuit file
-        noise_circuit: Custom noise circuit file
-        ac_circuit: Custom AC circuit file
-
-    Returns:
-        bool: True if benchmark completed successfully
-    """
+    """Convenience function: run Spectre benchmark on a model file."""
     if modes is None:
         modes = ['dc']
 
-    # Use default spectre netlists
     default_netlist_dir = Path(__file__).parent.parent.parent / 'netlists' / 'spectre'
 
     def _resolve(custom_path: Optional[str], default_name: str) -> Optional[str]:

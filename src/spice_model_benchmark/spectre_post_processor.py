@@ -194,8 +194,10 @@ class SpectrePostProcessor:
             vgs_files = temp_groups[tidx]
             temp = None
 
-            # Write combined output
-            out_lines = []
+            # Write combined output with ngspice-compatible header
+            # Header: v-sweep v(drain_iv) v(gate_iv) id is ib ig kcl
+            out_lines = ["v-sweep v(drain_iv) v(gate_iv) id is ib ig kcl\n"]
+            sweep_idx = 0
             for gidx in sorted(vgs_files.keys()):
                 f = vgs_files[gidx]
                 data = self._parse_psf_dc_groups(f)
@@ -221,15 +223,17 @@ class SpectrePostProcessor:
 
                 for j in range(n):
                     vd = vds[j] if j < len(vds) else 0.0
-                    id_val = -id_[j] if j < len(id_) else 0.0  # Current INTO drain
-                    is_val = -is_[j] if j < len(is_) else 0.0  # Current INTO source
-                    ib_val = -ib_[j] if j < len(ib_) else 0.0  # Current INTO bulk
-                    ig_val = -ig_[j] if j < len(ig_) else 0.0  # Current INTO gate
+                    id_val = -id_[j] if j < len(id_) else 0.0
+                    is_val = -is_[j] if j < len(is_) else 0.0
+                    ib_val = -ib_[j] if j < len(ib_) else 0.0
+                    ig_val = -ig_[j] if j < len(ig_) else 0.0
                     kcl = abs(id_val + is_val + ig_val + ib_val)
                     out_lines.append(
-                        f"{vd:.10e} {vgs_val:.10e} {id_val:.10e} "
-                        f"{is_val:.10e} {ib_val:.10e} {ig_val:.10e} {kcl:.10e}\n"
+                        f" {sweep_idx:.10e}  {vd:.10e}  {vgs_val:.10e}  "
+                        f"{id_val:.10e}  {is_val:.10e}  {ib_val:.10e}  "
+                        f"{ig_val:.10e}  {kcl:.10e}\n"
                     )
+                    sweep_idx += 1
 
             # Determine temperature value
             if temp is not None and temp == int(temp):
@@ -237,14 +241,13 @@ class SpectrePostProcessor:
             elif temp is not None:
                 temp_name = f"{temp:.0f}"
             else:
-                # Default mapping
                 temp_map = {0: "-40", 1: "0", 2: "25", 3: "50", 4: "100", 5: "150"}
                 temp_name = temp_map.get(tidx, f"{tidx}")
 
             out_path = self.data_dir / f"iv_data_{temp_name}.txt"
             with open(out_path, 'w') as f:
                 f.writelines(out_lines)
-            self.logger.logger.info(f"  Written: {out_path} ({len(out_lines)} points)")
+            self.logger.logger.info(f"  Written: {out_path} ({len(out_lines) - 1} points)")
 
         # ---- Bias Point Files ----
         self._process_dc_bias(raw_dir)
