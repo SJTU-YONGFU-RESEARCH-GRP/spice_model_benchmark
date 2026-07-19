@@ -1,18 +1,15 @@
-// MOSFET AC Analysis Circuit - Spectre version
+// MOSFET AC Analysis - Spectre version
 // Replicates ngspice ac_circuit.cir
-
 simulator lang=spectre
 
-simulatorOptions options gmin=1e-15 reltol=1e-8 abstol=1e-12 temp=27 tnom=27
+simulatorOptions options gmin=1e-15 reltol=1e-8 vabstol=1e-12 temp=27 tnom=27
 
-// Include FreePDK45 model
 simulator lang=spice
 .inc ../../models/FreePDK45/nom.inc
 simulator lang=spectre
 
 // ============================================================
-// CV Measurement Circuit (M1): gate AC excitation
-// D/S/B tied to ground for AC
+// CV Measurement Circuit (M1): gate AC=1, D/S/B AC=0
 // ============================================================
 M_cv (drain_1 gate_1 source_1 bulk_1) NMOS_VTG l=0.045u w=10u
 
@@ -22,18 +19,13 @@ VS (source_1 0) vsource dc=0 ac=0
 VB (bulk_1 0) vsource dc=0 ac=0
 
 // ============================================================
-// S-parameter Test Circuit (M2)
+// S-parameter Test Circuit (M2): 50-ohm 2-port
 // ============================================================
 M_sp (drain_2 gate_2 0 0) NMOS_VTG l=0.045u w=10u
 RG_sp (gate_2 gate_in2) resistor r=50
 RD_sp (drain_2 drain_in2) resistor r=50
 VGS_port (gate_in2 0) vsource dc=0.8 ac=1
 VDS_port (drain_in2 0) vsource dc=1.0 ac=0
-
-// ============================================================
-// NQS Effects Test Circuit (M1 at different DC bias)
-// Uses same M1 but with VG=0.8, VD=1.0
-// ============================================================
 
 // ============================================================
 // Charge Conservation Test Circuit (M3)
@@ -46,105 +38,75 @@ VSQ (source_3 0) vsource dc=0
 VBQ (bulk_3 0) vsource dc=0
 
 // ============================================================
-// CV Analysis: AC at fixed frequencies, sweep Vg DC bias
-// For each Vg, measure imag(i(VG))/(2*pi*f) to get Cgg
+// CV Analysis: sweep Vg DC bias, run AC at 4 frequencies
 // ============================================================
-
-// CV sweep at 1kHz
 sw_cv_1k sweep param=dc dev=VG start=-0.8 stop=1.2 step=0.05 {
     ac_cv_1k ac start=1k stop=1k lin=1
 }
-
-// CV sweep at 10kHz - same M1 circuit but with 10kHz AC
 sw_cv_10k sweep param=dc dev=VG start=-0.8 stop=1.2 step=0.05 {
     ac_cv_10k ac start=10k stop=10k lin=1
 }
-
-// CV sweep at 100kHz
 sw_cv_100k sweep param=dc dev=VG start=-0.8 stop=1.2 step=0.05 {
     ac_cv_100k ac start=100k stop=100k lin=1
 }
-
-// CV sweep at 1MHz
 sw_cv_1m sweep param=dc dev=VG start=-0.8 stop=1.2 step=0.05 {
     ac_cv_1m ac start=1MEG stop=1MEG lin=1
 }
 
 // ============================================================
 // Full 4x4 Capacitance Matrix at 1MHz
-// Excite each terminal with AC=1 while others have AC=0
-// The post-processor will extract Y-parameters and compute C matrix
+// Gate excitation (default: VG.ac=1, others=0) - already set
 // ============================================================
-
-// Gate excitation: VG.ac=1, others ac=0
 sw_cmat_g sweep param=dc dev=VG start=-0.8 stop=1.2 step=0.05 {
     ac_cmat_g ac start=1MEG stop=1MEG lin=1
 }
 
-// Drain excitation: need VG.ac=0, VD.ac=1
-// Use altergroup to change AC excitation
-alt_cmat_d altergroup {
-    VG set ac=0
-    VD set ac=1
-}
-sw_cmat_d sweep param=dc dev=VG start=-0.8 stop=1.2 step=0.05 {
+// Drain excitation: VG.ac=0, VD.ac=1
+// Use alternate circuit with swapped AC sources
+// We create copies with different AC excitation
+M_cv_d (drain_1d gate_1d source_1d bulk_1d) NMOS_VTG l=0.045u w=10u
+VG_d (gate_1d 0) vsource dc=0 ac=0
+VD_d (drain_1d 0) vsource dc=1.0 ac=1
+VS_d (source_1d 0) vsource dc=0 ac=0
+VB_d (bulk_1d 0) vsource dc=0 ac=0
+sw_cmat_d sweep param=dc dev=VG_d start=-0.8 stop=1.2 step=0.05 {
     ac_cmat_d ac start=1MEG stop=1MEG lin=1
 }
 
 // Source excitation
-alt_cmat_s altergroup {
-    VD set ac=0
-    VS set ac=1
-}
-sw_cmat_s sweep param=dc dev=VG start=-0.8 stop=1.2 step=0.05 {
+M_cv_s (drain_1s gate_1s source_1s bulk_1s) NMOS_VTG l=0.045u w=10u
+VG_s (gate_1s 0) vsource dc=0 ac=0
+VD_s (drain_1s 0) vsource dc=1.0 ac=0
+VS_s (source_1s 0) vsource dc=0 ac=1
+VB_s (bulk_1s 0) vsource dc=0 ac=0
+sw_cmat_s sweep param=dc dev=VG_s start=-0.8 stop=1.2 step=0.05 {
     ac_cmat_s ac start=1MEG stop=1MEG lin=1
 }
 
 // Bulk excitation
-alt_cmat_b altergroup {
-    VS set ac=0
-    VB set ac=1
-}
-sw_cmat_b sweep param=dc dev=VG start=-0.8 stop=1.2 step=0.05 {
+M_cv_b (drain_1b gate_1b source_1b bulk_1b) NMOS_VTG l=0.045u w=10u
+VG_b (gate_1b 0) vsource dc=0 ac=0
+VD_b (drain_1b 0) vsource dc=1.0 ac=0
+VS_b (source_1b 0) vsource dc=0 ac=0
+VB_b (bulk_1b 0) vsource dc=0 ac=1
+sw_cmat_b sweep param=dc dev=VG_b start=-0.8 stop=1.2 step=0.05 {
     ac_cmat_b ac start=1MEG stop=1MEG lin=1
 }
 
 // ============================================================
-// S-Parameter Analysis (M2 circuit, 2-port Y->S conversion)
-// Frequencies: 1M, 10M, 100M, 1G Hz
-// Port1=Gate (VGS_port), Port2=Drain (VDS_port)
+// S-Parameter Analysis (M2 circuit): direct SP analysis
 // ============================================================
-
-// Set M2 DC bias
-t_sp altergroup {
-    VGS_port set dc=0.8
-    VDS_port set dc=1.0
-}
-
-// Frequency sweep for S-params
 ac_sp ac start=1MEG stop=1G dec=10
 
 // ============================================================
-// Non-Quasi-Static Effects: phase shift vs frequency
-// Use M1 in saturation (VG=0.8, VD=1.0)
+// Non-Quasi-Static Effects: AC at high frequencies (use M1)
 // ============================================================
-t_nqs altergroup {
-    VG set dc=0.8
-    VD set dc=1.0
+// Set M1 to saturation: VG=0.8V, VD=1.0V via sweep
+sw_nqs sweep param=dc dev=VG values=[0.8] {
+    ac_nqs ac start=10MEG stop=10G dec=10
 }
-ac_nqs ac start=10MEG stop=10G dec=10
 
 // ============================================================
 // Charge Conservation Test (Transient on M3)
 // ============================================================
 tran_cc tran start=0 stop=5n step=0.01n
-
-// ============================================================
-// Signal saving for post-processing
-// ============================================================
-save M_cv:d M_cv:g M_cv:s M_cv:b
-save M_sp:d M_sp:g M_sp:s M_sp:b
-save M_cc:d M_cc:g M_cc:s M_cc:b
-save VG:p VD:p VS:p VB:p
-save VGS_port:p VDS_port:p
-save VGQ:p VDQ:p VSQ:p VBQ:p

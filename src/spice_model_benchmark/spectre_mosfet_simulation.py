@@ -172,22 +172,56 @@ class SpectreMOSFETSimulation:
     # ==================================================================
 
     def _process_transient(self):
-        """Verify transient data files exist. Plots/reports use data_reader."""
+        """Read transient data, generate plots, and run verification."""
         self.logger.logger.info("Processing Transient results...")
         out = str(self.output_dir)
         dr = self._data_reader
+        pg = self._plot_generator
+        vm = self._verification_manager
 
         try:
-            self.results['transient_large_signal'] = {
-                'data_ready': dr.read_trans_large_signal_transient_data(out) is not None}
-            self.results['transient_switching'] = {
-                'data_ready': dr.read_trans_switching_response_data(out) is not None}
-            self.results['transient_delay_effect'] = {
-                'data_ready': dr.read_trans_delay_effect_data(out) is not None}
-            self.results['transient_power_dissipation'] = {
-                'data_ready': dr.read_trans_power_dissipation_data(out, '27C') is not None}
-            self.results['transient_quasi_static'] = {
-                'data_ready': dr.read_trans_quasi_static_data(out) is not None}
+            # 1. Large-signal transient: (time, vgate, vdrain, idrain)
+            ls = dr.read_trans_large_signal_transient_data(out)
+            if ls is not None:
+                time_ls, vg_ls, vd_ls, id_ls = ls
+                pg.plot_trans_large_signal_transient(out, time_ls, vg_ls, vd_ls, id_ls)
+                self.results['transient_large_signal'] = \
+                    vm.verify_trans_large_signal_transient(time_ls, vg_ls, vd_ls, id_ls)
+
+            # 2. Switching: (time, vin, vout, idrain)
+            sw = dr.read_trans_switching_response_data(out)
+            if sw is not None:
+                time_sw, vin_sw, vout_sw, id_sw = sw
+                pg.plot_trans_switching_response(out, time_sw, vin_sw, vout_sw, id_sw)
+                self.results['transient_switching'] = \
+                    vm.verify_trans_switching_simulations(time_sw, vin_sw, vout_sw, id_sw)
+
+            # 3. Delay effect: (time, vin, vmid1, vmid2, vout)
+            de = dr.read_trans_delay_effect_data(out)
+            if de is not None:
+                time_de, vin_de, vm1_de, vm2_de, vout_de = de
+                pg.plot_trans_delay_effect(out, time_de, vin_de, vm1_de, vm2_de, vout_de)
+                self.results['transient_delay_effect'] = \
+                    vm.verify_trans_delay_effect(time_de, vin_de, vm1_de, vm2_de, vout_de)
+
+            # 4. Power dissipation: (time, power) at two temps
+            pd_27 = dr.read_trans_power_dissipation_data(out, '27C')
+            pd_100 = dr.read_trans_power_dissipation_data(out, '100C')
+            if pd_27 is not None and pd_100 is not None:
+                time_27, pwr_27 = pd_27
+                time_100, pwr_100 = pd_100
+                pg.plot_trans_power_dissipation(out, time_27, pwr_27, time_100, pwr_100)
+                self.results['transient_power_dissipation'] = \
+                    vm.verify_trans_power_dissipation(time_27, pwr_27, time_100, pwr_100)
+
+            # 5. Quasi-static: (time, vgate, vdrain, idrain)
+            qs = dr.read_trans_quasi_static_data(out)
+            if qs is not None:
+                time_qs, vg_qs, vd_qs, id_qs = qs
+                pg.plot_trans_quasi_static(out, time_qs, vg_qs, vd_qs, id_qs)
+                self.results['transient_quasi_static'] = \
+                    vm.verify_trans_quasi_static(time_qs, vg_qs, vd_qs, id_qs)
+
             self.logger.logger.info("Transient processing complete.")
         except Exception as e:
             self.logger.logger.error(f"Transient processing error: {e}")

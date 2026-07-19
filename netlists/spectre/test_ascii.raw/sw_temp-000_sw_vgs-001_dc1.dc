@@ -1,0 +1,154 @@
+HEADER
+"PSFversion" "1.00"
+"simulator" "spectre"
+"version" "24.1.0.167.isr2"
+"date" "12:36:27 PM, Sun Jul 19, 2026"
+"design" "(no title)"
+"analysis type" "dc"
+"analysis name" "sw_temp-000_sw_vgs-001_dc1"
+"analysis description" "DC Analysis `sw_temp-000_sw_vgs-001_dc1': Vd:dc = (0 V -> 1.2 V)"
+"xVecSorted" "unsorted"
+"tolerance.relative" 1.000000000000000e-08
+"reltol" 1.000000000000000e-08
+"abstol(V)" 1.000000000000000e-12
+"abstol(I)" 1.000000000000000e-12
+"temp" -4.000000000000000e+01
+"tnom" 2.700000000000000e+01
+"tempeffects" "all"
+"gmindc" 1.000000000000000e-15
+TYPE
+"sweep" FLOAT DOUBLE PROP(
+"key" "sweep"
+)
+"LogicV" FLOAT DOUBLE PROP(
+"key" "node"
+)
+"V" FLOAT DOUBLE PROP(
+"units" "V"
+"key" "node"
+"tolerance" 1.000000000000000e-12
+)
+"I" FLOAT DOUBLE PROP(
+"units" "A"
+"key" "branch"
+"tolerance" 1.000000000000000e-12
+)
+"MMF" FLOAT DOUBLE PROP(
+"units" "A*turn"
+"key" "node"
+"tolerance" 1.000000000000000e-12
+)
+"Wb" FLOAT DOUBLE PROP(
+"units" "Wb"
+"key" "node"
+"tolerance" 1.000000000000000e-09
+)
+"Temp" FLOAT DOUBLE PROP(
+"units" "C"
+"key" "node"
+"tolerance" 1.000000000000000e-04
+)
+"Pwr" FLOAT DOUBLE PROP(
+"units" "W"
+"key" "node"
+"tolerance" 1.000000000000000e-09
+)
+"U" FLOAT DOUBLE PROP(
+"units" ""
+"key" "node"
+"tolerance" 1.000000000000000e-06
+)
+"V/Sec" FLOAT DOUBLE PROP(
+"units" "V/s"
+"key" "node"
+"tolerance" 9.999999999999999e-05
+)
+"I/Sec" FLOAT DOUBLE PROP(
+"units" "A/s"
+"key" "node"
+"tolerance" 1.000000000000000e-06
+)
+"1/Sec" FLOAT DOUBLE PROP(
+"units" "1/s"
+"key" "node"
+"tolerance" 9.999999999999999e-05
+)
+"HOD" FLOAT DOUBLE PROP(
+"units" ""
+"key" "node"
+"tolerance" 1.000000000000000e-02
+)
+"Q" FLOAT DOUBLE PROP(
+"units" "Coul"
+"key" "node"
+"tolerance" 1.000000000000000e-15
+)
+"Efield" FLOAT DOUBLE PROP(
+"units" "V/m"
+"key" "node"
+"tolerance" 1.000000000000000e-06
+"sigtype" "optical"
+)
+SWEEP
+"dc" "sweep" PROP(
+"sweep_direction" 0
+"units" "V"
+"plot" 0
+"grid" 1
+)
+TRACE
+"d_iv" "V"
+"g_iv" "V"
+"s_iv" "V"
+"b_iv" "V"
+"Vb:p" "I"
+"Vd:p" "I"
+"Vg:p" "I"
+"Vs:p" "I"
+VALUE
+"dc" 0.000000000000000e+00
+"d_iv" 0.000000000000000e+00
+"g_iv" 6.000000000000000e-01
+"s_iv" 0.000000000000000e+00
+"b_iv" 0.000000000000000e+00
+"Vb:p" 3.088937546867459e-13
+"Vd:p" 1.315132885802746e-09
+"Vg:p" -2.630574665360178e-09
+"Vs:p" 1.315132885802745e-09
+"dc" 3.000000000000000e-01
+"d_iv" 3.000000000000000e-01
+"g_iv" 6.000000000000000e-01
+"s_iv" 0.000000000000000e+00
+"b_iv" 0.000000000000000e+00
+"Vb:p" 6.188829727765257e-12
+"Vd:p" -4.067375395395345e-03
+"Vg:p" -1.855514545647106e-09
+"Vs:p" 4.067377244721060e-03
+"dc" 6.000000000000000e-01
+"d_iv" 6.000000000000000e-01
+"g_iv" 6.000000000000000e-01
+"s_iv" 0.000000000000000e+00
+"b_iv" 0.000000000000000e+00
+"Vb:p" 1.775751506558181e-11
+"Vd:p" -4.896665767023994e-03
+"Vg:p" -1.691481421728064e-09
+"Vs:p" 4.896667440747902e-03
+"dc" 8.999999999999999e-01
+"d_iv" 8.999999999999999e-01
+"g_iv" 6.000000000000000e-01
+"s_iv" 0.000000000000000e+00
+"b_iv" 0.000000000000000e+00
+"Vb:p" 3.310673785821275e-11
+"Vd:p" -5.706471469693145e-03
+"Vg:p" -1.526411755292453e-09
+"Vs:p" 5.706472962998162e-03
+"dc" 1.200000000000000e+00
+"d_iv" 1.200000000000000e+00
+"g_iv" 6.000000000000000e-01
+"s_iv" 0.000000000000000e+00
+"b_iv" 0.000000000000000e+00
+"Vb:p" 6.885143449487550e-09
+"Vd:p" -6.573430838397652e-03
+"Vg:p" -7.292912489566286e-10
+"Vs:p" 6.573424682545451e-03
+END
