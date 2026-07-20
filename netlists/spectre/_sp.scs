@@ -1,0 +1,9 @@
+simulator lang=spice
+.option temp=27 tnom=27 gmin=1e-15
+.inc ../../models/FreePDK45/nom.inc
+Msp dsp gsp 0 0 NMOS_VTG L=0.045u W=10u
+RGsp gsp gate_sp 50
+RDsp dsp drain_sp 50
+VGSsp gate_sp 0 DC 0.8 AC 1
+VDSsp drain_sp 0 DC 1.0 AC 0
+.ac dec 4 1meg 10G

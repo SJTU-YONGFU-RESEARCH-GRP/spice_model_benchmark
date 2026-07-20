@@ -206,6 +206,14 @@ class SpectreRunner:
         if not self.run_simulation(self.ac_circuit_file, "ac"):
             return False
 
+        # Run auxiliary SP and NQS netlists
+        aux_dir = self.ac_circuit_file.parent
+        for aux_name, tag in [("_sp.scs", "ac_sp"), ("_nqs.scs", "ac_nqs")]:
+            aux_path = aux_dir / aux_name
+            if aux_path.exists():
+                self.logger.logger.info(f"Running auxiliary {tag}...")
+                self.run_simulation(aux_path, tag)
+
         raw_path = self.raw_dir / "ac"
         if raw_path.exists():
             self.post_processor.process_ac(raw_path)
@@ -236,11 +244,65 @@ class SpectreRunner:
         if not self.run_simulation(self.noise_circuit_file, "noise"):
             return False
 
+        # Run auxiliary noise netlists for all bias points and temperatures
+        aux_dir = self.noise_circuit_file.parent
+        self._run_aux_noise_netlists(aux_dir)
+
         raw_path = self.raw_dir / "noise"
         if raw_path.exists():
             self.post_processor.process_noise(raw_path)
 
         return True
+
+    def _run_aux_noise_netlists(self, aux_dir: Path):
+        """Generate and run auxiliary noise netlists for all bias points and temps."""
+        model_inc = "../../models/FreePDK45/nom.inc"
+
+        # 5 additional thermal noise bias points (Vgs=0.6,Vds=0.6 is in main netlist)
+        bias_points = [
+            ("0.3", "0.3"), ("0.3", "0.6"), ("0.3", "0.9"),
+            ("0.3", "1.2"), ("0.6", "0.3"),
+        ]
+        for vgs, vds in bias_points:
+            tag = f"noise_vgs{vgs}_vds{vds}"
+            netlist = (
+                f"simulator lang=spice\n"
+                f".option temp=27 tnom=27 gmin=1e-15\n"
+                f".inc {model_inc}\n"
+                f"Vdd_n vdd_n 0 DC 1.2\n"
+                f"Vin_n in_n 0 DC {vgs} AC 1\n"
+                f"Rb_n in_n gate_n 1k\nRd_n vdd_n drain_n 10k\nRs_n source_n 0 100\n"
+                f"M_n drain_n gate_n source_n 0 NMOS_VTG L=0.045u W=10u\n"
+                f"Vgs_n gate_n source_n DC {vgs}\nVds_n drain_n source_n DC {vds}\n"
+                f".noise v(drain_n) Vin_n dec 20 1 1G\n"
+            )
+            self._run_aux_netlist(aux_dir, tag, netlist)
+
+        # Temperature noise at -40C and 100C (27C in main, others interpolated)
+        for temp in ["-40", "100"]:
+            tag = f"noise_t{temp}"
+            netlist = (
+                f"simulator lang=spice\n"
+                f".option temp={temp} tnom=27 gmin=1e-15\n"
+                f".inc {model_inc}\n"
+                f"Vdd_n vdd_n 0 DC 1.2\n"
+                f"Vin_n in_n 0 DC 0.6 AC 1\n"
+                f"Rb_n in_n gate_n 1k\nRd_n vdd_n drain_n 10k\nRs_n source_n 0 100\n"
+                f"M_n drain_n gate_n source_n 0 NMOS_VTG L=0.045u W=10u\n"
+                f"Vgs_n gate_n source_n DC 0.6\nVds_n drain_n source_n DC 0.6\n"
+                f".noise v(drain_n) Vin_n dec 20 1 1G\n"
+            )
+            self._run_aux_netlist(aux_dir, tag, netlist)
+
+    def _run_aux_netlist(self, aux_dir: Path, tag: str, netlist_content: str):
+        """Write and run an auxiliary spectre netlist."""
+        scs_path = aux_dir / f"_{tag}.scs"
+        try:
+            with open(scs_path, 'w') as f:
+                f.write(netlist_content)
+            self.run_simulation(scs_path, tag)
+        except Exception as e:
+            self.logger.logger.warning(f"Aux netlist {tag} failed: {e}")
 
     def run_simulations_by_mode(self, modes: List[str]) -> bool:
         """Run simulations based on selected modes."""

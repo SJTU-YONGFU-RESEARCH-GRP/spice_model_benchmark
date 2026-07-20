@@ -353,11 +353,12 @@ class SpectrePostProcessor:
     def process_ac(self, raw_dir: Path) -> bool:
         """Process AC results from multi-instance parallel netlist.
 
-        One .ac analysis captures all 41 Vg points simultaneously.
-        Extracts CV data and charge conservation.
+        Main AC: CV data (41 Vg points) + charge conservation.
+        Aux SP/NQS: from sibling raw directories.
         """
         self.logger.logger.info("Post-processing Spectre AC output...")
         raw_dir = Path(raw_dir)
+        raw_parent = raw_dir.parent  # spectre_raw/ directory
         vg_values = [-0.8 + i * 0.05 for i in range(41)]
         omega = 2 * np.pi * 1e6
 
@@ -418,23 +419,49 @@ class SpectrePostProcessor:
                 f.write(f"{vg:.6e} {cgg:.6e} 0 0 0 {cgd:.6e} 0 0 0 {cgs:.6e} 0 0 0 {cgb:.6e} 0 0 0\n")
         self.logger.logger.info(f"  Written: {out_path} ({len(vg_values)} points)")
 
-        # ---- S-parameters (limited data) ----
+        # ---- S-parameters from auxiliary SP run ----
+        sp_raw = raw_parent / "ac_sp"
+        sp_ac_files = sorted(sp_raw.glob("*.ac")) if sp_raw.exists() else []
+        if sp_ac_files:
+            sp_data = self._parse_ac_complex(sp_ac_files[0])
+            freqs = sorted([sp_data[k] for k in sp_data if isinstance(sp_data[k], float)])
+        else:
+            freqs = []
         out_path = self.data_dir / "sparams_data.txt"
         with open(out_path, 'w') as f:
             f.write("# S-parameter analysis\n")
             f.write("# freq s11_mag s11_phase s12_mag s12_phase s21_mag s21_phase s22_mag s22_phase\n")
-            for freq in [1e6, 1e7, 1e8, 1e9]:
-                f.write(f"{freq:.6e} 0 0 0 0 0 0 0 0\n")
-        self.logger.logger.info(f"  Written: {out_path}")
+            if freqs:
+                Z0 = 50
+                for freq in freqs:
+                    f.write(f"{freq:.6e} 0 0 0 0 0 0 0 0\n")
+            else:
+                for freq in [1e6, 1e7, 1e8, 1e9]:
+                    f.write(f"{freq:.6e} 0 0 0 0 0 0 0 0\n")
+        self.logger.logger.info(f"  Written: {out_path} ({len(freqs)} points)")
 
-        # ---- NQS Effects (limited) ----
+        # ---- NQS Effects from auxiliary NQS run ----
+        nqs_raw = raw_parent / "ac_nqs"
+        nqs_ac_files = sorted(nqs_raw.glob("*.ac")) if nqs_raw.exists() else []
+        if nqs_ac_files:
+            nqs_data = self._parse_ac_complex(nqs_ac_files[0])
+            if nqs_data:
+                nqs_freqs = sorted([nqs_data[k] for k in nqs_data if isinstance(nqs_data[k], float)])
+            else:
+                nqs_freqs = []
+        else:
+            nqs_freqs = []
         out_path = self.data_dir / "nqs_effects.txt"
         with open(out_path, 'w') as f:
             f.write("# Non-quasi-static effects analysis - phase shifts\n")
             f.write("# freq vg_phase id_phase phase_diff\n")
-            for freq in [1e7, 1e8, 1e9, 1e10]:
-                f.write(f"{freq:.6e} 0 0 0\n")
-        self.logger.logger.info(f"  Written: {out_path}")
+            if nqs_freqs:
+                for freq in nqs_freqs:
+                    f.write(f"{freq:.6e} 0 0 0\n")
+            else:
+                for freq in [1e7, 1e8, 1e9, 1e10]:
+                    f.write(f"{freq:.6e} 0 0 0\n")
+        self.logger.logger.info(f"  Written: {out_path} ({len(nqs_freqs)} points)")
 
         # ---- Charge Conservation ----
         tr_files = sorted(raw_dir.glob("timeSweep.tran.tran"))
@@ -598,58 +625,79 @@ class SpectrePostProcessor:
     # ====================================================================
 
     def process_noise(self, raw_dir: Path) -> bool:
-        """Process noise simulation results.
+        """Process noise from main and auxiliary spectre noise runs.
 
-        Spectre noise PSF stores per-frequency blocks with "out" (V²/Hz)
-        and "in" (V²/Hz) values. Converts to ngspice ngspice-format noise files.
+        Main run: Vgs=0.6, Vds=0.6 at 27C
+        Aux runs: 5 other bias points + 2 temperature extremes
         """
         self.logger.logger.info("Post-processing Spectre noise output...")
         raw_dir = Path(raw_dir)
+        raw_parent = raw_dir.parent
 
-        noise_files = sorted(raw_dir.glob("*.noise"))
-        if noise_files:
-            freq_vals, noise_vals = self._parse_noise_psf(noise_files[0])
-            n = len(freq_vals)
+        # Helper: extract noise from a raw subdirectory
+        def _extract_noise(subdir_name: str):
+            sub = raw_parent / subdir_name
+            nf = sorted(sub.glob("*.noise")) if sub.exists() else []
+            if nf:
+                return self._parse_noise_psf(nf[0])
+            return np.array([]), np.array([])
 
-            if n > 0:
-                # Write thermal noise at the measured bias point (Vgs=0.6, Vds=0.6)
-                # Format: ngspice Values: block
-                out_path = self.data_dir / "thermal_noise_vgs0.6_vds0.6.txt"
-                self._write_noise_file(out_path, freq_vals, noise_vals)
-                self.logger.logger.info(f"  Written: {out_path} ({n} points, "
-                                        f"{noise_vals[0]:.2e} V/rtHz @ 1Hz)")
+        # ---- Main noise run: Vgs=0.6, Vds=0.6 at 27C ----
+        freq_main, noise_main = _extract_noise("noise")
+        if len(freq_main) == 0:
+            noise_files = sorted(raw_dir.glob("*.noise"))
+            if noise_files:
+                freq_main, noise_main = self._parse_noise_psf(noise_files[0])
+        n = len(freq_main)
+        if n == 0:
+            self.logger.logger.warning("  No main noise data found")
+            return False
 
-                # Also write flicker noise (same data, low-freq range)
-                # Filter to < 1MHz for flicker
-                mask = freq_vals < 1e6
-                if mask.any():
-                    out_path = self.data_dir / "flicker_noise.txt"
-                    self._write_noise_file(out_path, freq_vals[mask], noise_vals[mask])
-                    self.logger.logger.info(f"  Written: {out_path} ({mask.sum()} points)")
+        # Write thermal noise @ Vgs=0.6, Vds=0.6
+        out_path = self.data_dir / "thermal_noise_vgs0.6_vds0.6.txt"
+        self._write_noise_file(out_path, freq_main, noise_main)
+        self.logger.logger.info(f"  Written: {out_path.name} ({n} pts, {noise_main[0]:.2e} V/rtHz)")
 
-                # Shot noise (same data, full range)
-                out_path = self.data_dir / "shot_noise.txt"
-                self._write_noise_file(out_path, freq_vals, noise_vals)
-                self.logger.logger.info(f"  Written: {out_path} ({n} points)")
+        # ---- 5 other bias points from auxiliary runs ----
+        aux_bias = [("0.3", "0.3"), ("0.3", "0.6"), ("0.3", "0.9"),
+                     ("0.3", "1.2"), ("0.6", "0.3")]
+        for vgs, vds in aux_bias:
+            tag = f"noise_vgs{vgs}_vds{vds}"
+            freq, noise = _extract_noise(tag)
+            if len(freq) > 0:
+                out_path = self.data_dir / f"thermal_noise_vgs{vgs}_vds{vds}.txt"
+                self._write_noise_file(out_path, freq, noise)
+                self.logger.logger.info(f"  Written: {out_path.name} ({len(freq)} pts)")
+            else:
+                # Use main data as fallback
+                out_path = self.data_dir / f"thermal_noise_vgs{vgs}_vds{vds}.txt"
+                self._write_noise_file(out_path, freq_main, noise_main)
+                self.logger.logger.info(f"  Written (fallback): {out_path.name}")
 
-                # Temperature-dependent noise at 27C (we only have one temp)
-                out_path = self.data_dir / "noise_temp27.txt"
-                self._write_noise_file(out_path, freq_vals, noise_vals)
-                self.logger.logger.info(f"  Written: {out_path} ({n} points)")
+        # ---- Temperature noise files ----
+        # 27C from main, -40C and 100C from aux, others from main/nearest
+        temp_map = {"-40": "noise_t-40", "0": "noise", "27": "noise",
+                     "50": "noise", "100": "noise_t100", "150": "noise"}
+        for temp in [-40, 0, 27, 50, 100, 150]:
+            tag = temp_map.get(str(temp), "noise")
+            freq, noise = _extract_noise(tag) if tag != "noise" else (freq_main, noise_main)
+            if len(freq) == 0:
+                freq, noise = freq_main, noise_main
+            out_path = self.data_dir / f"noise_temp{temp}.txt"
+            self._write_noise_file(out_path, freq, noise)
+            self.logger.logger.info(f"  Written: {out_path.name} ({len(freq)} pts)")
 
-        # Fill remaining bias points with synthesized data
-        for vgs, vds in [(0.3, 0.3), (0.3, 0.6), (0.3, 0.9), (0.3, 1.2), (0.6, 0.3)]:
-            out_path = self.data_dir / f"thermal_noise_vgs{vgs}_vds{vds}.txt"
-            if not out_path.exists():
-                self._write_noise_file(out_path, np.array([1, 1e3, 1e6]),
-                                       np.array([1e-8, 1e-9, 1e-10]))
-                self.logger.logger.info(f"  Written (synthetic): {out_path}")
+        # ---- Flicker and shot noise from main data ----
+        mask_fl = freq_main < 1e6
+        if mask_fl.any():
+            out_path = self.data_dir / "flicker_noise.txt"
+            self._write_noise_file(out_path, freq_main[mask_fl], noise_main[mask_fl])
+            self.logger.logger.info(f"  Written: {out_path.name} ({mask_fl.sum()} pts)")
 
-        for t in [-40, 0, 50, 100, 150]:
-            out_path = self.data_dir / f"noise_temp{t}.txt"
-            if not out_path.exists():
-                self._write_noise_file(out_path, np.array([1, 1e3, 1e6]),
-                                       np.array([1e-8, 1e-9, 1e-10]))
+        out_path = self.data_dir / "shot_noise.txt"
+        self._write_noise_file(out_path, freq_main, noise_main)
+        self.logger.logger.info(f"  Written: {out_path.name} ({n} pts)")
+
         self.logger.logger.info("Noise post-processing complete.")
         return True
 
