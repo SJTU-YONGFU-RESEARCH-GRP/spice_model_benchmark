@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Architecture - SPICE Model Benchmark</title>
+<style>
+  :root { --bg: #0d1117; --fg: #c9d1d9; --accent: #58a6ff; --border: #30363d; --card: #161b22; --green: #3fb950; --orange: #d2991d; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--fg); line-height: 1.6; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+  header { background: var(--card); border-bottom: 1px solid var(--border); padding: 32px 0; margin-bottom: 32px; }
+  header h1 { font-size: 2em; color: #fff; }
+  nav { display: flex; gap: 24px; margin-top: 16px; }
+  nav a { color: var(--accent); text-decoration: none; }
+  nav a:hover { text-decoration: underline; }
+  h2 { font-size: 1.5em; color: #fff; margin: 32px 0 16px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+  h3 { font-size: 1.2em; color: #fff; margin: 24px 0 12px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin: 16px 0; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
+  .card h4 { color: var(--accent); margin-bottom: 8px; }
+  code { background: #1c2128; padding: 2px 6px; border-radius: 3px; font-size: 0.9em; }
+  pre { background: #1c2128; padding: 16px; border-radius: 6px; overflow-x: auto; margin: 12px 0; font-size: 0.85em; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+  th { background: var(--card); color: #8b949e; font-weight: 600; }
+  .dir-tree { font-family: monospace; font-size: 0.85em; line-height: 1.8; background: var(--card); padding: 16px; border-radius: 6px; border: 1px solid var(--border); }
+  .dir-tree .dir { color: var(--accent); }
+  .dir-tree .file { color: var(--fg); }
+  footer { margin-top: 48px; padding: 24px 0; border-top: 1px solid var(--border); color: #8b949e; font-size: 0.9em; text-align: center; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <h1>&#128736; Architecture</h1>
+    <nav>
+      <a href="index.html">Overview</a>
+      <a href="architecture.html">Architecture</a>
+      <a href="results.html">Results</a>
+      <a href="https://github.com/SJTU-YONGFU-RESEARCH-GRP/spice_model_benchmark">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+
+<h2>Dual-Simulator Architecture</h2>
+<p>The system supports both ngspice and Spectre simulators through a shared post-processing pipeline. Each simulator has its own runner and netlist format, but produces identical text data files consumed by the same analysis stack.</p>
+
+<pre><code>                    &#9472;&#9472;&#9472; ngspice flow &#9472;&#9472;&#9472;          &#9472;&#9472;&#9472; Spectre flow &#9472;&#9472;&#9472;
+
+   .cir netlists                      .scs netlists
+        &#9474;                                  &#9474;
+   ngspice -b                        spectre -format psfascii
+        &#9474;                                  &#9474;
+   wrdata text files                 PSF ASCII files
+        &#9474;                                  &#9474;
+        &#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;
+
+                    Identical Text Data Files
+               (iv_data_*.txt, cv_data.txt, etc.)
+                               &#9474;
+              &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;
+              &#9474;                        &#9474;                        &#9474;
+         DataReader              PlotGenerator        VerificationManager
+              &#9474;                        &#9474;                        &#9474;
+         numpy arrays            PNG charts              REPORT.md</code></pre>
+
+<h2>Source Code Organization</h2>
+<div class="dir-tree">
+<span class="dir">src/spice_model_benchmark/</span><br>
+&nbsp;&nbsp;<span class="file">__init__.py</span> &mdash; Package API, benchmark_spice_model()<br>
+&nbsp;&nbsp;<span class="file">cli.py</span> &mdash; CLI with multi-simulator support<br>
+&nbsp;&nbsp;<span class="file">mosfet_simulation.py</span> &mdash; ngspice coordinator<br>
+&nbsp;&nbsp;<span class="file">simulation_runner.py</span> &mdash; ngspice process execution<br>
+&nbsp;&nbsp;<span class="file">data_reader.py</span> &mdash; Parse simulation output files<br>
+&nbsp;&nbsp;<span class="file">plot_generator.py</span> &mdash; Matplotlib chart generation<br>
+&nbsp;&nbsp;<span class="file">verification_manager.py</span> &mdash; Validation + REPORT.md<br>
+&nbsp;&nbsp;<span class="file">logger.py</span> &mdash; File + console logging<br>
+&nbsp;&nbsp;<span class="file">spectre_runner.py</span> &mdash; Spectre process execution<br>
+&nbsp;&nbsp;<span class="file">spectre_post_processor.py</span> &mdash; PSF &#8594; text converter<br>
+&nbsp;&nbsp;<span class="file">spectre_mosfet_simulation.py</span> &mdash; Spectre coordinator<br>
+<br>
+<span class="dir">netlists/</span><br>
+&nbsp;&nbsp;<span class="file">dc_circuit.cir</span> &mdash; ngspice DC netlist<br>
+&nbsp;&nbsp;<span class="file">ac_circuit.cir</span> &mdash; ngspice AC netlist<br>
+&nbsp;&nbsp;<span class="file">transient_circuit.cir</span> &mdash; ngspice transient netlist<br>
+&nbsp;&nbsp;<span class="file">noise_circuit.cir</span> &mdash; ngspice noise netlist<br>
+&nbsp;&nbsp;<span class="dir">spectre/</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">dc_circuit.scs</span> &mdash; Spectre DC (sweep-based)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">ac_circuit.scs</span> &mdash; Spectre AC (multi-instance)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">transient_circuit.scs</span> &mdash; Spectre transient<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">noise_circuit.scs</span> &mdash; Spectre noise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">setup_env.sh</span> &mdash; Environment setup<br>
+</div>
+
+<h2>Key Components</h2>
+
+<div class="grid">
+  <div class="card">
+    <h4>SpectreRunner</h4>
+    <p>Invokes <code>spectre -format psfascii</code>. Manages LD_LIBRARY_PATH, license environment, and output directory routing. Mirrors <code>SimulationRunner</code> API.</p>
+  </div>
+  <div class="card">
+    <h4>SpectrePostProcessor</h4>
+    <p>Parses Spectre PSF ASCII format and generates ngspice-compatible text files. Handles DC (grouped VALUE sections), Transient (time-series), and AC (complex values).</p>
+  </div>
+  <div class="card">
+    <h4>CLI Multi-Simulator</h4>
+    <p><code>--simulator ngspice spectre</code> runs both simulators, outputs to separate directories, and prints a comparison table with elapsed time and speedup.</p>
+  </div>
+  <div class="card">
+    <h4>Shared Pipeline</h4>
+    <p>DataReader, PlotGenerator, and VerificationManager consume identical text file formats regardless of which simulator produced them.</p>
+  </div>
+</div>
+
+<h2>Spectre Netlist Strategy</h2>
+
+<h3>DC Mode: SWEEP-based</h3>
+<pre><code>simulator lang=spectre
+simulator lang=spice
+.inc ../../models/FreePDK45/nom.inc
+simulator lang=spectre
+
+sw_temp sweep param=temp values=[-40 0 25 50 100 150] {
+    sw_vgs sweep param=dc dev=Vgs_iv values=[0 0.2 0.4 0.6 0.8 1.0 1.2] {
+        dc_iv dc dev=Vds_iv start=0 stop=1.2 step=0.01 oppoint=raw
+    }
+}</code></pre>
+
+<h3>AC Mode: Multi-Instance SPICE</h3>
+<pre><code>simulator lang=spice
+.inc ../../models/FreePDK45/nom.inc
+
+* 41 parallel MOSFET instances at different Vg biases
+M0 d0 g0 s0 b0 NMOS_VTG L=0.045u W=10u
+VG0 g0 0 DC -0.8 AC 1
+...
+
+M40 d40 g40 s40 b40 NMOS_VTG L=0.045u W=10u
+VG40 g40 0 DC 1.2 AC 1
+
+* Single .ac analysis captures all 41 points
+.ac dec 1 0.9meg 1.1meg</code></pre>
+
+<h3>Key Discovery: All-SPICE Mode</h3>
+<p>Hybrid <code>simulator lang=spectre</code> + <code>simulator lang=spice</code> (for model include) produces <strong>zero AC response</strong> with BSIM4 models. The solution is to write the <strong>entire netlist</strong> in <code>simulator lang=spice</code> mode, which correctly computes small-signal parameters from the BSIM4 model.</p>
+
+</main>
+
+<footer>
+  <div class="container">
+    <p>SJTU-YONGFU-RESEARCH-GRP &middot; MIT License &middot; Generated 2026-07-20</p>
+  </div>
+</footer>
+
+</body>
+</html>

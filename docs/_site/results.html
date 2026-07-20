@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Results - SPICE Model Benchmark</title>
+<style>
+  :root { --bg: #0d1117; --fg: #c9d1d9; --accent: #58a6ff; --border: #30363d; --card: #161b22; --green: #3fb950; --orange: #d2991d; --red: #f85149; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--fg); line-height: 1.6; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+  header { background: var(--card); border-bottom: 1px solid var(--border); padding: 32px 0; margin-bottom: 32px; }
+  header h1 { font-size: 2em; color: #fff; }
+  nav { display: flex; gap: 24px; margin-top: 16px; }
+  nav a { color: var(--accent); text-decoration: none; }
+  nav a:hover { text-decoration: underline; }
+  h2 { font-size: 1.5em; color: #fff; margin: 32px 0 16px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+  h3 { font-size: 1.2em; color: #fff; margin: 24px 0 12px; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+  th { background: var(--card); color: #8b949e; font-weight: 600; font-size: 0.9em; }
+  .status-pass { color: var(--green); font-weight: bold; }
+  .status-fail { color: var(--orange); }
+  .plot-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; margin: 16px 0; }
+  .plot-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .plot-card img { width: 100%; height: auto; display: block; }
+  .plot-card .caption { padding: 10px 14px; font-size: 0.85em; color: #8b949e; }
+  .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin: 16px 0; }
+  .summary-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; text-align: center; }
+  .summary-card .value { font-size: 1.8em; font-weight: bold; color: var(--accent); }
+  .summary-card .label { font-size: 0.85em; color: #8b949e; margin-top: 4px; }
+  footer { margin-top: 48px; padding: 24px 0; border-top: 1px solid var(--border); color: #8b949e; font-size: 0.9em; text-align: center; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <h1>&#128202; Benchmark Results</h1>
+    <nav>
+      <a href="index.html">Overview</a>
+      <a href="architecture.html">Architecture</a>
+      <a href="results.html">Results</a>
+      <a href="https://github.com/SJTU-YONGFU-RESEARCH-GRP/spice_model_benchmark">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+
+<h2>Simulator Comparison</h2>
+<table>
+  <tr><th>Mode</th><th>ngspice</th><th>Spectre</th><th>Data Files</th><th>Plots</th></tr>
+  <tr>
+    <td><strong>DC</strong></td>
+    <td class="status-pass">&#10003; Pass</td>
+    <td class="status-pass">&#10003; Pass</td>
+    <td>iv_data_*.txt (6), bias_point_data.txt</td>
+    <td>IV characteristics, KCL verification, temperature analysis</td>
+  </tr>
+  <tr>
+    <td><strong>Transient</strong></td>
+    <td class="status-pass">&#10003; Pass</td>
+    <td class="status-pass">&#10003; Pass</td>
+    <td>tran_*.txt (8)</td>
+    <td>Large-signal, switching, delay, quasi-static (&#215;2)</td>
+  </tr>
+  <tr>
+    <td><strong>AC</strong></td>
+    <td class="status-pass">&#10003; Pass</td>
+    <td class="status-pass">&#10003; Pass</td>
+    <td>cv_data.txt, cmatrix_data.txt, sparams_data.txt, nqs_effects.txt, charge_conservation.txt</td>
+    <td>CV characteristics, S-params, NQS effects, charge conservation</td>
+  </tr>
+  <tr>
+    <td><strong>Noise</strong></td>
+    <td class="status-pass">&#10003; Pass</td>
+    <td class="status-pass">&#10003; Pass</td>
+    <td>thermal_noise_*.txt (7), flicker_noise.txt, shot_noise.txt, noise_temp*.txt (6)</td>
+    <td>Noise spectrum, temperature dependence</td>
+  </tr>
+</table>
+
+<h2>DC Analysis — Spectre Results</h2>
+
+<div class="summary-grid">
+  <div class="summary-card"><div class="value">6</div><div class="label">Temperatures</div></div>
+  <div class="summary-card"><div class="value">7</div><div class="label">Vgs Steps</div></div>
+  <div class="summary-card"><div class="value">121</div><div class="label">Vds Points</div></div>
+  <div class="summary-card"><div class="value">17.93 mA</div><div class="label">Ids @ Vgs=1.2V</div></div>
+  <div class="summary-card"><div class="value">~10<sup>-18</sup>A</div><div class="label">KCL Error</div></div>
+</div>
+
+<div class="plot-grid">
+  <div class="plot-card">
+    <img src="../../results_spectre_final2/plots/dc_iv_characteristics.png" alt="DC IV" loading="lazy" onerror="this.parentElement.innerHTML='<div class=caption style=padding:40px;text-align:center;color:#8b949e>Plot image not available in repo preview</div>'">
+    <div class="caption">DC IV Characteristics: Id-Vd curves for Vgs=0–1.2V, 6 temperatures</div>
+  </div>
+  <div class="plot-card">
+    <img src="../../results_spectre_final2/plots/dc_kcl_verification.png" alt="KCL" loading="lazy" onerror="this.parentElement.innerHTML='<div class=caption style=padding:40px;text-align:center;color:#8b949e>Plot image not available in repo preview</div>'">
+    <div class="caption">KCL Verification: Sum of terminal currents ~10<sup>-18</sup>A</div>
+  </div>
+  <div class="plot-card">
+    <img src="../../results_spectre_final2/plots/dc_temperature_analysis.png" alt="Temperature" loading="lazy" onerror="this.parentElement.innerHTML='<div class=caption style=padding:40px;text-align:center;color:#8b949e>Plot image not available in repo preview</div>'">
+    <div class="caption">Temperature Analysis: Ids vs temperature (-40°C to 150°C)</div>
+  </div>
+</div>
+
+<h2>Transient Analysis — Spectre Results</h2>
+
+<div class="plot-grid">
+  <div class="plot-card">
+    <img src="../../results_spectre_final2/plots/trans_large_signal_transient.png" alt="Large Signal" loading="lazy" onerror="this.parentElement.innerHTML='<div class=caption style=padding:40px;text-align:center;color:#8b949e>Plot image not available in repo preview</div>'">
+    <div class="caption">Large-Signal Transient: Gate pulse response with terminal currents</div>
+  </div>
+  <div class="plot-card">
+    <img src="../../results_spectre_final2/plots/trans_switching_response.png" alt="Switching" loading="lazy" onerror="this.parentElement.innerHTML='<div class=caption style=padding:40px;text-align:center;color:#8b949e>Plot image not available in repo preview</div>'">
+    <div class="caption">Inverter Switching: Input/output voltage and supply current</div>
+  </div>
+  <div class="plot-card">
+    <img src="../../results_spectre_final2/plots/trans_delay_effect.png" alt="Delay" loading="lazy" onerror="this.parentElement.innerHTML='<div class=caption style=padding:40px;text-align:center;color:#8b949e>Plot image not available in repo preview</div>'">
+    <div class="caption">Delay Chain: 3-stage inverter chain propagation delay</div>
+  </div>
+  <div class="plot-card">
+    <img src="../../results_spectre_final2/plots/trans_quasi_static_time.png" alt="QS Time" loading="lazy" onerror="this.parentElement.innerHTML='<div class=caption style=padding:40px;text-align:center;color:#8b949e>Plot image not available in repo preview</div>'">
+    <div class="caption">Quasi-Static: Slow ramp gate response</div>
+  </div>
+  <div class="plot-card">
+    <img src="../../results_spectre_final2/plots/trans_quasi_static_iv.png" alt="QS IV" loading="lazy" onerror="this.parentElement.innerHTML='<div class=caption style=padding:40px;text-align:center;color:#8b949e>Plot image not available in repo preview</div>'">
+    <div class="caption">Quasi-Static IV: Instantaneous Id-Vd trajectory</div>
+  </div>
+</div>
+
+<h2>Verification Report</h2>
+<table>
+  <tr><th>Test Item</th><th>Status</th><th>Details</th></tr>
+  <tr><td>Circuit file exists</td><td class="status-pass">&#10003;</td><td>dc_circuit.scs readable</td></tr>
+  <tr><td>Simulator installed</td><td class="status-pass">&#10003;</td><td>Spectre 24.1.0.167.isr2</td></tr>
+  <tr><td>Simulation runs</td><td class="status-pass">&#10003;</td><td>0 errors, all analyses complete</td></tr>
+  <tr><td>DC Operating Point</td><td class="status-pass">&#10003;</td><td>Ids=17.93mA @ Vgs=1.2V, Vds=1.2V</td></tr>
+  <tr><td>KCL Verification</td><td class="status-pass">&#10003;</td><td>Sum of terminal currents: ~10<sup>-18</sup>A (numerical zero)</td></tr>
+  <tr><td>Temperature Effects</td><td class="status-pass">&#10003;</td><td>TC validated across -40°C to 150°C</td></tr>
+  <tr><td>Large-Signal Transient</td><td class="status-pass">&#10003;</td><td>Gate pulse response captured (22736 points)</td></tr>
+  <tr><td>Switching Response</td><td class="status-pass">&#10003;</td><td>Inverter switching captured</td></tr>
+  <tr><td>Delay Effect</td><td class="status-pass">&#10003;</td><td>3-stage chain propagation delay</td></tr>
+</table>
+
+<h2>CV Characteristics (AC Mode)</h2>
+<p>The C-V curve below shows gate capacitance vs gate voltage for a W=10&#181;m, L=0.045&#181;m NMOS transistor at Vds=1.0V, extracted from Spectre at 1MHz.</p>
+<table>
+  <tr><th>Vg (V)</th><th>Cgg (F)</th><th>Cgs (F)</th><th>Cgd (F)</th><th>Cgb (F)</th></tr>
+  <tr><td>-0.8</td><td>7.56e-15</td><td>0</td><td>0</td><td>7.56e-15</td></tr>
+  <tr><td>0.0</td><td>7.60e-15</td><td>3.80e-15</td><td>3.80e-15</td><td>~0</td></tr>
+  <tr><td>0.6</td><td>1.21e-14</td><td>8.47e-15</td><td>3.63e-15</td><td>~0</td></tr>
+  <tr><td>1.2</td><td>1.26e-14</td><td>8.82e-15</td><td>3.78e-15</td><td>~0</td></tr>
+</table>
+
+</main>
+
+<footer>
+  <div class="container">
+    <p>SJTU-YONGFU-RESEARCH-GRP &middot; MIT License &middot; Generated 2026-07-20</p>
+  </div>
+</footer>
+
+</body>
+</html>

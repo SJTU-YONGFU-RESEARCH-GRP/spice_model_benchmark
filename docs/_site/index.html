@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SPICE Model Benchmark</title>
+<style>
+  :root {
+    --bg: #0d1117; --fg: #c9d1d9; --accent: #58a6ff;
+    --border: #30363d; --card: #161b22; --green: #3fb950;
+    --orange: #d2991d; --red: #f85149;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--fg); line-height: 1.6; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+  header { background: var(--card); border-bottom: 1px solid var(--border); padding: 32px 0; margin-bottom: 32px; }
+  header h1 { font-size: 2em; color: #fff; }
+  header p { color: #8b949e; margin-top: 8px; }
+  nav { display: flex; gap: 24px; margin-top: 16px; }
+  nav a { color: var(--accent); text-decoration: none; }
+  nav a:hover { text-decoration: underline; }
+  h2 { font-size: 1.5em; color: #fff; margin: 32px 0 16px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+  h3 { font-size: 1.2em; color: #fff; margin: 24px 0 12px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin: 16px 0; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
+  .card h4 { color: var(--accent); margin-bottom: 8px; }
+  .status-pass { color: var(--green); }
+  .status-warn { color: var(--orange); }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+  th { background: var(--card); color: #8b949e; font-weight: 600; font-size: 0.9em; }
+  code { background: #1c2128; padding: 2px 6px; border-radius: 3px; font-size: 0.9em; }
+  pre { background: #1c2128; padding: 16px; border-radius: 6px; overflow-x: auto; margin: 12px 0; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 0.75em; font-weight: 600; }
+  .badge-ok { background: #1b3826; color: var(--green); }
+  .badge-wip { background: #3d2e00; color: var(--orange); }
+  .flow { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin: 16px 0; font-size: 0.9em; }
+  .flow-item { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; text-align: center; }
+  .flow-arrow { color: var(--accent); font-size: 1.2em; }
+  footer { margin-top: 48px; padding: 24px 0; border-top: 1px solid var(--border); color: #8b949e; font-size: 0.9em; text-align: center; }
+  .plot-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin: 16px 0; }
+  .plot-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .plot-card img { width: 100%; height: auto; display: block; }
+  .plot-card .caption { padding: 10px 14px; font-size: 0.85em; color: #8b949e; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <h1>&#9883; SPICE Model Benchmark</h1>
+    <p>Comprehensive MOSFET device model verification and benchmarking system</p>
+    <nav>
+      <a href="index.html">Overview</a>
+      <a href="architecture.html">Architecture</a>
+      <a href="results.html">Results</a>
+      <a href="https://github.com/SJTU-YONGFU-RESEARCH-GRP/spice_model_benchmark">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+
+<h2>Overview</h2>
+<p>The SPICE Model Benchmark system automates the comprehensive verification of semiconductor MOSFET compact models across four physical domains. It runs ngspice and Spectre simulations, analyzes results, and generates detailed pass/fail reports with publication-quality plots.</p>
+
+<div class="grid">
+  <div class="card">
+    <h4>&#9889; DC Analysis</h4>
+    <p>IV characteristics, temperature sweeps (−40°C to 150°C), bias point analysis, KCL verification</p>
+  </div>
+  <div class="card">
+    <h4>&#8644; Transient Analysis</h4>
+    <p>Large-signal response, inverter switching, delay chains, power dissipation, quasi-static behavior</p>
+  </div>
+  <div class="card">
+    <h4>&#8776; AC Analysis</h4>
+    <p>CV characteristics (1kHz–1MHz), S-parameters (1MHz–10GHz), NQS effects, charge conservation</p>
+  </div>
+  <div class="card">
+    <h4>&#9783; Noise Analysis</h4>
+    <p>Thermal noise (6 bias points), flicker (1/f) noise, shot noise, temperature-dependent noise</p>
+  </div>
+</div>
+
+<h2>Simulator Support</h2>
+<table>
+  <tr><th>Simulator</th><th>Execution Engine</th><th>DC</th><th>Transient</th><th>AC</th><th>Noise</th></tr>
+  <tr>
+    <td><strong>ngspice</strong> <span class="badge badge-ok">v46+</span></td>
+    <td>Native (primary)</td>
+    <td class="status-pass">&#10003;</td><td class="status-pass">&#10003;</td>
+    <td class="status-pass">&#10003;</td><td class="status-pass">&#10003;</td>
+  </tr>
+  <tr>
+    <td><strong>Spectre</strong> <span class="badge badge-ok">24.1</span></td>
+    <td>Native (replicated)</td>
+    <td class="status-pass">&#10003;</td><td class="status-pass">&#10003;</td>
+    <td class="status-pass">&#10003;</td><td class="status-pass">&#10003;</td>
+  </tr>
+</table>
+
+<h2>Workflow Pipeline</h2>
+<div class="flow">
+  <div class="flow-item">&#128196;<br>Netlist<br><code>.cir / .scs</code></div>
+  <span class="flow-arrow">&#8594;</span>
+  <div class="flow-item">&#9881;<br>Simulator<br>ngspice / Spectre</div>
+  <span class="flow-arrow">&#8594;</span>
+  <div class="flow-item">&#128230;<br>Raw Output<br>PSF / ASCII</div>
+  <span class="flow-arrow">&#8594;</span>
+  <div class="flow-item">&#128295;<br>Post-Processor<br>Format Conversion</div>
+  <span class="flow-arrow">&#8594;</span>
+  <div class="flow-item">&#128202;<br>Plot Generator<br>Matplotlib</div>
+  <span class="flow-arrow">&#8594;</span>
+  <div class="flow-item">&#128203;<br>Verification<br>REPORT.md</div>
+</div>
+
+<h2>Quick Start</h2>
+<pre><code># Install
+pip install -e .
+
+# Run ngspice benchmark (default)
+spice-benchmark models/FreePDK45/nom.inc --modes dc transient
+
+# Run Spectre benchmark
+spice-benchmark models/FreePDK45/nom.inc --simulator spectre --modes dc transient
+
+# Compare both simulators
+spice-benchmark models/FreePDK45/nom.inc --simulator ngspice spectre --modes dc</code></pre>
+
+<h2>Supported PDKs</h2>
+<table>
+  <tr><th>PDK</th><th>Node</th><th>Model Type</th></tr>
+  <tr><td>FreePDK45</td><td>45nm</td><td>BSIM4 (SPICE)</td></tr>
+  <tr><td>SkyWater SKY130</td><td>130nm</td><td>BSIM4 (SPICE)</td></tr>
+  <tr><td>IHP SG13G2</td><td>130nm</td><td>PSP (OSDI + SPICE)</td></tr>
+  <tr><td>GlobalFoundries GF180</td><td>180nm</td><td>BSIM4 (SPICE)</td></tr>
+</table>
+
+</main>
+
+<footer>
+  <div class="container">
+    <p>SJTU-YONGFU-RESEARCH-GRP &middot; MIT License &middot; Generated 2026-07-20</p>
+  </div>
+</footer>
+
+</body>
+</html>
