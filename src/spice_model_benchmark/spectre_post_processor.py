@@ -420,14 +420,18 @@ class SpectrePostProcessor:
         self.logger.logger.info(f"  Written: {out_path} ({len(vg_values)} points)")
 
         # ---- S-parameters from auxiliary SP run ----
-        sp_raw = raw_parent / "ac_sp"
-        sp_ac_files = sorted(sp_raw.glob("*.ac")) if sp_raw.exists() else []
-        if sp_ac_files:
-            sp_data = self._parse_ac_complex(sp_ac_files[0])
-            freqs = sorted([sp_data[k] for k in sp_data if isinstance(sp_data[k], float)])
-        else:
-            freqs = []
         out_path = self.data_dir / "sparams_data.txt"
+        if out_path.exists() and out_path.stat().st_size > 100:
+            self.logger.logger.info(f"  Keeping existing: {out_path.name}")
+            freqs = []
+        else:
+            sp_raw = raw_parent / "ac_sp"
+            sp_ac_files = sorted(sp_raw.glob("*.ac")) if sp_raw.exists() else []
+            if sp_ac_files:
+                sp_data = self._parse_ac_complex(sp_ac_files[0])
+                freqs = sorted([sp_data[k] for k in sp_data if isinstance(sp_data[k], float)])
+            else:
+                freqs = []
         with open(out_path, 'w') as f:
             f.write("# S-parameter analysis\n")
             f.write("# freq s11_mag s11_phase s12_mag s12_phase s21_mag s21_phase s22_mag s22_phase\n")
@@ -441,17 +445,21 @@ class SpectrePostProcessor:
         self.logger.logger.info(f"  Written: {out_path} ({len(freqs)} points)")
 
         # ---- NQS Effects from auxiliary NQS run ----
-        nqs_raw = raw_parent / "ac_nqs"
-        nqs_ac_files = sorted(nqs_raw.glob("*.ac")) if nqs_raw.exists() else []
-        if nqs_ac_files:
-            nqs_data = self._parse_ac_complex(nqs_ac_files[0])
-            if nqs_data:
-                nqs_freqs = sorted([nqs_data[k] for k in nqs_data if isinstance(nqs_data[k], float)])
+        out_path = self.data_dir / "nqs_effects.txt"
+        if out_path.exists() and out_path.stat().st_size > 100:
+            self.logger.logger.info(f"  Keeping existing: {out_path.name}")
+            nqs_freqs = []
+        else:
+            nqs_raw = raw_parent / "ac_nqs"
+            nqs_ac_files = sorted(nqs_raw.glob("*.ac")) if nqs_raw.exists() else []
+            if nqs_ac_files:
+                nqs_data = self._parse_ac_complex(nqs_ac_files[0])
+                if nqs_data:
+                    nqs_freqs = sorted([nqs_data[k] for k in nqs_data if isinstance(nqs_data[k], float)])
+                else:
+                    nqs_freqs = []
             else:
                 nqs_freqs = []
-        else:
-            nqs_freqs = []
-        out_path = self.data_dir / "nqs_effects.txt"
         with open(out_path, 'w') as f:
             f.write("# Non-quasi-static effects analysis - phase shifts\n")
             f.write("# freq vg_phase id_phase phase_diff\n")
