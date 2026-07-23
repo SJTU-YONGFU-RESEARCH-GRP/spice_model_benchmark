@@ -15,8 +15,8 @@ from .spectre_post_processor import SpectrePostProcessor
 
 # Spectre installation paths
 SPECTRE_HOME = "/eda/cadence/SPECTRE241"
-SPECTRE_BIN = f"{SPECTRE_HOME}/tools.lnx86/spectre/bin/64bit/spectre"
-CDS_LIC_FILE = "/eda/cadence/license.dat"
+SPECTRE_BIN = f"{SPECTRE_HOME}/bin/spectre"
+CDS_LIC_FILE = "/eda/license/cadence.dat"
 
 
 def _build_spectre_env() -> dict:
@@ -75,7 +75,9 @@ class SpectreRunner:
                  dc_circuit_file: Optional[str] = None,
                  transient_circuit_file: Optional[str] = None,
                  noise_circuit_file: Optional[str] = None,
-                 ac_circuit_file: Optional[str] = None):
+                 ac_circuit_file: Optional[str] = None,
+                 model_file: Optional[str] = None,
+                 model_name: Optional[str] = None):
         self.logger = logger
         self.output_dir = output_dir
 
@@ -83,6 +85,8 @@ class SpectreRunner:
         self.transient_circuit_file = Path(transient_circuit_file) if transient_circuit_file else None
         self.noise_circuit_file = Path(noise_circuit_file) if noise_circuit_file else None
         self.ac_circuit_file = Path(ac_circuit_file) if ac_circuit_file else None
+        self.model_file = model_file
+        self.model_name = model_name or "nmos_bsim4"
 
         self.output_dir_path = Path(output_dir).resolve()
         self.output_dir_path.mkdir(exist_ok=True)
@@ -136,10 +140,11 @@ class SpectreRunner:
                     cmd,
                     stdout=subprocess.PIPE,
                     stderr=subprocess.PIPE,
-                    text=True,
                     env=self._env
                 )
-                stdout, stderr = process.communicate(timeout=600)
+                stdout_b, stderr_b = process.communicate(timeout=600)
+                stdout = stdout_b.decode('utf-8', errors='replace') if stdout_b else ''
+                stderr = stderr_b.decode('utf-8', errors='replace') if stderr_b else ''
 
                 if stdout:
                     self.logger.logger.debug(f"Spectre stdout:\n{stdout[-2000:]}")
@@ -256,7 +261,8 @@ class SpectreRunner:
 
     def _run_aux_noise_netlists(self, aux_dir: Path):
         """Generate and run auxiliary noise netlists for all bias points and temps."""
-        model_inc = "../../models/FreePDK45/nom.inc"
+        model_inc = self.model_file if self.model_file else "../../models/FreePDK45/nom.inc"
+        mname = self.model_name
 
         # 5 additional thermal noise bias points (Vgs=0.6,Vds=0.6 is in main netlist)
         bias_points = [
@@ -268,11 +274,11 @@ class SpectreRunner:
             netlist = (
                 f"simulator lang=spice\n"
                 f".option temp=27 tnom=27 gmin=1e-15\n"
-                f".inc {model_inc}\n"
+                f".include '{model_inc}'\n"
                 f"Vdd_n vdd_n 0 DC 1.2\n"
                 f"Vin_n in_n 0 DC {vgs} AC 1\n"
                 f"Rb_n in_n gate_n 1k\nRd_n vdd_n drain_n 10k\nRs_n source_n 0 100\n"
-                f"M_n drain_n gate_n source_n 0 NMOS_VTG L=0.045u W=10u\n"
+                f"M_n drain_n gate_n source_n 0 {mname} L=0.045u W=10u\n"
                 f"Vgs_n gate_n source_n DC {vgs}\nVds_n drain_n source_n DC {vds}\n"
                 f".noise v(drain_n) Vin_n dec 20 1 1G\n"
             )
@@ -284,11 +290,11 @@ class SpectreRunner:
             netlist = (
                 f"simulator lang=spice\n"
                 f".option temp={temp} tnom=27 gmin=1e-15\n"
-                f".inc {model_inc}\n"
+                f".include '{model_inc}'\n"
                 f"Vdd_n vdd_n 0 DC 1.2\n"
                 f"Vin_n in_n 0 DC 0.6 AC 1\n"
                 f"Rb_n in_n gate_n 1k\nRd_n vdd_n drain_n 10k\nRs_n source_n 0 100\n"
-                f"M_n drain_n gate_n source_n 0 NMOS_VTG L=0.045u W=10u\n"
+                f"M_n drain_n gate_n source_n 0 {mname} L=0.045u W=10u\n"
                 f"Vgs_n gate_n source_n DC 0.6\nVds_n drain_n source_n DC 0.6\n"
                 f".noise v(drain_n) Vin_n dec 20 1 1G\n"
             )
