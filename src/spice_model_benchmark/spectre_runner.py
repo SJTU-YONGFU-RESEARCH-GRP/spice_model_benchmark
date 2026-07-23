@@ -85,7 +85,7 @@ class SpectreRunner:
         self.transient_circuit_file = Path(transient_circuit_file) if transient_circuit_file else None
         self.noise_circuit_file = Path(noise_circuit_file) if noise_circuit_file else None
         self.ac_circuit_file = Path(ac_circuit_file) if ac_circuit_file else None
-        self.model_file = model_file
+        self.model_file = Path(model_file).resolve() if model_file else None
         self.model_name = model_name or "nmos_bsim4"
 
         self.output_dir_path = Path(output_dir).resolve()
@@ -97,8 +97,83 @@ class SpectreRunner:
         self.raw_dir = self.output_dir_path / 'spectre_raw'
         self.raw_dir.mkdir(exist_ok=True)
 
+        self._work_dir = self.output_dir_path / 'spectre_work'
+        self._work_dir.mkdir(exist_ok=True)
+
+        # Extract model names from model file
+        self._nmos, self._pmos = "NMOS_VTG", "PMOS_VTG"
+        if self.model_file and self.model_file.exists():
+            try:
+                content = self.model_file.read_text(errors='replace')
+                nm = re.search(r'\.model\s+(\w+)\s+(?:nmos|NMOS)', content)
+                pm = re.search(r'\.model\s+(\w+)\s+(?:pmos|PMOS)', content)
+                if nm: self._nmos = nm.group(1)
+                if pm: self._pmos = pm.group(1)
+            except Exception:
+                pass
+        self._has_pmos = self._pmos != "PMOS_VTG"
+
         self.post_processor = SpectrePostProcessor(logger, str(self.data_dir))
         self._env = _build_spectre_env()
+
+    def _prepare_circuit(self, circuit_file: Path) -> Path:
+        """Copy circuit file to work dir, substituting model include and model names."""
+        if not circuit_file or not circuit_file.exists():
+            return circuit_file
+
+        content = circuit_file.read_text(errors='replace')
+
+        # Replace model include path
+        if self.model_file:
+            content = re.sub(
+                r'\.inc\s+.*?FreePDK45/nom\.inc',
+                f".inc '{self.model_file}'",
+                content
+            )
+
+        # Track if PMOS was present in original content
+        needs_pmos = 'PMOS_VTG' in content
+
+        # Replace model names
+        content = content.replace('NMOS_VTG', self._nmos)
+        content = content.replace('PMOS_VTG', self._pmos)
+
+        # If no PMOS found in model, inject a basic PMOS model
+        if not self._has_pmos and needs_pmos:
+            pmos_model = (
+                f"\n* Auto-generated PMOS model (no PMOS found in source)\n"
+                f".model {self._pmos} PMOS ( LEVEL=54 VERSION=4.5\n"
+                f"+ VTH0=-0.4 TOX=1.4e-9 U0=150 VSAT=80000\n"
+                f"+ RDSW=200 ETA0=0.08 PCLM=1.2 PDIBLC1=0.4 PDIBLC2=0.001\n"
+                f"+ DROUT=0.5 PSCBE1=5e8 PSCBE2=1e-5 PVAG=0.01 DELTA=0.01\n"
+                f"+ A0=1.1 AGS=0.25 A1=0 A2=1 B0=0 B1=0 K1=0.4\n"
+                f"+ K2=0.01 K3=0 K3B=0 W0=2.5e-6 DVT0=1.5 DVT1=0.45\n"
+                f"+ DVT2=0.02 DSUB=0.2 CIT=0 CDSC=2.4e-4 CDSCB=0 CDSCD=0\n"
+                f"+ NFACTOR=1.5 XJ=1e-8 LINT=1e-9 WINT=1e-9 DWG=0 DWB=0\n"
+                f"+ VOFF=-0.1 MINV=1 CKAPPA=0.6 CGDO=5e-10 CGSO=5e-10\n"
+                f"+ CGBO=1e-12 CJ=0.001 MJ=0.5 PB=0.9 CJSW=1e-10\n"
+                f"+ MJSW=0.33 PBSW=0.9 CF=0 PVTH0=0 PRDSW=0 PK2=0\n"
+                f"+ WKETA=0 LKETA=0 PU0=0 PUA=0 PUB=0\n"
+                f"+ TNOM=27 UTE=-1.5 KT1=-0.11 KT1L=0 KT2=0.022 UA1=4.31e-9\n"
+                f"+ UB1=-7.61e-18 UC1=-5.6e-11 AT=33000 PRT=0\n"
+                f"+ WL=0 WLN=1 WW=-1e-15 WWN=1 WWL=0 LL=0 LLN=1\n"
+                f"+ LW=0 LWN=1 LWL=0\n"
+                f"+ CAPMOD=2 XPART=0.5\n"
+                f"+ JSS=1e-7 JSWS=1e-12 JSWGS=1e-12 NJS=1 XTI=3\n"
+                f"+ CLC=0.1e-6 CLE=0.6 NOFF=1 VOFFCV=0\n"
+                f"+ )\n"
+            )
+            # Inject after the .inc line (inside simulator lang=spice section)
+            content = content.replace(
+                f".inc '{self.model_file}'",
+                f".inc '{self.model_file}'\n{pmos_model}"
+            )
+
+        # Write to work directory
+        work_path = self._work_dir / circuit_file.name
+        work_path.write_text(content)
+        self.logger.logger.info(f"Prepared circuit: {work_path} (model={self._nmos}/{self._pmos})")
+        return work_path
 
     def run_simulation(self, circuit_file: Union[str, Path], analysis_type: str) -> bool:
         """Run spectre simulation for a single circuit file.
@@ -192,7 +267,8 @@ class SpectreRunner:
             return False
 
         self.logger.logger.info("Starting Spectre DC analysis...")
-        if not self.run_simulation(self.dc_circuit_file, "dc"):
+        circuit = self._prepare_circuit(self.dc_circuit_file)
+        if not self.run_simulation(circuit, "dc"):
             return False
 
         # Post-process
@@ -208,7 +284,8 @@ class SpectreRunner:
             return False
 
         self.logger.logger.info("Starting Spectre AC analysis...")
-        if not self.run_simulation(self.ac_circuit_file, "ac"):
+        circuit = self._prepare_circuit(self.ac_circuit_file)
+        if not self.run_simulation(circuit, "ac"):
             return False
 
         # Run auxiliary SP and NQS netlists
@@ -217,7 +294,8 @@ class SpectreRunner:
             aux_path = aux_dir / aux_name
             if aux_path.exists():
                 self.logger.logger.info(f"Running auxiliary {tag}...")
-                self.run_simulation(aux_path, tag)
+                aux_prepared = self._prepare_circuit(aux_path)
+                self.run_simulation(aux_prepared, tag)
 
         raw_path = self.raw_dir / "ac"
         if raw_path.exists():
@@ -231,7 +309,8 @@ class SpectreRunner:
             return False
 
         self.logger.logger.info("Starting Spectre transient analysis...")
-        if not self.run_simulation(self.transient_circuit_file, "transient"):
+        circuit = self._prepare_circuit(self.transient_circuit_file)
+        if not self.run_simulation(circuit, "transient"):
             return False
 
         raw_path = self.raw_dir / "transient"
@@ -246,7 +325,8 @@ class SpectreRunner:
             return False
 
         self.logger.logger.info("Starting Spectre noise analysis...")
-        if not self.run_simulation(self.noise_circuit_file, "noise"):
+        circuit = self._prepare_circuit(self.noise_circuit_file)
+        if not self.run_simulation(circuit, "noise"):
             return False
 
         # Run auxiliary noise netlists for all bias points and temperatures
@@ -261,8 +341,8 @@ class SpectreRunner:
 
     def _run_aux_noise_netlists(self, aux_dir: Path):
         """Generate and run auxiliary noise netlists for all bias points and temps."""
-        model_inc = self.model_file if self.model_file else "../../models/FreePDK45/nom.inc"
-        mname = self.model_name
+        model_inc = str(self.model_file) if self.model_file else "../../models/FreePDK45/nom.inc"
+        mname = self._nmos  # Use extracted NMOS model name
 
         # 5 additional thermal noise bias points (Vgs=0.6,Vds=0.6 is in main netlist)
         bias_points = [
