@@ -292,19 +292,8 @@ def _run_bridges(context: dict, bridge_directives: list[str]) -> None:
     """Execute bridge directives after benchmarking completes."""
     project_root = Path(__file__).resolve().parents[2]
     sys.path.insert(0, str(project_root))
-    for directive in bridge_directives:
-        parts = shlex.split(directive)
-        if not parts:
-            continue
-        name = parts[0]
-        bridge_args = parts[1:]
-        try:
-            mod = __import__(f"bridge.{name}", fromlist=["run"])
-            mod.run(context, bridge_args)
-        except ImportError:
-            print(f"[bridge] Unknown bridge target: {name} (bridge/{name}.py not found)")
-        except Exception as e:
-            print(f"[bridge] {name} failed: {e}")
+    if bridge_directives:
+        print("[bridge] Bridge functionality has been removed. Use spice_ast directly.")
 
 
 if __name__ == "__main__":
