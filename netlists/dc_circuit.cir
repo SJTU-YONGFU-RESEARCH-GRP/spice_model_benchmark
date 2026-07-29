@@ -13,10 +13,10 @@
 .inc ../models/ngspice-cmos/FreePDK45/nom.inc
 
 * MOSFET device under test 
-M1 drain_iv gate_iv source_iv bulk_iv NMOS_VTG L=0.045u W=10u
+M1 drain_iv gate_iv source_iv bulk_iv NMOS_VTG L=1u W=10u
 
 * MOSFET device under test for bias point analysis
-M2 drain_bias gate_bias source_bias bulk_bias NMOS_VTG L=0.045u W=10u
+M2 drain_bias gate_bias source_bias bulk_bias NMOS_VTG L=1u W=10u
 
 * IV Characteristics Circuit
 Vds_iv drain_iv 0 DC 0
@@ -213,4 +213,4 @@ echo "DC analysis completed"
 quit
 .endc
 
-.end 
+.end

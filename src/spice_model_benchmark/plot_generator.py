@@ -108,7 +108,7 @@ class PlotGenerator:
             
             # Save to plots subdirectory
             output_file = Path(self.plots_dir) / 'dc_iv_characteristics.png'
-            plt.savefig(output_file, dpi=self.dpi, bbox_inches='tight')
+            plt.savefig(output_file, dpi=self.dpi)
             plt.close()
             
             if self.logger:
@@ -146,7 +146,7 @@ class PlotGenerator:
             
             # Save plot
             output_file = Path(self.plots_dir) / 'dc_kcl_verification.png'
-            plt.savefig(output_file, dpi=self.dpi, bbox_inches='tight')
+            plt.savefig(output_file, dpi=self.dpi)
             plt.close()
             
             if self.logger:
@@ -183,7 +183,7 @@ class PlotGenerator:
             
             # Save plot
             output_file = Path(self.plots_dir) / 'dc_temperature_analysis.png'
-            plt.savefig(output_file, dpi=self.dpi, bbox_inches='tight')
+            plt.savefig(output_file, dpi=self.dpi)
             plt.close()
             
             if self.logger:
@@ -267,26 +267,9 @@ class PlotGenerator:
                 cgs = data[:, 6] * scale_factor
                 cgd = data[:, 7] * scale_factor
             else:
-                # Model the component capacitances based on typical MOS CV behavior
-                cgb = np.zeros_like(cgg)
-                cgs = np.zeros_like(cgg)
-                cgd = np.zeros_like(cgg)
-                
-                # Gate-bulk capacitance - dominates in accumulation, diminishes in inversion
-                for i, v in enumerate(vg):
-                    if v < 0:  # Accumulation
-                        cgb[i] = 0.9 * cgg[i]
-                        cgs[i] = cgg[i] * 0.05
-                        cgd[i] = cgg[i] * 0.05
-                    elif v < 0.4:  # Depletion
-                        cgb[i] = cgg[i] * (0.9 - 0.8 * (v/0.4))
-                        cgs[i] = cgg[i] * (0.05 + 0.4 * (v/0.4))
-                        cgd[i] = cgg[i] * (0.05 + 0.4 * (v/0.4))
-                    else:  # Inversion
-                        ratio = min(1.0, (v - 0.4) / 0.6)
-                        cgb[i] = cgg[i] * max(0.1, 0.1 * (1 - ratio))
-                        cgs[i] = cgg[i] * min(0.45, 0.45 * (1 + ratio))
-                        cgd[i] = cgg[i] * min(0.45, 0.45 * (1 + ratio))
+                raise ValueError(
+                    "CV component plots require measured Cgb/Cgs/Cgd columns"
+                )
             
             # Create the components plot
             plt.figure(figsize=(12, 8))
@@ -359,53 +342,10 @@ class PlotGenerator:
                 cgg_100k = data[:, 3] * scale_factor
                 cgg_1m = data[:, 4] * scale_factor
             else:
-                # If we only have one capacitance value, model the frequency dependence
-                base_cap = data[:, 1] * scale_factor if data.shape[1] > 1 else np.zeros_like(vg)
-                
-                # Create arrays for different frequencies with realistic variations
-                cgg_1k = np.zeros_like(base_cap)
-                cgg_10k = np.zeros_like(base_cap)
-                cgg_100k = np.zeros_like(base_cap)
-                cgg_1m = np.zeros_like(base_cap)
-                
-                # Apply frequency-dependent effects on regions
-                for i, v in enumerate(vg):
-                    # Accumulation region (Vg < 0): Similar at all frequencies
-                    if v < 0:
-                        ratio = abs(v) / 0.8  # Normalized position in accumulation region
-                        # Small frequency dependence in deep accumulation
-                        cgg_1k[i] = base_cap[i] * (1.0 + 0.1 * ratio)
-                        cgg_10k[i] = base_cap[i] * (1.0 + 0.08 * ratio)
-                        cgg_100k[i] = base_cap[i] * (1.0 + 0.05 * ratio)
-                        cgg_1m[i] = base_cap[i]
-                        
-                    # Depletion region (0 < Vg < Vth): Moderate frequency dependence
-                    elif v < 0.4:
-                        ratio = v / 0.4  # Position within depletion region
-                        # Frequency effects increase as we approach threshold
-                        cgg_1k[i] = base_cap[i] * (1.0 + 0.2 * ratio)
-                        cgg_10k[i] = base_cap[i] * (1.0 + 0.15 * ratio)
-                        cgg_100k[i] = base_cap[i] * (1.0 + 0.1 * ratio)
-                        cgg_1m[i] = base_cap[i]
-                        
-                    # Inversion region (Vg > Vth): Strong frequency dependence
-                    else:
-                        ratio = min(1.0, (v - 0.4) / 0.6)  # Position within inversion region
-                        
-                        # In strong inversion, low frequencies show significantly higher capacitance
-                        # due to the minority carriers fully responding to the AC signal
-                        cgg_1k[i] = base_cap[i] * (1.0 + 0.8 * ratio)
-                        cgg_10k[i] = base_cap[i] * (1.0 + 0.5 * ratio)
-                        cgg_100k[i] = base_cap[i] * (1.0 + 0.2 * ratio)
-                        cgg_1m[i] = base_cap[i] * (1.0 - 0.1 * ratio)  # Slightly reduced at highest frequency
-                        
-                        # Apply dip in CV curves at moderate inversion (characteristic behavior)
-                        if 0.5 < v < 0.8:
-                            dip_factor = 0.15 * ((v - 0.5) / 0.3) * (1 - (v - 0.5) / 0.3)
-                            cgg_1k[i] *= (1.0 - dip_factor * 0.2)
-                            cgg_10k[i] *= (1.0 - dip_factor * 0.4)
-                            cgg_100k[i] *= (1.0 - dip_factor * 0.6)
-                            cgg_1m[i] *= (1.0 - dip_factor * 0.8)
+                raise ValueError(
+                    "multi-frequency CV plot requires four measured "
+                    "frequency columns"
+                )
             
             # Create the multifrequency plot
             plt.figure(figsize=(12, 8))
@@ -466,7 +406,7 @@ class PlotGenerator:
             
             # Save standard plot for compatibility
             std_file = Path(self.plots_dir) / 'ac_cv_characteristics.png'
-            plt.savefig(std_file, dpi=self.dpi, bbox_inches='tight')
+            plt.savefig(std_file, dpi=self.dpi)
             plt.close()
             
             if self.logger:
@@ -514,7 +454,7 @@ class PlotGenerator:
 
                             plt.tight_layout()
                             std_area_file = Path(self.plots_dir) / 'ac_cv_characteristics_per_gate_area.png'
-                            plt.savefig(std_area_file, dpi=self.dpi, bbox_inches='tight')
+                            plt.savefig(std_area_file, dpi=self.dpi)
                             plt.close()
                             if self.logger:
                                 self.logger.info(f"CV per-area plot saved to {std_area_file}")
@@ -590,10 +530,9 @@ class PlotGenerator:
         data_file = os.path.join(self.output_dir, 'data', 'sparams_data.txt')
 
         if not os.path.exists(data_file) or os.path.getsize(data_file) == 0:
-            print(f"[WARNING]: S-parameter data file not found, generating from raw files")
-            
-            # Process input files to generate S-parameter data file
-            self._process_sparameter_files()
+            raise FileNotFoundError(
+                "S-parameter plot requires measured data/sparams_data.txt"
+            )
         
         # Read S-parameter data from file
         data = []
@@ -686,10 +625,9 @@ class PlotGenerator:
         data_file = os.path.join(self.output_dir, 'data', 'nqs_effects.txt')
         
         if not os.path.exists(data_file) or os.path.getsize(data_file) == 0:
-            print(f"[WARNING]: NQS effects data file not found, generating from raw files")
-            
-            # Process input files to generate NQS effects data file
-            self._process_nqs_effects_files()
+            raise FileNotFoundError(
+                "NQS plot requires measured data/nqs_effects.txt"
+            )
         
         # Read NQS effects data from file
         data = []
@@ -817,7 +755,12 @@ class PlotGenerator:
             
             # Adjust layout and save
             plt.tight_layout()
-            plt.savefig(os.path.join(output_dir, 'plots', 'ac_charge_conservation.png'))
+            plt.savefig(
+                os.path.join(
+                    output_dir, 'plots', 'ac_charge_conservation.png'
+                ),
+                dpi=self.dpi,
+            )
             plt.close()
             
             self.logger.info("Charge conservation plots generated successfully")
@@ -828,366 +771,18 @@ class PlotGenerator:
             traceback.print_exc()
 
     def _process_sparameter_files(self):
-        """Generate S-parameter data file from raw simulation output."""
-        import os
-        import math
-        import re
-        import numpy as np
-        
-        # Create output directory if it doesn't exist
-        os.makedirs('results/data', exist_ok=True)
-        
-        # Check if raw files exist
-        if not os.path.exists('netlists/s_params_p1.txt') or not os.path.exists('netlists/s_params_p2.txt'):
-            print("[WARNING]: Raw S-parameter files not found, using calculated data")
-            # Generate reasonable S-parameter data based on typical MOSFET behavior
-            freq = np.logspace(6, 10, 20)  # 1MHz to 10GHz
-            s_params = []
-            for f in freq:
-                # Calculate realistic S-parameters based on frequency
-                # Higher frequencies -> worse matching and gain
-                s11_mag = 0.8 - f/1e11
-                s11_phase = -15 - f/1e10
-                s21_mag = 12 - f/1e10
-                s21_phase = 165 - f/1e10
-                s12_mag = 0.003 - f/1e13
-                s12_phase = 95 - f/1e10
-                s22_mag = 0.9 - f/1e11
-                s22_phase = -12 - f/1e10
-                
-                s_params.append([
-                    f, 
-                    s11_mag, s11_phase, 
-                    s12_mag, s12_phase, 
-                    s21_mag, s21_phase, 
-                    s22_mag, s22_phase
-                ])
-                
-            # Write the data file
-            with open('results/data/sparams_data.txt', 'w') as f:
-                f.write("# S-parameter data\n")
-                f.write("# freq s11_mag s11_phase s12_mag s12_phase s21_mag s21_phase s22_mag s22_phase\n")
-                for params in s_params:
-                    f.write(" ".join(f"{p}" for p in params) + "\n")
-            
-            print(f"[INFO]: S-parameter data file created with calculated data ({len(s_params)} points)")
-            return
-            
-        # Now parse the actual files if they exist
-        try:
-            # Function to read SPICE output file and extract complex data
-            def _read_spice_file(filename):
-                with open(filename, 'r') as f:
-                    lines = f.readlines()
-                
-                # Extract variables and data
-                variables = {}
-                data_points = []
-                in_variables = False
-                in_values = False
-                current_point = None
-                
-                for line in lines:
-                    line = line.strip()
-                    if not line:
-                        continue
-                    
-                    if line.startswith('Variables:'):
-                        in_variables = True
-                        continue
-                    
-                    if in_variables and line.startswith('\t'):
-                        # Variable definition
-                        parts = line.split()
-                        if len(parts) >= 2:
-                            idx = int(parts[0])
-                            name = parts[1]
-                            variables[idx] = name
-                    
-                    if line.startswith('Values:'):
-                        in_variables = False
-                        in_values = True
-                        continue
-                        
-                    if in_values:
-                        if line.startswith(' '):
-                            # This is a data line
-                            parts = line.split()
-                            if len(parts) >= 2:
-                                idx = int(parts[0])
-                                val_parts = parts[1].split(',')
-                                if len(val_parts) == 2:
-                                    # Complex number
-                                    re_val = float(val_parts[0])
-                                    im_val = float(val_parts[1])
-                                    if current_point is None:
-                                        continue
-                                    current_point[idx] = complex(re_val, im_val)
-                        else:
-                            # New data point
-                            match = re.match(r'^\s*(\d+)\s', line)
-                            if match:
-                                if current_point:
-                                    data_points.append(current_point)
-                                current_point = {}
-                
-                if current_point:
-                    data_points.append(current_point)
-                
-                return variables, data_points
-            
-            # Read the S-parameter simulation result files
-            vars_p1, data_p1 = _read_spice_file('netlists/s_params_p1.txt')
-            vars_p2, data_p2 = _read_spice_file('netlists/s_params_p2.txt')
-            
-            # Find the relevant variable indices
-            freq_idx = None
-            vg_idx = None
-            vd_idx = None
-            
-            for idx, name in vars_p1.items():
-                if name == 'frequency':
-                    freq_idx = idx
-                elif name == 'v(g_term)':
-                    vg_idx = idx
-                elif name == 'v(d_term)':
-                    vd_idx = idx
-            
-            if freq_idx is None or vg_idx is None or vd_idx is None:
-                raise ValueError("Required variables not found in S-parameter data")
-            
-            # Process the data points to calculate S-parameters
-            s_params = []
-            z0 = 50.0  # Reference impedance
-            
-            # Ensure both data sets have the same number of points
-            min_points = min(len(data_p1), len(data_p2))
-            
-            for i in range(min_points):
-                p1 = data_p1[i]
-                p2 = data_p2[i]
-                
-                # Extract values
-                freq = abs(p1[freq_idx])
-                vg1 = p1[vg_idx]  # Port 1 active
-                vd1 = p1[vd_idx]
-                vg2 = p2[vg_idx]  # Port 2 active
-                vd2 = p2[vd_idx]
-                
-                # Calculate S-parameters
-                s11 = (vg1 - z0) / (vg1 + z0)
-                s21 = 2 * vd1 / (vg1 + z0)
-                s22 = (vd2 - z0) / (vd2 + z0)
-                s12 = 2 * vg2 / (vd2 + z0)
-                
-                # Extract magnitude and phase
-                s11_mag = abs(s11)
-                s11_phase = math.degrees(math.atan2(s11.imag, s11.real))
-                s21_mag = abs(s21)
-                s21_phase = math.degrees(math.atan2(s21.imag, s21.real))
-                s12_mag = abs(s12)
-                s12_phase = math.degrees(math.atan2(s12.imag, s12.real))
-                s22_mag = abs(s22)
-                s22_phase = math.degrees(math.atan2(s22.imag, s22.real))
-                
-                s_params.append([
-                    freq, 
-                    s11_mag, s11_phase, 
-                    s12_mag, s12_phase, 
-                    s21_mag, s21_phase, 
-                    s22_mag, s22_phase
-                ])
-            
-            # Write the data file
-            with open('results/data/sparams_data.txt', 'w') as f:
-                f.write("# S-parameter data\n")
-                f.write("# freq s11_mag s11_phase s12_mag s12_phase s21_mag s21_phase s22_mag s22_phase\n")
-                for params in s_params:
-                    f.write(" ".join(f"{p}" for p in params) + "\n")
-            
-            print(f"[INFO]: S-parameter data file created from raw data files ({len(s_params)} points)")
-        
-        except Exception as e:
-            print(f"[ERROR]: Failed to process S-parameter files: {e}")
-            # Fall back to calculated data
-            self._process_sparameter_files()
-    
+        """Reject plot-time construction of simulator measurements."""
+        raise RuntimeError(
+            "plot-time S-parameter generation is disabled; data must come "
+            "from the simulator post-processor"
+        )
+
     def _process_nqs_effects_files(self):
-        """Generate NQS effects data file from raw simulation output."""
-        import os
-        import math
-        import re
-        import numpy as np
-        
-        # Create output directory if it doesn't exist
-        os.makedirs('results/data', exist_ok=True)
-        
-        # Check if raw file exists
-        if not os.path.exists('netlists/nqs_effects_raw.txt'):
-            print("[WARNING]: Raw NQS effects file not found, using calculated data")
-            # Generate reasonable NQS effects data based on frequency
-            freq = np.logspace(6, 10, 20)  # 1MHz to 10GHz
-            nqs_data = []
-            for f in freq:
-                # Calculate realistic NQS effects based on frequency
-                # Higher frequencies -> larger phase differences
-                vg_phase = 45 + f/1e8  # Base phase starts at 45 degrees
-                id_phase = 45 + f/3e8  # Smaller slope for drain current phase
-                phase_diff = vg_phase - id_phase
-                
-                nqs_data.append([f, vg_phase, id_phase, phase_diff])
-                
-            # Write the data file
-            with open('results/data/nqs_effects.txt', 'w') as f:
-                f.write("# Non-quasi-static effects analysis - phase shifts\n")
-                f.write("# freq vg_phase id_phase phase_diff\n")
-                for data_point in nqs_data:
-                    f.write(" ".join(f"{d}" for d in data_point) + "\n")
-            
-            print(f"[INFO]: NQS effects data file created with calculated data ({len(nqs_data)} points)")
-            return
-            
-        # Now parse the actual file if it exists
-        try:
-            # Function to read SPICE output file and extract complex data
-            def _read_spice_file(filename):
-                with open(filename, 'r') as f:
-                    lines = f.readlines()
-                
-                # Extract variables and data
-                variables = {}
-                data_points = []
-                in_variables = False
-                in_values = False
-                current_point = None
-                
-                for line in lines:
-                    line = line.strip()
-                    if not line:
-                        continue
-                    
-                    if line.startswith('Variables:'):
-                        in_variables = True
-                        continue
-                    
-                    if in_variables and line.startswith('\t'):
-                        # Variable definition
-                        parts = line.split()
-                        if len(parts) >= 2:
-                            idx = int(parts[0])
-                            name = parts[1]
-                            variables[idx] = name
-                    
-                    if line.startswith('Values:'):
-                        in_variables = False
-                        in_values = True
-                        continue
-                        
-                    if in_values:
-                        if line.startswith(' '):
-                            # This is a data line
-                            parts = line.split()
-                            if len(parts) >= 2:
-                                idx = int(parts[0])
-                                val_parts = parts[1].split(',')
-                                if len(val_parts) == 2:
-                                    # Complex number
-                                    re_val = float(val_parts[0])
-                                    im_val = float(val_parts[1])
-                                    if current_point is None:
-                                        continue
-                                    current_point[idx] = complex(re_val, im_val)
-                        else:
-                            # New data point
-                            match = re.match(r'^\s*(\d+)\s', line)
-                            if match:
-                                if current_point:
-                                    data_points.append(current_point)
-                                current_point = {}
-                
-                if current_point:
-                    data_points.append(current_point)
-                
-                return variables, data_points
-            
-            # Read the NQS effects simulation result file
-            vars_nqs, data_nqs = _read_spice_file('netlists/nqs_effects_raw.txt')
-            
-            # Find the relevant variable indices
-            freq_idx = None
-            vg_idx = None
-            id_idx = None
-            vd_idx = None
-            
-            for idx, name in vars_nqs.items():
-                if name == 'frequency':
-                    freq_idx = idx
-                elif name == 'v(g_term)':
-                    vg_idx = idx
-                elif name == 'i(id_current)':
-                    id_idx = idx
-                elif name == 'v(d_term)':
-                    vd_idx = idx
-            
-            if freq_idx is None or vg_idx is None:
-                raise ValueError("Required variables not found in NQS effects data")
-            
-            # Use drain voltage phase if drain current not available
-            if id_idx is None:
-                id_idx = vd_idx
-                print("[WARNING]: Using drain voltage phase instead of current phase for NQS effects")
-            
-            # Process the data points to calculate NQS effects
-            nqs_data = []
-            
-            for point in data_nqs:
-                # Extract values
-                freq = abs(point[freq_idx])
-                vg = point[vg_idx]
-                id_val = point[id_idx] if id_idx in point else complex(0, 0)
-                
-                # Calculate phases
-                vg_phase = math.degrees(math.atan2(vg.imag, vg.real))
-                id_phase = math.degrees(math.atan2(id_val.imag, id_val.real))
-                
-                # Adjust phases to be in the range [0, 360)
-                vg_phase = vg_phase + 360 if vg_phase < 0 else vg_phase
-                id_phase = id_phase + 360 if id_phase < 0 else id_phase
-                
-                # Calculate phase difference
-                phase_diff = vg_phase - id_phase
-                if phase_diff < 0:
-                    phase_diff += 360
-                
-                nqs_data.append([freq, vg_phase, id_phase, phase_diff])
-            
-            # Write the data file
-            with open('results/data/nqs_effects.txt', 'w') as f:
-                f.write("# Non-quasi-static effects analysis - phase shifts\n")
-                f.write("# freq vg_phase id_phase phase_diff\n")
-                for data_point in nqs_data:
-                    f.write(" ".join(f"{d}" for d in data_point) + "\n")
-            
-            print(f"[INFO]: NQS effects data file created from raw data file ({len(nqs_data)} points)")
-        
-        except Exception as e:
-            print(f"[ERROR]: Failed to process NQS effects file: {e}")
-            # Fall back to calculated data
-            freq = np.logspace(6, 10, 20)  # 1MHz to 10GHz
-            nqs_data = []
-            for f in freq:
-                vg_phase = 45 + f/1e8
-                id_phase = 45 + f/3e8
-                phase_diff = vg_phase - id_phase
-                nqs_data.append([f, vg_phase, id_phase, phase_diff])
-                
-            with open('results/data/nqs_effects.txt', 'w') as f:
-                f.write("# Non-quasi-static effects analysis - phase shifts\n")
-                f.write("# freq vg_phase id_phase phase_diff\n")
-                for data_point in nqs_data:
-                    f.write(" ".join(f"{d}" for d in data_point) + "\n")
-            
-            print(f"[INFO]: NQS effects data file created with fallback data ({len(nqs_data)} points)") 
+        """Reject plot-time construction of simulator measurements."""
+        raise RuntimeError(
+            "plot-time NQS generation is disabled; data must come from the "
+            "simulator post-processor"
+        )
 
     # Transient Analysis
     def plot_trans_large_signal_transient(self, output_dir, time, gate_voltage, drain_voltage, drain_current):
@@ -1434,6 +1029,100 @@ class PlotGenerator:
         except Exception as e:
             if self.logger:
                 self.logger.logger.error(f"Error creating quasi-static plots: {e}")
+            return None
+
+    def plot_trans_charge_conservation(
+        self,
+        output_dir,
+        time,
+        vg,
+        ig,
+        id,
+        is_,
+        ib,
+        i_total,
+        q_gate,
+        q_drain,
+        q_source,
+        q_bulk,
+        q_total,
+    ):
+        """Render transient charge artifacts from the supplied result arrays.
+
+        Integration and residual calculation remain the responsibility of the
+        existing simulation/verification pipeline.  This method only maps
+        those arrays to two distinct report images.
+        """
+        try:
+            plots_dir = Path(output_dir) / "plots"
+            plots_dir.mkdir(exist_ok=True)
+            terminal_path = plots_dir / "trans_charge_conservation.png"
+            total_path = plots_dir / "trans_total_charge.png"
+
+            plt.figure(
+                figsize=(self.figure_width, 3 * self.single_plot_height)
+            )
+            plt.subplot(3, 1, 1)
+            plt.plot(time, ig, label="Gate")
+            plt.plot(time, id, label="Drain")
+            plt.plot(time, is_, label="Source")
+            plt.plot(time, ib, label="Bulk")
+            plt.plot(time, i_total, "k--", label="Total")
+            plt.xlabel("Time (s)")
+            plt.ylabel("Current (A)")
+            plt.title("Transient Terminal Currents")
+            plt.grid(True)
+            plt.legend()
+
+            plt.subplot(3, 1, 2)
+            plt.plot(time, q_gate, label="Gate")
+            plt.plot(time, q_drain, label="Drain")
+            plt.plot(time, q_source, label="Source")
+            plt.plot(time, q_bulk, label="Bulk")
+            plt.xlabel("Time (s)")
+            plt.ylabel("Charge (C)")
+            plt.title("Transient Terminal Charges")
+            plt.grid(True)
+            plt.legend()
+
+            plt.subplot(3, 1, 3)
+            plt.plot(vg, q_gate, label="Gate")
+            plt.plot(vg, q_drain, label="Drain")
+            plt.plot(vg, q_source, label="Source")
+            plt.plot(vg, q_bulk, label="Bulk")
+            plt.xlabel("Gate Voltage (V)")
+            plt.ylabel("Charge (C)")
+            plt.title("Terminal Charge vs Gate Voltage")
+            plt.grid(True)
+            plt.legend()
+            plt.tight_layout()
+            plt.savefig(terminal_path, dpi=self.dpi)
+            plt.close()
+
+            plt.figure(figsize=(self.figure_width, self.single_plot_height))
+            plt.plot(time, q_total, color="black")
+            plt.xlabel("Time (s)")
+            plt.ylabel("Total Charge (C)")
+            plt.title("Transient Total Charge Conservation")
+            plt.grid(True)
+            plt.tight_layout()
+            plt.savefig(total_path, dpi=self.dpi)
+            plt.close()
+
+            if self.logger:
+                self.logger.info(
+                    "Transient charge plots saved to "
+                    f"{terminal_path} and {total_path}"
+                )
+            return {
+                "terminal_plot": str(terminal_path),
+                "total_plot": str(total_path),
+            }
+        except Exception as e:
+            if self.logger:
+                self.logger.error(
+                    f"Error creating transient charge plots: {e}"
+                )
             return None
 
     # Noise
@@ -1719,4 +1408,3 @@ class PlotGenerator:
         # Implementation details
         # ...
     
-

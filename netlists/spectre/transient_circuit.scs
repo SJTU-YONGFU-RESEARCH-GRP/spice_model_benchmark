@@ -2,7 +2,7 @@
 // Replicates ngspice transient_circuit.cir
 simulator lang=spectre
 
-simulatorOptions options gmin=1e-15 reltol=1e-8 vabstol=1e-12 temp=27 tnom=27
+simulatorOptions options gmin=1e-15 reltol=1e-4 vabstol=1e-12 temp=27 tnom=27
 
 simulator lang=spice
 .inc ../../models/FreePDK45/nom.inc
@@ -14,7 +14,7 @@ simulator lang=spectre
 M_tran (drain_tran gate_tran source_tran bulk_tran) NMOS_VTG l=0.045u w=10u
 
 Vgs_tran (gate_tran 0) vsource dc=0 type=pulse \
-    val0=0 val1=1.2 delay=0 rise=0.1n fall=0.1n width=10n period=20n
+    val0=0 val1=1.2 delay=0 rise=0.5n fall=0.5n width=10n period=20n
 Vds_tran (drain_tran 0) vsource dc=1.2
 Vs_tran (source_tran 0) vsource dc=0
 Vb_tran (bulk_tran 0) vsource dc=0
@@ -27,14 +27,14 @@ M_inv_p (out_inv in_inv vdd_inv vdd_inv) PMOS_VTG l=0.045u w=20u
 
 Vdd_inv (vdd_inv 0) vsource dc=1.2
 Vin_inv (in_inv 0) vsource dc=0 type=pulse \
-    val0=0 val1=1.2 delay=0 rise=0.1n fall=0.1n width=10n period=20n
+    val0=0 val1=1.2 delay=0 rise=0.5n fall=0.5n width=10n period=20n
 
 // ============================================================
 // Delay Chain (3 inverters)
 // ============================================================
 Vdd_delay (vdd_delay 0) vsource dc=1.2
 Vin_delay (in_delay 0) vsource dc=0 type=pulse \
-    val0=0 val1=1.2 delay=0 rise=0.1n fall=0.1n width=10n period=20n
+    val0=0 val1=1.2 delay=0 rise=0.5n fall=0.5n width=10n period=20n
 
 // Stage 1
 M_d1_n (mid1_delay in_delay 0 0) NMOS_VTG l=0.045u w=10u
@@ -54,7 +54,7 @@ M_power_p (out_power in_power vdd_power vdd_power) PMOS_VTG l=0.045u w=20u
 
 Vdd_power (vdd_power 0) vsource dc=1.2
 Vin_power (in_power 0) vsource dc=0 type=pulse \
-    val0=0 val1=1.2 delay=0 rise=0.1n fall=0.1n width=10n period=20n
+    val0=0 val1=1.2 delay=0 rise=0.5n fall=0.5n width=10n period=20n
 
 // ============================================================
 // Quasi-Static Analysis DUT

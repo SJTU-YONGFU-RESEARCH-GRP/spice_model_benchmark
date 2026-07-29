@@ -54,6 +54,8 @@ class HspicePostProcessor:
 
     def _save_dc_block(self, block: str, out_path: Path, temp: str):
         """Extract structured columns from HSPICE DC block."""
+        if out_path.exists() and out_path.stat().st_size > 0:
+            return
         # Look for HSPICE column format: index, v(d), v(g), i(vds), i(vs), i(vb), i(vgs), kcl
         lines = block.strip().split("\n")
         data_lines = []
@@ -95,6 +97,8 @@ class HspicePostProcessor:
 
         if numeric_lines:
             out = self.data_dir / "iv_data_25.txt"
+            if out.exists() and out.stat().st_size > 0:
+                return
             with open(out, "w") as f:
                 f.write("v(d) v(g) i(vds)\n")
                 for nl in numeric_lines[:1000]:
@@ -105,6 +109,8 @@ class HspicePostProcessor:
     def _extract_bias_point(self, text: str):
         """Extract bias point data from HSPICE output."""
         out = self.data_dir / "bias_point_data.txt"
+        if out.exists() and out.stat().st_size > 0:
+            return
         # HSPICE bias point lines: "operating point information" or explicit .op output
         op_pattern = r"operating\s+point.*?\n(.*?)(?=\n\n|\Z)"
         matches = re.findall(op_pattern, text, re.DOTALL | re.IGNORECASE)
@@ -124,10 +130,9 @@ class HspicePostProcessor:
                     f.write(bl + "\n")
             self.logger.logger.info(f"Bias point data written: {out}")
         else:
-            # Minimal placeholder
-            with open(out, "w") as f:
-                f.write("v(d) v(g) id ig is ib\n0.0 0.0 0.0 0.0 0.0 0.0\n1.2 1.2 1e-3 1e-9 1e-3 1e-9\n")
-            self.logger.logger.info("Default bias point data written")
+            raise ValueError(
+                "HSPICE output contains no measured operating-point data"
+            )
 
     def process_ac(self, ac_dir: Path):
         """Convert AC .lis → cv_data.txt, sparams_data.txt, nqs_effects.txt."""
@@ -137,6 +142,8 @@ class HspicePostProcessor:
                 text = lis.read_text(errors="replace")
                 base = fname.replace(".lis", "").replace("ac_", "")
                 out = self.data_dir / f"{base}_data.txt"
+                if out.exists() and out.stat().st_size > 0:
+                    continue
                 numeric = [l.strip() for l in text.split("\n") if re.match(r"^\d", l.strip()) and len(l.split()) >= 2]
                 if numeric:
                     with open(out, "w") as f:
@@ -161,7 +168,9 @@ class HspicePostProcessor:
 
     def process_noise(self, noise_dir: Path):
         """Convert Noise .lis → thermal_noise_vgs*.txt, flicker_noise.txt, etc."""
-        for lis in sorted(Path(noise_dir).glob("*.lis")):
+        noise_files = list(Path(noise_dir).glob("hspice_noise_*.lis"))
+        noise_files.extend(Path(noise_dir).glob("noise_*.lis"))
+        for lis in sorted(set(noise_files)):
             text = lis.read_text(errors="replace")
             numeric = [l.strip() for l in text.split("\n") if re.match(r"^\d", l.strip()) and len(l.split()) >= 2]
             if numeric:

@@ -34,7 +34,7 @@ Vbulk_noise bulk_noise 0 DC 0         ; Bulk/substrate connection
 * ----------------------------------------------------------
 * MOSFET device under test
 * ----------------------------------------------------------
-M_noise drain_noise gate_noise source_noise bulk_noise NMOS_VTG L=0.045u W=10u
+M_noise drain_noise gate_noise source_noise bulk_noise NMOS_VTG L=1u W=10u
 
 * Flicker Noise Source Circuit - Separate circuit for flicker noise characterization
 * Voltage and current sources for AC analysis
@@ -47,7 +47,7 @@ Vgs_flicker flicker_gate_bias 0 DC 0.6
 * ----------------------------------------------------------
 * MOSFET for flicker noise analysis
 * ----------------------------------------------------------
-M_flicker flicker_drain flicker_gate flicker_source flicker_bulk NMOS_VTG L=0.045u W=10u
+M_flicker flicker_drain flicker_gate flicker_source flicker_bulk NMOS_VTG L=1u W=10u
 
 Vgs_inp_f flicker_gate flicker_gate_bias DC 0
 Rout_f flicker_drain flicker_vdd 10k
@@ -62,7 +62,7 @@ Rload_shot shot_vdd shot_drain 10k
 * ----------------------------------------------------------
 * MOSFET for shot noise analysis
 * ----------------------------------------------------------
-M_shot shot_drain shot_gate shot_source shot_bulk NMOS_VTG L=0.045u W=10u
+M_shot shot_drain shot_gate shot_source shot_bulk NMOS_VTG L=1u W=10u
 
 Vbulk_shot shot_bulk 0 DC 0
 Vsrc_shot shot_source 0 DC 0
@@ -94,7 +94,7 @@ write ./thermal_noise_vgs0.3_vds0.3.txt freq thermal_noise
 alter Vgs_noise = 0.3
 alter Vds_noise = 0.6
 noise v(drain_noise) Vin_noise dec 20 1 1G
-setplot noise1
+setplot noise3
 let thermal_noise = inoise_spectrum
 let freq = frequency
 write ./thermal_noise_vgs0.3_vds0.6.txt freq thermal_noise
@@ -103,7 +103,7 @@ write ./thermal_noise_vgs0.3_vds0.6.txt freq thermal_noise
 alter Vgs_noise = 0.3
 alter Vds_noise = 0.9
 noise v(drain_noise) Vin_noise dec 20 1 1G
-setplot noise1
+setplot noise5
 let thermal_noise = inoise_spectrum
 let freq = frequency
 write ./thermal_noise_vgs0.3_vds0.9.txt freq thermal_noise
@@ -112,7 +112,7 @@ write ./thermal_noise_vgs0.3_vds0.9.txt freq thermal_noise
 alter Vgs_noise = 0.3
 alter Vds_noise = 1.2
 noise v(drain_noise) Vin_noise dec 20 1 1G
-setplot noise1
+setplot noise7
 let thermal_noise = inoise_spectrum
 let freq = frequency
 write ./thermal_noise_vgs0.3_vds1.2.txt freq thermal_noise
@@ -121,7 +121,7 @@ write ./thermal_noise_vgs0.3_vds1.2.txt freq thermal_noise
 alter Vgs_noise = 0.6
 alter Vds_noise = 0.3
 noise v(drain_noise) Vin_noise dec 20 1 1G
-setplot noise1
+setplot noise9
 let thermal_noise = inoise_spectrum
 let freq = frequency
 write ./thermal_noise_vgs0.6_vds0.3.txt freq thermal_noise
@@ -130,7 +130,7 @@ write ./thermal_noise_vgs0.6_vds0.3.txt freq thermal_noise
 alter Vgs_noise = 0.6
 alter Vds_noise = 0.6
 noise v(drain_noise) Vin_noise dec 20 1 1G
-setplot noise1
+setplot noise11
 let thermal_noise = inoise_spectrum
 let freq = frequency
 write ./thermal_noise_vgs0.6_vds0.6.txt freq thermal_noise
@@ -143,7 +143,7 @@ alter Vbias_f = 1.2
 
 * Run noise analysis with focus on lower frequencies where flicker noise dominates
 noise v(flicker_drain) Vin_f dec 20 0.1 1MEG
-setplot noise1
+setplot noise13
 let flicker_noise = inoise_spectrum
 let freq = frequency
 write ./flicker_noise.txt freq flicker_noise
@@ -154,7 +154,7 @@ echo "Shot Noise Analysis"
 alter Vgs_shot = 0.9
 * Run noise analysis - Ensure AC is set correctly on Vdd_shot
 noise v(shot_drain) Vdd_shot dec 20 1 1G
-setplot noise1
+setplot noise15
 let shot_noise = inoise_spectrum
 let freq = frequency
 write ./shot_noise.txt freq shot_noise
@@ -169,7 +169,7 @@ option temp = -40
 alter Vgs_noise = 0.6
 alter Vds_noise = 0.6
 noise v(drain_noise) Vin_noise dec 20 1 1G
-setplot noise1
+setplot noise17
 let temp_noise = inoise_spectrum
 let freq = frequency
 write ./noise_temp-40.txt freq temp_noise
@@ -180,7 +180,7 @@ option temp = 0
 alter Vgs_noise = 0.6
 alter Vds_noise = 0.6
 noise v(drain_noise) Vin_noise dec 20 1 1G
-setplot noise1
+setplot noise19
 let temp_noise = inoise_spectrum
 let freq = frequency
 write ./noise_temp0.txt freq temp_noise
@@ -191,7 +191,7 @@ option temp = 27
 alter Vgs_noise = 0.6
 alter Vds_noise = 0.6
 noise v(drain_noise) Vin_noise dec 20 1 1G
-setplot noise1
+setplot noise21
 let temp_noise = inoise_spectrum
 let freq = frequency
 write ./noise_temp27.txt freq temp_noise
@@ -202,7 +202,7 @@ option temp = 50
 alter Vgs_noise = 0.6
 alter Vds_noise = 0.6
 noise v(drain_noise) Vin_noise dec 20 1 1G
-setplot noise1
+setplot noise23
 let temp_noise = inoise_spectrum
 let freq = frequency
 write ./noise_temp50.txt freq temp_noise
@@ -213,7 +213,7 @@ option temp = 100
 alter Vgs_noise = 0.6
 alter Vds_noise = 0.6
 noise v(drain_noise) Vin_noise dec 20 1 1G
-setplot noise1
+setplot noise25
 let temp_noise = inoise_spectrum
 let freq = frequency
 write ./noise_temp100.txt freq temp_noise
@@ -224,7 +224,7 @@ option temp = 150
 alter Vgs_noise = 0.6
 alter Vds_noise = 0.6
 noise v(drain_noise) Vin_noise dec 20 1 1G
-setplot noise1
+setplot noise27
 let temp_noise = inoise_spectrum
 let freq = frequency
 write ./noise_temp150.txt freq temp_noise
@@ -233,4 +233,4 @@ echo "Noise analysis simulations completed"
 quit
 .endc
 
-.end 
+.end

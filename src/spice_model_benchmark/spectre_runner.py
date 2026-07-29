@@ -11,6 +11,7 @@ import shutil
 import re
 
 from .spectre_post_processor import SpectrePostProcessor
+from .fixture_geometry import apply_primary_geometry, read_geometry_override
 
 
 # Spectre installation paths
@@ -100,19 +101,82 @@ class SpectreRunner:
         self._work_dir = self.output_dir_path / 'spectre_work'
         self._work_dir.mkdir(exist_ok=True)
 
-        # Extract model names from model file
-        self._nmos, self._pmos = "NMOS_VTG", "PMOS_VTG"
-        if self.model_file and self.model_file.exists():
-            try:
-                content = self.model_file.read_text(errors='replace')
-                nm = re.search(r'\.model\s+(\w+)\s+(?:nmos|NMOS)', content)
-                pm = re.search(r'\.model\s+(\w+)\s+(?:pmos|PMOS)', content)
-                if nm: self._nmos = nm.group(1)
-                if pm: self._pmos = pm.group(1)
-            except Exception:
-                pass
-        self._has_pmos = self._pmos != "PMOS_VTG"
-
+        # Extract model names from the explicitly supplied model file.  A
+        # malformed or empty input is an error; it must never select a bundled
+        # device model as the benchmark target.
+        if not self.model_file or not self.model_file.is_file():
+            raise ValueError(
+                "Spectre benchmark requires an explicit MOS model file; "
+                "fallback models are disabled"
+            )
+        content = self.model_file.read_text(errors='replace')
+        cards = [
+            (match.group(1), match.group(2).lower())
+            for match in re.finditer(
+                r'(?i)\.model\s+(\S+)\s+(nmos|pmos)\b',
+                content,
+            )
+        ]
+        source_cards = [
+            card for card in cards
+            if not card[0].lower().startswith('__fixture_')
+        ]
+        if not source_cards:
+            raise ValueError(
+                f"No non-fixture MOS model card found in {self.model_file}; "
+                "Spectre benchmark fallback models are disabled"
+            )
+        selected_match = re.search(
+            r'(?im)^\s*\*\s*BENCHMARK_PRIMARY_MODEL:\s*(\S+)\s*$',
+            content,
+        )
+        selected_card = None
+        if selected_match:
+            selected_name = selected_match.group(1)
+            selected_card = next(
+                (
+                    card
+                    for card in source_cards
+                    if card[0].lower() == selected_name.lower()
+                ),
+                None,
+            )
+            if selected_card is None:
+                raise ValueError(
+                    f"Selected benchmark card {selected_name} is not present "
+                    f"in {self.model_file}"
+                )
+        source_nmos = next(
+            (re.sub(r'\.\d+$', '', name) for name, kind in source_cards if kind == 'nmos'),
+            None,
+        )
+        source_pmos = next(
+            (re.sub(r'\.\d+$', '', name) for name, kind in source_cards if kind == 'pmos'),
+            None,
+        )
+        if selected_card is not None:
+            if selected_card[1] == 'nmos':
+                source_nmos = selected_card[0]
+            else:
+                source_pmos = selected_card[0]
+        fixture_nmos = next(
+            (name for name, kind in cards if kind == 'nmos' and name.lower().startswith('__fixture_')),
+            None,
+        )
+        fixture_pmos = next(
+            (name for name, kind in cards if kind == 'pmos' and name.lower().startswith('__fixture_')),
+            None,
+        )
+        self._nmos = source_nmos or fixture_nmos
+        self._pmos = source_pmos or fixture_pmos
+        if self._nmos is None or self._pmos is None:
+            missing = "NMOS" if self._nmos is None else "PMOS"
+            raise ValueError(
+                f"Spectre benchmark circuit requires an explicit {missing} "
+                "model card; fallback models are disabled"
+            )
+        self._primary = source_nmos or source_pmos
+        self._primary_is_pmos = source_nmos is None and source_pmos is not None
         self.post_processor = SpectrePostProcessor(logger, str(self.data_dir))
         self._env = _build_spectre_env()
 
@@ -126,48 +190,103 @@ class SpectreRunner:
         # Replace model include path
         if self.model_file:
             content = re.sub(
-                r'\.inc\s+.*?FreePDK45/nom\.inc',
-                f".inc '{self.model_file}'",
-                content
+                r"(?im)^\s*\.(?:inc|include)\s+.*$",
+                f".inc '{Path(self.model_file).resolve()}'",
+                content,
+            )
+            content = re.sub(
+                r'(?im)^\s*include\s+(?:".*?"|\'.*?\'|\S+)\s*$',
+                (
+                    "simulator lang=spice\n"
+                    f".inc '{Path(self.model_file).resolve()}'\n"
+                    "simulator lang=spectre"
+                ),
+                content,
             )
 
-        # Track if PMOS was present in original content
-        needs_pmos = 'PMOS_VTG' in content
+        single_instances = (
+            r'(?:M_iv|M_bias|M\d+|Msp|Mnqs|M_noise\d+|M_fl|M_sh|'
+            r'M_noise|M_flicker|M_shot|M_tran|M_qs|M_charge)'
+        )
+        content = re.sub(
+            rf'(?im)^(\s*{single_instances}\b(?:\s+\S+){{4}}\s+)\S+',
+            rf'\g<1>{self._primary}',
+            content,
+        )
+        content = re.sub(
+            rf'(?im)^(\s*{single_instances}\s*\([^)]*\)\s+)\S+',
+            rf'\g<1>{self._primary}',
+            content,
+        )
 
         # Replace model names
         content = content.replace('NMOS_VTG', self._nmos)
         content = content.replace('PMOS_VTG', self._pmos)
+        content = apply_primary_geometry(
+            content,
+            self._primary,
+            read_geometry_override(self.model_file),
+        )
 
-        # If no PMOS found in model, inject a basic PMOS model
-        if not self._has_pmos and needs_pmos:
-            pmos_model = (
-                f"\n* Auto-generated PMOS model (no PMOS found in source)\n"
-                f".model {self._pmos} PMOS ( LEVEL=54 VERSION=4.5\n"
-                f"+ VTH0=-0.4 TOX=1.4e-9 U0=150 VSAT=80000\n"
-                f"+ RDSW=200 ETA0=0.08 PCLM=1.2 PDIBLC1=0.4 PDIBLC2=0.001\n"
-                f"+ DROUT=0.5 PSCBE1=5e8 PSCBE2=1e-5 PVAG=0.01 DELTA=0.01\n"
-                f"+ A0=1.1 AGS=0.25 A1=0 A2=1 B0=0 B1=0 K1=0.4\n"
-                f"+ K2=0.01 K3=0 K3B=0 W0=2.5e-6 DVT0=1.5 DVT1=0.45\n"
-                f"+ DVT2=0.02 DSUB=0.2 CIT=0 CDSC=2.4e-4 CDSCB=0 CDSCD=0\n"
-                f"+ NFACTOR=1.5 XJ=1e-8 LINT=1e-9 WINT=1e-9 DWG=0 DWB=0\n"
-                f"+ VOFF=-0.1 MINV=1 CKAPPA=0.6 CGDO=5e-10 CGSO=5e-10\n"
-                f"+ CGBO=1e-12 CJ=0.001 MJ=0.5 PB=0.9 CJSW=1e-10\n"
-                f"+ MJSW=0.33 PBSW=0.9 CF=0 PVTH0=0 PRDSW=0 PK2=0\n"
-                f"+ WKETA=0 LKETA=0 PU0=0 PUA=0 PUB=0\n"
-                f"+ TNOM=27 UTE=-1.5 KT1=-0.11 KT1L=0 KT2=0.022 UA1=4.31e-9\n"
-                f"+ UB1=-7.61e-18 UC1=-5.6e-11 AT=33000 PRT=0\n"
-                f"+ WL=0 WLN=1 WW=-1e-15 WWN=1 WWL=0 LL=0 LLN=1\n"
-                f"+ LW=0 LWN=1 LWL=0\n"
-                f"+ CAPMOD=2 XPART=0.5\n"
-                f"+ JSS=1e-7 JSWS=1e-12 JSWGS=1e-12 NJS=1 XTI=3\n"
-                f"+ CLC=0.1e-6 CLE=0.6 NOFF=1 VOFFCV=0\n"
-                f"+ )\n"
-            )
-            # Inject after the .inc line (inside simulator lang=spice section)
-            content = content.replace(
-                f".inc '{self.model_file}'",
-                f".inc '{self.model_file}'\n{pmos_model}"
-            )
+        if self._primary_is_pmos:
+            name = circuit_file.name.lower()
+
+            def flip_number(token: str) -> str:
+                value = float(token)
+                if value == 0.0:
+                    return token
+                # This adapter may receive a deck already normalized by the
+                # shared benchmark front end.  Keep PMOS biasing negative on
+                # repeated application instead of toggling its polarity.
+                return f"{-abs(value):g}"
+
+            if name.startswith('dc_'):
+                content = re.sub(
+                    r'(?im)^(\s*(?:sw_vgs|sw_vds_bias|sw_vgs_bias)\b.*)$',
+                    lambda match: re.sub(
+                        r'(?<![\w.-])([+]?(?:\d+(?:\.\d*)?|\.\d+))(?![\w.])',
+                        lambda number: flip_number(number.group(1)),
+                        match.group(1),
+                    ),
+                    content,
+                )
+                content = re.sub(
+                    r'(?im)^(\s*dc_(?:iv|bias)\b.*)$',
+                    lambda match: re.sub(
+                        r'\b(start|stop|step)=([+]?(?:\d+(?:\.\d*)?|\.\d+))',
+                        lambda number: (
+                            number.group(1) + "=" + flip_number(number.group(2))
+                        ),
+                        match.group(1),
+                    ),
+                    content,
+                )
+            elif name.startswith('ac_') or name in {'_sp.scs', '_nqs.scs'}:
+                content = re.sub(
+                    r'(?im)^(\s*V(?:G|D)\w*\b.*?\bDC\s+)([-+]?(?:\d+(?:\.\d*)?|\.\d+))',
+                    lambda match: match.group(1) + flip_number(match.group(2)),
+                    content,
+                )
+            elif name.startswith('transient_'):
+                selected_sources = r'(?:Vgs_tran|Vds_tran|Vgs_qs|Vds_qs|Vg_charge|Vd_charge)'
+                content = re.sub(
+                    rf'(?im)^(\s*{selected_sources}\b.*?\bdc=)([-+]?(?:\d+(?:\.\d*)?|\.\d+))',
+                    lambda match: match.group(1) + flip_number(match.group(2)),
+                    content,
+                )
+                content = re.sub(
+                    rf'(?im)^(\s*{selected_sources}\b.*\\\s*\n\s*val0=0\s+val1=)'
+                    r'([-+]?(?:\d+(?:\.\d*)?|\.\d+))',
+                    lambda match: match.group(1) + flip_number(match.group(2)),
+                    content,
+                )
+            elif name.startswith('noise_') or name.startswith('_noise_'):
+                content = re.sub(
+                    r'(?im)^(\s*V(?:dd|in|gs|ds)\w*\b.*?\bDC\s+)'
+                    r'([-+]?(?:\d+(?:\.\d*)?|\.\d+))',
+                    lambda match: match.group(1) + flip_number(match.group(2)),
+                    content,
+                )
 
         # Write to work directory
         work_path = self._work_dir / circuit_file.name
@@ -217,7 +336,7 @@ class SpectreRunner:
                     stderr=subprocess.PIPE,
                     env=self._env
                 )
-                stdout_b, stderr_b = process.communicate(timeout=600)
+                stdout_b, stderr_b = process.communicate()
                 stdout = stdout_b.decode('utf-8', errors='replace') if stdout_b else ''
                 stderr = stderr_b.decode('utf-8', errors='replace') if stderr_b else ''
 
@@ -274,9 +393,9 @@ class SpectreRunner:
         # Post-process
         raw_path = self.raw_dir / "dc"
         if raw_path.exists():
-            self.post_processor.process_dc(raw_path)
+            return self.post_processor.process_dc(raw_path)
 
-        return True
+        return False
 
     def run_ac_simulation(self) -> bool:
         if not self.ac_circuit_file or not self.ac_circuit_file.exists():
@@ -288,20 +407,11 @@ class SpectreRunner:
         if not self.run_simulation(circuit, "ac"):
             return False
 
-        # Run auxiliary SP and NQS netlists
-        aux_dir = self.ac_circuit_file.parent
-        for aux_name, tag in [("_sp.scs", "ac_sp"), ("_nqs.scs", "ac_nqs")]:
-            aux_path = aux_dir / aux_name
-            if aux_path.exists():
-                self.logger.logger.info(f"Running auxiliary {tag}...")
-                aux_prepared = self._prepare_circuit(aux_path)
-                self.run_simulation(aux_prepared, tag)
-
         raw_path = self.raw_dir / "ac"
         if raw_path.exists():
-            self.post_processor.process_ac(raw_path)
+            return self.post_processor.process_ac(raw_path)
 
-        return True
+        return False
 
     def run_transient_simulation(self) -> bool:
         if not self.transient_circuit_file or not self.transient_circuit_file.exists():
@@ -315,9 +425,9 @@ class SpectreRunner:
 
         raw_path = self.raw_dir / "transient"
         if raw_path.exists():
-            self.post_processor.process_transient(raw_path)
+            return self.post_processor.process_transient(raw_path)
 
-        return True
+        return False
 
     def run_noise_simulation(self) -> bool:
         if not self.noise_circuit_file or not self.noise_circuit_file.exists():
@@ -329,66 +439,11 @@ class SpectreRunner:
         if not self.run_simulation(circuit, "noise"):
             return False
 
-        # Run auxiliary noise netlists for all bias points and temperatures
-        aux_dir = self.noise_circuit_file.parent
-        self._run_aux_noise_netlists(aux_dir)
-
         raw_path = self.raw_dir / "noise"
         if raw_path.exists():
-            self.post_processor.process_noise(raw_path)
+            return self.post_processor.process_noise(raw_path)
 
-        return True
-
-    def _run_aux_noise_netlists(self, aux_dir: Path):
-        """Generate and run auxiliary noise netlists for all bias points and temps."""
-        model_inc = str(self.model_file) if self.model_file else "../../models/FreePDK45/nom.inc"
-        mname = self._nmos  # Use extracted NMOS model name
-
-        # 5 additional thermal noise bias points (Vgs=0.6,Vds=0.6 is in main netlist)
-        bias_points = [
-            ("0.3", "0.3"), ("0.3", "0.6"), ("0.3", "0.9"),
-            ("0.3", "1.2"), ("0.6", "0.3"),
-        ]
-        for vgs, vds in bias_points:
-            tag = f"noise_vgs{vgs}_vds{vds}"
-            netlist = (
-                f"simulator lang=spice\n"
-                f".option temp=27 tnom=27 gmin=1e-15\n"
-                f".include '{model_inc}'\n"
-                f"Vdd_n vdd_n 0 DC 1.2\n"
-                f"Vin_n in_n 0 DC {vgs} AC 1\n"
-                f"Rb_n in_n gate_n 1k\nRd_n vdd_n drain_n 10k\nRs_n source_n 0 100\n"
-                f"M_n drain_n gate_n source_n 0 {mname} L=0.045u W=10u\n"
-                f"Vgs_n gate_n source_n DC {vgs}\nVds_n drain_n source_n DC {vds}\n"
-                f".noise v(drain_n) Vin_n dec 20 1 1G\n"
-            )
-            self._run_aux_netlist(aux_dir, tag, netlist)
-
-        # Temperature noise at -40C and 100C (27C in main, others interpolated)
-        for temp in ["-40", "100"]:
-            tag = f"noise_t{temp}"
-            netlist = (
-                f"simulator lang=spice\n"
-                f".option temp={temp} tnom=27 gmin=1e-15\n"
-                f".include '{model_inc}'\n"
-                f"Vdd_n vdd_n 0 DC 1.2\n"
-                f"Vin_n in_n 0 DC 0.6 AC 1\n"
-                f"Rb_n in_n gate_n 1k\nRd_n vdd_n drain_n 10k\nRs_n source_n 0 100\n"
-                f"M_n drain_n gate_n source_n 0 {mname} L=0.045u W=10u\n"
-                f"Vgs_n gate_n source_n DC 0.6\nVds_n drain_n source_n DC 0.6\n"
-                f".noise v(drain_n) Vin_n dec 20 1 1G\n"
-            )
-            self._run_aux_netlist(aux_dir, tag, netlist)
-
-    def _run_aux_netlist(self, aux_dir: Path, tag: str, netlist_content: str):
-        """Write and run an auxiliary spectre netlist."""
-        scs_path = aux_dir / f"_{tag}.scs"
-        try:
-            with open(scs_path, 'w') as f:
-                f.write(netlist_content)
-            self.run_simulation(scs_path, tag)
-        except Exception as e:
-            self.logger.logger.warning(f"Aux netlist {tag} failed: {e}")
+        return False
 
     def run_simulations_by_mode(self, modes: List[str]) -> bool:
         """Run simulations based on selected modes."""

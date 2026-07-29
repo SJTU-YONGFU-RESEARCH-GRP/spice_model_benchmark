@@ -5,9 +5,25 @@ Reads Spectre's PSF ASCII format and generates the identical text files
 that the existing DataReader/PlotGenerator/VerificationManager pipeline expects.
 """
 import re
+import math
 import numpy as np
 from pathlib import Path
 from typing import Dict, List, Optional
+
+from .ac_metrics import polar, y_to_s
+
+
+class _CaseInsensitiveValues(dict):
+    """PSF signal mapping whose lookups are insensitive to simulator casing."""
+
+    def get(self, key, default=None):
+        if key in self:
+            return super().get(key, default)
+        lowered = str(key).lower()
+        for actual, value in self.items():
+            if str(actual).lower() == lowered:
+                return value
+        return default
 
 
 class SpectrePostProcessor:
@@ -120,6 +136,11 @@ class SpectrePostProcessor:
                     continue
                 # Value entry: "name" number
                 m = re.match(r'"([^"]*)"\s+([\d.eE+\-]+)', stripped)
+                if m is None:
+                    m = re.match(
+                        r'"([^"]*)"\s+"[^"]+"\s+([\d.eE+\-]+)',
+                        stripped,
+                    )
                 if m:
                     tname = m.group(1)
                     try:
@@ -138,13 +159,15 @@ class SpectrePostProcessor:
                 break
         if n_steps == 0 and trace_names:
             n_steps = len(values_raw.get(trace_names[0], []))
+        if n_steps == 0 and values_raw:
+            n_steps = max(len(values) for values in values_raw.values())
 
         # Convert to numpy arrays, truncating to n_steps
         result = {
             'header': header,
             'trace_names': trace_names,
             'trace_types': trace_types,
-            'values': {},
+            'values': _CaseInsensitiveValues(),
             'n_steps': n_steps,
         }
         # Copy all parsed values (including time/dc from SWEEP section)
@@ -174,6 +197,20 @@ class SpectrePostProcessor:
 
         # ---- IV Sweep Files ----
         dc_files = sorted(raw_dir.glob("sw_temp-*_sw_vgs-*_dc_iv.dc"))
+        generated_names = False
+        short_names = False
+        if not dc_files:
+            dc_files = sorted(raw_dir.glob(
+                "benchmark_temp_*-*_benchmark_dc_*_outer-*_benchmark_dc_*.dc"
+            ))
+            if not dc_files:
+                dc_files = sorted(raw_dir.glob(
+                    "benchmark_dc_*_outer-*_benchmark_dc_*.dc"
+                ))
+            generated_names = bool(dc_files)
+        if not dc_files:
+            dc_files = sorted(raw_dir.glob("t*-*_x*_outer-*_x*.dc"))
+            short_names = bool(dc_files)
         if not dc_files:
             self.logger.logger.error("No DC IV sweep files found")
             return False
@@ -182,7 +219,18 @@ class SpectrePostProcessor:
         # File: sw_temp-TIDX_sw_vgs-GIDX_dc_iv.dc
         temp_groups: Dict[int, Dict[int, Path]] = {}
         for f in dc_files:
-            m = re.match(r'sw_temp-(\d+)_sw_vgs-(\d+)_dc_iv\.dc', f.name)
+            if short_names:
+                m = re.match(
+                    r't(\d+)-\d+_x\d+_outer-(\d+)_x\d+\.dc',
+                    f.name,
+                )
+            elif generated_names:
+                m = re.search(
+                    r'benchmark_dc_(\d+)_outer-(\d+)_benchmark_dc_\d+\.dc',
+                    f.name,
+                )
+            else:
+                m = re.match(r'sw_temp-(\d+)_sw_vgs-(\d+)_dc_iv\.dc', f.name)
             if m:
                 tidx = int(m.group(1))
                 gidx = int(m.group(2))
@@ -195,7 +243,9 @@ class SpectrePostProcessor:
 
             # Write combined output with ngspice-compatible header
             # Header: v-sweep v(drain_iv) v(gate_iv) id is ib ig kcl
-            out_lines = ["v-sweep v(drain_iv) v(gate_iv) id is ib ig kcl\n"]
+            out_lines = [
+                "v-sweep v(drain_iv) v(gate_iv) id is ib ig kcl\n"
+            ]
             sweep_idx = 0
             for gidx in sorted(vgs_files.keys()):
                 f = vgs_files[gidx]
@@ -222,10 +272,15 @@ class SpectrePostProcessor:
 
                 for j in range(n):
                     vd = vds[j] if j < len(vds) else 0.0
-                    id_val = -id_[j] if j < len(id_) else 0.0
-                    is_val = -is_[j] if j < len(is_) else 0.0
-                    ib_val = -ib_[j] if j < len(ib_) else 0.0
-                    ig_val = -ig_[j] if j < len(ig_) else 0.0
+                    # PSF ``Vsource:p`` is already the current entering the
+                    # positive terminal of that source, which is the same
+                    # terminal-current convention used by the canonical
+                    # ngspice/HSPICE data schema.  Negating it here mirrored
+                    # every Spectre DC, bias, and temperature curve.
+                    id_val = id_[j] if j < len(id_) else 0.0
+                    is_val = is_[j] if j < len(is_) else 0.0
+                    ib_val = ib_[j] if j < len(ib_) else 0.0
+                    ig_val = ig_[j] if j < len(ig_) else 0.0
                     kcl = abs(id_val + is_val + ig_val + ib_val)
                     out_lines.append(
                         f" {sweep_idx:.10e}  {vd:.10e}  {vgs_val:.10e}  "
@@ -240,7 +295,10 @@ class SpectrePostProcessor:
             elif temp is not None:
                 temp_name = f"{temp:.0f}"
             else:
-                temp_map = {0: "-40", 1: "0", 2: "25", 3: "50", 4: "100", 5: "150"}
+                temp_map = {
+                    0: "-40", 1: "0", 2: "25",
+                    3: "50", 4: "100", 5: "150",
+                }
                 temp_name = temp_map.get(tidx, f"{tidx}")
 
             out_path = self.data_dir / f"iv_data_{temp_name}.txt"
@@ -257,6 +315,8 @@ class SpectrePostProcessor:
     def _process_dc_bias(self, raw_dir: Path):
         """Process bias point sweep files."""
         bias_files = sorted(raw_dir.glob("sw_bias-000_sw_vds_bias-*_sw_vgs_bias-*_dc_bias.dc"))
+        if not bias_files:
+            bias_files = sorted(raw_dir.glob("*op*.dc"))
         if not bias_files:
             self.logger.logger.info("  No dedicated bias files, extracting from IV data")
             self._extract_bias_from_iv()
@@ -277,10 +337,10 @@ class SpectrePostProcessor:
             # Get the first (and only) point
             vd_val = float(vd[0]) if len(vd) > 0 else 0.0
             vg_val = float(vg[0]) if len(vg) > 0 else 0.0
-            id_val = -float(id_[0]) if len(id_) > 0 else 0.0
-            is_val = -float(is_[0]) if len(is_) > 0 else 0.0
-            ib_val = -float(ib_[0]) if len(ib_) > 0 else 0.0
-            ig_val = -float(ig_[0]) if len(ig_) > 0 else 0.0
+            id_val = float(id_[0]) if len(id_) > 0 else 0.0
+            is_val = float(is_[0]) if len(is_) > 0 else 0.0
+            ib_val = float(ib_[0]) if len(ib_) > 0 else 0.0
+            ig_val = float(ig_[0]) if len(ig_) > 0 else 0.0
 
             out_lines.append(
                 f"{vd_val:.10e} {vg_val:.10e} {id_val:.10e} "
@@ -300,7 +360,7 @@ class SpectrePostProcessor:
         for temp in ['25', '27', '0']:
             iv_file = self.data_dir / f"iv_data_{temp}.txt"
             if iv_file.exists():
-                data = np.loadtxt(iv_file)
+                data = np.loadtxt(iv_file, skiprows=1)
                 bias_pts = [
                     (0.0, 0.0), (0.0, 0.6), (0.0, 1.2),
                     (0.6, 0.0), (0.6, 0.6), (0.6, 1.2),
@@ -310,12 +370,17 @@ class SpectrePostProcessor:
                 with open(out_path, 'w') as f:
                     f.write("v(drain_bias) v(gate_bias) id_bias ig_bias is_bias ib_bias\n")
                     for vds, vgs in bias_pts:
-                        mask = (np.abs(data[:, 0] - vds) < 0.001) & (np.abs(data[:, 1] - vgs) < 0.001)
+                        mask = (
+                            (np.abs(data[:, 1] - vds) < 0.001)
+                            & (np.abs(data[:, 2] - vgs) < 0.001)
+                        )
                         row = data[mask]
                         if len(row) > 0:
                             r = row[0]
-                            f.write(f"{r[0]:.10e} {r[1]:.10e} {r[2]:.10e} "
-                                    f"{r[5]:.10e} {r[3]:.10e} {r[4]:.10e}\n")
+                            f.write(
+                                f"{r[1]:.10e} {r[2]:.10e} {r[3]:.10e} "
+                                f"{r[6]:.10e} {r[4]:.10e} {r[5]:.10e}\n"
+                            )
                 self.logger.logger.info(f"  Written (from IV): {out_path}")
                 return
 
@@ -351,154 +416,188 @@ class SpectrePostProcessor:
     # ====================================================================
 
     def process_ac(self, raw_dir: Path) -> bool:
-        """Process AC results from multi-instance parallel netlist.
-
-        Main AC: CV data (41 Vg points) + charge conservation.
-        Aux SP/NQS: from sibling raw directories.
-        """
+        """Extract every AC metric from its corresponding AST analysis case."""
         self.logger.logger.info("Post-processing Spectre AC output...")
         raw_dir = Path(raw_dir)
-        raw_parent = raw_dir.parent  # spectre_raw/ directory
         vg_values = [-0.8 + i * 0.05 for i in range(41)]
-        omega = 2 * np.pi * 1e6
 
-        # ---- CV Data Extraction ----
-        ac_files = sorted(raw_dir.glob("frequencySweep.ac"))
-        if not ac_files:
-            ac_files = sorted(raw_dir.glob("*.ac"))
-        if ac_files:
-            # Parse AC file manually to extract complex branch currents
-            # PSF format: "name" (real imag) for complex values
-            ac_data = self._parse_ac_complex(ac_files[0])
-            freq_val = ac_data.get('freq', 1e6)
-            omega = 2 * np.pi * freq_val
+        def find_case_file(case, suffix=".ac"):
+            matches = sorted(raw_dir.glob(f"*x{case}{suffix}"))
+            if len(matches) != 1:
+                raise ValueError(
+                    "expected one Spectre result for AST case %d, found %d"
+                    % (case, len(matches))
+                )
+            return matches[0]
 
-            out_path = self.data_dir / "cv_data.txt"
-            with open(out_path, 'w') as f:
-                f.write("Vg Cgg_1kHz Cgg_10kHz Cgg_100kHz Cgg_1MHz Cgb_1MHz Cgs_1MHz Cgd_1MHz\n")
-                for i, vg in enumerate(vg_values):
-                    vg_key = f"VG{i}:p"
-                    vd_key = f"VD{i}:p"
-                    vs_key = f"VS{i}:p"
-                    vb_key = f"VB{i}:p"
+        def value(mapping, name, expected_type=None):
+            lowered = name.lower()
+            matches = [
+                item for key, item in mapping.items()
+                if str(key).lower() == lowered
+            ]
+            if len(matches) != 1:
+                raise ValueError(f"missing Spectre signal {name}")
+            result = matches[0]
+            if expected_type is not None and not isinstance(
+                result, expected_type
+            ):
+                raise ValueError(
+                    f"Spectre signal {name} has wrong value type"
+                )
+            return result
 
-                    ig = ac_data.get(vg_key, 0j)
-                    id_ = ac_data.get(vd_key, 0j)
-                    is_ = ac_data.get(vs_key, 0j)
-                    ib = ac_data.get(vb_key, 0j)
+        def ac_case(case, frequency):
+            result = self._parse_ac_complex(find_case_file(case))
+            actual = float(value(result, "freq"))
+            if abs(actual - frequency) > max(abs(frequency), 1.0) * 1e-9:
+                raise ValueError(
+                    "Spectre AST case %d frequency %.10g != %.10g"
+                    % (case, actual, frequency)
+                )
+            return result
 
-                    cgg = abs(-ig.imag / omega) if omega > 0 else 0
-                    cgd = abs(-id_.imag / omega) if omega > 0 else 0
-                    cgs = abs(-is_.imag / omega) if omega > 0 else 0
-                    cgb = abs(-ib.imag / omega) if omega > 0 else 0
-                    f.write(f"{vg:.6e} {cgg:.6e} {cgg:.6e} {cgg:.6e} {cgg:.6e} "
-                            f"{cgb:.6e} {cgs:.6e} {cgd:.6e}\n")
-            self.logger.logger.info(f"  Written: {out_path} ({len(vg_values)} points)")
-            # Save for cmatrix
-            self._ac_data = ac_data
-            self._ac_freq = freq_val
-        else:
-            self._ac_data = {}
-            self._ac_freq = 1e6
+        cv_lines = [
+            "Vg Cgg_1kHz Cgg_10kHz Cgg_100kHz Cgg_1MHz "
+            "Cgb_1MHz Cgs_1MHz Cgd_1MHz"
+        ]
+        matrix_lines = [
+            "Vg Cgg Cdg Csg Cbg Cgd Cdd Csd Cbd "
+            "Cgs Cds Css Cbs Cgb Cdb Csb Cbb"
+        ]
+        for gate_index, gate_voltage in enumerate(vg_values):
+            base = gate_index * 8
+            capacitances = []
+            for offset, frequency in enumerate((1e3, 1e4, 1e5, 1e6)):
+                result = ac_case(base + offset, frequency)
+                capacitances.append(
+                    -value(result, "vg:p", complex).imag
+                    / (2.0 * math.pi * frequency)
+                )
+            matrix_columns = []
+            for column in range(4):
+                result = ac_case(base + 4 + column, 1e6)
+                matrix_columns.append([
+                    -value(result, source + ":p", complex).imag
+                    / (2.0 * math.pi * 1e6)
+                    for source in ("vg", "vd", "vs", "vb")
+                ])
+            cv_lines.append(
+                f"{gate_voltage:.6e} "
+                + " ".join(f"{item:.6e}" for item in capacitances)
+                + " "
+                + " ".join(
+                    f"{matrix_columns[0][index]:.6e}"
+                    for index in (3, 2, 1)
+                )
+            )
+            matrix_lines.append(
+                f"{gate_voltage:.6e} "
+                + " ".join(
+                    f"{item:.6e}"
+                    for column in matrix_columns
+                    for item in column
+                )
+            )
+        (self.data_dir / "cv_data.txt").write_text(
+            "\n".join(cv_lines) + "\n"
+        )
+        (self.data_dir / "cmatrix_data.txt").write_text(
+            "\n".join(matrix_lines) + "\n"
+        )
 
-        # ---- Capacitance Matrix ----
-        out_path = self.data_dir / "cmatrix_data.txt"
-        with open(out_path, 'w') as f:
-            f.write("Vg Cgg Cdg Csg Cbg Cgd Cdd Csd Cbd Cgs Cds Css Cbs Cgb Cdb Csb Cbb\n")
-            ac_data = getattr(self, '_ac_data', {})
-            omega = 2 * np.pi * getattr(self, '_ac_freq', 1e6)
-            for i, vg in enumerate(vg_values):
-                vg_k = f"VG{i}:p"; vd_k = f"VD{i}:p"
-                vs_k = f"VS{i}:p"; vb_k = f"VB{i}:p"
-                ig = ac_data.get(vg_k, 0j); id_ = ac_data.get(vd_k, 0j)
-                is_ = ac_data.get(vs_k, 0j); ib = ac_data.get(vb_k, 0j)
-                cgg = abs(-ig.imag / omega) if omega > 0 else 0
-                cgd = abs(-id_.imag / omega) if omega > 0 else 0
-                cgs = abs(-is_.imag / omega) if omega > 0 else 0
-                cgb = abs(-ib.imag / omega) if omega > 0 else 0
-                f.write(f"{vg:.6e} {cgg:.6e} 0 0 0 {cgd:.6e} 0 0 0 {cgs:.6e} 0 0 0 {cgb:.6e} 0 0 0\n")
-        self.logger.logger.info(f"  Written: {out_path} ({len(vg_values)} points)")
+        sparameter_lines = [
+            "# S-parameter analysis",
+            "# freq s11_mag s11_phase s12_mag s12_phase "
+            "s21_mag s21_phase s22_mag s22_phase",
+        ]
+        for offset, frequency in enumerate((1e6, 1e7, 1e8, 1e9)):
+            gate = ac_case(328 + 2 * offset, frequency)
+            drain = ac_case(329 + 2 * offset, frequency)
+            gate_voltage = value(gate, "gate_in2", complex)
+            drain_voltage = value(drain, "drain_in2", complex)
+            if abs(gate_voltage) < 1e-15 or abs(drain_voltage) < 1e-15:
+                raise ValueError(
+                    f"zero Spectre S-parameter excitation at {frequency:g} Hz"
+                )
+            y11 = -value(gate, "vgs:p", complex) / gate_voltage
+            y21 = -value(gate, "vds:p", complex) / gate_voltage
+            y12 = -value(drain, "vgs:p", complex) / drain_voltage
+            y22 = -value(drain, "vds:p", complex) / drain_voltage
+            s11, s12, s21, s22 = y_to_s(y11, y12, y21, y22)
+            fields = [
+                *polar(s11), *polar(s12),
+                *polar(s21), *polar(s22),
+            ]
+            sparameter_lines.append(
+                f"{frequency:.6e} "
+                + " ".join(f"{item:.6e}" for item in fields)
+            )
+        (self.data_dir / "sparams_data.txt").write_text(
+            "\n".join(sparameter_lines) + "\n"
+        )
 
-        # ---- S-parameters from auxiliary SP run ----
-        out_path = self.data_dir / "sparams_data.txt"
-        if out_path.exists() and out_path.stat().st_size > 100:
-            self.logger.logger.info(f"  Keeping existing: {out_path.name}")
-            freqs = []
-        else:
-            sp_raw = raw_parent / "ac_sp"
-            sp_ac_files = sorted(sp_raw.glob("*.ac")) if sp_raw.exists() else []
-            if sp_ac_files:
-                sp_data = self._parse_ac_complex(sp_ac_files[0])
-                freqs = sorted([sp_data[k] for k in sp_data if isinstance(sp_data[k], float)])
-            else:
-                freqs = []
-        with open(out_path, 'w') as f:
-            f.write("# S-parameter analysis\n")
-            f.write("# freq s11_mag s11_phase s12_mag s12_phase s21_mag s21_phase s22_mag s22_phase\n")
-            if freqs:
-                Z0 = 50
-                for freq in freqs:
-                    f.write(f"{freq:.6e} 0 0 0 0 0 0 0 0\n")
-            else:
-                for freq in [1e6, 1e7, 1e8, 1e9]:
-                    f.write(f"{freq:.6e} 0 0 0 0 0 0 0 0\n")
-        self.logger.logger.info(f"  Written: {out_path} ({len(freqs)} points)")
+        nqs_lines = [
+            "# Non-quasi-static effects analysis - phase shifts",
+            "# freq vg_phase id_phase phase_diff",
+        ]
+        for offset, frequency in enumerate((1e7, 1e8, 1e9, 1e10)):
+            result = ac_case(336 + offset, frequency)
+            gate_phase = math.degrees(
+                math.atan2(
+                    value(result, "gate_1", complex).imag,
+                    value(result, "gate_1", complex).real,
+                )
+            )
+            drain_phase = math.degrees(
+                math.atan2(
+                    value(result, "vd:p", complex).imag,
+                    value(result, "vd:p", complex).real,
+                )
+            )
+            nqs_lines.append(
+                f"{frequency:.6e} {gate_phase:.6e} "
+                f"{drain_phase:.6e} "
+                f"{(gate_phase - drain_phase):.6e}"
+            )
+        (self.data_dir / "nqs_effects.txt").write_text(
+            "\n".join(nqs_lines) + "\n"
+        )
 
-        # ---- NQS Effects from auxiliary NQS run ----
-        out_path = self.data_dir / "nqs_effects.txt"
-        if out_path.exists() and out_path.stat().st_size > 100:
-            self.logger.logger.info(f"  Keeping existing: {out_path.name}")
-            nqs_freqs = []
-        else:
-            nqs_raw = raw_parent / "ac_nqs"
-            nqs_ac_files = sorted(nqs_raw.glob("*.ac")) if nqs_raw.exists() else []
-            if nqs_ac_files:
-                nqs_data = self._parse_ac_complex(nqs_ac_files[0])
-                if nqs_data:
-                    nqs_freqs = sorted([nqs_data[k] for k in nqs_data if isinstance(nqs_data[k], float)])
-                else:
-                    nqs_freqs = []
-            else:
-                nqs_freqs = []
-        with open(out_path, 'w') as f:
-            f.write("# Non-quasi-static effects analysis - phase shifts\n")
-            f.write("# freq vg_phase id_phase phase_diff\n")
-            if nqs_freqs:
-                for freq in nqs_freqs:
-                    f.write(f"{freq:.6e} 0 0 0\n")
-            else:
-                for freq in [1e7, 1e8, 1e9, 1e10]:
-                    f.write(f"{freq:.6e} 0 0 0\n")
-        self.logger.logger.info(f"  Written: {out_path} ({len(nqs_freqs)} points)")
-
-        # ---- Charge Conservation ----
-        tr_files = sorted(raw_dir.glob("timeSweep.tran.tran"))
-        if not tr_files:
-            tr_files = sorted(raw_dir.glob("*.tran*"))
-        if tr_files:
-            data = self._parse_psf_dc_groups(tr_files[0])
-            vals = data['values']
-            time = vals.get('time', np.array([]))
-            vg = vals.get('gcc', np.array([]))
-            ig = vals.get('VGQ:p', np.array([]))
-            id_ = vals.get('VDQ:p', np.array([]))
-            is_ = vals.get('VSQ:p', np.array([]))
-            ib = vals.get('VBQ:p', np.array([]))
-            n = min(len(time), len(vg), len(ig), len(id_), len(is_), len(ib))
-            out_path = self.data_dir / "charge_conservation.txt"
-            with open(out_path, 'w') as f:
-                for j in range(n):
-                    f.write(f"{time[j]:.10e} {vg[j]:.10e} {ig[j]:.10e} "
-                            f"{id_[j]:.10e} {is_[j]:.10e} {ib[j]:.10e}\n")
-            self.logger.logger.info(f"  Written: {out_path} ({n} points)")
-        else:
-            self._ensure_file("charge_conservation.txt", "")
+        charge_file = find_case_file(340, ".tran.tran")
+        values = self._parse_psf_dc_groups(charge_file)["values"]
+        required = ("time", "gate_3", "vgq:p", "vdq:p", "vsq:p", "vbq:p")
+        arrays = []
+        for name in required:
+            item = values.get(name)
+            if item is None:
+                raise ValueError(f"missing Spectre charge signal {name}")
+            arrays.append(item)
+        count = min(len(item) for item in arrays)
+        if count < 2:
+            raise ValueError("insufficient Spectre charge samples")
+        out_path = self.data_dir / "charge_conservation.txt"
+        with out_path.open("w") as stream:
+            stream.write("Title: Spectre charge conservation analysis\n")
+            stream.write("Plotname: Transient Analysis\nFlags: real\n")
+            stream.write("No. Variables: 6\n")
+            stream.write(f"No. Points: {count}\nVariables:\n")
+            stream.write("\t0\ttime\ttime\n\t1\tv(gate_3)\tvoltage\n")
+            stream.write(
+                "\t2\ti(vgq)\tcurrent\n\t3\ti(vdq)\tcurrent\n"
+                "\t4\ti(vsq)\tcurrent\n\t5\ti(vbq)\tcurrent\nValues:\n"
+            )
+            for index in range(count):
+                stream.write(f" {index}\t{arrays[0][index]:.10e}\n")
+                for signal in arrays[1:]:
+                    stream.write(f"\t{signal[index]:.10e}\n")
+                stream.write("\n")
 
         self.logger.logger.info("AC post-processing complete.")
         return True
 
     # ====================================================================
-    # Transient Post-Processing (placeholder)
+    # Transient Post-Processing
     # ====================================================================
 
     def process_transient(self, raw_dir: Path) -> bool:
@@ -514,6 +613,25 @@ class SpectrePostProcessor:
                              voltage_cols: list, current_cols: list):
             """Parse a transient PSF file and write ngspice-compatible text."""
             psf_files = sorted(raw_dir.glob(psf_name))
+            generated_index = {
+                "tran_ls.tran.tran": 0,
+                "tran_sw.tran.tran": 1,
+                "tran_delay.tran.tran": 2,
+                "sw_pwr_27-000_tran_pwr_27.tran.tran": 3,
+                "sw_pwr_100-000_tran_pwr_100.tran.tran": 4,
+                "tran_qs.tran.tran": 5,
+                "tran_charge.tran.tran": 6,
+            }.get(psf_name)
+            if not psf_files and generated_index is not None:
+                psf_files = sorted(
+                    raw_dir.glob(f"*x{generated_index}.tran.tran")
+                )
+                if not psf_files:
+                    psf_files = sorted(
+                        raw_dir.glob(
+                            f"benchmark_tran_{generated_index}.tran.tran"
+                        )
+                    )
             if not psf_files:
                 self.logger.logger.warning(f"  No PSF for {out_name} ({psf_name})")
                 return False
@@ -521,10 +639,12 @@ class SpectrePostProcessor:
             vals = data['values']
 
             # Build time array
-            time = vals.get('time', np.array([]))
+            time = vals.get('time')
+            if time is None:
+                raise ValueError(f"missing Spectre time signal for {out_name}")
             n = len(time)
             if n == 0:
-                return False
+                raise ValueError(f"empty Spectre transient result for {out_name}")
 
             # Build header and data columns
             col_names = ["time", "time"]
@@ -533,17 +653,21 @@ class SpectrePostProcessor:
             for vcol in voltage_cols:
                 key = vcol  # e.g., "gate_tran"
                 col_names.append(f"v({key})")
-                arr = vals.get(key, np.zeros(n))
-                if len(arr) < n:
-                    arr = np.pad(arr, (0, n - len(arr)), constant_values=0)
+                arr = vals.get(key)
+                if arr is None or len(arr) != n:
+                    raise ValueError(
+                        f"missing/incomplete Spectre signal {key} for {out_name}"
+                    )
                 arrays.append(arr[:n])
 
             for ccol in current_cols:
                 key = ccol  # e.g., "Vds_tran:p"
                 col_names.append(f"i({key.replace(':p', '')})")
-                arr = vals.get(key, np.zeros(n))
-                if len(arr) < n:
-                    arr = np.pad(arr, (0, n - len(arr)), constant_values=0)
+                arr = vals.get(key)
+                if arr is None or len(arr) != n:
+                    raise ValueError(
+                        f"missing/incomplete Spectre signal {key} for {out_name}"
+                    )
                 arrays.append(arr[:n])
 
             # Write file matching ngspice wrdata format
@@ -557,23 +681,30 @@ class SpectrePostProcessor:
             return True
 
         # ---- 1. Large-Signal Transient ----
-        _write_tran_file("tran_ls.tran.tran", "tran_large_signal.txt",
-                         ["gate_tran", "drain_tran"],
-                         ["Vds_tran:p", "Vgs_tran:p", "Vs_tran:p", "Vb_tran:p"])
+        ok = _write_tran_file(
+            "tran_ls.tran.tran", "tran_large_signal.txt",
+            ["gate_tran", "drain_tran"],
+            ["Vds_tran:p", "Vgs_tran:p", "Vs_tran:p", "Vb_tran:p"],
+        )
 
         # ---- 2. Switching Response ----
-        _write_tran_file("tran_sw.tran.tran", "tran_switching.txt",
-                         ["in_inv", "out_inv"],
-                         ["Vdd_inv:p"])
+        ok &= _write_tran_file(
+            "tran_sw.tran.tran", "tran_switching.txt",
+            ["in_inv", "out_inv"], ["Vdd_inv:p"],
+        )
 
         # ---- 3. Switching Power (computed) ----
         sw_files = sorted(raw_dir.glob("tran_sw.tran.tran"))
+        if not sw_files:
+            sw_files = sorted(raw_dir.glob("*x1.tran.tran"))
         if sw_files:
             data = self._parse_psf_dc_groups(sw_files[0])
             vals = data['values']
-            time = vals.get('time', np.array([]))
-            vdd = vals.get('vdd_inv', np.zeros(len(time)) if len(time) > 0 else np.array([]))
-            ivdd = vals.get('Vdd_inv:p', np.zeros(len(time)) if len(time) > 0 else np.array([]))
+            time = vals.get('time')
+            vdd = vals.get('vdd_inv')
+            ivdd = vals.get('Vdd_inv:p')
+            if time is None or vdd is None or ivdd is None:
+                raise ValueError("missing Spectre switching-power signal")
             n = min(len(time), len(vdd), len(ivdd))
             if n > 0:
                 power = -np.array(vdd[:n]) * np.array(ivdd[:n])
@@ -583,128 +714,138 @@ class SpectrePostProcessor:
                     for j in range(n):
                         f.write(f" {time[j]:.10e} {time[j]:.10e} {power[j]:.10e}\n")
                 self.logger.logger.info(f"  Written: {out_path} ({n} points)")
+            else:
+                raise ValueError("empty Spectre switching-power result")
+        else:
+            raise ValueError("missing Spectre switching-power PSF")
 
         # ---- 4. Delay Effect ----
-        _write_tran_file("tran_delay.tran.tran", "tran_delay.txt",
-                         ["in_delay", "mid1_delay", "mid2_delay", "out_delay"],
-                         [])
+        ok &= _write_tran_file(
+            "tran_delay.tran.tran", "tran_delay.txt",
+            ["in_delay", "mid1_delay", "mid2_delay", "out_delay"], [],
+        )
 
         # ---- 5 & 6. Power Dissipation at 27C and 100C ----
         for temp_tag, psf_pat in [("27C", "sw_pwr_27-000_tran_pwr_27.tran.tran"),
                                    ("100C", "sw_pwr_100-000_tran_pwr_100.tran.tran")]:
             psf_files = sorted(raw_dir.glob(psf_pat))
-            if psf_files:
-                data = self._parse_psf_dc_groups(psf_files[0])
-                vals = data['values']
-                time = vals.get('time', np.array([]))
-                vin = vals.get('in_power', np.array([]))
-                vout = vals.get('out_power', np.array([]))
-                idd = vals.get('Vdd_power:p', np.array([]))
-                n = min(len(time), len(vin), len(vout), len(idd))
-                if n > 0:
-                    vdd_power = 1.2  # VDD = 1.2V
-                    power_diss = -vdd_power * np.array(idd[:n])
-                    # Energy = cumulative integral
-                    energy = np.cumsum(power_diss) * (time[1] - time[0]) if n > 1 else np.zeros(n)
-                    out_path = self.data_dir / f"tran_power_{temp_tag}.txt"
-                    with open(out_path, 'w') as f:
-                        f.write(" time time v(in_power) v(out_power) power_diss energy\n")
-                        for j in range(n):
-                            f.write(f" {time[j]:.10e} {time[j]:.10e} "
-                                    f"{vin[j]:.10e} {vout[j]:.10e} "
-                                    f"{power_diss[j]:.10e} {energy[j]:.10e}\n")
-                    self.logger.logger.info(f"  Written: {out_path} ({n} points)")
+            if not psf_files:
+                generated_index = 3 if temp_tag == "27C" else 4
+                psf_files = sorted(
+                    raw_dir.glob(f"*x{generated_index}.tran.tran")
+                )
+            if not psf_files:
+                raise ValueError(
+                    f"missing Spectre power PSF for {temp_tag}"
+                )
+            data = self._parse_psf_dc_groups(psf_files[0])
+            vals = data['values']
+            required = (
+                "time",
+                "in_power",
+                "out_power",
+                "vdd_power",
+                "Vdd_power:p",
+            )
+            arrays = [vals.get(name) for name in required]
+            if any(item is None for item in arrays):
+                raise ValueError(
+                    f"missing Spectre power signal for {temp_tag}"
+                )
+            time, vin, vout, vdd, idd = arrays
+            n = min(len(item) for item in arrays)
+            if n < 2:
+                raise ValueError(
+                    f"empty Spectre power result for {temp_tag}"
+                )
+            power_diss = (
+                -np.asarray(vdd[:n]) * np.asarray(idd[:n])
+            )
+            energy = np.zeros(n)
+            for index in range(1, n):
+                energy[index] = (
+                    energy[index - 1]
+                    + 0.5
+                    * (power_diss[index] + power_diss[index - 1])
+                    * (time[index] - time[index - 1])
+                )
+            out_path = self.data_dir / f"tran_power_{temp_tag}.txt"
+            with open(out_path, 'w') as f:
+                f.write(" time time v(in_power) v(out_power) power_diss energy\n")
+                for j in range(n):
+                    f.write(f" {time[j]:.10e} {time[j]:.10e} "
+                            f"{vin[j]:.10e} {vout[j]:.10e} "
+                            f"{power_diss[j]:.10e} {energy[j]:.10e}\n")
+            self.logger.logger.info(f"  Written: {out_path} ({n} points)")
 
         # ---- 7. Quasi-Static ----
-        _write_tran_file("tran_qs.tran.tran", "tran_quasi_static.txt",
-                         ["gate_qs", "drain_qs"],
-                         ["Vds_qs:p"])
+        ok &= _write_tran_file(
+            "tran_qs.tran.tran", "tran_quasi_static.txt",
+            ["gate_qs", "drain_qs"], ["Vds_qs:p"],
+        )
 
         # ---- 8. Charge Conservation ----
-        _write_tran_file("tran_charge.tran.tran", "tran_charge.txt",
-                         ["gate_charge"],
-                         ["Vg_charge:p", "Vd_charge:p", "Vs_charge:p", "Vb_charge:p"])
+        ok &= _write_tran_file(
+            "tran_charge.tran.tran", "tran_charge.txt",
+            ["gate_charge"],
+            ["Vg_charge:p", "Vd_charge:p", "Vs_charge:p", "Vb_charge:p"],
+        )
 
         self.logger.logger.info("Transient post-processing complete.")
-        return True
+        return bool(ok)
 
     # ====================================================================
-    # Noise Post-Processing (placeholder)
+    # Noise Post-Processing
     # ====================================================================
 
     def process_noise(self, raw_dir: Path) -> bool:
-        """Process noise from main and auxiliary spectre noise runs.
-
-        Main run: Vgs=0.6, Vds=0.6 at 27C
-        Aux runs: 5 other bias points + 2 temperature extremes
-        """
+        """Extract every noise setup directly from its AST analysis case."""
         self.logger.logger.info("Post-processing Spectre noise output...")
         raw_dir = Path(raw_dir)
-        raw_parent = raw_dir.parent
 
-        # Helper: extract noise from a raw subdirectory
-        def _extract_noise(subdir_name: str):
-            sub = raw_parent / subdir_name
-            nf = sorted(sub.glob("*.noise")) if sub.exists() else []
-            if nf:
-                return self._parse_noise_psf(nf[0])
-            return np.array([]), np.array([])
+        def case(case_index):
+            files = sorted(raw_dir.glob(f"*x{case_index}.noise"))
+            if len(files) != 1:
+                raise ValueError(
+                    "expected one Spectre noise result for AST case %d, "
+                    "found %d" % (case_index, len(files))
+                )
+            frequency, density = self._parse_noise_psf(files[0])
+            if len(frequency) < 2 or len(density) != len(frequency):
+                raise ValueError(
+                    f"invalid Spectre noise result for AST case {case_index}"
+                )
+            return frequency, density
 
-        # ---- Main noise run: Vgs=0.6, Vds=0.6 at 27C ----
-        freq_main, noise_main = _extract_noise("noise")
-        if len(freq_main) == 0:
-            noise_files = sorted(raw_dir.glob("*.noise"))
-            if noise_files:
-                freq_main, noise_main = self._parse_noise_psf(noise_files[0])
-        n = len(freq_main)
-        if n == 0:
-            self.logger.logger.warning("  No main noise data found")
-            return False
+        biases = (
+            ("0.3", "0.3"), ("0.3", "0.6"), ("0.3", "0.9"),
+            ("0.3", "1.2"), ("0.6", "0.3"), ("0.6", "0.6"),
+        )
+        for case_index, (vgs, vds) in enumerate(biases):
+            frequency, density = case(case_index)
+            output = (
+                self.data_dir
+                / f"thermal_noise_vgs{vgs}_vds{vds}.txt"
+            )
+            self._write_noise_file(output, frequency, density)
 
-        # Write thermal noise @ Vgs=0.6, Vds=0.6
-        out_path = self.data_dir / "thermal_noise_vgs0.6_vds0.6.txt"
-        self._write_noise_file(out_path, freq_main, noise_main)
-        self.logger.logger.info(f"  Written: {out_path.name} ({n} pts, {noise_main[0]:.2e} V/rtHz)")
+        for case_index, filename in (
+            (6, "flicker_noise.txt"), (7, "shot_noise.txt")
+        ):
+            frequency, density = case(case_index)
+            self._write_noise_file(
+                self.data_dir / filename, frequency, density
+            )
 
-        # ---- 5 other bias points from auxiliary runs ----
-        aux_bias = [("0.3", "0.3"), ("0.3", "0.6"), ("0.3", "0.9"),
-                     ("0.3", "1.2"), ("0.6", "0.3")]
-        for vgs, vds in aux_bias:
-            tag = f"noise_vgs{vgs}_vds{vds}"
-            freq, noise = _extract_noise(tag)
-            if len(freq) > 0:
-                out_path = self.data_dir / f"thermal_noise_vgs{vgs}_vds{vds}.txt"
-                self._write_noise_file(out_path, freq, noise)
-                self.logger.logger.info(f"  Written: {out_path.name} ({len(freq)} pts)")
-            else:
-                # Use main data as fallback
-                out_path = self.data_dir / f"thermal_noise_vgs{vgs}_vds{vds}.txt"
-                self._write_noise_file(out_path, freq_main, noise_main)
-                self.logger.logger.info(f"  Written (fallback): {out_path.name}")
-
-        # ---- Temperature noise files ----
-        # 27C from main, -40C and 100C from aux, others from main/nearest
-        temp_map = {"-40": "noise_t-40", "0": "noise", "27": "noise",
-                     "50": "noise", "100": "noise_t100", "150": "noise"}
-        for temp in [-40, 0, 27, 50, 100, 150]:
-            tag = temp_map.get(str(temp), "noise")
-            freq, noise = _extract_noise(tag) if tag != "noise" else (freq_main, noise_main)
-            if len(freq) == 0:
-                freq, noise = freq_main, noise_main
-            out_path = self.data_dir / f"noise_temp{temp}.txt"
-            self._write_noise_file(out_path, freq, noise)
-            self.logger.logger.info(f"  Written: {out_path.name} ({len(freq)} pts)")
-
-        # ---- Flicker and shot noise from main data ----
-        mask_fl = freq_main < 1e6
-        if mask_fl.any():
-            out_path = self.data_dir / "flicker_noise.txt"
-            self._write_noise_file(out_path, freq_main[mask_fl], noise_main[mask_fl])
-            self.logger.logger.info(f"  Written: {out_path.name} ({mask_fl.sum()} pts)")
-
-        out_path = self.data_dir / "shot_noise.txt"
-        self._write_noise_file(out_path, freq_main, noise_main)
-        self.logger.logger.info(f"  Written: {out_path.name} ({n} pts)")
+        for case_index, temperature in enumerate(
+            (-40, 0, 27, 50, 100, 150), start=8
+        ):
+            frequency, density = case(case_index)
+            self._write_noise_file(
+                self.data_dir / f"noise_temp{temperature}.txt",
+                frequency,
+                density,
+            )
 
         self.logger.logger.info("Noise post-processing complete.")
         return True

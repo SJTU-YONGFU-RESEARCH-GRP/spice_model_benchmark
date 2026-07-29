@@ -4,6 +4,7 @@ from datetime import datetime
 import traceback
 import os
 
+
 class VerificationManager:
     """
     Handles verification of simulation results.
@@ -47,8 +48,9 @@ class VerificationManager:
         3. Confirms that basic simulation preconditions are met
         
         Args:
-            circuit_file: Path to the SPICE circuit file to validate.
-                         If None, a default 'circuit.cir' is used.
+            circuit_file: A SPICE circuit path, or a mapping from analysis
+                          mode to circuit path. If None, a default
+                          ``circuit.cir`` is used.
                          
         Returns:
             dict: Verification results containing:
@@ -61,12 +63,38 @@ class VerificationManager:
             This is typically the first verification performed before running simulations,
             and failures here indicate fundamental setup issues that must be addressed.
         """
+        if isinstance(circuit_file, dict):
+            circuit_paths = {
+                str(mode): Path(path)
+                for mode, path in circuit_file.items()
+                if path is not None
+            }
+        elif isinstance(circuit_file, (list, tuple)):
+            circuit_paths = {
+                str(index): Path(path)
+                for index, path in enumerate(circuit_file)
+                if path is not None
+            }
+        else:
+            circuit_paths = {
+                "circuit": (
+                    Path(circuit_file)
+                    if circuit_file
+                    else Path("circuit.cir")
+                )
+            }
+
+        absolute_paths = {
+            mode: str(path.absolute())
+            for mode, path in circuit_paths.items()
+        }
         results = {
             'netlist_exists': False,
             'ngspice_installed': False,
             'simulation_runs': False,
             'details': {
-                'netlist_path': str(circuit_file) if circuit_file else 'circuit.cir',
+                'netlist_path': ", ".join(absolute_paths.values()),
+                'netlist_paths': absolute_paths,
                 'ngspice_version': None,
                 'simulation_status': None,
                 'dc_path': None,
@@ -77,17 +105,16 @@ class VerificationManager:
         }
         
         try:
-            # Check netlist file
-            circuit_path = Path(circuit_file) if circuit_file else Path('circuit.cir')
-            results['netlist_exists'] = circuit_path.exists() and circuit_path.is_file()
-            results['details']['netlist_path'] = str(circuit_path.absolute())
+            # Check every selected analysis netlist.
+            results['netlist_exists'] = bool(circuit_paths) and all(
+                path.exists() and path.is_file()
+                for path in circuit_paths.values()
+            )
             
             # Set mode-specific paths
-            base_path = circuit_path.parent
-            results['details']['dc_path'] = str(base_path / 'dc_analysis.cir')
-            results['details']['ac_path'] = str(base_path / 'ac_analysis.cir')
-            results['details']['transient_path'] = str(base_path / 'transient_analysis.cir')
-            results['details']['noise_path'] = str(base_path / 'noise_analysis.cir')
+            for mode in ('dc', 'ac', 'transient', 'noise'):
+                if mode in absolute_paths:
+                    results['details'][f'{mode}_path'] = absolute_paths[mode]
             
             # Check ngspice installation
             try:
@@ -313,8 +340,16 @@ class VerificationManager:
             setup = results['simulation_setup']
             
             # Common setup checks
-            content.append(f"- [<span style='color: {'green' if setup.get('netlist_exists', False) else 'red'}'>{'✓' if setup.get('netlist_exists', False) else '✗'}</span>] Circuit file exists and is readable")
-            content.append(f"  - Path: {setup.get('details', {}).get('netlist_path', 'Not available')}")
+            details = setup.get('details', {})
+            netlist_paths = details.get('netlist_paths', {})
+            content.append(f"- [<span style='color: {'green' if setup.get('netlist_exists', False) else 'red'}'>{'✓' if setup.get('netlist_exists', False) else '✗'}</span>] Circuit files exist and are readable")
+            if netlist_paths:
+                for mode, path in netlist_paths.items():
+                    content.append(f"  - {str(mode).upper()}: {path}")
+            else:
+                content.append(
+                    f"  - Path: {details.get('netlist_path', 'Not available')}"
+                )
             content.append(f"- [<span style='color: {'green' if setup.get('ngspice_installed', False) else 'red'}'>{'✓' if setup.get('ngspice_installed', False) else '✗'}</span>] ngspice is properly installed")
             content.append(f"  - Version: {setup.get('details', {}).get('ngspice_version', 'Not available')}")
             
@@ -784,6 +819,15 @@ class VerificationManager:
         Generate transient analysis summary section.
         """
         try:
+            def metric(result, key, spec, suffix=""):
+                value = result.get('details', {}).get(key)
+                if value is None:
+                    return "Not measured"
+                try:
+                    return f"{format(value, spec)}{suffix}"
+                except (TypeError, ValueError):
+                    return "Not measured"
+
             content = []
             content.append("### Transient Analysis Summary")
             content.append("| Test Type | Status | Key Findings |")
@@ -795,7 +839,7 @@ class VerificationManager:
             delay_results = results.get('delay_effect', {}) or {}
             power_results = results.get('power_dissipation', {}) or {}
             qs_results = results.get('quasi_static', {}) or {}
-            charge_results = results.get('charge_conservation', {}) or {}
+            charge_results = results.get('trans_charge_conservation', {}) or {}
 
             # Check if any Transient data is available
             has_transient_data = any([
@@ -823,7 +867,7 @@ class VerificationManager:
             if transient_results.get('data_ready'):
                 status = "✓" if transient_results.get('transient_completed', True) else "✗"
                 color = "green" if status == "✓" else "red"
-                findings = f"Max Current: {transient_results.get('details', {}).get('max_current'):.3e}A, Rise Time: {transient_results.get('details', {}).get('rise_time'):.1f}ps" 
+                findings = f"Max Current: {metric(transient_results, 'max_current', '.3e', 'A')}, Rise Time: {metric(transient_results, 'rise_time', '.1f', 'ps')}"
                 self.logger.info(f"transient_results.get('transient_completed', True): {status}")
                 content.append(f"| [Large-Signal Transient](#large-signal-transient) | <span style='color: {color}'>{status}</span> | {findings} |")
             else:
@@ -832,7 +876,7 @@ class VerificationManager:
             if switching_results.get('data_ready'):
                 status = "✓" if switching_results.get('switching_behavior_analyzed', True) and switching_results.get('propagation_delay_measured', True) and switching_results.get('max_current_calculated', True) else "✗"
                 color = "green" if status == "✓" else "red"
-                findings = f"Propagation Delay: {switching_results.get('details', {}).get('propagation_delay'):.1f}ps, Power: {switching_results.get('details', {}).get('max_power'):.3e}W (max), {switching_results.get('details', {}).get('avg_power'):.3e}W (avg)"
+                findings = f"Propagation Delay: {metric(switching_results, 'propagation_delay', '.1f', 'ps')}, Power: {metric(switching_results, 'max_power', '.3e', 'W')} (max), {metric(switching_results, 'avg_power', '.3e', 'W')} (avg)"
                 self.logger.info(f"switching_results.get('switching_behavior_analyzed', True): {status}")
                 content.append(f"| [Switching Simulations](#switching-simulations) | <span style='color: {color}'>{status}</span> | {findings} |")
             else:
@@ -841,7 +885,7 @@ class VerificationManager:
             if delay_results.get('data_ready'):
                 status = "✓" if delay_results.get('delay_effect_analyzed', True) else "✗"
                 color = "green" if status == "✓" else "red"
-                findings = f"Total Chain Delay: {delay_results.get('details', {}).get('total_delay'):.1f}ps"
+                findings = f"Total Chain Delay: {metric(delay_results, 'total_delay', '.1f', 'ps')}"
                 self.logger.info(f"delay_results.get('delay_effect_analyzed', True): {status}")
                 content.append(f"| [Delay Effect](#delay-effect-simulations) | <span style='color: {color}'>{status}</span> | {findings} |")
             else:
@@ -850,7 +894,7 @@ class VerificationManager:
             if power_results.get('data_ready'):
                 status = "✓" if power_results.get('power_analysis_completed', True) else "✗"
                 color = "green" if status == "✓" else "red"
-                findings = f"Temp Coeff: {power_results.get('details', {}).get('power_temp_coef'):.6e}W/°C"
+                findings = f"Temp Coeff: {metric(power_results, 'power_temp_coef', '.6e', 'W/°C')}"
                 self.logger.info(f"power_results.get('power_analysis_completed', True): {status}")
                 content.append(f"| [Power Dissipation](#transient-simulations-for-power-dissipation) | <span style='color: {color}'>{status}</span> | {findings} |")
             else:
@@ -887,6 +931,15 @@ class VerificationManager:
         Generate detailed Transient analysis section.
         """
         try:
+            def metric(result, key, spec, suffix=""):
+                value = result.get('details', {}).get(key)
+                if value is None:
+                    return "Not measured"
+                try:
+                    return f"{format(value, spec)}{suffix}"
+                except (TypeError, ValueError):
+                    return "Not measured"
+
             content = []
             content.append(f"## {section_num}. Transient Analysis")
 
@@ -896,7 +949,7 @@ class VerificationManager:
             delay_results = results.get('delay_effect', {}) or {}
             power_results = results.get('power_dissipation', {}) or {}
             qs_results = results.get('quasi_static', {}) or {}
-            charge_results = results.get('charge_conservation', {}) or {}
+            charge_results = results.get('trans_charge_conservation', {}) or {}
 
             # Check if any Transient data is available
             has_transient_data = any([
@@ -918,13 +971,13 @@ class VerificationManager:
             if transient_results.get('data_ready'):
                 status = "✓" if transient_results.get('transient_completed', True) else "✗"
                 color = "green" if status == "✓" else "red"
-                findings = f"  - Maximum Drain Current: {transient_results.get('details', {}).get('max_current'):.6e}A"
+                findings = f"  - Maximum Drain Current: {metric(transient_results, 'max_current', '.6e', 'A')}"
                 content.append(f"- [<span style='color: {color}'>{status}</span>] Large Signal Transient Verified")
                 content.append(findings if status else "  - Maximum Drain Current: *Not measured*")
 
                 status = "✓" if transient_results.get('rise_time_measured', True) else "✗"
                 color = "green" if status == "✓" else "red"
-                findings = f"  - Gate Voltage Rise Time: {transient_results.get('details', {}).get('rise_time'):.1f}ps"
+                findings = f"  - Gate Voltage Rise Time: {metric(transient_results, 'rise_time', '.1f', 'ps')}"
                 content.append(findings if status else "  - Gate Voltage Rise Time: *Not measured*")
 
                 content.append("")
@@ -942,18 +995,18 @@ class VerificationManager:
             if switching_results.get('data_ready'):
                 status = "✓" if switching_results.get('propagation_delay_measured', True) else "✗"
                 color = "green" if status == "✓" else "red"
-                findings = f"  - Propagation Delay: {switching_results.get('details', {}).get('propagation_delay'):.1f}ps"
+                findings = f"  - Propagation Delay: {metric(switching_results, 'propagation_delay', '.1f', 'ps')}"
                 content.append(f"- [<span style='color: {color}'>{status}</span>] Propagation Delay Verified")
                 content.append(findings if status else "  - Propagation Delay: *Not measured*")
                 content.append("")
 
                 status = "✓" if switching_results.get('power_measured', True) else "✗"
                 color = "green" if status == "✓" else "red"
-                findings = f"  - Maximum Switching Power: {switching_results.get('details', {}).get('max_power'):.6e}W"
+                findings = f"  - Maximum Switching Power: {metric(switching_results, 'max_power', '.6e', 'W')}"
                 content.append(findings if status else "  - Maximum Switching Power: *Not measured*")
                 content.append("")
 
-                findings = f"  - Average Switching Power: {switching_results.get('details', {}).get('avg_power'):.6e}W" 
+                findings = f"  - Average Switching Power: {metric(switching_results, 'avg_power', '.6e', 'W')}"
                 content.append(findings if status else "  - Average Switching Power: *Not measured*")
                 content.append("")
 
@@ -973,19 +1026,19 @@ class VerificationManager:
                 color = "green" if status == "✓" else "red"
                 content.append(f"- [<span style='color: {color}'>{status}</span>] Propagation delay through inverter chain analyzed")
                 
-                findings = f"  - Stage 1 Delay: {delay_results.get('details', {}).get('stage1_delay'):.1f}ps"
+                findings = f"  - Stage 1 Delay: {metric(delay_results, 'stage1_delay', '.1f', 'ps')}"
                 content.append(findings if status else "  - Stage 1 Delay: *Not measured*")
                 content.append("")
 
-                findings = f"  - Stage 2 Delay: {delay_results.get('details', {}).get('stage2_delay'):.1f}ps"
+                findings = f"  - Stage 2 Delay: {metric(delay_results, 'stage2_delay', '.1f', 'ps')}"
                 content.append(findings if status else "  - Stage 2 Delay: *Not measured*")
                 content.append("")
 
-                findings = f"  - Stage 3 Delay: {delay_results.get('details', {}).get('stage3_delay'):.1f}ps"
+                findings = f"  - Stage 3 Delay: {metric(delay_results, 'stage3_delay', '.1f', 'ps')}"
                 content.append(findings if status else "  - Stage 3 Delay: *Not measured*")
                 content.append("")
 
-                findings = f"  - Total Delay: {delay_results.get('details', {}).get('total_delay'):.1f}ps"
+                findings = f"  - Total Delay: {metric(delay_results, 'total_delay', '.1f', 'ps')}"
                 content.append(findings if status else "  - Total Chain Delay: *Not measured*")
                 content.append("")
 
@@ -1005,23 +1058,23 @@ class VerificationManager:
                 color = "green" if status == "✓" else "red"
                 content.append(f"- [<span style='color: {color}'>{status}</span>] Temperature-dependent power analysis completed")
                 
-                findings = f"  - Maximum Power at 27°C: {power_results.get('details', {}).get('max_power_27c'):.6e}W" 
+                findings = f"  - Maximum Power at 27°C: {metric(power_results, 'max_power_27c', '.6e', 'W')}"
                 content.append(findings if status else "  - Maximum Power at 27°C: *Not measured*")
                 content.append("")
                 
-                findings = f"  - Maximum Power at 100°C: {power_results.get('details', {}).get('max_power_100c'):.6e}W" 
+                findings = f"  - Maximum Power at 100°C: {metric(power_results, 'max_power_100c', '.6e', 'W')}"
                 content.append(findings if status else "  - Maximum Power at 100°C: *Not measured*")
                 content.append("")
 
-                findings = f"  - Average Power at 27°C: {power_results.get('details', {}).get('avg_power_27c'):.6e}W" 
+                findings = f"  - Average Power at 27°C: {metric(power_results, 'avg_power_27c', '.6e', 'W')}"
                 content.append(findings if status else "  - Average Power at 27°C: *Not measured*")
                 content.append("")
 
-                findings = f"  - Average Power at 100°C: {power_results.get('details', {}).get('avg_power_100c'):.6e}W" 
+                findings = f"  - Average Power at 100°C: {metric(power_results, 'avg_power_100c', '.6e', 'W')}"
                 content.append(findings if status else "  - Average Power at 100°C: *Not measured*")
                 content.append("")
 
-                findings = f"  - Power Temperature Coefficient: {power_results.get('details', {}).get('power_temp_coef'):.6e}W/°C" 
+                findings = f"  - Power Temperature Coefficient: {metric(power_results, 'power_temp_coef', '.6e', 'W/°C')}"
                 content.append(findings if status else "  - Power Temperature Coefficient: *Not measured*")
                 content.append("")
 
@@ -1047,7 +1100,7 @@ class VerificationManager:
 
                 content.append("*Quasi-static time-domain behavior analysis*")
                 content.append("")
-                content.append("<img src='plots/trans_quasi_static.png' alt='Quasi-Static Analysis' width='400'/>")
+                content.append("<img src='plots/trans_quasi_static_time.png' alt='Quasi-Static Analysis' width='400'/>")
                 content.append("")
                 content.append("*Quasi-static I-V characteristic showing relationship between gate voltage and drain current*")
                 content.append("")
@@ -1060,23 +1113,22 @@ class VerificationManager:
 
             # Charge Conservation Tests
             content.append("### Charge Conservation Tests")
-            charge_results['data_ready'] = False
             if charge_results.get('data_ready'):
-                status = "✓" if charge_results.get('charge_conservation', True) else "✗"
+                status = "✓" if charge_results.get('verification_passed', False) else "✗"
                 color = "green" if status == "✓" else "red"
                 content.append(f"- [<span style='color: {color}'>{status}</span>] Charge conservation analyzed")
                 content.append("")
 
-                findings = f"  - Total Charge Variation: {charge_results.get('details', {}).get('q_total_variation'):.6e}C" 
-                content.append(findings if status else "  - Total Charge Variation: *Not measured*")
+                content.append(
+                    f"  - Maximum charge balance error: "
+                    f"{charge_results.get('max_charge_error', 0.0):.6e} C"
+                )
                 content.append("")
 
-                findings = f"  - Mean Total Charge: {charge_results.get('details', {}).get('q_total_mean'):.6e}C"
-                content.append(findings if status else "  - Mean Total Charge: *Not measured*")
-                content.append("")
-
-                findings = f"  - Charge Conservation Error: {charge_results.get('details', {}).get('q_conservation_error'):.6f}%"
-                content.append(findings if status else "  - Charge Conservation Error: *Not measured*")
+                content.append(
+                    f"  - Maximum current balance error: "
+                    f"{charge_results.get('max_current_error', 0.0):.6e} A"
+                )
                 content.append("")
 
                 content.append("*Terminal currents and charges analysis*")
@@ -1107,6 +1159,17 @@ class VerificationManager:
         """
         self.logger.info("Generating Noise Summary")
         try:
+            def metric(value, format_spec, suffix=""):
+                if value is None:
+                    return "not resolved"
+                try:
+                    numeric = float(value)
+                except (TypeError, ValueError):
+                    return "not resolved"
+                if not np.isfinite(numeric):
+                    return "not resolved"
+                return f"{numeric:{format_spec}}{suffix}"
+
             content = []
             content.append("### Noise Analysis Summary")
             content.append("| Test Type | Status | Key Findings |")
@@ -1135,7 +1198,12 @@ class VerificationManager:
             if noise_results.get('thermal_noise_analyzed'):
                 status = "✓" if noise_results.get('thermal_noise_analyzed', True) else "✗"
                 color = "green" if status == "✓" else "red"
-                findings = f"Floor: {noise_results.get('details', {}).get('thermal_noise_floor'):.2e} V²/Hz, Range: {noise_results.get('details', {}).get('thermal_noise_min'):.2e} to {noise_results.get('details', {}).get('thermal_noise_max'):.2e} V²/Hz" 
+                details = noise_results.get('details', {})
+                findings = (
+                    f"Floor: {metric(details.get('thermal_noise_floor'), '.2e', ' V²/Hz')}, "
+                    f"Range: {metric(details.get('thermal_noise_min'), '.2e', ' V²/Hz')} "
+                    f"to {metric(details.get('thermal_noise_max'), '.2e', ' V²/Hz')}"
+                )
                 self.logger.info(f"noise_results.get('thermal_noise_analyzed', True): {status}")
                 content.append(f"| [Thermal Noise](#thermal-noise-analysis) | <span style='color: {color}'>{status}</span> | {findings} |")
             else:
@@ -1144,7 +1212,11 @@ class VerificationManager:
             if noise_results.get('flicker_noise_analyzed'):
                 status = "✓" if noise_results.get('flicker_noise_analyzed', True) else "✗"
                 color = "green" if status == "✓" else "red"
-                findings = f"Exponent: {noise_results.get('details', {}).get('flicker_noise_exponent'):.4f}, Corner Freq: {noise_results.get('details', {}).get('corner_frequency'):.2e} Hz" 
+                details = noise_results.get('details', {})
+                findings = (
+                    f"Exponent: {metric(details.get('flicker_noise_exponent'), '.4f')}, "
+                    f"Corner Freq: {metric(details.get('corner_frequency'), '.2e', ' Hz')}"
+                )
                 self.logger.info(f"noise_results.get('flicker_noise_analyzed', True): {status}")
                 content.append(f"| [Flicker (1/f) Noise](#flicker-noise-analysis) | <span style='color: {color}'>{status}</span> | {findings} |")
             else:
@@ -1153,7 +1225,11 @@ class VerificationManager:
             if noise_results.get('shot_noise_analyzed'):
                 status = "✓" if noise_results.get('shot_noise_analyzed', True) else "✗"
                 color = "green" if status == "✓" else "red"
-                findings = f"Level: {noise_results.get('details', {}).get('shot_noise_level'):.2e} V²/Hz, Variation: {noise_results.get('details', {}).get('shot_noise_variation'):.4f}"
+                details = noise_results.get('details', {})
+                findings = (
+                    f"Level: {metric(details.get('shot_noise_level'), '.2e', ' V²/Hz')}, "
+                    f"Variation: {metric(details.get('shot_noise_variation'), '.4f')}"
+                )
                 self.logger.info(f"noise_results.get('shot_noise_analyzed', True): {status}")
                 content.append(f"| [Shot Noise](#shot-noise-analysis) | <span style='color: {color}'>{status}</span> | {findings} |")
             else:
@@ -1162,7 +1238,11 @@ class VerificationManager:
             if noise_results.get('temp_dependence_analyzed'):
                 status = "✓" if noise_results.get('temp_dependence_analyzed', True) else "✗"
                 color = "green" if status == "✓" else "red"
-                findings = f"Coefficient: {noise_results.get('details', {}).get('temp_coefficient'):.2e} V²/Hz/°C, Range: {noise_results.get('details', {}).get('temp_range')}" 
+                details = noise_results.get('details', {})
+                findings = (
+                    f"Coefficient: {metric(details.get('temp_coefficient'), '.2e', ' V²/Hz/°C')}, "
+                    f"Range: {details.get('temp_range') or 'not resolved'}"
+                )
                 self.logger.info(f"noise_results.get('temp_dependence_analyzed', True): {status}")
                 content.append(f"| [Temperature Dependence](#temperature-dependence) | <span style='color: {color}'>{status}</span> | {findings} |")
             else:
@@ -1190,6 +1270,17 @@ class VerificationManager:
         """
         self.logger.info("Generating Noise Analysis Section")
         try:
+            def metric(value, format_spec, suffix=""):
+                if value is None:
+                    return "*Not measured*"
+                try:
+                    numeric = float(value)
+                except (TypeError, ValueError):
+                    return "*Not measured*"
+                if not np.isfinite(numeric):
+                    return "*Not measured*"
+                return f"{numeric:{format_spec}}{suffix}"
+
             content = []
             content.append(f"## {section_num}. Noise Analysis")
 
@@ -1217,16 +1308,16 @@ class VerificationManager:
                 color = "green" if status == "✓" else "red"
                 content.append(f"- [<span style='color: {color}'>{status}</span>] Thermal noise analysis completed")
 
-                findings = f"  - Max Noise: {noise_results.get('details', {}).get('thermal_noise_max'):.2e} V²/Hz" 
+                findings = f"  - Max Noise: {metric(noise_results.get('details', {}).get('thermal_noise_max'), '.2e', ' V²/Hz')}"
                 content.append(findings if status else "  - Max Noise: *Not measured*")
 
-                findings = f"  - Min Noise: {noise_results.get('details', {}).get('thermal_noise_min'):.2e} V²/Hz" 
+                findings = f"  - Min Noise: {metric(noise_results.get('details', {}).get('thermal_noise_min'), '.2e', ' V²/Hz')}"
                 content.append(findings if status else "  - Min Noise: *Not measured*")
                 
                 findings = f"  - Avg Noise: {noise_results.get('details', {}).get('thermal_noise_avg'):.2e} V²/Hz" 
                 content.append(findings if status else "  - Avg Noise: *Not measured*")
 
-                findings = f"  - Noise Floor: {noise_results.get('details', {}).get('thermal_noise_floor'):.2e} V²/Hz" 
+                findings = f"  - Noise Floor: {metric(noise_results.get('details', {}).get('thermal_noise_floor'), '.2e', ' V²/Hz')}"
                 content.append(findings if status else "  - Noise Floor: *Not measured*")
 
                 findings = f"  - Frequency Range: {noise_results.get('details', {}).get('freq_range')}" 
@@ -1249,16 +1340,16 @@ class VerificationManager:
                 color = "green" if status == "✓" else "red"
                 content.append(f"- [<span style='color: {color}'>{status}</span>] Flicker noise analysis completed")
 
-                findings = f"  - Coefficient (K): {noise_results.get('details', {}).get('flicker_noise_coefficient'):.2e}" 
+                findings = f"  - Coefficient (K): {metric(noise_results.get('details', {}).get('flicker_noise_coefficient'), '.2e')}"
                 content.append(findings if status else "  - Coefficient (K): *Not measured*")
 
-                findings = f"  - Exponent (γ): {noise_results.get('details', {}).get('flicker_noise_exponent'):.2e} (ideally -1.0 for pure 1/f noise)" 
+                findings = f"  - Exponent (γ): {metric(noise_results.get('details', {}).get('flicker_noise_exponent'), '.2e')} (ideally -1.0 for pure 1/f noise)"
                 content.append(findings if status else "  - Exponent (γ): *Not measured*")
 
-                findings = f"  - Correlation (R²): {noise_results.get('details', {}).get('flicker_noise_r_squared'):.4f}" 
+                findings = f"  - Correlation (R²): {metric(noise_results.get('details', {}).get('flicker_noise_r_squared'), '.4f')}"
                 content.append(findings if status else "  - Correlation (R²): *Not measured*")
 
-                findings = f"  - Corner Frequency: {noise_results.get('details', {}).get('corner_frequency'):.2e} Hz" 
+                findings = f"  - Corner Frequency: {metric(noise_results.get('details', {}).get('corner_frequency'), '.2e', ' Hz')}"
                 content.append(findings if status else "  - Corner Frequency: *Not measured*")
 
                 content.append("")
@@ -1278,13 +1369,13 @@ class VerificationManager:
                 color = "green" if status == "✓" else "red"
                 content.append(f"- [<span style='color: {color}'>{status}</span>] Short noise analysis completed")
 
-                findings = f"  - Shot Noise Level: {noise_results.get('details', {}).get('shot_noise_level'):.2e} V²/Hz"
+                findings = f"  - Shot Noise Level: {metric(noise_results.get('details', {}).get('shot_noise_level'), '.2e', ' V²/Hz')}"
                 content.append(findings if status else "  - Shot Noise Level: *Not measured*")
 
                 findings = f"  - Standard Deviation: {noise_results.get('details', {}).get('shot_noise_std_dev'):.2e} V²/Hz"
                 content.append(findings if status else "  - Standard Deviation: *Not measured*")
 
-                findings = f"  - Variation Coefficient: {noise_results.get('details', {}).get('shot_noise_variation'):.4f}"
+                findings = f"  - Variation Coefficient: {metric(noise_results.get('details', {}).get('shot_noise_variation'), '.4f')}"
                 content.append(findings if status else "  - Variation Coefficient: *Not measured*")
 
                 content.append("")
@@ -1304,7 +1395,7 @@ class VerificationManager:
                 color = "green" if status == "✓" else "red"
                 content.append(f"- [<span style='color: {color}'>{status}</span>] Short noise analysis completed")
 
-                findings = f"  - Temperature Coefficient: {noise_results.get('details', {}).get('temp_coefficient'):.2e} V²/Hz/°C"
+                findings = f"  - Temperature Coefficient: {metric(noise_results.get('details', {}).get('temp_coefficient'), '.2e', ' V²/Hz/°C')}"
                 content.append(findings if status else "  - Temperature Coefficient: *Not measured*")
 
                 findings = f"  - Temperature-Noise Correlation: {noise_results.get('details', {}).get('temp_noise_correlation')}"
@@ -1472,11 +1563,23 @@ class VerificationManager:
             bool: True if KCL is satisfied within tolerance, False otherwise
         """
         try:
-            # Convert inputs to numpy arrays if they aren't already
+            if any(value is None for value in (i_ds, i_g, i_s, i_b)):
+                self.logger.error(
+                    "KCL verification requires all four measured terminal currents"
+                )
+                return False
             i_ds = np.array(i_ds)
-            i_g = np.array(i_g) if i_g is not None else np.zeros_like(i_ds)
-            i_s = np.array(i_s) if i_s is not None else np.zeros_like(i_ds)
-            i_b = np.array(i_b) if i_b is not None else np.zeros_like(i_ds)
+            i_g = np.array(i_g)
+            i_s = np.array(i_s)
+            i_b = np.array(i_b)
+            if not (
+                len(i_ds) == len(i_g) == len(i_s) == len(i_b)
+                and len(i_ds) > 0
+            ):
+                self.logger.error(
+                    "KCL verification received incomplete current arrays"
+                )
+                return False
             
             # KCL: i_ds + i_g + i_s + i_b ≈ 0
             # For a MOSFET, we expect:
@@ -2865,9 +2968,19 @@ class VerificationManager:
                                 vds_val = float(bias_key.split('Vds=')[1].split('V')[0]) if 'Vds=' in bias_key else 0.0
                                 bias_point = f"Vgs={vgs_val:.1f}V, Vds={vds_val:.1f}V"
                                 
-                                # Calculate noise floor from high frequency region
-                                high_freq_idx = len(freq) // 2  # Use second half of frequency range
-                                noise_floor = np.mean(noise_values[high_freq_idx:]) if len(noise_values) > high_freq_idx else np.min(noise_values)
+                                local_frequency = freq
+                                if (
+                                    isinstance(noise_values, tuple)
+                                    and len(noise_values) == 2
+                                ):
+                                    local_frequency, noise_values = noise_values
+                                noise_values = np.asarray(
+                                    noise_values, dtype=float
+                                )
+                                high_freq_idx = len(noise_values) // 2
+                                noise_floor = np.mean(
+                                    noise_values[high_freq_idx:]
+                                )
                                 
                                 # Store individual bias point stats
                                 results['details']['bias_points'][bias_point] = {
@@ -2878,7 +2991,7 @@ class VerificationManager:
                                 }
                                 
                                 # Add values to all_values list for overall statistics
-                                all_values.extend(noise_values)
+                                all_values.extend(noise_values.tolist())
                             except Exception as e:
                                 if self.logger:
                                     self.logger.warning(f"Error parsing bias point {bias_key}: {e}")
@@ -2964,7 +3077,13 @@ class VerificationManager:
                 results['data_ready'] = True
 
                 # Convert inputs to numpy arrays
-                freq_array = np.array(freq, dtype=float)
+                flicker_frequency = freq
+                if (
+                    isinstance(flicker_noise, tuple)
+                    and len(flicker_noise) == 2
+                ):
+                    flicker_frequency, flicker_noise = flicker_noise
+                freq_array = np.array(flicker_frequency, dtype=float)
                 flicker_array = np.array(flicker_noise, dtype=float)
                 
                 # Estimate 1/f exponent using log-log regression
@@ -3028,15 +3147,41 @@ class VerificationManager:
                         # Use the first bias point for simplicity
                         first_bias = list(thermal_noise.keys())[0]
                         thermal_values = thermal_noise[first_bias]
+                        if (
+                            isinstance(thermal_values, tuple)
+                            and len(thermal_values) == 2
+                        ):
+                            thermal_frequency, thermal_values = thermal_values
+                        else:
+                            thermal_frequency = freq
                     elif isinstance(thermal_noise, list) or isinstance(thermal_noise, np.ndarray):
                         thermal_values = thermal_noise
+                        thermal_frequency = freq
                     
                     # Find where flicker crosses thermal
                     if thermal_values is not None and len(thermal_values) > 0:
                         try:
                             # Convert to numpy array and ensure same length
                             thermal_array = np.array(thermal_values, dtype=float)
-                            min_len = min(len(freq_array), min(len(flicker_array), len(thermal_array)))
+                            thermal_frequency = np.asarray(
+                                thermal_frequency, dtype=float
+                            )
+                            overlap = (
+                                (freq_array >= np.min(thermal_frequency))
+                                & (freq_array <= np.max(thermal_frequency))
+                            )
+                            comparison_frequency = freq_array[overlap]
+                            comparison_flicker = flicker_array[overlap]
+                            comparison_thermal = np.interp(
+                                np.log10(comparison_frequency),
+                                np.log10(thermal_frequency),
+                                thermal_array,
+                            )
+                            min_len = min(
+                                len(comparison_frequency),
+                                len(comparison_flicker),
+                                len(comparison_thermal),
+                            )
                             
                             if min_len > 1:
                                 self.logger.debug(f"Using {min_len} points to find corner frequency")
@@ -3045,24 +3190,22 @@ class VerificationManager:
                                 found_crossover = False
                                 for i in range(1, min_len-1):
                                     try:
-                                        flicker_val = float(flicker_array[i])
-                                        thermal_val = float(thermal_array[i])
+                                        flicker_val = float(comparison_flicker[i])
+                                        thermal_val = float(comparison_thermal[i])
                                         
                                         if np.isfinite(flicker_val) and np.isfinite(thermal_val):
                                             if flicker_val <= thermal_val:
-                                                results['details']['corner_frequency'] = float(freq_array[i])
-                                                self.logger.debug(f"Found corner frequency at {freq_array[i]:.2e} Hz")
+                                                results['details']['corner_frequency'] = float(comparison_frequency[i])
+                                                self.logger.debug(f"Found corner frequency at {comparison_frequency[i]:.2e} Hz")
                                                 found_crossover = True
                                                 break
                                     except Exception as idx_error:
                                         self.logger.warning(f"Error at index {i}: {idx_error}")
                                 
-                                # If no crossover found, use a default estimate
                                 if not found_crossover:
-                                    # Use middle point in log scale as an estimate
-                                    middle_idx = min_len // 2
-                                    results['details']['corner_frequency'] = float(freq_array[middle_idx])
-                                    self.logger.debug(f"No crossover found, using estimated corner frequency: {freq_array[middle_idx]:.2e} Hz")
+                                    self.logger.debug(
+                                        "No measured flicker/thermal crossover found"
+                                    )
                             else:
                                 self.logger.warning("Not enough data points to find corner frequency")
                         except Exception as corner_error:
@@ -3084,6 +3227,11 @@ class VerificationManager:
                 results['noise_analysis_performed'] = True
                 
                 # Convert to numpy array if not already
+                if (
+                    isinstance(shot_noise, tuple)
+                    and len(shot_noise) == 2
+                ):
+                    _, shot_noise = shot_noise
                 shot_array = np.array(shot_noise, dtype=float)
                 
                 # Filter out non-finite values
@@ -3136,6 +3284,13 @@ class VerificationManager:
                     for temp in temperatures:
                         if temp in temp_noise:
                             noise_values = temp_noise[temp]
+                        else:
+                            continue
+                        if (
+                            isinstance(noise_values, tuple)
+                            and len(noise_values) == 2
+                        ):
+                            _, noise_values = noise_values
                         if noise_values is not None and len(noise_values) > 0:
                                 # Convert to numpy array
                                 noise_array = np.array(noise_values, dtype=float)
@@ -3230,7 +3385,6 @@ class VerificationManager:
                     self.logger.error(f"Error in temperature dependence analysis: {e}")
                     self.logger.error(traceback.format_exc())
         
-        # Store in self.results for verification checklist
         self.results['noise_analysis'] = results
         
         return results
@@ -3336,4 +3490,3 @@ class VerificationManager:
             if self.logger:
                 self.logger.error(f"Error extracting S-parameter status from report: {e}")
             return 'red', '✗', 'Not available', 'Not available', 'Not available', 'Not available'
-

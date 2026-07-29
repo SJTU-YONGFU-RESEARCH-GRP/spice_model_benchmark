@@ -90,8 +90,20 @@ class SpectreMOSFETSimulation:
         self.logger.logger.info("Phase 2: Analysing results...")
 
         # Verify simulation setup
+        selected_circuits = {
+            mode: path
+            for mode, path in {
+                'dc': self.dc_circuit_file,
+                'transient': self.transient_circuit_file,
+                'ac': self.ac_circuit_file,
+                'noise': self.noise_circuit_file,
+            }.items()
+            if mode in modes and path is not None
+        }
         self.results['simulation_setup'] = \
-            self._verification_manager.verify_simulation_setup(self.dc_circuit_file)
+            self._verification_manager.verify_simulation_setup(
+                selected_circuits
+            )
         # Override the ngspice version string
         if 'details' in self.results['simulation_setup']:
             self.results['simulation_setup']['details']['ngspice_version'] = 'Spectre 24.1'
@@ -191,33 +203,56 @@ class SpectreMOSFETSimulation:
             if ls is not None:
                 time_ls, vg_ls, vd_ls, id_ls = ls
                 pg.plot_trans_large_signal_transient(out, time_ls, vg_ls, vd_ls, id_ls)
-                self.results['transient_large_signal'] = \
+                self.results['large_signal_transient'] = \
                     vm.verify_trans_large_signal_transient(time_ls, vg_ls, vd_ls, id_ls)
 
             # 2. Switching: (time, vin, vout, idrain)
             sw = dr.read_trans_switching_response_data(out)
             if sw is not None:
                 time_sw, vin_sw, vout_sw, id_sw = sw
-                pg.plot_trans_switching_response(out, time_sw, vin_sw, vout_sw, id_sw)
-                self.results['transient_switching'] = \
-                    vm.verify_trans_switching_simulations(time_sw, vin_sw, vout_sw, id_sw)
+                sw_power = dr.read_trans_switching_power_data(out)
+                if (
+                    sw_power is None
+                    or sw_power[0] is None
+                    or sw_power[1] is None
+                ):
+                    raise ValueError(
+                        "measured switching-power data is required"
+                    )
+                _, power_sw = sw_power
+                pg.plot_trans_switching_response(
+                    out,
+                    time_sw,
+                    vin_sw,
+                    vout_sw,
+                    id_sw,
+                    power_sw,
+                )
+                self.results['switching_simulations'] = \
+                    vm.verify_trans_switching_simulations(
+                        time_sw,
+                        vin_sw,
+                        vout_sw,
+                        id_sw,
+                        power_sw,
+                    )
 
             # 3. Delay effect: (time, vin, vmid1, vmid2, vout)
             de = dr.read_trans_delay_effect_data(out)
             if de is not None:
                 time_de, vin_de, vm1_de, vm2_de, vout_de = de
                 pg.plot_trans_delay_effect(out, time_de, vin_de, vm1_de, vm2_de, vout_de)
-                self.results['transient_delay_effect'] = \
+                self.results['delay_effect'] = \
                     vm.verify_trans_delay_effect(time_de, vin_de, vm1_de, vm2_de, vout_de)
 
             # 4. Power dissipation: (time, power) at two temps
-            pd_27 = dr.read_trans_power_dissipation_data(out, '27C')
-            pd_100 = dr.read_trans_power_dissipation_data(out, '100C')
+            pd_27 = dr.read_trans_power_dissipation_data(out, 27)
+            pd_100 = dr.read_trans_power_dissipation_data(out, 100)
             if pd_27 is not None and pd_100 is not None:
                 time_27, pwr_27 = pd_27
                 time_100, pwr_100 = pd_100
                 pg.plot_trans_power_dissipation(out, time_27, pwr_27, time_100, pwr_100)
-                self.results['transient_power_dissipation'] = \
+                self.results['power_dissipation'] = \
                     vm.verify_trans_power_dissipation(time_27, pwr_27, time_100, pwr_100)
 
             # 5. Quasi-static: (time, vgate, vdrain, idrain)
@@ -225,8 +260,45 @@ class SpectreMOSFETSimulation:
             if qs is not None:
                 time_qs, vg_qs, vd_qs, id_qs = qs
                 pg.plot_trans_quasi_static(out, time_qs, vg_qs, vd_qs, id_qs)
-                self.results['transient_quasi_static'] = \
+                self.results['quasi_static'] = \
                     vm.verify_trans_quasi_static(time_qs, vg_qs, vd_qs, id_qs)
+
+            charge = dr.read_trans_charge_conservation_data(out)
+            if charge is not None and all(value is not None for value in charge):
+                time_cc, vg_cc, ig_cc, id_cc, is_cc, ib_cc = charge
+                qg = np.zeros_like(ig_cc)
+                qd = np.zeros_like(id_cc)
+                qs_charge = np.zeros_like(is_cc)
+                qb = np.zeros_like(ib_cc)
+                for index in range(1, len(time_cc)):
+                    dt = time_cc[index] - time_cc[index - 1]
+                    qg[index] = qg[index - 1] + 0.5 * (ig_cc[index] + ig_cc[index - 1]) * dt
+                    qd[index] = qd[index - 1] + 0.5 * (id_cc[index] + id_cc[index - 1]) * dt
+                    qs_charge[index] = qs_charge[index - 1] + 0.5 * (is_cc[index] + is_cc[index - 1]) * dt
+                    qb[index] = qb[index - 1] + 0.5 * (ib_cc[index] + ib_cc[index - 1]) * dt
+                i_total = ig_cc + id_cc + is_cc + ib_cc
+                q_total = qg + qd + qs_charge + qb
+                pg.plot_trans_charge_conservation(
+                    out,
+                    time_cc,
+                    vg_cc,
+                    ig_cc,
+                    id_cc,
+                    is_cc,
+                    ib_cc,
+                    i_total,
+                    qg,
+                    qd,
+                    qs_charge,
+                    qb,
+                    q_total,
+                )
+                self.results['trans_charge_conservation'] = (
+                    vm.verify_trans_charge_conservation(
+                        time_cc, vg_cc, ig_cc, id_cc, is_cc, ib_cc,
+                        i_total, qg, qd, qs_charge, qb, q_total,
+                    )
+                )
 
             self.logger.logger.info("Transient processing complete.")
         except Exception as e:
@@ -248,37 +320,115 @@ class SpectreMOSFETSimulation:
             # CV characteristics: read_cv_data → (vg, cv_ig, cv_is, cv_ib, cgg)
             # plot signature: (output_dir, vg=None, ig=None, freq=None)
             vg_cv, cv_ig, cv_is, cv_ib, cgg = dr.read_cv_data(out)
+            sp = dr.read_sparameter_data(out)
+            nqs = dr.read_nqs_effects_data(out)
+            sp_freq = sp[0] if sp is not None else None
+            nqs_freq = nqs[0] if nqs is not None else None
+            vg_phase = nqs[1] if nqs is not None else None
+            id_phase = nqs[2] if nqs is not None else None
+            phase_diff = nqs[3] if nqs is not None else None
             if vg_cv is not None and cgg is not None:
                 pg.plot_ac_cv_characteristics(out, vg=vg_cv, ig=cv_ig)
-                self.results['ac_cv_characteristics'] = {'data_ready': True}
+                cv_results = vm.verify_cv_characteristics(
+                    vg_cv, cgg, sp_freq, vg_phase, id_phase,
+                )
+                self.results['cv_characteristics'] = {
+                    **cv_results,
+                    'cgg_range': f"{np.min(cgg)*1e15:.2f}fF to {np.max(cgg)*1e15:.2f}fF",
+                    'max_value_at': f"{vg_cv[np.argmax(cgg)]:.2f}V",
+                    'freq_range': (
+                        f"{np.min(sp_freq):.2e}Hz to {np.max(sp_freq):.2e}Hz"
+                        if sp_freq is not None and len(sp_freq) else "N/A"
+                    ),
+                }
+                table_vg, table_caps = dr.read_cv_table_data(
+                    out, freq_tag="1MHz"
+                )
+                if table_vg is None or table_caps is None:
+                    raise ValueError(
+                        "measured 1MHz CV component table is required"
+                    )
+                order = np.argsort(table_vg)
+                vg_sorted = np.asarray(table_vg, dtype=float)[order]
+                dv = float(vg_sorted[-1] - vg_sorted[0])
+                if len(vg_sorted) > 1 and dv != 0.0:
+                    # Use the same already-established AC C(V) integral for
+                    # every measured component.  This completes result/report
+                    # mapping for HSPICE and Spectre without changing the
+                    # numerical definition used by ngspice.
+                    ls_caps = {
+                        name: float(
+                            np.trapz(
+                                np.asarray(values, dtype=float)[order],
+                                vg_sorted,
+                            )
+                            / dv
+                        )
+                        for name, values in table_caps.items()
+                    }
+                    self.results['ac_integrated_large_signal_caps'] = {
+                        'data_ready': True,
+                        'vg_start': float(vg_sorted[0]),
+                        'vg_stop': float(vg_sorted[-1]),
+                        'dv': dv,
+                        'freq_tag': '1MHz',
+                        'ls_caps_f': ls_caps,
+                        'outputs': {},
+                    }
 
             # S-parameters: returns 9-tuple
             # plot signature: (output_dir, freq, s11_mag, s21_mag, s12_mag, s22_mag)
-            sp = dr.read_sparameter_data(out)
             if sp is not None and sp[0] is not None:
                 freq, s11_m, s11_p, s12_m, s12_p, s21_m, s21_p, s22_m, s22_p = sp
                 if freq is not None and len(freq) > 0:
                     pg.plot_ac_sparameter_analysis(out, freq=freq,
                                                    s11_mag=s11_m, s21_mag=s21_m,
                                                    s12_mag=s12_m, s22_mag=s22_m)
-                    self.results['ac_sparameter_analysis'] = {'data_ready': True}
+                    self.results['sparameter_analysis'] = {
+                        **vm.verify_sparameter_analysis(
+                            freq, s11_m, s21_m, s12_m, s22_m,
+                        ),
+                        'freq_range': f"{np.min(freq):.2e}Hz to {np.max(freq):.2e}Hz",
+                        's11_range': f"{np.min(s11_m):.0f}dB to {np.max(s11_m):.0f}dB",
+                        's21_range': f"{np.min(s21_m):.0f}dB to {np.max(s21_m):.0f}dB",
+                        's12_range': f"{np.min(s12_m):.0f}dB to {np.max(s12_m):.0f}dB",
+                        's22_range': f"{np.min(s22_m):.0f}dB to {np.max(s22_m):.0f}dB",
+                        'isolation': f">{np.min(np.abs(s21_m-s12_m)):.0f}dB",
+                    }
 
             # NQS effects: returns 4-tuple
             # plot signature: (output_dir, freq, vg_phase, id_phase, phase_diff)
-            nqs = dr.read_nqs_effects_data(out)
             if nqs is not None and nqs[0] is not None:
                 nqs_freq, vg_ph, id_ph, pd_ = nqs
                 if nqs_freq is not None and len(nqs_freq) > 0:
                     pg.plot_ac_nqs_effects(out, freq=nqs_freq,
                                            vg_phase=vg_ph, id_phase=id_ph,
                                            phase_diff=pd_)
-                    self.results['ac_nqs_effects'] = {'data_ready': True}
+                    self.results['nqs_effects'] = {
+                        **vm.verify_nqs_effects(nqs_freq, vg_ph, id_ph, pd_),
+                        'max_phase_shift': f"{np.max(np.abs(pd_)):.2f}°",
+                        'freq_range': f"{np.min(nqs_freq):.2e}Hz to {np.max(nqs_freq):.2e}Hz",
+                    }
 
             # Charge conservation: returns 6-tuple
             cc = dr.read_charge_conservation_data(out)
             if cc is not None and cc[0] is not None:
                 t_cc, vg_cc, ig_cc, id_cc, is_cc, ib_cc = cc
-                self.results['ac_charge_conservation'] = {'data_ready': True}
+                i_total = ig_cc + id_cc + is_cc + ib_cc
+                charges = [np.zeros_like(i_total) for _ in range(4)]
+                currents = (ig_cc, id_cc, is_cc, ib_cc)
+                for index in range(1, len(t_cc)):
+                    dt = t_cc[index] - t_cc[index - 1]
+                    for charge_values, current_values in zip(charges, currents):
+                        charge_values[index] = (
+                            charge_values[index - 1]
+                            + 0.5 * (current_values[index] + current_values[index - 1]) * dt
+                        )
+                q_total = sum(charges)
+                self.results['charge_conservation'] = vm.verify_ac_charge_conservation(
+                    t_cc, vg_cc, ig_cc, id_cc, is_cc, ib_cc, i_total,
+                    *charges, q_total,
+                )
 
             self.logger.logger.info("AC processing complete.")
         except Exception as e:
@@ -299,20 +449,23 @@ class SpectreMOSFETSimulation:
         try:
             # Thermal noise at main bias point (Vgs=0.6, Vds=0.6)
             th = dr.read_thermal_noise_data(out, vgs=0.6, vds=0.6)
-            if th[0] is not None:
+            flicker_freq, flicker_noise = dr.read_flicker_noise_data(out)
+            shot_freq, shot_noise = dr.read_shot_noise_data(out)
+            temperatures, temp_noise = dr.read_temperature_noise_data(out)
+            if th[0] is not None and flicker_freq is not None:
                 freq_th, noise_th, _, _ = th
                 pg.plot_noise_spectrum(out, freq_th, noise_th,
                                        "Thermal Noise (Vgs=0.6V, Vds=0.6V)",
                                        "thermal_noise")
-                self.results['noise_analysis'] = {'data_ready': True}
-
-            # Collect temp noise
-            temp_noise_data = {}
-            for t in [-40, 0, 27, 50, 100, 150]:
-                tn = dr.read_temperature_noise_data(out)
-                if tn[0] is not None:
-                    # Returns (freqs_dict, noise_dict) or similar
-                    pass
+                thermal_by_bias = dr.read_all_thermal_noise_data(out)
+                self.results['noise_analysis'] = vm.verify_noise_analysis(
+                    freq_th,
+                    thermal_by_bias if thermal_by_bias else noise_th,
+                    (flicker_freq, flicker_noise),
+                    (shot_freq, shot_noise),
+                    temp_noise,
+                    temperatures,
+                )
             self.logger.logger.info("Noise processing complete.")
         except Exception as e:
             self.logger.logger.error(f"Noise processing error: {e}")

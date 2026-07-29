@@ -134,7 +134,7 @@ class DataReader:
                     col_map = {name: i for i, name in enumerate(header)}
             
             # Load data with numpy
-            data = np.loadtxt(file_path, skiprows=skiprows)
+            data = np.atleast_2d(np.loadtxt(file_path, skiprows=skiprows))
             
             # Validate data shape if expected_cols is provided
             if expected_cols and (len(data) == 0 or data.shape[1] < expected_cols):
@@ -176,7 +176,9 @@ class DataReader:
                     col_map = {name: i for i, name in enumerate(header)}
             
             # Load data with numpy
-            data = np.loadtxt(file_path, skiprows=2)  # Skip both comment lines
+            data = np.atleast_2d(
+                np.loadtxt(file_path, skiprows=2)
+            )  # Skip both comment lines
             
             # Validate data shape if expected_cols is provided
             if expected_cols and (len(data) == 0 or data.shape[1] < expected_cols):
@@ -1397,22 +1399,15 @@ class DataReader:
                     if 'Vg' in columns and 'Cgg_1MHz' in columns:
                         vg = data['Vg'].values
                         cgg = data['Cgg_1MHz'].values
-                        # For compatibility, fill freq, vg_phase, id_phase with dummy arrays
-                        freq = np.full_like(vg, 1e6, dtype=float)  # 1 MHz
-                        vg_phase = np.zeros_like(vg, dtype=float)
-                        id_phase = np.zeros_like(vg, dtype=float)
                         self.logger.info("Successfully read CV characteristics data (columnar format)")
-                        return vg, cgg, freq, vg_phase, id_phase
+                        return vg, cgg, None, None, None
                 else:
                     arr = np.genfromtxt(file_path, names=True, dtype=float, encoding=None)
                     if arr.size > 0 and 'Vg' in arr.dtype.names and 'Cgg_1MHz' in arr.dtype.names:
                         vg = np.atleast_1d(arr['Vg']).astype(float)
                         cgg = np.atleast_1d(arr['Cgg_1MHz']).astype(float)
-                        freq = np.full_like(vg, 1e6, dtype=float)  # 1 MHz
-                        vg_phase = np.zeros_like(vg, dtype=float)
-                        id_phase = np.zeros_like(vg, dtype=float)
                         self.logger.info("Successfully read CV characteristics data (columnar format)")
-                        return vg, cgg, freq, vg_phase, id_phase
+                        return vg, cgg, None, None, None
                 # Otherwise, fall through to the next logic
             except Exception as e:
                 self.logger.warning(f"Standard parsing failed, attempting to parse ngspice raw file format: {e}")
@@ -1566,6 +1561,15 @@ class DataReader:
 
             self.logger.info(f"Reading charge conservation data from {file_path}")
 
+            # Spectre/HSPICE post-processors emit a simple numeric table.
+            # Accept that common interchange format before trying ngspice raw.
+            try:
+                data = np.atleast_2d(np.loadtxt(file_path, comments="#"))
+                if data.shape[1] >= 6:
+                    return tuple(data[:, index] for index in range(6))
+            except (OSError, ValueError):
+                pass
+
             # Robustly parse ngspice raw format: skip to 'Values:', then read blocks
             with open(file_path, 'r') as f:
                 lines = f.readlines()
@@ -1586,16 +1590,26 @@ class DataReader:
                     continue
                 # index and time
                 parts = lines[i].strip().split()
-                if len(parts) == 2:
-                    time.append(float(parts[1]))
+                if len(parts) == 2 or (
+                    len(parts) == 1
+                    and i + 6 < len(lines)
+                    and parts[0].isdigit()
+                ):
+                    if len(parts) == 2:
+                        time_value = float(parts[1])
+                        first_value = i + 1
+                    else:
+                        time_value = float(lines[i + 1].strip())
+                        first_value = i + 2
+                    time.append(time_value)
                     # next 5 lines: vg, ig, id, is_, ib
                     try:
-                        vg.append(float(lines[i+1].strip()))
-                        ig.append(float(lines[i+2].strip()))
-                        id.append(float(lines[i+3].strip()))
-                        is_.append(float(lines[i+4].strip()))
-                        ib.append(float(lines[i+5].strip()))
-                        i += 6
+                        vg.append(float(lines[first_value].strip()))
+                        ig.append(float(lines[first_value + 1].strip()))
+                        id.append(float(lines[first_value + 2].strip()))
+                        is_.append(float(lines[first_value + 3].strip()))
+                        ib.append(float(lines[first_value + 4].strip()))
+                        i = first_value + 5
                         continue
                     except Exception as e:
                         self.logger.warning(f"Error parsing data block at line {i}: {e}")
