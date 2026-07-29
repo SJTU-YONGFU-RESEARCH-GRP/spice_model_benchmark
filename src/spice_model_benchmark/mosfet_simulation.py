@@ -242,6 +242,10 @@ class MOSFETSimulation:
             setup_results["simulation_runs"] = True  # Will be updated by simulation runner
             setup_results["details"] = {
                 "netlist_path": ", ".join([str(Path(circ_file).absolute()) for circ_file, _ in circuit_files]),
+                "netlist_paths": {
+                    circ_type.lower(): str(Path(circ_file).absolute())
+                    for circ_file, circ_type in circuit_files
+                },
                 "ngspice_version": dc_result['details']['ngspice_version'],
                 "simulation_status": "Ready to run"
             }
@@ -328,7 +332,7 @@ class MOSFETSimulation:
                             cap_sorted = np.asarray(cap_arr, dtype=float)[order]
                             if vg_sorted.size < 2 or dv == 0.0:
                                 return float('nan')
-                            q = float(np.trapezoid(cap_sorted, vg_sorted))
+                            q = float(np.trapz(cap_sorted, vg_sorted))
                             return q / dv
 
                         ls_caps_f = {name: _ls_cap_from_cv(arr) for name, arr in caps_cv.items()}
@@ -637,11 +641,37 @@ class MOSFETSimulation:
                         qs[i_idx] = qs[i_idx - 1] + 0.5 * (is_cap[i_idx] + is_cap[i_idx - 1]) * dt
                         qb[i_idx] = qb[i_idx - 1] + 0.5 * (ib_cap[i_idx] + ib_cap[i_idx - 1]) * dt
 
-                    # Estimate VDD from gate voltage waveform
-                    vdd_est = float(np.max(vg_cap)) if vg_cap is not None else 0.0
+                    i_total_cap = ig_cap + id_cap + is_cap + ib_cap
+                    q_total_cap = qg + qd + qs + qb
+                    plot_generator.plot_trans_charge_conservation(
+                        self.output_dir,
+                        time_cap,
+                        vg_cap,
+                        ig_cap,
+                        id_cap,
+                        is_cap,
+                        ib_cap,
+                        i_total_cap,
+                        qg,
+                        qd,
+                        qs,
+                        qb,
+                        q_total_cap,
+                    )
+                    self.results['trans_charge_conservation'] = (
+                        self.verification_manager.verify_trans_charge_conservation(
+                            time_cap, vg_cap, ig_cap, id_cap, is_cap, ib_cap,
+                            i_total_cap, qg, qd, qs, qb, q_total_cap,
+                        )
+                    )
+
+                    # Use the waveform span so either pulse polarity is valid.
+                    vg_min = float(np.min(vg_cap))
+                    vg_max = float(np.max(vg_cap))
+                    vdd_est = vg_max - vg_min
                     if vdd_est > 0.0:
-                        v_low_thr = 0.1 * vdd_est
-                        v_high_thr = 0.9 * vdd_est
+                        v_low_thr = vg_min + 0.1 * vdd_est
+                        v_high_thr = vg_min + 0.9 * vdd_est
 
                         # Rising edge: 0 -> VDD
                         low_indices = np.where(vg_cap <= v_low_thr)[0]
@@ -742,10 +772,6 @@ class MOSFETSimulation:
                             'noise_thermal_noise_vds_comparison'
                         )
                     
-                    # Plot all components together
-                    plot_generator.plot_noise_components(self.output_dir, thermal_freq, thermal_noise, 
-                                                     flicker_noise, shot_noise if shot_noise is not None else None)
-                    
                     # Plot temperature dependence if available
                     if temps is not None and temp_noise is not None:
                         plot_generator.plot_noise_vs_temperature(self.output_dir, temps, temp_noise)
@@ -753,7 +779,9 @@ class MOSFETSimulation:
                     # Verify noise analysis results
                     noise_results = self.verification_manager.verify_noise_analysis(
                         thermal_freq, thermal_data_dict if thermal_data_dict and len(thermal_data_dict) > 0 else thermal_noise, 
-                        flicker_noise, shot_noise, temp_noise, temps)
+                        (flicker_freq, flicker_noise),
+                        (shot_freq, shot_noise) if shot_noise is not None else None,
+                        temp_noise, temps)
                     self.results['noise_analysis'] = noise_results
             
             # Update verification checklist
@@ -833,4 +861,4 @@ def main():
         sys.exit(1)
 
 if __name__ == "__main__":
-    main() 
+    main()

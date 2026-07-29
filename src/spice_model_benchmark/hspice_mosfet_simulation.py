@@ -17,6 +17,7 @@ from .hspice_runner import HspiceRunner
 from .data_reader import DataReader
 from .plot_generator import PlotGenerator
 from .verification_manager import VerificationManager
+from .spectre_mosfet_simulation import SpectreMOSFETSimulation
 
 
 class HspiceMOSFETSimulation:
@@ -33,10 +34,20 @@ class HspiceMOSFETSimulation:
                  output_dir: str = 'results_hspice',
                  dpi: int = 300,
                  log_level: str = 'INFO',
-                 model_name: Optional[str] = None):
+                 model_name: Optional[str] = None,
+                 dc_circuit_file: Optional[str] = None,
+                 transient_circuit_file: Optional[str] = None,
+                 noise_circuit_file: Optional[str] = None,
+                 ac_circuit_file: Optional[str] = None):
 
         self.model_file = model_file
         self.model_name = model_name
+        self.circuit_files = {
+            "dc": dc_circuit_file,
+            "transient": transient_circuit_file,
+            "noise": noise_circuit_file,
+            "ac": ac_circuit_file,
+        }
 
         self.output_dir = Path(output_dir).resolve()
         self.dpi = dpi
@@ -75,6 +86,7 @@ class HspiceMOSFETSimulation:
             self.logger,
             output_dir=str(self.output_dir),
             model_file=self.model_file,
+            circuit_files=self.circuit_files,
         )
         if not runner.run_simulations_by_mode(modes):
             self.logger.logger.error("HSPICE simulations failed")
@@ -84,9 +96,14 @@ class HspiceMOSFETSimulation:
         self.logger.logger.info("Phase 2: Analysing results...")
 
         # Simulation setup verification
+        selected_circuits = {
+            mode: path
+            for mode, path in self.circuit_files.items()
+            if mode in modes and path is not None
+        }
         self.results['simulation_setup'] = \
             self._verification_manager.verify_simulation_setup(
-                str(self.model_file)
+                selected_circuits
             )
         if 'details' in self.results['simulation_setup']:
             self.results['simulation_setup']['details'][
@@ -200,9 +217,32 @@ class HspiceMOSFETSimulation:
             sw = dr.read_trans_switching_response_data(out)
             if sw is not None and sw[0] is not None:
                 time_sw, vin_sw, vout_sw, id_sw = sw
-                pg.plot_trans_switching_response(out, time_sw, vin_sw, vout_sw, id_sw)
+                sw_power = dr.read_trans_switching_power_data(out)
+                if (
+                    sw_power is None
+                    or sw_power[0] is None
+                    or sw_power[1] is None
+                ):
+                    raise ValueError(
+                        "measured switching-power data is required"
+                    )
+                _, power_sw = sw_power
+                pg.plot_trans_switching_response(
+                    out,
+                    time_sw,
+                    vin_sw,
+                    vout_sw,
+                    id_sw,
+                    power_sw,
+                )
                 self.results['transient_switching'] = \
-                    vm.verify_trans_switching_simulations(time_sw, vin_sw, vout_sw, id_sw)
+                    vm.verify_trans_switching_simulations(
+                        time_sw,
+                        vin_sw,
+                        vout_sw,
+                        id_sw,
+                        power_sw,
+                    )
 
             de = dr.read_trans_delay_effect_data(out)
             if de is not None and de[0] is not None:
@@ -297,6 +337,14 @@ class HspiceMOSFETSimulation:
             self.logger.logger.error(f"Noise processing error: {e}")
 
 
+# Both commercial simulators emit the same normalized data schema.  Share the
+# complete processing implementation so their REPORT.md result keys and
+# verification calculations cannot drift apart again.
+HspiceMOSFETSimulation._process_transient = SpectreMOSFETSimulation._process_transient
+HspiceMOSFETSimulation._process_ac = SpectreMOSFETSimulation._process_ac
+HspiceMOSFETSimulation._process_noise = SpectreMOSFETSimulation._process_noise
+
+
 def benchmark_spice_model_hspice(
     model_file: str,
     output_dir: str = "hspice_benchmark_results",
@@ -304,6 +352,10 @@ def benchmark_spice_model_hspice(
     dpi: int = 300,
     log_level: str = "INFO",
     model_name: Optional[str] = None,
+    dc_circuit: Optional[str] = None,
+    transient_circuit: Optional[str] = None,
+    noise_circuit: Optional[str] = None,
+    ac_circuit: Optional[str] = None,
 ) -> bool:
     """Convenience function: run HSPICE benchmark on a model file."""
     if modes is None:
@@ -315,5 +367,9 @@ def benchmark_spice_model_hspice(
         dpi=dpi,
         log_level=log_level,
         model_name=model_name,
+        dc_circuit_file=dc_circuit,
+        transient_circuit_file=transient_circuit,
+        noise_circuit_file=noise_circuit,
+        ac_circuit_file=ac_circuit,
     )
     return sim.run(modes=modes)

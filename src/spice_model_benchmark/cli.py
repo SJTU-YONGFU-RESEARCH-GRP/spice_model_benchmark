@@ -4,11 +4,102 @@ Command-line interface for SPICE Model Benchmark System.
 Supports running multiple simulators simultaneously and comparing results.
 """
 import argparse
+import re
+import shutil
 import shlex
 import sys
 import time
 from pathlib import Path
 from typing import List, Optional, Dict
+
+
+def _archive_executed_netlists(
+    simulator: str,
+    simulator_output: Path,
+    modes: List[str],
+) -> Dict[str, str]:
+    """Copy the exact decks submitted to a simulator into ``netlist/``."""
+    extension = {
+        "ngspice": ".cir",
+        "hspice": ".sp",
+        "spectre": ".scs",
+    }[simulator]
+    if simulator == "ngspice":
+        sources = {
+            mode: simulator_output / "_ngspice_netlists" / (mode + ".cir")
+            for mode in modes
+        }
+    elif simulator == "spectre":
+        sources = {
+            mode: simulator_output / "spectre_work" / (mode + ".scs")
+            for mode in modes
+        }
+    else:
+        sources = {
+            mode: (
+                simulator_output
+                / "netlists"
+                / ("hspice_%s_ast.sp" % mode)
+            )
+            for mode in modes
+        }
+
+    missing = [
+        "%s=%s" % (mode, path)
+        for mode, path in sources.items()
+        if not path.is_file() or path.stat().st_size == 0
+    ]
+    if missing:
+        raise RuntimeError(
+            "executed netlist archive is incomplete: " + ", ".join(missing)
+        )
+
+    destination = simulator_output / "netlist"
+    if destination.exists():
+        shutil.rmtree(destination)
+    destination.mkdir(parents=True)
+    archived: Dict[str, str] = {}
+    for mode, source in sources.items():
+        target = destination / (mode + extension)
+        shutil.copy2(source, target)
+        archived[mode] = str(target)
+    return archived
+
+
+def _rewrite_report_netlist_paths(
+    simulator_output: Path,
+    archived_netlists: Dict[str, str],
+) -> None:
+    """Make REPORT.md name the four simulator-native decks actually run."""
+    report = simulator_output / "REPORT.md"
+    if not report.is_file():
+        return
+    ordered = [
+        (mode, Path(archived_netlists[mode]).resolve())
+        for mode in ("dc", "transient", "ac", "noise")
+        if mode in archived_netlists
+    ]
+    status_line = (
+        "- [<span style='color: green'>✓</span>] "
+        "Circuit files exist and are readable\n"
+    )
+    path_lines = "".join(
+        "  - %s: %s\n" % (mode.upper(), path)
+        for mode, path in ordered
+    )
+    pattern = re.compile(
+        r"(?m)^- \[<span style='color: (?:green|red)'>[✓✗]</span>\] "
+        r"Circuit files? exist(?:s)? and (?:is|are) readable\n"
+        r"(?:  - [^\n]*\n)*"
+    )
+    text = report.read_text(encoding="utf-8", errors="replace")
+    updated, count = pattern.subn(status_line + path_lines, text, count=1)
+    if count != 1:
+        raise RuntimeError(
+            "REPORT simulation-setup netlist entry was not found: %s"
+            % report
+        )
+    report.write_text(updated, encoding="utf-8")
 
 
 def main(args: Optional[List[str]] = None) -> int:
@@ -60,6 +151,15 @@ Examples:
         type=str,
         default="spice_benchmark_results",
         help="Output directory for results (default: spice_benchmark_results)"
+    )
+
+    parser.add_argument(
+        "--translated-netlist-dir",
+        type=str,
+        help=(
+            "Private directory for AST-translated input decks. "
+            "Defaults to <output-dir>/_translated_netlists."
+        ),
     )
 
     parser.add_argument(
@@ -126,6 +226,42 @@ Examples:
     modes = parsed_args.modes
     base_output = parsed_args.output_dir
 
+    # One source circuit is parsed once, then emitted for every selected
+    # simulator.  This prevents the three runners from silently choosing
+    # physically different built-in templates.
+    from .circuit_ast import CircuitSyntaxError, translate_circuit_set
+
+    repo_netlists = Path(__file__).resolve().parents[2] / "netlists"
+    supplied = {
+        "dc": parsed_args.dc_circuit,
+        "transient": parsed_args.transient_circuit,
+        "noise": parsed_args.noise_circuit,
+        "ac": parsed_args.ac_circuit,
+    }
+    circuit_sources: Dict[str, str] = {}
+    for mode in modes:
+        custom = supplied[mode]
+        default = repo_netlists / ("%s_circuit.cir" % mode)
+        selected = Path(custom).resolve() if custom else default
+        if not selected.exists():
+            print("Error: %s circuit does not exist: %s" % (mode, selected))
+            return 1
+        circuit_sources[mode] = str(selected)
+    try:
+        translated = translate_circuit_set(
+            circuit_sources,
+            (
+                Path(parsed_args.translated_netlist_dir).resolve()
+                if parsed_args.translated_netlist_dir
+                else Path(base_output).resolve() / "_translated_netlists"
+            ),
+            targets=simulators,
+            model_file=model_path,
+        )
+    except (CircuitSyntaxError, OSError) as exc:
+        print("Error: circuit AST translation failed: %s" % exc)
+        return 1
+
     print(f"SPICE Model Benchmark: {parsed_args.model_file}")
     print(f"Simulators: {', '.join(simulators)}")
     print(f"Modes: {', '.join(modes)}")
@@ -159,10 +295,10 @@ Examples:
                     modes=modes,
                     dpi=parsed_args.dpi,
                     log_level=parsed_args.log_level,
-                    dc_circuit=parsed_args.dc_circuit,
-                    transient_circuit=parsed_args.transient_circuit,
-                    noise_circuit=parsed_args.noise_circuit,
-                    ac_circuit=parsed_args.ac_circuit,
+                    dc_circuit=translated[sim].get("dc"),
+                    transient_circuit=translated[sim].get("transient"),
+                    noise_circuit=translated[sim].get("noise"),
+                    ac_circuit=translated[sim].get("ac"),
                     model_name=_mname,
                 )
             elif sim == 'hspice':
@@ -181,6 +317,10 @@ Examples:
                     dpi=parsed_args.dpi,
                     log_level=parsed_args.log_level,
                     model_name=_mname,
+                    dc_circuit=translated[sim].get("dc"),
+                    transient_circuit=translated[sim].get("transient"),
+                    noise_circuit=translated[sim].get("noise"),
+                    ac_circuit=translated[sim].get("ac"),
                 )
             else:
                 from . import benchmark_spice_model
@@ -190,10 +330,27 @@ Examples:
                     modes=modes,
                     dpi=parsed_args.dpi,
                     log_level=parsed_args.log_level,
-                    dc_circuit=parsed_args.dc_circuit,
-                    transient_circuit=parsed_args.transient_circuit,
-                    noise_circuit=parsed_args.noise_circuit,
-                    ac_circuit=parsed_args.ac_circuit,
+                    dc_circuit=translated[sim].get("dc"),
+                    transient_circuit=translated[sim].get("transient"),
+                    noise_circuit=translated[sim].get("noise"),
+                    ac_circuit=translated[sim].get("ac"),
+                )
+            archived_netlists = _archive_executed_netlists(
+                sim,
+                Path(sim_output_dir).resolve(),
+                modes,
+            )
+            _rewrite_report_netlist_paths(
+                Path(sim_output_dir).resolve(),
+                archived_netlists,
+            )
+            if success:
+                from .canonical_plots import render_canonical_plots
+                render_canonical_plots(
+                    Path(sim_output_dir).resolve(),
+                    modes=modes,
+                    dpi=parsed_args.dpi,
+                    log_level=parsed_args.log_level,
                 )
         except Exception as e:
             print(f"  ✗ {sim} crashed: {e}")
@@ -209,6 +366,7 @@ Examples:
             'success': success,
             'elapsed': elapsed,
             'output_dir': sim_output_dir,
+            'netlists': archived_netlists,
         }
 
         status = "✓ PASS" if success else "✗ FAIL"

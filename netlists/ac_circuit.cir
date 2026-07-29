@@ -17,7 +17,7 @@
 .inc ../models/FreePDK45/nom.inc
 
 * MOSFET device under test
-M1 drain_1 gate_1 source_1 bulk_1 NMOS_VTG L=0.045u W=10u
+M1 drain_1 gate_1 source_1 bulk_1 NMOS_VTG L=1u W=10u
 
 * Test circuit for capacitance and small-signal parameter measurements
 * Gate voltage source with AC component for small-signal analysis
@@ -35,7 +35,7 @@ VB bulk_1 0 DC 0 AC 0
 * for high-frequency characterization
 * ------------------------------------------------------
 * S-parameter test transistor
-M2 drain_2 gate_2 0 0 NMOS_VTG L=0.045u W=10u
+M2 drain_2 gate_2 0 0 NMOS_VTG L=1u W=10u
 
 * 2-port definition: Port1=Gate, Port2=Drain (Z0=50 ohm)
 * Use 50-ohm series resistors between the port voltage sources and the device terminals.
@@ -50,10 +50,10 @@ VDS drain_in2 0 DC 1.0 AC 0
 * Charge conservation test circuit
 * ------------------------------------------------------
 * MOSFET for charge conservation test
-M3 drain_3 gate_3 source_3 bulk_3 NMOS_VTG L=0.045u W=10u
+M3 drain_3 gate_3 source_3 bulk_3 NMOS_VTG L=1u W=10u
 
 * Transient voltage source for gate
-VGQ gate_3 0 DC 0 PWL(0 0 1n 0 1.01n 1.0 5n 1.0)
+VGQ gate_3 0 DC 0 PWL(0 0 1n 0 2n 1.0 5n 1.0)
 
 * Bias sources
 VDQ drain_3 0 DC 1.0
@@ -348,4 +348,4 @@ echo "Charge conservation test completed."
 quit
 .endc
 
-.end 
+.end

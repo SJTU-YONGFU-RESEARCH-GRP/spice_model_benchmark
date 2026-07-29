@@ -156,6 +156,53 @@ success = benchmark_spice_model(
 )
 ```
 
+### Simulator-neutral circuit AST
+
+The four circuit options may point to ngspice, HSPICE, or Spectre netlists.
+Before any simulator is started, the benchmark parses every supplied circuit
+into one simulator-neutral AST and emits the dialect required by each selected
+runner. If an option is omitted, the corresponding
+`netlists/<mode>_circuit.cir` file is the canonical source.
+
+```python
+from spice_model_benchmark import Dialect, parse_circuit, translate_circuit
+
+circuit = parse_circuit("custom_dc.scs", analysis_hint="dc")
+print(circuit.semantic_fingerprint())
+translate_circuit(
+    "custom_dc.scs",
+    Dialect.HSPICE,
+    output="translated/dc.sp",
+    analysis_hint="dc",
+)
+```
+
+Physical equivalence is checked from normalized topology, source waveforms,
+analysis sweeps, temperatures, and per-run source alterations. Formatting,
+comments, and result-file commands are not part of the physical fingerprint.
+The CLI writes all translated decks and `manifest.json` under
+`<output-dir>/_translated_netlists/`.
+
+After simulation, the exact simulator-ready decks that were executed are
+copied into each simulator result directory:
+
+```text
+<output-dir>/<simulator>/
+├── data/
+├── plots/
+├── netlist/
+│   ├── dc.<simulator extension>
+│   ├── transient.<simulator extension>
+│   ├── ac.<simulator extension>
+│   └── noise.<simulator extension>
+└── REPORT.md
+```
+
+The extensions are `.cir` for ngspice, `.sp` for HSPICE, and `.scs` for
+Spectre. Files in `netlist/` are copied after model substitution and other
+runner preparation, so they are the submitted decks rather than source
+templates.
+
 ### Using the Full Simulation Class
 
 For maximum control, use the `MOSFETSimulation` class directly:
@@ -410,4 +457,4 @@ If you use this benchmark system in your research, please cite:
   year = {2023},
   url = {https://github.com/yourusername/spice_model_benchmark}
 }
-``` 
+```
