@@ -135,6 +135,8 @@ class DataReader:
             
             # Load data with numpy
             data = np.loadtxt(file_path, skiprows=skiprows)
+            if data.ndim == 1:
+                data = np.atleast_2d(data)
             
             # Validate data shape if expected_cols is provided
             if expected_cols and (len(data) == 0 or data.shape[1] < expected_cols):
@@ -253,7 +255,7 @@ class DataReader:
         """
         try:
             if not os.path.exists(file_path):
-                self.logger.logger.warning(f"Noise data file not found: {file_path}")
+                self.logger.warning(f"Noise data file not found: {file_path}")
                 return None, None
 
             # Try multiple parsing approaches
@@ -354,11 +356,11 @@ class DataReader:
                 return np.array(freq_data), np.array(noise_data)
             
             # No valid data found
-            self.logger.logger.warning(f"Could not extract valid data from {file_path}")
+            self.logger.warning(f"Could not extract valid data from {file_path}")
             return None, None
             
         except Exception as e:
-            self.logger.logger.error(f"Error reading noise data file {file_path}: {e}")
+            self.logger.error(f"Error reading noise data file {file_path}: {e}")
             return None, None
 
     # DC analysis data reading methods
@@ -744,12 +746,15 @@ class DataReader:
         try:
             # First check for tran_charge.txt which contains all charge data
             file_path = os.path.join(output_dir, 'data', 'tran_charge.txt')
-            if os.path.exists(file_path):
-                self.logger.logger.info(f"Reading charge conservation data from {file_path}")
+            if not os.path.exists(file_path):
+                file_path = os.path.join(output_dir, 'data', 'charge_conservation.txt')
                 
-                # Read the file with numpy - skip the first two comment lines
+            if os.path.exists(file_path):
+                self.logger.info(f"Reading charge conservation data from {file_path}")
+                
+                # Read the file with numpy - skip the header line
                 try:
-                    data = np.loadtxt(file_path, skiprows=2)
+                    data = np.loadtxt(file_path, skiprows=1)
                     if len(data) > 0 and data.shape[1] >= 7:
                         # Extract columns
                         time = data[:, 0]   # Time
@@ -759,32 +764,26 @@ class DataReader:
                         is_ = data[:, 5]    # Source current
                         ib = data[:, 6]     # Bulk current
                         
-                        self.logger.logger.info(f"Charge conservation data read successfully from tran_charge.txt: {len(time)} time points")
+                        self.logger.info(f"Charge conservation data read successfully: {len(time)} time points")
+                        return time, vg, ig, id, is_, ib
+                    elif len(data) > 0 and data.shape[1] >= 6:
+                        time = data[:, 0]
+                        vg = data[:, 1]
+                        ig = data[:, 2]
+                        id = data[:, 3]
+                        is_ = data[:, 4]
+                        ib = data[:, 5]
+                        self.logger.info(f"Charge conservation data read successfully: {len(time)} time points")
                         return time, vg, ig, id, is_, ib
                 except Exception as e:
-                    self.logger.logger.warning(f"Error parsing tran_charge.txt: {e}. Trying alternative files.")
+                    self.logger.warning(f"Error parsing tabular charge data: {e}. Trying raw format.")
                         
-            self.logger.logger.info(f"Reading charge conservation data from {file_path}")
-            
-            # First try to load data directly with numpy
-            try:
-                data = np.loadtxt(file_path, skiprows=1)
-                if len(data) > 0 and data.shape[1] >= 6:
-                    # Extract columns
-                    time = data[:, 0]  # Time
-                    vg = data[:, 1]    # Gate voltage
-                    ig = data[:, 2]    # Gate current
-                    id = data[:, 3]    # Drain current
-                    is_ = data[:, 4]   # Source current
-                    ib = data[:, 5]    # Bulk current
-                    
-                    self.logger.logger.info(f"Charge conservation data read successfully: {len(time)} time points")
-                    return time, vg, ig, id, is_, ib
-            except Exception as e:
-                self.logger.logger.warning(f"Standard parsing failed, attempting to parse ngspice raw file format: {e}")
-            
             # If standard parsing fails, try to parse the ngspice raw file format
             try:
+                if not os.path.exists(file_path):
+                    self.logger.warning(f"Charge conservation file not found: {file_path}")
+                    return None, None, None, None, None, None
+
                 # Read the file and parse the ngspice raw format
                 with open(file_path, 'r') as f:
                     lines = f.readlines()
@@ -800,7 +799,7 @@ class DataReader:
                         break
                 
                 if values_index == -1:
-                    self.logger.logger.error("Could not find 'Values:' in charge conservation file")
+                    self.logger.error("Could not find 'Values:' in charge conservation file")
                     return None, None, None, None, None, None
                 
                 # Parse data from the Values section
@@ -865,23 +864,121 @@ class DataReader:
                     is_array = np.array(is_data)
                     ib_array = np.array(ib_data)
                     
-                    self.logger.logger.info(f"Charge conservation data parsed from ngspice raw format: {len(time_array)} time points")
+                    self.logger.info(f"Charge conservation data parsed from ngspice raw format: {len(time_array)} time points")
                     return time_array, vg_array, ig_array, id_array, is_array, ib_array
                 else:
-                    self.logger.logger.error("Failed to extract consistent data from ngspice raw format")
+                    self.logger.error("Failed to extract consistent data from ngspice raw format")
                     return None, None, None, None, None, None
                 
             except Exception as e:
-                self.logger.logger.error(f"Error parsing charge conservation data from ngspice raw format: {e}")
+                self.logger.error(f"Error parsing charge conservation data from ngspice raw format: {e}")
                 import traceback
                 traceback.print_exc()
                 return None, None, None, None, None, None
                 
         except Exception as e:
-            self.logger.logger.error(f"Error reading charge conservation data: {e}")
+            self.logger.error(f"Error reading charge conservation data: {e}")
             import traceback
             traceback.print_exc()
             return None, None, None, None, None, None
+
+    # Physics Quality Assurance Data Reading (GST & Zero-Bias Passivity)
+    def read_gummel_symmetry_data(self, output_dir):
+        """Read Gummel Symmetry Test (GST) data from file.
+        
+        Returns:
+            tuple: (vx, ix, gx, gxx, gxxx, id_gst, is_gst) numpy arrays
+        """
+        try:
+            filename = 'gummel_symmetry.txt'
+            file_path = self._find_file(filename, output_dir, fallback_dirs=[output_dir, 'netlists', os.path.join(output_dir, 'data')])
+            if not file_path:
+                self.logger.warning("Gummel symmetry data file not found in any location")
+                return None, None, None, None, None, None, None
+            
+            data, _ = self._parse_data_file(file_path, skiprows=1, expected_cols=8)
+            if data is None or len(data) == 0:
+                self.logger.warning("No Gummel symmetry data found in file")
+                return None, None, None, None, None, None, None
+            
+            vx = data[:, 1]
+            ix = data[:, 2]
+            gx = data[:, 3]
+            gxx = data[:, 4]
+            gxxx = data[:, 5]
+            id_gst = data[:, 6]
+            is_gst = data[:, 7]
+            self.logger.info(f"Gummel symmetry data read successfully: {len(vx)} points")
+            return vx, ix, gx, gxx, gxxx, id_gst, is_gst
+        except Exception as e:
+            self.logger.error(f"Error reading Gummel symmetry data: {e}")
+            return None, None, None, None, None, None, None
+
+    def read_zero_bias_passivity_data(self, output_dir):
+        """Read Zero-Bias Passivity data from file.
+        
+        Returns:
+            dict: Terminal currents and passivity status at equilibrium
+        """
+        try:
+            filename = 'zero_bias_passivity.txt'
+            file_path = self._find_file(filename, output_dir, fallback_dirs=[output_dir, 'netlists', os.path.join(output_dir, 'data')])
+            if not file_path:
+                self.logger.warning("Zero-bias passivity file not found in any location")
+                return None
+            
+            data, _ = self._parse_data_file(file_path, skiprows=1, expected_cols=5)
+            if data is None or len(data) == 0:
+                self.logger.warning("No zero-bias passivity data found in file")
+                return None
+            
+            row = data[0]
+            result = {
+                'id_zero': float(row[1]),
+                'ig_zero': float(row[2]),
+                'is_zero': float(row[3]),
+                'ib_zero': float(row[4]),
+            }
+            self.logger.info(f"Zero-bias passivity data read successfully: {result}")
+            return result
+        except Exception as e:
+            self.logger.error(f"Error reading zero-bias passivity data: {e}")
+            return None
+
+    def read_transfer_data(self, output_dir):
+        """Read transfer characteristic sweep data (Vgs sweep at fixed Vds).
+        
+        Returns:
+            tuple: (vg, id, gm, gm2, gm3) numpy arrays
+        """
+        try:
+            filename = 'transfer_data.txt'
+            file_path = self._find_file(filename, output_dir, fallback_dirs=[output_dir, 'netlists', os.path.join(output_dir, 'data')])
+            if not file_path:
+                self.logger.warning("Transfer data file not found")
+                return None, None, None, None, None
+            
+            data, _ = self._parse_data_file(file_path, skiprows=1, expected_cols=3)
+            if data is None or len(data) == 0:
+                return None, None, None, None, None
+            
+            if data.shape[1] >= 6:
+                vg = data[:, 1]
+                id_val = np.abs(data[:, 2])
+                gm = np.abs(data[:, 3])
+                gm2 = data[:, 4]
+                gm3 = data[:, 5]
+            else:
+                vg = data[:, 0]
+                id_val = np.abs(data[:, 1])
+                gm = np.abs(data[:, 2])
+                gm2 = data[:, 3] if data.shape[1] >= 4 else None
+                gm3 = data[:, 4] if data.shape[1] >= 5 else None
+            self.logger.info(f"Transfer data read successfully: {len(vg)} points")
+            return vg, id_val, gm, gm2, gm3
+        except Exception as e:
+            self.logger.error(f"Error reading transfer data: {e}")
+            return None, None, None, None, None
 
     # Noise analysis data reading methods
     def read_thermal_noise_data(self, output_dir, vgs=0.3, vds=0.3):
@@ -1093,7 +1190,7 @@ class DataReader:
             self.logger.error(f"Error reading temperature noise data: {e}")
             return None, None
 
-    def read_noise_data_file(self, output_dir):
+    def read_noise_data_file(self, file_path):
         """Read noise data files with robust parsing to handle text headers and complex formats.
         
         Args:
@@ -1102,115 +1199,7 @@ class DataReader:
         Returns:
             tuple: (frequency, noise) if successful, else (None, None)
         """
-        try:
-            if not os.path.exists(file_path):
-                self.logger.warning(f"Noise data file not found: {file_path}")
-                return None, None
-
-            # Try multiple parsing approaches
-            # 1. First try our custom triplet parser
-            with open(file_path, 'r') as f:
-                lines = f.readlines()
-            
-            # Find Values: section
-            values_index = None
-            for i, line in enumerate(lines):
-                if line.strip() == 'Values:':
-                    values_index = i
-                    break
-            
-            if values_index is not None:
-                # Process the data section using triplet format
-                freq_data = []
-                noise_data = []
-                i = values_index + 1
-                
-                while i < len(lines) - 2:  # Need at least 3 more lines for a complete triplet
-                    # Each triplet has: index, frequency, noise
-                    if lines[i].strip() and not lines[i].strip().startswith(' '):
-                        i += 1  # Skip index line
-                        
-                        # Read frequency
-                        if i < len(lines):
-                            try:
-                                freq = float(lines[i].strip())
-                                freq_data.append(freq)
-                                i += 1
-                                
-                                # Read noise
-                                if i < len(lines):
-                                    try:
-                                        noise = float(lines[i].strip())
-                                        noise_data.append(noise)
-                                    except ValueError:
-                                        # Skip this triplet if we can't parse the noise value
-                                        pass
-                            except ValueError:
-                                # Skip this triplet if we can't parse the frequency
-                                pass
-                    i += 1
-                
-                # Check if we have valid data
-                if len(freq_data) > 0 and len(noise_data) > 0:
-                    # Ensure the arrays have the same length
-                    min_len = min(len(freq_data), len(noise_data))
-                    freq_array = np.array(freq_data[:min_len])
-                    noise_array = np.array(noise_data[:min_len])
-                    return freq_array, noise_array
-            
-            # 2. Try numpy parsing with different skiprows values
-            for skiprows in [9, 10, 8, 11]:
-                try:
-                    data = np.loadtxt(file_path, skiprows=skiprows)
-                    if len(data) > 0 and data.shape[1] >= 3:
-                        freq = data[:, 0]  # First column is frequency
-                        noise = data[:, 2]  # Third column is noise
-                        return freq, noise
-                except Exception:
-                    continue
-            
-            # 3. Last resort - try a more flexible line-by-line parsing
-            freq_data = []
-            noise_data = []
-            data_started = False
-            
-            for line in lines:
-                line = line.strip()
-                if not line:
-                    continue
-                    
-                # If we see 'Values:', data will start soon
-                if line == 'Values:':
-                    data_started = True
-                    continue
-                    
-                if data_started:
-                    # Split by whitespace and try to extract values
-                    parts = line.split()
-                    if len(parts) == 1:
-                        try:
-                            # This might be a frequency or noise value
-                            value = float(parts[0])
-                            # If this is the first value we've seen, assume it's frequency
-                            if len(freq_data) > len(noise_data):
-                                noise_data.append(value)
-                            else:
-                                freq_data.append(value)
-                        except ValueError:
-                            # Not a numeric value, skip
-                            pass
-            
-            # Check if we have matching data
-            if len(freq_data) == len(noise_data) and len(freq_data) > 0:
-                return np.array(freq_data), np.array(noise_data)
-            
-            # No valid data found
-            self.logger.warning(f"Could not extract valid data from {file_path}")
-            return None, None
-            
-        except Exception as e:
-            self.logger.error(f"Error reading noise data file {file_path}: {e}")
-            return None, None
+        return self._read_noise_data_file(file_path)
 
     # AC analysis data reading methods
     def read_cv_data(self, output_dir):
@@ -1274,7 +1263,7 @@ class DataReader:
             want_cols = ["Vg", cgg_col, "Cgs_1MHz", "Cgd_1MHz", "Cgb_1MHz"]
 
             if pd is not None:
-                data = pd.read_csv(file_path, delim_whitespace=True)
+                data = pd.read_csv(file_path, sep=r'\s+')
                 if data.empty or "Vg" not in data.columns:
                     self.logger.warning(f"CV data file has invalid format: {file_path}")
                     return None, None
@@ -1343,7 +1332,7 @@ class DataReader:
             ]
 
             if pd is not None:
-                data = pd.read_csv(file_path, delim_whitespace=True)
+                data = pd.read_csv(file_path, sep=r'\s+')
                 if data.empty or 'Vg' not in data.columns:
                     self.logger.warning(f"Capacitance matrix data file has invalid format: {file_path}")
                     return None, None
@@ -1391,7 +1380,7 @@ class DataReader:
             try:
                 if pd is not None:
                     # Try reading with pandas, which will handle column headers
-                    data = pd.read_csv(file_path, delim_whitespace=True)
+                    data = pd.read_csv(file_path, sep=r'\s+')
                     columns = list(data.columns)
                     # If the expected columnar format is present, use it
                     if 'Vg' in columns and 'Cgg_1MHz' in columns:

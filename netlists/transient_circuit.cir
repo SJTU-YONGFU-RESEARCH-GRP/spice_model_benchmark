@@ -1,7 +1,7 @@
 * MOSFET Transient Analysis Simulation
 .option temp=27 tnom=27
 .option gmin=1e-15
-.option reltol=1e-8
+.option reltol=1e-4
 .option abstol=1e-12
 .option chgtol=1e-15
 .option method=gear
@@ -10,7 +10,7 @@
 .option TEMPSCALE=1.0
 
 * Include FreePDK45 model
-.inc ../models/ngspice-cmos/FreePDK45/nom.inc
+.inc ../models/FreePDK45/nom.inc
 
 * ----------------------------------------------------------
 * MOSFET device under test - standard 45nm transistor
@@ -120,13 +120,13 @@ set wr_formatted
 
 * Run Large-Signal Transient Analysis
 echo "Starting large-signal transient analysis"
-tran 0.01n 100n
+tran 0.02n 25n
 * Save current through drain, gate, source, and voltages
 wrdata ./tran_large_signal.txt time v(gate_tran) v(drain_tran) i(Vds_tran) i(Vgs_tran) i(Vs_tran) i(Vb_tran)
 
 * Run Switching Analysis (inverter)
 echo "Starting switching analysis"
-tran 0.01n 100n
+tran 0.02n 25n
 * Save input and output voltage, as well as current through power supply
 wrdata ./tran_switching.txt time v(in_inv) v(out_inv) i(Vdd_inv)
 
@@ -136,7 +136,7 @@ wrdata ./tran_switching_power.txt time power_switching
 
 * Run Delay Effect Analysis
 echo "Starting delay effect analysis"
-tran 0.01n 100n
+tran 0.02n 25n
 * Save input, intermediate, and output voltage waveforms
 wrdata ./tran_delay.txt time v(in_delay) v(mid1_delay) v(mid2_delay) v(out_delay)
 
@@ -145,7 +145,7 @@ echo "Starting power dissipation analysis"
 
 * Temperature 27°C (room temperature)
 option temp=27
-tran 0.01n 100n
+tran 0.02n 25n
 let power_diss = -v(vdd_power)*i(Vdd_power)
 let energy = integ(power_diss)
 * Save time, input, output, power, and energy
@@ -153,7 +153,7 @@ wrdata ./tran_power_27C.txt time v(in_power) v(out_power) power_diss energy
 
 * Temperature 100°C
 option temp=100
-tran 0.01n 100n
+tran 0.02n 25n
 let power_diss = -v(vdd_power)*i(Vdd_power)
 let energy = integ(power_diss)
 wrdata ./tran_power_100C.txt time v(in_power) v(out_power) power_diss energy
@@ -163,7 +163,7 @@ echo "Starting quasi-static analysis"
 option temp=27
 option minbreak=1e-15
 * Use slower rise/fall times to observe quasi-static behavior
-tran 0.1n 500n uic
+tran 0.1n 200n uic
 * Save gate voltage, drain voltage and drain current
 let id_qs = i(Vds_qs)
 wrdata ./tran_quasi_static.txt time v(gate_qs) v(drain_qs) id_qs
@@ -172,7 +172,7 @@ wrdata ./tran_quasi_static.txt time v(gate_qs) v(drain_qs) id_qs
 echo "Starting charge conservation analysis"
 option temp=27
 * Modified approach that doesn't rely on direct charge extraction
-tran 0.01n 100n
+tran 0.02n 25n
 * Calculate terminal currents
 let ig_charge = i(Vg_charge)
 let id_charge = i(Vd_charge)

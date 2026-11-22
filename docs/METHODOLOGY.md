@@ -193,6 +193,55 @@ This verification ensures:
 - Temperature coefficient is correctly calculated from power dissipation
 - Device efficiency is appropriately characterized
 
+#### 2.4. Physical Properties & Symmetry Analysis (McAndrew TED 2025 & Yao TCAD 2026)
+
+Modern AI/ML-based compact models and classical physics-based models (such as BSIM4 and PSP) must strictly adhere to fundamental physical invariants that govern semiconductor transport. The benchmark implements the gold-standard physical tests formulated by McAndrew et al. (IEEE TED 2025) and Yao et al. (NeuralCM-QA, IEEE TCAD 2026):
+
+##### 2.4.1. Gummel Symmetry Test (GST)
+For symmetric MOSFET architectures where source and drain junctions are identical in geometry and doping, the device current must satisfy exact anti-symmetry under differential excitation:
+$$V_d = +\frac{V_x}{2}, \quad V_s = -\frac{V_x}{2}, \quad V_g = V_{g0}, \quad V_b = 0$$
+
+Under this stimulus:
+1. **Odd Current Symmetry:** $I_x(-V_x) = -I_x(V_x)$, requiring normalized asymmetry error:
+   $$\epsilon_{I} = \frac{\max |I_x(V_x) + I_x(-V_x)|}{\max |I_x(V_x)|} < 10^{-4}$$
+2. **Even Conductance Symmetry:** $G_x(-V_x) = G_x(V_x)$, where $G_x = \frac{\partial I_x}{\partial V_x}$.
+3. **Continuous Zero-Crossing of Higher Derivatives:**
+   $$G_{xx}(0) = \left.\frac{\partial^2 I_x}{\partial V_x^2}\right|_{V_x=0} \equiv 0$$
+   Any non-zero offset or cusp at $V_x = 0$ reveals an unphysical discontinuity at $V_{ds} = 0$, leading to convergence failure and harmonic distortion in circuit simulations.
+
+```python
+def verify_gummel_symmetry(self, vx, ix, gx, gxx, gxxx):
+    """Verify Gummel Symmetry Test (GST) physical invariants.
+    
+    Verifies:
+    1. Odd current symmetry Ix(-Vx) = -Ix(Vx)
+    2. Even conductance symmetry Gx(-Vx) = Gx(Vx)
+    3. Null second derivative Gxx(0) = 0
+    4. Smooth continuity of Gxxx(Vx) without unphysical cusps
+    """
+```
+
+##### 2.4.2. Zero-Bias Thermodynamic Passivity
+At thermodynamic equilibrium where all terminal potentials are zero ($V_d = V_g = V_s = V_b = 0$):
+1. **Equilibrium Current Nullity:** Thermal equilibrium dictates that net terminal currents must vanish:
+   $$\max(|I_d|, |I_g|, |I_s|, |I_b|) < I_{\text{threshold}} \approx 1\text{ pA}$$
+2. **Strict Passivity:** The device cannot spontaneously generate electrical power ($P = \sum_k V_k I_k \ge 0$). While physics-based models yield currents on the order of $10^{-38}\text{ A}$, naive artificial neural networks often suffer from non-zero bias leakage ($1 - 100\text{ nA}$), creating artificial energy sources that violate Kirchhoff's laws.
+
+```python
+def verify_zero_bias_passivity(self, zero_bias_data):
+    """Verify Zero-Bias Thermodynamic Passivity at Vd=Vg=Vs=Vb=0."""
+```
+
+##### 2.4.3. Transconductance Derivative Smoothness & $V_{th}$ Extraction
+Extracts threshold voltage $V_{th}$ via peak $G_m$ linear tangent extrapolation:
+$$V_{th} = V_{gs,\text{peak}} - \frac{I_{ds}(V_{gs,\text{peak}})}{G_{m,\text{peak}}}$$
+Audits higher-order derivatives ($G_{m2} = \partial^2 I_d / \partial V_g^2$) for unwanted high-frequency oscillations ("neural ripples") that frequently plague regression models lacking inductive inductive bias.
+
+```python
+def verify_transconductance_smoothness_and_vth(self, vgs, ids, gm=None, gm2=None):
+    """Verify derivative continuity, transconductance smoothness, and extract Vth."""
+```
+
 ### 3. Transient Analysis
 
 Transient analysis verification examines time-domain behavior across different simulation types:
@@ -573,6 +622,48 @@ The report includes:
 3. Visual indicators (colored checkmarks/crosses) for each test
 4. Embedded plots and visualizations
 5. Tabular data for complex result sets
+
+### 8. Multi-Model & Multi-Corner Process Regression Framework
+
+To ensure robustness across real-world semiconductor process variations, the framework includes an automated regression harness (`RegressionRunner` in `regression_runner.py`) capable of sweeping across multiple foundry PDKs and manufacturing process corners:
+
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│                   Multi-Corner Regression Harness                      │
+└────────────────────────────────────────────────────────────────────────┘
+          │                                           │
+          ▼                                           ▼
+┌──────────────────┐                        ┌──────────────────┐
+│    FreePDK45     │                        │     GF180MCU     │
+│ (45nm Bulk CMOS) │                        │(180nm Bulk CMOS) │
+└──────────────────┘                        └──────────────────┘
+   ├── TT (Nominal)                            ├── Typical (TT)
+   ├── FF (Fast-Fast)                          ├── FF (Fast-Fast)
+   ├── SS (Slow-Slow)                          ├── SS (Slow-Slow)
+   ├── VTH (Low-Leakage)                       ├── FS (Fast-Slow)
+   └── VTL (High-Speed)                        ├── SF (Slow-Fast)
+                                               └── 6.0V High-Voltage
+```
+
+#### 8.1. Evaluated Metrics
+For every corner, the harness extracts and compares:
+1. **$I_{on}$:** Drive current at $V_{gs} = V_{ds} = V_{DD}$ (both in mA and normalized $\mu\text{A}/\mu\text{m}$)
+2. **$I_{off}$:** Subthreshold leakage at $V_{gs} = 0, V_{ds} = V_{DD}$ (in pA)
+3. **$I_{on} / I_{off}$:** Switching figure of merit
+4. **$V_{th}$:** Extracted threshold voltage via peak $G_m$ tangent extrapolation
+5. **Peak $G_m$:** Peak transconductance (normalized to $\text{mS}/\text{mm}$)
+6. **GST Asymmetry Error:** $\max |I_x(V_x) + I_x(-V_x)| / \max |I_x(V_x)|$
+7. **Zero-Bias Leakage:** Equilibrium leakage current (must be $< 1\text{ pA}$)
+8. **Ripple-Free Audit:** Audit of higher derivatives to prevent non-physical oscillations
+
+#### 8.2. Output Deliverables
+The regression framework outputs:
+- **Consolidated Markdown Report:** `results/REGRESSION_REPORT.md`
+- **Machine-Readable JSON Summary:** `results/regression_summary.json`
+- **Multi-Corner Overlay Plots:**
+  - `results/plots/regression_id_vgs.png`: $I_d - V_{gs}$ normalized transfer overlay
+  - `results/plots/regression_gm_vgs.png`: $G_m - V_{gs}$ derivative smoothness overlay
+  - `results/plots/regression_gst.png`: $I_x - V_x$ Gummel symmetry test overlay
 
 ## Conclusion
 

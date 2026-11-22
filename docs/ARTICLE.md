@@ -66,6 +66,15 @@ Noise analysis characterizes thermal, flicker, and shot noise across six frequen
 
 **Figure 5: Noise Validation** - (a) Thermal noise spectral density, (b) flicker noise corner frequency, (c) shot noise analysis, (d) noise figure comparison.
 
+### D. Physical Invariance Auditing and Multi-Corner Process Regression
+
+Following recent standards set forth by McAndrew et al. [7] and Yao et al. (NeuralCM-QA) [10], our framework incorporates three essential physical QA benchmarks directly into the simulation pipeline:
+
+1. **Gummel Symmetry Test (GST):** Source-drain symmetry is verified by differential excitation ($V_d = +V_x/2, V_s = -V_x/2, V_g = V_{g0}, V_b = 0$). The framework computes the odd current symmetry error $\epsilon_I = \max |I_x(V_x) + I_x(-V_x)| / \max |I_x(V_x)|$, even conductance symmetry error, and verifies zero-crossing continuity ($G_{xx}(0) = 0$).
+2. **Zero-Bias Thermodynamic Passivity:** At thermodynamic equilibrium ($V_d = V_g = V_s = V_b = 0$), terminal currents must strictly vanish ($\max |I_k| < 1\text{ pA}$). This test discriminates between physical models (leakage $\sim 10^{-38}\text{ A}$) and unconstrained neural network models that spontaneously generate non-zero current.
+3. **Transconductance Ripple & $V_{th}$ Extraction:** Audits higher-order derivatives ($G_m = \partial I_d / \partial V_g$, $G_{m2} = \partial^2 I_d / \partial V_g^2$) for unphysical ripples and extracts $V_{th}$ via peak $G_m$ linear extrapolation.
+4. **Multi-Corner Process Regression:** Automated regression across PDK libraries (FreePDK45, GF180MCU) over manufacturing process corners (TT, FF, SS, FS, SF), verifying monotonic shifts in drive current $I_{on}$ and threshold voltage $V_{th}$.
+
 ### C. Validation Pipeline and Conclusion Derivation
 
 The systematic validation pipeline processes models through five stages: input validation, multi-domain simulation, data analysis, physics verification, and report generation. **Figure 6** illustrates how conclusions are derived from each simulation domain.
@@ -281,6 +290,8 @@ The authors would like to thank the semiconductor modeling community for valuabl
 [8] Y. Zhang et al., "MESD: MOSFET Electrical Simulation Dataset," Shanghai Jiao Tong University Yongfu Research Group, 2025. [Online]. Available: https://github.com/SJTU-YONGFU-RESEARCH-GRP/MESD-MOSFET-Electrical-Simulation-Dataset
 
 [9] SPICE Model Libraries Collection, Shanghai Jiao Tong University Yongfu Research Group, 2025. [Online]. Available: https://github.com/SJTU-YONGFU-RESEARCH-GRP/spice-libraries
+
+[10] H. Yao, Z. Zhang, et al., "NeuralCM-QA: An Automatic Quality-Assurance Framework for ML-Based MOSFET Compact Models," IEEE Trans. Comput.-Aided Des. Integr. Circuits Syst., 2026.
 
 ## Appendix A: Validation Protocols
 

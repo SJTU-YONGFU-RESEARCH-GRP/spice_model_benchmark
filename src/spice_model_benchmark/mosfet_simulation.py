@@ -125,6 +125,8 @@ class MOSFETSimulation:
         self.transient_circuit_file = transient_circuit_file
         self.noise_circuit_file = noise_circuit_file
         self.ac_circuit_file = ac_circuit_file
+        cand_gst = [Path('netlists/gummel_circuit.cir'), Path(__file__).resolve().parent.parent.parent / 'netlists' / 'gummel_circuit.cir']
+        self.gummel_circuit_file = next((p for p in cand_gst if p.exists()), None)
 
         # Convert output_dir to absolute path if it's not already
         self.output_dir = Path(output_dir).resolve()
@@ -150,6 +152,10 @@ class MOSFETSimulation:
             'temperature_analysis': None,
             'thermodynamic_analysis': None,
             'bias_point_analysis': None,
+            # Physics QA analysis results (McAndrew TED 2025 / Yao TCAD 2026)
+            'gummel_symmetry_analysis': None,
+            'zero_bias_passivity': None,
+            'transconductance_smoothness': None,
             # Add AC analysis results
             'cv_characteristics': None,
             'sparameter_analysis': None,
@@ -306,6 +312,39 @@ class MOSFETSimulation:
                 if not thermo_results['power_measurements']:
                     raise ValueError("Power measurements verification failed")
                 self.results['thermodynamic_analysis'] = thermo_results
+
+                # -------------------------------------------------------------
+                # Physics QA: Gummel Symmetry Test, Passivity & Derivative Smoothness
+                # -------------------------------------------------------------
+                if self.gummel_circuit_file and os.path.exists(self.gummel_circuit_file):
+                    self.logger.info("Running Gummel Symmetry & Zero-Bias Passivity simulation")
+                    self.simulation_runner.run_simulation(self.gummel_circuit_file)
+                
+                # Read and verify GST data
+                vx, ix, gx, gxx, gxxx, id_gst, is_gst = self.data_reader.read_gummel_symmetry_data(self.output_dir)
+                if vx is not None and ix is not None:
+                    gst_results = self.verification_manager.verify_gummel_symmetry(vx, ix, gx, gxx, gxxx)
+                    self.results['gummel_symmetry_analysis'] = gst_results
+                    plot_generator.plot_gummel_symmetry(self.output_dir, vx, ix, gx, gxx)
+                
+                # Read and verify Zero-bias passivity data
+                zb_data = self.data_reader.read_zero_bias_passivity_data(self.output_dir)
+                if zb_data is not None:
+                    zb_results = self.verification_manager.verify_zero_bias_passivity(zb_data)
+                    self.results['zero_bias_passivity'] = zb_results
+                
+                # Transconductance smoothness & Vth extraction
+                vg_tr, id_tr, gm_tr, gm2_tr, gm3_tr = self.data_reader.read_transfer_data(self.output_dir)
+                if vg_tr is not None and id_tr is not None:
+                    sm_results = self.verification_manager.verify_transconductance_smoothness_and_vth(vg_tr, id_tr, gm=gm_tr, gm2=gm2_tr)
+                    self.results['transconductance_smoothness'] = sm_results
+                    vth_val = sm_results.get('details', {}).get('vth') if sm_results else None
+                    plot_generator.plot_derivative_smoothness(self.output_dir, vg_tr, id_tr, gm=gm_tr, gm2=gm2_tr, vth=vth_val)
+                elif v_gs is not None and i_ds is not None:
+                    sm_results = self.verification_manager.verify_transconductance_smoothness_and_vth(v_gs, i_ds)
+                    self.results['transconductance_smoothness'] = sm_results
+                    vth_val = sm_results.get('details', {}).get('vth') if sm_results else None
+                    plot_generator.plot_derivative_smoothness(self.output_dir, v_gs, i_ds, vth=vth_val)
             
             if 'ac' in modes:
                 # Read AC data files

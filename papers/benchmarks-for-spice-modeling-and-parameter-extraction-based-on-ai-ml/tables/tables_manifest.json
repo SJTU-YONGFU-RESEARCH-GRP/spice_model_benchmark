@@ -1,0 +1,32 @@
+[
+  {
+    "table_number": "I",
+    "caption": "CHECKLIST FOR MODELS",
+    "page": 2,
+    "file": "table_i.png",
+    "bbox": [
+      49.0,
+      70.0,
+      300.0,
+      320.0
+    ],
+    "method": "image_only",
+    "score": 100.0,
+    "needs_manual_review": false
+  },
+  {
+    "table_number": "II",
+    "caption": "CHECKLIST FOR PARAMETER EXTRACTION",
+    "page": 3,
+    "file": "table_ii.png",
+    "bbox": [
+      49.0,
+      60.0,
+      300.0,
+      340.0
+    ],
+    "method": "image_only",
+    "score": 100.0,
+    "needs_manual_review": false
+  }
+]

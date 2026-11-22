@@ -92,6 +92,7 @@ netlists/freepdk45_*_t*/
 netlists/sky130_*_t*/
 netlists/freepdk45_dc_circuit_*T*.cir
 netlists/sky130_dc_circuit_*T*.cir
-netlists/test_cap_single*.cirresults_spectre*/
+netlists/test_cap_single*.cir
+results_spectre*/
 netlists/spectre/raw_*/
 netlists/spectre/test_*/

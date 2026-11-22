@@ -1,0 +1,314 @@
+[
+  {
+    "figure_number": "1",
+    "caption": "Threshold voltage VT0 versus channel length L. The data are from measurements of a single site on a wafer, so include local statistical variation.",
+    "page": 3,
+    "file": "figure_01.png",
+    "selected_candidate": "a_column_vector",
+    "selection_note": "verified_matching_caption_content",
+    "caption_layout": "single_column",
+    "content_layout": "single_column",
+    "figure_span": "single_column",
+    "candidates": [
+      {
+        "id": "a_column_vector",
+        "file": "candidates/figure_01_a_column_vector.png",
+        "method": "column_vector_clip",
+        "clip_pt": [
+          312.0,
+          50.0,
+          563.0,
+          230.0
+        ],
+        "width_px": 753,
+        "height_px": 540
+      },
+      {
+        "id": "b_full_width_vector",
+        "file": "candidates/figure_01_b_full_width_vector.png",
+        "method": "alternate_span_clip",
+        "clip_pt": [
+          40.0,
+          50.0,
+          572.0,
+          230.0
+        ],
+        "width_px": 1596,
+        "height_px": 540
+      }
+    ]
+  },
+  {
+    "figure_number": "2",
+    "caption": "Threshold voltage VT0 versus channel length L from a physically based model. Notice the smoothness and monotonicity of the model.",
+    "page": 4,
+    "file": "figure_02.png",
+    "selected_candidate": "a_column_vector",
+    "selection_note": "verified_matching_caption_content",
+    "caption_layout": "single_column",
+    "content_layout": "single_column",
+    "figure_span": "single_column",
+    "candidates": [
+      {
+        "id": "a_column_vector",
+        "file": "candidates/figure_02_a_column_vector.png",
+        "method": "column_vector_clip",
+        "clip_pt": [
+          312.0,
+          50.0,
+          563.0,
+          228.0
+        ],
+        "width_px": 753,
+        "height_px": 534
+      },
+      {
+        "id": "b_full_width_vector",
+        "file": "candidates/figure_02_b_full_width_vector.png",
+        "method": "alternate_span_clip",
+        "clip_pt": [
+          40.0,
+          50.0,
+          572.0,
+          228.0
+        ],
+        "width_px": 1596,
+        "height_px": 534
+      }
+    ]
+  },
+  {
+    "figure_number": "3",
+    "caption": "Measured drain current (ID, solid lines) and output conductance (gdd, dash lines, dot-dash is where gdd < 0) from a typical LDMOS transistor.",
+    "page": 5,
+    "file": "figure_03.png",
+    "selected_candidate": "a_column_vector",
+    "selection_note": "verified_matching_caption_content",
+    "caption_layout": "single_column",
+    "content_layout": "single_column",
+    "figure_span": "single_column",
+    "candidates": [
+      {
+        "id": "a_column_vector",
+        "file": "candidates/figure_03_a_column_vector.png",
+        "method": "column_vector_clip",
+        "clip_pt": [
+          49.0,
+          50.0,
+          300.0,
+          232.0
+        ],
+        "width_px": 753,
+        "height_px": 546
+      },
+      {
+        "id": "b_full_width_vector",
+        "file": "candidates/figure_03_b_full_width_vector.png",
+        "method": "alternate_span_clip",
+        "clip_pt": [
+          40.0,
+          50.0,
+          572.0,
+          232.0
+        ],
+        "width_px": 1596,
+        "height_px": 546
+      }
+    ]
+  },
+  {
+    "figure_number": "4",
+    "caption": "Normalized resistance R versus width W for an integrated resistor. The curves, from top to bottom, are for high, typical, and low resistance process corners, respectively.",
+    "page": 5,
+    "file": "figure_04.png",
+    "selected_candidate": "a_column_vector",
+    "selection_note": "verified_matching_caption_content",
+    "caption_layout": "single_column",
+    "content_layout": "single_column",
+    "figure_span": "single_column",
+    "candidates": [
+      {
+        "id": "a_column_vector",
+        "file": "candidates/figure_04_a_column_vector.png",
+        "method": "column_vector_clip",
+        "clip_pt": [
+          49.0,
+          270.0,
+          300.0,
+          445.0
+        ],
+        "width_px": 753,
+        "height_px": 525
+      },
+      {
+        "id": "b_full_width_vector",
+        "file": "candidates/figure_04_b_full_width_vector.png",
+        "method": "alternate_span_clip",
+        "clip_pt": [
+          40.0,
+          270.0,
+          572.0,
+          445.0
+        ],
+        "width_px": 1596,
+        "height_px": 525
+      }
+    ]
+  },
+  {
+    "figure_number": "5",
+    "caption": "Resistor conductance 1/R versus width W showing correct and incorrect asymptotic behavior.",
+    "page": 6,
+    "file": "figure_05.png",
+    "selected_candidate": "a_column_vector",
+    "selection_note": "verified_matching_caption_content",
+    "caption_layout": "single_column",
+    "content_layout": "single_column",
+    "figure_span": "single_column",
+    "candidates": [
+      {
+        "id": "a_column_vector",
+        "file": "candidates/figure_05_a_column_vector.png",
+        "method": "column_vector_clip",
+        "clip_pt": [
+          49.0,
+          50.0,
+          300.0,
+          232.0
+        ],
+        "width_px": 753,
+        "height_px": 546
+      },
+      {
+        "id": "b_full_width_vector",
+        "file": "candidates/figure_05_b_full_width_vector.png",
+        "method": "alternate_span_clip",
+        "clip_pt": [
+          40.0,
+          50.0,
+          572.0,
+          232.0
+        ],
+        "width_px": 1596,
+        "height_px": 546
+      }
+    ]
+  },
+  {
+    "figure_number": "6",
+    "caption": "Handling of LDEs.",
+    "page": 6,
+    "file": "figure_06.png",
+    "selected_candidate": "a_column_vector",
+    "selection_note": "verified_matching_caption_content",
+    "caption_layout": "single_column",
+    "content_layout": "single_column",
+    "figure_span": "single_column",
+    "candidates": [
+      {
+        "id": "a_column_vector",
+        "file": "candidates/figure_06_a_column_vector.png",
+        "method": "column_vector_clip",
+        "clip_pt": [
+          312.0,
+          50.0,
+          563.0,
+          142.0
+        ],
+        "width_px": 753,
+        "height_px": 276
+      },
+      {
+        "id": "b_full_width_vector",
+        "file": "candidates/figure_06_b_full_width_vector.png",
+        "method": "alternate_span_clip",
+        "clip_pt": [
+          40.0,
+          50.0,
+          572.0,
+          142.0
+        ],
+        "width_px": 1596,
+        "height_px": 276
+      }
+    ]
+  },
+  {
+    "figure_number": "7",
+    "caption": "Measured output conductance (normalized to the low-frequency value) as a function of frequency for a FinFET (go = gdd) and a SiGe HBT (go = gcc). The frequency dependence is from self-heating.",
+    "page": 6,
+    "file": "figure_07.png",
+    "selected_candidate": "a_column_vector",
+    "selection_note": "verified_matching_caption_content",
+    "caption_layout": "single_column",
+    "content_layout": "single_column",
+    "figure_span": "single_column",
+    "candidates": [
+      {
+        "id": "a_column_vector",
+        "file": "candidates/figure_07_a_column_vector.png",
+        "method": "column_vector_clip",
+        "clip_pt": [
+          312.0,
+          160.0,
+          563.0,
+          334.0
+        ],
+        "width_px": 753,
+        "height_px": 522
+      },
+      {
+        "id": "b_full_width_vector",
+        "file": "candidates/figure_07_b_full_width_vector.png",
+        "method": "alternate_span_clip",
+        "clip_pt": [
+          40.0,
+          160.0,
+          572.0,
+          334.0
+        ],
+        "width_px": 1596,
+        "height_px": 522
+      }
+    ]
+  },
+  {
+    "figure_number": "8",
+    "caption": "Simulation of a simple inverter (with a resistive load) using BSIM4. The 'spike' for xpart = 0 is from lack of modeling of NQS behavior. The xpart = 1 'correction' ameliorates the unphysical spike, but messes up capacitance modeling.",
+    "page": 7,
+    "file": "figure_08.png",
+    "selected_candidate": "a_column_vector",
+    "selection_note": "verified_matching_caption_content",
+    "caption_layout": "single_column",
+    "content_layout": "single_column",
+    "figure_span": "single_column",
+    "candidates": [
+      {
+        "id": "a_column_vector",
+        "file": "candidates/figure_08_a_column_vector.png",
+        "method": "column_vector_clip",
+        "clip_pt": [
+          49.0,
+          50.0,
+          300.0,
+          232.0
+        ],
+        "width_px": 753,
+        "height_px": 546
+      },
+      {
+        "id": "b_full_width_vector",
+        "file": "candidates/figure_08_b_full_width_vector.png",
+        "method": "alternate_span_clip",
+        "clip_pt": [
+          40.0,
+          50.0,
+          572.0,
+          232.0
+        ],
+        "width_px": 1596,
+        "height_px": 546
+      }
+    ]
+  }
+]

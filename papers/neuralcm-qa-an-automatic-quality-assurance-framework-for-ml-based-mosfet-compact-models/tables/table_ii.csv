@@ -1,0 +1,23 @@
+QA Check Item,,BSIM4,Base-ANN,Sym-ANN,Grad-ANN,Phys-ANN
+1. Compilation &,Syntax,,,,,
+Model Compilation,,✓,✓,✓,✓,✓
+2. DC Characterization,/ Metric,Extraction,,,,
+Transfer Characteristic,,✓,✓,✓,✓,✓
+Output Characteristic,,✓,✓,✓,✓,✓
+Threshold Voltage,,✓,×,✓,✓,✓
+Off-State Current,,✓,✓,✓,✓,✓
+DIBL Effect,,✓,×,✓,✓,✓
+3. Physical Consistency,& Derivatives,,,,,
+Transconductance,,✓,×,✓,✓,✓
+Output Conductance,,✓,×,✓,✓,✓
+DC Gummel Symmetry,Test,×,×,✓,✓,✓
+Energy Conservation,,✓,×,×,×,✓
+4. AC Characterization,,,,,,
+Gate Capacitance,,✓,×,×,✓,✓
+AC Gummel Symmetry,Test,×,×,×,✓,✓
+5. Circuit Benchmark,Convergence,,,,,
+OTA (AC Gain/Phase),,✓,×,✓,✓,✓
+Inverter (DC/Transient),,✓,×,✓,✓,✓
+Ring Oscillator (3-stage),,✓,×,✓,✓,✓
+Ring Oscillator,(99-stage),✓,×,✓,Timeout,✓
+,,✓,,,,✓

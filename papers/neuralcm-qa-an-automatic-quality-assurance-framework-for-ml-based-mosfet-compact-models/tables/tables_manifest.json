@@ -1,0 +1,65 @@
+[
+  {
+    "table_number": "I",
+    "caption": "COMPACT-MODEL QA TOOL COMPARISON",
+    "page": 2,
+    "file": "table_i.png",
+    "bbox": [
+      49.0,
+      75.0,
+      300.0,
+      260.0
+    ],
+    "method": "image_only",
+    "score": 100.0,
+    "needs_manual_review": false
+  },
+  {
+    "table_number": "II",
+    "caption": "BENCHMARK-MODEL QA SUMMARY",
+    "page": 8,
+    "file": "table_ii.png",
+    "bbox": [
+      49.0,
+      60.0,
+      563.0,
+      280.0
+    ],
+    "method": "word_grid",
+    "score": 100.0,
+    "needs_manual_review": false,
+    "csv": "table_ii.csv"
+  },
+  {
+    "table_number": "III",
+    "caption": "RO3 RUNTIME UNDER MODEL-SIZE AND ACTIVATION CHANGES",
+    "page": 9,
+    "file": "table_iii.png",
+    "bbox": [
+      49.0,
+      580.0,
+      300.0,
+      750.0
+    ],
+    "method": "word_grid",
+    "score": 100.0,
+    "needs_manual_review": false,
+    "csv": "table_iii.csv"
+  },
+  {
+    "table_number": "IV",
+    "caption": "QA SUMMARY FOR THE TCAD-TRAINED 5-NM GAAFET PHYS-ANN",
+    "page": 11,
+    "file": "table_iv.png",
+    "bbox": [
+      49.0,
+      60.0,
+      300.0,
+      280.0
+    ],
+    "method": "word_grid",
+    "score": 100.0,
+    "needs_manual_review": false,
+    "csv": "table_iv.csv"
+  }
+]

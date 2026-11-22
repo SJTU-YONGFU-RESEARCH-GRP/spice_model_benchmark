@@ -1,0 +1,509 @@
+[
+  {
+    "figure_number": "1",
+    "caption": "Overall NeuralCM-QA workflow.",
+    "page": 2,
+    "file": "figure_01.png",
+    "selected_candidate": "a_column_vector",
+    "selection_note": "verified_matching_caption_content",
+    "caption_layout": "single_column",
+    "content_layout": "single_column",
+    "figure_span": "single_column",
+    "candidates": [
+      {
+        "id": "a_column_vector",
+        "file": "candidates/figure_01_a_column_vector.png",
+        "method": "column_vector_clip",
+        "clip_pt": [
+          49.0,
+          50.0,
+          300.0,
+          505.0
+        ],
+        "width_px": 753,
+        "height_px": 1365
+      },
+      {
+        "id": "b_full_width_vector",
+        "file": "candidates/figure_01_b_full_width_vector.png",
+        "method": "alternate_span_clip",
+        "clip_pt": [
+          40.0,
+          50.0,
+          572.0,
+          505.0
+        ],
+        "width_px": 1596,
+        "height_px": 1365
+      }
+    ]
+  },
+  {
+    "figure_number": "2",
+    "caption": "Model parameters and JSON configuration files for the testing module.",
+    "page": 3,
+    "file": "figure_02.png",
+    "selected_candidate": "a_column_vector",
+    "selection_note": "verified_matching_caption_content",
+    "caption_layout": "single_column",
+    "content_layout": "single_column",
+    "figure_span": "single_column",
+    "candidates": [
+      {
+        "id": "a_column_vector",
+        "file": "candidates/figure_02_a_column_vector.png",
+        "method": "column_vector_clip",
+        "clip_pt": [
+          49.0,
+          50.0,
+          300.0,
+          325.0
+        ],
+        "width_px": 753,
+        "height_px": 825
+      },
+      {
+        "id": "b_full_width_vector",
+        "file": "candidates/figure_02_b_full_width_vector.png",
+        "method": "alternate_span_clip",
+        "clip_pt": [
+          40.0,
+          50.0,
+          572.0,
+          325.0
+        ],
+        "width_px": 1596,
+        "height_px": 825
+      }
+    ]
+  },
+  {
+    "figure_number": "3",
+    "caption": "Higher-order derivative QA example. (a) d4Ids/dV4 vs Vds. (b) Gummel symmetry test derivative check.",
+    "page": 4,
+    "file": "figure_03.png",
+    "selected_candidate": "a_column_vector",
+    "selection_note": "verified_matching_caption_content",
+    "caption_layout": "single_column",
+    "content_layout": "single_column",
+    "figure_span": "single_column",
+    "candidates": [
+      {
+        "id": "a_column_vector",
+        "file": "candidates/figure_03_a_column_vector.png",
+        "method": "column_vector_clip",
+        "clip_pt": [
+          49.0,
+          50.0,
+          300.0,
+          165.0
+        ],
+        "width_px": 753,
+        "height_px": 345
+      },
+      {
+        "id": "b_full_width_vector",
+        "file": "candidates/figure_03_b_full_width_vector.png",
+        "method": "alternate_span_clip",
+        "clip_pt": [
+          40.0,
+          50.0,
+          572.0,
+          165.0
+        ],
+        "width_px": 1596,
+        "height_px": 345
+      }
+    ]
+  },
+  {
+    "figure_number": "4",
+    "caption": "Schematic of the Gummel symmetry test setup. (a) DC symmetry test. (b) AC symmetry test.",
+    "page": 4,
+    "file": "figure_04.png",
+    "selected_candidate": "a_column_vector",
+    "selection_note": "verified_matching_caption_content",
+    "caption_layout": "single_column",
+    "content_layout": "single_column",
+    "figure_span": "single_column",
+    "candidates": [
+      {
+        "id": "a_column_vector",
+        "file": "candidates/figure_04_a_column_vector.png",
+        "method": "column_vector_clip",
+        "clip_pt": [
+          312.0,
+          50.0,
+          563.0,
+          195.0
+        ],
+        "width_px": 753,
+        "height_px": 435
+      },
+      {
+        "id": "b_full_width_vector",
+        "file": "candidates/figure_04_b_full_width_vector.png",
+        "method": "alternate_span_clip",
+        "clip_pt": [
+          40.0,
+          50.0,
+          572.0,
+          195.0
+        ],
+        "width_px": 1596,
+        "height_px": 435
+      }
+    ]
+  },
+  {
+    "figure_number": "5",
+    "caption": "Device electrical characteristics extracted by the framework. (a) Transfer characteristics. (b) Output characteristics. (c) Transconductance gm. (d) Output conductance gds. (e) Transcapacitances.",
+    "page": 4,
+    "file": "figure_05.png",
+    "selected_candidate": "b_full_width_vector",
+    "selection_note": "verified_matching_caption_content",
+    "caption_layout": "full_width",
+    "content_layout": "full_width",
+    "figure_span": "full_width",
+    "candidates": [
+      {
+        "id": "b_full_width_vector",
+        "file": "candidates/figure_05_b_full_width_vector.png",
+        "method": "column_vector_clip",
+        "clip_pt": [
+          49.0,
+          210.0,
+          563.0,
+          460.0
+        ],
+        "width_px": 1542,
+        "height_px": 750
+      },
+      {
+        "id": "d_full_width_raster",
+        "file": "candidates/figure_05_d_full_width_raster.png",
+        "method": "alternate_span_clip",
+        "clip_pt": [
+          39.0,
+          210.0,
+          573.0,
+          460.0
+        ],
+        "width_px": 1602,
+        "height_px": 750
+      }
+    ]
+  },
+  {
+    "figure_number": "6",
+    "caption": "Architecture diagrams of the four benchmark models. (a) Base-ANN. (b) Sym-ANN. (c) Grad-ANN. (d) Phys-ANN.",
+    "page": 6,
+    "file": "figure_06.png",
+    "selected_candidate": "b_full_width_vector",
+    "selection_note": "verified_matching_caption_content",
+    "caption_layout": "full_width",
+    "content_layout": "full_width",
+    "figure_span": "full_width",
+    "candidates": [
+      {
+        "id": "b_full_width_vector",
+        "file": "candidates/figure_06_b_full_width_vector.png",
+        "method": "column_vector_clip",
+        "clip_pt": [
+          49.0,
+          50.0,
+          563.0,
+          240.0
+        ],
+        "width_px": 1542,
+        "height_px": 570
+      },
+      {
+        "id": "d_full_width_raster",
+        "file": "candidates/figure_06_d_full_width_raster.png",
+        "method": "alternate_span_clip",
+        "clip_pt": [
+          39.0,
+          50.0,
+          573.0,
+          240.0
+        ],
+        "width_px": 1602,
+        "height_px": 570
+      }
+    ]
+  },
+  {
+    "figure_number": "7",
+    "caption": "QA results for Base-ANN. (a) Failed GST. (b) Gm Oscillation. (c) Energy conservation violation.",
+    "page": 9,
+    "file": "figure_07.png",
+    "selected_candidate": "a_column_vector",
+    "selection_note": "verified_matching_caption_content",
+    "caption_layout": "single_column",
+    "content_layout": "single_column",
+    "figure_span": "single_column",
+    "candidates": [
+      {
+        "id": "a_column_vector",
+        "file": "candidates/figure_07_a_column_vector.png",
+        "method": "column_vector_clip",
+        "clip_pt": [
+          49.0,
+          50.0,
+          300.0,
+          270.0
+        ],
+        "width_px": 753,
+        "height_px": 660
+      },
+      {
+        "id": "b_full_width_vector",
+        "file": "candidates/figure_07_b_full_width_vector.png",
+        "method": "alternate_span_clip",
+        "clip_pt": [
+          40.0,
+          50.0,
+          572.0,
+          270.0
+        ],
+        "width_px": 1596,
+        "height_px": 660
+      }
+    ]
+  },
+  {
+    "figure_number": "8",
+    "caption": "QA results for Sym-ANN. (a) Passed GST. (b) Smooth Gm. (c) Lack of AC capacitance modeling.",
+    "page": 9,
+    "file": "figure_08.png",
+    "selected_candidate": "a_column_vector",
+    "selection_note": "verified_matching_caption_content",
+    "caption_layout": "single_column",
+    "content_layout": "single_column",
+    "figure_span": "single_column",
+    "candidates": [
+      {
+        "id": "a_column_vector",
+        "file": "candidates/figure_08_a_column_vector.png",
+        "method": "column_vector_clip",
+        "clip_pt": [
+          312.0,
+          50.0,
+          563.0,
+          270.0
+        ],
+        "width_px": 753,
+        "height_px": 660
+      },
+      {
+        "id": "b_full_width_vector",
+        "file": "candidates/figure_08_b_full_width_vector.png",
+        "method": "alternate_span_clip",
+        "clip_pt": [
+          40.0,
+          50.0,
+          572.0,
+          270.0
+        ],
+        "width_px": 1596,
+        "height_px": 660
+      }
+    ]
+  },
+  {
+    "figure_number": "9",
+    "caption": "QA results for Grad-ANN. (a) Passed GST. (b) Passed AC GST. (c) Transient simulation failure.",
+    "page": 9,
+    "file": "figure_09.png",
+    "selected_candidate": "a_column_vector",
+    "selection_note": "verified_matching_caption_content",
+    "caption_layout": "single_column",
+    "content_layout": "single_column",
+    "figure_span": "single_column",
+    "candidates": [
+      {
+        "id": "a_column_vector",
+        "file": "candidates/figure_09_a_column_vector.png",
+        "method": "column_vector_clip",
+        "clip_pt": [
+          49.0,
+          310.0,
+          300.0,
+          530.0
+        ],
+        "width_px": 753,
+        "height_px": 660
+      },
+      {
+        "id": "b_full_width_vector",
+        "file": "candidates/figure_09_b_full_width_vector.png",
+        "method": "alternate_span_clip",
+        "clip_pt": [
+          40.0,
+          310.0,
+          572.0,
+          530.0
+        ],
+        "width_px": 1596,
+        "height_px": 660
+      }
+    ]
+  },
+  {
+    "figure_number": "10",
+    "caption": "QA results for Phys-ANN. (a) Passed GST. (b) Passed AC GST. (c) Passed circuit benchmarks.",
+    "page": 9,
+    "file": "figure_10.png",
+    "selected_candidate": "a_column_vector",
+    "selection_note": "verified_matching_caption_content",
+    "caption_layout": "single_column",
+    "content_layout": "single_column",
+    "figure_span": "single_column",
+    "candidates": [
+      {
+        "id": "a_column_vector",
+        "file": "candidates/figure_10_a_column_vector.png",
+        "method": "column_vector_clip",
+        "clip_pt": [
+          312.0,
+          310.0,
+          563.0,
+          530.0
+        ],
+        "width_px": 753,
+        "height_px": 660
+      },
+      {
+        "id": "b_full_width_vector",
+        "file": "candidates/figure_10_b_full_width_vector.png",
+        "method": "alternate_span_clip",
+        "clip_pt": [
+          40.0,
+          310.0,
+          572.0,
+          530.0
+        ],
+        "width_px": 1596,
+        "height_px": 660
+      }
+    ]
+  },
+  {
+    "figure_number": "11",
+    "caption": "Derivative-aware loss ablation using the same Base-ANN backbone.",
+    "page": 10,
+    "file": "figure_11.png",
+    "selected_candidate": "a_column_vector",
+    "selection_note": "verified_matching_caption_content",
+    "caption_layout": "single_column",
+    "content_layout": "single_column",
+    "figure_span": "single_column",
+    "candidates": [
+      {
+        "id": "a_column_vector",
+        "file": "candidates/figure_11_a_column_vector.png",
+        "method": "column_vector_clip",
+        "clip_pt": [
+          49.0,
+          50.0,
+          300.0,
+          205.0
+        ],
+        "width_px": 753,
+        "height_px": 465
+      },
+      {
+        "id": "b_full_width_vector",
+        "file": "candidates/figure_11_b_full_width_vector.png",
+        "method": "alternate_span_clip",
+        "clip_pt": [
+          40.0,
+          50.0,
+          572.0,
+          205.0
+        ],
+        "width_px": 1596,
+        "height_px": 465
+      }
+    ]
+  },
+  {
+    "figure_number": "12",
+    "caption": "Circuit-level validation benchmarks. (a) CMOS inverter voltage transfer characteristic. (b) Ring oscillator waveform. (c) 6T-SRAM static noise margin.",
+    "page": 10,
+    "file": "figure_12.png",
+    "selected_candidate": "a_column_vector",
+    "selection_note": "verified_matching_caption_content",
+    "caption_layout": "single_column",
+    "content_layout": "single_column",
+    "figure_span": "single_column",
+    "candidates": [
+      {
+        "id": "a_column_vector",
+        "file": "candidates/figure_12_a_column_vector.png",
+        "method": "column_vector_clip",
+        "clip_pt": [
+          312.0,
+          50.0,
+          563.0,
+          270.0
+        ],
+        "width_px": 753,
+        "height_px": 660
+      },
+      {
+        "id": "b_full_width_vector",
+        "file": "candidates/figure_12_b_full_width_vector.png",
+        "method": "alternate_span_clip",
+        "clip_pt": [
+          40.0,
+          50.0,
+          572.0,
+          270.0
+        ],
+        "width_px": 1596,
+        "height_px": 660
+      }
+    ]
+  },
+  {
+    "figure_number": "13",
+    "caption": "TCAD-trained 5-nm GAAFET neural compact-model QA case. (a) Transfer and output fitting. (b) Gummel symmetry test. (c) RO transient simulation.",
+    "page": 10,
+    "file": "figure_13.png",
+    "selected_candidate": "a_column_vector",
+    "selection_note": "verified_matching_caption_content",
+    "caption_layout": "single_column",
+    "content_layout": "single_column",
+    "figure_span": "single_column",
+    "candidates": [
+      {
+        "id": "a_column_vector",
+        "file": "candidates/figure_13_a_column_vector.png",
+        "method": "column_vector_clip",
+        "clip_pt": [
+          312.0,
+          325.0,
+          563.0,
+          470.0
+        ],
+        "width_px": 753,
+        "height_px": 435
+      },
+      {
+        "id": "b_full_width_vector",
+        "file": "candidates/figure_13_b_full_width_vector.png",
+        "method": "alternate_span_clip",
+        "clip_pt": [
+          40.0,
+          325.0,
+          572.0,
+          470.0
+        ],
+        "width_px": 1596,
+        "height_px": 435
+      }
+    ]
+  }
+]

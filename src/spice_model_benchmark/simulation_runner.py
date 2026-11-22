@@ -26,7 +26,8 @@ class SimulationRunner:
     OUTPUT_FILE_PATTERNS: Set[str] = {
         'iv_data_', 'cv_data.txt', 'cmatrix_data.txt', 'charge_conservation', 'sparams_data',
         'nqs_effects', 'bias_point_data.txt', 'tran_', 'thermal_noise_',
-        'flicker_noise', 'shot_noise', 'noise_temp'
+        'flicker_noise', 'shot_noise', 'noise_temp', 'gummel_symmetry',
+        'zero_bias_passivity', 'gummel_cv', 'transfer_data'
     }
     
     def __init__(self, 
@@ -91,8 +92,14 @@ class SimulationRunner:
                 # Change to the circuit file directory
                 os.chdir(circuit_dir)
                 
-                # Run ngspice
-                cmd = ['ngspice', '-b', circuit_path.name]
+                # Run ngspice (native or fallback to WSL if available)
+                import shutil
+                if shutil.which('ngspice'):
+                    cmd = ['ngspice', '-b', circuit_path.name]
+                elif shutil.which('wsl'):
+                    cmd = ['wsl', 'ngspice', '-b', circuit_path.name]
+                else:
+                    cmd = ['ngspice', '-b', circuit_path.name]
                 self.logger.logger.info(f"Running command: {' '.join(cmd)}")
                 
                 process = subprocess.Popen(

@@ -1,0 +1,108 @@
+* Gummel Symmetry Test and Zero-Bias Passivity Circuit
+* Based on McAndrew et al. (IEEE TED 2025) and NeuralCM-QA (IEEE TCAD 2026)
+.option temp=27 tnom=27
+.option gmin=1e-15
+.option reltol=1e-4
+.option abstol=1e-12
+.option chgtol=1e-15
+
+* Include FreePDK45 model by default
+.inc ../models/FreePDK45/nom.inc
+
+* -------------------------------------------------------------
+* 1. Gummel Symmetry Test (GST) Setup
+* Differential excitation: Vd = +Vx/2, Vs = -Vx/2, Vg = Vg0, Vb = 0
+* -------------------------------------------------------------
+V_x vx 0 DC 0
+E_d d_gst 0 vx 0 0.5
+E_s s_gst 0 vx 0 -0.5
+V_g g_gst 0 DC 0.6
+V_b b_gst 0 DC 0
+
+* Measure currents through DC 0V sense sources for simulator independence
+Vsens_d d_gst d_gst_int DC 0
+Vsens_s s_gst s_gst_int DC 0
+
+M_gst d_gst_int g_gst s_gst_int b_gst NMOS_VTG L=0.045u W=10u
+
+* -------------------------------------------------------------
+* 2. Zero-Bias Passivity Setup (Equilibrium: Vd=Vg=Vs=Vb=0)
+* -------------------------------------------------------------
+Vd_zero d_zero 0 DC 0
+Vg_zero g_zero 0 DC 0
+Vs_zero s_zero 0 DC 0
+Vb_zero b_zero 0 DC 0
+
+M_zero d_zero g_zero s_zero b_zero NMOS_VTG L=0.045u W=10u
+
+* -------------------------------------------------------------
+* 3. Capacitance Symmetry Test Setup (AC small-signal vs Vx)
+* -------------------------------------------------------------
+V_x_ac vx_ac 0 DC 0
+E_d_ac d_ac 0 vx_ac 0 0.5
+E_s_ac s_ac 0 vx_ac 0 -0.5
+V_g_ac g_ac 0 DC 0.6 AC 1
+V_b_ac b_ac 0 DC 0
+
+Vsens_d_ac d_ac d_ac_int DC 0
+Vsens_s_ac s_ac s_ac_int DC 0
+
+M_ac d_ac_int g_ac s_ac_int b_ac NMOS_VTG L=0.045u W=10u
+
+* -------------------------------------------------------------
+* 4. Transfer Characteristics & Transconductance Smoothness Setup
+* -------------------------------------------------------------
+Vd_tr d_tr 0 DC 1.0
+Vg_tr g_tr 0 DC 0
+Vs_tr s_tr 0 DC 0
+Vb_tr b_tr 0 DC 0
+Vsens_d_tr d_tr d_tr_int DC 0
+
+M_tr d_tr_int g_tr s_tr b_tr NMOS_VTG L=0.045u W=10u
+
+.control
+set filetype=ascii
+set wr_vecnames
+set wr_singlescale
+set wr_singleprecision
+set wr_formatted
+
+* Run Zero-bias equilibrium check
+op
+let id_zero = i(Vd_zero)
+let ig_zero = i(Vg_zero)
+let is_zero = i(Vs_zero)
+let ib_zero = i(Vb_zero)
+wrdata ./zero_bias_passivity.txt id_zero ig_zero is_zero ib_zero
+
+* Run Gummel Symmetry Test DC sweep
+dc V_x -0.2 0.2 0.001
+let vx = v(vx)
+let id_gst = -i(Vsens_d)
+let is_gst = i(Vsens_s)
+let ix = (id_gst + is_gst) / 2
+let gx = deriv(ix)
+let gxx = deriv(gx)
+let gxxx = deriv(gxx)
+
+wrdata ./gummel_symmetry.txt vx ix gx gxx gxxx id_gst is_gst
+
+* Run Transfer sweep for Gm smoothness and Vth extraction
+dc Vg_tr 0 1.2 0.005
+let vg_tr = v(g_tr)
+let id_tr = i(Vsens_d_tr)
+let gm_tr = deriv(id_tr)
+let gm2_tr = deriv(gm_tr)
+let gm3_tr = deriv(gm2_tr)
+wrdata ./transfer_data.txt vg_tr id_tr gm_tr gm2_tr gm3_tr
+
+* Run AC capacitance symmetry sweep
+dc V_x_ac -0.2 0.2 0.005
+wrdata ./gummel_cv.txt v(vx_ac)
+
+echo "GST, Passivity, and Transfer completed successfully"
+quit
+.endc
+
+.end
+

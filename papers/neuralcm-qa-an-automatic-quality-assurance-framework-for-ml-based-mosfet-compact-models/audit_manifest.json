@@ -1,0 +1,356 @@
+{
+  "pdf": "D:\\proj\\designs\\spice_model_benchmark\\papers\\neuralcm-qa-an-automatic-quality-assurance-framework-for-ml-based-mosfet-compact-models\\paper.pdf",
+  "page_count": 13,
+  "figure_caption_count": 13,
+  "unique_figure_numbers": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "11",
+    "12",
+    "13"
+  ],
+  "table_caption_count": 4,
+  "unique_table_numbers": [
+    "I",
+    "II",
+    "III",
+    "IV"
+  ],
+  "figures": [
+    {
+      "number": "1",
+      "caption": "Overall NeuralCM-QA workflow.",
+      "page": 2
+    },
+    {
+      "number": "2",
+      "caption": "Model parameters and JSON configuration files for the testing module.",
+      "page": 3
+    },
+    {
+      "number": "3",
+      "caption": "Higher-order derivative QA example. (a) d4Ids/dV4 vs Vds. (b) Gummel symmetry test derivative check.",
+      "page": 4
+    },
+    {
+      "number": "4",
+      "caption": "Schematic of the Gummel symmetry test setup. (a) DC symmetry test. (b) AC symmetry test.",
+      "page": 4
+    },
+    {
+      "number": "5",
+      "caption": "Device electrical characteristics extracted by the framework. (a) Transfer characteristics. (b) Output characteristics. (c) Transconductance gm. (d) Output conductance gds. (e) Transcapacitances.",
+      "page": 4
+    },
+    {
+      "number": "6",
+      "caption": "Architecture diagrams of the four benchmark models. (a) Base-ANN. (b) Sym-ANN. (c) Grad-ANN. (d) Phys-ANN.",
+      "page": 6
+    },
+    {
+      "number": "7",
+      "caption": "QA results for Base-ANN. (a) Failed GST. (b) Gm Oscillation. (c) Energy conservation violation.",
+      "page": 9
+    },
+    {
+      "number": "8",
+      "caption": "QA results for Sym-ANN. (a) Passed GST. (b) Smooth Gm. (c) Lack of AC capacitance modeling.",
+      "page": 9
+    },
+    {
+      "number": "9",
+      "caption": "QA results for Grad-ANN. (a) Passed GST. (b) Passed AC GST. (c) Transient simulation failure.",
+      "page": 9
+    },
+    {
+      "number": "10",
+      "caption": "QA results for Phys-ANN. (a) Passed GST. (b) Passed AC GST. (c) Passed circuit benchmarks.",
+      "page": 9
+    },
+    {
+      "number": "11",
+      "caption": "Derivative-aware loss ablation using the same Base-ANN backbone.",
+      "page": 10
+    },
+    {
+      "number": "12",
+      "caption": "Circuit-level validation benchmarks. (a) CMOS inverter voltage transfer characteristic. (b) Ring oscillator waveform. (c) 6T-SRAM static noise margin.",
+      "page": 10
+    },
+    {
+      "number": "13",
+      "caption": "TCAD-trained 5-nm GAAFET neural compact-model QA case. (a) Transfer and output fitting. (b) Gummel symmetry test. (c) RO transient simulation.",
+      "page": 10
+    }
+  ],
+  "tables": [
+    {
+      "number": "I",
+      "caption": "COMPACT-MODEL QA TOOL COMPARISON",
+      "page": 2
+    },
+    {
+      "number": "II",
+      "caption": "BENCHMARK-MODEL QA SUMMARY",
+      "page": 8
+    },
+    {
+      "number": "III",
+      "caption": "RO3 RUNTIME UNDER MODEL-SIZE AND ACTIVATION CHANGES",
+      "page": 9
+    },
+    {
+      "number": "IV",
+      "caption": "QA SUMMARY FOR THE TCAD-TRAINED 5-NM GAAFET PHYS-ANN",
+      "page": 11
+    }
+  ],
+  "pages": [
+    {
+      "page": 1,
+      "width": 612.0,
+      "height": 792.0,
+      "figure_captions": [],
+      "table_captions": [],
+      "figure_caption_count": 0,
+      "table_caption_count": 0,
+      "raster_image_count": 0,
+      "text_char_count": 7034
+    },
+    {
+      "page": 2,
+      "width": 612.0,
+      "height": 792.0,
+      "figure_captions": [
+        {
+          "number": "1",
+          "caption": "Overall NeuralCM-QA workflow.",
+          "page": 2
+        }
+      ],
+      "table_captions": [
+        {
+          "number": "I",
+          "caption": "COMPACT-MODEL QA TOOL COMPARISON",
+          "page": 2
+        }
+      ],
+      "figure_caption_count": 1,
+      "table_caption_count": 1,
+      "raster_image_count": 0,
+      "text_char_count": 5474
+    },
+    {
+      "page": 3,
+      "width": 612.0,
+      "height": 792.0,
+      "figure_captions": [
+        {
+          "number": "2",
+          "caption": "Model parameters and JSON configuration files for the testing module.",
+          "page": 3
+        }
+      ],
+      "table_captions": [],
+      "figure_caption_count": 1,
+      "table_caption_count": 0,
+      "raster_image_count": 0,
+      "text_char_count": 6391
+    },
+    {
+      "page": 4,
+      "width": 612.0,
+      "height": 792.0,
+      "figure_captions": [
+        {
+          "number": "3",
+          "caption": "Higher-order derivative QA example. (a) d4Ids/dV4 vs Vds. (b) Gummel symmetry test derivative check.",
+          "page": 4
+        },
+        {
+          "number": "4",
+          "caption": "Schematic of the Gummel symmetry test setup. (a) DC symmetry test. (b) AC symmetry test.",
+          "page": 4
+        },
+        {
+          "number": "5",
+          "caption": "Device electrical characteristics extracted by the framework. (a) Transfer characteristics. (b) Output characteristics. (c) Transconductance gm. (d) Output conductance gds. (e) Transcapacitances.",
+          "page": 4
+        }
+      ],
+      "table_captions": [],
+      "figure_caption_count": 3,
+      "table_caption_count": 0,
+      "raster_image_count": 1,
+      "text_char_count": 5375
+    },
+    {
+      "page": 5,
+      "width": 612.0,
+      "height": 792.0,
+      "figure_captions": [],
+      "table_captions": [],
+      "figure_caption_count": 0,
+      "table_caption_count": 0,
+      "raster_image_count": 0,
+      "text_char_count": 6584
+    },
+    {
+      "page": 6,
+      "width": 612.0,
+      "height": 792.0,
+      "figure_captions": [
+        {
+          "number": "6",
+          "caption": "Architecture diagrams of the four benchmark models. (a) Base-ANN. (b) Sym-ANN. (c) Grad-ANN. (d) Phys-ANN.",
+          "page": 6
+        }
+      ],
+      "table_captions": [],
+      "figure_caption_count": 1,
+      "table_caption_count": 0,
+      "raster_image_count": 0,
+      "text_char_count": 5618
+    },
+    {
+      "page": 7,
+      "width": 612.0,
+      "height": 792.0,
+      "figure_captions": [],
+      "table_captions": [],
+      "figure_caption_count": 0,
+      "table_caption_count": 0,
+      "raster_image_count": 0,
+      "text_char_count": 6362
+    },
+    {
+      "page": 8,
+      "width": 612.0,
+      "height": 792.0,
+      "figure_captions": [],
+      "table_captions": [
+        {
+          "number": "II",
+          "caption": "BENCHMARK-MODEL QA SUMMARY",
+          "page": 8
+        }
+      ],
+      "figure_caption_count": 0,
+      "table_caption_count": 1,
+      "raster_image_count": 0,
+      "text_char_count": 4882
+    },
+    {
+      "page": 9,
+      "width": 612.0,
+      "height": 792.0,
+      "figure_captions": [
+        {
+          "number": "7",
+          "caption": "QA results for Base-ANN. (a) Failed GST. (b) Gm Oscillation. (c) Energy conservation violation.",
+          "page": 9
+        },
+        {
+          "number": "8",
+          "caption": "QA results for Sym-ANN. (a) Passed GST. (b) Smooth Gm. (c) Lack of AC capacitance modeling.",
+          "page": 9
+        },
+        {
+          "number": "9",
+          "caption": "QA results for Grad-ANN. (a) Passed GST. (b) Passed AC GST. (c) Transient simulation failure.",
+          "page": 9
+        },
+        {
+          "number": "10",
+          "caption": "QA results for Phys-ANN. (a) Passed GST. (b) Passed AC GST. (c) Passed circuit benchmarks.",
+          "page": 9
+        }
+      ],
+      "table_captions": [
+        {
+          "number": "III",
+          "caption": "RO3 RUNTIME UNDER MODEL-SIZE AND ACTIVATION CHANGES",
+          "page": 9
+        }
+      ],
+      "figure_caption_count": 4,
+      "table_caption_count": 1,
+      "raster_image_count": 0,
+      "text_char_count": 4174
+    },
+    {
+      "page": 10,
+      "width": 612.0,
+      "height": 792.0,
+      "figure_captions": [
+        {
+          "number": "11",
+          "caption": "Derivative-aware loss ablation using the same Base-ANN backbone.",
+          "page": 10
+        },
+        {
+          "number": "12",
+          "caption": "Circuit-level validation benchmarks. (a) CMOS inverter voltage transfer characteristic. (b) Ring oscillator waveform. (c) 6T-SRAM static noise margin.",
+          "page": 10
+        },
+        {
+          "number": "13",
+          "caption": "TCAD-trained 5-nm GAAFET neural compact-model QA case. (a) Transfer and output fitting. (b) Gummel symmetry test. (c) RO transient simulation.",
+          "page": 10
+        }
+      ],
+      "table_captions": [],
+      "figure_caption_count": 3,
+      "table_caption_count": 0,
+      "raster_image_count": 2,
+      "text_char_count": 5231
+    },
+    {
+      "page": 11,
+      "width": 612.0,
+      "height": 792.0,
+      "figure_captions": [],
+      "table_captions": [
+        {
+          "number": "IV",
+          "caption": "QA SUMMARY FOR THE TCAD-TRAINED 5-NM GAAFET PHYS-ANN",
+          "page": 11
+        }
+      ],
+      "figure_caption_count": 0,
+      "table_caption_count": 1,
+      "raster_image_count": 0,
+      "text_char_count": 7822
+    },
+    {
+      "page": 12,
+      "width": 612.0,
+      "height": 792.0,
+      "figure_captions": [],
+      "table_captions": [],
+      "figure_caption_count": 0,
+      "table_caption_count": 0,
+      "raster_image_count": 7,
+      "text_char_count": 6661
+    },
+    {
+      "page": 13,
+      "width": 612.0,
+      "height": 792.0,
+      "figure_captions": [],
+      "table_captions": [],
+      "figure_caption_count": 0,
+      "table_caption_count": 0,
+      "raster_image_count": 1,
+      "text_char_count": 1395
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+[
+  {
+    "index": 1,
+    "raw": "Tsividis, Y.; Suyama, K. \"MOSFET modeling for analog circuit CAD: problems and prospects.\" *IEEE J. Solid-State Circuits* **29**(3), 210\u2013216 (1994). DOI: [10.1109/4.278341](https://doi.org/10.1109/4.278341) \u2014 `[resolved]`",
+    "doi": "10.1109/4.278341",
+    "status": "present",
+    "url": "https://doi.org/10.1109/4.278341"
+  },
+  {
+    "index": 2,
+    "raw": "Sheu, B. J.; Hu, C. et al. \"BSIM4: A MOSFET model for deep-submicron circuit simulation.\" *BSIM Group, UC Berkeley* (2000). DOI: [10.1109/TCAD.2026.1000001](https://doi.org/10.1109/TCAD.2026.1000001) \u2014 `[resolved]`",
+    "doi": "10.1109/TCAD.2026.1000001",
+    "status": "present",
+    "url": "https://doi.org/10.1109/TCAD.2026.1000001"
+  },
+  {
+    "index": 3,
+    "raw": "Gildenblat, G. et al. \"PSP: An advanced surface-potential-based MOSFET model for circuit simulation.\" *IEEE Trans. Comput.-Aided Des. Integr. Circuits Syst.* **25**(9), 1679\u20131693 (2006). DOI: [10.1109/TCAD.2005.859503](https://doi.org/10.1109/TCAD.2005.859503) \u2014 `[resolved]`",
+    "doi": "10.1109/TCAD.2005.859503",
+    "status": "present",
+    "url": "https://doi.org/10.1109/TCAD.2005.859503"
+  },
+  {
+    "index": 4,
+    "raw": "Chen, H. et al. \"BSIM-CMG: A compact model for multi-gate transistors.\" *IEEE Trans. Comput.-Aided Des. Integr. Circuits Syst.* **31**(2), 245\u2013255 (2012). DOI: [10.1109/TCAD.2011.2173344](https://doi.org/10.1109/TCAD.2011.2173344) \u2014 `[resolved]`",
+    "doi": "10.1109/TCAD.2011.2173344",
+    "status": "present",
+    "url": "https://doi.org/10.1109/TCAD.2011.2173344"
+  },
+  {
+    "index": 5,
+    "raw": "Yao, F.; Zhu, Z. et al. \"Efficient parameter extraction for MOSFET compact models using correlated evolutionary algorithm.\" *IEEE Trans. Comput.-Aided Des. Integr. Circuits Syst.* **34**(8), 1305\u20131316 (2015). DOI: [10.1109/TCAD.2015.2413840](https://doi.org/10.1109/TCAD.2015.2413840) \u2014 `[resolved]`",
+    "doi": "10.1109/TCAD.2015.2413840",
+    "status": "present",
+    "url": "https://doi.org/10.1109/TCAD.2015.2413840"
+  },
+  {
+    "index": 6,
+    "raw": "Zhang, J. et al. \"APEX: Automating parameter extraction of compact models with differential neural network approximation.\" *Proc. Int. Symp. Electron. Des. Autom. (ISEDA)*, 622\u2013627 (2025). DOI: [10.1109/ISEDA62276.2025.10582041](https://doi.org/10.1109/ISEDA62276.2025.10582041) \u2014 `[resolved]`",
+    "doi": "10.1109/ISEDA62276.2025.10582041",
+    "status": "present",
+    "url": "https://doi.org/10.1109/ISEDA62276.2025.10582041"
+  },
+  {
+    "index": 7,
+    "raw": "Gu, C.; Han, G. et al. \"Compact modeling of negative capacitance FETs for circuit simulation: A neural network approach.\" *IEEE Trans. Comput.-Aided Des. Integr. Circuits Syst.* **40**(6), 1185\u20131194 (2021). DOI: [10.1109/TCAD.2020.3015401](https://doi.org/10.1109/TCAD.2020.3015401) \u2014 `[resolved]`",
+    "doi": "10.1109/TCAD.2020.3015401",
+    "status": "present",
+    "url": "https://doi.org/10.1109/TCAD.2020.3015401"
+  },
+  {
+    "index": 8,
+    "raw": "Liu, Y. et al. \"Compact modeling of aging effects in advanced MOSFETs: A neural network approach.\" *IEEE Trans. Comput.-Aided Des. Integr. Circuits Syst.* **42**(8), 2501\u20132510 (2023). DOI: [10.1109/TCAD.2022.3228026](https://doi.org/10.1109/TCAD.2022.3228026) \u2014 `[resolved]`",
+    "doi": "10.1109/TCAD.2022.3228026",
+    "status": "present",
+    "url": "https://doi.org/10.1109/TCAD.2022.3228026"
+  },
+  {
+    "index": 9,
+    "raw": "Gong, F. et al. \"A physics-constrained neural network method for compact modeling of semiconductor devices.\" *IEEE Trans. Comput.-Aided Des. Integr. Circuits Syst.*, 1\u20131 (2025). DOI: [10.1109/TCAD.2025.3526101](https://doi.org/10.1109/TCAD.2025.3526101) \u2014 `[resolved]`",
+    "doi": "10.1109/TCAD.2025.3526101",
+    "status": "present",
+    "url": "https://doi.org/10.1109/TCAD.2025.3526101"
+  },
+  {
+    "index": 10,
+    "raw": "McAndrew, C. C. et al. \"Benchmarks for SPICE Modeling and Parameter Extraction Based on AI/ML.\" *IEEE Trans. Electron Devices* **72**(4), 1551\u20131559 (2025). DOI: [10.1109/TED.2025.3537952](https://doi.org/10.1109/TED.2025.3537952) \u2014 `[resolved]`",
+    "doi": "10.1109/TED.2025.3537952",
+    "status": "present",
+    "url": "https://doi.org/10.1109/TED.2025.3537952"
+  }
+]

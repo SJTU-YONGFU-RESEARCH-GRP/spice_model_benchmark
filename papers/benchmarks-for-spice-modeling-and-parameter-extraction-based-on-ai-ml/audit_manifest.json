@@ -1,0 +1,232 @@
+{
+  "pdf": "D:\\proj\\designs\\spice_model_benchmark\\papers\\benchmarks-for-spice-modeling-and-parameter-extraction-based-on-ai-ml\\paper.pdf",
+  "page_count": 9,
+  "figure_caption_count": 8,
+  "unique_figure_numbers": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8"
+  ],
+  "table_caption_count": 2,
+  "unique_table_numbers": [
+    "I",
+    "II"
+  ],
+  "figures": [
+    {
+      "number": "1",
+      "caption": "Threshold voltage VT0 versus channel length L. The data are from measurements of a single site on a wafer, so include local statistical variation.",
+      "page": 3
+    },
+    {
+      "number": "2",
+      "caption": "Threshold voltage VT0 versus channel length L from a physically based model. Notice the smoothness and monotonicity of the model.",
+      "page": 4
+    },
+    {
+      "number": "3",
+      "caption": "Measured drain current (ID, solid lines) and output conductance (gdd, dash lines, dot-dash is where gdd < 0) from a typical LDMOS transistor.",
+      "page": 5
+    },
+    {
+      "number": "4",
+      "caption": "Normalized resistance R versus width W for an integrated resistor. The curves, from top to bottom, are for high, typical, and low resistance process corners, respectively.",
+      "page": 5
+    },
+    {
+      "number": "5",
+      "caption": "Resistor conductance 1/R versus width W showing correct and incorrect asymptotic behavior.",
+      "page": 6
+    },
+    {
+      "number": "6",
+      "caption": "Handling of LDEs.",
+      "page": 6
+    },
+    {
+      "number": "7",
+      "caption": "Measured output conductance (normalized to the low-frequency value) as a function of frequency for a FinFET (go = gdd) and a SiGe HBT (go = gcc). The frequency dependence is from self-heating.",
+      "page": 6
+    },
+    {
+      "number": "8",
+      "caption": "Simulation of a simple inverter (with a resistive load) using BSIM4. The 'spike' for xpart = 0 is from lack of modeling of NQS behavior. The xpart = 1 'correction' ameliorates the unphysical spike, but messes up capacitance modeling.",
+      "page": 7
+    }
+  ],
+  "tables": [
+    {
+      "number": "I",
+      "caption": "CHECKLIST FOR MODELS",
+      "page": 2
+    },
+    {
+      "number": "II",
+      "caption": "CHECKLIST FOR PARAMETER EXTRACTION",
+      "page": 3
+    }
+  ],
+  "pages": [
+    {
+      "page": 1,
+      "width": 612.0,
+      "height": 792.0,
+      "figure_captions": [],
+      "table_captions": [],
+      "figure_caption_count": 0,
+      "table_caption_count": 0,
+      "raster_image_count": 0,
+      "text_char_count": 5951
+    },
+    {
+      "page": 2,
+      "width": 612.0,
+      "height": 792.0,
+      "figure_captions": [],
+      "table_captions": [
+        {
+          "number": "I",
+          "caption": "CHECKLIST FOR MODELS",
+          "page": 2
+        }
+      ],
+      "figure_caption_count": 0,
+      "table_caption_count": 1,
+      "raster_image_count": 0,
+      "text_char_count": 4420
+    },
+    {
+      "page": 3,
+      "width": 612.0,
+      "height": 792.0,
+      "figure_captions": [
+        {
+          "number": "1",
+          "caption": "Threshold voltage VT0 versus channel length L. The data are from measurements of a single site on a wafer, so include local statistical variation.",
+          "page": 3
+        }
+      ],
+      "table_captions": [
+        {
+          "number": "II",
+          "caption": "CHECKLIST FOR PARAMETER EXTRACTION",
+          "page": 3
+        }
+      ],
+      "figure_caption_count": 1,
+      "table_caption_count": 1,
+      "raster_image_count": 0,
+      "text_char_count": 4040
+    },
+    {
+      "page": 4,
+      "width": 612.0,
+      "height": 792.0,
+      "figure_captions": [
+        {
+          "number": "2",
+          "caption": "Threshold voltage VT0 versus channel length L from a physically based model. Notice the smoothness and monotonicity of the model.",
+          "page": 4
+        }
+      ],
+      "table_captions": [],
+      "figure_caption_count": 1,
+      "table_caption_count": 0,
+      "raster_image_count": 0,
+      "text_char_count": 5368
+    },
+    {
+      "page": 5,
+      "width": 612.0,
+      "height": 792.0,
+      "figure_captions": [
+        {
+          "number": "3",
+          "caption": "Measured drain current (ID, solid lines) and output conductance (gdd, dash lines, dot-dash is where gdd < 0) from a typical LDMOS transistor.",
+          "page": 5
+        },
+        {
+          "number": "4",
+          "caption": "Normalized resistance R versus width W for an integrated resistor. The curves, from top to bottom, are for high, typical, and low resistance process corners, respectively.",
+          "page": 5
+        }
+      ],
+      "table_captions": [],
+      "figure_caption_count": 2,
+      "table_caption_count": 0,
+      "raster_image_count": 0,
+      "text_char_count": 4493
+    },
+    {
+      "page": 6,
+      "width": 612.0,
+      "height": 792.0,
+      "figure_captions": [
+        {
+          "number": "5",
+          "caption": "Resistor conductance 1/R versus width W showing correct and incorrect asymptotic behavior.",
+          "page": 6
+        },
+        {
+          "number": "6",
+          "caption": "Handling of LDEs.",
+          "page": 6
+        },
+        {
+          "number": "7",
+          "caption": "Measured output conductance (normalized to the low-frequency value) as a function of frequency for a FinFET (go = gdd) and a SiGe HBT (go = gcc). The frequency dependence is from self-heating.",
+          "page": 6
+        }
+      ],
+      "table_captions": [],
+      "figure_caption_count": 3,
+      "table_caption_count": 0,
+      "raster_image_count": 1,
+      "text_char_count": 4291
+    },
+    {
+      "page": 7,
+      "width": 612.0,
+      "height": 792.0,
+      "figure_captions": [
+        {
+          "number": "8",
+          "caption": "Simulation of a simple inverter (with a resistive load) using BSIM4. The 'spike' for xpart = 0 is from lack of modeling of NQS behavior. The xpart = 1 'correction' ameliorates the unphysical spike, but messes up capacitance modeling.",
+          "page": 7
+        }
+      ],
+      "table_captions": [],
+      "figure_caption_count": 1,
+      "table_caption_count": 0,
+      "raster_image_count": 0,
+      "text_char_count": 5482
+    },
+    {
+      "page": 8,
+      "width": 612.0,
+      "height": 792.0,
+      "figure_captions": [],
+      "table_captions": [],
+      "figure_caption_count": 0,
+      "table_caption_count": 0,
+      "raster_image_count": 0,
+      "text_char_count": 7493
+    },
+    {
+      "page": 9,
+      "width": 612.0,
+      "height": 792.0,
+      "figure_captions": [],
+      "table_captions": [],
+      "figure_caption_count": 0,
+      "table_caption_count": 0,
+      "raster_image_count": 0,
+      "text_char_count": 6491
+    }
+  ]
+}

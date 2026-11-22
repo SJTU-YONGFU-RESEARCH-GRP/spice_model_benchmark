@@ -1,7 +1,7 @@
 * MOSFET Noise Analysis Simulation
 .option temp=27 tnom=27
 .option gmin=1e-15
-.option reltol=1e-8
+.option reltol=1e-4
 .option abstol=1e-12
 .option chgtol=1e-15
 .option method=gear
@@ -10,7 +10,7 @@
 .option TEMPSCALE=1.0
 
 * Include FreePDK45 model
-.inc ../models/ngspice-cmos/FreePDK45/nom.inc
+.inc ../models/FreePDK45/nom.inc
 
 * ----------------------------------------------------------
 * Thermal Noise Analysis Circuit - Common source amplifier configuration

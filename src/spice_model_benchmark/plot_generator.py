@@ -1718,5 +1718,110 @@ class PlotGenerator:
         """Plot noise contribution components."""
         # Implementation details
         # ...
+        pass
+
+    def plot_gummel_symmetry(self, output_dir, vx, ix, gx, gxx):
+        """Plot Gummel Symmetry Test (GST) characteristics.
+        
+        Plots Ix(Vx) [odd symmetry], Gx(Vx) [even symmetry], and Gxx(Vx) [odd zero-crossing].
+        """
+        try:
+            plots_dir = os.path.join(output_dir, 'plots')
+            os.makedirs(plots_dir, exist_ok=True)
+            
+            fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(8, 10), sharex=True)
+            
+            # Subplot 1: Ix vs Vx (Odd Symmetry)
+            ax1.plot(vx, ix * 1e3, 'b-', linewidth=2, label=r'$I_x(V_x)$')
+            ax1.axhline(0, color='gray', linestyle='--', alpha=0.6)
+            ax1.axvline(0, color='gray', linestyle='--', alpha=0.6)
+            ax1.set_ylabel(r'$I_x$ (mA)')
+            ax1.set_title('Gummel Symmetry Test (McAndrew TED 2025)\n$I_x$ vs $V_x$ (Odd Parity: $I_x(-V_x) = -I_x(V_x)$)')
+            ax1.grid(True, linestyle=':', alpha=0.6)
+            ax1.legend(loc='best')
+            
+            # Subplot 2: Gx vs Vx (Even Symmetry)
+            ax2.plot(vx, gx * 1e3, 'r-', linewidth=2, label=r'$G_x = dI_x/dV_x$')
+            ax2.axvline(0, color='gray', linestyle='--', alpha=0.6)
+            ax2.set_ylabel(r'$G_x$ (mS)')
+            ax2.set_title(r'Conductance $G_x$ (Even Parity: $G_x(-V_x) = G_x(V_x)$)')
+            ax2.grid(True, linestyle=':', alpha=0.6)
+            ax2.legend(loc='best')
+            
+            # Subplot 3: Gxx vs Vx (Odd Zero-Crossing)
+            ax3.plot(vx, gxx, 'g-', linewidth=2, label=r'$G_{xx} = d^2I_x/dV_x^2$')
+            ax3.axhline(0, color='gray', linestyle='--', alpha=0.6)
+            ax3.axvline(0, color='gray', linestyle='--', alpha=0.6)
+            ax3.set_xlabel(r'Differential Voltage $V_x$ (V)')
+            ax3.set_ylabel(r'$G_{xx}$ (A/V$^2$)')
+            ax3.set_title(r'Second Derivative $G_{xx}$ (Odd Zero Crossing at $V_x = 0$)')
+            ax3.grid(True, linestyle=':', alpha=0.6)
+            ax3.legend(loc='best')
+            
+            plt.tight_layout()
+            output_file = os.path.join(plots_dir, 'dc_gummel_symmetry.png')
+            plt.savefig(output_file, dpi=self.dpi)
+            plt.close()
+            if self.logger:
+                self.logger.info(f"GST plot saved to {output_file}")
+            return output_file
+        except Exception as e:
+            if self.logger:
+                self.logger.error(f"Error plotting Gummel symmetry: {e}")
+            return None
+
+    def plot_derivative_smoothness(self, output_dir, vgs, ids, gm=None, gm2=None, vth=None):
+        """Plot transconductance derivative smoothness and extracted Vth."""
+        try:
+            plots_dir = os.path.join(output_dir, 'plots')
+            os.makedirs(plots_dir, exist_ok=True)
+            
+            order = np.argsort(vgs)
+            vgs_s = np.asarray(vgs)[order]
+            ids_s = np.asarray(ids)[order]
+            if gm is not None:
+                gm_s = np.asarray(gm)[order]
+            else:
+                gm_s = np.gradient(ids_s, vgs_s)
+            
+            fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(8, 8), sharex=True)
+            
+            # Subplot 1: Ids vs Vgs and Vth tangent
+            ax1.plot(vgs_s, ids_s * 1e3, 'b-', linewidth=2, label=r'$I_{ds}$')
+            if vth is not None:
+                try:
+                    vth_val = float(str(vth).replace('V', '').strip())
+                    max_idx = np.argmax(gm_s)
+                    m = gm_s[max_idx]
+                    v_line = np.linspace(vth_val, max(vgs_s), 50)
+                    i_line = (m * (v_line - vth_val)) * 1e3
+                    ax1.plot(v_line, i_line, 'r--', label=f'Extrapolated Tangent ($V_{{th}}={vth_val:.3f}V$)')
+                    ax1.axvline(vth_val, color='red', linestyle=':', label=f'$V_{{th}}={vth_val:.3f}V$')
+                except Exception:
+                    pass
+            ax1.set_ylabel(r'$I_{ds}$ (mA)')
+            ax1.set_title('MOSFET Transfer Characteristics & Threshold Voltage Extraction')
+            ax1.grid(True, linestyle=':', alpha=0.6)
+            ax1.legend(loc='best')
+            
+            # Subplot 2: Gm vs Vgs
+            ax2.plot(vgs_s, gm_s * 1e3, 'm-', linewidth=2, label=r'$G_m = dI_{ds}/dV_{gs}$')
+            ax2.set_xlabel(r'Gate-Source Voltage $V_{gs}$ (V)')
+            ax2.set_ylabel(r'$G_m$ (mS)')
+            ax2.set_title('Transconductance Derivative Smoothness (Audit for Neural Ripples)')
+            ax2.grid(True, linestyle=':', alpha=0.6)
+            ax2.legend(loc='best')
+            
+            plt.tight_layout()
+            output_file = os.path.join(plots_dir, 'dc_derivative_smoothness.png')
+            plt.savefig(output_file, dpi=self.dpi)
+            plt.close()
+            if self.logger:
+                self.logger.info(f"Derivative smoothness plot saved to {output_file}")
+            return output_file
+        except Exception as e:
+            if self.logger:
+                self.logger.error(f"Error plotting derivative smoothness: {e}")
+            return None
     
 

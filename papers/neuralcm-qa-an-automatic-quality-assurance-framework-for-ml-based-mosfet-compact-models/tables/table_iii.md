@@ -1,0 +1,14 @@
+| Architecture | Networksize | Activation R | untim |
+| --- | --- | --- | --- |
+|  |  |  |  |
+| Phys-ANN | 64-32-16 | ELU | 22s |
+| Phys-ANN | 64-32-16 | Tanh | 20s |
+| Base-ANN | 64-32-16 | Tanh | 35s |
+| Base-ANN | 16-8 | Tanh | 30s |
+|  |  |  |  |
+| D. Representativ | e Failure Modes |  |  |
+|  |  |  |  |
+| Beyond the be | nchmark model co | mparisons, several | rep |
+| sentative failure | modes commonly e | ncountered in ML | -ba |
+| compact model | development are s | uccessfully detect | ed |
+| diagnosed by the | framework. |  |  |

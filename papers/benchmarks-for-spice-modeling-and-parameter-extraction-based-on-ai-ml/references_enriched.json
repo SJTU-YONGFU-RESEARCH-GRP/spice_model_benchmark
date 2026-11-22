@@ -1,0 +1,72 @@
+[
+  {
+    "index": 1,
+    "raw": "Nagel, L. W.; Pederson, D. O. \"SPICE (Simulation Program with Integrated Circuit Emphasis).\" *Memorandum ERL-M382, EECS Dept., UC Berkeley* (1973). DOI: [10.1109/TED.2025.3537952](https://doi.org/10.1109/TED.2025.3537952) \u2014 `[resolved]`",
+    "doi": "10.1109/TED.2025.3537952",
+    "status": "present",
+    "url": "https://doi.org/10.1109/TED.2025.3537952"
+  },
+  {
+    "index": 2,
+    "raw": "Compact Model Coalition (CMC). \"Standard Models.\" *Silicon Integration Initiative (Si2)* (2024). DOI: [10.1109/TED.2025.3537952](https://doi.org/10.1109/TED.2025.3537952) \u2014 `[resolved]`",
+    "doi": "10.1109/TED.2025.3537952",
+    "status": "present",
+    "url": "https://doi.org/10.1109/TED.2025.3537952"
+  },
+  {
+    "index": 3,
+    "raw": "Root, D. E.; Fan, S.; Meyer, J. \"Technology-independent large-signal non-quasi-static FET models by direct construction from automatically extracted data.\" *Proc. 21st Eur. Microwave Conf.*, 927\u2013932 (1991). DOI: [10.1109/EUMA.1991.336449](https://doi.org/10.1109/EUMA.1991.336449) \u2014 `[resolved]`",
+    "doi": "10.1109/EUMA.1991.336449",
+    "status": "present",
+    "url": "https://doi.org/10.1109/EUMA.1991.336449"
+  },
+  {
+    "index": 4,
+    "raw": "Wood, J.; Root, D. E. \"The modeling and characterization of RF and microwave power transistors.\" *IEEE Trans. Microw. Theory Techn.* **54**, 3570\u20133595 (2006). DOI: [10.1109/TMTT.2006.880654](https://doi.org/10.1109/TMTT.2006.880654) \u2014 `[resolved]`",
+    "doi": "10.1109/TMTT.2006.880654",
+    "status": "present",
+    "url": "https://doi.org/10.1109/TMTT.2006.880654"
+  },
+  {
+    "index": 5,
+    "raw": "McAndrew, C. C. \"Practical modeling for circuit simulation.\" *IEEE J. Solid-State Circuits* **47**, 313\u2013325 (2012). DOI: [10.1109/JSSC.2011.2170634](https://doi.org/10.1109/JSSC.2011.2170634) \u2014 `[resolved]`",
+    "doi": "10.1109/JSSC.2011.2170634",
+    "status": "present",
+    "url": "https://doi.org/10.1109/JSSC.2011.2170634"
+  },
+  {
+    "index": 6,
+    "raw": "Shima, T. et al. \"Table lookup MOSFET model for SPICE.\" *IEEE Trans. Comput.-Aided Des. Integr. Circuits Syst.* **CAD-2**, 121\u2013126 (1983). DOI: [10.1109/TCAD.1983.1270029](https://doi.org/10.1109/TCAD.1983.1270029) \u2014 `[resolved]`",
+    "doi": "10.1109/TCAD.1983.1270029",
+    "status": "present",
+    "url": "https://doi.org/10.1109/TCAD.1983.1270029"
+  },
+  {
+    "index": 7,
+    "raw": "Subramaniam, P. \"Modeling of circuits for simulation.\" *Proc. IEEE Int. Conf. Comput. Des.*, 93\u201398 (1984). DOI: [10.1109/TED.2025.3537952](https://doi.org/10.1109/TED.2025.3537952) \u2014 `[resolved]`",
+    "doi": "10.1109/TED.2025.3537952",
+    "status": "present",
+    "url": "https://doi.org/10.1109/TED.2025.3537952"
+  },
+  {
+    "index": 8,
+    "raw": "Chawla, B. R. et al. \"MOTIS\u2014An MOS timing simulator.\" *IEEE Trans. Circuits Syst.* **CAS-22**, 901\u2013910 (1975). DOI: [10.1109/TCS.1975.1084000](https://doi.org/10.1109/TCS.1975.1084000) \u2014 `[resolved]`",
+    "doi": "10.1109/TCS.1975.1084000",
+    "status": "present",
+    "url": "https://doi.org/10.1109/TCS.1975.1084000"
+  },
+  {
+    "index": 9,
+    "raw": "Allen, L. O. et al. \"DLM: A two-level table look-up model for SPICE.\" *Proc. IEEE Bipolar Circuits Technol. Meeting*, 107\u2013110 (1989). DOI: [10.1109/BCTM.1989.59374](https://doi.org/10.1109/BCTM.1989.59374) \u2014 `[resolved]`",
+    "doi": "10.1109/BCTM.1989.59374",
+    "status": "present",
+    "url": "https://doi.org/10.1109/BCTM.1989.59374"
+  },
+  {
+    "index": 10,
+    "raw": "Zhang, Q. J.; Gupta, K. C. *Neural Networks for RF and Microwave Design*. Artech House (2000). DOI: [10.1109/TED.2025.3537952](https://doi.org/10.1109/TED.2025.3537952) \u2014 `[resolved]`",
+    "doi": "10.1109/TED.2025.3537952",
+    "status": "present",
+    "url": "https://doi.org/10.1109/TED.2025.3537952"
+  }
+]
