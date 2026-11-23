@@ -1,11 +1,61 @@
-import numpy as np
-import matplotlib.pyplot as plt
-from pathlib import Path
 import os
+from pathlib import Path
+from typing import Union, Optional, Tuple, List
+import numpy as np
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 
+from .plot_style import (
+    apply_rcparams,
+    apply_style,
+    save_dev_figure,
+    FIGSIZE,
+    FIGSIZE_SQUARE,
+    FIGSIZE_TALL,
+    PRIMARY_BLUE,
+    SECONDARY_RED,
+    ACCENT_PURPLE,
+    TWIN_ORANGE,
+    HIGHLIGHT_GREEN,
+    MUTED_GRAY,
+    LINE_COLORS,
+    LINEWIDTH_MAIN,
+    LINEWIDTH_SECONDARY,
+    TITLE_SIZE,
+    LABEL_SIZE,
+    MULTI_SERIES_COLORS,
+)
+
+# Intercept plt.savefig to guarantee dev-plot styling (SVG vector + PNG dual export & spine enforcement)
+_orig_plt_savefig = plt.savefig
+
+def _dev_plt_savefig(fname, *args, **kwargs):
+    """Enforce dev-plot styling: axis spines, grid, tight_layout, and dual SVG/PNG export."""
+    p = Path(str(fname))
+    p.parent.mkdir(parents=True, exist_ok=True)
+    fig = plt.gcf()
+    for ax in fig.get_axes():
+        apply_style(ax)
+    try:
+        fig.tight_layout()
+    except Exception:
+        pass
+
+    svg_p = p.with_suffix(".svg")
+    try:
+        svg_kwargs = {k: v for k, v in kwargs.items() if k not in ("dpi", "format")}
+        fig.savefig(str(svg_p), format="svg", **svg_kwargs)
+    except Exception:
+        pass
+    return _orig_plt_savefig(fname, *args, **kwargs)
+
+plt.savefig = _dev_plt_savefig
+
+
 class PlotGenerator:
-    """Handles generation of plots from simulation data."""
+    """Handles generation of plots from simulation data conforming to dev-plot."""
     def __init__(self, output_dir, dpi=300, logger=None):
         self.output_dir = output_dir
         self.plots_dir = os.path.join(output_dir, 'plots')
@@ -14,13 +64,17 @@ class PlotGenerator:
         self.dpi = dpi
         self.logger = logger
         
-        # Define a minimal color palette with just 5 colors
+        # Apply dev-plot typography & rcparams
+        apply_rcparams()
+
+        # MATLAB-aligned dev-plot color palette
         self.colors = {
-            'blue': '#0000FF',    # Primary color (gates, inputs) - Pure blue
-            'red': '#FF0000',     # Secondary color (drains, outputs) - Pure red
-            'green': '#00AA00',   # Tertiary color (sources, other signals) - Pure green
-            'purple': '#AA00AA',  # Quaternary color (for bulk, bias points) - Rich purple
-            'orange': '#FF8000'   # For total/reference values - Rich orange
+            'blue': PRIMARY_BLUE,      # #0033cc
+            'red': SECONDARY_RED,      # #cc0000
+            'green': HIGHLIGHT_GREEN,  # #006400
+            'purple': ACCENT_PURPLE,   # #7f3fbf
+            'orange': TWIN_ORANGE,     # #e67300
+            'gray': MUTED_GRAY,        # #666666
         }
         
         # Create alias mappings for semantic use
@@ -29,16 +83,17 @@ class PlotGenerator:
             'secondary': self.colors['red'],
             'tertiary': self.colors['green'],
             'quaternary': self.colors['purple'],
-            'total': self.colors['orange']
+            'total': self.colors['orange'],
+            'accent': self.colors['purple'],
         }
         
         # Set consistent figure width for all plots
-        self.figure_width = 10
+        self.figure_width = 11
         
         # Set height ratios for different panel configurations
-        self.height_ratio_single = 0.9    # Height ratio for single panel plots
-        self.height_ratio_two = 1.6       # Height ratio for two panel plots  
-        self.height_ratio_three = 2.4     # Height ratio for three panel plots
+        self.height_ratio_single = 0.5    # Standard FIGSIZE (11, 5.5)
+        self.height_ratio_two = 1.0       # Two panel plots  
+        self.height_ratio_three = 1.5     # Three panel plots
         
         # Calculate actual heights
         self.single_plot_height = self.figure_width * self.height_ratio_single

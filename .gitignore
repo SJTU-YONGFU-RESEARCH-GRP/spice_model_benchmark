@@ -62,8 +62,29 @@ wheels/
 *.log 
 
 # Simulation results and generated data
-results/
+results/*
+!results/circuit_stress/
+results/circuit_stress/data/**/*.txt
+results/circuit_stress/data/**/*.cir
+results/circuit_stress/data/**/*.sp
+results/circuit_stress/data/**/*.scs
+results/circuit_stress/data/**/*.lis
+results/circuit_stress/data/**/*.tr0
+results/circuit_stress/data/**/*.sw0
+results/circuit_stress/data/**/*.st0
+results/circuit_stress/data/**/*.ic0
+results/circuit_stress/data/**/*.ac0
+results/circuit_stress/data/**/*.ahdlSimDB
+results/circuit_stress/data/**/psf_*
+results/circuit_stress/data/**/.spiceinit
+!results/REGRESSION_REPORT.md
+!results/regression_summary.json
+!results/REPORT.md
 plots/
+!results/plots/
+!results/plots/**
+!results/circuit_stress/plots/
+!results/circuit_stress/plots/**
 test_cap_param/results/
 sandbox/**/results/
 sandbox/**/tran_results/

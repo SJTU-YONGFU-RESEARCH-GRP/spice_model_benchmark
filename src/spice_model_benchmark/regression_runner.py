@@ -35,12 +35,28 @@ from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Tuple, Any
 
 import numpy as np
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 from spice_model_benchmark.logger import Logger
 from spice_model_benchmark.hspice_runner import _hspice_float, _build_hspice_env, HSPICE_BIN
 from spice_model_benchmark.spectre_runner import _build_spectre_env, SPECTRE_BIN
 from spice_model_benchmark.xyce_runner import _find_xyce_binary
+from spice_model_benchmark.plot_style import (
+    apply_rcparams,
+    apply_style,
+    save_dev_figure,
+    FIGSIZE,
+    PRIMARY_BLUE,
+    SECONDARY_RED,
+    ACCENT_PURPLE,
+    MULTI_SERIES_COLORS,
+    LINEWIDTH_MAIN,
+    LINEWIDTH_SECONDARY,
+    TITLE_SIZE,
+    LABEL_SIZE,
+)
 
 
 @dataclass
@@ -1311,59 +1327,56 @@ Vb b 0 DC 0
         return {"report": str(report_path), "summary": str(json_path), "results": regression_results}
 
     def _generate_comparison_plots(self, traces: Dict[str, Dict[str, np.ndarray]]):
-        """Generate overlay plots comparing transfer, Gm, and GST across corners."""
+        """Generate overlay plots comparing transfer, Gm, and GST across corners conforming to dev-plot."""
         try:
+            apply_rcparams()
+            color_cycle = MULTI_SERIES_COLORS
+
             # 1. Transfer Id vs Vgs overlay (normalized to Vdd)
-            plt.figure(figsize=(10, 6))
-            for cid, data in traces.items():
+            fig, ax = plt.subplots(figsize=FIGSIZE)
+            apply_style(ax)
+            for idx, (cid, data) in enumerate(traces.items()):
                 vg = data["vg"]
                 ids_mA = data["id"] * 1e3
                 v_norm = vg / np.max(vg) if np.max(vg) > 0 else vg
-                plt.plot(v_norm, ids_mA, linewidth=2, label=cid)
-            plt.title("Multi-Model Transfer Characteristics ($I_d$ vs Normalized $V_{gs}/V_{DD}$)")
-            plt.xlabel("Normalized Gate Voltage $V_{gs} / V_{DD}$")
-            plt.ylabel("Drain Current $I_{ds}$ (mA)")
-            plt.grid(True, linestyle=":", alpha=0.6)
-            plt.legend(loc="upper left", bbox_to_anchor=(1.02, 1), borderaxespad=0)
-            plt.tight_layout()
-            id_plot = self.plots_dir / "regression_id_vgs.png"
-            plt.savefig(id_plot, dpi=300)
-            plt.close()
+                color = color_cycle[idx % len(color_cycle)]
+                ax.plot(v_norm, ids_mA, color=color, linewidth=LINEWIDTH_SECONDARY, label=cid)
+            ax.set_title("Multi-Model Transfer Characteristics ($I_d$ vs Normalized $V_{gs}/V_{DD}$)", fontsize=TITLE_SIZE, fontweight='bold')
+            ax.set_xlabel("Normalized Gate Voltage $V_{gs} / V_{DD}$", fontsize=LABEL_SIZE, fontweight='bold')
+            ax.set_ylabel("Drain Current $I_{ds}$ (mA)", fontsize=LABEL_SIZE, fontweight='bold')
+            ax.legend(loc="upper left", bbox_to_anchor=(1.02, 1), borderaxespad=0, frameon=True)
+            id_plot, _ = save_dev_figure(fig, self.plots_dir / "regression_id_vgs.png")
 
             # 2. Transconductance Gm vs Normalized Vgs
-            plt.figure(figsize=(10, 6))
-            for cid, data in traces.items():
+            fig, ax = plt.subplots(figsize=FIGSIZE)
+            apply_style(ax)
+            for idx, (cid, data) in enumerate(traces.items()):
                 vg = data["vg"]
                 gm_mS = data["gm"] * 1e3
                 v_norm = vg / np.max(vg) if np.max(vg) > 0 else vg
-                plt.plot(v_norm, gm_mS, linewidth=2, label=cid)
-            plt.title("Multi-Model Transconductance Smoothness ($G_m$ vs Normalized $V_{gs}/V_{DD}$)")
-            plt.xlabel("Normalized Gate Voltage $V_{gs} / V_{DD}$")
-            plt.ylabel("Transconductance $G_m$ (mS)")
-            plt.grid(True, linestyle=":", alpha=0.6)
-            plt.legend(loc="upper left", bbox_to_anchor=(1.02, 1), borderaxespad=0)
-            plt.tight_layout()
-            gm_plot = self.plots_dir / "regression_gm_vgs.png"
-            plt.savefig(gm_plot, dpi=300)
-            plt.close()
+                color = color_cycle[idx % len(color_cycle)]
+                ax.plot(v_norm, gm_mS, color=color, linewidth=LINEWIDTH_SECONDARY, label=cid)
+            ax.set_title("Multi-Model Transconductance Smoothness ($G_m$ vs Normalized $V_{gs}/V_{DD}$)", fontsize=TITLE_SIZE, fontweight='bold')
+            ax.set_xlabel("Normalized Gate Voltage $V_{gs} / V_{DD}$", fontsize=LABEL_SIZE, fontweight='bold')
+            ax.set_ylabel("Transconductance $G_m$ (mS)", fontsize=LABEL_SIZE, fontweight='bold')
+            ax.legend(loc="upper left", bbox_to_anchor=(1.02, 1), borderaxespad=0, frameon=True)
+            gm_plot, _ = save_dev_figure(fig, self.plots_dir / "regression_gm_vgs.png")
 
             # 3. Gummel Symmetry Test Differential Ix vs Vx
-            plt.figure(figsize=(10, 6))
-            for cid, data in traces.items():
+            fig, ax = plt.subplots(figsize=FIGSIZE)
+            apply_style(ax)
+            for idx, (cid, data) in enumerate(traces.items()):
                 vx = data["vx"]
                 ix_uA = data["ix"] * 1e6
-                plt.plot(vx, ix_uA, linewidth=2, label=cid)
-            plt.title("Multi-Model Gummel Symmetry Test ($I_x$ vs Differential $V_x$)")
-            plt.xlabel("Differential Voltage $V_x$ (V)")
-            plt.ylabel("Symmetric Current $I_x$ ($\\mu$A)")
-            plt.grid(True, linestyle=":", alpha=0.6)
-            plt.legend(loc="upper left", bbox_to_anchor=(1.02, 1), borderaxespad=0)
-            plt.tight_layout()
-            gst_plot = self.plots_dir / "regression_gst.png"
-            plt.savefig(gst_plot, dpi=300)
-            plt.close()
+                color = color_cycle[idx % len(color_cycle)]
+                ax.plot(vx, ix_uA, color=color, linewidth=LINEWIDTH_SECONDARY, label=cid)
+            ax.set_title("Multi-Model Gummel Symmetry Test ($I_x$ vs Differential $V_x$)", fontsize=TITLE_SIZE, fontweight='bold')
+            ax.set_xlabel("Differential Voltage $V_x$ (V)", fontsize=LABEL_SIZE, fontweight='bold')
+            ax.set_ylabel("Symmetric Current $I_x$ ($\\mu$A)", fontsize=LABEL_SIZE, fontweight='bold')
+            ax.legend(loc="upper left", bbox_to_anchor=(1.02, 1), borderaxespad=0, frameon=True)
+            gst_plot, _ = save_dev_figure(fig, self.plots_dir / "regression_gst.png")
 
-            self.logger.info(f"Comparative overlay plots saved to {self.plots_dir}")
+            self.logger.info(f"Comparative overlay plots saved to {self.plots_dir} (.png and .svg)")
         except Exception as e:
             self.logger.warning(f"Error generating comparison plots: {e}")
 

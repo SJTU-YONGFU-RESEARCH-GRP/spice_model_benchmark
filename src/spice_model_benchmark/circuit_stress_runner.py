@@ -52,6 +52,27 @@ from spice_model_benchmark.logger import Logger
 from spice_model_benchmark.hspice_runner import _build_hspice_env, HSPICE_BIN, _hspice_float
 from spice_model_benchmark.spectre_runner import _build_spectre_env, SPECTRE_BIN
 from spice_model_benchmark.xyce_runner import _find_xyce_binary
+from spice_model_benchmark.plot_style import (
+    apply_rcparams,
+    apply_style,
+    save_dev_figure,
+    FIGSIZE,
+    FIGSIZE_SQUARE,
+    FIGSIZE_TALL,
+    PRIMARY_BLUE,
+    SECONDARY_RED,
+    ACCENT_PURPLE,
+    TWIN_ORANGE,
+    HIGHLIGHT_GREEN,
+    MUTED_GRAY,
+    BAR_COLOR,
+    BAR_EDGE_COLOR,
+    BAR_EDGE_WIDTH,
+    LINEWIDTH_MAIN,
+    LINEWIDTH_SECONDARY,
+    TITLE_SIZE,
+    LABEL_SIZE,
+)
 
 
 @dataclass
@@ -1719,66 +1740,67 @@ Cload out 0 {spec.cload_inv}
     # =========================================================================
 
     def _generate_pdk_plots(self, spec: CircuitStressSpec, run_dir: Path, metrics: Dict[str, Any]) -> Dict[str, Path]:
-        """Generate high-resolution PNG plots for each benchmark circuit."""
+        """Generate high-resolution PNG and SVG vector plots conforming to dev-plot."""
         plots = {}
-        plt.style.use('seaborn-v0_8-whitegrid' if 'seaborn-v0_8-whitegrid' in plt.style.available else 'default')
+        apply_rcparams()
 
         # 1. Inverter DC VTC Plot
         inv_dc = metrics.get("inverter_dc", {})
         if inv_dc.get("converged") and "vin" in inv_dc:
-            fig, ax1 = plt.subplots(figsize=(7, 5))
+            fig, ax1 = plt.subplots(figsize=FIGSIZE)
+            apply_style(ax1)
             vin = np.array(inv_dc["vin"])
             vout = np.array(inv_dc["vout"])
             gain = -np.array(inv_dc["dvdvin"])
 
-            color = '#1f77b4'
-            ax1.set_xlabel('Input Voltage $V_{in}$ (V)', fontsize=12, fontweight='bold')
-            ax1.set_ylabel('Output Voltage $V_{out}$ (V)', color=color, fontsize=12, fontweight='bold')
-            l1 = ax1.plot(vin, vout, color=color, linewidth=2.5, label='$V_{out}$')
-            ax1.tick_params(axis='y', labelcolor=color)
+            ax1.set_xlabel('Input Voltage $V_{in}$ (V)', fontsize=LABEL_SIZE, fontweight='bold')
+            ax1.set_ylabel('Output Voltage $V_{out}$ (V)', color=PRIMARY_BLUE, fontsize=LABEL_SIZE, fontweight='bold')
+            l1 = ax1.plot(vin, vout, color=PRIMARY_BLUE, linewidth=LINEWIDTH_MAIN, label='$V_{out}$')
+            ax1.tick_params(axis='y', labelcolor=PRIMARY_BLUE)
 
             # Mark VM
             vm = inv_dc["vm"]
-            ax1.axvline(vm, color='gray', linestyle='--', alpha=0.7)
-            ax1.plot([vm], [vm], marker='o', markersize=7, color='red', label=f'$V_M = {vm:.3f}$ V')
+            ax1.axvline(vm, color=MUTED_GRAY, linestyle='--', linewidth=LINEWIDTH_SECONDARY, alpha=0.7)
+            l_vm = ax1.plot([vm], [vm], marker='o', markersize=8, markerfacecolor="white", markeredgewidth=2.0,
+                            color=SECONDARY_RED, label=f'$V_M = {vm:.3f}$ V')
 
             ax2 = ax1.twinx()
-            color = '#d62728'
-            ax2.set_ylabel('Small-Signal Gain $|A_v| = |dV_{out}/dV_{in}|$', color=color, fontsize=12, fontweight='bold')
-            l2 = ax2.plot(vin, gain, color=color, linestyle=':', linewidth=2, label='$|A_v|$')
-            ax2.tick_params(axis='y', labelcolor=color)
+            apply_style(ax2)
+            ax2.set_ylabel('Small-Signal Gain $|A_v| = |dV_{out}/dV_{in}|$', color=SECONDARY_RED, fontsize=LABEL_SIZE, fontweight='bold')
+            l2 = ax2.plot(vin, gain, color=SECONDARY_RED, linestyle=':', linewidth=LINEWIDTH_SECONDARY, label='$|A_v|$')
+            ax2.tick_params(axis='y', labelcolor=SECONDARY_RED)
 
-            plt.title(f"{spec.pdk} CMOS Inverter DC VTC & Gain ({spec.technology_node})", fontsize=13, fontweight='bold')
-            fig.tight_layout()
-            p_inv_dc = run_dir / "inverter_vtc.png"
-            fig.savefig(p_inv_dc, dpi=300)
-            plt.close(fig)
+            lines = l1 + l_vm + l2
+            labels = [line.get_label() for line in lines]
+            ax1.legend(lines, labels, loc='center left', frameon=True)
+
+            ax1.set_title(f"{spec.pdk} CMOS Inverter DC VTC & Gain ({spec.technology_node})", fontsize=TITLE_SIZE, fontweight='bold')
+            p_inv_dc, _ = save_dev_figure(fig, run_dir / "inverter_vtc.png")
             plots["inverter_vtc"] = p_inv_dc
 
         # 2. Inverter Transient Switching Plot
         inv_tr = metrics.get("inverter_tran", {})
         if inv_tr.get("converged") and "t" in inv_tr:
-            fig, ax = plt.subplots(figsize=(7, 5))
+            fig, ax = plt.subplots(figsize=FIGSIZE)
+            apply_style(ax)
             t_ps = np.array(inv_tr["t"]) * 1e12
             vin = np.array(inv_tr["vin"])
             vout = np.array(inv_tr["vout"])
 
-            ax.plot(t_ps, vin, label='Input $V_{in}(t)$', color='#7f7f7f', linestyle='--', linewidth=1.8)
-            ax.plot(t_ps, vout, label='Output $V_{out}(t)$', color='#1f77b4', linewidth=2.2)
-            ax.set_xlabel('Time (ps)', fontsize=12, fontweight='bold')
-            ax.set_ylabel('Voltage (V)', fontsize=12, fontweight='bold')
-            ax.set_title(f"{spec.pdk} Inverter Transient Switching Delay ($\\tau_{{pd}} = {inv_tr.get('t_pd_ps')}ps$)", fontsize=13, fontweight='bold')
+            ax.plot(t_ps, vin, label='Input $V_{in}(t)$', color=MUTED_GRAY, linestyle='--', linewidth=LINEWIDTH_SECONDARY)
+            ax.plot(t_ps, vout, label='Output $V_{out}(t)$', color=PRIMARY_BLUE, linewidth=LINEWIDTH_MAIN)
+            ax.set_xlabel('Time (ps)', fontsize=LABEL_SIZE, fontweight='bold')
+            ax.set_ylabel('Voltage (V)', fontsize=LABEL_SIZE, fontweight='bold')
+            ax.set_title(f"{spec.pdk} Inverter Transient Switching Delay ($\\tau_{{pd}} = {inv_tr.get('t_pd_ps')}ps$)", fontsize=TITLE_SIZE, fontweight='bold')
             ax.legend(loc='center right', frameon=True)
-            fig.tight_layout()
-            p_inv_tr = run_dir / "inverter_transient.png"
-            fig.savefig(p_inv_tr, dpi=300)
-            plt.close(fig)
+            p_inv_tr, _ = save_dev_figure(fig, run_dir / "inverter_transient.png")
             plots["inverter_transient"] = p_inv_tr
 
         # 3. Ring Oscillator Transient Waveforms
         ro = metrics.get("ro", {})
         if ro.get("converged") and "t" in ro:
-            fig, ax = plt.subplots(figsize=(7, 5))
+            fig, ax = plt.subplots(figsize=FIGSIZE)
+            apply_style(ax)
             t_ps = np.array(ro["t"]) * 1e12
             n1 = np.array(ro["n1"])
             n2 = np.array(ro["n2"])
@@ -1789,23 +1811,21 @@ Cload out 0 {spec.cload_inv}
             t_start = max(0, t_max - 300)
             mask = t_ps >= t_start
 
-            ax.plot(t_ps[mask], n1[mask], label='Stage 1: $V(n_1)$', color='#1f77b4', linewidth=2.0)
-            ax.plot(t_ps[mask], n2[mask], label='Stage 2: $V(n_2)$', color='#ff7f0e', linewidth=2.0)
-            ax.plot(t_ps[mask], n3[mask], label='Stage 3: $V(n_3)$', color='#2ca02c', linewidth=2.0)
-            ax.set_xlabel('Time (ps)', fontsize=12, fontweight='bold')
-            ax.set_ylabel('Voltage (V)', fontsize=12, fontweight='bold')
-            ax.set_title(f"{spec.pdk} 3-Stage Ring Oscillator ($f_{{osc}} = {ro.get('f_osc_ghz')}GHz$)", fontsize=13, fontweight='bold')
+            ax.plot(t_ps[mask], n1[mask], label='Stage 1: $V(n_1)$', color=PRIMARY_BLUE, linewidth=LINEWIDTH_MAIN)
+            ax.plot(t_ps[mask], n2[mask], label='Stage 2: $V(n_2)$', color=SECONDARY_RED, linewidth=LINEWIDTH_SECONDARY)
+            ax.plot(t_ps[mask], n3[mask], label='Stage 3: $V(n_3)$', color=ACCENT_PURPLE, linewidth=LINEWIDTH_SECONDARY)
+            ax.set_xlabel('Time (ps)', fontsize=LABEL_SIZE, fontweight='bold')
+            ax.set_ylabel('Voltage (V)', fontsize=LABEL_SIZE, fontweight='bold')
+            ax.set_title(f"{spec.pdk} 3-Stage Ring Oscillator ($f_{{osc}} = {ro.get('f_osc_ghz')}GHz$)", fontsize=TITLE_SIZE, fontweight='bold')
             ax.legend(loc='upper right', frameon=True)
-            fig.tight_layout()
-            p_ro = run_dir / "ro_waveform.png"
-            fig.savefig(p_ro, dpi=300)
-            plt.close(fig)
+            p_ro, _ = save_dev_figure(fig, run_dir / "ro_waveform.png")
             plots["ro_waveform"] = p_ro
 
         # 4. 6T-SRAM Butterfly Curve
         sram = metrics.get("sram", {})
         if sram.get("converged") and "hold_vq1" in sram:
-            fig, ax = plt.subplots(figsize=(6.5, 6.5))
+            fig, ax = plt.subplots(figsize=FIGSIZE_SQUARE)
+            apply_style(ax)
             # Hold curves
             h_vq1 = np.array(sram["hold_vq1"])
             h_vqb1 = np.array(sram["hold_vqb1"])
@@ -1818,45 +1838,41 @@ Cload out 0 {spec.cload_inv}
             r_vq2 = np.array(sram["read_vq2"])
             r_vqb2 = np.array(sram["read_vqb2"])
 
-            ax.plot(h_vq1, h_vqb1, color='#1f77b4', linewidth=2.2, label=f'Hold Inv 1 ($SNM = {sram.get("snm_hold_mv")}mV$)')
-            ax.plot(h_vq2, h_vqb2, color='#1f77b4', linestyle='--', linewidth=2.2, label='Hold Inv 2')
-            ax.plot(r_vq1, r_vqb1, color='#d62728', linewidth=1.8, label=f'Read Inv 1 ($SNM = {sram.get("snm_read_mv")}mV$)')
-            ax.plot(r_vq2, r_vqb2, color='#d62728', linestyle='--', linewidth=1.8, label='Read Inv 2')
+            ax.plot(h_vq1, h_vqb1, color=PRIMARY_BLUE, linewidth=LINEWIDTH_MAIN, label=f'Hold Inv 1 ($SNM = {sram.get("snm_hold_mv")}mV$)')
+            ax.plot(h_vq2, h_vqb2, color=PRIMARY_BLUE, linestyle='--', linewidth=LINEWIDTH_SECONDARY, label='Hold Inv 2')
+            ax.plot(r_vq1, r_vqb1, color=SECONDARY_RED, linewidth=LINEWIDTH_MAIN, label=f'Read Inv 1 ($SNM = {sram.get("snm_read_mv")}mV$)')
+            ax.plot(r_vq2, r_vqb2, color=SECONDARY_RED, linestyle='--', linewidth=LINEWIDTH_SECONDARY, label='Read Inv 2')
 
-            ax.plot([0, spec.vdd], [0, spec.vdd], color='gray', linestyle=':', alpha=0.6)
-            ax.set_xlabel('Internal Node $V(Q)$ (V)', fontsize=12, fontweight='bold')
-            ax.set_ylabel('Internal Node $V(QB)$ (V)', fontsize=12, fontweight='bold')
-            ax.set_title(f"{spec.pdk} 6T-SRAM Static Noise Margin Butterfly Curves", fontsize=13, fontweight='bold')
+            ax.plot([0, spec.vdd], [0, spec.vdd], color=MUTED_GRAY, linestyle=':', linewidth=LINEWIDTH_SECONDARY, alpha=0.6)
+            ax.set_xlabel('Internal Node $V(Q)$ (V)', fontsize=LABEL_SIZE, fontweight='bold')
+            ax.set_ylabel('Internal Node $V(QB)$ (V)', fontsize=LABEL_SIZE, fontweight='bold')
+            ax.set_title(f"{spec.pdk} 6T-SRAM Static Noise Margin Butterfly Curves", fontsize=TITLE_SIZE, fontweight='bold')
             ax.legend(loc='center right', frameon=True)
             ax.set_aspect('equal')
-            fig.tight_layout()
-            p_sram = run_dir / "sram_butterfly.png"
-            fig.savefig(p_sram, dpi=300)
-            plt.close(fig)
+            p_sram, _ = save_dev_figure(fig, run_dir / "sram_butterfly.png")
             plots["sram_butterfly"] = p_sram
 
         # 5. 5T OTA Bode Plot
         ota = metrics.get("ota", {})
         if ota.get("converged") and "freq" in ota:
-            fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(7, 6), sharex=True)
+            fig, (ax1, ax2) = plt.subplots(2, 1, figsize=FIGSIZE_TALL, sharex=True)
+            apply_style(ax1)
+            apply_style(ax2)
             freq = np.array(ota["freq"])
             mag_db = np.array(ota["mag_db"])
             phase = np.array(ota["phase_deg"])
 
-            ax1.semilogx(freq, mag_db, color='#1f77b4', linewidth=2.2)
-            ax1.axhline(0, color='gray', linestyle='--', alpha=0.7)
-            ax1.set_ylabel('Open-Loop Gain (dB)', fontsize=11, fontweight='bold')
-            ax1.set_title(f"{spec.pdk} 5T OTA Frequency Response ($A_0 = {ota.get('dc_gain_db')}dB$, $GBW = {ota.get('gbw_ghz')}GHz$)", fontsize=13, fontweight='bold')
+            ax1.semilogx(freq, mag_db, color=PRIMARY_BLUE, linewidth=LINEWIDTH_MAIN)
+            ax1.axhline(0, color=MUTED_GRAY, linestyle='--', linewidth=LINEWIDTH_SECONDARY, alpha=0.7)
+            ax1.set_ylabel('Open-Loop Gain (dB)', fontsize=LABEL_SIZE, fontweight='bold')
+            ax1.set_title(f"{spec.pdk} 5T OTA Frequency Response ($A_0 = {ota.get('dc_gain_db')}dB$, $GBW = {ota.get('gbw_ghz')}GHz$)", fontsize=TITLE_SIZE, fontweight='bold')
 
-            ax2.semilogx(freq, phase, color='#d62728', linewidth=2.2)
-            ax2.axhline(-180, color='gray', linestyle='--', alpha=0.7)
-            ax2.set_xlabel('Frequency (Hz)', fontsize=11, fontweight='bold')
-            ax2.set_ylabel('Phase (deg)', fontsize=11, fontweight='bold')
+            ax2.semilogx(freq, phase, color=SECONDARY_RED, linewidth=LINEWIDTH_MAIN)
+            ax2.axhline(-180, color=MUTED_GRAY, linestyle='--', linewidth=LINEWIDTH_SECONDARY, alpha=0.7)
+            ax2.set_xlabel('Frequency (Hz)', fontsize=LABEL_SIZE, fontweight='bold')
+            ax2.set_ylabel('Phase (deg)', fontsize=LABEL_SIZE, fontweight='bold')
 
-            fig.tight_layout()
-            p_ota = run_dir / "ota_bode.png"
-            fig.savefig(p_ota, dpi=300)
-            plt.close(fig)
+            p_ota, _ = save_dev_figure(fig, run_dir / "ota_bode.png")
             plots["ota_bode"] = p_ota
 
         return plots
@@ -1942,82 +1958,82 @@ Cload out 0 {spec.cload_inv}
         report_path.write_text("\n".join(lines), encoding="utf-8")
 
     def _generate_consolidated_plots(self, results: List[Dict[str, Any]]):
-        """Generate cross-PDK scaling summary charts."""
+        """Generate cross-PDK scaling summary charts conforming to dev-plot."""
         valid_res = [r for r in results if r.get("success")]
         if not valid_res:
             return
 
+        apply_rcparams()
         pdk_labels = [r["pdk"].replace("_", " ") for r in valid_res]
 
         # 1. Inverter Propagation Delay
-        fig, ax = plt.subplots(figsize=(9, 5))
+        fig, ax = plt.subplots(figsize=FIGSIZE)
+        apply_style(ax, grid_axis="y")
         delays = [r.get("inverter_tran", {}).get("t_pd_ps", 0.0) for r in valid_res]
-        bars = ax.bar(pdk_labels, delays, color='#1f77b4', edgecolor='black', alpha=0.85)
-        ax.set_ylabel('Inverter Propagation Delay $\\tau_{pd}$ (ps)', fontsize=12, fontweight='bold')
-        ax.set_title('Cross-PDK Inverter Switching Delay Scaling (180nm to 2nm)', fontsize=13, fontweight='bold')
+        bars = ax.bar(pdk_labels, delays, color=BAR_COLOR, edgecolor=BAR_EDGE_COLOR, linewidth=BAR_EDGE_WIDTH, alpha=0.9)
+        ax.set_ylabel('Inverter Propagation Delay $\\tau_{pd}$ (ps)', fontsize=LABEL_SIZE, fontweight='bold')
+        ax.set_title('Cross-PDK Inverter Switching Delay Scaling (180nm to 2nm)', fontsize=TITLE_SIZE, fontweight='bold')
         plt.xticks(rotation=30, ha='right', fontsize=10, fontweight='bold')
         for bar in bars:
             yval = bar.get_height()
             if yval > 0:
-                ax.text(bar.get_x() + bar.get_width()/2.0, yval + 1.0, f'{yval:.1f}ps', ha='center', va='bottom', fontsize=9)
-        fig.tight_layout()
-        fig.savefig(self.plots_dir / "summary_inverter_delay.png", dpi=300)
-        plt.close(fig)
+                ax.text(bar.get_x() + bar.get_width()/2.0, yval + 1.0, f'{yval:.1f}ps', ha='center', va='bottom', fontsize=9, fontweight='bold')
+        save_dev_figure(fig, self.plots_dir / "summary_inverter_delay.png")
 
         # 2. Ring Oscillator Frequency
-        fig, ax = plt.subplots(figsize=(9, 5))
+        fig, ax = plt.subplots(figsize=FIGSIZE)
+        apply_style(ax, grid_axis="y")
         frequencies = [r.get("ro", {}).get("f_osc_ghz", 0.0) for r in valid_res]
-        bars = ax.bar(pdk_labels, frequencies, color='#2ca02c', edgecolor='black', alpha=0.85)
-        ax.set_ylabel('Ring Oscillator Frequency $f_{osc}$ (GHz)', fontsize=12, fontweight='bold')
-        ax.set_title('Cross-PDK 3-Stage Ring Oscillator Frequency Scaling', fontsize=13, fontweight='bold')
+        bars = ax.bar(pdk_labels, frequencies, color=ACCENT_PURPLE, edgecolor=BAR_EDGE_COLOR, linewidth=BAR_EDGE_WIDTH, alpha=0.9)
+        ax.set_ylabel('Ring Oscillator Frequency $f_{osc}$ (GHz)', fontsize=LABEL_SIZE, fontweight='bold')
+        ax.set_title('Cross-PDK 3-Stage Ring Oscillator Frequency Scaling', fontsize=TITLE_SIZE, fontweight='bold')
         plt.xticks(rotation=30, ha='right', fontsize=10, fontweight='bold')
         for bar in bars:
             yval = bar.get_height()
             if yval > 0:
-                ax.text(bar.get_x() + bar.get_width()/2.0, yval + 0.5, f'{yval:.1f}G', ha='center', va='bottom', fontsize=9)
-        fig.tight_layout()
-        fig.savefig(self.plots_dir / "summary_ro_fosc.png", dpi=300)
-        plt.close(fig)
+                ax.text(bar.get_x() + bar.get_width()/2.0, yval + 0.5, f'{yval:.1f}G', ha='center', va='bottom', fontsize=9, fontweight='bold')
+        save_dev_figure(fig, self.plots_dir / "summary_ro_fosc.png")
 
         # 3. 6T-SRAM Hold vs Read SNM
-        fig, ax = plt.subplots(figsize=(9, 5))
+        fig, ax = plt.subplots(figsize=FIGSIZE)
+        apply_style(ax, grid_axis="y")
         x = np.arange(len(pdk_labels))
         width = 0.35
         hold_snm = [r.get("sram", {}).get("snm_hold_mv", 0.0) for r in valid_res]
         read_snm = [r.get("sram", {}).get("snm_read_mv", 0.0) for r in valid_res]
 
-        ax.bar(x - width/2, hold_snm, width, label='Hold SNM (WL=0)', color='#1f77b4', edgecolor='black', alpha=0.85)
-        ax.bar(x + width/2, read_snm, width, label='Read SNM (WL=VDD)', color='#d62728', edgecolor='black', alpha=0.85)
-        ax.set_ylabel('Static Noise Margin (mV)', fontsize=12, fontweight='bold')
-        ax.set_title('Cross-PDK 6T-SRAM Hold vs Read Noise Margin Comparison', fontsize=13, fontweight='bold')
+        ax.bar(x - width/2, hold_snm, width, label='Hold SNM (WL=0)', color=PRIMARY_BLUE, edgecolor=BAR_EDGE_COLOR, linewidth=BAR_EDGE_WIDTH, alpha=0.9)
+        ax.bar(x + width/2, read_snm, width, label='Read SNM (WL=VDD)', color=SECONDARY_RED, edgecolor=BAR_EDGE_COLOR, linewidth=BAR_EDGE_WIDTH, alpha=0.9)
+        ax.set_ylabel('Static Noise Margin (mV)', fontsize=LABEL_SIZE, fontweight='bold')
+        ax.set_title('Cross-PDK 6T-SRAM Hold vs Read Noise Margin Comparison', fontsize=TITLE_SIZE, fontweight='bold')
         ax.set_xticks(x)
         ax.set_xticklabels(pdk_labels, rotation=30, ha='right', fontsize=10, fontweight='bold')
         ax.legend(loc='upper right', frameon=True)
-        fig.tight_layout()
-        fig.savefig(self.plots_dir / "summary_sram_snm.png", dpi=300)
-        plt.close(fig)
+        save_dev_figure(fig, self.plots_dir / "summary_sram_snm.png")
 
         # 4. 5T OTA Gain & Phase Margin
-        fig, ax1 = plt.subplots(figsize=(9, 5))
+        fig, ax1 = plt.subplots(figsize=FIGSIZE)
+        apply_style(ax1)
         gains = [r.get("ota", {}).get("dc_gain_db", 0.0) for r in valid_res]
         pms = [r.get("ota", {}).get("phase_margin_deg", 0.0) for r in valid_res]
 
-        color = '#1f77b4'
-        ax1.set_ylabel('Open-Loop DC Gain $A_0$ (dB)', color=color, fontsize=12, fontweight='bold')
-        l1 = ax1.plot(pdk_labels, gains, color=color, marker='o', linewidth=2.2, label='DC Gain $A_0$ (dB)')
-        ax1.tick_params(axis='y', labelcolor=color)
+        ax1.set_ylabel('Open-Loop DC Gain $A_0$ (dB)', color=PRIMARY_BLUE, fontsize=LABEL_SIZE, fontweight='bold')
+        l1 = ax1.plot(pdk_labels, gains, color=PRIMARY_BLUE, marker='o', markersize=6, markerfacecolor="white", markeredgewidth=1.5, linewidth=LINEWIDTH_MAIN, label='DC Gain $A_0$ (dB)')
+        ax1.tick_params(axis='y', labelcolor=PRIMARY_BLUE)
         plt.xticks(rotation=30, ha='right', fontsize=10, fontweight='bold')
 
         ax2 = ax1.twinx()
-        color = '#d62728'
-        ax2.set_ylabel('Phase Margin $PM$ (deg)', color=color, fontsize=12, fontweight='bold')
-        l2 = ax2.plot(pdk_labels, pms, color=color, marker='s', linestyle='--', linewidth=2.2, label='Phase Margin')
-        ax2.tick_params(axis='y', labelcolor=color)
+        apply_style(ax2)
+        ax2.set_ylabel('Phase Margin $PM$ (deg)', color=TWIN_ORANGE, fontsize=LABEL_SIZE, fontweight='bold')
+        l2 = ax2.plot(pdk_labels, pms, color=TWIN_ORANGE, marker='s', markersize=6, linestyle='--', linewidth=LINEWIDTH_SECONDARY, label='Phase Margin')
+        ax2.tick_params(axis='y', labelcolor=TWIN_ORANGE)
 
-        plt.title('Cross-PDK 5T OTA Small-Signal Gain and Phase Margin', fontsize=13, fontweight='bold')
-        fig.tight_layout()
-        fig.savefig(self.plots_dir / "summary_ota_gain_pm.png", dpi=300)
-        plt.close(fig)
+        lines = l1 + l2
+        labels = [l.get_label() for l in lines]
+        ax1.legend(lines, labels, loc='upper right', frameon=True)
+
+        plt.title('Cross-PDK 5T OTA Small-Signal Gain and Phase Margin', fontsize=TITLE_SIZE, fontweight='bold')
+        save_dev_figure(fig, self.plots_dir / "summary_ota_gain_pm.png")
 
     def _write_consolidated_summary(self, results: List[Dict[str, Any]]):
         """Generate consolidated cross-PDK circuit stress report and summary JSON."""
