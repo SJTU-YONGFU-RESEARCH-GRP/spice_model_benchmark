@@ -15,6 +15,40 @@ The system is designed to run various types of SPICE simulations on a semiconduc
 
 Note: The AC pipeline also derives *large-signal* effective capacitances by integrating the AC C(V) curves (e.g., Cgg from `cv_data.txt`) and writes the results under `results/data/`.
 
+## Supported PDK Libraries & Device Modeling Physics
+
+The benchmark framework integrates [spice_model_libraries](models/README.md) and [spice_model_collections](models/public-models/README.md) as Git submodules at `models/`, covering **10 foundry and academic PDKs** across planar Bulk CMOS, multi-fin FinFET, GAAFET nanosheet, and BiCMOS technologies:
+
+| PDK Library | Architecture & Node | Core Devices | Compact Model Formulation | Key Physical Effects | Verified Simulators |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **FreePDK45** | 45nm Bulk CMOS | `NMOS_VTG`, `VTH`, `VTL`, `THKOX` | **BSIM4.0 (Level 54)** | DIBL, velocity saturation, gate oxide tunneling ($I_{gc}, I_{gs}, I_{gd}$), LOD stress | ngspice, HSPICE, Spectre, Xyce |
+| **GF180MCU** | 180nm Bulk CMOS | `nmos_3p3`, `nmos_6p0`, PMOS pairs | **BSIM4 (Level 54)** | Industrial multi-binning, temperature derating ($-40^\circ\text{C}$ to $+150^\circ\text{C}$), JUNCAP | ngspice, Xyce, HSPICE, Spectre |
+| **SkyWater SKY130** | 130nm Bulk CMOS | `nfet_01v8`, `lvt`, `nfet_g5v0d10v5` | **BSIM4.5 (Level 54)** | Hierarchical subcircuit macros, WPE/LOD stress, parasitic diode & gate resistance | ngspice, Xyce, HSPICE, Spectre |
+| **IHP SG13G2** | 130nm BiCMOS | `sg13_lv_nmos`, `hv_nmos`, `npn13G2` | **PSP 103.6 (OSDI) + VBIC** | Surface-potential without $V_{th}$ kinks, non-quasi-static (NQS) dynamics, SiGe HBT | ngspice (OSDI), Xyce, Spectre, HSPICE |
+| **ASAP7** | 7nm FinFET | `nmos_rvt`, `lvt`, `slvt`, `sram` | **BSIM-CMG (Level 72)** | 3D fin electrostatics, quantum confinement ($T_{FIN}=7\text{nm}$), $R_{ext}$ parasitic resistance | HSPICE, Spectre, Xyce |
+| **FreePDK15** | 15nm FinFET | `nfet`, `pfet` | **BSIM-CMG (Level 72)** | 3D multi-fin surface potential, subthreshold swing degradation, 3D fringing cap | HSPICE, Spectre, Xyce |
+| **FreePDK3** | 3nm GAAFET | `nfet`, `pfet` | **BSIM-CMG (Level 72)** | Gate-all-around multi-sheet wrap, volume inversion, quasi-ballistic carrier scattering | HSPICE, Spectre, Xyce |
+| **GT3** | 3nm GAAFET | `nmos_rvt`, `nmos_lvt` | **BSIM-CMG (Level 72)** | Georgia Tech 3nm nanosheets, self-heating thermal impedance ($R_{th}, C_{th}$), volume inversion | HSPICE, Spectre, Xyce |
+| **GT2N** | 2nm GAAFET | `nmos` ($W=13, 18, 22, 26\text{nm}$) | **BSIM-CMG (Level 72)** | Extreme scaling, ribbon width confinement, source-to-drain direct tunneling leakage | HSPICE, Spectre, Xyce |
+| **PKP3** | 3nm GAAFET | `nmos_lvt`, `rvt`, PMOS pairs | **PHIMO-Fusion (Verilog-A)** | Physics-informed neural hybrid model, exact Gummel symmetry & passivity, no oscillations | Spectre (AHDL), Xyce |
+
+### Automated Multi-Corner Multi-EDA Regression
+
+To run comprehensive physical verification across all 10 PDKs and 19 process corners:
+
+```bash
+# Auto-dispatch each PDK to its best native simulator engine
+python3 -m spice_model_benchmark.regression_runner --output-dir results --simulator auto
+
+# Or force specific simulator backends where supported
+python3 -m spice_model_benchmark.regression_runner --output-dir results --simulator ngspice
+python3 -m spice_model_benchmark.regression_runner --output-dir results --simulator hspice
+python3 -m spice_model_benchmark.regression_runner --output-dir results --simulator spectre
+python3 -m spice_model_benchmark.regression_runner --output-dir results --simulator xyce
+```
+
+Detailed model parameter cards, pinouts, and netlist syntax are fully documented in [models/public-models/README.md](models/public-models/README.md).
+
 ## Quick Start Guide
 
 ### Option 1: Install as a Python Package (Recommended)
