@@ -51,6 +51,7 @@ Changelog = "https://github.com/yourusername/spice_model_benchmark/blob/main/CHA
 spice-benchmark = "spice_model_benchmark.cli:main"
 spice_model_benchmark = "spice_model_benchmark.cli:main"
 spice-regression = "spice_model_benchmark.regression_runner:main"
+spice-circuit-stress = "spice_model_benchmark.circuit_stress_runner:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
@@ -111,3 +112,8 @@ module = [
     "colorama.*",
 ]
 ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+norecursedirs = ["models", ".git", "benchmark_results", "results"]

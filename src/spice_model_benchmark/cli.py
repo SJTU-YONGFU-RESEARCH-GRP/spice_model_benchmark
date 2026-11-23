@@ -34,7 +34,28 @@ Examples:
     parser.add_argument(
         "model_file",
         type=str,
-        help="Path to the SPICE model file"
+        nargs="?",
+        default=None,
+        help="Path to the SPICE model file (optional when using --circuit-stress or --regression)"
+    )
+
+    parser.add_argument(
+        "--circuit-stress",
+        action="store_true",
+        help="Run IEEE TCAD 2026 / IEEE TED 2025 circuit-level stress convergence suite (Inverter, RO, 6T-SRAM, 5T OTA)"
+    )
+
+    parser.add_argument(
+        "--regression",
+        action="store_true",
+        help="Run multi-corner regression suite across all 10 foundry PDKs"
+    )
+
+    parser.add_argument(
+        "--pdk",
+        type=str,
+        nargs="+",
+        help="Specific PDKs or corners to evaluate under --circuit-stress or --regression (default: all)"
     )
 
     parser.add_argument(
@@ -116,6 +137,31 @@ Examples:
         parsed_args = parser.parse_args(args)
     except SystemExit as e:
         return e.code
+
+    # 1. Circuit Stress Mode
+    if parsed_args.circuit_stress:
+        from .circuit_stress_runner import CircuitStressRunner
+        out_dir = parsed_args.output_dir if parsed_args.output_dir != "spice_benchmark_results" else "results/circuit_stress"
+        user_specified_sim = any(a.startswith("--sim") for a in args) if args else False
+        sim = parsed_args.simulator[0] if user_specified_sim else "auto"
+        runner = CircuitStressRunner(output_dir=out_dir)
+        results = runner.run_all(selected_pdks=parsed_args.pdk, simulator=sim)
+        return 0 if any(r.get("success") for r in results) else 1
+
+    # 2. Multi-Corner Regression Mode
+    if parsed_args.regression:
+        from .regression_runner import RegressionRunner
+        out_dir = parsed_args.output_dir if parsed_args.output_dir != "spice_benchmark_results" else "results"
+        user_specified_sim = any(a.startswith("--sim") for a in args) if args else False
+        sim = parsed_args.simulator[0] if user_specified_sim else "auto"
+        runner = RegressionRunner(output_dir=out_dir)
+        runner.run_all(selected_corners=parsed_args.pdk, simulator=sim)
+        return 0
+
+    if not parsed_args.model_file:
+        print("Error: model_file is required when not running --circuit-stress or --regression.")
+        parser.print_help()
+        return 1
 
     model_path = Path(parsed_args.model_file)
     if not model_path.exists():

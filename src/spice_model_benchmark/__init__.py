@@ -14,6 +14,8 @@ from .simulation_runner import SimulationRunner
 from .data_reader import DataReader
 from .plot_generator import PlotGenerator
 from .verification_manager import VerificationManager
+from .circuit_stress_runner import CircuitStressRunner, CircuitStressSpec
+from .regression_runner import RegressionRunner, CornerSpec
 
 __version__ = "1.0.0"
 __all__ = [
@@ -23,6 +25,10 @@ __all__ = [
     "DataReader",
     "PlotGenerator",
     "VerificationManager",
+    "CircuitStressRunner",
+    "CircuitStressSpec",
+    "RegressionRunner",
+    "CornerSpec",
     "benchmark_spice_model",
     "cli",
 ]
