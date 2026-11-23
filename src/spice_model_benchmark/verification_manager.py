@@ -339,6 +339,21 @@ class VerificationManager:
             # If no specific modes are found, show generic simulation run check
             if not any(mode in results for mode in ['dc', 'ac', 'transient', 'noise']):
                 content.append(f"- [<span style='color: {'green' if setup.get('simulation_runs', False) else 'red'}'>{'✓' if setup.get('simulation_runs', False) else '✗'}</span>] Simulation runs without errors")
+
+            # Verilog-A OpenVAF Compilation details if available
+            va_comp = results.get('verilog_a_compilation')
+            if va_comp:
+                content.append("")
+                status = "✓" if va_comp.get('success', False) else "✗"
+                color = "green" if status == "✓" else "red"
+                content.append(f"### Verilog-A OpenVAF Compilation & Syntax Audit (McAndrew TED 2025 Item 13)")
+                content.append(f"- [<span style='color: {color}'>{status}</span>] OpenVAF Model Compilation: {'Success (OSDI module generated)' if va_comp.get('success') else 'Failed'}")
+                content.append(f"  - Source Model: `{va_comp.get('va_file', 'N/A')}`")
+                content.append(f"  - Compiled OSDI: `{va_comp.get('osdi_path', 'N/A')}`")
+                content.append(f"  - Compilation Time: {va_comp.get('compilation_time_s', 'N/A')} s")
+                content.append(f"  - OpenVAF Version: {va_comp.get('openvaf_version', 'N/A')}")
+                if va_comp.get('stdout'):
+                    content.append(f"  - Compiler Log: {va_comp.get('stdout')}")
             else:
                 # Default setup section when no results are available
                 content.append("- [<span style='color: red'>✗</span>] Circuit file exists and is readable")
@@ -439,7 +454,31 @@ class VerificationManager:
             vth = sm.get('details', {}).get('vth', 'N/A')
             max_gm = sm.get('details', {}).get('max_gm', 'N/A')
             ripple_pass = sm.get('ripple_free', False)
-            content.append(f"| [Derivative Smoothness & Vth](#physical-properties--symmetry-analysis) | <span style='color: {'green' if ripple_pass else 'red'}'>{'✓' if ripple_pass else '✗'}</span> | Vth: {vth}, Peak Gm: {max_gm}, Ripple-free: {'Pass' if ripple_pass else 'Fail'} |")
+            gm3_pass = sm.get('third_derivative_passed', False)
+            content.append(f"| [3rd-Order Derivatives (Gm3) & Vth](#physical-properties--symmetry-analysis) | <span style='color: {'green' if ripple_pass and gm3_pass else 'red'}'>{'✓' if ripple_pass and gm3_pass else '✗'}</span> | Vth: {vth}, Peak Gm: {max_gm}, Gm3 Ripple-free: {'Pass' if gm3_pass else 'Fail'} |")
+
+        # Output Conductance Smoothness (Gds, Gds2, Gds3)
+        if 'output_conductance_smoothness' in results and results['output_conductance_smoothness'] is not None:
+            gds_res = results['output_conductance_smoothness']
+            passed = gds_res.get('gds_smoothness_passed', False)
+            sat = gds_res.get('details', {}).get('gds_saturation_val', 'N/A')
+            content.append(f"| [Output Conductance & Higher Derivatives (Gds3)](#physical-properties--symmetry-analysis) | <span style='color: {'green' if passed else 'red'}'>{'✓' if passed else '✗'}</span> | Gds Saturation: {sat}, Derivatives Finite: {'Pass' if passed else 'Fail'} |")
+
+        # Asymptotic Extrapolation Quality
+        if 'asymptotic_extrapolation' in results and results['asymptotic_extrapolation'] is not None:
+            asymp = results['asymptotic_extrapolation']
+            passed = asymp.get('asymptotics_passed', False)
+            rev_leak = asymp.get('details', {}).get('deep_reverse_leakage_at_-2V', 'N/A')
+            fwd_on = asymp.get('details', {}).get('overdrive_current_at_2.5V', 'N/A')
+            content.append(f"| [Asymptotic Extrapolation Testing](#physical-properties--symmetry-analysis) | <span style='color: {'green' if passed else 'red'}'>{'✓' if passed else '✗'}</span> | Vgs=-2V Leakage: {rev_leak}, Overdrive (2.5V): {fwd_on}, Stable: {'Pass' if passed else 'Fail'} |")
+
+        # Dynamic Self-Heating / Frequency Dispersion
+        if 'dynamic_self_heating' in results and results['dynamic_self_heating'] is not None:
+            sh = results['dynamic_self_heating']
+            passed = sh.get('dynamic_sh_passed', False)
+            ratio = sh.get('details', {}).get('delta_go_ratio', 'N/A')
+            pole = sh.get('details', {}).get('thermal_pole_freq', 'N/A')
+            content.append(f"| [Dynamic Self-Heating ($g_o(f)$ Dispersion)](#physical-properties--symmetry-analysis) | <span style='color: {'green' if passed else 'red'}'>{'✓' if passed else '✗'}</span> | Dispersion Ratio: {ratio}, Thermal Pole: {pole} |")
 
         content.append("")
         self.logger.info("DC Summary Section Completed")
@@ -579,19 +618,72 @@ class VerificationManager:
                 content.append("- [<span style='color: red'>✗</span>] Zero-bias passivity data not available")
             content.append("")
             
-            # 3. Transconductance Smoothness & Vth Extraction
+            # 3. Transconductance Smoothness, Gm3, & Vth Extraction
             smoothness = results.get('transconductance_smoothness')
             if smoothness and smoothness.get('data_ready'):
-                status = "✓" if smoothness.get('vth_extracted', False) and smoothness.get('ripple_free', False) else "✗"
+                status = "✓" if smoothness.get('vth_extracted', False) and smoothness.get('ripple_free', False) and smoothness.get('third_derivative_passed', False) else "✗"
                 color = "green" if status == "✓" else "red"
-                content.append(f"- [<span style='color: {color}'>{status}</span>] Derivative Smoothness & Vth Extraction")
+                content.append(f"- [<span style='color: {color}'>{status}</span>] Transconductance Smoothness & 3rd-Order Derivative (Gm3) Audit (McAndrew TED 2025 Table I)")
                 content.append(f"  - Extracted Vth: {smoothness.get('details', {}).get('vth', 'N/A')}")
                 content.append(f"  - Peak Gm: {smoothness.get('details', {}).get('max_gm', 'N/A')} at Vgs = {smoothness.get('details', {}).get('vgs_at_max_gm', 'N/A')}")
                 content.append(f"  - Ripple-Free Derivative Continuity: {'✓ Pass (No unphysical ripples)' if smoothness.get('ripple_free') else '✗ Fail (Neural ripples detected)'}")
+                content.append(f"  - 3rd Derivative (Gm3) Linearity & Ripple Count: {smoothness.get('details', {}).get('gm3_ripple_count', 'N/A')} sign changes ({'✓ Pass' if smoothness.get('third_derivative_passed') else '✗ Fail'})")
+                content.append(f"  - Peak Gm3: {smoothness.get('details', {}).get('max_gm3', 'N/A')}")
                 content.append("")
                 content.append("<img src='plots/dc_derivative_smoothness.png' alt='Derivative Smoothness' width='400'/>")
             else:
                 content.append("- [<span style='color: red'>✗</span>] Transconductance smoothness data not available")
+            content.append("")
+
+            # 4. Output Conductance & Higher Derivatives (Gds, Gds2, Gds3)
+            gds_res = results.get('output_conductance_smoothness')
+            if gds_res and gds_res.get('data_ready'):
+                status = "✓" if gds_res.get('gds_smoothness_passed', False) else "✗"
+                color = "green" if status == "✓" else "red"
+                content.append(f"- [<span style='color: {color}'>{status}</span>] Output Conductance & Higher Derivatives (Gds, Gds2, Gds3) (McAndrew TED 2025)")
+                content.append(f"  - Passivity (Gds >= 0): {'✓ Pass' if gds_res.get('gds_positive') else '✗ Negative Gds detected'}")
+                content.append(f"  - Saturation Output Conductance: {gds_res.get('details', {}).get('gds_saturation_val', 'N/A')}")
+                content.append(f"  - Higher Derivatives Finite: {'✓ Pass' if gds_res.get('higher_derivatives_finite') else '✗ Fail'}")
+                content.append(f"  - 3rd Output Derivative (Gds3) Ripples: {gds_res.get('details', {}).get('gds3_ripple_count', 'N/A')}")
+                content.append("")
+                content.append("<img src='plots/dc_output_conductance_derivatives.png' alt='Output Conductance Derivatives' width='400'/>")
+            else:
+                content.append("- [<span style='color: red'>✗</span>] Output conductance data not available")
+            content.append("")
+
+            # 5. Asymptotic Extrapolation Quality Assurance (McAndrew TED 2025 Table I Item 7)
+            asymp = results.get('asymptotic_extrapolation')
+            if asymp and asymp.get('data_ready'):
+                status = "✓" if asymp.get('asymptotics_passed', False) else "✗"
+                color = "green" if status == "✓" else "red"
+                content.append(f"- [<span style='color: {color}'>{status}</span>] Asymptotic Extrapolation Quality Assurance (Extreme Biases)")
+                content.append(f"  - Deep Reverse Gate Bias (Vgs -> -2.0V): Leakage = {asymp.get('details', {}).get('deep_reverse_leakage_at_-2V', 'N/A')} ({'✓ Non-negative & Bounded' if asymp.get('reverse_bias_bounded') else '✗ Unbounded'})")
+                content.append(f"  - No Spontaneous Negative Power: {'✓ Pass' if asymp.get('no_negative_power') else '✗ Fail'}")
+                content.append(f"  - Extreme Gate Overdrive (Vgs = 2.5V): On-Current = {asymp.get('details', {}).get('overdrive_current_at_2.5V', 'N/A')} ({'✓ Monotonic' if asymp.get('forward_overdrive_monotonic') else '✗ Non-monotonic'})")
+                content.append(f"  - High Drain Voltage (Vds = 2.5V): Leakage = {asymp.get('details', {}).get('max_high_vds_leakage', 'N/A')} ({'✓ Stable' if asymp.get('high_vds_stable') else '✗ Instability'})")
+                content.append("")
+                content.append("<img src='plots/dc_asymptotic_extrapolation.png' alt='Asymptotic Extrapolation' width='400'/>")
+            else:
+                content.append("- [<span style='color: red'>✗</span>] Asymptotic extrapolation data not available")
+            content.append("")
+
+            # 6. Dynamic Self-Heating & AC Output Admittance Dispersion (McAndrew TED 2025 Table I Item 9)
+            sh = results.get('dynamic_self_heating')
+            if sh and sh.get('data_ready'):
+                status = "✓" if sh.get('dynamic_sh_passed', False) else "✗"
+                color = "green" if status == "✓" else "red"
+                content.append(f"- [<span style='color: {color}'>{status}</span>] Dynamic Self-Heating & Frequency Dispersion ($g_o(f)$ from 1 Hz to 100 GHz)")
+                content.append(f"  - Passivity Maintained Across Spectrum ($g_o \ge 0$): {'✓ Pass' if sh.get('passivity_maintained') else '✗ Fail'}")
+                content.append(f"  - Low-Frequency $g_o$ (1 Hz): {sh.get('details', {}).get('low_freq_go', 'N/A')}")
+                content.append(f"  - High-Frequency $g_o$ (100 GHz): {sh.get('details', {}).get('high_freq_go', 'N/A')}")
+                content.append(f"  - Dispersion Ratio $\\Delta g_o / \\bar{{g}}_o$: {sh.get('details', {}).get('delta_go_ratio', 'N/A')}")
+                content.append(f"  - Thermal Transition Pole: {sh.get('details', {}).get('thermal_pole_freq', 'N/A')}")
+                if sh.get('details', {}).get('output_capacitance_at_1MHz'):
+                    content.append(f"  - Output Capacitance at 1 MHz: {sh.get('details', {}).get('output_capacitance_at_1MHz')}")
+                content.append("")
+                content.append("<img src='plots/ac_dynamic_self_heating.png' alt='Dynamic Self-Heating Dispersion' width='400'/>")
+            else:
+                content.append("- [<span style='color: red'>✗</span>] Dynamic self-heating data not available")
             content.append("")
 
             content.append("")
@@ -2219,28 +2311,35 @@ class VerificationManager:
             self.logger.error(f"Error in verify_zero_bias_passivity: {e}")
         return results
 
-    def verify_transconductance_smoothness_and_vth(self, vgs, ids, gm=None, gm2=None):
-        """Verify derivative continuity, transconductance smoothness, and extract Vth.
+    def verify_transconductance_smoothness_and_vth(self, vgs, ids, gm=None, gm2=None, gm3=None):
+        """Verify derivative continuity, transconductance smoothness up to 3rd-order (gm3), and extract Vth.
+        
+        Evaluates 1st (Gm), 2nd (Gm2), and 3rd (Gm3) derivatives for absence of unphysical
+        oscillations, vital for RF intermodulation (IP3) and analog linearity.
         
         Args:
             vgs (ndarray): Gate-source voltage sweep
             ids (ndarray): Drain-source current
             gm (ndarray, optional): Transconductance from simulation
             gm2 (ndarray, optional): Second derivative from simulation
+            gm3 (ndarray, optional): Third derivative from simulation
             
         Returns:
-            dict: Smoothness and Vth extraction results
+            dict: Smoothness, higher derivatives, and Vth extraction results
         """
         results = {
             'data_ready': False,
             'monotonic': False,
             'ripple_free': False,
+            'third_derivative_passed': False,
             'vth_extracted': False,
             'details': {
                 'vth': None,
                 'max_gm': None,
                 'vgs_at_max_gm': None,
-                'gm_ripple_ratio': None
+                'gm_ripple_ratio': None,
+                'gm3_ripple_count': None,
+                'max_gm3': None
             }
         }
         try:
@@ -2260,6 +2359,16 @@ class VerificationManager:
                     vgs_sorted = unique_vgs
                     ids_sorted = ids_sorted[unique_idx]
                 gm_sorted = np.gradient(ids_sorted, vgs_sorted)
+
+            if gm2 is not None:
+                gm2_sorted = np.asarray(gm2, dtype=float)[order]
+            else:
+                gm2_sorted = np.gradient(gm_sorted, vgs_sorted)
+
+            if gm3 is not None:
+                gm3_sorted = np.asarray(gm3, dtype=float)[order]
+            else:
+                gm3_sorted = np.gradient(gm2_sorted, vgs_sorted)
             
             results['monotonic'] = bool(np.all(np.diff(ids_sorted) >= -1e-12))
             
@@ -2278,15 +2387,282 @@ class VerificationManager:
                     results['vth_extracted'] = True
                     results['details']['vth'] = f"{vth:.3f} V"
                 
+                # Check Gm ripple (sign changes in derivative of Gm)
                 dgm = np.diff(gm_sorted)
                 dgm_clean = np.where(np.abs(dgm) < 1e-12, 0.0, dgm)
                 non_zero = dgm_clean[dgm_clean != 0]
                 sign_changes = np.where(np.diff(np.sign(non_zero)))[0] if len(non_zero) > 1 else []
                 results['ripple_free'] = bool(len(sign_changes) <= 3)
                 results['details']['gm_ripple_ratio'] = len(sign_changes)
-                self.logger.info(f"Transconductance smoothness & Vth verified. Vth={results['details']['vth']}, Ripples={len(sign_changes)}")
+
+                # Check Gm3 ripple & continuity (Item 1 from McAndrew TED 2025)
+                valid_gm3 = np.isfinite(gm3_sorted)
+                if np.any(valid_gm3):
+                    max_gm3 = float(np.max(np.abs(gm3_sorted[valid_gm3])))
+                    results['details']['max_gm3'] = f"{max_gm3:.4e} S/V^2"
+                    
+                    dgm3 = np.diff(gm3_sorted[valid_gm3])
+                    dgm3_clean = np.where(np.abs(dgm3) < 1e-12, 0.0, dgm3)
+                    nz_gm3 = dgm3_clean[dgm3_clean != 0]
+                    sc_gm3 = np.where(np.diff(np.sign(nz_gm3)))[0] if len(nz_gm3) > 1 else []
+                    results['details']['gm3_ripple_count'] = int(len(sc_gm3))
+                    # Physical models have smooth zero-crossings without excessive oscillations (<8 sign changes)
+                    results['third_derivative_passed'] = bool(len(sc_gm3) <= 8 and np.all(valid_gm3))
+                else:
+                    results['third_derivative_passed'] = False
+
+                self.logger.info(f"Transconductance smoothness & Vth verified. Vth={results['details']['vth']}, Gm Ripples={len(sign_changes)}, Gm3 Ripples={results['details']['gm3_ripple_count']}")
         except Exception as e:
             self.logger.error(f"Error in verify_transconductance_smoothness_and_vth: {e}")
+        return results
+
+    def verify_output_conductance_smoothness(self, vds, ids, gds=None, gds2=None, gds3=None):
+        """Verify output conductance (Gds) and higher derivatives (Gds2, Gds3) smoothness.
+        
+        Audits output saturation, passivity (Gds >= 0), and continuity of 2nd/3rd derivatives.
+        
+        Args:
+            vds (ndarray): Drain-source voltage sweep
+            ids (ndarray): Drain current
+            gds (ndarray, optional): Output conductance dId/dVds
+            gds2 (ndarray, optional): Second derivative d^2Id/dVds^2
+            gds3 (ndarray, optional): Third derivative d^3Id/dVds^3
+            
+        Returns:
+            dict: Verification results for output conductance and higher derivatives
+        """
+        results = {
+            'data_ready': False,
+            'gds_positive': False,
+            'gds_saturation_flat': False,
+            'higher_derivatives_finite': False,
+            'gds_smoothness_passed': False,
+            'details': {
+                'min_gds': None,
+                'max_gds': None,
+                'gds_saturation_val': None,
+                'gds2_ripple_count': None,
+                'gds3_ripple_count': None
+            }
+        }
+        try:
+            if vds is None or ids is None or len(vds) < 5 or len(ids) < 5:
+                return results
+            results['data_ready'] = True
+            
+            order = np.argsort(vds)
+            vds_s = np.asarray(vds, dtype=float)[order]
+            ids_s = np.asarray(ids, dtype=float)[order]
+
+            if gds is not None:
+                gds_s = np.asarray(gds, dtype=float)[order]
+            else:
+                gds_s = np.gradient(ids_s, vds_s)
+
+            if gds2 is not None:
+                gds2_s = np.asarray(gds2, dtype=float)[order]
+            else:
+                gds2_s = np.gradient(gds_s, vds_s)
+
+            if gds3 is not None:
+                gds3_s = np.asarray(gds3, dtype=float)[order]
+            else:
+                gds3_s = np.gradient(gds2_s, vds_s)
+
+            min_gds = float(np.min(gds_s))
+            max_gds = float(np.max(gds_s))
+            results['details']['min_gds'] = f"{min_gds:.4e} S"
+            results['details']['max_gds'] = f"{max_gds:.4e} S"
+            
+            # Gds positivity check (standard MOSFETs without negative conductance anomalies)
+            results['gds_positive'] = bool(min_gds >= -1e-6)
+            
+            # Saturation check: at highest 20% Vds, Gds should be much smaller than in triode
+            sat_mask = vds_s >= 0.8 * np.max(vds_s)
+            if np.any(sat_mask):
+                sat_gds = float(np.mean(gds_s[sat_mask]))
+                results['details']['gds_saturation_val'] = f"{sat_gds:.4e} S"
+                results['gds_saturation_flat'] = bool(sat_gds < 0.2 * max_gds)
+
+            # Ripple checks for Gds2 and Gds3
+            dg2 = np.diff(gds2_s)
+            sc_g2 = np.where(np.diff(np.sign(dg2[dg2 != 0])))[0] if len(dg2[dg2 != 0]) > 1 else []
+            results['details']['gds2_ripple_count'] = int(len(sc_g2))
+
+            dg3 = np.diff(gds3_s)
+            sc_g3 = np.where(np.diff(np.sign(dg3[dg3 != 0])))[0] if len(dg3[dg3 != 0]) > 1 else []
+            results['details']['gds3_ripple_count'] = int(len(sc_g3))
+
+            results['higher_derivatives_finite'] = bool(np.all(np.isfinite(gds_s)) and np.all(np.isfinite(gds2_s)) and np.all(np.isfinite(gds3_s)))
+            results['gds_smoothness_passed'] = bool(results['gds_positive'] and results['higher_derivatives_finite'] and len(sc_g3) <= 10)
+            self.logger.info(f"Output conductance smoothness verified. Passed: {results['gds_smoothness_passed']}, Gds3 Ripples: {len(sc_g3)}")
+        except Exception as e:
+            self.logger.error(f"Error in verify_output_conductance_smoothness: {e}")
+        return results
+
+    def verify_asymptotic_extrapolation(self, vg_asymp, id_vg, vd_leak=None, id_leak=None, vd_on=None, id_on=None):
+        """Verify model behavior under extreme bias extrapolations outside nominal range.
+        
+        Evaluates Item 2 from McAndrew TED 2025:
+        1. Deep subthreshold / reverse gate bias (Vgs -> -2V): Id must not flip sign,
+           spontaneously generate negative power, or unphysically explode.
+        2. Forward gate overdrive (Vgs > Vdd up to 2.5V): Id must remain monotonic.
+        3. High drain voltage (Vds > Vdd up to 2.5x Vdd): Current must remain stable.
+        
+        Args:
+            vg_asymp (ndarray): Gate sweep from -2.0V to +2.5V
+            id_vg (ndarray): Drain current across extreme gate sweep
+            vd_leak (ndarray, optional): High drain voltage sweep in subthreshold (Vgs=0)
+            id_leak (ndarray, optional): Leakage current across high Vds
+            vd_on (ndarray, optional): High drain voltage sweep in on-state (Vgs=1.0)
+            id_on (ndarray, optional): On-state current across high Vds
+            
+        Returns:
+            dict: Asymptotic extrapolation verification metrics
+        """
+        results = {
+            'data_ready': False,
+            'reverse_bias_bounded': False,
+            'no_negative_power': False,
+            'forward_overdrive_monotonic': False,
+            'high_vds_stable': False,
+            'asymptotics_passed': False,
+            'details': {
+                'min_reverse_current': None,
+                'max_reverse_current': None,
+                'deep_reverse_leakage_at_-2V': None,
+                'overdrive_current_at_2.5V': None,
+                'max_high_vds_leakage': None
+            }
+        }
+        try:
+            if vg_asymp is None or id_vg is None or len(vg_asymp) < 5:
+                return results
+            results['data_ready'] = True
+            
+            order = np.argsort(vg_asymp)
+            vg_s = np.asarray(vg_asymp, dtype=float)[order]
+            id_s = np.asarray(id_vg, dtype=float)[order]
+
+            # 1. Reverse gate bias check (Vgs < 0V down to -2.0V)
+            rev_mask = vg_s < -0.1
+            if np.any(rev_mask):
+                rev_id = id_s[rev_mask]
+                results['details']['min_reverse_current'] = f"{float(np.min(rev_id)):.4e} A"
+                results['details']['max_reverse_current'] = f"{float(np.max(rev_id)):.4e} A"
+                results['details']['deep_reverse_leakage_at_-2V'] = f"{float(rev_id[0]):.4e} A"
+                
+                # Check for unphysical negative spontaneous power (id < -1e-6 A)
+                results['no_negative_power'] = bool(np.all(rev_id >= -1e-8))
+                
+                # In deep reverse bias, current should remain small compared to on-current (< 100 mA)
+                on_mask = vg_s >= 1.0
+                on_curr = float(np.max(id_s[on_mask])) if np.any(on_mask) else 1e-3
+                results['reverse_bias_bounded'] = bool(np.max(np.abs(rev_id)) < on_curr * 10)
+            else:
+                results['no_negative_power'] = True
+                results['reverse_bias_bounded'] = True
+
+            # 2. Forward overdrive check (Vgs >= 1.0V up to 2.5V)
+            fwd_mask = vg_s >= 1.0
+            if np.any(fwd_mask):
+                fwd_id = id_s[fwd_mask]
+                results['details']['overdrive_current_at_2.5V'] = f"{float(fwd_id[-1]):.4e} A"
+                # Current must remain monotonic with gate overdrive (no sudden negative differential resistance)
+                results['forward_overdrive_monotonic'] = bool(np.all(np.diff(fwd_id) >= -1e-6))
+            else:
+                results['forward_overdrive_monotonic'] = True
+
+            # 3. High Vds stability check
+            if vd_leak is not None and id_leak is not None:
+                results['details']['max_high_vds_leakage'] = f"{float(np.max(np.abs(id_leak))):.4e} A"
+                results['high_vds_stable'] = bool(np.all(np.isfinite(id_leak)) and np.all(id_leak >= -1e-8))
+            else:
+                results['high_vds_stable'] = True
+
+            results['asymptotics_passed'] = bool(
+                results['reverse_bias_bounded'] and
+                results['no_negative_power'] and
+                results['forward_overdrive_monotonic'] and
+                results['high_vds_stable']
+            )
+            self.logger.info(f"Asymptotic extrapolation verified. Passed: {results['asymptotics_passed']}")
+        except Exception as e:
+            self.logger.error(f"Error in verify_asymptotic_extrapolation: {e}")
+        return results
+
+    def verify_dynamic_self_heating(self, freq, go_sh, co_sh=None):
+        """Verify dynamic self-heating and AC frequency dispersion of output conductance.
+        
+        Evaluates Item 3 from McAndrew TED 2025:
+        Audits output conductance go(f) = Re(Y22) from 1 Hz to 100 GHz, checking passivity
+        and detecting isothermal-to-adiabatic thermal pole transition.
+        
+        Args:
+            freq (ndarray): AC frequency sweep array (Hz)
+            go_sh (ndarray): Output conductance go(f)
+            co_sh (ndarray, optional): Output capacitance Co(f)
+            
+        Returns:
+            dict: Dynamic self-heating verification results
+        """
+        results = {
+            'data_ready': False,
+            'passivity_maintained': False,
+            'frequency_dispersion_analyzed': False,
+            'self_heating_detected': False,
+            'dynamic_sh_passed': False,
+            'details': {
+                'low_freq_go': None,
+                'high_freq_go': None,
+                'delta_go_ratio': None,
+                'thermal_pole_freq': None,
+                'output_capacitance_at_1MHz': None
+            }
+        }
+        try:
+            if freq is None or go_sh is None or len(freq) < 5 or len(go_sh) < 5:
+                return results
+            results['data_ready'] = True
+            
+            order = np.argsort(freq)
+            freq_s = np.asarray(freq, dtype=float)[order]
+            go_s = np.asarray(go_sh, dtype=float)[order]
+
+            go_low = float(go_s[0])
+            go_high = float(go_s[-1])
+            results['details']['low_freq_go'] = f"{go_low:.4e} S"
+            results['details']['high_freq_go'] = f"{go_high:.4e} S"
+
+            # Passivity: Re(Y22) must remain non-negative in active bias
+            results['passivity_maintained'] = bool(np.all(go_s >= -1e-6))
+
+            # Dispersion analysis
+            mean_go = np.mean(np.abs(go_s)) + 1e-15
+            delta_go = abs(go_high - go_low)
+            ratio = delta_go / mean_go
+            results['details']['delta_go_ratio'] = f"{ratio:.4f}"
+            results['frequency_dispersion_analyzed'] = True
+
+            # If dynamic self-heating is modeled, high frequency go is typically higher than low freq go
+            if ratio > 0.05:
+                results['self_heating_detected'] = True
+                # Find midpoint frequency where half the transition occurs
+                mid_val = 0.5 * (go_low + go_high)
+                mid_idx = np.argmin(np.abs(go_s - mid_val))
+                results['details']['thermal_pole_freq'] = f"{float(freq_s[mid_idx]):.2e} Hz"
+            else:
+                results['self_heating_detected'] = False
+                results['details']['thermal_pole_freq'] = "None (isothermal analytical model)"
+
+            if co_sh is not None and len(co_sh) == len(freq_s):
+                idx_1m = np.argmin(np.abs(freq_s - 1e6))
+                results['details']['output_capacitance_at_1MHz'] = f"{float(co_sh[idx_1m]):.4e} F"
+
+            results['dynamic_sh_passed'] = bool(results['passivity_maintained'] and results['frequency_dispersion_analyzed'])
+            self.logger.info(f"Dynamic self-heating verified. Passed: {results['dynamic_sh_passed']}, Dispersion Ratio: {results['details']['delta_go_ratio']}")
+        except Exception as e:
+            self.logger.error(f"Error in verify_dynamic_self_heating: {e}")
         return results
 
     # AC Analysis

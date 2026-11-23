@@ -125,6 +125,16 @@ def benchmark_spice_model(
         print("\nPlease ensure circuit files exist or provide custom circuit files.")
         return False
 
+    # Check if input is a Verilog-A model (.va)
+    va_compilation_result = None
+    if str(model_file).endswith('.va'):
+        from .verilog_a_compiler import VerilogACompiler
+        compiler = VerilogACompiler()
+        va_compilation_result = compiler.compile(str(model_file), output_dir=str(output_dir))
+        if not va_compilation_result.get('success', False):
+            print(f"Error: OpenVAF compilation of Verilog-A model failed: {va_compilation_result.get('error', '')}")
+            return False
+
     # Create simulation instance
     simulation = MOSFETSimulation(
         dc_circuit_file=dc_circuit,
@@ -135,6 +145,9 @@ def benchmark_spice_model(
         dpi=dpi,
         log_level=log_level,
     )
+
+    if va_compilation_result:
+        simulation.results['verilog_a_compilation'] = va_compilation_result
 
     # Run the benchmark
     return simulation.run(modes=modes)

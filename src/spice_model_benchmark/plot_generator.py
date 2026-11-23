@@ -1770,21 +1770,31 @@ class PlotGenerator:
                 self.logger.error(f"Error plotting Gummel symmetry: {e}")
             return None
 
-    def plot_derivative_smoothness(self, output_dir, vgs, ids, gm=None, gm2=None, vth=None):
-        """Plot transconductance derivative smoothness and extracted Vth."""
+    def plot_derivative_smoothness(self, output_dir, vgs, ids, gm=None, gm2=None, gm3=None, vth=None):
+        """Plot transconductance derivative smoothness up to 3rd-order (Gm, Gm2, Gm3) and extracted Vth."""
         try:
             plots_dir = os.path.join(output_dir, 'plots')
             os.makedirs(plots_dir, exist_ok=True)
             
             order = np.argsort(vgs)
-            vgs_s = np.asarray(vgs)[order]
-            ids_s = np.asarray(ids)[order]
+            vgs_s = np.asarray(vgs, dtype=float)[order]
+            ids_s = np.asarray(ids, dtype=float)[order]
             if gm is not None:
-                gm_s = np.asarray(gm)[order]
+                gm_s = np.asarray(gm, dtype=float)[order]
             else:
                 gm_s = np.gradient(ids_s, vgs_s)
+
+            if gm2 is not None:
+                gm2_s = np.asarray(gm2, dtype=float)[order]
+            else:
+                gm2_s = np.gradient(gm_s, vgs_s)
+
+            if gm3 is not None:
+                gm3_s = np.asarray(gm3, dtype=float)[order]
+            else:
+                gm3_s = np.gradient(gm2_s, vgs_s)
             
-            fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(8, 8), sharex=True)
+            fig, (ax1, ax2, ax3, ax4) = plt.subplots(4, 1, figsize=(9, 12), sharex=True)
             
             # Subplot 1: Ids vs Vgs and Vth tangent
             ax1.plot(vgs_s, ids_s * 1e3, 'b-', linewidth=2, label=r'$I_{ds}$')
@@ -1805,12 +1815,27 @@ class PlotGenerator:
             ax1.legend(loc='best')
             
             # Subplot 2: Gm vs Vgs
-            ax2.plot(vgs_s, gm_s * 1e3, 'm-', linewidth=2, label=r'$G_m = dI_{ds}/dV_{gs}$')
-            ax2.set_xlabel(r'Gate-Source Voltage $V_{gs}$ (V)')
+            ax2.plot(vgs_s, gm_s * 1e3, 'm-', linewidth=2, label=r'$G_m = \partial I_{ds}/\partial V_{gs}$')
             ax2.set_ylabel(r'$G_m$ (mS)')
-            ax2.set_title('Transconductance Derivative Smoothness (Audit for Neural Ripples)')
+            ax2.set_title('1st Derivative: Transconductance $G_m$')
             ax2.grid(True, linestyle=':', alpha=0.6)
             ax2.legend(loc='best')
+
+            # Subplot 3: Gm2 vs Vgs
+            ax3.plot(vgs_s, gm2_s * 1e3, 'g-', linewidth=2, label=r'$G_{m2} = \partial^2 I_{ds}/\partial V_{gs}^2$')
+            ax3.set_ylabel(r'$G_{m2}$ (mS/V)')
+            ax3.set_title('2nd Derivative: $G_{m2}$ Smoothness')
+            ax3.grid(True, linestyle=':', alpha=0.6)
+            ax3.legend(loc='best')
+
+            # Subplot 4: Gm3 vs Vgs (RF Linearity / IP3 audit)
+            ax4.plot(vgs_s, gm3_s * 1e3, 'c-', linewidth=2, label=r'$G_{m3} = \partial^3 I_{ds}/\partial V_{gs}^3$')
+            ax4.axhline(0, color='gray', linestyle='--', alpha=0.5)
+            ax4.set_xlabel(r'Gate-Source Voltage $V_{gs}$ (V)')
+            ax4.set_ylabel(r'$G_{m3}$ (mS/V$^2$)')
+            ax4.set_title('3rd Derivative: $G_{m3}$ (RF Intermodulation / Linearity Audit)')
+            ax4.grid(True, linestyle=':', alpha=0.6)
+            ax4.legend(loc='best')
             
             plt.tight_layout()
             output_file = os.path.join(plots_dir, 'dc_derivative_smoothness.png')
@@ -1822,6 +1847,154 @@ class PlotGenerator:
         except Exception as e:
             if self.logger:
                 self.logger.error(f"Error plotting derivative smoothness: {e}")
+            return None
+
+    def plot_output_conductance_derivatives(self, output_dir, vds, ids, gds=None, gds2=None, gds3=None):
+        """Plot output conductance and higher derivatives (Ids, Gds, Gds2, Gds3 vs Vds)."""
+        try:
+            plots_dir = os.path.join(output_dir, 'plots')
+            os.makedirs(plots_dir, exist_ok=True)
+
+            order = np.argsort(vds)
+            vds_s = np.asarray(vds, dtype=float)[order]
+            ids_s = np.asarray(ids, dtype=float)[order]
+            gds_s = np.asarray(gds, dtype=float)[order] if gds is not None else np.gradient(ids_s, vds_s)
+            gds2_s = np.asarray(gds2, dtype=float)[order] if gds2 is not None else np.gradient(gds_s, vds_s)
+            gds3_s = np.asarray(gds3, dtype=float)[order] if gds3 is not None else np.gradient(gds2_s, vds_s)
+
+            fig, (ax1, ax2, ax3, ax4) = plt.subplots(4, 1, figsize=(9, 12), sharex=True)
+
+            ax1.plot(vds_s, ids_s * 1e3, 'b-', linewidth=2, label=r'$I_{ds}$')
+            ax1.set_ylabel(r'$I_{ds}$ (mA)')
+            ax1.set_title('MOSFET Output Characteristics ($I_d$ vs $V_{ds}$)')
+            ax1.grid(True, linestyle=':', alpha=0.6)
+            ax1.legend(loc='best')
+
+            ax2.plot(vds_s, gds_s * 1e3, 'm-', linewidth=2, label=r'$G_{ds} = \partial I_d/\partial V_{ds}$')
+            ax2.set_ylabel(r'$G_{ds}$ (mS)')
+            ax2.set_title('Output Conductance $G_{ds}$ (Passivity & Saturation Audit)')
+            ax2.grid(True, linestyle=':', alpha=0.6)
+            ax2.legend(loc='best')
+
+            ax3.plot(vds_s, gds2_s * 1e3, 'g-', linewidth=2, label=r'$G_{ds2} = \partial^2 I_d/\partial V_{ds}^2$')
+            ax3.set_ylabel(r'$G_{ds2}$ (mS/V)')
+            ax3.set_title('2nd Output Derivative $G_{ds2}$')
+            ax3.grid(True, linestyle=':', alpha=0.6)
+            ax3.legend(loc='best')
+
+            ax4.plot(vds_s, gds3_s * 1e3, 'r-', linewidth=2, label=r'$G_{ds3} = \partial^3 I_d/\partial V_{ds}^3$')
+            ax4.axhline(0, color='gray', linestyle='--', alpha=0.5)
+            ax4.set_xlabel(r'Drain-Source Voltage $V_{ds}$ (V)')
+            ax4.set_ylabel(r'$G_{ds3}$ (mS/V$^2$)')
+            ax4.set_title('3rd Output Derivative $G_{ds3}$ (Output Linearity Audit)')
+            ax4.grid(True, linestyle=':', alpha=0.6)
+            ax4.legend(loc='best')
+
+            plt.tight_layout()
+            output_file = os.path.join(plots_dir, 'dc_output_conductance_derivatives.png')
+            plt.savefig(output_file, dpi=self.dpi)
+            plt.close()
+            if self.logger:
+                self.logger.info(f"Output conductance derivatives plot saved to {output_file}")
+            return output_file
+        except Exception as e:
+            if self.logger:
+                self.logger.error(f"Error plotting output conductance derivatives: {e}")
+            return None
+
+    def plot_asymptotic_extrapolation(self, output_dir, vg, id_vg, vd_leak=None, id_leak=None, vd_on=None, id_on=None):
+        """Plot extreme asymptotic extrapolation behavior (deep reverse bias & high Vds)."""
+        try:
+            plots_dir = os.path.join(output_dir, 'plots')
+            os.makedirs(plots_dir, exist_ok=True)
+
+            fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(12, 10))
+
+            # 1. Gate sweep linear (-2V to 2.5V)
+            ax1.plot(vg, id_vg * 1e3, 'b-', linewidth=2)
+            ax1.axvline(0, color='black', linestyle=':', alpha=0.5)
+            ax1.axvline(1.0, color='green', linestyle=':', alpha=0.5, label='Nominal Vdd')
+            ax1.set_xlabel(r'Gate Voltage $V_{gs}$ (V)')
+            ax1.set_ylabel(r'Drain Current $I_{ds}$ (mA)')
+            ax1.set_title('Asymptotic Gate Sweep (Linear Scale: -2.0V to +2.5V)')
+            ax1.grid(True, linestyle=':', alpha=0.6)
+            ax1.legend(loc='best')
+
+            # 2. Gate sweep semilog-y
+            pos_id = np.maximum(np.abs(id_vg), 1e-15)
+            ax2.semilogy(vg, pos_id, 'm-', linewidth=2)
+            ax2.axvline(0, color='black', linestyle=':', alpha=0.5)
+            ax2.axvline(1.0, color='green', linestyle=':', alpha=0.5, label='Nominal Vdd')
+            ax2.set_xlabel(r'Gate Voltage $V_{gs}$ (V)')
+            ax2.set_ylabel(r'$|I_{ds}|$ (A, log scale)')
+            ax2.set_title('Asymptotic Subthreshold & Reverse Leakage (Log Scale)')
+            ax2.grid(True, linestyle=':', alpha=0.6)
+            ax2.legend(loc='best')
+
+            # 3. High Vds leakage (Vgs = 0)
+            if vd_leak is not None and id_leak is not None:
+                ax3.semilogy(vd_leak, np.maximum(np.abs(id_leak), 1e-18), 'r-', linewidth=2)
+                ax3.axvline(1.0, color='green', linestyle=':', alpha=0.5, label='Nominal Vdd')
+                ax3.set_xlabel(r'Drain Voltage $V_{ds}$ (V)')
+                ax3.set_ylabel(r'Leakage $|I_{ds}|$ (A, log scale)')
+                ax3.set_title('High $V_{ds}$ Off-State Leakage ($V_{gs} = 0V$)')
+                ax3.grid(True, linestyle=':', alpha=0.6)
+                ax3.legend(loc='best')
+
+            # 4. High Vds on-state (Vgs = 1.0)
+            if vd_on is not None and id_on is not None:
+                ax4.plot(vd_on, id_on * 1e3, 'g-', linewidth=2)
+                ax4.axvline(1.0, color='green', linestyle=':', alpha=0.5, label='Nominal Vdd')
+                ax4.set_xlabel(r'Drain Voltage $V_{ds}$ (V)')
+                ax4.set_ylabel(r'On-State $I_{ds}$ (mA)')
+                ax4.set_title('High $V_{ds}$ On-State Saturation ($V_{gs} = 1.0V$)')
+                ax4.grid(True, linestyle=':', alpha=0.6)
+                ax4.legend(loc='best')
+
+            plt.tight_layout()
+            output_file = os.path.join(plots_dir, 'dc_asymptotic_extrapolation.png')
+            plt.savefig(output_file, dpi=self.dpi)
+            plt.close()
+            if self.logger:
+                self.logger.info(f"Asymptotic extrapolation plot saved to {output_file}")
+            return output_file
+        except Exception as e:
+            if self.logger:
+                self.logger.error(f"Error plotting asymptotic extrapolation: {e}")
+            return None
+
+    def plot_dynamic_self_heating(self, output_dir, freq, go_sh, co_sh=None):
+        """Plot AC dynamic self-heating output conductance dispersion go(f) and capacitance."""
+        try:
+            plots_dir = os.path.join(output_dir, 'plots')
+            os.makedirs(plots_dir, exist_ok=True)
+
+            fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(9, 8), sharex=True)
+
+            ax1.semilogx(freq, go_sh * 1e3, 'b-', linewidth=2, label=r'$g_o(f) = \mathrm{Re}(Y_{22})$')
+            ax1.set_ylabel(r'Output Conductance $g_o$ (mS)')
+            ax1.set_title('Dynamic Self-Heating Frequency Dispersion ($g_o(f)$ from 1 Hz to 100 GHz)')
+            ax1.grid(True, linestyle=':', alpha=0.6)
+            ax1.legend(loc='best')
+
+            if co_sh is not None:
+                ax2.semilogx(freq, co_sh * 1e15, 'm-', linewidth=2, label=r'$C_o(f) = \mathrm{Im}(Y_{22})/(2\pi f)$')
+                ax2.set_ylabel(r'Output Capacitance $C_o$ (fF)')
+                ax2.set_title('Dynamic Output Capacitance $C_o(f)$')
+                ax2.grid(True, linestyle=':', alpha=0.6)
+                ax2.legend(loc='best')
+
+            ax2.set_xlabel('Frequency (Hz)')
+            plt.tight_layout()
+            output_file = os.path.join(plots_dir, 'ac_dynamic_self_heating.png')
+            plt.savefig(output_file, dpi=self.dpi)
+            plt.close()
+            if self.logger:
+                self.logger.info(f"Dynamic self-heating plot saved to {output_file}")
+            return output_file
+        except Exception as e:
+            if self.logger:
+                self.logger.error(f"Error plotting dynamic self-heating: {e}")
             return None
     
 

@@ -13,15 +13,16 @@ from pathlib import Path
 from typing import Optional, List
 import shutil
 
-HSPICE_HOME = "/eda_hurricane/hspice/hspice/S-2021.09"
-HSPICE_BIN = f"{HSPICE_HOME}/hspice/linux64/hspice"
-SNPSLMD_LICENSE_FILE = "27000@192.168.1.7"
+HSPICE_HOME = "/data1/eda/eda/hspice/hspice/S-2021.09/hspice"
+HSPICE_BIN = f"{HSPICE_HOME}/bin/hspice"
+SNPSLMD_LICENSE_FILE = "/data1/eda/eda/license/Synopsys.dat:/home/luwangzilu/ocad/tools/licsrv/licenses/syn.license.dat"
 
 
 def _build_hspice_env() -> dict:
     env = os.environ.copy()
+    env["LM_LICENSE_FILE"] = SNPSLMD_LICENSE_FILE
     env["SNPSLMD_LICENSE_FILE"] = SNPSLMD_LICENSE_FILE
-    env["PATH"] = f"{HSPICE_HOME}/hspice/linux64:{env.get('PATH', '')}"
+    env["PATH"] = f"{HSPICE_HOME}/bin:{HSPICE_HOME}/linux64:{env.get('PATH', '')}"
     return env
 
 

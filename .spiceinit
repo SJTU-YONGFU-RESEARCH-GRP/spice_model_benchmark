@@ -22,9 +22,9 @@ option pivtol=1e-9     ; absolute pivot threshold
 set numparam_continue=1
 
 * Add IHP model paths
-setcs sourcepath = ( $sourcepath ../models/IHP-Open-PDK/ihp-sg13g2/libs.tech/ngspice/models )
+setcs sourcepath = ( $sourcepath /home/yongfu/proj/spice_model_benchmark/models/private-models/ihp_sg13g2/ngspice/models )
 
 * Load OSDI models  
-osdi '../models/IHP-Open-PDK/ihp-sg13g2/libs.tech/ngspice/osdi/psp103.osdi'
-osdi '../models/IHP-Open-PDK/ihp-sg13g2/libs.tech/ngspice/osdi/psp103_nqs.osdi'
-osdi '../models/IHP-Open-PDK/ihp-sg13g2/libs.tech/ngspice/osdi/r3_cmc.osdi'
+osdi '/home/yongfu/proj/spice_model_benchmark/models/private-models/ihp_sg13g2/ngspice/osdi/psp103.osdi'
+osdi '/home/yongfu/proj/spice_model_benchmark/models/private-models/ihp_sg13g2/ngspice/osdi/psp103_nqs.osdi'
+osdi '/home/yongfu/proj/spice_model_benchmark/models/private-models/ihp_sg13g2/ngspice/osdi/r3_cmc.osdi'

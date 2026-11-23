@@ -980,6 +980,116 @@ class DataReader:
             self.logger.error(f"Error reading transfer data: {e}")
             return None, None, None, None, None
 
+    def read_output_conductance_data(self, output_dir):
+        """Read output conductance characteristic sweep data (Vds sweep at fixed Vgs).
+        
+        Returns:
+            tuple: (vd, id, gds, gds2, gds3) numpy arrays
+        """
+        try:
+            filename = 'output_conductance.txt'
+            file_path = self._find_file(filename, output_dir, fallback_dirs=[output_dir, 'netlists', os.path.join(output_dir, 'data')])
+            if not file_path:
+                self.logger.warning("Output conductance data file not found")
+                return None, None, None, None, None
+            
+            data, _ = self._parse_data_file(file_path, skiprows=1, expected_cols=3)
+            if data is None or len(data) == 0:
+                return None, None, None, None, None
+            
+            if data.shape[1] >= 6:
+                vd = data[:, 1]
+                id_val = np.abs(data[:, 2])
+                gds = data[:, 3]
+                gds2 = data[:, 4]
+                gds3 = data[:, 5]
+            else:
+                vd = data[:, 0]
+                id_val = np.abs(data[:, 1])
+                gds = data[:, 2]
+                gds2 = data[:, 3] if data.shape[1] >= 4 else None
+                gds3 = data[:, 4] if data.shape[1] >= 5 else None
+            self.logger.info(f"Output conductance data read successfully: {len(vd)} points")
+            return vd, id_val, gds, gds2, gds3
+        except Exception as e:
+            self.logger.error(f"Error reading output conductance data: {e}")
+            return None, None, None, None, None
+
+    def read_asymptotic_data(self, output_dir):
+        """Read extreme asymptotic extrapolation test data.
+        
+        Returns:
+            tuple: (vg_asymp, id_vg, vd_leak, id_leak, vd_on, id_on)
+        """
+        try:
+            # 1. Gate sweep (-2V to 2.5V)
+            f_vg = self._find_file('asymptotic_vg.txt', output_dir, fallback_dirs=[output_dir, 'netlists', os.path.join(output_dir, 'data')])
+            vg, id_vg = None, None
+            if f_vg:
+                d_vg, _ = self._parse_data_file(f_vg, skiprows=1, expected_cols=3)
+                if d_vg is not None and len(d_vg) > 0:
+                    vg = d_vg[:, 1] if d_vg.shape[1] >= 3 else d_vg[:, 0]
+                    id_vg = d_vg[:, 2] if d_vg.shape[1] >= 3 else d_vg[:, 1]
+            
+            # 2. Drain leak sweep (Vgs=0, Vds=0 to 2.5V)
+            f_leak = self._find_file('asymptotic_vd_leak.txt', output_dir, fallback_dirs=[output_dir, 'netlists', os.path.join(output_dir, 'data')])
+            vd_leak, id_leak = None, None
+            if f_leak:
+                d_leak, _ = self._parse_data_file(f_leak, skiprows=1, expected_cols=3)
+                if d_leak is not None and len(d_leak) > 0:
+                    vd_leak = d_leak[:, 1] if d_leak.shape[1] >= 3 else d_leak[:, 0]
+                    id_leak = d_leak[:, 2] if d_leak.shape[1] >= 3 else d_leak[:, 1]
+
+            # 3. Drain on sweep (Vgs=1.0, Vds=0 to 2.5V)
+            f_on = self._find_file('asymptotic_vd_on.txt', output_dir, fallback_dirs=[output_dir, 'netlists', os.path.join(output_dir, 'data')])
+            vd_on, id_on = None, None
+            if f_on:
+                d_on, _ = self._parse_data_file(f_on, skiprows=1, expected_cols=3)
+                if d_on is not None and len(d_on) > 0:
+                    vd_on = d_on[:, 1] if d_on.shape[1] >= 3 else d_on[:, 0]
+                    id_on = d_on[:, 2] if d_on.shape[1] >= 3 else d_on[:, 1]
+
+            return vg, id_vg, vd_leak, id_leak, vd_on, id_on
+        except Exception as e:
+            self.logger.error(f"Error reading asymptotic data: {e}")
+            return None, None, None, None, None, None
+
+    def read_dynamic_self_heating_data(self, output_dir):
+        """Read dynamic self-heating AC output admittance data.
+        
+        Returns:
+            tuple: (freq, go_sh, co_sh)
+        """
+        try:
+            filename = 'self_heating_ac.txt'
+            file_path = self._find_file(filename, output_dir, fallback_dirs=[output_dir, 'netlists', os.path.join(output_dir, 'data')])
+            if not file_path:
+                self.logger.warning("Dynamic self-heating data file not found")
+                return None, None, None
+            
+            data, _ = self._parse_data_file(file_path, skiprows=1, expected_cols=4)
+            if data is None or len(data) == 0:
+                return None, None, None
+            
+            if data.shape[1] >= 6:
+                freq = data[:, 0]
+                go_sh = data[:, 3]
+                co_sh = data[:, 4]
+            elif data.shape[1] >= 4:
+                freq = data[:, 0]
+                go_sh = data[:, 2]
+                co_sh = data[:, 3]
+            else:
+                freq = data[:, 0]
+                go_sh = data[:, 1]
+                co_sh = data[:, 2] if data.shape[1] >= 3 else np.zeros_like(freq)
+
+            self.logger.info(f"Dynamic self-heating data read successfully: {len(freq)} points")
+            return freq, go_sh, co_sh
+        except Exception as e:
+            self.logger.error(f"Error reading dynamic self-heating data: {e}")
+            return None, None, None
+
     # Noise analysis data reading methods
     def read_thermal_noise_data(self, output_dir, vgs=0.3, vds=0.3):
         """Read thermal noise data from file.

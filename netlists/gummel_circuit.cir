@@ -23,8 +23,7 @@ V_b b_gst 0 DC 0
 Vsens_d d_gst d_gst_int DC 0
 Vsens_s s_gst s_gst_int DC 0
 
-M_gst d_gst_int g_gst s_gst_int b_gst NMOS_VTG L=0.045u W=10u
-
+git@github.com:SJTU-YONGFU-RESEARCH-GRP/spice_model_libraries.git
 * -------------------------------------------------------------
 * 2. Zero-Bias Passivity Setup (Equilibrium: Vd=Vg=Vs=Vb=0)
 * -------------------------------------------------------------
@@ -59,6 +58,39 @@ Vb_tr b_tr 0 DC 0
 Vsens_d_tr d_tr d_tr_int DC 0
 
 M_tr d_tr_int g_tr s_tr b_tr NMOS_VTG L=0.045u W=10u
+
+* -------------------------------------------------------------
+* 5. Output Characteristics & Output Conductance Smoothness Setup (Gds, Gds2, Gds3)
+* -------------------------------------------------------------
+Vd_out d_out 0 DC 0
+Vg_out g_out 0 DC 1.0
+Vs_out s_out 0 DC 0
+Vb_out b_out 0 DC 0
+Vsens_d_out d_out d_out_int DC 0
+
+M_out d_out_int g_out s_out b_out NMOS_VTG L=0.045u W=10u
+
+* -------------------------------------------------------------
+* 6. Asymptotic Extrapolation Setup (Extreme Reverse/Forward Biases)
+* -------------------------------------------------------------
+Vd_asymp d_asymp 0 DC 1.0
+Vg_asymp g_asymp 0 DC 0
+Vs_asymp s_asymp 0 DC 0
+Vb_asymp b_asymp 0 DC 0
+Vsens_d_asymp d_asymp d_asymp_int DC 0
+
+M_asymp d_asymp_int g_asymp s_asymp b_asymp NMOS_VTG L=0.045u W=10u
+
+* -------------------------------------------------------------
+* 7. Dynamic Self-Heating / Output Admittance AC Setup
+* -------------------------------------------------------------
+Vd_sh d_sh 0 DC 1.0 AC 1
+Vg_sh g_sh 0 DC 1.0
+Vs_sh s_sh 0 DC 0
+Vb_sh b_sh 0 DC 0
+Vsens_d_sh d_sh d_sh_int DC 0
+
+M_sh d_sh_int g_sh s_sh b_sh NMOS_VTG L=0.045u W=10u
 
 .control
 set filetype=ascii
@@ -96,11 +128,47 @@ let gm2_tr = deriv(gm_tr)
 let gm3_tr = deriv(gm2_tr)
 wrdata ./transfer_data.txt vg_tr id_tr gm_tr gm2_tr gm3_tr
 
+* Run Output Conductance sweep for Gds, Gds2, Gds3 smoothness
+dc Vd_out 0 1.2 0.005
+let vd_out = v(d_out)
+let id_out = i(Vsens_d_out)
+let gds_out = deriv(id_out)
+let gds2_out = deriv(gds_out)
+let gds3_out = deriv(gds2_out)
+wrdata ./output_conductance.txt vd_out id_out gds_out gds2_out gds3_out
+
+* Run Asymptotic Extrapolation Sweeps
+dc Vg_asymp -2.0 2.5 0.01
+let vg_asymp = v(g_asymp)
+let id_asymp_vg = i(Vsens_d_asymp)
+wrdata ./asymptotic_vg.txt vg_asymp id_asymp_vg
+
+alter Vg_asymp = 0
+dc Vd_asymp 0 2.5 0.02
+let vd_asymp_leak = v(d_asymp)
+let id_asymp_leak = i(Vsens_d_asymp)
+wrdata ./asymptotic_vd_leak.txt vd_asymp_leak id_asymp_leak
+
+alter Vg_asymp = 1.0
+dc Vd_asymp 0 2.5 0.02
+let vd_asymp_on = v(d_asymp)
+let id_asymp_on = i(Vsens_d_asymp)
+wrdata ./asymptotic_vd_on.txt vd_asymp_on id_asymp_on
+
+* Run AC frequency sweep for dynamic self-heating & output admittance
+ac dec 10 1 100G
+let freq_sh = frequency
+let i_sh = i(Vsens_d_sh)
+let go_sh = real(i_sh)
+let bo_sh = imag(i_sh)
+let co_sh = bo_sh / (2 * 3.141592653589793 * freq_sh)
+wrdata ./self_heating_ac.txt freq_sh go_sh co_sh
+
 * Run AC capacitance symmetry sweep
 dc V_x_ac -0.2 0.2 0.005
 wrdata ./gummel_cv.txt v(vx_ac)
 
-echo "GST, Passivity, and Transfer completed successfully"
+echo "GST, Passivity, Transfer, Gds, Asymptotics, and Self-Heating completed successfully"
 quit
 .endc
 

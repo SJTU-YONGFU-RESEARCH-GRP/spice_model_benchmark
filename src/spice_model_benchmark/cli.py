@@ -41,7 +41,7 @@ Examples:
         "--simulator",
         type=str,
         nargs="+",
-        choices=["ngspice", "spectre", "hspice"],
+        choices=["ngspice", "spectre", "hspice", "xyce"],
         default=["ngspice"],
         help="Simulators to run - supports multiple for comparison (default: ngspice)"
     )
@@ -147,7 +147,7 @@ Examples:
             if sim == 'spectre':
                 from .spectre_mosfet_simulation import benchmark_spice_model_spectre
                 import re as _re
-                _mname = "nmos_bsim4"
+                _mname = None
                 try:
                     with open(parsed_args.model_file) as _f:
                         _mm = _re.search(r'\.model\s+(\w+)\s', _f.read())
@@ -168,13 +168,30 @@ Examples:
             elif sim == 'hspice':
                 from .hspice_mosfet_simulation import benchmark_spice_model_hspice
                 import re as _re
-                _mname = "nmos_bsim4"
+                _mname = None
                 try:
                     with open(parsed_args.model_file) as _f:
                         _mm = _re.search(r'\.model\s+(\w+)\s', _f.read())
                         if _mm: _mname = _mm.group(1)
                 except: pass
                 success = benchmark_spice_model_hspice(
+                    model_file=parsed_args.model_file,
+                    output_dir=sim_output_dir,
+                    modes=modes,
+                    dpi=parsed_args.dpi,
+                    log_level=parsed_args.log_level,
+                    model_name=_mname,
+                )
+            elif sim == 'xyce':
+                from .xyce_mosfet_simulation import benchmark_spice_model_xyce
+                import re as _re
+                _mname = None
+                try:
+                    with open(parsed_args.model_file) as _f:
+                        _mm = _re.search(r'\.model\s+(\w+)\s', _f.read())
+                        if _mm: _mname = _mm.group(1)
+                except: pass
+                success = benchmark_spice_model_xyce(
                     model_file=parsed_args.model_file,
                     output_dir=sim_output_dir,
                     modes=modes,

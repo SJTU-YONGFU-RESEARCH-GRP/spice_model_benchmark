@@ -156,6 +156,9 @@ class MOSFETSimulation:
             'gummel_symmetry_analysis': None,
             'zero_bias_passivity': None,
             'transconductance_smoothness': None,
+            'output_conductance_smoothness': None,
+            'asymptotic_extrapolation': None,
+            'dynamic_self_heating': None,
             # Add AC analysis results
             'cv_characteristics': None,
             'sparameter_analysis': None,
@@ -333,18 +336,39 @@ class MOSFETSimulation:
                     zb_results = self.verification_manager.verify_zero_bias_passivity(zb_data)
                     self.results['zero_bias_passivity'] = zb_results
                 
-                # Transconductance smoothness & Vth extraction
+                # Transconductance smoothness & Vth extraction (including Gm3 3rd derivative)
                 vg_tr, id_tr, gm_tr, gm2_tr, gm3_tr = self.data_reader.read_transfer_data(self.output_dir)
                 if vg_tr is not None and id_tr is not None:
-                    sm_results = self.verification_manager.verify_transconductance_smoothness_and_vth(vg_tr, id_tr, gm=gm_tr, gm2=gm2_tr)
+                    sm_results = self.verification_manager.verify_transconductance_smoothness_and_vth(vg_tr, id_tr, gm=gm_tr, gm2=gm2_tr, gm3=gm3_tr)
                     self.results['transconductance_smoothness'] = sm_results
                     vth_val = sm_results.get('details', {}).get('vth') if sm_results else None
-                    plot_generator.plot_derivative_smoothness(self.output_dir, vg_tr, id_tr, gm=gm_tr, gm2=gm2_tr, vth=vth_val)
+                    plot_generator.plot_derivative_smoothness(self.output_dir, vg_tr, id_tr, gm=gm_tr, gm2=gm2_tr, gm3=gm3_tr, vth=vth_val)
                 elif v_gs is not None and i_ds is not None:
                     sm_results = self.verification_manager.verify_transconductance_smoothness_and_vth(v_gs, i_ds)
                     self.results['transconductance_smoothness'] = sm_results
                     vth_val = sm_results.get('details', {}).get('vth') if sm_results else None
                     plot_generator.plot_derivative_smoothness(self.output_dir, v_gs, i_ds, vth=vth_val)
+
+                # Output conductance & higher derivatives (Gds, Gds2, Gds3)
+                vd_out, id_out, gds_out, gds2_out, gds3_out = self.data_reader.read_output_conductance_data(self.output_dir)
+                if vd_out is not None and id_out is not None:
+                    gds_results = self.verification_manager.verify_output_conductance_smoothness(vd_out, id_out, gds=gds_out, gds2=gds2_out, gds3=gds3_out)
+                    self.results['output_conductance_smoothness'] = gds_results
+                    plot_generator.plot_output_conductance_derivatives(self.output_dir, vd_out, id_out, gds=gds_out, gds2=gds2_out, gds3=gds3_out)
+
+                # Asymptotic extreme extrapolation testing
+                vg_as, id_as, vd_lk, id_lk, vd_on, id_on = self.data_reader.read_asymptotic_data(self.output_dir)
+                if vg_as is not None and id_as is not None:
+                    asymp_results = self.verification_manager.verify_asymptotic_extrapolation(vg_as, id_as, vd_lk, id_lk, vd_on, id_on)
+                    self.results['asymptotic_extrapolation'] = asymp_results
+                    plot_generator.plot_asymptotic_extrapolation(self.output_dir, vg_as, id_as, vd_lk, id_lk, vd_on, id_on)
+
+                # Dynamic self-heating AC frequency sweep
+                freq_sh, go_sh, co_sh = self.data_reader.read_dynamic_self_heating_data(self.output_dir)
+                if freq_sh is not None and go_sh is not None:
+                    sh_results = self.verification_manager.verify_dynamic_self_heating(freq_sh, go_sh, co_sh)
+                    self.results['dynamic_self_heating'] = sh_results
+                    plot_generator.plot_dynamic_self_heating(self.output_dir, freq_sh, go_sh, co_sh)
             
             if 'ac' in modes:
                 # Read AC data files

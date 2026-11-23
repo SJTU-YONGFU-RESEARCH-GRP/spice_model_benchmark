@@ -1,9 +1,9 @@
 [Transient gate-step method (current integration, 5.2)]
 definition_tran: large-signal ΔQ/ΔV from gate step transient (0→VDD and VDD→0)
 vdd_est_tran: 1.2
-cgs_rise: -4.298104e-12 F (-4298.104 fF)
-cgd_rise: 4.288229e-12 F (4288.229 fF)
-cgb_rise: -1.133626e-15 F (-1.134 fF)
+cgs_rise: -4.298052e-12 F (-4298.052 fF)
+cgd_rise: 4.288148e-12 F (4288.148 fF)
+cgb_rise: -1.118664e-15 F (-1.119 fF)
 cgs_fall: None
 cgd_fall: None
 cgb_fall: None

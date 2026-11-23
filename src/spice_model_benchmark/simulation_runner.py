@@ -27,7 +27,8 @@ class SimulationRunner:
         'iv_data_', 'cv_data.txt', 'cmatrix_data.txt', 'charge_conservation', 'sparams_data',
         'nqs_effects', 'bias_point_data.txt', 'tran_', 'thermal_noise_',
         'flicker_noise', 'shot_noise', 'noise_temp', 'gummel_symmetry',
-        'zero_bias_passivity', 'gummel_cv', 'transfer_data'
+        'zero_bias_passivity', 'gummel_cv', 'transfer_data',
+        'output_conductance', 'asymptotic_', 'self_heating_ac'
     }
     
     def __init__(self, 
