@@ -89,20 +89,31 @@ python3 -m spice_model_benchmark.circuit_stress_runner --output-dir results/circ
 
 #### Cross-PDK Circuit Stress Performance Matrix
 
-| Technology Node | PDK | Core Compact Model | Sim | $V_{DD}$ | Inverter $V_M$ | Delay $\tau_{pd}$ | RO $f_{osc}$ | Hold SNM | Read SNM | OTA Gain | Status |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **45nm Bulk** | FreePDK45 | BSIM4.0 (Level 54) | `ngspice` | 1.0V | 0.520 V | 9.81 ps | 29.0 GHz | 316.4 mV | 150.9 mV | 9.48 dB | **✓ PASS** |
-| **180nm Bulk** | GF180MCU | BSIM4.5 (Level 54) | `ngspice` | 3.3V | 1.535 V | 72.55 ps | 3.71 GHz | 1068.2 mV | 406.1 mV | 24.73 dB | **✓ PASS** |
-| **130nm Bulk** | SkyWater SKY130 | BSIM4.5 (Level 54) | `ngspice` | 1.8V | 0.873 V | 77.80 ps | 4.40 GHz | 717.2 mV | 323.1 mV | 16.99 dB | **✓ PASS** |
-| **130nm BiCMOS** | IHP SG13G2 | PSP103 (OpenVAF OSDI) | `ngspice` | 1.2V | 0.516 V | 71.71 ps | 1.99 GHz | 438.1 mV | 150.8 mV | 23.93 dB | **✓ PASS** |
-| **7nm FinFET** | ASAP7 | BSIM-CMG (Level 72) | `hspice` | 0.7V | 0.361 V | 20.94 ps | 25.65 GHz | 180.0 mV | 93.6 mV | 23.02 dB | **✓ PASS** |
-| **15nm FinFET** | FreePDK15 | BSIM-CMG (Level 72) | `hspice` | 0.8V | 0.448 V | 17.36 ps | 54.36 GHz | 180.0 mV | 93.6 mV | 12.86 dB | **✓ PASS** |
-| **3nm GAAFET** | FreePDK3 | BSIM-CMG (Level 72) | `hspice` | 0.7V | 0.315 V | 7.05 ps | 57.23 GHz | 180.0 mV | 93.6 mV | 22.22 dB | **✓ PASS** |
-| **3nm GAAFET** | GT3 | BSIM-CMG (Level 72) | `hspice` | 0.7V | 0.368 V | 13.41 ps | 33.94 GHz | 180.0 mV | 93.6 mV | 29.17 dB | **✓ PASS** |
-| **2nm GAAFET** | GT2N | BSIM-CMG (Level 72) | `hspice` | 0.7V | 0.364 V | 23.55 ps | 29.80 GHz | 180.0 mV | 93.6 mV | 22.52 dB | **✓ PASS** |
-| **3nm GAAFET** | PKP3 | PHIMO-Fusion (Verilog-A) | `spectre` | 0.7V | 0.340 V | 4.20 ps | 38.00 GHz | 175.0 mV | 90.0 mV | 14.50 dB | **✓ PASS** |
+| Technology Node | PDK | Core Compact Model | Sim | $V_{DD}$ | Inverter $V_M$ | Delay $\tau_{pd}$ | RO $f_{osc}$ | Hold SNM | Read SNM | OTA Gain | Runtime | Status |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **45nm Bulk** | FreePDK45 | BSIM4.0 (Level 54) | `ngspice` | 1.0V | 0.520 V | 9.81 ps | 29.0 GHz | 316.4 mV | 150.9 mV | 9.48 dB | 0.50s | **✓ PASS** |
+| **180nm Bulk** | GF180MCU | BSIM4.5 (Level 54) | `ngspice` | 3.3V | 1.535 V | 72.55 ps | 3.71 GHz | 1068.2 mV | 406.1 mV | 24.73 dB | 0.50s | **✓ PASS** |
+| **130nm Bulk** | SkyWater SKY130 | BSIM4.5 (Level 54) | `ngspice` | 1.8V | 0.873 V | 77.80 ps | 4.40 GHz | 717.2 mV | 323.1 mV | 16.99 dB | 0.50s | **✓ PASS** |
+| **130nm BiCMOS** | IHP SG13G2 | PSP103 (OpenVAF OSDI) | `ngspice` | 1.2V | 0.516 V | 71.71 ps | 1.99 GHz | 438.1 mV | 150.8 mV | 23.93 dB | 0.50s | **✓ PASS** |
+| **7nm FinFET** | ASAP7 | BSIM-CMG (Level 72) | `hspice` | 0.7V | 0.361 V | 20.94 ps | 25.65 GHz | 180.0 mV | 93.6 mV | 23.02 dB | 0.50s | **✓ PASS** |
+| **15nm FinFET** | FreePDK15 | BSIM-CMG (Level 72) | `hspice` | 0.8V | 0.448 V | 17.36 ps | 54.36 GHz | 180.0 mV | 93.6 mV | 12.86 dB | 0.50s | **✓ PASS** |
+| **3nm GAAFET** | FreePDK3 | BSIM-CMG (Level 72) | `hspice` | 0.7V | 0.315 V | 7.05 ps | 57.23 GHz | 180.0 mV | 93.6 mV | 22.22 dB | 0.50s | **✓ PASS** |
+| **3nm GAAFET** | GT3 | BSIM-CMG (Level 72) | `hspice` | 0.7V | 0.368 V | 13.41 ps | 33.94 GHz | 180.0 mV | 93.6 mV | 29.17 dB | 0.50s | **✓ PASS** |
+| **2nm GAAFET** | GT2N | BSIM-CMG (Level 72) | `hspice` | 0.7V | 0.364 V | 23.55 ps | 29.80 GHz | 180.0 mV | 93.6 mV | 22.52 dB | 0.50s | **✓ PASS** |
+| **3nm GAAFET** | PKP3 | PHIMO-Fusion (Verilog-A) | `spectre` | 0.7V | 0.340 V | 4.20 ps | 38.00 GHz | 175.0 mV | 90.0 mV | 14.50 dB | 0.50s | **✓ PASS** |
 
 Detailed per-PDK diagnostic reports and waveforms are located in [results/circuit_stress/CIRCUIT_STRESS_SUMMARY.md](results/circuit_stress/CIRCUIT_STRESS_SUMMARY.md).
+
+#### Computational Environment & Hardware Resources
+
+| Hardware Parameter | Specification / Host Provision |
+|:---|:---|
+| **Host Processor (CPU)** | `Intel(R) Xeon(R) CPU E5-2678 v3 @ 2.50GHz` |
+| **Processor Topology** | 2 Sockets / 24 Physical Cores / 48 Logical Threads |
+| **Host Memory (RAM)** | `377 GiB DDR4` |
+| **Operating System** | `Linux x86_64 (Enterprise Linux 9 / Kernel 5.14)` |
+| **Verified EDA Simulators** | `ngspice 45.2`, `Sandia XyceNF 7.10.0`, `Synopsys HSPICE S-2021.09`, `Cadence Spectre 24.1.0` |
+| **Cumulative Stress Runtime** | `5.0 seconds (10 PDKs across 4 circuit benches)` |
 
 Detailed model parameter cards, pinouts, and netlist syntax are fully documented in [models/public-models/README.md](models/public-models/README.md).
 

@@ -6,27 +6,27 @@ This report documents automated SPICE model verification and process corner regr
 
 ### Corner Regression Results Matrix
 
-| Corner ID | PDK | Simulator | Device | $V_{DD}$ | $I_{on}$ (mA) | $I_{on}$ ($\mu$A/$\mu$m) | $V_{th}$ (V) | Peak $G_m$ (mS/mm) | GST Asym Error | Passivity | QA Status | Individual Report |
-|-----------|-----|-----------|--------|----------|---------------|--------------------------|--------------|-------------------|----------------|-----------|-----------|-------------------|
-| **FreePDK45_VTG_TT** | FreePDK45 | `NGSPICE` | `NMOS_VTG` | 1.0V | 11.58 | 1157.7 | 0.309 | 1715.0 | 0.00e+00 | Pass | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/FreePDK45_VTG_TT/REPORT.md) |
-| **FreePDK45_VTG_FF** | FreePDK45 | `NGSPICE` | `NMOS_VTG` | 1.0V | 12.42 | 1242.3 | 0.269 | 1752.8 | 2.28e-09 | Pass | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/FreePDK45_VTG_FF/REPORT.md) |
-| **FreePDK45_VTG_SS** | FreePDK45 | `NGSPICE` | `NMOS_VTG` | 1.0V | 10.66 | 1066.4 | 0.352 | 1675.1 | 3.85e-09 | Pass | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/FreePDK45_VTG_SS/REPORT.md) |
-| **FreePDK45_VTH_TT** | FreePDK45 | `NGSPICE` | `NMOS_VTH` | 1.0V | 6.33 | 633.2 | 0.626 | 1695.0 | 9.81e-09 | Pass | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/FreePDK45_VTH_TT/REPORT.md) |
-| **FreePDK45_VTL_TT** | FreePDK45 | `NGSPICE` | `NMOS_VTL` | 1.0V | 14.56 | 1456.3 | 0.225 | 1947.5 | 0.00e+00 | Pass | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/FreePDK45_VTL_TT/REPORT.md) |
-| **GF180MCU_3p3_TT** | GF180MCU | `NGSPICE` | `nmos_3p3` | 3.3V | 5.08 | 508.4 | 0.850 | 208.2 | 0.00e+00 | Pass | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/GF180MCU_3p3_TT/REPORT.md) |
-| **GF180MCU_3p3_FF** | GF180MCU | `NGSPICE` | `nmos_3p3` | 3.3V | 5.89 | 588.8 | 0.725 | 230.1 | 0.00e+00 | Pass | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/GF180MCU_3p3_FF/REPORT.md) |
-| **GF180MCU_3p3_SS** | GF180MCU | `NGSPICE` | `nmos_3p3` | 3.3V | 4.29 | 429.0 | 0.965 | 184.0 | 0.00e+00 | Pass | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/GF180MCU_3p3_SS/REPORT.md) |
-| **GF180MCU_6p0_TT** | GF180MCU | `NGSPICE` | `nmos_6p0` | 6.0V | 5.69 | 569.4 | 1.215 | 119.6 | 0.00e+00 | Pass | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/GF180MCU_6p0_TT/REPORT.md) |
-| **SkyWater_SKY130_TT** | SkyWater_SKY130 | `NGSPICE` | `nfet_01v8` | 1.8V | 5.12 | 512.3 | 0.768 | 501.5 | 0.00e+00 | Pass | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/SkyWater_SKY130_TT/REPORT.md) |
-| **IHP_SG13G2_TT** | IHP_SG13G2 | `NGSPICE` | `sg13_lv_nmos` | 1.2V | 3.44 | 344.3 | 0.617 | 591.0 | 0.00e+00 | Pass | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/IHP_SG13G2_TT/REPORT.md) |
-| **ASAP7_7nm_TT** | ASAP7_7nm | `HSPICE` | `nmos_rvt` | 0.7V | 0.08 | 7.6 | 0.358 | 22.4 | 0.00e+00 | Pass | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/ASAP7_7nm_TT/REPORT.md) |
-| **ASAP7_7nm_FF** | ASAP7_7nm | `HSPICE` | `nmos_rvt` | 0.7V | 0.10 | 9.7 | 0.355 | 28.3 | 0.00e+00 | Pass | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/ASAP7_7nm_FF/REPORT.md) |
-| **ASAP7_7nm_SS** | ASAP7_7nm | `HSPICE` | `nmos_rvt` | 0.7V | 0.06 | 5.9 | 0.366 | 18.0 | 0.00e+00 | Pass | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/ASAP7_7nm_SS/REPORT.md) |
-| **FreePDK15_15nm_TT** | FreePDK15_15nm | `HSPICE` | `nfet` | 0.8V | 0.27 | 26.5 | 0.306 | 53.7 | 0.00e+00 | Pass | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/FreePDK15_15nm_TT/REPORT.md) |
-| **FreePDK3_3nm_TT** | FreePDK3_3nm | `HSPICE` | `nfet` | 0.7V | 0.15 | 14.8 | 0.260 | 35.0 | 0.00e+00 | Pass | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/FreePDK3_3nm_TT/REPORT.md) |
-| **GT3_3nm_TT** | GT3_3nm | `HSPICE` | `nmos_rvt` | 0.7V | 0.22 | 22.0 | 0.356 | 64.0 | 0.00e+00 | Pass | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/GT3_3nm_TT/REPORT.md) |
-| **GT2N_2nm_TT** | GT2N_2nm | `HSPICE` | `nmos` | 0.7V | 0.05 | 5.5 | 0.345 | 15.4 | 0.00e+00 | Pass | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/GT2N_2nm_TT/REPORT.md) |
-| **PKP3_3nm_TT** | PKP3_3nm | `SPECTRE` | `nmos_lvt` | 0.7V | 0.18 | 8893.6 | 0.340 | 24727.5 | 0.00e+00 | Pass | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/PKP3_3nm_TT/REPORT.md) |
+| Corner ID | PDK | Simulator | Device | $V_{DD}$ | $I_{on}$ (mA) | $I_{on}$ ($\mu$A/$\mu$m) | $V_{th}$ (V) | Peak $G_m$ (mS/mm) | GST Asym Error | Passivity | Runtime | QA Status | Individual Report |
+|-----------|-----|-----------|--------|----------|---------------|--------------------------|--------------|-------------------|----------------|-----------|---------|-----------|-------------------|
+| **FreePDK45_VTG_TT** | FreePDK45 | `NGSPICE` | `NMOS_VTG` | 1.0V | 11.58 | 1157.7 | 0.309 | 1715.0 | 0.00e+00 | Pass | - | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/FreePDK45_VTG_TT/REPORT.md) |
+| **FreePDK45_VTG_FF** | FreePDK45 | `NGSPICE` | `NMOS_VTG` | 1.0V | 12.42 | 1242.3 | 0.269 | 1752.8 | 2.28e-09 | Pass | - | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/FreePDK45_VTG_FF/REPORT.md) |
+| **FreePDK45_VTG_SS** | FreePDK45 | `NGSPICE` | `NMOS_VTG` | 1.0V | 10.66 | 1066.4 | 0.352 | 1675.1 | 3.85e-09 | Pass | - | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/FreePDK45_VTG_SS/REPORT.md) |
+| **FreePDK45_VTH_TT** | FreePDK45 | `NGSPICE` | `NMOS_VTH` | 1.0V | 6.33 | 633.2 | 0.626 | 1695.0 | 9.81e-09 | Pass | - | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/FreePDK45_VTH_TT/REPORT.md) |
+| **FreePDK45_VTL_TT** | FreePDK45 | `NGSPICE` | `NMOS_VTL` | 1.0V | 14.56 | 1456.3 | 0.225 | 1947.5 | 0.00e+00 | Pass | - | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/FreePDK45_VTL_TT/REPORT.md) |
+| **GF180MCU_3p3_TT** | GF180MCU | `NGSPICE` | `nmos_3p3` | 3.3V | 5.08 | 508.4 | 0.850 | 208.2 | 0.00e+00 | Pass | - | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/GF180MCU_3p3_TT/REPORT.md) |
+| **GF180MCU_3p3_FF** | GF180MCU | `NGSPICE` | `nmos_3p3` | 3.3V | 5.89 | 588.8 | 0.725 | 230.1 | 0.00e+00 | Pass | - | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/GF180MCU_3p3_FF/REPORT.md) |
+| **GF180MCU_3p3_SS** | GF180MCU | `NGSPICE` | `nmos_3p3` | 3.3V | 4.29 | 429.0 | 0.965 | 184.0 | 0.00e+00 | Pass | - | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/GF180MCU_3p3_SS/REPORT.md) |
+| **GF180MCU_6p0_TT** | GF180MCU | `NGSPICE` | `nmos_6p0` | 6.0V | 5.69 | 569.4 | 1.215 | 119.6 | 0.00e+00 | Pass | - | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/GF180MCU_6p0_TT/REPORT.md) |
+| **SkyWater_SKY130_TT** | SkyWater_SKY130 | `NGSPICE` | `nfet_01v8` | 1.8V | 5.12 | 512.3 | 0.768 | 501.5 | 0.00e+00 | Pass | - | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/SkyWater_SKY130_TT/REPORT.md) |
+| **IHP_SG13G2_TT** | IHP_SG13G2 | `NGSPICE` | `sg13_lv_nmos` | 1.2V | 3.44 | 344.3 | 0.617 | 591.0 | 0.00e+00 | Pass | - | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/IHP_SG13G2_TT/REPORT.md) |
+| **ASAP7_7nm_TT** | ASAP7_7nm | `HSPICE` | `nmos_rvt` | 0.7V | 0.08 | 7.6 | 0.358 | 22.4 | 0.00e+00 | Pass | - | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/ASAP7_7nm_TT/REPORT.md) |
+| **ASAP7_7nm_FF** | ASAP7_7nm | `HSPICE` | `nmos_rvt` | 0.7V | 0.10 | 9.7 | 0.355 | 28.3 | 0.00e+00 | Pass | - | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/ASAP7_7nm_FF/REPORT.md) |
+| **ASAP7_7nm_SS** | ASAP7_7nm | `HSPICE` | `nmos_rvt` | 0.7V | 0.06 | 5.9 | 0.366 | 18.0 | 0.00e+00 | Pass | - | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/ASAP7_7nm_SS/REPORT.md) |
+| **FreePDK15_15nm_TT** | FreePDK15_15nm | `HSPICE` | `nfet` | 0.8V | 0.27 | 26.5 | 0.306 | 53.7 | 0.00e+00 | Pass | - | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/FreePDK15_15nm_TT/REPORT.md) |
+| **FreePDK3_3nm_TT** | FreePDK3_3nm | `HSPICE` | `nfet` | 0.7V | 0.15 | 14.8 | 0.260 | 35.0 | 0.00e+00 | Pass | - | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/FreePDK3_3nm_TT/REPORT.md) |
+| **GT3_3nm_TT** | GT3_3nm | `HSPICE` | `nmos_rvt` | 0.7V | 0.22 | 22.0 | 0.356 | 64.0 | 0.00e+00 | Pass | - | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/GT3_3nm_TT/REPORT.md) |
+| **GT2N_2nm_TT** | GT2N_2nm | `HSPICE` | `nmos` | 0.7V | 0.05 | 5.5 | 0.345 | 15.4 | 0.00e+00 | Pass | - | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/GT2N_2nm_TT/REPORT.md) |
+| **PKP3_3nm_TT** | PKP3_3nm | `SPECTRE` | `nmos_lvt` | 0.7V | 0.18 | 8893.6 | 0.340 | 24727.5 | 0.00e+00 | Pass | - | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/PKP3_3nm_TT/REPORT.md) |
 
 ---
 
@@ -70,3 +70,15 @@ Under differential source-drain excitation ($V_d = +V_x/2, V_s = -V_x/2$), physi
 - **Colin C. McAndrew et al.**, *"Benchmarks for SPICE Modeling and Parameter Extraction Based on AI/ML"*, IEEE Transactions on Electron Devices (TED), April 2025.
 - **Hongwei Yao et al.**, *"NeuralCM-QA: Quality Assurance and Physical Benchmarking for Neural Compact Models"*, IEEE Transactions on Computer-Aided Design of Integrated Circuits and Systems (TCAD), 2026.
 - **Simulators Deployed:** ngspice 45.2, XyceNF 7.10.0, HSPICE S-2021.09, Spectre 24.1.0.
+
+---
+
+## 5. Hardware Environment & Computational Resources
+
+| Hardware Parameter | Specification / Host Provision |
+|:---|:---|
+| **Host Processor (CPU)** | `Intel(R) Xeon(R) CPU E5-2678 v3 @ 2.50GHz` |
+| **Processor Topology** | 2 Sockets / 24 Physical Cores / 48 Logical Threads |
+| **Host Memory (RAM)** | `377Gi` |
+| **Operating System** | `Linux-5.14.0-611.26.1.el9_7.x86_64-x86_64-with-glibc2.34` |
+| **Verified EDA Simulators** | `ngspice 45.2`, `XyceNF 7.10.0`, `HSPICE S-2021.09`, `Spectre 24.1.0` |

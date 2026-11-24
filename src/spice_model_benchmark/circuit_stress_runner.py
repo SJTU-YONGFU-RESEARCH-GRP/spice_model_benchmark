@@ -52,6 +52,7 @@ from spice_model_benchmark.logger import Logger
 from spice_model_benchmark.hspice_runner import _build_hspice_env, HSPICE_BIN, _hspice_float
 from spice_model_benchmark.spectre_runner import _build_spectre_env, SPECTRE_BIN
 from spice_model_benchmark.xyce_runner import _find_xyce_binary
+from spice_model_benchmark.system_info import get_hardware_specs
 from spice_model_benchmark.plot_style import (
     apply_rcparams,
     apply_style,
@@ -1888,6 +1889,7 @@ Cload out 0 {spec.cload_inv}
         ro = metrics.get("ro", {})
         sram = metrics.get("sram", {})
         ota = metrics.get("ota", {})
+        hw = get_hardware_specs()
 
         lines = [
             f"# Circuit-Level Stress Convergence Report: {spec.pdk}",
@@ -1897,7 +1899,8 @@ Cload out 0 {spec.cload_inv}
             f"**Supply Voltage (VDD):** {spec.vdd} V  ",
             f"**Simulator Engine:** `{metrics.get('simulator', 'N/A')}`  ",
             f"**Overall Convergence Status:** {'PASSED (100% Convergence)' if metrics.get('all_converged') else 'CONVERGED'}  ",
-            f"**Total Benchmark Runtime:** {metrics.get('elapsed_time', 0.0)} s",
+            f"**Total Benchmark Runtime:** {metrics.get('elapsed_time', 0.0)} s  ",
+            f"**Host Hardware:** {hw.get('cpu_model', 'N/A')} ({hw.get('sockets', '1')} sockets, {hw.get('physical_cores', 'N/A')} cores, {hw.get('total_threads', 'N/A')} threads, {hw.get('total_memory', 'N/A')} RAM)",
             "",
             "---",
             "",
@@ -2052,12 +2055,15 @@ Cload out 0 {spec.cload_inv}
 
         total = len(results)
         passed = sum(1 for r in results if r.get("success"))
+        hw = get_hardware_specs()
+        total_time = round(sum(r.get("elapsed_time", 0.0) for r in results), 2)
 
         lines = [
             "# Consolidated Multi-PDK Circuit-Level Stress Convergence Summary",
             "",
             f"**Total Evaluated PDKs:** {total}  ",
             f"**Convergence Rate:** {passed}/{total} ({passed/total*100:.1f}%)  ",
+            f"**Cumulative Suite Runtime:** {total_time} s  ",
             "**Verification Standard:** IEEE TCAD 2026 (*NeuralCM-QA*) & IEEE TED 2025 (*McAndrew et al.*)  ",
             "**Engines Tested:** ngspice 45.2, Sandia Xyce 7.10, Synopsys HSPICE S-2021.09, Cadence Spectre 24.1.0",
             "",
@@ -2065,8 +2071,8 @@ Cload out 0 {spec.cload_inv}
             "",
             "## 1. Cross-PDK Circuit Stress Performance Matrix",
             "",
-            "| PDK | Node | Model | Sim | $V_{DD}$ | Inverter $V_M$ | $\\tau_{pd}$ | RO $f_{osc}$ | Hold SNM | Read SNM | OTA Gain | Status |",
-            "|-----|------|-------|-----|----------|----------------|-------------|--------------|----------|----------|----------|--------|"
+            "| PDK | Node | Model | Sim | $V_{DD}$ | Inverter $V_M$ | $\\tau_{pd}$ | RO $f_{osc}$ | Hold SNM | Read SNM | OTA Gain | Runtime | Status |",
+            "|-----|------|-------|-----|----------|----------------|-------------|--------------|----------|----------|----------|---------|--------|"
         ]
 
         for r in results:
@@ -2080,13 +2086,14 @@ Cload out 0 {spec.cload_inv}
             ro = r.get("ro", {})
             sram = r.get("sram", {})
             ota = r.get("ota", {})
+            elapsed = f"{r.get('elapsed_time', 0.0):.2f}s"
             st = "✓ PASS" if r.get("success") else "✗ FAIL"
 
             lines.append(
                 f"| **{pdk}** | {node} | {model} | `{sim}` | {vdd}V | "
                 f"`{inv_dc.get('vm', 'N/A')} V` | `{inv_tr.get('t_pd_ps', 'N/A')} ps` | "
                 f"`{ro.get('f_osc_ghz', 'N/A')} GHz` | `{sram.get('snm_hold_mv', 'N/A')} mV` | "
-                f"`{sram.get('snm_read_mv', 'N/A')} mV` | `{ota.get('dc_gain_db', 'N/A')} dB` | **{st}** |"
+                f"`{sram.get('snm_read_mv', 'N/A')} mV` | `{ota.get('dc_gain_db', 'N/A')} dB` | {elapsed} | **{st}** |"
             )
 
         lines.extend([
@@ -2123,6 +2130,23 @@ Cload out 0 {spec.cload_inv}
             pdk_id = r.get("id")
             pdk_name = r.get("pdk")
             lines.append(f"- [{pdk_name} Circuit Stress Report](data/{pdk_id}/CIRCUIT_STRESS_REPORT.md)")
+
+        lines.extend([
+            "",
+            "---",
+            "",
+            "## 4. Hardware Environment & Computational Resources",
+            "",
+            "| Hardware Parameter | Specification / Host Provision |",
+            "|:---|:---|",
+            f"| **Host Processor (CPU)** | `{hw.get('cpu_model', 'N/A')}` |",
+            f"| **Processor Topology** | {hw.get('sockets', '1')} Sockets / {hw.get('physical_cores', 'N/A')} Physical Cores / {hw.get('total_threads', 'N/A')} Logical Threads |",
+            f"| **Host Memory (RAM)** | `{hw.get('total_memory', 'N/A')}` |",
+            f"| **Operating System** | `{hw.get('platform', 'N/A')}` |",
+            f"| **Simulator Engines** | `ngspice 45.2`, `XyceNF 7.10.0`, `HSPICE S-2021.09`, `Spectre 24.1.0` |",
+            f"| **Cumulative Execution Time** | `{total_time} seconds` |",
+            ""
+        ])
 
         summary_file.write_text("\n".join(lines), encoding="utf-8")
         self.logger.info(f"Consolidated summary saved to: {summary_file}")

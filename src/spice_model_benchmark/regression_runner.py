@@ -43,6 +43,7 @@ from spice_model_benchmark.logger import Logger
 from spice_model_benchmark.hspice_runner import _hspice_float, _build_hspice_env, HSPICE_BIN
 from spice_model_benchmark.spectre_runner import _build_spectre_env, SPECTRE_BIN
 from spice_model_benchmark.xyce_runner import _find_xyce_binary
+from spice_model_benchmark.system_info import get_hardware_specs
 from spice_model_benchmark.plot_style import (
     apply_rcparams,
     apply_style,
@@ -1195,10 +1196,14 @@ Vb b 0 DC 0
         passiv_str = "<span style='color: green'>✓ Pass</span>" if m.get('passivity_passed') else "<span style='color: red'>✗ Fail</span>"
         gst_str = "<span style='color: green'>✓ Pass</span>" if m.get('gst_passed') else "<span style='color: red'>✗ Fail</span>"
 
+        hw = get_hardware_specs()
+        elapsed_s = f"{corner_res.get('elapsed_time', 0.0):.2f} s" if "elapsed_time" in corner_res else "N/A"
+
         lines = [
             f"# SPICE Model QA Report: {spec.id}",
             f"**PDK:** `{spec.pdk}` | **Corner:** `{spec.corner}` | **Device:** `{spec.device_name}` | **Polarity:** `{spec.polarity.upper()}`",
-            f"**Simulation Engine:** `{corner_res.get('simulator', 'N/A').upper()}` | **Overall QA Status:** <span style='color: {status_color}'>**{status_text}**</span>",
+            f"**Simulation Engine:** `{corner_res.get('simulator', 'N/A').upper()}` | **Overall QA Status:** <span style='color: {status_color}'>**{status_text}**</span>  ",
+            f"**Execution Runtime:** `{elapsed_s}` | **Host Hardware:** `{hw.get('cpu_model', 'N/A')}` ({hw.get('sockets', '1')} sockets, {hw.get('physical_cores', 'N/A')} cores / {hw.get('total_threads', 'N/A')} threads, {hw.get('total_memory', 'N/A')} RAM)",
             "",
             "## 1. Device Specification & Operating Conditions",
             f"- **Description:** {spec.description}",
@@ -1252,6 +1257,7 @@ Vb b 0 DC 0
             corner_run_dir = self.data_dir / spec.id
             corner_run_dir.mkdir(parents=True, exist_ok=True)
 
+            t0 = time.time()
             sim_success, sim_output, sim_used = self._execute_corner(spec, corner_run_dir, requested_sim=simulator)
             if not sim_success:
                 self.logger.error(f"Simulation failed for corner {spec.id} using {sim_used}")
@@ -1265,7 +1271,8 @@ Vb b 0 DC 0
                     "sim_status": "SIMULATION_FAILED",
                     "qa_passed": False,
                     "error": sim_output[:400],
-                    "metrics": {}
+                    "metrics": {},
+                    "elapsed_time": round(time.time() - t0, 2)
                 }
                 regression_results.append(failed_res)
                 # Generate individual report even for failed simulation
@@ -1274,6 +1281,7 @@ Vb b 0 DC 0
 
             # Parse results
             corner_res = self._parse_results(spec, corner_run_dir, sim_used)
+            corner_res["elapsed_time"] = round(time.time() - t0, 2)
             regression_results.append(corner_res)
 
             # Generate individual REPORT.md for this model corner
@@ -1382,6 +1390,7 @@ Vb b 0 DC 0
 
     def _generate_markdown_report(self, results: List[Dict[str, Any]], report_file: Path):
         """Produce GitHub-flavored Markdown report of regression results with individual links."""
+        hw = get_hardware_specs()
         lines = [
             "# Multi-Model & Multi-EDA SPICE Model Benchmark Regression Report",
             "",
@@ -1396,8 +1405,8 @@ Vb b 0 DC 0
             "",
             "### Corner Regression Results Matrix",
             "",
-            "| Corner ID | PDK | Simulator | Device | $V_{DD}$ | $I_{on}$ (mA) | $I_{on}$ ($\\mu$A/$\\mu$m) | $V_{th}$ (V) | Peak $G_m$ (mS/mm) | GST Asym Error | Passivity | QA Status | Individual Report |",
-            "|-----------|-----|-----------|--------|----------|---------------|--------------------------|--------------|-------------------|----------------|-----------|-----------|-------------------|"
+            "| Corner ID | PDK | Simulator | Device | $V_{DD}$ | $I_{on}$ (mA) | $I_{on}$ ($\\mu$A/$\\mu$m) | $V_{th}$ (V) | Peak $G_m$ (mS/mm) | GST Asym Error | Passivity | Runtime | QA Status | Individual Report |",
+            "|-----------|-----|-----------|--------|----------|---------------|--------------------------|--------------|-------------------|----------------|-----------|---------|-----------|-------------------|"
         ]
 
         for r in results:
@@ -1407,6 +1416,7 @@ Vb b 0 DC 0
             dev = r["device"]
             vdd = f"{r['vdd']:.1f}V"
             indiv_link = f"[REPORT.md](data/{cid}/REPORT.md)"
+            elapsed_s = f"{r.get('elapsed_time', 0.0):.2f}s" if "elapsed_time" in r else "-"
 
             if r.get("sim_status") == "PASSED":
                 m = r.get("metrics", {})
@@ -1427,7 +1437,7 @@ Vb b 0 DC 0
                 status = "<span style='color: red'>✗ Sim Error</span>"
 
             lines.append(
-                f"| **{cid}** | {pdk} | `{sim}` | `{dev}` | {vdd} | {ion_mA} | {ion_uA_um} | {vth} | {gm_mm} | {gst_err} | {passiv} | {status} | {indiv_link} |"
+                f"| **{cid}** | {pdk} | `{sim}` | `{dev}` | {vdd} | {ion_mA} | {ion_uA_um} | {vth} | {gm_mm} | {gst_err} | {passiv} | {elapsed_s} | {status} | {indiv_link} |"
             )
 
         lines.extend([
@@ -1475,6 +1485,18 @@ Vb b 0 DC 0
             "- **Colin C. McAndrew et al.**, *\"Benchmarks for SPICE Modeling and Parameter Extraction Based on AI/ML\"*, IEEE Transactions on Electron Devices (TED), April 2025.",
             "- **Hongwei Yao et al.**, *\"NeuralCM-QA: Quality Assurance and Physical Benchmarking for Neural Compact Models\"*, IEEE Transactions on Computer-Aided Design of Integrated Circuits and Systems (TCAD), 2026.",
             "- **Simulators Deployed:** ngspice 45.2, XyceNF 7.10.0, HSPICE S-2021.09, Spectre 24.1.0.",
+            "",
+            "---",
+            "",
+            "## 5. Hardware Environment & Computational Resources",
+            "",
+            "| Hardware Parameter | Specification / Host Provision |",
+            "|:---|:---|",
+            f"| **Host Processor (CPU)** | `{hw.get('cpu_model', 'N/A')}` |",
+            f"| **Processor Topology** | {hw.get('sockets', '1')} Sockets / {hw.get('physical_cores', 'N/A')} Physical Cores / {hw.get('total_threads', 'N/A')} Logical Threads |",
+            f"| **Host Memory (RAM)** | `{hw.get('total_memory', 'N/A')}` |",
+            f"| **Operating System** | `{hw.get('platform', 'N/A')}` |",
+            f"| **Verified EDA Simulators** | `ngspice 45.2`, `XyceNF 7.10.0`, `HSPICE S-2021.09`, `Spectre 24.1.0` |",
             ""
         ])
 
