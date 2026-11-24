@@ -122,7 +122,7 @@ class CircuitStressRunner:
     def _init_pdk_registry(self) -> List[CircuitStressSpec]:
         """Initialize comprehensive circuit benchmark specifications for all 10 PDKs."""
         models_dir = self.workspace_root / "models"
-        pvt = models_dir / "private-models"
+        pub = models_dir / "public-models"
 
         registry = [
             # -------------------------------------------------------------
@@ -140,7 +140,7 @@ class CircuitStressRunner:
                 inst_prefix="M",
                 nmos_params="L=0.045u W=1.0u",
                 pmos_params="L=0.045u W=2.0u",
-                model_includes=[f".inc {pvt.as_posix()}/freepdk45/nom.inc"],
+                model_includes=[f".inc {pub.as_posix()}/freepdk45/nom.inc"],
                 description="FreePDK45 45nm Regular-Vt Complementary CMOS Pair",
                 preferred_simulators=["ngspice", "xyce", "hspice", "spectre"],
                 cload_inv=5.0e-15,
@@ -164,8 +164,8 @@ class CircuitStressRunner:
                 nmos_params="L=0.28u W=5.0u",
                 pmos_params="L=0.28u W=10.0u",
                 model_includes=[
-                    f".include {pvt.as_posix()}/gf180/ngspice/design.ngspice",
-                    f".lib {pvt.as_posix()}/gf180/ngspice/sm141064.ngspice typical"
+                    f".include {pub.as_posix()}/gf180mcu/ngspice/design.ngspice",
+                    f".lib {pub.as_posix()}/gf180mcu/ngspice/sm141064.ngspice typical"
                 ],
                 description="GF180MCU 180nm 3.3V Complementary Core CMOS Pair",
                 preferred_simulators=["ngspice", "xyce", "hspice", "spectre"],
@@ -191,9 +191,9 @@ class CircuitStressRunner:
                 nmos_params="L=0.15u W=1.0u",
                 pmos_params="L=0.15u W=2.0u",
                 model_includes=[
-                    f".include {pvt.as_posix()}/sky130/spice/parameters/invariant.spice",
-                    f".include {pvt.as_posix()}/sky130/cells/nfet_01v8/sky130_fd_pr__nfet_01v8__tt.pm3.spice",
-                    f".include {pvt.as_posix()}/sky130/cells/pfet_01v8/sky130_fd_pr__pfet_01v8__tt.pm3.spice"
+                    f".include {pub.as_posix()}/sky130/spice/parameters/invariant.spice",
+                    f".include {pub.as_posix()}/sky130/cells/nfet_01v8/sky130_fd_pr__nfet_01v8__tt.pm3.spice",
+                    f".include {pub.as_posix()}/sky130/cells/pfet_01v8/sky130_fd_pr__pfet_01v8__tt.pm3.spice"
                 ],
                 description="SkyWater 130nm 1.8V Complementary Core CMOS Pair",
                 preferred_simulators=["ngspice", "xyce", "hspice", "spectre"],
@@ -219,7 +219,7 @@ class CircuitStressRunner:
                 nmos_params="L=0.34u W=5.0u ng=1",
                 pmos_params="L=0.34u W=10.0u ng=1",
                 model_includes=[
-                    f".lib {pvt.as_posix()}/ihp_sg13g2/ngspice/models/cornerMOSlv.lib mos_tt"
+                    f".lib {pub.as_posix()}/ihp/ngspice/models/cornerMOSlv.lib mos_tt"
                 ],
                 description="IHP SG13G2 130nm Low-Voltage Complementary Pair (OpenVAF PSP103)",
                 preferred_simulators=["ngspice", "xyce", "spectre", "hspice"],
@@ -245,7 +245,7 @@ class CircuitStressRunner:
                 nmos_params="L=0.020u NFIN=2",
                 pmos_params="L=0.020u NFIN=4",
                 model_includes=[
-                    f".inc {pvt.as_posix()}/asap7/hspice/7nm_TT_160803.pm"
+                    f".inc {pub.as_posix()}/asap7/hspice/7nm_TT_160803.pm"
                 ],
                 description="ASAP7 7nm FinFET Regular-Vt Complementary Pair (BSIM-CMG)",
                 preferred_simulators=["hspice", "spectre", "xyce"],
@@ -270,7 +270,7 @@ class CircuitStressRunner:
                 nmos_params="L=0.016u NFIN=2",
                 pmos_params="L=0.016u NFIN=4",
                 model_includes=[
-                    f".lib {pvt.as_posix()}/freepdk15/hspice/fet.inc CMG"
+                    f".lib {pub.as_posix()}/freepdk15/hspice/fet.inc CMG"
                 ],
                 description="FreePDK15 15nm FinFET Complementary Pair (BSIM-CMG)",
                 preferred_simulators=["hspice", "spectre", "xyce"],
@@ -295,8 +295,8 @@ class CircuitStressRunner:
                 nmos_params="L=0.015u NFIN=2",
                 pmos_params="L=0.015u NFIN=4",
                 model_includes=[
-                    f".lib {pvt.as_posix()}/freepdk3/hspice/fet.mod nfet_typ",
-                    f".lib {pvt.as_posix()}/freepdk3/hspice/fet.mod pfet_typ"
+                    f".lib {pub.as_posix()}/freepdk3/hspice/fet.mod nfet_typ",
+                    f".lib {pub.as_posix()}/freepdk3/hspice/fet.mod pfet_typ"
                 ],
                 description="FreePDK3 3nm Multi-Gate Nanosheet Complementary Pair",
                 preferred_simulators=["hspice", "spectre", "xyce"],
@@ -321,7 +321,7 @@ class CircuitStressRunner:
                 nmos_params="L=0.015u NFIN=2",
                 pmos_params="L=0.015u NFIN=4",
                 model_includes=[
-                    f".inc {pvt.as_posix()}/gt3/hspice/gt3_rvt.mod"
+                    f".inc {pub.as_posix()}/gt3/hspice/gt3_rvt.mod"
                 ],
                 description="GT3 3nm Georgia Tech GAAFET Complementary Pair",
                 preferred_simulators=["hspice", "spectre", "xyce"],
@@ -346,8 +346,8 @@ class CircuitStressRunner:
                 nmos_params="L=0.014u NFIN=2",
                 pmos_params="L=0.014u NFIN=4",
                 model_includes=[
-                    f".lib {pvt.as_posix()}/gt2n/hspice/gt2_w13_svt_tt.sp nfet_typ",
-                    f".lib {pvt.as_posix()}/gt2n/hspice/gt2_w13_svt_tt.sp pfet_typ"
+                    f".lib {pub.as_posix()}/gt2n/hspice/gt2_w13_svt_tt.sp nfet_typ",
+                    f".lib {pub.as_posix()}/gt2n/hspice/gt2_w13_svt_tt.sp pfet_typ"
                 ],
                 description="GT2N 2nm Georgia Tech Advanced Nanosheet Complementary Pair",
                 preferred_simulators=["hspice", "spectre", "xyce"],
@@ -372,9 +372,9 @@ class CircuitStressRunner:
                 nmos_params="l=16n w=20n",
                 pmos_params="l=16n w=40n",
                 model_includes=[
-                    f"ahdl_include \"{pvt.as_posix()}/pkp3/spectre/fusion_ic_nmos_lvt.va\"",
-                    f"ahdl_include \"{pvt.as_posix()}/pkp3/spectre/fusion_ic_pmos_lvt.va\"",
-                    f"include \"{pvt.as_posix()}/pkp3/spectre/TT_modelcard.pm\""
+                    f"ahdl_include \"{pub.as_posix()}/pkp3/spectre/fusion_ic_nmos_lvt.va\"",
+                    f"ahdl_include \"{pub.as_posix()}/pkp3/spectre/fusion_ic_pmos_lvt.va\"",
+                    f"include \"{pub.as_posix()}/pkp3/spectre/TT_modelcard.pm\""
                 ],
                 description="PKP3 3nm Peking University AI/Physics Fused GAAFET",
                 preferred_simulators=["spectre"],

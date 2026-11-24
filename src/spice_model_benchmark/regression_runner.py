@@ -100,7 +100,7 @@ class RegressionRunner:
     def _init_corner_registry(self) -> List[CornerSpec]:
         """Define the registry of available PDK corners and device models across all PDKs in spice_model_libraries."""
         models_dir = self.workspace_root / "models"
-        pvt = models_dir / "private-models"
+        pub = models_dir / "public-models"
 
         registry = [
             # -------------------------------------------------------------
@@ -115,7 +115,7 @@ class RegressionRunner:
                 vdd=1.0,
                 length=0.045e-6,
                 width=10.0e-6,
-                model_includes=[f".inc {pvt.as_posix()}/freepdk45/nom.inc"],
+                model_includes=[f".inc {pub.as_posix()}/freepdk45/nom.inc"],
                 vgs_gst=0.6,
                 description="FreePDK45 45nm Regular-Vt NMOS (Typical Corner)",
                 preferred_simulators=["ngspice", "xyce", "hspice", "spectre"]
@@ -129,7 +129,7 @@ class RegressionRunner:
                 vdd=1.0,
                 length=0.045e-6,
                 width=10.0e-6,
-                model_includes=[f".inc {pvt.as_posix()}/freepdk45/ff.inc"],
+                model_includes=[f".inc {pub.as_posix()}/freepdk45/ff.inc"],
                 vgs_gst=0.6,
                 description="FreePDK45 45nm Regular-Vt NMOS (Fast-Fast Corner)",
                 preferred_simulators=["ngspice", "xyce", "hspice", "spectre"]
@@ -143,7 +143,7 @@ class RegressionRunner:
                 vdd=1.0,
                 length=0.045e-6,
                 width=10.0e-6,
-                model_includes=[f".inc {pvt.as_posix()}/freepdk45/ss.inc"],
+                model_includes=[f".inc {pub.as_posix()}/freepdk45/ss.inc"],
                 vgs_gst=0.6,
                 description="FreePDK45 45nm Regular-Vt NMOS (Slow-Slow Corner)",
                 preferred_simulators=["ngspice", "xyce", "hspice", "spectre"]
@@ -157,7 +157,7 @@ class RegressionRunner:
                 vdd=1.0,
                 length=0.045e-6,
                 width=10.0e-6,
-                model_includes=[f".inc {pvt.as_posix()}/freepdk45/nom.inc"],
+                model_includes=[f".inc {pub.as_posix()}/freepdk45/nom.inc"],
                 vgs_gst=0.6,
                 description="FreePDK45 45nm High-Vt Low-Leakage NMOS",
                 preferred_simulators=["ngspice", "xyce", "hspice", "spectre"]
@@ -171,7 +171,7 @@ class RegressionRunner:
                 vdd=1.0,
                 length=0.045e-6,
                 width=10.0e-6,
-                model_includes=[f".inc {pvt.as_posix()}/freepdk45/nom.inc"],
+                model_includes=[f".inc {pub.as_posix()}/freepdk45/nom.inc"],
                 vgs_gst=0.6,
                 description="FreePDK45 45nm Low-Vt High-Speed NMOS",
                 preferred_simulators=["ngspice", "xyce", "hspice", "spectre"]
@@ -190,8 +190,8 @@ class RegressionRunner:
                 length=0.28e-6,
                 width=10.0e-6,
                 model_includes=[
-                    f".include {pvt.as_posix()}/gf180/ngspice/design.ngspice",
-                    f".lib {pvt.as_posix()}/gf180/ngspice/sm141064.ngspice typical"
+                    f".include {pub.as_posix()}/gf180mcu/ngspice/design.ngspice",
+                    f".lib {pub.as_posix()}/gf180mcu/ngspice/sm141064.ngspice typical"
                 ],
                 vgs_gst=1.65,
                 description="GF180MCU 180nm 3.3V Core NMOS (Typical Corner)",
@@ -207,8 +207,8 @@ class RegressionRunner:
                 length=0.28e-6,
                 width=10.0e-6,
                 model_includes=[
-                    f".include {pvt.as_posix()}/gf180/ngspice/design.ngspice",
-                    f".lib {pvt.as_posix()}/gf180/ngspice/sm141064.ngspice ff"
+                    f".include {pub.as_posix()}/gf180mcu/ngspice/design.ngspice",
+                    f".lib {pub.as_posix()}/gf180mcu/ngspice/sm141064.ngspice ff"
                 ],
                 vgs_gst=1.65,
                 description="GF180MCU 180nm 3.3V Core NMOS (Fast-Fast Corner)",
@@ -224,8 +224,8 @@ class RegressionRunner:
                 length=0.28e-6,
                 width=10.0e-6,
                 model_includes=[
-                    f".include {pvt.as_posix()}/gf180/ngspice/design.ngspice",
-                    f".lib {pvt.as_posix()}/gf180/ngspice/sm141064.ngspice ss"
+                    f".include {pub.as_posix()}/gf180mcu/ngspice/design.ngspice",
+                    f".lib {pub.as_posix()}/gf180mcu/ngspice/sm141064.ngspice ss"
                 ],
                 vgs_gst=1.65,
                 description="GF180MCU 180nm 3.3V Core NMOS (Slow-Slow Corner)",
@@ -241,8 +241,8 @@ class RegressionRunner:
                 length=0.7e-6,
                 width=10.0e-6,
                 model_includes=[
-                    f".include {pvt.as_posix()}/gf180/ngspice/design.ngspice",
-                    f".lib {pvt.as_posix()}/gf180/ngspice/sm141064.ngspice typical"
+                    f".include {pub.as_posix()}/gf180mcu/ngspice/design.ngspice",
+                    f".lib {pub.as_posix()}/gf180mcu/ngspice/sm141064.ngspice typical"
                 ],
                 vgs_gst=3.0,
                 description="GF180MCU 180nm 6.0V High-Voltage NMOS",
@@ -262,8 +262,8 @@ class RegressionRunner:
                 length=0.15e-6,
                 width=10.0e-6,
                 model_includes=[
-                    f".include {pvt.as_posix()}/sky130/spice/parameters/invariant.spice",
-                    f".include {pvt.as_posix()}/sky130/cells/nfet_01v8/sky130_fd_pr__nfet_01v8__tt.pm3.spice"
+                    f".include {pub.as_posix()}/sky130/spice/parameters/invariant.spice",
+                    f".include {pub.as_posix()}/sky130/cells/nfet_01v8/sky130_fd_pr__nfet_01v8__tt.pm3.spice"
                 ],
                 vgs_gst=0.9,
                 description="SkyWater 130nm Bulk CMOS (1.8V Core NMOS)",
@@ -284,7 +284,7 @@ class RegressionRunner:
                 length=0.34e-6,
                 width=10.0e-6,
                 model_includes=[
-                    f".lib {pvt.as_posix()}/ihp_sg13g2/ngspice/models/cornerMOSlv.lib mos_tt"
+                    f".lib {pub.as_posix()}/ihp/ngspice/models/cornerMOSlv.lib mos_tt"
                 ],
                 vgs_gst=0.6,
                 description="IHP 130nm BiCMOS PSP103 (OpenVAF OSDI Enabled)",
@@ -306,7 +306,7 @@ class RegressionRunner:
                 length=0.020e-6,
                 width=10.0e-6,
                 model_includes=[
-                    f".inc {pvt.as_posix()}/asap7/hspice/7nm_TT_160803.pm"
+                    f".inc {pub.as_posix()}/asap7/hspice/7nm_TT_160803.pm"
                 ],
                 vgs_gst=0.35,
                 description="ASAP7 7nm FinFET BSIM-CMG (Typical Corner)",
@@ -324,7 +324,7 @@ class RegressionRunner:
                 length=0.020e-6,
                 width=10.0e-6,
                 model_includes=[
-                    f".inc {pvt.as_posix()}/asap7/hspice/7nm_FF_160803.pm"
+                    f".inc {pub.as_posix()}/asap7/hspice/7nm_FF_160803.pm"
                 ],
                 vgs_gst=0.35,
                 description="ASAP7 7nm FinFET BSIM-CMG (Fast-Fast Corner)",
@@ -342,7 +342,7 @@ class RegressionRunner:
                 length=0.020e-6,
                 width=10.0e-6,
                 model_includes=[
-                    f".inc {pvt.as_posix()}/asap7/hspice/7nm_SS_160803.pm"
+                    f".inc {pub.as_posix()}/asap7/hspice/7nm_SS_160803.pm"
                 ],
                 vgs_gst=0.35,
                 description="ASAP7 7nm FinFET BSIM-CMG (Slow-Slow Corner)",
@@ -364,7 +364,7 @@ class RegressionRunner:
                 length=0.016e-6,
                 width=10.0e-6,
                 model_includes=[
-                    f".lib {pvt.as_posix()}/freepdk15/hspice/fet.inc CMG"
+                    f".lib {pub.as_posix()}/freepdk15/hspice/fet.inc CMG"
                 ],
                 vgs_gst=0.4,
                 description="FreePDK15 15nm FinFET BSIM-CMG (Typical Corner)",
@@ -386,7 +386,7 @@ class RegressionRunner:
                 length=0.015e-6,
                 width=10.0e-6,
                 model_includes=[
-                    f".lib {pvt.as_posix()}/freepdk3/hspice/fet.mod nfet_typ"
+                    f".lib {pub.as_posix()}/freepdk3/hspice/fet.mod nfet_typ"
                 ],
                 vgs_gst=0.35,
                 description="FreePDK3 3nm GAAFET Nanosheet BSIM-CMG (Typical Corner)",
@@ -408,7 +408,7 @@ class RegressionRunner:
                 length=0.015e-6,
                 width=10.0e-6,
                 model_includes=[
-                    f".inc {pvt.as_posix()}/gt3/hspice/gt3_rvt.mod"
+                    f".inc {pub.as_posix()}/gt3/hspice/gt3_rvt.mod"
                 ],
                 vgs_gst=0.35,
                 description="GT3 3nm Georgia Tech GAAFET BSIM-CMG (Typical RVT)",
@@ -430,7 +430,7 @@ class RegressionRunner:
                 length=0.014e-6,
                 width=10.0e-6,
                 model_includes=[
-                    f".lib {pvt.as_posix()}/gt2n/hspice/gt2_w13_svt_tt.sp nfet_typ"
+                    f".lib {pub.as_posix()}/gt2n/hspice/gt2_w13_svt_tt.sp nfet_typ"
                 ],
                 vgs_gst=0.35,
                 description="GT2N 2nm Georgia Tech Advanced GAAFET Nanosheet",
@@ -452,8 +452,8 @@ class RegressionRunner:
                 length=0.016e-6,
                 width=0.020e-6,
                 model_includes=[
-                    f"ahdl_include \"{pvt.as_posix()}/pkp3/spectre/fusion_ic_nmos_lvt.va\"",
-                    f"include \"{pvt.as_posix()}/pkp3/spectre/TT_modelcard.pm\""
+                    f"ahdl_include \"{pub.as_posix()}/pkp3/spectre/fusion_ic_nmos_lvt.va\"",
+                    f"include \"{pub.as_posix()}/pkp3/spectre/TT_modelcard.pm\""
                 ],
                 vgs_gst=0.35,
                 description="PKP3 3nm Peking University PHIMO-Fusion AI/Physics Fused GAAFET",

@@ -341,7 +341,7 @@ class SpectreRunner:
 
     def _run_aux_noise_netlists(self, aux_dir: Path):
         """Generate and run auxiliary noise netlists for all bias points and temps."""
-        model_inc = str(self.model_file) if self.model_file else "../../models/private-models/freepdk45/nom.inc"
+        model_inc = str(self.model_file) if self.model_file else "../../models/public-models/freepdk45/nom.inc"
         mname = self._nmos  # Use extracted NMOS model name
 
         # 5 additional thermal noise bias points (Vgs=0.6,Vds=0.6 is in main netlist)

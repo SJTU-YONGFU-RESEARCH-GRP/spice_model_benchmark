@@ -17,7 +17,11 @@ Note: The AC pipeline also derives *large-signal* effective capacitances by inte
 
 ## Supported PDK Libraries & Device Modeling Physics
 
-The benchmark framework integrates [spice_model_libraries](models/README.md) and [spice_model_collections](models/public-models/README.md) as Git submodules at `models/`, covering **10 foundry and academic PDKs** across planar Bulk CMOS, multi-fin FinFET, GAAFET nanosheet, and BiCMOS technologies:
+The benchmark framework integrates [spice_model_libraries](models/README.md) and [spice_model_collections](models/public-models/README.md) as Git submodules at `models/`. The model repository is organized into a clean two-tier structure:
+- **`models/public-models/`**: Public, open-source, and GitHub-searchable PDKs and standard compact models (FreePDK45, GF180MCU, SkyWater SKY130, IHP SG13G2, ASAP7, FreePDK15, FreePDK3, GT3, GT2N, PKP3, ICS55, PTM, and CMC BSIM).
+- **`models/private-models/`**: 26 commercial foundry and proprietary EDA kits (TSMC 7nm/12nm/16nm/22nm/65nm/180nm, SMIC 180nm logic/HV/BCD, HLMC 40nm/55nm, 28nm HKMG, Cadence GPDK, and Synopsys SAED) with zero duplication against public models.
+
+The automated multi-corner and circuit stress benchmarking suites run across the **10 public and academic PDKs** spanning planar Bulk CMOS, multi-fin FinFET, GAAFET nanosheet, and BiCMOS technologies:
 
 | PDK Library | Architecture & Node | Core Devices | Compact Model Formulation | Key Physical Effects | Verified Simulators |
 | :--- | :--- | :--- | :--- | :--- | :--- |
