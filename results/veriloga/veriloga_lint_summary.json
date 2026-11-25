@@ -1,0 +1,388 @@
+{
+  "fusion_ic_nmos_lvt.va": {
+    "lint": {
+      "file_path": "/data1/yongfu/proj/spice_model_benchmark/models/public-models/pkp3/spectre/fusion_ic_nmos_lvt.va",
+      "module_names": [
+        "nmos_lvt"
+      ],
+      "total_score": 64.5,
+      "grade": "C",
+      "openvaf_compatible": false,
+      "summary": "Verilog-A Model 'fusion_ic_nmos_lvt.va' Score: 64.5/100 (Grade: C)",
+      "rules": [
+        {
+          "rule_id": "RULE_TEMP_DYNAMIC",
+          "name": "Dynamic Temperature Scaling",
+          "status": "FAIL",
+          "score": 30,
+          "details": "No dynamic temperature dependence found ($temperature or $vt omitted). Model operates only at fixed static temperature.",
+          "recommendation": "Introduce dynamic thermal voltage $vt = $temperature * `P_K / `P_Q and temperature mobility derating."
+        },
+        {
+          "rule_id": "RULE_INTRINSIC_NOISE",
+          "name": "Intrinsic Physical Noise",
+          "status": "FAIL",
+          "score": 20,
+          "details": "No intrinsic noise sources modeled (zero white_noise and zero flicker_noise).",
+          "recommendation": "Declare physical white_noise and flicker_noise contributions inside the analog block."
+        },
+        {
+          "rule_id": "RULE_GUMMEL_SYMMETRY",
+          "name": "Gummel Symmetry Guarantee",
+          "status": "WARN",
+          "score": 60,
+          "details": "Could not verify analytical Gummel symmetry decomposition from source AST.",
+          "recommendation": "Ensure Ids is formulated as Vds * F_even(Vds^2, ...) to guarantee zero Gummel asymmetry."
+        },
+        {
+          "rule_id": "RULE_ZERO_BIAS_PASSIVITY",
+          "name": "Zero-Bias Passivity",
+          "status": "PASS",
+          "score": 100,
+          "details": "Ids is explicitly multiplied by Vds factor, guaranteeing Ids(Vds=0) == 0.0 A identically.",
+          "recommendation": null
+        },
+        {
+          "rule_id": "RULE_CONTINUITY_SMOOTHNESS",
+          "name": "Mathematical Smoothness & C^2 Continuity",
+          "status": "PASS",
+          "score": 100,
+          "details": "Smooth differentiable formulations utilized (exp, ln). Zero discontinuous conditionals.",
+          "recommendation": null
+        },
+        {
+          "rule_id": "RULE_CHARGE_CONSERVATION",
+          "name": "Dynamic Charge Conservation",
+          "status": "PASS",
+          "score": 100,
+          "details": "Dynamic transient and AC charges implemented with 2 ddt() formulations.",
+          "recommendation": null
+        },
+        {
+          "rule_id": "RULE_DIALECT_COMPATIBILITY",
+          "name": "Verilog-A Standard Dialect (OpenVAF)",
+          "status": "WARN",
+          "score": 50,
+          "details": "Contains non-standard Spectre AHDL extensions: Cadence Spectre attribute syntax '(* instance_parameter_list = { ... } *)'; module-level initialized real variables referencing other variables. Will compile on Cadence Spectre, but requires normalization for OpenVAF.",
+          "recommendation": "Move module-level dependent expressions into the analog initial_step block or declare as parameters."
+        }
+      ]
+    },
+    "compilation": {
+      "status": "FAIL",
+      "cached": false,
+      "error": "error: unexpected token '{'; expected '(', ''{', system function identifier, identifier, literal, \n'~', '!', '+' or '-'\n   --> /data1/yongfu/proj/spice_model_benchmark/models/public-models/pkp3/spectre/fusion_ic_nmos_lvt.va:28:30\n   |\n28 | (* instance_parameter_list = {L, W, NF} *)\n   |                              ^ unexpected_token\n\nerror: constant expressions must not contain variable references\n    --> /data1/yongfu/proj/spice_model_benchmark/models/public-models/pkp3/spectre/fusion_ic_nmos_lvt.va:479:21\n    |\n478 |   real MEL = 9.11e-31;\n    |        -------------- help: 'MEL' was declared here\n479 |   real mx = 0.916 * MEL;\n    |                     ^^^ not allowed here\n\nerror: constant expressions must not contain variable references\n    --> /data1/yongfu/proj/spice_model_benchmark/models/public-models/pkp3/spectre/fusion_ic_nmos_lvt.va:480:26\n    |\n478 |   real MEL = 9.11e-31;\n    |        -------------- help: 'MEL' was declared here\n479 |   real mx = 0.916 * MEL;\n480 |   real mxprime = 0.190 * MEL;\n    |                          ^^^ not allowed here\n\nerror: constant expressions must not contain variable references\n    --> /data1/yongfu/proj/spice_model_benchmark/models/public-models/pkp3/spectre/fusion_ic_nmos_lvt.va:481:21\n    |\n478 |   real MEL = 9.11e-31;\n    |        -------------- help: 'MEL' was declared here\n    .\n481 |   real md = 0.190 * MEL;\n    |                     ^^^ not allowed here\n\nerror: constant expressions must not contain variable references\n    --> /data1/yongfu/proj/spice_model_benchmark/models/public-models/pkp3/spectre/fusion_ic_nmos_lvt.va:482:26\n    |\n478 |   real MEL = 9.11e-31;\n    |        -------------- help: 'MEL' was declared here\n    .\n482 |   real mdprime = 0.417 * MEL;\n    |                          ^^^ not allowed here\n\nerror: constant expressions must not contain variable references\n    --> /data1/yongfu/proj/spice_model_benchmark/models/public-models/pkp3/spectre/fusion_ic_nmos_lvt.va:595:19\n    |\n594 |   real EPSRSUB = 11.9;\n    |        -------------- help: 'EPSRSUB' was declared here\n595 |   real epsratio = EPSRSUB / EPSROX;\n    |                   ^^^^^^^ not allowed here\n\nerror: constant expressions must not contain variable references\n    --> /data1/yongfu/proj/spice_model_benchmark/models/public-models/pkp3/spectre/fusion_ic_nmos_lvt.va:595:29\n    |\n591 |   real EPSROX = 3.9;\n    |        ------------ help: 'EPSROX' was declared here\n    .\n595 |   real epsratio = EPSRSUB / EPSROX;\n    |                             ^^^^^^ not allowed here\n\nerror: could not compile `fusion_ic_nmos_lvt.va` due to 7 previous errors\n\n",
+      "runtime_s": 0.1511082649230957
+    }
+  },
+  "fusion_ic_pmos_lvt.va": {
+    "lint": {
+      "file_path": "/data1/yongfu/proj/spice_model_benchmark/models/public-models/pkp3/spectre/fusion_ic_pmos_lvt.va",
+      "module_names": [
+        "pmos_lvt"
+      ],
+      "total_score": 64.5,
+      "grade": "C",
+      "openvaf_compatible": false,
+      "summary": "Verilog-A Model 'fusion_ic_pmos_lvt.va' Score: 64.5/100 (Grade: C)",
+      "rules": [
+        {
+          "rule_id": "RULE_TEMP_DYNAMIC",
+          "name": "Dynamic Temperature Scaling",
+          "status": "FAIL",
+          "score": 30,
+          "details": "No dynamic temperature dependence found ($temperature or $vt omitted). Model operates only at fixed static temperature.",
+          "recommendation": "Introduce dynamic thermal voltage $vt = $temperature * `P_K / `P_Q and temperature mobility derating."
+        },
+        {
+          "rule_id": "RULE_INTRINSIC_NOISE",
+          "name": "Intrinsic Physical Noise",
+          "status": "FAIL",
+          "score": 20,
+          "details": "No intrinsic noise sources modeled (zero white_noise and zero flicker_noise).",
+          "recommendation": "Declare physical white_noise and flicker_noise contributions inside the analog block."
+        },
+        {
+          "rule_id": "RULE_GUMMEL_SYMMETRY",
+          "name": "Gummel Symmetry Guarantee",
+          "status": "WARN",
+          "score": 60,
+          "details": "Could not verify analytical Gummel symmetry decomposition from source AST.",
+          "recommendation": "Ensure Ids is formulated as Vds * F_even(Vds^2, ...) to guarantee zero Gummel asymmetry."
+        },
+        {
+          "rule_id": "RULE_ZERO_BIAS_PASSIVITY",
+          "name": "Zero-Bias Passivity",
+          "status": "PASS",
+          "score": 100,
+          "details": "Ids is explicitly multiplied by Vds factor, guaranteeing Ids(Vds=0) == 0.0 A identically.",
+          "recommendation": null
+        },
+        {
+          "rule_id": "RULE_CONTINUITY_SMOOTHNESS",
+          "name": "Mathematical Smoothness & C^2 Continuity",
+          "status": "PASS",
+          "score": 100,
+          "details": "Smooth differentiable formulations utilized (exp, ln). Zero discontinuous conditionals.",
+          "recommendation": null
+        },
+        {
+          "rule_id": "RULE_CHARGE_CONSERVATION",
+          "name": "Dynamic Charge Conservation",
+          "status": "PASS",
+          "score": 100,
+          "details": "Dynamic transient and AC charges implemented with 2 ddt() formulations.",
+          "recommendation": null
+        },
+        {
+          "rule_id": "RULE_DIALECT_COMPATIBILITY",
+          "name": "Verilog-A Standard Dialect (OpenVAF)",
+          "status": "WARN",
+          "score": 50,
+          "details": "Contains non-standard Spectre AHDL extensions: Cadence Spectre attribute syntax '(* instance_parameter_list = { ... } *)'; module-level initialized real variables referencing other variables. Will compile on Cadence Spectre, but requires normalization for OpenVAF.",
+          "recommendation": "Move module-level dependent expressions into the analog initial_step block or declare as parameters."
+        }
+      ]
+    },
+    "compilation": {
+      "status": "FAIL",
+      "cached": false,
+      "error": "error: unexpected token '{'; expected '(', ''{', system function identifier, identifier, literal, \n'~', '!', '+' or '-'\n   --> /data1/yongfu/proj/spice_model_benchmark/models/public-models/pkp3/spectre/fusion_ic_pmos_lvt.va:26:30\n   |\n26 | (* instance_parameter_list = {L, W, NF} *)\n   |                              ^ unexpected_token\n\nerror: constant expressions must not contain variable references\n    --> /data1/yongfu/proj/spice_model_benchmark/models/public-models/pkp3/spectre/fusion_ic_pmos_lvt.va:477:21\n    |\n476 |   real MEL = 9.11e-31;\n    |        -------------- help: 'MEL' was declared here\n477 |   real mx = 0.916 * MEL;\n    |                     ^^^ not allowed here\n\nerror: constant expressions must not contain variable references\n    --> /data1/yongfu/proj/spice_model_benchmark/models/public-models/pkp3/spectre/fusion_ic_pmos_lvt.va:478:26\n    |\n476 |   real MEL = 9.11e-31;\n    |        -------------- help: 'MEL' was declared here\n477 |   real mx = 0.916 * MEL;\n478 |   real mxprime = 0.190 * MEL;\n    |                          ^^^ not allowed here\n\nerror: constant expressions must not contain variable references\n    --> /data1/yongfu/proj/spice_model_benchmark/models/public-models/pkp3/spectre/fusion_ic_pmos_lvt.va:479:21\n    |\n476 |   real MEL = 9.11e-31;\n    |        -------------- help: 'MEL' was declared here\n    .\n479 |   real md = 0.190 * MEL;\n    |                     ^^^ not allowed here\n\nerror: constant expressions must not contain variable references\n    --> /data1/yongfu/proj/spice_model_benchmark/models/public-models/pkp3/spectre/fusion_ic_pmos_lvt.va:480:26\n    |\n476 |   real MEL = 9.11e-31;\n    |        -------------- help: 'MEL' was declared here\n    .\n480 |   real mdprime = 0.417 * MEL;\n    |                          ^^^ not allowed here\n\nerror: constant expressions must not contain variable references\n    --> /data1/yongfu/proj/spice_model_benchmark/models/public-models/pkp3/spectre/fusion_ic_pmos_lvt.va:593:19\n    |\n592 |   real EPSRSUB = 11.9;\n    |        -------------- help: 'EPSRSUB' was declared here\n593 |   real epsratio = EPSRSUB / EPSROX;\n    |                   ^^^^^^^ not allowed here\n\nerror: constant expressions must not contain variable references\n    --> /data1/yongfu/proj/spice_model_benchmark/models/public-models/pkp3/spectre/fusion_ic_pmos_lvt.va:593:29\n    |\n589 |   real EPSROX = 3.9;\n    |        ------------ help: 'EPSROX' was declared here\n    .\n593 |   real epsratio = EPSRSUB / EPSROX;\n    |                             ^^^^^^ not allowed here\n\nerror: could not compile `fusion_ic_pmos_lvt.va` due to 7 previous errors\n\n",
+      "runtime_s": 0.09412097930908203
+    }
+  },
+  "cap_cmomf.va": {
+    "lint": {
+      "file_path": "/data1/yongfu/proj/spice_model_benchmark/models/public-models/ihp/platform_07d30c4abd0d/ihp-sg13g2/libs.tech/verilog-a/cap_cmomf/cap_cmomf.va",
+      "module_names": [
+        "cap_cmomf"
+      ],
+      "total_score": 60.5,
+      "grade": "C",
+      "openvaf_compatible": true,
+      "summary": "Verilog-A Model 'cap_cmomf.va' Score: 60.5/100 (Grade: C)",
+      "rules": [
+        {
+          "rule_id": "RULE_TEMP_DYNAMIC",
+          "name": "Dynamic Temperature Scaling",
+          "status": "FAIL",
+          "score": 30,
+          "details": "No dynamic temperature dependence found ($temperature or $vt omitted). Model operates only at fixed static temperature.",
+          "recommendation": "Introduce dynamic thermal voltage $vt = $temperature * `P_K / `P_Q and temperature mobility derating."
+        },
+        {
+          "rule_id": "RULE_INTRINSIC_NOISE",
+          "name": "Intrinsic Physical Noise",
+          "status": "FAIL",
+          "score": 20,
+          "details": "No intrinsic noise sources modeled (zero white_noise and zero flicker_noise).",
+          "recommendation": "Declare physical white_noise and flicker_noise contributions inside the analog block."
+        },
+        {
+          "rule_id": "RULE_GUMMEL_SYMMETRY",
+          "name": "Gummel Symmetry Guarantee",
+          "status": "WARN",
+          "score": 60,
+          "details": "Could not verify analytical Gummel symmetry decomposition from source AST.",
+          "recommendation": "Ensure Ids is formulated as Vds * F_even(Vds^2, ...) to guarantee zero Gummel asymmetry."
+        },
+        {
+          "rule_id": "RULE_ZERO_BIAS_PASSIVITY",
+          "name": "Zero-Bias Passivity",
+          "status": "WARN",
+          "score": 75,
+          "details": "Passivity at Vds=0 is dependent on internal neural network evaluation rather than analytical multiplicative gating.",
+          "recommendation": "Multiply output channel current explicitly by Vds or smooth tanh(Vds/Vt) envelope."
+        },
+        {
+          "rule_id": "RULE_CONTINUITY_SMOOTHNESS",
+          "name": "Mathematical Smoothness & C^2 Continuity",
+          "status": "INFO",
+          "score": 85,
+          "details": "Standard arithmetic expressions without detected discontinuity warnings.",
+          "recommendation": null
+        },
+        {
+          "rule_id": "RULE_CHARGE_CONSERVATION",
+          "name": "Dynamic Charge Conservation",
+          "status": "WARN",
+          "score": 70,
+          "details": "Only 1 ddt() charge contribution found. Terminal charge conservation across gate/drain/source may be incomplete.",
+          "recommendation": "Ensure all terminal charges (Qg, Qd, Qs, Qb) are defined such that sum(Q) == 0."
+        },
+        {
+          "rule_id": "RULE_DIALECT_COMPATIBILITY",
+          "name": "Verilog-A Standard Dialect (OpenVAF)",
+          "status": "PASS",
+          "score": 100,
+          "details": "Complies strictly with standard IEEE 1800-AMS syntax. 100% compatible with OpenVAF and open-source simulators.",
+          "recommendation": null
+        }
+      ]
+    },
+    "compilation": {
+      "status": "PASS",
+      "cached": false,
+      "osdi_path": "/data1/yongfu/proj/spice_model_benchmark/results/veriloga/osdi_cache/cap_cmomf.osdi",
+      "sha256": "f0f8c3c3c31a6b553c365f36ec04e6f1a5870d3ff06b6eba90ddefbc2f48cc6e",
+      "runtime_s": 0.08199095726013184,
+      "stdout": ""
+    }
+  },
+  "res_va.va": {
+    "lint": {
+      "file_path": "/data1/yongfu/proj/spice_model_benchmark/models/private-models/cadence90/spectre/res_va.va",
+      "module_names": [
+        "res_va"
+      ],
+      "total_score": 73.75,
+      "grade": "B",
+      "openvaf_compatible": true,
+      "summary": "Verilog-A Model 'res_va.va' Score: 73.8/100 (Grade: B)",
+      "rules": [
+        {
+          "rule_id": "RULE_TEMP_DYNAMIC",
+          "name": "Dynamic Temperature Scaling",
+          "status": "PASS",
+          "score": 100,
+          "details": "Dynamic temperature scaling fully modeled via $temperature or $vt.",
+          "recommendation": null
+        },
+        {
+          "rule_id": "RULE_INTRINSIC_NOISE",
+          "name": "Intrinsic Physical Noise",
+          "status": "WARN",
+          "score": 65,
+          "details": "Thermal white_noise implemented, but 1/f flicker_noise is absent.",
+          "recommendation": "Add flicker_noise() contribution for low-frequency phase noise and 1/f trap characterization."
+        },
+        {
+          "rule_id": "RULE_GUMMEL_SYMMETRY",
+          "name": "Gummel Symmetry Guarantee",
+          "status": "WARN",
+          "score": 60,
+          "details": "Could not verify analytical Gummel symmetry decomposition from source AST.",
+          "recommendation": "Ensure Ids is formulated as Vds * F_even(Vds^2, ...) to guarantee zero Gummel asymmetry."
+        },
+        {
+          "rule_id": "RULE_ZERO_BIAS_PASSIVITY",
+          "name": "Zero-Bias Passivity",
+          "status": "WARN",
+          "score": 75,
+          "details": "Passivity at Vds=0 is dependent on internal neural network evaluation rather than analytical multiplicative gating.",
+          "recommendation": "Multiply output channel current explicitly by Vds or smooth tanh(Vds/Vt) envelope."
+        },
+        {
+          "rule_id": "RULE_CONTINUITY_SMOOTHNESS",
+          "name": "Mathematical Smoothness & C^2 Continuity",
+          "status": "INFO",
+          "score": 85,
+          "details": "Standard arithmetic expressions without detected discontinuity warnings.",
+          "recommendation": null
+        },
+        {
+          "rule_id": "RULE_CHARGE_CONSERVATION",
+          "name": "Dynamic Charge Conservation",
+          "status": "FAIL",
+          "score": 30,
+          "details": "Zero ddt() charge contributions found. Model supports only DC analysis and cannot run AC/Transient.",
+          "recommendation": "Declare dynamic gate and drain charge variables with I(g, s) <+ ddt(Qg)."
+        },
+        {
+          "rule_id": "RULE_DIALECT_COMPATIBILITY",
+          "name": "Verilog-A Standard Dialect (OpenVAF)",
+          "status": "PASS",
+          "score": 100,
+          "details": "Complies strictly with standard IEEE 1800-AMS syntax. 100% compatible with OpenVAF and open-source simulators.",
+          "recommendation": null
+        }
+      ]
+    },
+    "compilation": {
+      "status": "PASS",
+      "cached": false,
+      "osdi_path": "/data1/yongfu/proj/spice_model_benchmark/results/veriloga/osdi_cache/res_va.osdi",
+      "sha256": "cb258e832c08b40500c60a8e8106233eca5fc9d0347c9958c004b99b23554b2f",
+      "runtime_s": 0.1048438549041748,
+      "stdout": ""
+    }
+  },
+  "nfet_03v3_pinn.va": {
+    "lint": {
+      "file_path": "/data1/yongfu/proj/spice_model_benchmark/proj/models/nfet_03v3_pinn.va",
+      "module_names": [
+        "nfet_03v3_pinn"
+      ],
+      "total_score": 96.25,
+      "grade": "A+",
+      "openvaf_compatible": true,
+      "summary": "Verilog-A Model 'nfet_03v3_pinn.va' Score: 96.2/100 (Grade: A+)",
+      "rules": [
+        {
+          "rule_id": "RULE_TEMP_DYNAMIC",
+          "name": "Dynamic Temperature Scaling",
+          "status": "PASS",
+          "score": 100,
+          "details": "Dynamic temperature scaling fully modeled via $temperature or $vt.",
+          "recommendation": null
+        },
+        {
+          "rule_id": "RULE_INTRINSIC_NOISE",
+          "name": "Intrinsic Physical Noise",
+          "status": "PASS",
+          "score": 100,
+          "details": "Both thermal/shot noise (white_noise) and 1/f trap noise (flicker_noise) are implemented.",
+          "recommendation": null
+        },
+        {
+          "rule_id": "RULE_GUMMEL_SYMMETRY",
+          "name": "Gummel Symmetry Guarantee",
+          "status": "PASS",
+          "score": 100,
+          "details": "Analytical Gummel symmetry verified via midpoint channel potential or odd/even function decomposition.",
+          "recommendation": null
+        },
+        {
+          "rule_id": "RULE_ZERO_BIAS_PASSIVITY",
+          "name": "Zero-Bias Passivity",
+          "status": "WARN",
+          "score": 75,
+          "details": "Passivity at Vds=0 is dependent on internal neural network evaluation rather than analytical multiplicative gating.",
+          "recommendation": "Multiply output channel current explicitly by Vds or smooth tanh(Vds/Vt) envelope."
+        },
+        {
+          "rule_id": "RULE_CONTINUITY_SMOOTHNESS",
+          "name": "Mathematical Smoothness & C^2 Continuity",
+          "status": "PASS",
+          "score": 100,
+          "details": "Smooth differentiable formulations utilized (ln, pow). Zero discontinuous conditionals.",
+          "recommendation": null
+        },
+        {
+          "rule_id": "RULE_CHARGE_CONSERVATION",
+          "name": "Dynamic Charge Conservation",
+          "status": "PASS",
+          "score": 100,
+          "details": "Dynamic transient and AC charges implemented with 3 ddt() formulations.",
+          "recommendation": null
+        },
+        {
+          "rule_id": "RULE_DIALECT_COMPATIBILITY",
+          "name": "Verilog-A Standard Dialect (OpenVAF)",
+          "status": "PASS",
+          "score": 100,
+          "details": "Complies strictly with standard IEEE 1800-AMS syntax. 100% compatible with OpenVAF and open-source simulators.",
+          "recommendation": null
+        }
+      ]
+    },
+    "compilation": {
+      "status": "PASS",
+      "cached": false,
+      "osdi_path": "/data1/yongfu/proj/spice_model_benchmark/results/veriloga/osdi_cache/nfet_03v3_pinn.osdi",
+      "sha256": "035c8599fc35dbd1be01e892ef84d2b1c11fddfb4c53cf53bfba851a89c4cbc6",
+      "runtime_s": 1.226414680480957,
+      "stdout": ""
+    }
+  }
+}

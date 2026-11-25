@@ -16,6 +16,9 @@ from .plot_generator import PlotGenerator
 from .verification_manager import VerificationManager
 from .circuit_stress_runner import CircuitStressRunner, CircuitStressSpec
 from .regression_runner import RegressionRunner, CornerSpec
+from .commercial_pdk_benchmark import CommercialPDKBenchmark, CommercialPDKSpec
+from .monte_carlo_benchmark import MonteCarloBenchmark
+from .veriloga_linter_and_compiler import VerilogALinter, OpenVAFCompiler, VerilogABenchmarkSuite
 
 __version__ = "1.0.0"
 __all__ = [
@@ -29,6 +32,12 @@ __all__ = [
     "CircuitStressSpec",
     "RegressionRunner",
     "CornerSpec",
+    "CommercialPDKBenchmark",
+    "CommercialPDKSpec",
+    "MonteCarloBenchmark",
+    "VerilogALinter",
+    "OpenVAFCompiler",
+    "VerilogABenchmarkSuite",
     "benchmark_spice_model",
     "cli",
 ]

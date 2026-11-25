@@ -102,6 +102,28 @@ results/pkp3_characterization/spectre_work/
 !results/pkp3_characterization/pkp3_summary.json
 !results/pkp3_characterization/plots/
 !results/pkp3_characterization/plots/**
+
+# Commercial Foundry PDK artifacts
+results/commercial_pdk/work/
+!results/commercial_pdk/
+!results/commercial_pdk/COMMERCIAL_PDK_REPORT.md
+!results/commercial_pdk/commercial_pdk_summary.json
+!results/commercial_pdk/plots/
+!results/commercial_pdk/plots/**
+
+# Monte Carlo Variation artifacts
+results/monte_carlo/work/
+!results/monte_carlo/
+!results/monte_carlo/MONTE_CARLO_REPORT.md
+!results/monte_carlo/monte_carlo_summary.json
+!results/monte_carlo/plots/
+!results/monte_carlo/plots/**
+
+# Verilog-A Linter & OpenVAF artifacts
+results/veriloga/osdi_cache/
+!results/veriloga/
+!results/veriloga/VERILOGA_LINT_REPORT.md
+!results/veriloga/veriloga_lint_summary.json
 results/circuit_stress/data/PINN_GF180_180nm_TT/
 results/test_pkp3_crossing/
 proj/

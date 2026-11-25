@@ -64,6 +64,39 @@ Examples:
     )
 
     parser.add_argument(
+        "--commercial",
+        action="store_true",
+        help="Run commercial foundry PDK benchmark suite (Cadence GPDK45, Synopsys SAED14/32, SMIC 180, TSMC 16)"
+    )
+
+    parser.add_argument(
+        "--monte-carlo",
+        action="store_true",
+        help="Run statistical variation & Monte Carlo mismatch benchmark (Pelgrom spread, Inverter, 6T-SRAM SNM)"
+    )
+
+    parser.add_argument(
+        "--mc-runs",
+        type=int,
+        default=50,
+        help="Number of Monte Carlo iterations for statistical analysis (default: 50)"
+    )
+
+    parser.add_argument(
+        "--va-lint",
+        type=str,
+        nargs="*",
+        help="Run Verilog-A physical & LRM quality linter on specified .va files or default models"
+    )
+
+    parser.add_argument(
+        "--va-compile",
+        type=str,
+        nargs="+",
+        help="Compile specified Verilog-A (.va) file(s) to OSDI shared library via OpenVAF"
+    )
+
+    parser.add_argument(
         "--pdk",
         type=str,
         nargs="+",
@@ -206,6 +239,47 @@ Examples:
         out_dir = parsed_args.output_dir if parsed_args.output_dir != "spice_benchmark_results" else "results/pkp3_characterization"
         bench = PKP3NanosheetBenchmark(output_dir=out_dir)
         bench.run_all()
+        return 0
+
+    # 5. Commercial Foundry PDK Mode
+    if parsed_args.commercial:
+        from .commercial_pdk_benchmark import CommercialPDKBenchmark
+        out_dir = parsed_args.output_dir if parsed_args.output_dir != "spice_benchmark_results" else "results/commercial_pdk"
+        bench = CommercialPDKBenchmark(output_dir=out_dir)
+        target_pdks = parsed_args.pdk if parsed_args.pdk else None
+        bench.run_all(target_pdks=target_pdks)
+        return 0
+
+    # 6. Statistical Variation & Monte Carlo Mismatch Mode
+    if parsed_args.monte_carlo:
+        from .monte_carlo_benchmark import MonteCarloBenchmark
+        out_dir = parsed_args.output_dir if parsed_args.output_dir != "spice_benchmark_results" else "results/monte_carlo"
+        pdk_name = parsed_args.pdk[0] if parsed_args.pdk else "FreePDK45"
+        bench = MonteCarloBenchmark(output_dir=out_dir, num_runs=parsed_args.mc_runs)
+        bench.run_benchmark(pdk_name=pdk_name, num_runs=parsed_args.mc_runs)
+        return 0
+
+    # 7. Verilog-A Linter Mode
+    if parsed_args.va_lint is not None:
+        from .veriloga_linter_and_compiler import VerilogABenchmarkSuite
+        out_dir = parsed_args.output_dir if parsed_args.output_dir != "spice_benchmark_results" else "results/veriloga"
+        suite = VerilogABenchmarkSuite(output_dir=out_dir)
+        targets = parsed_args.va_lint if len(parsed_args.va_lint) > 0 else None
+        suite.run_all(target_files=targets)
+        return 0
+
+    # 8. OpenVAF Compilation Mode
+    if parsed_args.va_compile:
+        from .veriloga_linter_and_compiler import OpenVAFCompiler
+        out_dir = parsed_args.output_dir if parsed_args.output_dir != "spice_benchmark_results" else "results/veriloga/osdi_cache"
+        compiler = OpenVAFCompiler(cache_dir=out_dir)
+        for va_f in parsed_args.va_compile:
+            va_p = Path(va_f).resolve()
+            res = compiler.compile(va_p)
+            if res.get("status") == "PASS":
+                print(f"[SUCCESS] Compiled {va_p.name} -> {res.get('osdi_path')}")
+            else:
+                print(f"[FAILED] Failed to compile {va_p.name}: {res.get('error')}")
         return 0
 
     if not parsed_args.model_file:

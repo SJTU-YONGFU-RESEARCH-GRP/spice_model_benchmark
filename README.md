@@ -231,6 +231,78 @@ To meet the rigorous standards established by **IEEE Transactions on Electron De
 
 ---
 
+### Commercial Foundry PDK Multi-Corner & Inverter VTC Benchmarking (`--commercial`)
+
+To verify model cards in actual production environments with native EDA commercial licenses, the framework provides an automated verification engine targeting **commercial and proprietary PDKs** stored in `models/private-models/`:
+
+- **Cadence GPDK045 (45nm Bulk CMOS)**: Executed via native `spectre 24.1.0` across corners `tt`, `ff`, `ss`.
+- **Synopsys SAED14 (14nm FinFET)**: Executed via native `hspice S-2021.09` across corners `TT`, `FF`, `SS` (BSIM-CMG Level 72).
+- **Synopsys SAED32 (32nm Bulk CMOS)**: Executed via native `hspice S-2021.09` across corners `TT`, `FF`, `SS` (BSIM4 Level 54).
+- **SMIC 180nm BCD**: Core 1.8V subcircuit devices executed via native `hspice S-2021.09` across corners `tt`, `ff`, `ss` with automated mismatch parameter handling.
+- **TSMC 16nm FinFET (16FFC)**: Multi-fin 3D FinFET executed via native `hspice S-2021.09` with dynamic integration of TSMC's proprietary **TMI (TSMC Model Interface)** C-plugin shared library (`libTMImodel.so`).
+
+For every commercial PDK, the engine executes:
+1. Multi-corner $I_d$-$V_{gs}$ transfer sweeps extracting $I_{on}$, $I_{off}$, $V_{th}$, and peak $G_m$.
+2. CMOS Inverter DC Voltage Transfer Characteristic (VTC) extracting switching threshold ($V_M$), unit-gain points ($V_{IL}, V_{IH}$), and noise margins ($NM_L, NM_H$).
+3. Publication-quality overlay vector plots ([COMMERCIAL_PDK_REPORT.md](results/commercial_pdk/COMMERCIAL_PDK_REPORT.md)).
+
+```bash
+# Run verification on all commercial foundry PDKs
+python3 -m spice_model_benchmark.cli --commercial
+
+# Direct module invocation
+python3 -m spice_model_benchmark.commercial_pdk_benchmark --output-dir results/commercial_pdk
+```
+
+### Statistical Variation & Monte Carlo Mismatch Benchmarking (`--monte-carlo`)
+
+Advanced compact models must account for manufacturing variations and mismatch. Conforming to **Pelgrom's Law** ($\sigma(\Delta V_{th}) = A_{Vth} / \sqrt{W \cdot L}$), the statistical variation benchmark characterizes:
+
+1. **Single-Device Statistical Spread**: Gaussian distributions for $I_{on}$ and $V_{th}$ evaluating sample mean ($\mu$), standard deviation ($\sigma$), coefficient of variation ($CV\%$), skewness, kurtosis, and $3\sigma$ bounds.
+2. **CMOS Inverter Switching Spread**: Inverter switching threshold distribution ($V_M \pm 3\sigma$) and drive current mismatch.
+3. **6T-SRAM Hold & Read SNM Yield**: Monte Carlo variation applied to cross-coupled latch and access transistors to characterize Static Noise Margin degradation, distributions, and functional failure probability ($P(\text{fail}) = P(SNM \le 0)$).
+
+```bash
+# Run 50-sample Monte Carlo variation and yield audit
+python3 -m spice_model_benchmark.cli --monte-carlo --mc-runs 50
+
+# Custom sample count
+python3 -m spice_model_benchmark.cli --monte-carlo --mc-runs 200 --output-dir results/monte_carlo
+```
+
+Consolidated statistical report and yield distribution plots: [MONTE_CARLO_REPORT.md](results/monte_carlo/MONTE_CARLO_REPORT.md).
+
+### Verilog-A Compact Model Physical Linter & OpenVAF OSDI Compiler (`--va-lint`, `--va-compile`)
+
+To prevent runtime simulator crashes, Newton-Raphson non-convergence, and physical inconsistencies in modern Verilog-A compact models, the framework features an automated static quality linter and OpenVAF compiler suite:
+
+- **7 Static Physical Quality Rules**:
+  - `RULE_TEMP_DYNAMIC`: Verifies dynamic thermal scaling using `$temperature` or `temperature` rather than hardcoded 300K.
+  - `RULE_INTRINSIC_NOISE`: Verifies declaration of thermal white noise (`white_noise()`) and flicker noise (`flicker_noise()`).
+  - `RULE_GUMMEL_SYMMETRY`: Validates source-drain interchange Gummel symmetry formulation around $V_{ds}=0$.
+  - `RULE_ZERO_BIAS_PASSIVITY`: Enforces zero drain current at zero bias ($I_{ds}(V_{ds}=0)=0$) to prevent energy creation.
+  - `RULE_CONTINUITY_SMOOTHNESS`: Checks for conditional `if/else` jumps or non-smooth branch statements inside the analog block.
+  - `RULE_CHARGE_CONSERVATION`: Ensures dynamic transient currents derive from time derivatives of state charges (`ddt(Q)`).
+  - `RULE_DIALECT_COMPATIBILITY`: Detects proprietary Spectre AHDL syntax extensions (e.g. `isign()`, non-standard macros) vs OpenVAF IEEE 1800-2023 Verilog-A compliance.
+- **OpenVAF OSDI Compiler Engine**:
+  - Automated binary compilation into `.osdi` shared libraries for high-performance execution in ngspice and Xyce.
+  - Incremental SHA-256 caching: Avoids recompiling unmodified `.va` source files.
+
+```bash
+# Lint Verilog-A compact model files
+python3 -m spice_model_benchmark.cli --va-lint models/public-models/pinn_gf180/nfet_03v3_pinn.va
+
+# Compile Verilog-A models to .osdi binary libraries
+python3 -m spice_model_benchmark.cli --va-compile models/public-models/pinn_gf180/nfet_03v3_pinn.va
+
+# Direct module invocation
+python3 -m spice_model_benchmark.veriloga_linter_and_compiler --output-dir results/veriloga
+```
+
+Diagnostic reports and compiler outputs: [VERILOGA_LINT_REPORT.md](results/veriloga/VERILOGA_LINT_REPORT.md).
+
+---
+
 ### Dynamic Model Parsing & On-the-Fly Netlist Generation
 
 The benchmark engine is **100% independent of static netlist folders**:
