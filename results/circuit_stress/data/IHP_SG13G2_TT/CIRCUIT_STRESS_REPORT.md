@@ -5,7 +5,7 @@
 **Supply Voltage (VDD):** 1.2 V  
 **Simulator Engine:** `ngspice`  
 **Overall Convergence Status:** PASSED (100% Convergence)  
-**Total Benchmark Runtime:** 0.5 s  
+**Total Benchmark Runtime:** 0.63 s  
 **Host Hardware:** Intel(R) Xeon(R) CPU E5-2678 v3 @ 2.50GHz (2 sockets, 24 cores, 48 threads, 377Gi RAM)
 
 ---

@@ -38,10 +38,12 @@ import sys
 import json
 import time
 import shutil
+import threading
 import subprocess
 from pathlib import Path
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Tuple, Any
+from concurrent.futures import ThreadPoolExecutor
 
 import numpy as np
 import matplotlib
@@ -119,6 +121,7 @@ class CircuitStressRunner:
 
         # Registry of all 10 foundry PDKs
         self.specs: List[CircuitStressSpec] = self._init_pdk_registry()
+        self._plot_lock = threading.Lock()
 
     def _init_pdk_registry(self) -> List[CircuitStressSpec]:
         """Initialize comprehensive circuit benchmark specifications for all 10 PDKs."""
@@ -277,7 +280,7 @@ class CircuitStressRunner:
                 preferred_simulators=["hspice", "spectre", "xyce"],
                 cload_inv=2.0e-15,
                 cload_ro=1.0e-15,
-                t_sim_ro=0.8e-9
+                t_sim_ro=0.4e-9
             ),
 
             # -------------------------------------------------------------
@@ -940,21 +943,21 @@ Cload out 0 {spec.cload_inv}
                 if spiceinit_src.exists():
                     shutil.copy(spiceinit_src, run_dir / ".spiceinit")
 
-                # 1. Inverter
                 net_inv = self._generate_inverter_netlist_ngspice(spec, run_dir)
-                res_inv = subprocess.run(["ngspice", "-b", net_inv.name], cwd=str(run_dir), capture_output=True, text=True, timeout=120)
-
-                # 2. Ring Oscillator
                 net_ro = self._generate_ro_netlist_ngspice(spec, run_dir)
-                res_ro = subprocess.run(["ngspice", "-b", net_ro.name], cwd=str(run_dir), capture_output=True, text=True, timeout=120)
-
-                # 3. 6T-SRAM
                 net_sram = self._generate_sram_netlist_ngspice(spec, run_dir)
-                res_sram = subprocess.run(["ngspice", "-b", net_sram.name], cwd=str(run_dir), capture_output=True, text=True, timeout=120)
-
-                # 4. 5T OTA
                 net_ota = self._generate_ota_netlist_ngspice(spec, run_dir)
-                res_ota = subprocess.run(["ngspice", "-b", net_ota.name], cwd=str(run_dir), capture_output=True, text=True, timeout=120)
+
+                with ThreadPoolExecutor(max_workers=4) as executor:
+                    fut_inv = executor.submit(subprocess.run, ["ngspice", "-b", net_inv.name], cwd=str(run_dir), capture_output=True, text=True, timeout=120)
+                    fut_ro = executor.submit(subprocess.run, ["ngspice", "-b", net_ro.name], cwd=str(run_dir), capture_output=True, text=True, timeout=120)
+                    fut_sram = executor.submit(subprocess.run, ["ngspice", "-b", net_sram.name], cwd=str(run_dir), capture_output=True, text=True, timeout=120)
+                    fut_ota = executor.submit(subprocess.run, ["ngspice", "-b", net_ota.name], cwd=str(run_dir), capture_output=True, text=True, timeout=120)
+
+                    fut_inv.result()
+                    fut_ro.result()
+                    fut_sram.result()
+                    fut_ota.result()
 
                 # Parse all results
                 metrics["inverter_dc"] = self._parse_inverter_dc_ngspice(run_dir, spec)
@@ -967,8 +970,17 @@ Cload out 0 {spec.cload_inv}
                 env = _build_hspice_env()
                 nets = self._generate_hspice_netlists(spec, run_dir)
 
-                for name, net in nets.items():
-                    res = subprocess.run([HSPICE_BIN, net.name, "-o", f"{net.stem}.lis"], cwd=str(run_dir), env=env, capture_output=True, text=True, timeout=120)
+                with ThreadPoolExecutor(max_workers=4) as executor:
+                    futures = [
+                        executor.submit(
+                            subprocess.run,
+                            [HSPICE_BIN, net.name, "-o", f"{net.stem}.lis"],
+                            cwd=str(run_dir), env=env, capture_output=True, text=True, timeout=120
+                        )
+                        for net in nets.values()
+                    ]
+                    for f in futures:
+                        f.result()
 
                 # Parse HSPICE outputs
                 metrics["inverter_dc"] = self._parse_inverter_dc_hspice(run_dir, spec)
@@ -981,9 +993,17 @@ Cload out 0 {spec.cload_inv}
                 env = _build_spectre_env()
                 nets = self._generate_spectre_netlists(spec, run_dir)
 
-                for name, net in nets.items():
-                    cmd = [SPECTRE_BIN, net.name, "-format", "psfascii", "-raw", f"psf_{name}"]
-                    res = subprocess.run(cmd, cwd=str(run_dir), env=env, capture_output=True, text=True, timeout=180)
+                with ThreadPoolExecutor(max_workers=4) as executor:
+                    futures = [
+                        executor.submit(
+                            subprocess.run,
+                            [SPECTRE_BIN, "+threads=2", net.name, "-format", "psfascii", "-raw", f"psf_{name}"],
+                            cwd=str(run_dir), env=env, capture_output=True, text=True, timeout=180
+                        )
+                        for name, net in nets.items()
+                    ]
+                    for f in futures:
+                        f.result()
 
                 metrics["inverter_dc"] = self._parse_inverter_dc_spectre(run_dir, spec)
                 metrics["inverter_tran"] = self._parse_inverter_tran_spectre(run_dir, spec)
@@ -1009,7 +1029,8 @@ Cload out 0 {spec.cload_inv}
             metrics["elapsed_time"] = round(time.time() - t0, 2)
 
             # Generate PDK-specific diagnostic plots
-            plot_files = self._generate_pdk_plots(spec, run_dir, metrics)
+            with self._plot_lock:
+                plot_files = self._generate_pdk_plots(spec, run_dir, metrics)
             metrics["plots"] = {k: v.as_posix() for k, v in plot_files.items()}
 
             # Generate individual report
@@ -2155,7 +2176,7 @@ Cload out 0 {spec.cload_inv}
     # High-Level Run Orchestration
     # =========================================================================
 
-    def run_all(self, selected_pdks: Optional[List[str]] = None, simulator: str = "auto") -> List[Dict[str, Any]]:
+    def run_all(self, selected_pdks: Optional[List[str]] = None, simulator: str = "auto", max_workers: int = 1) -> List[Dict[str, Any]]:
         """Run circuit stress convergence suite across all registered PDKs."""
         self.logger.info("================================================================================")
         self.logger.info("Starting Multi-PDK Circuit-Level Stress Convergence Benchmarking Suite")
@@ -2167,10 +2188,27 @@ Cload out 0 {spec.cload_inv}
             pdk_set = {p.lower() for p in selected_pdks}
             active_specs = [s for s in self.specs if s.pdk.lower() in pdk_set or s.id.lower() in pdk_set]
 
-        results = []
-        for spec in active_specs:
-            res = self._execute_pdk_suite(spec, requested_sim=simulator)
-            results.append(res)
+        if max_workers > 1:
+            self.logger.info(f"Running multi-PDK evaluations concurrently with {max_workers} worker threads...")
+            results_dict = {}
+            with ThreadPoolExecutor(max_workers=max_workers) as executor:
+                futures = {
+                    executor.submit(self._execute_pdk_suite, spec, requested_sim=simulator): spec
+                    for spec in active_specs
+                }
+                for fut in futures:
+                    spec = futures[fut]
+                    try:
+                        res = fut.result()
+                        results_dict[spec.id] = res
+                    except Exception as e:
+                        self.logger.error(f"Failed execution for {spec.pdk}: {e}")
+            results = [results_dict[spec.id] for spec in active_specs if spec.id in results_dict]
+        else:
+            results = []
+            for spec in active_specs:
+                res = self._execute_pdk_suite(spec, requested_sim=simulator)
+                results.append(res)
 
         self._write_consolidated_summary(results)
         return results
@@ -2183,10 +2221,11 @@ def main():
     parser.add_argument("--output-dir", "-o", default="results/circuit_stress", help="Output directory")
     parser.add_argument("--pdk", "-p", nargs="+", help="Specific PDK names or IDs to evaluate (default: all)")
     parser.add_argument("--simulator", "-s", choices=["auto", "ngspice", "xyce", "hspice", "spectre"], default="auto", help="Simulator engine")
+    parser.add_argument("--jobs", "-j", type=int, default=1, help="Number of concurrent PDK benchmark workers (default: 1)")
     args = parser.parse_args()
 
     runner = CircuitStressRunner(output_dir=args.output_dir)
-    runner.run_all(selected_pdks=args.pdk, simulator=args.simulator)
+    runner.run_all(selected_pdks=args.pdk, simulator=args.simulator, max_workers=args.jobs)
 
 
 if __name__ == "__main__":

@@ -5,7 +5,7 @@
 **Supply Voltage (VDD):** 0.7 V  
 **Simulator Engine:** `spectre`  
 **Overall Convergence Status:** PASSED (100% Convergence)  
-**Total Benchmark Runtime:** 0.5 s  
+**Total Benchmark Runtime:** 1.15 s  
 **Host Hardware:** Intel(R) Xeon(R) CPU E5-2678 v3 @ 2.50GHz (2 sockets, 24 cores, 48 threads, 377Gi RAM)
 
 ---

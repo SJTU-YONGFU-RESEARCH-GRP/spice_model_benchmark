@@ -5,7 +5,7 @@
 **Supply Voltage (VDD):** 3.3 V  
 **Simulator Engine:** `ngspice`  
 **Overall Convergence Status:** PASSED (100% Convergence)  
-**Total Benchmark Runtime:** 0.5 s  
+**Total Benchmark Runtime:** 0.24 s  
 **Host Hardware:** Intel(R) Xeon(R) CPU E5-2678 v3 @ 2.50GHz (2 sockets, 24 cores, 48 threads, 377Gi RAM)
 
 ---
@@ -15,18 +15,18 @@
 | Circuit Benchmark | Key Physical Metric | Extracted Value | Convergence | Status |
 |-------------------|----------------------|-----------------|-------------|--------|
 | **CMOS Inverter (DC)** | Switching Threshold $V_M$ | `1.5345 V` | ✓ CONVERGED | PASS |
-| **CMOS Inverter (DC)** | Peak Small-Signal Gain $|A_{v,\max}|$ | `18.82 V/V` | ✓ CONVERGED | PASS |
-| **CMOS Inverter (DC)** | Noise Margins ($N_{ML} / N_{MH}$) | `0.9508 / 1.2115 V` | ✓ CONVERGED | PASS |
-| **CMOS Inverter (Transient)** | Propagation Delay $\tau_{pd}$ | `72.55 ps` | ✓ CONVERGED | PASS |
-| **CMOS Inverter (Transient)** | Switching Energy $E_{cycle}$ | `856.653 fJ` | ✓ CONVERGED | PASS |
-| **Ring Oscillator (RO3)** | Oscillation Frequency $f_{osc}$ | `3.7 GHz` | ✓ CONVERGED | PASS |
-| **Ring Oscillator (RO3)** | Stage Delay $\tau_{stage}$ | `45.07 ps` | ✓ CONVERGED | PASS |
+| **CMOS Inverter (DC)** | Peak Small-Signal Gain $|A_{v,\max}|$ | `18.83 V/V` | ✓ CONVERGED | PASS |
+| **CMOS Inverter (DC)** | Noise Margins ($N_{ML} / N_{MH}$) | `0.9382 / 1.2214 V` | ✓ CONVERGED | PASS |
+| **CMOS Inverter (Transient)** | Propagation Delay $\tau_{pd}$ | `72.42 ps` | ✓ CONVERGED | PASS |
+| **CMOS Inverter (Transient)** | Switching Energy $E_{cycle}$ | `859.959 fJ` | ✓ CONVERGED | PASS |
+| **Ring Oscillator (RO3)** | Oscillation Frequency $f_{osc}$ | `3.71 GHz` | ✓ CONVERGED | PASS |
+| **Ring Oscillator (RO3)** | Stage Delay $\tau_{stage}$ | `44.92 ps` | ✓ CONVERGED | PASS |
 | **Ring Oscillator (RO3)** | Output Voltage Swing $V_{pp}$ | `3.319 V` | ✓ CONVERGED | PASS |
-| **6T-SRAM Cell** | Hold Static Noise Margin | `1068.2 mV` | ✓ CONVERGED | PASS |
-| **6T-SRAM Cell** | Read Static Noise Margin | `406.1 mV` | ✓ CONVERGED | PASS |
-| **5T OTA Amplifier** | DC Open-Loop Gain $A_0$ | `24.73 dB` | ✓ CONVERGED | PASS |
+| **6T-SRAM Cell** | Hold Static Noise Margin | `1063.6 mV` | ✓ CONVERGED | PASS |
+| **6T-SRAM Cell** | Read Static Noise Margin | `403.6 mV` | ✓ CONVERGED | PASS |
+| **5T OTA Amplifier** | DC Open-Loop Gain $A_0$ | `24.69 dB` | ✓ CONVERGED | PASS |
 | **5T OTA Amplifier** | Unity-Gain Bandwidth ($GBW$) | `0.71 GHz` | ✓ CONVERGED | PASS |
-| **5T OTA Amplifier** | Phase Margin ($PM$) | `72.3°` | ✓ CONVERGED | PASS |
+| **5T OTA Amplifier** | Phase Margin ($PM$) | `71.6°` | ✓ CONVERGED | PASS |
 
 ---
 

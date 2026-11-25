@@ -15,7 +15,7 @@ import shutil
 
 HSPICE_HOME = "/data1/eda/eda/hspice/hspice/S-2021.09/hspice"
 HSPICE_BIN = f"{HSPICE_HOME}/bin/hspice"
-SNPSLMD_LICENSE_FILE = "/data1/eda/eda/license/Synopsys.dat:/home/luwangzilu/ocad/tools/licsrv/licenses/syn.license.dat"
+SNPSLMD_LICENSE_FILE = "27000@127.0.0.1:27000@localhost:/data1/eda/eda/license/Synopsys.dat"
 
 
 def _build_hspice_env() -> dict:

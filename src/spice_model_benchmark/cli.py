@@ -84,6 +84,13 @@ Examples:
     )
 
     parser.add_argument(
+        "-j", "--jobs",
+        type=int,
+        default=4,
+        help="Number of concurrent worker threads for multi-PDK benchmarking (default: 4)"
+    )
+
+    parser.add_argument(
         "--dpi",
         type=int,
         default=300,
@@ -145,7 +152,7 @@ Examples:
         user_specified_sim = any(a.startswith("--sim") for a in args) if args else False
         sim = parsed_args.simulator[0] if user_specified_sim else "auto"
         runner = CircuitStressRunner(output_dir=out_dir)
-        results = runner.run_all(selected_pdks=parsed_args.pdk, simulator=sim)
+        results = runner.run_all(selected_pdks=parsed_args.pdk, simulator=sim, max_workers=parsed_args.jobs)
         return 0 if any(r.get("success") for r in results) else 1
 
     # 2. Multi-Corner Regression Mode

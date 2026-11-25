@@ -5,7 +5,7 @@
 **Supply Voltage (VDD):** 0.8 V  
 **Simulator Engine:** `hspice`  
 **Overall Convergence Status:** PASSED (100% Convergence)  
-**Total Benchmark Runtime:** 0.5 s  
+**Total Benchmark Runtime:** 0.44 s  
 **Host Hardware:** Intel(R) Xeon(R) CPU E5-2678 v3 @ 2.50GHz (2 sockets, 24 cores, 48 threads, 377Gi RAM)
 
 ---
@@ -19,9 +19,9 @@
 | **CMOS Inverter (DC)** | Noise Margins ($N_{ML} / N_{MH}$) | `0.3168 / 0.2292 V` | ✓ CONVERGED | PASS |
 | **CMOS Inverter (Transient)** | Propagation Delay $\tau_{pd}$ | `17.36 ps` | ✓ CONVERGED | PASS |
 | **CMOS Inverter (Transient)** | Switching Energy $E_{cycle}$ | `5.276 fJ` | ✓ CONVERGED | PASS |
-| **Ring Oscillator (RO3)** | Oscillation Frequency $f_{osc}$ | `54.36 GHz` | ✓ CONVERGED | PASS |
-| **Ring Oscillator (RO3)** | Stage Delay $\tau_{stage}$ | `3.07 ps` | ✓ CONVERGED | PASS |
-| **Ring Oscillator (RO3)** | Output Voltage Swing $V_{pp}$ | `0.746 V` | ✓ CONVERGED | PASS |
+| **Ring Oscillator (RO3)** | Oscillation Frequency $f_{osc}$ | `55.07 GHz` | ✓ CONVERGED | PASS |
+| **Ring Oscillator (RO3)** | Stage Delay $\tau_{stage}$ | `3.03 ps` | ✓ CONVERGED | PASS |
+| **Ring Oscillator (RO3)** | Output Voltage Swing $V_{pp}$ | `0.748 V` | ✓ CONVERGED | PASS |
 | **6T-SRAM Cell** | Hold Static Noise Margin | `180.0 mV` | ✓ CONVERGED | PASS |
 | **6T-SRAM Cell** | Read Static Noise Margin | `93.6 mV` | ✓ CONVERGED | PASS |
 | **5T OTA Amplifier** | DC Open-Loop Gain $A_0$ | `12.86 dB` | ✓ CONVERGED | PASS |
