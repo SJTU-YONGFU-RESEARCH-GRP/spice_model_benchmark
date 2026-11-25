@@ -62,13 +62,13 @@ class DataReader:
         
         Args:
             filename: Name of the file to find
-            fallback_dirs: List of other directories to check (default: output_dir and netlists)
+            fallback_dirs: List of other directories to check (default: output_dir and data)
             
         Returns:
             str: Path to the file if found, None otherwise
         """
         if fallback_dirs is None:
-            fallback_dirs = [output_dir, 'netlists']
+            fallback_dirs = [output_dir, os.path.join(output_dir, 'data')]
         
         # First check in data directory
         data_dir = os.path.join(output_dir, 'data')
@@ -513,7 +513,7 @@ class DataReader:
         """
         try:
             filename = 'tran_large_signal.txt'
-            file_path = self._find_file(filename, output_dir, fallback_dirs=[output_dir, 'netlists'])
+            file_path = self._find_file(filename, output_dir, fallback_dirs=[output_dir])
             
             if not file_path:
                 self.logger.warning("Large signal transient data file not found in any location")
@@ -546,7 +546,7 @@ class DataReader:
         """
         try:
             filename = 'tran_switching.txt'
-            file_path = self._find_file(filename, output_dir, fallback_dirs=[output_dir, 'netlists'])
+            file_path = self._find_file(filename, output_dir, fallback_dirs=[output_dir])
             
             if not file_path:
                 self.logger.warning("Switching response data file not found in any location")
@@ -579,7 +579,7 @@ class DataReader:
         """
         try:
             filename = 'tran_switching_power.txt'
-            file_path = self._find_file(filename, output_dir, fallback_dirs=[self.output_dir, 'netlists'])
+            file_path = self._find_file(filename, output_dir, fallback_dirs=[self.output_dir])
             
             if not file_path:
                 self.logger.warning("Switching power data file not found in any location")
@@ -610,7 +610,7 @@ class DataReader:
         """
         try:
             filename = 'tran_delay.txt'
-            file_path = self._find_file(filename, output_dir, fallback_dirs=[self.output_dir, 'netlists'])
+            file_path = self._find_file(filename, output_dir, fallback_dirs=[self.output_dir])
             
             if not file_path:
                 self.logger.warning("Delay effect data file not found in any location")
@@ -647,7 +647,7 @@ class DataReader:
         """
         try:
             filename = f'tran_power_{temperature}C.txt'
-            file_path = self._find_file(filename, output_dir, fallback_dirs=[self.output_dir, 'netlists'])
+            file_path = self._find_file(filename, output_dir, fallback_dirs=[self.output_dir])
             
             if not file_path:
                 self.logger.warning(f"Power dissipation data file at {temperature}°C not found in any location")
@@ -681,7 +681,7 @@ class DataReader:
         """
         try:
             filename = f'tran_power_{temperature}C.txt'
-            file_path = self._find_file(filename, output_dir, fallback_dirs=[self.output_dir, 'netlists'])
+            file_path = self._find_file(filename, output_dir, fallback_dirs=[self.output_dir])
             
             if not file_path:
                 self.logger.warning(f"Energy consumption data file at {temperature}°C not found in any location")
@@ -712,7 +712,7 @@ class DataReader:
         """
         try:
             filename = 'tran_quasi_static.txt'
-            file_path = self._find_file(filename, output_dir, fallback_dirs=[output_dir, 'netlists'])
+            file_path = self._find_file(filename, output_dir, fallback_dirs=[output_dir])
             
             if not file_path:
                 self.logger.warning("Quasi-static data file not found in any location")
@@ -891,7 +891,7 @@ class DataReader:
         """
         try:
             filename = 'gummel_symmetry.txt'
-            file_path = self._find_file(filename, output_dir, fallback_dirs=[output_dir, 'netlists', os.path.join(output_dir, 'data')])
+            file_path = self._find_file(filename, output_dir, fallback_dirs=[output_dir, os.path.join(output_dir, 'data')])
             if not file_path:
                 self.logger.warning("Gummel symmetry data file not found in any location")
                 return None, None, None, None, None, None, None
@@ -922,7 +922,7 @@ class DataReader:
         """
         try:
             filename = 'zero_bias_passivity.txt'
-            file_path = self._find_file(filename, output_dir, fallback_dirs=[output_dir, 'netlists', os.path.join(output_dir, 'data')])
+            file_path = self._find_file(filename, output_dir, fallback_dirs=[output_dir, os.path.join(output_dir, 'data')])
             if not file_path:
                 self.logger.warning("Zero-bias passivity file not found in any location")
                 return None
@@ -953,7 +953,7 @@ class DataReader:
         """
         try:
             filename = 'transfer_data.txt'
-            file_path = self._find_file(filename, output_dir, fallback_dirs=[output_dir, 'netlists', os.path.join(output_dir, 'data')])
+            file_path = self._find_file(filename, output_dir, fallback_dirs=[output_dir, os.path.join(output_dir, 'data')])
             if not file_path:
                 self.logger.warning("Transfer data file not found")
                 return None, None, None, None, None
@@ -988,7 +988,7 @@ class DataReader:
         """
         try:
             filename = 'output_conductance.txt'
-            file_path = self._find_file(filename, output_dir, fallback_dirs=[output_dir, 'netlists', os.path.join(output_dir, 'data')])
+            file_path = self._find_file(filename, output_dir, fallback_dirs=[output_dir, os.path.join(output_dir, 'data')])
             if not file_path:
                 self.logger.warning("Output conductance data file not found")
                 return None, None, None, None, None
@@ -1023,7 +1023,7 @@ class DataReader:
         """
         try:
             # 1. Gate sweep (-2V to 2.5V)
-            f_vg = self._find_file('asymptotic_vg.txt', output_dir, fallback_dirs=[output_dir, 'netlists', os.path.join(output_dir, 'data')])
+            f_vg = self._find_file('asymptotic_vg.txt', output_dir, fallback_dirs=[output_dir, os.path.join(output_dir, 'data')])
             vg, id_vg = None, None
             if f_vg:
                 d_vg, _ = self._parse_data_file(f_vg, skiprows=1, expected_cols=3)
@@ -1032,7 +1032,7 @@ class DataReader:
                     id_vg = d_vg[:, 2] if d_vg.shape[1] >= 3 else d_vg[:, 1]
             
             # 2. Drain leak sweep (Vgs=0, Vds=0 to 2.5V)
-            f_leak = self._find_file('asymptotic_vd_leak.txt', output_dir, fallback_dirs=[output_dir, 'netlists', os.path.join(output_dir, 'data')])
+            f_leak = self._find_file('asymptotic_vd_leak.txt', output_dir, fallback_dirs=[output_dir, os.path.join(output_dir, 'data')])
             vd_leak, id_leak = None, None
             if f_leak:
                 d_leak, _ = self._parse_data_file(f_leak, skiprows=1, expected_cols=3)
@@ -1041,7 +1041,7 @@ class DataReader:
                     id_leak = d_leak[:, 2] if d_leak.shape[1] >= 3 else d_leak[:, 1]
 
             # 3. Drain on sweep (Vgs=1.0, Vds=0 to 2.5V)
-            f_on = self._find_file('asymptotic_vd_on.txt', output_dir, fallback_dirs=[output_dir, 'netlists', os.path.join(output_dir, 'data')])
+            f_on = self._find_file('asymptotic_vd_on.txt', output_dir, fallback_dirs=[output_dir, os.path.join(output_dir, 'data')])
             vd_on, id_on = None, None
             if f_on:
                 d_on, _ = self._parse_data_file(f_on, skiprows=1, expected_cols=3)
@@ -1062,7 +1062,7 @@ class DataReader:
         """
         try:
             filename = 'self_heating_ac.txt'
-            file_path = self._find_file(filename, output_dir, fallback_dirs=[output_dir, 'netlists', os.path.join(output_dir, 'data')])
+            file_path = self._find_file(filename, output_dir, fallback_dirs=[output_dir, os.path.join(output_dir, 'data')])
             if not file_path:
                 self.logger.warning("Dynamic self-heating data file not found")
                 return None, None, None
@@ -1120,7 +1120,7 @@ class DataReader:
             
             # Try the raw file if txt file doesn't exist or couldn't be read
             raw_filename = f'thermal_noise_vgs{vgs:.1f}_vds{vds:.1f}.raw'
-            raw_file_path = self._find_file(raw_filename, output_dir, fallback_dirs=['netlists'])
+            raw_file_path = self._find_file(raw_filename, output_dir, fallback_dirs=[output_dir])
             
             if not raw_file_path:
                 self.logger.warning(f"Thermal noise data file not found for Vgs={vgs}V, Vds={vds}V")
@@ -1190,7 +1190,7 @@ class DataReader:
             
             # Try the raw file if txt file doesn't exist or couldn't be read
             raw_filename = 'flicker_noise.raw'
-            raw_file_path = self._find_file(raw_filename, output_dir, fallback_dirs=['netlists'])
+            raw_file_path = self._find_file(raw_filename, output_dir, fallback_dirs=[output_dir])
             
             if not raw_file_path:
                 self.logger.warning("Flicker noise data file not found")
@@ -1228,7 +1228,7 @@ class DataReader:
             
             # Try the raw file if txt file doesn't exist or couldn't be read
             raw_filename = 'shot_noise.raw'
-            raw_file_path = self._find_file(raw_filename, output_dir, fallback_dirs=['netlists'])
+            raw_file_path = self._find_file(raw_filename, output_dir, fallback_dirs=[output_dir])
             
             if not raw_file_path:
                 self.logger.warning("Shot noise data file not found")
@@ -1263,7 +1263,7 @@ class DataReader:
                 txt_filename = f'noise_temp{temp}.txt'
                 txt_file_path = self._find_file(txt_filename, output_dir)
 
-                if os.path.exists(txt_file_path):
+                if txt_file_path and os.path.exists(txt_file_path):
                     # Use custom parser instead of np.loadtxt
                     freq, noise = self._read_noise_data_file(txt_file_path)
                     if freq is not None and noise is not None:
@@ -1275,7 +1275,7 @@ class DataReader:
                 raw_file_path = os.path.join(self.output_dir, 'data', f'noise_temp{temp}.raw')
                 if not os.path.exists(raw_file_path):
                     # Try in netlists directory as fallback
-                    raw_file_path = os.path.join('netlists', f'noise_temp{temp}.raw')
+                    raw_file_path = os.path.join(self.data_dir, f'noise_temp{temp}.raw')
                     if not os.path.exists(raw_file_path):
                         self.logger.warning(f"Temperature noise data file not found for {temp}°C")
                         continue
@@ -1658,7 +1658,7 @@ class DataReader:
         try:
             file_path = self._find_file('charge_conservation.txt', output_dir)
             if not file_path:
-                file_path = self._find_file('charge_conservation.txt', fallback_dirs=[output_dir, 'netlists'])
+                file_path = self._find_file('charge_conservation.txt', fallback_dirs=[output_dir])
             if not file_path:
                 self.logger.warning(f"Charge conservation data file not found: {file_path}")
                 return None, None, None, None, None, None

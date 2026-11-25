@@ -69,12 +69,9 @@ def run_programmatic_example(model_file: str):
     """Example of using the MOSFETSimulation class directly."""
     print("Running programmatic example with direct class usage...")
 
-    # Create simulation instance with direct control
+    # Create simulation instance with model parsing and on-the-fly netlist generation
     simulation = MOSFETSimulation(
-        dc_circuit_file="netlists/dc_circuit.cir",
-        transient_circuit_file="netlists/transient_circuit.cir",
-        noise_circuit_file="netlists/noise_circuit.cir",
-        ac_circuit_file="netlists/ac_circuit.cir",
+        model_file=model_file,
         output_dir="programmatic_results",
         dpi=300,
         log_level="INFO"

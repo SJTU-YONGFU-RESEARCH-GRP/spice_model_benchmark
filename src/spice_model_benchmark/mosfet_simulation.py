@@ -71,8 +71,8 @@ def _extract_gate_geometry_from_ac_netlist(ac_netlist_path: str) -> dict:
             line = raw.strip()
             if not line or line.startswith("*"):
                 continue
-            # Prefer M1; fallback handled below.
-            if re.match(r"^m1\b", line, flags=re.IGNORECASE):
+            # Prefer M1 or X1; fallback handled below.
+            if re.match(r"^[mx]1\b", line, flags=re.IGNORECASE):
                 m1_line = line
                 break
 
@@ -83,7 +83,7 @@ def _extract_gate_geometry_from_ac_netlist(ac_netlist_path: str) -> dict:
                 line = raw.strip()
                 if not line or line.startswith("*"):
                     continue
-                if not re.match(r"^m\w+\b", line, flags=re.IGNORECASE):
+                if not re.match(r"^[mx]\w+\b", line, flags=re.IGNORECASE):
                     continue
                 if re.search(r"\bw\s*=", line, flags=re.IGNORECASE) and re.search(
                     r"\bl\s*=", line, flags=re.IGNORECASE
@@ -116,27 +116,85 @@ class MOSFETSimulation:
     - DC, AC, Noise and Transient analysis
     - Results verification and reporting
     """
-    def __init__(self, dc_circuit_file, transient_circuit_file, noise_circuit_file,
-                 ac_circuit_file, output_dir='results', dpi=300, log_level='INFO',
-                 ):
-
-        # Store the circuit file paths directly
-        self.dc_circuit_file = dc_circuit_file
-        self.transient_circuit_file = transient_circuit_file
-        self.noise_circuit_file = noise_circuit_file
-        self.ac_circuit_file = ac_circuit_file
-        cand_gst = [Path('netlists/gummel_circuit.cir'), Path(__file__).resolve().parent.parent.parent / 'netlists' / 'gummel_circuit.cir']
-        self.gummel_circuit_file = next((p for p in cand_gst if p.exists()), None)
+    def __init__(self,
+                 dc_circuit_file=None,
+                 transient_circuit_file=None,
+                 noise_circuit_file=None,
+                 ac_circuit_file=None,
+                 output_dir='results',
+                 dpi=300,
+                 log_level='INFO',
+                 model_file=None,
+                 device_name=None,
+                 evaluate_all=False):
 
         # Convert output_dir to absolute path if it's not already
         self.output_dir = Path(output_dir).resolve()
         self.dpi = dpi
-        
-        # Create output directory if it doesn't exist
         os.makedirs(self.output_dir, exist_ok=True)
-        
-        # Initialize components
         self.logger = Logger(log_level=log_level)
+
+        self.model_file = Path(model_file).resolve() if model_file else None
+        self.device_name = device_name
+        self.evaluate_all = evaluate_all
+        self.model_info = None
+        self.active_device = None
+
+        self.dc_circuit_file = dc_circuit_file
+        self.transient_circuit_file = transient_circuit_file
+        self.noise_circuit_file = noise_circuit_file
+        self.ac_circuit_file = ac_circuit_file
+        self.gummel_circuit_file = None
+
+        # If model_file is provided, parse model and generate netlists on-the-fly
+        if self.model_file and self.model_file.exists():
+            from .model_parser import ModelParser, DeviceSpec
+            from .netlist_generator import NetlistGenerator
+
+            parser = ModelParser()
+            self.model_info = parser.parse(self.model_file)
+            self.active_device = self.model_info.get_device(device_name)
+
+            if self.active_device is None:
+                self.active_device = DeviceSpec(
+                    name=device_name or "DUT",
+                    polarity="nmos",
+                    device_type="primitive",
+                    source_file=self.model_file
+                )
+
+            self.logger.info(
+                f"Parsed SPICE model '{self.model_file.name}': {len(self.model_info.devices)} devices discovered. "
+                f"Active DUT: {self.active_device.name} (polarity={self.active_device.polarity})"
+            )
+
+            # Generate netlists in output_dir / 'netlists'
+            netlist_dir = self.output_dir / "netlists"
+            generator = NetlistGenerator(output_dir=netlist_dir)
+            pmos_dev = self.model_info.primary_pmos if self.active_device.is_nmos else None
+            generated = generator.generate_ngspice_netlists(
+                self.model_file,
+                self.active_device,
+                pmos_dut=pmos_dev
+            )
+
+            if not self.dc_circuit_file:
+                self.dc_circuit_file = str(generated['dc'])
+            if not self.ac_circuit_file:
+                self.ac_circuit_file = str(generated['ac'])
+            if not self.transient_circuit_file:
+                self.transient_circuit_file = str(generated['transient'])
+            if not self.noise_circuit_file:
+                self.noise_circuit_file = str(generated['noise'])
+            self.gummel_circuit_file = generated['gummel']
+        else:
+            # Fallback for when static circuits are passed directly
+            cand_gst = [
+                self.output_dir / 'netlists' / 'gummel_circuit.cir',
+                Path('netlists/gummel_circuit.cir'),
+                Path(__file__).resolve().parent.parent.parent / 'netlists' / 'gummel_circuit.cir'
+            ]
+            self.gummel_circuit_file = next((p for p in cand_gst if p.exists()), None)
         self.simulation_runner = SimulationRunner(self.logger, output_dir=str(self.output_dir))
         self.data_reader = DataReader(self.logger, output_dir=str(self.output_dir))
         self.plot_generator = PlotGenerator(str(self.output_dir), dpi=dpi, logger=self.logger)
@@ -175,6 +233,28 @@ class MOSFETSimulation:
             'noise_analysis': None
         }
 
+    def run_all_devices(self, modes=['all']) -> bool:
+        """Run the benchmark sequentially across all discovered devices in the SPICE model."""
+        if not self.model_info or not self.model_info.devices:
+            self.logger.warning("No devices found to evaluate.")
+            return False
+
+        all_success = True
+        self.logger.info(f"Evaluating all {len(self.model_info.devices)} devices in model '{self.model_file.name}'")
+        for dev in self.model_info.devices:
+            self.logger.info(f"\n{'='*50}\n  Evaluating Device: {dev.name} ({dev.polarity})\n{'='*50}")
+            dev_out_dir = self.output_dir / dev.name
+            dev_sim = MOSFETSimulation(
+                model_file=self.model_file,
+                device_name=dev.name,
+                output_dir=dev_out_dir,
+                dpi=self.dpi,
+            )
+            success = dev_sim.run(modes=modes)
+            if not success:
+                all_success = False
+        return all_success
+
     def run(self, modes=['all']):
         """Run the MOSFET simulation and analysis.
         
@@ -182,6 +262,9 @@ class MOSFETSimulation:
             modes: List of simulation modes to run. Can be 'dc', 'transient', 'ac', 'noise'.
                   Default is ['all'] which runs all modes.
         """
+        if self.evaluate_all and self.model_info and len(self.model_info.devices) > 1:
+            return self.run_all_devices(modes=modes)
+
         try:
             self.logger.info("Starting MOSFET simulation and analysis")
             

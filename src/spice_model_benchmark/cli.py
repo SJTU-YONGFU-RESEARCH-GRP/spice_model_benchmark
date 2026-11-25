@@ -52,6 +52,18 @@ Examples:
     )
 
     parser.add_argument(
+        "--cross-sim",
+        action="store_true",
+        help="Run multi-EDA cross-simulator correlation benchmark (ngspice vs Xyce vs HSPICE vs Spectre)"
+    )
+
+    parser.add_argument(
+        "--pkp3",
+        action="store_true",
+        help="Run in-depth PKP3 3nm GAAFET (PHIMO-Fusion) characterization: geometry scaling & CMOS inverter"
+    )
+
+    parser.add_argument(
         "--pdk",
         type=str,
         nargs="+",
@@ -130,6 +142,19 @@ Examples:
     )
 
     parser.add_argument(
+        "--device",
+        type=str,
+        default=None,
+        help="Specific device model/subcircuit name to evaluate from the SPICE model file (default: primary device)"
+    )
+
+    parser.add_argument(
+        "--all-devices",
+        action="store_true",
+        help="Evaluate all discovered devices in the SPICE model file sequentially"
+    )
+
+    parser.add_argument(
         "--bridge",
         action="append",
         default=[],
@@ -163,6 +188,24 @@ Examples:
         sim = parsed_args.simulator[0] if user_specified_sim else "auto"
         runner = RegressionRunner(output_dir=out_dir)
         runner.run_all(selected_corners=parsed_args.pdk, simulator=sim)
+        return 0
+
+    # 3. Cross-Simulator Correlation Mode
+    if parsed_args.cross_sim:
+        from .cross_simulator_benchmark import CrossSimulatorBenchmark
+        out_dir = parsed_args.output_dir if parsed_args.output_dir != "spice_benchmark_results" else "results/cross_simulator"
+        cid = parsed_args.pdk[0] if parsed_args.pdk else "FreePDK45_VTG_TT"
+        sims = parsed_args.simulator if any(a.startswith("--sim") for a in args) else ["ngspice", "xyce", "hspice", "spectre"]
+        bench = CrossSimulatorBenchmark(output_dir=out_dir)
+        bench.run_benchmark(corner_id=cid, simulators=sims)
+        return 0
+
+    # 4. PKP3 3nm Characterization Mode
+    if parsed_args.pkp3:
+        from .pkp3_nanosheet_benchmark import PKP3NanosheetBenchmark
+        out_dir = parsed_args.output_dir if parsed_args.output_dir != "spice_benchmark_results" else "results/pkp3_characterization"
+        bench = PKP3NanosheetBenchmark(output_dir=out_dir)
+        bench.run_all()
         return 0
 
     if not parsed_args.model_file:
@@ -199,13 +242,14 @@ Examples:
         try:
             if sim == 'spectre':
                 from .spectre_mosfet_simulation import benchmark_spice_model_spectre
-                import re as _re
-                _mname = None
-                try:
-                    with open(parsed_args.model_file) as _f:
-                        _mm = _re.search(r'\.model\s+(\w+)\s', _f.read())
-                        if _mm: _mname = _mm.group(1)
-                except: pass
+                _mname = parsed_args.device
+                if not _mname:
+                    try:
+                        import re as _re
+                        with open(parsed_args.model_file) as _f:
+                            _mm = _re.search(r'\.model\s+(\w+)\s', _f.read())
+                            if _mm: _mname = _mm.group(1)
+                    except: pass
                 success = benchmark_spice_model_spectre(
                     model_file=parsed_args.model_file,
                     output_dir=sim_output_dir,
@@ -220,13 +264,14 @@ Examples:
                 )
             elif sim == 'hspice':
                 from .hspice_mosfet_simulation import benchmark_spice_model_hspice
-                import re as _re
-                _mname = None
-                try:
-                    with open(parsed_args.model_file) as _f:
-                        _mm = _re.search(r'\.model\s+(\w+)\s', _f.read())
-                        if _mm: _mname = _mm.group(1)
-                except: pass
+                _mname = parsed_args.device
+                if not _mname:
+                    try:
+                        import re as _re
+                        with open(parsed_args.model_file) as _f:
+                            _mm = _re.search(r'\.model\s+(\w+)\s', _f.read())
+                            if _mm: _mname = _mm.group(1)
+                    except: pass
                 success = benchmark_spice_model_hspice(
                     model_file=parsed_args.model_file,
                     output_dir=sim_output_dir,
@@ -237,13 +282,14 @@ Examples:
                 )
             elif sim == 'xyce':
                 from .xyce_mosfet_simulation import benchmark_spice_model_xyce
-                import re as _re
-                _mname = None
-                try:
-                    with open(parsed_args.model_file) as _f:
-                        _mm = _re.search(r'\.model\s+(\w+)\s', _f.read())
-                        if _mm: _mname = _mm.group(1)
-                except: pass
+                _mname = parsed_args.device
+                if not _mname:
+                    try:
+                        import re as _re
+                        with open(parsed_args.model_file) as _f:
+                            _mm = _re.search(r'\.model\s+(\w+)\s', _f.read())
+                            if _mm: _mname = _mm.group(1)
+                    except: pass
                 success = benchmark_spice_model_xyce(
                     model_file=parsed_args.model_file,
                     output_dir=sim_output_dir,
@@ -264,6 +310,8 @@ Examples:
                     transient_circuit=parsed_args.transient_circuit,
                     noise_circuit=parsed_args.noise_circuit,
                     ac_circuit=parsed_args.ac_circuit,
+                    device_name=parsed_args.device,
+                    evaluate_all=parsed_args.all_devices,
                 )
         except Exception as e:
             print(f"  ✗ {sim} crashed: {e}")

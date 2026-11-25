@@ -80,11 +80,31 @@ results/circuit_stress/data/**/.spiceinit
 !results/REGRESSION_REPORT.md
 !results/regression_summary.json
 !results/REPORT.md
+!results/data/**/REPORT.md
 plots/
 !results/plots/
 !results/plots/**
 !results/circuit_stress/plots/
 !results/circuit_stress/plots/**
+
+# Cross Simulator Benchmark artifacts
+results/cross_simulator/runs/
+!results/cross_simulator/
+!results/cross_simulator/CROSS_SIMULATOR_REPORT.md
+!results/cross_simulator/cross_simulator_summary.json
+!results/cross_simulator/plots/
+!results/cross_simulator/plots/**
+
+# PKP3 Characterization artifacts
+results/pkp3_characterization/spectre_work/
+!results/pkp3_characterization/
+!results/pkp3_characterization/PKP3_CHARACTERIZATION_REPORT.md
+!results/pkp3_characterization/pkp3_summary.json
+!results/pkp3_characterization/plots/
+!results/pkp3_characterization/plots/**
+results/circuit_stress/data/PINN_GF180_180nm_TT/
+results/test_pkp3_crossing/
+proj/
 test_cap_param/results/
 sandbox/**/results/
 sandbox/**/tran_results/

@@ -334,21 +334,11 @@ def benchmark_spice_model_spectre(
     if modes is None:
         modes = ['dc']
 
-    default_netlist_dir = Path(__file__).parent.parent.parent / 'netlists' / 'spectre'
-
-    def _resolve(custom_path: Optional[str], default_name: str) -> Optional[str]:
-        if custom_path:
-            return custom_path
-        default_path = default_netlist_dir / default_name
-        if default_path.exists():
-            return str(default_path)
-        return None
-
     sim = SpectreMOSFETSimulation(
-        dc_circuit_file=_resolve(dc_circuit, 'dc_circuit.scs'),
-        transient_circuit_file=_resolve(transient_circuit, 'transient_circuit.scs'),
-        noise_circuit_file=_resolve(noise_circuit, 'noise_circuit.scs'),
-        ac_circuit_file=_resolve(ac_circuit, 'ac_circuit.scs'),
+        dc_circuit_file=str(dc_circuit) if dc_circuit else None,
+        transient_circuit_file=str(transient_circuit) if transient_circuit else None,
+        noise_circuit_file=str(noise_circuit) if noise_circuit else None,
+        ac_circuit_file=str(ac_circuit) if ac_circuit else None,
         output_dir=output_dir,
         dpi=dpi,
         log_level=log_level,

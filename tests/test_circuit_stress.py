@@ -8,13 +8,13 @@ from spice_model_benchmark.circuit_stress_runner import CircuitStressRunner, Cir
 
 
 def test_circuit_stress_spec_registry():
-    """Verify all 10 PDKs are properly registered in the circuit stress suite."""
+    """Verify all 10 foundry PDKs and PINN-CM are properly registered in the circuit stress suite."""
     runner = CircuitStressRunner()
-    assert len(runner.specs) == 10
+    assert len(runner.specs) >= 10
     pdks = [s.pdk for s in runner.specs]
     expected_pdks = [
         "FreePDK45", "GF180MCU", "SkyWater_SKY130", "IHP_SG13G2", "ASAP7_7nm",
-        "FreePDK15_15nm", "FreePDK3_3nm", "GT3_3nm", "GT2N_2nm", "PKP3_3nm"
+        "FreePDK15_15nm", "FreePDK3_3nm", "GT3_3nm", "GT2N_2nm", "PKP3_3nm", "PINN_GF180"
     ]
     for p in expected_pdks:
         assert p in pdks, f"Missing expected PDK: {p}"

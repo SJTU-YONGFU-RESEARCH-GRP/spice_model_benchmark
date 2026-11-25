@@ -100,18 +100,40 @@ class SpectreRunner:
         self._work_dir = self.output_dir_path / 'spectre_work'
         self._work_dir.mkdir(exist_ok=True)
 
-        # Extract model names from model file
+        # Extract model names from model file and generate netlists dynamically
         self._nmos, self._pmos = "NMOS_VTG", "PMOS_VTG"
+        self._has_pmos = False
+
         if self.model_file and self.model_file.exists():
             try:
-                content = self.model_file.read_text(errors='replace')
-                nm = re.search(r'\.model\s+(\w+)\s+(?:nmos|NMOS)', content)
-                pm = re.search(r'\.model\s+(\w+)\s+(?:pmos|PMOS)', content)
-                if nm: self._nmos = nm.group(1)
-                if pm: self._pmos = pm.group(1)
-            except Exception:
-                pass
-        self._has_pmos = self._pmos != "PMOS_VTG"
+                from .model_parser import ModelParser, DeviceSpec
+                from .netlist_generator import NetlistGenerator
+
+                parser = ModelParser()
+                model_info = parser.parse(self.model_file)
+                dut = model_info.get_device(model_name) or model_info.primary_nmos
+                if dut is None:
+                    dut = DeviceSpec(name=model_name or "DUT", polarity="nmos", device_type="primitive", source_file=self.model_file)
+                pmos_dut = model_info.primary_pmos if dut.is_nmos else None
+
+                self._nmos = dut.name
+                self._pmos = pmos_dut.name if pmos_dut else "PMOS_AUTO"
+                self._has_pmos = pmos_dut is not None
+
+                # Generate Spectre netlists dynamically into self._work_dir
+                gen = NetlistGenerator(output_dir=self._work_dir)
+                nets = gen.generate_spectre_netlists(self.model_file, dut, pmos_dut=pmos_dut)
+
+                if not self.dc_circuit_file or not self.dc_circuit_file.exists():
+                    self.dc_circuit_file = nets['dc']
+                if not self.ac_circuit_file or not self.ac_circuit_file.exists():
+                    self.ac_circuit_file = nets['ac']
+                if not self.transient_circuit_file or not self.transient_circuit_file.exists():
+                    self.transient_circuit_file = nets['transient']
+                if not self.noise_circuit_file or not self.noise_circuit_file.exists():
+                    self.noise_circuit_file = nets['noise']
+            except Exception as e:
+                self.logger.logger.warning(f"Error parsing model or generating Spectre netlists: {e}")
 
         self.post_processor = SpectrePostProcessor(logger, str(self.data_dir))
         self._env = _build_spectre_env()
@@ -119,6 +141,9 @@ class SpectreRunner:
     def _prepare_circuit(self, circuit_file: Path) -> Path:
         """Copy circuit file to work dir, substituting model include and model names."""
         if not circuit_file or not circuit_file.exists():
+            return circuit_file
+
+        if circuit_file.parent == self._work_dir:
             return circuit_file
 
         content = circuit_file.read_text(errors='replace')
@@ -289,9 +314,13 @@ class SpectreRunner:
             return False
 
         # Run auxiliary SP and NQS netlists
-        aux_dir = self.ac_circuit_file.parent
+        aux_dir = self._work_dir
         for aux_name, tag in [("_sp.scs", "ac_sp"), ("_nqs.scs", "ac_nqs")]:
             aux_path = aux_dir / aux_name
+            if not aux_path.exists() and self.ac_circuit_file:
+                fallback_aux = self.ac_circuit_file.parent / aux_name
+                if fallback_aux.exists():
+                    aux_path = fallback_aux
             if aux_path.exists():
                 self.logger.logger.info(f"Running auxiliary {tag}...")
                 aux_prepared = self._prepare_circuit(aux_path)

@@ -92,6 +92,15 @@ class SimulationRunner:
             try:
                 # Change to the circuit file directory
                 os.chdir(circuit_dir)
+
+                # Ensure .spiceinit exists in circuit_dir if available in workspace
+                workspace_spiceinit = Path(__file__).resolve().parent.parent.parent / '.spiceinit'
+                target_spiceinit = circuit_dir / '.spiceinit'
+                if workspace_spiceinit.exists() and not target_spiceinit.exists():
+                    try:
+                        shutil.copy(workspace_spiceinit, target_spiceinit)
+                    except Exception:
+                        pass
                 
                 # Run ngspice (native or fallback to WSL if available)
                 import shutil

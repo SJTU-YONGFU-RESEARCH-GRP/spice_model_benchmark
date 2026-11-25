@@ -1,7 +1,7 @@
 * .spiceinit for use with Skywater PDK and IHPi
 set ngbehavior=hsa     ; set compatibility for reading PDK libs
 set skywaterpdk        ; skip some checks for faster lib loading
-set ng_nomodcheck      ; don't check the model parameters
+set ng_nomodcheck      ; dont check the model parameters
 set num_threads=8      ; CPU processor cores available
 
 * Better convergence options instead of forcing transient OP  
@@ -25,6 +25,8 @@ set numparam_continue=1
 setcs sourcepath = ( $sourcepath /home/yongfu/proj/spice_model_benchmark/models/public-models/ihp/ngspice/models )
 
 * Load OSDI models  
-osdi '/home/yongfu/proj/spice_model_benchmark/models/public-models/ihp/ngspice/osdi/psp103.osdi'
-osdi '/home/yongfu/proj/spice_model_benchmark/models/public-models/ihp/ngspice/osdi/psp103_nqs.osdi'
-osdi '/home/yongfu/proj/spice_model_benchmark/models/public-models/ihp/ngspice/osdi/r3_cmc.osdi'
+osdi /home/yongfu/proj/spice_model_benchmark/models/public-models/ihp/ngspice/osdi/psp103.osdi
+osdi /home/yongfu/proj/spice_model_benchmark/models/public-models/ihp/ngspice/osdi/psp103_nqs.osdi
+osdi /home/yongfu/proj/spice_model_benchmark/models/public-models/ihp/ngspice/osdi/r3_cmc.osdi
+osdi /home/yongfu/proj/spice_model_benchmark/proj/models/nfet_03v3_pinn.osdi
+osdi /home/yongfu/proj/spice_model_benchmark/proj/models/pfet_03v3_pinn.osdi

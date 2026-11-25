@@ -890,10 +890,12 @@ class PlotGenerator:
         import numpy as np
         
         # Create output directory if it doesn't exist
-        os.makedirs('results/data', exist_ok=True)
-        
+        os.makedirs(self.data_dir, exist_ok=True)
+        raw_sp1 = os.path.join(self.data_dir, 's_params_p1.txt')
+        raw_sp2 = os.path.join(self.data_dir, 's_params_p2.txt')
+
         # Check if raw files exist
-        if not os.path.exists('netlists/s_params_p1.txt') or not os.path.exists('netlists/s_params_p2.txt'):
+        if not os.path.exists(raw_sp1) or not os.path.exists(raw_sp2):
             print("[WARNING]: Raw S-parameter files not found, using calculated data")
             # Generate reasonable S-parameter data based on typical MOSFET behavior
             freq = np.logspace(6, 10, 20)  # 1MHz to 10GHz
@@ -919,7 +921,7 @@ class PlotGenerator:
                 ])
                 
             # Write the data file
-            with open('results/data/sparams_data.txt', 'w') as f:
+            with open(os.path.join(self.data_dir, 'sparams_data.txt'), 'w') as f:
                 f.write("# S-parameter data\n")
                 f.write("# freq s11_mag s11_phase s12_mag s12_phase s21_mag s21_phase s22_mag s22_phase\n")
                 for params in s_params:
@@ -992,8 +994,8 @@ class PlotGenerator:
                 return variables, data_points
             
             # Read the S-parameter simulation result files
-            vars_p1, data_p1 = _read_spice_file('netlists/s_params_p1.txt')
-            vars_p2, data_p2 = _read_spice_file('netlists/s_params_p2.txt')
+            vars_p1, data_p1 = _read_spice_file(raw_sp1)
+            vars_p2, data_p2 = _read_spice_file(raw_sp2)
             
             # Find the relevant variable indices
             freq_idx = None
@@ -1075,10 +1077,11 @@ class PlotGenerator:
         import numpy as np
         
         # Create output directory if it doesn't exist
-        os.makedirs('results/data', exist_ok=True)
-        
+        os.makedirs(self.data_dir, exist_ok=True)
+        raw_nqs = os.path.join(self.data_dir, 'nqs_effects_raw.txt')
+
         # Check if raw file exists
-        if not os.path.exists('netlists/nqs_effects_raw.txt'):
+        if not os.path.exists(raw_nqs):
             print("[WARNING]: Raw NQS effects file not found, using calculated data")
             # Generate reasonable NQS effects data based on frequency
             freq = np.logspace(6, 10, 20)  # 1MHz to 10GHz
@@ -1093,7 +1096,7 @@ class PlotGenerator:
                 nqs_data.append([f, vg_phase, id_phase, phase_diff])
                 
             # Write the data file
-            with open('results/data/nqs_effects.txt', 'w') as f:
+            with open(os.path.join(self.data_dir, 'nqs_effects.txt'), 'w') as f:
                 f.write("# Non-quasi-static effects analysis - phase shifts\n")
                 f.write("# freq vg_phase id_phase phase_diff\n")
                 for data_point in nqs_data:
@@ -1166,7 +1169,7 @@ class PlotGenerator:
                 return variables, data_points
             
             # Read the NQS effects simulation result file
-            vars_nqs, data_nqs = _read_spice_file('netlists/nqs_effects_raw.txt')
+            vars_nqs, data_nqs = _read_spice_file(raw_nqs)
             
             # Find the relevant variable indices
             freq_idx = None
