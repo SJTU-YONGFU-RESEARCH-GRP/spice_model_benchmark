@@ -28,5 +28,3 @@ setcs sourcepath = ( $sourcepath /home/yongfu/proj/spice_model_benchmark/models/
 osdi /home/yongfu/proj/spice_model_benchmark/models/public-models/ihp/ngspice/osdi/psp103.osdi
 osdi /home/yongfu/proj/spice_model_benchmark/models/public-models/ihp/ngspice/osdi/psp103_nqs.osdi
 osdi /home/yongfu/proj/spice_model_benchmark/models/public-models/ihp/ngspice/osdi/r3_cmc.osdi
-osdi /home/yongfu/proj/spice_model_benchmark/proj/models/nfet_03v3_pinn.osdi
-osdi /home/yongfu/proj/spice_model_benchmark/proj/models/pfet_03v3_pinn.osdi

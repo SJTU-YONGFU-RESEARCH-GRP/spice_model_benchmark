@@ -5,7 +5,7 @@
 **Supply Voltage (VDD):** 1.2 V  
 **Simulator Engine:** `ngspice`  
 **Overall Convergence Status:** PASSED (100% Convergence)  
-**Total Benchmark Runtime:** 2.01 s  
+**Total Benchmark Runtime:** 5.65 s  
 **Host Hardware:** Intel(R) Xeon(R) CPU E5-2678 v3 @ 2.50GHz (2 sockets, 24 cores, 48 threads, 377Gi RAM)
 
 ---
@@ -24,9 +24,9 @@
 | **Ring Oscillator (RO3)** | Output Voltage Swing $V_{pp}$ | `1.308 V` | ✓ CONVERGED | PASS |
 | **6T-SRAM Cell** | Hold Static Noise Margin | `438.1 mV` | ✓ CONVERGED | PASS |
 | **6T-SRAM Cell** | Read Static Noise Margin | `150.8 mV` | ✓ CONVERGED | PASS |
-| **5T OTA Amplifier** | DC Open-Loop Gain $A_0$ | `23.93 dB` | ✓ CONVERGED | PASS |
+| **5T OTA Amplifier** | DC Open-Loop Gain $A_0$ | `23.91 dB` | ✓ CONVERGED | PASS |
 | **5T OTA Amplifier** | Unity-Gain Bandwidth ($GBW$) | `0.63 GHz` | ✓ CONVERGED | PASS |
-| **5T OTA Amplifier** | Phase Margin ($PM$) | `68.9°` | ✓ CONVERGED | PASS |
+| **5T OTA Amplifier** | Phase Margin ($PM$) | `69.0°` | ✓ CONVERGED | PASS |
 
 ---
 

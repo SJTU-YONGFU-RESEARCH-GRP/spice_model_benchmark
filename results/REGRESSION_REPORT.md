@@ -8,30 +8,6 @@ This report documents automated SPICE model verification and process corner regr
 
 | Corner ID | PDK | Simulator | Device | $V_{DD}$ | $I_{on}$ (mA) | $I_{on}$ ($\mu$A/$\mu$m) | $V_{th}$ (V) | Peak $G_m$ (mS/mm) | GST Asym Error | Passivity | Runtime | QA Status | Individual Report |
 |-----------|-----|-----------|--------|----------|---------------|--------------------------|--------------|-------------------|----------------|-----------|---------|-----------|-------------------|
-| **FreePDK45_VTG_TT** | FreePDK45 | `NGSPICE` | `NMOS_VTG` | 1.0V | 11.58 | 1157.7 | 0.309 | 1715.0 | 0.00e+00 | Pass | 2.52s | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/FreePDK45_VTG_TT/REPORT.md) |
-| **FreePDK45_VTG_FF** | FreePDK45 | `NGSPICE` | `NMOS_VTG` | 1.0V | 12.42 | 1242.3 | 0.269 | 1752.8 | 2.28e-09 | Pass | 2.45s | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/FreePDK45_VTG_FF/REPORT.md) |
-| **FreePDK45_VTG_SS** | FreePDK45 | `NGSPICE` | `NMOS_VTG` | 1.0V | 10.66 | 1066.4 | 0.352 | 1675.1 | 3.85e-09 | Pass | 2.53s | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/FreePDK45_VTG_SS/REPORT.md) |
-| **FreePDK45_VTH_TT** | FreePDK45 | `NGSPICE` | `NMOS_VTH` | 1.0V | 6.33 | 633.2 | 0.626 | 1695.0 | 9.81e-09 | Pass | 2.86s | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/FreePDK45_VTH_TT/REPORT.md) |
-| **FreePDK45_VTL_TT** | FreePDK45 | `NGSPICE` | `NMOS_VTL` | 1.0V | 14.56 | 1456.3 | 0.225 | 1947.5 | 0.00e+00 | Pass | 2.74s | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/FreePDK45_VTL_TT/REPORT.md) |
-| **GF180MCU_3p3_TT** | GF180MCU | `NGSPICE` | `nmos_3p3` | 3.3V | 5.08 | 508.4 | 0.850 | 208.2 | 0.00e+00 | Pass | 2.32s | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/GF180MCU_3p3_TT/REPORT.md) |
-| **GF180MCU_3p3_FF** | GF180MCU | `NGSPICE` | `nmos_3p3` | 3.3V | 5.89 | 588.8 | 0.725 | 230.1 | 0.00e+00 | Pass | 2.52s | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/GF180MCU_3p3_FF/REPORT.md) |
-| **GF180MCU_3p3_SS** | GF180MCU | `NGSPICE` | `nmos_3p3` | 3.3V | 4.29 | 429.0 | 0.965 | 184.0 | 0.00e+00 | Pass | 2.76s | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/GF180MCU_3p3_SS/REPORT.md) |
-| **GF180MCU_6p0_TT** | GF180MCU | `NGSPICE` | `nmos_6p0` | 6.0V | 5.69 | 569.4 | 1.215 | 119.6 | 0.00e+00 | Pass | 2.51s | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/GF180MCU_6p0_TT/REPORT.md) |
-| **SkyWater_SKY130_TT** | SkyWater_SKY130 | `NGSPICE` | `sky130_fd_pr__nfet_01v8` | 1.8V | 5.12 | 512.3 | 0.768 | 501.5 | 0.00e+00 | Pass | 3.97s | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/SkyWater_SKY130_TT/REPORT.md) |
-| **IHP_SG13G2_TT** | IHP_SG13G2 | `NGSPICE` | `sg13_lv_nmos` | 1.2V | 3.44 | 344.3 | 0.617 | 591.0 | 0.00e+00 | Pass | 3.35s | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/IHP_SG13G2_TT/REPORT.md) |
-| **ASAP7_7nm_TT** | ASAP7_7nm | `HSPICE` | `nmos_rvt` | 0.7V | 0.08 | 7.6 | 0.358 | 22.4 | 0.00e+00 | Pass | 3.45s | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/ASAP7_7nm_TT/REPORT.md) |
-| **ASAP7_7nm_FF** | ASAP7_7nm | `HSPICE` | `nmos_rvt` | 0.7V | 0.10 | 9.7 | 0.355 | 28.3 | 0.00e+00 | Pass | 3.28s | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/ASAP7_7nm_FF/REPORT.md) |
-| **ASAP7_7nm_SS** | ASAP7_7nm | `HSPICE` | `nmos_rvt` | 0.7V | 0.06 | 5.9 | 0.366 | 18.0 | 0.00e+00 | Pass | 3.24s | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/ASAP7_7nm_SS/REPORT.md) |
-| **FreePDK15_15nm_TT** | FreePDK15_15nm | `HSPICE` | `nfet` | 0.8V | 0.27 | 26.5 | 0.306 | 53.7 | 0.00e+00 | Pass | 3.51s | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/FreePDK15_15nm_TT/REPORT.md) |
-| **FreePDK3_3nm_TT** | FreePDK3_3nm | `HSPICE` | `nfet` | 0.7V | 0.15 | 14.8 | 0.260 | 35.0 | 0.00e+00 | Pass | 3.50s | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/FreePDK3_3nm_TT/REPORT.md) |
-| **GT3_3nm_TT** | GT3_3nm | `HSPICE` | `nmos_rvt` | 0.7V | 0.22 | 22.0 | 0.356 | 64.0 | 0.00e+00 | Pass | 3.13s | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/GT3_3nm_TT/REPORT.md) |
-| **GT2N_2nm_TT** | GT2N_2nm | `HSPICE` | `nmos` | 0.7V | 0.05 | 5.5 | 0.345 | 15.4 | 0.00e+00 | Pass | 3.39s | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/GT2N_2nm_TT/REPORT.md) |
-| **PKP3_3nm_TT** | PKP3_3nm | `SPECTRE` | `nmos_lvt` | 0.7V | 0.18 | 8893.6 | 0.340 | 24727.5 | 0.00e+00 | Pass | 4.96s | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/PKP3_3nm_TT/REPORT.md) |
-| **PKP3_3nm_FF** | PKP3_3nm | `SPECTRE` | `nmos_lvt` | 0.7V | 0.14 | 7081.3 | 0.432 | 26464.5 | 0.00e+00 | Pass | 4.36s | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/PKP3_3nm_FF/REPORT.md) |
-| **PKP3_3nm_SS** | PKP3_3nm | `SPECTRE` | `nmos_lvt` | 0.7V | 0.14 | 7129.9 | 0.374 | 21877.3 | 0.00e+00 | Pass | 5.23s | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/PKP3_3nm_SS/REPORT.md) |
-| **PKP3_3nm_SF** | PKP3_3nm | `SPECTRE` | `nmos_lvt` | 0.7V | 0.15 | 7730.7 | 0.364 | 23026.3 | 0.00e+00 | Pass | 3.99s | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/PKP3_3nm_SF/REPORT.md) |
-| **PKP3_3nm_FS** | PKP3_3nm | `SPECTRE` | `nmos_lvt` | 0.7V | 0.20 | 10231.5 | 0.314 | 26557.5 | 0.00e+00 | Pass | 5.38s | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/PKP3_3nm_FS/REPORT.md) |
-| **PINN_GF180_180nm_TT** | PINN_GF180 | `NGSPICE` | `nmos_pinn` | 1.8V | 0.16 | 705.1 | 0.692 | 676.2 | 0.00e+00 | Pass | 2.60s | <span style='color: green'>✓ Pass</span> | [REPORT.md](data/PINN_GF180_180nm_TT/REPORT.md) |
 
 ---
 
@@ -70,7 +46,6 @@ Comprehensive audit across all 5 canonical SPICE simulation domains (**DC, AC, T
 | **3nm GAAFET** | GT3 | BSIM-CMG (Level 72) | `hspice` | ✓ Pass ($0.0\text{ Asym}$) | ✓ $f_T \approx 380\text{ GHz}$ | ✓ $\tau_{pd} = 13.4\text{ ps}$ | ✓ Physical ($S_{th} + 1/f$) | ✓ Dynamic ($-1.12\text{ mV/°C}$) | **Full Multi-Domain Support** |
 | **2nm GAAFET** | GT2N | BSIM-CMG (Level 72) | `hspice` | ✓ Pass ($0.0\text{ Asym}$) | ✓ $f_T \approx 450\text{ GHz}$ | ✓ $\tau_{pd} = 23.6\text{ ps}$ | ✓ Physical ($S_{th} + 1/f$) | ✓ Dynamic ($-1.08\text{ mV/°C}$) | **Full Multi-Domain Support** |
 | **3nm GAAFET** | PKP3 | PHIMO-Fusion (Verilog-A) | `spectre` | ✓ Pass ($0.0\text{ Asym}$) | ✓ $f_T \approx 360\text{ GHz}$ | ✓ $\tau_{pd} = 4.2\text{ ps}$ | ⚠ **Unmodeled (0 V²/Hz)** | ⚠ **Fixed 300K (Static)** | **IV + QV Only (Noise/Temp Target for Next-Gen NN)** |
-| **180nm Neural-CM** | PINN_GF180 | PINN-CM (OpenVAF Verilog-A) | `ngspice` | ✓ Pass ($0.0\text{ Asym}$) | ✓ $f_T \approx 22\text{ GHz}$ | ✓ $\tau_{pd} = 145.8\text{ ps}$ | ✓ Physical ($S_{th} + 1/f$) | ✓ Dynamic ($-1.45\text{ mV/°C}$) | **Full Multi-Domain Support (1st Complete NN-CM)** |
 
 ---
 
@@ -88,7 +63,6 @@ Comprehensive audit across all 5 canonical SPICE simulation domains (**DC, AC, T
 | **GT3** | 3nm GAAFET Nanosheet | BSIM-CMG (Level 72) | - | ✓ (L110) | ✓ (L72) | ✓ (cmg) | **Multi-EDA GAAFET Support** |
 | **GT2N** | 2nm GAAFET Nanosheet | BSIM-CMG (Level 72) | - | ✓ (L110) | ✓ (L72) | ✓ (cmg) | **Multi-EDA GAAFET Support** |
 | **PKP3** | 3nm GAAFET Nanosheet | PHIMO-Fusion (Verilog-A) | - | - | - | ✓ (AHDL) | **Spectre Verilog-A Support** |
-| **PINN_GF180** | 180nm PINN Neural-CM | PINN-CM (OpenVAF VA) | ✓ (OSDI) | - | - | ✓ (VA) | **OpenVAF OSDI & Spectre VA Support** |
 
 ---
 

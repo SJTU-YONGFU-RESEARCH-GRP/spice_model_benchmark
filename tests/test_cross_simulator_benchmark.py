@@ -4,9 +4,9 @@ from pathlib import Path
 from spice_model_benchmark.cross_simulator_benchmark import CrossSimulatorBenchmark
 
 
-def test_cross_simulator_nrmsd_and_r2():
+def test_cross_simulator_nrmsd_and_r2(tmp_path):
     """Verify NRMSD and R^2 mathematical formulas on synthetic curves."""
-    cs = CrossSimulatorBenchmark(output_dir="results/test_cross_sim")
+    cs = CrossSimulatorBenchmark(output_dir=str(tmp_path / "test_cross_sim"))
 
     # Generate synthetic reference and test curves
     vg = np.linspace(0, 1.0, 101)

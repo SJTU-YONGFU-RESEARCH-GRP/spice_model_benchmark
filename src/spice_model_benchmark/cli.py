@@ -226,7 +226,7 @@ Examples:
     # 3. Cross-Simulator Correlation Mode
     if parsed_args.cross_sim:
         from .cross_simulator_benchmark import CrossSimulatorBenchmark
-        out_dir = parsed_args.output_dir if parsed_args.output_dir != "spice_benchmark_results" else "results/cross_simulator"
+        out_dir = parsed_args.output_dir if parsed_args.output_dir != "spice_benchmark_results" else "results/specialized/cross_simulator"
         cid = parsed_args.pdk[0] if parsed_args.pdk else "FreePDK45_VTG_TT"
         sims = parsed_args.simulator if any(a.startswith("--sim") for a in args) else ["ngspice", "xyce", "hspice", "spectre"]
         bench = CrossSimulatorBenchmark(output_dir=out_dir)
@@ -236,7 +236,7 @@ Examples:
     # 4. PKP3 3nm Characterization Mode
     if parsed_args.pkp3:
         from .pkp3_nanosheet_benchmark import PKP3NanosheetBenchmark
-        out_dir = parsed_args.output_dir if parsed_args.output_dir != "spice_benchmark_results" else "results/pkp3_characterization"
+        out_dir = parsed_args.output_dir if parsed_args.output_dir != "spice_benchmark_results" else "results/specialized/pkp3_characterization"
         bench = PKP3NanosheetBenchmark(output_dir=out_dir)
         bench.run_all()
         return 0
@@ -244,7 +244,7 @@ Examples:
     # 5. Commercial Foundry PDK Mode
     if parsed_args.commercial:
         from .commercial_pdk_benchmark import CommercialPDKBenchmark
-        out_dir = parsed_args.output_dir if parsed_args.output_dir != "spice_benchmark_results" else "results/commercial_pdk"
+        out_dir = parsed_args.output_dir if parsed_args.output_dir != "spice_benchmark_results" else "results/specialized/commercial_pdk"
         bench = CommercialPDKBenchmark(output_dir=out_dir)
         target_pdks = parsed_args.pdk if parsed_args.pdk else None
         bench.run_all(target_pdks=target_pdks)
@@ -253,7 +253,7 @@ Examples:
     # 6. Statistical Variation & Monte Carlo Mismatch Mode
     if parsed_args.monte_carlo:
         from .monte_carlo_benchmark import MonteCarloBenchmark
-        out_dir = parsed_args.output_dir if parsed_args.output_dir != "spice_benchmark_results" else "results/monte_carlo"
+        out_dir = parsed_args.output_dir if parsed_args.output_dir != "spice_benchmark_results" else "results/specialized/monte_carlo"
         pdk_name = parsed_args.pdk[0] if parsed_args.pdk else "FreePDK45"
         bench = MonteCarloBenchmark(output_dir=out_dir, num_runs=parsed_args.mc_runs)
         bench.run_benchmark(pdk_name=pdk_name, num_runs=parsed_args.mc_runs)
@@ -262,7 +262,7 @@ Examples:
     # 7. Verilog-A Linter Mode
     if parsed_args.va_lint is not None:
         from .veriloga_linter_and_compiler import VerilogABenchmarkSuite
-        out_dir = parsed_args.output_dir if parsed_args.output_dir != "spice_benchmark_results" else "results/veriloga"
+        out_dir = parsed_args.output_dir if parsed_args.output_dir != "spice_benchmark_results" else "results/specialized/veriloga"
         suite = VerilogABenchmarkSuite(output_dir=out_dir)
         targets = parsed_args.va_lint if len(parsed_args.va_lint) > 0 else None
         suite.run_all(target_files=targets)
@@ -271,7 +271,7 @@ Examples:
     # 8. OpenVAF Compilation Mode
     if parsed_args.va_compile:
         from .veriloga_linter_and_compiler import OpenVAFCompiler
-        out_dir = parsed_args.output_dir if parsed_args.output_dir != "spice_benchmark_results" else "results/veriloga/osdi_cache"
+        out_dir = parsed_args.output_dir if parsed_args.output_dir != "spice_benchmark_results" else "results/specialized/veriloga/osdi_cache"
         compiler = OpenVAFCompiler(cache_dir=out_dir)
         for va_f in parsed_args.va_compile:
             va_p = Path(va_f).resolve()

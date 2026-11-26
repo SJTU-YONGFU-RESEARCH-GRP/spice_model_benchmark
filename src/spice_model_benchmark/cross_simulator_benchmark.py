@@ -34,7 +34,7 @@ from spice_model_benchmark.logger import Logger
 class CrossSimulatorBenchmark:
     """Multi-EDA Simulator Correlation and Validation Suite."""
 
-    def __init__(self, output_dir: str = "results/cross_simulator", logger: Optional[Logger] = None):
+    def __init__(self, output_dir: str = "results/specialized/cross_simulator", logger: Optional[Logger] = None):
         self.output_dir = Path(output_dir).resolve()
         self.output_dir.mkdir(parents=True, exist_ok=True)
         self.plots_dir = self.output_dir / "plots"

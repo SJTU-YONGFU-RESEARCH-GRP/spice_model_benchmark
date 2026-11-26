@@ -383,7 +383,7 @@ class VerilogALinter:
 class OpenVAFCompiler:
     """Automates OpenVAF binary compilation (.va -> .osdi) with incremental SHA256 caching."""
 
-    def __init__(self, cache_dir: str = "results/veriloga/osdi_cache", logger: Optional[Logger] = None):
+    def __init__(self, cache_dir: str = "results/specialized/veriloga/osdi_cache", logger: Optional[Logger] = None):
         self.cache_dir = Path(cache_dir).resolve()
         self.cache_dir.mkdir(parents=True, exist_ok=True)
         self.logger = logger or Logger()
@@ -455,7 +455,7 @@ class OpenVAFCompiler:
 class VerilogABenchmarkSuite:
     """Orchestrates comprehensive Verilog-A linting, OpenVAF compilation, and reporting."""
 
-    def __init__(self, output_dir: str = "results/veriloga", logger: Optional[Logger] = None):
+    def __init__(self, output_dir: str = "results/specialized/veriloga", logger: Optional[Logger] = None):
         self.output_dir = Path(output_dir).resolve()
         self.output_dir.mkdir(parents=True, exist_ok=True)
         self.linter = VerilogALinter(logger)

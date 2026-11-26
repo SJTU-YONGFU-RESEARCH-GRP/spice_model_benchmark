@@ -12,9 +12,9 @@ def test_pkp3_nanosheet_benchmark_init(tmp_path):
     assert bench.plots_dir.exists()
 
 
-def test_pkp3_crossing_detection():
+def test_pkp3_crossing_detection(tmp_path):
     """Verify interpolation of 50% voltage crossing for delay extraction."""
-    bench = PKP3NanosheetBenchmark(output_dir="results/test_pkp3_crossing")
+    bench = PKP3NanosheetBenchmark(output_dir=str(tmp_path / "test_pkp3_crossing"))
 
     # Synthetic waveform rising from 0 to 1V
     t = np.array([0.0, 10e-12, 20e-12, 30e-12])

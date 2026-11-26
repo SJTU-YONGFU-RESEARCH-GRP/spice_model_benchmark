@@ -31,7 +31,7 @@ from spice_model_benchmark.logger import Logger
 class PKP3NanosheetBenchmark:
     """Characterization suite for PKP3 3nm PHIMO-Fusion GAAFET."""
 
-    def __init__(self, output_dir: str = "results/pkp3_characterization", logger: Optional[Logger] = None):
+    def __init__(self, output_dir: str = "results/specialized/pkp3_characterization", logger: Optional[Logger] = None):
         self.output_dir = Path(output_dir).resolve()
         self.output_dir.mkdir(parents=True, exist_ok=True)
         self.work_dir = self.output_dir / "spectre_work"

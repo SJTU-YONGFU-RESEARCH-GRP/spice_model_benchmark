@@ -107,7 +107,7 @@ def compute_distribution_stats(data: np.ndarray) -> DistributionStats:
 class MonteCarloBenchmark:
     """Executes Monte Carlo statistical variations and yield analysis."""
 
-    def __init__(self, output_dir: str = "results/monte_carlo", num_runs: int = 50, logger: Optional[Logger] = None):
+    def __init__(self, output_dir: str = "results/specialized/monte_carlo", num_runs: int = 50, logger: Optional[Logger] = None):
         self.output_dir = Path(output_dir).resolve()
         self.plots_dir = self.output_dir / "plots"
         self.work_dir = self.output_dir / "work"

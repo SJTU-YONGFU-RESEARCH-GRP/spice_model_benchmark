@@ -1,7 +1,7 @@
 # Consolidated Multi-PDK Circuit-Level Stress Convergence Summary
 
-**Total Evaluated PDKs:** 11  
-**Convergence Rate:** 11/11 (100.0%)  
+**Total Evaluated PDKs:** 10  
+**Convergence Rate:** 10/10 (100.0%)  
 **Cumulative Suite Runtime:** 12.01 s  
 **Verification Standard:** IEEE TCAD 2026 (*NeuralCM-QA*) & IEEE TED 2025 (*McAndrew et al.*)  
 **Engines Tested:** ngspice 45.2, Sandia Xyce 7.10, Synopsys HSPICE S-2021.09, Cadence Spectre 24.1.0
@@ -22,7 +22,6 @@
 | **GT3_3nm** | 3nm GAAFET Nanosheet | BSIM-CMG (Level 72) | `hspice` | 0.7V | `0.3675 V` | `13.41 ps` | `33.94 GHz` | `180.0 mV` | `93.6 mV` | `29.17 dB` | 0.52s | **✓ PASS** |
 | **GT2N_2nm** | 2nm GAAFET Nanosheet | BSIM-CMG (Level 72) | `hspice` | 0.7V | `0.364 V` | `23.55 ps` | `29.8 GHz` | `180.0 mV` | `93.6 mV` | `22.52 dB` | 0.46s | **✓ PASS** |
 | **PKP3_3nm** | 3nm GAAFET Nanosheet | PHIMO-Fusion (Verilog-A) | `spectre` | 0.7V | `0.3395 V` | `4.2 ps` | `38.0 GHz` | `175.0 mV` | `90.0 mV` | `14.5 dB` | 1.59s | **✓ PASS** |
-| **PINN_GF180** | 180nm PINN Neural-CM | PINN-CM (OpenVAF Verilog-A) | `ngspice` | 1.8V | `0.747 V` | `145.76 ps` | `1.64 GHz` | `614.6 mV` | `174.5 mV` | `-50.99 dB` | 0.48s | **✓ PASS** |
 
 ---
 
@@ -60,7 +59,6 @@ Comparative cross-PDK trends show physical scaling from 180nm bulk CMOS down to 
 - [GT3_3nm Circuit Stress Report](data/GT3_3nm_TT/CIRCUIT_STRESS_REPORT.md)
 - [GT2N_2nm Circuit Stress Report](data/GT2N_2nm_TT/CIRCUIT_STRESS_REPORT.md)
 - [PKP3_3nm Circuit Stress Report](data/PKP3_3nm_TT/CIRCUIT_STRESS_REPORT.md)
-- [PINN_GF180 Circuit Stress Report](data/PINN_GF180_180nm_TT/CIRCUIT_STRESS_REPORT.md)
 
 ---
 

@@ -74,7 +74,7 @@ class CommercialPDKSpec:
 class CommercialPDKBenchmark:
     """Executes verification and characterization on commercial foundry PDKs."""
 
-    def __init__(self, output_dir: str = "results/commercial_pdk", logger: Optional[Logger] = None):
+    def __init__(self, output_dir: str = "results/specialized/commercial_pdk", logger: Optional[Logger] = None):
         self.output_dir = Path(output_dir).resolve()
         self.plots_dir = self.output_dir / "plots"
         self.work_dir = self.output_dir / "work"

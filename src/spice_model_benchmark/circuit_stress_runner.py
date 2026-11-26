@@ -386,33 +386,6 @@ class CircuitStressRunner:
                 cload_ro=0.5e-15,
                 t_sim_ro=0.5e-9
             ),
-
-            # -------------------------------------------------------------
-            # 11. PINN-CM (180nm Neural Compact Model, OpenVAF Verilog-A)
-            # -------------------------------------------------------------
-            CircuitStressSpec(
-                id="PINN_GF180_180nm_TT",
-                pdk="PINN_GF180",
-                corner="TT",
-                technology_node="180nm PINN Neural-CM",
-                compact_model="PINN-CM (OpenVAF Verilog-A)",
-                vdd=1.8,
-                nmos_device="nmos_pinn",
-                pmos_device="pmos_pinn",
-                inst_prefix="N",
-                nmos_params="",
-                pmos_params="",
-                model_includes=[
-                    ".model nmos_pinn nfet_03v3_pinn",
-                    ".model pmos_pinn pfet_03v3_pinn"
-                ],
-                description="PINN-CM 180nm Neural Compact Model Pair (MESD / GF180MCU)",
-                preferred_simulators=["ngspice"],
-                cload_inv=10.0e-15,
-                cload_ro=5.0e-15,
-                t_sim_inv=3.0e-9,
-                t_sim_ro=2.0e-9
-            ),
         ]
         return registry
 
@@ -605,9 +578,14 @@ quit
         vdiff_max = round(vdd * 0.3, 4)
         vstep = round(vdiff_max / 100.0, 5)
 
+        vtail_init = round(vcm * 0.3, 3)
+        vout_init = round(vdd * 0.5, 3)
+
         content = f"""* 5-Transistor OTA Benchmark (ngspice)
 .option temp=27 tnom=27 gmin=1e-15 reltol=1e-4 abstol=1e-12
 {inc_lines}
+
+.nodeset v(tail)={vtail_init} v(out)={vout_init} v(out_m)={vout_init}
 
 Vdd vdd 0 DC {vdd}
 Vcm vcm 0 DC {vcm}

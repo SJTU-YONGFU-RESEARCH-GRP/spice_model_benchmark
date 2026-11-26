@@ -539,28 +539,6 @@ class RegressionRunner:
                 instance_params="",
                 preferred_simulators=["spectre"]
             ),
-
-            # -------------------------------------------------------------
-            # 11. PINN-CM (180nm Neural Compact Model, OpenVAF Verilog-A)
-            # -------------------------------------------------------------
-            CornerSpec(
-                id="PINN_GF180_180nm_TT",
-                pdk="PINN_GF180",
-                corner="TT",
-                device_name="nmos_pinn",
-                polarity="nmos",
-                vdd=1.8,
-                length=0.18e-6,
-                width=0.22e-6,
-                model_includes=[
-                    ".model nmos_pinn nfet_03v3_pinn"
-                ],
-                vgs_gst=0.9,
-                description="PINN-CM 180nm Neural Compact Model NMOS (MESD / GF180MCU)",
-                inst_prefix="N",
-                instance_params="",
-                preferred_simulators=["ngspice"]
-            ),
         ]
         return registry
 
